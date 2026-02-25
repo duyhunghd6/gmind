@@ -1,0 +1,2 @@
+- Rules to put to git: Do not push to git without the agreement of me or PMO.
+- Project techstack: Go
