@@ -2,15 +2,16 @@
 
 ## 1. Lớp Lưu trữ (Storage Layer): Kiến trúc Hybrid SSOT
 
-Lớp lưu trữ sử dụng cách tiếp cận Hybrid (Kết hợp) để lưu các loại bộ nhớ khác nhau, được tối ưu hóa cho độ trễ cực thấp (In-process / Local). Hệ thống sử dụng **beads_rust (FrankenSQLite)** làm Single Source of Truth (SSOT - Nguồn chân lý duy nhất) cho các tác vụ quản lý dự án, trong khi **Zvec DB** xử lý lưu trữ ngữ nghĩa phi cấu trúc.
+Lớp lưu trữ sử dụng cách tiếp cận Hybrid (Kết hợp) để lưu các loại bộ nhớ khác nhau, được tối ưu hóa cho độ trễ cực thấp (In-process / Local). Hệ thống sử dụng **beads_rust (FrankenSQLite)** làm Single Source of Truth (SSOT - Nguồn chân lý duy nhất) cho các tác vụ quản lý dự án, **Zvec DB** xử lý lưu trữ ngữ nghĩa cho docs/chat history, và **FastCode** (internal dependency của `gmind`) xử lý Code Intelligence.
 
-> ✅ **Thay đổi kiến trúc (2026-02-28):** Chuyển từ DoltDB sang **beads_rust + FrankenSQLite**. Lý do: In-process MVCC concurrent writers, JSONL git-friendly sync (1 VCS thay 2), first-class SQL columns thay JSON blob, binary 5-8MB thay 30+MB. Xem [iteration-001-research.md](../iteration-reports/iteration-001-research.md).
+> ✅ **Thay đổi kiến trúc (2026-02-28):** Chuyển từ DoltDB sang **beads_rust + FrankenSQLite**. Lý do: In-process MVCC concurrent writers, JSONL git-friendly sync (1 VCS thay 2), first-class SQL columns thay JSON blob, binary 5-8MB thay 30+MB. Xem [spike-frankensqlite-vs-doltdb.md](../researches/spikes/spike-frankensqlite-vs-doltdb.md).
 
 ```mermaid
 graph TD
     classDef ssot fill:#f9f,stroke:#333,stroke-width:2px;
     classDef vector fill:#bbf,stroke:#333;
     classDef client fill:#dfd,stroke:#333;
+    classDef fastcode fill:#ffd,stroke:#333;
 
     UI["Web UI / Project Management App"]:::client
     Agent["AI Agents & CLI"]:::client
@@ -18,12 +19,15 @@ graph TD
     subgraph StorageLayer["Hybrid Storage Layer"]
         BR[("beads_rust / FrankenSQLite<br/>State & Issues SSOT")]:::ssot
         Zvec[("Zvec Vector DB<br/>Docs & Chat History")]:::vector
-        AST["Tree-Sitter Parser<br/>AST Graphic Nodes"]
+    end
+
+    subgraph CodeIntel["Code Intelligence (Internal)"]
+        FastCode["FastCode CLI<br/>AST + Graph + BM25 + LLM"]:::fastcode
     end
 
     Agent -->|"1. Trạng thái task, Assignee<br/>First-class SQL columns"| BR
-    Agent -->|"2. Lịch sử Chat, Search Context"| Zvec
-    AST -->|"Nhúng Nodes đồ thị"| Zvec
+    Agent -->|"2. Lịch sử Chat, Search Docs"| Zvec
+    Agent -->|"3. gmind search-codebase<br/>(internally delegates)"| FastCode
 
     UI -->|"Query: Lấy danh sách Task & Metadata"| BR
     UI -->|"Query On-Demand: Lấy Detail / Docs"| Zvec
@@ -35,13 +39,16 @@ graph TD
 - Lợi ích của FrankenSQLite: Hỗ trợ **page-level MVCC** (Nhiều Agent đọc/ghi đồng thời), **JSONL git-friendly sync** (Đồng bộ qua git như code thông thường), và **first-class SQL columns** (PM metadata là cột indexed, type-safe — không dùng JSON blob).
 - Sync model: SQLite → JSONL export → git add/push. Clone project thì có luôn dữ liệu.
 
-**2. Zvec (Bộ nhớ Ngữ nghĩa / Semantic Memory):**
+**2. Zvec (Bộ nhớ Ngữ nghĩa cho Docs & Chat / Semantic Memory):**
 
-- CSDL Vector in-process lõi C++, thao tác trực tiếp trên RAM/Local Disk. Chứa file Markdown, Documentations, HTML Mockups, và History của các Agent.
+- CSDL Vector in-process lõi C++, thao tác trực tiếp trên RAM/Local Disk. Chứa file Markdown, Documentations, và History của các Agent.
+- **Không còn** lưu trữ AST nodes hay code graph — chức năng này đã chuyển sang FastCode.
 
-**3. Graph RAG (Bộ nhớ Cấu trúc / Structural Memory):**
+**3. Code Intelligence via FastCode (Bộ nhớ Cấu trúc / Structural Memory):**
 
-- Dùng Tree-sitter quét codebase tạo AST (Abstract Syntax Tree). Nhúng (Embed) các Graphic Nodes này thẳng vào Zvec để tạo tính năng Hybrid Search.
+- FastCode CLI (internal dependency của `gmind`) tự quản lý toàn bộ pipeline: Tree-sitter AST parsing → graph building → BM25/vector index → LLM iterative retrieval.
+- Agent gọi `gmind search-codebase <query>`, gmind tự điều phối `fastcode index` + `fastcode query` bên trong.
+- Cache index lưu tại `~/.fastcode/cache/` (local-only, rebuild-able).
 
 ---
 
@@ -166,9 +173,39 @@ stateDiagram-v2
 
 ---
 
+## 5. GitHub Sync Strategy — Cái gì đẩy lên git, cái gì ở local?
+
+> ✅ **Nguyên tắc (2026-02-28):** Hệ thống chạy **local-first** trên máy Human (ThanhVV, HungBD). Server tập trung chỉ dành cho CI/CD và deploy. Mọi thứ có thể đẩy lên GitHub. Xem [spike-github-integration.md](../researches/spikes/spike-github-integration.md).
+
+| Loại                                  | Sync lên GitHub?           | Lý do                                              |
+| ------------------------------------- | -------------------------- | -------------------------------------------------- |
+| `docs/` (PRDs, spikes, architecture)  | ✅ git-tracked             | Source of truth cho requirements                   |
+| `.beads/issues.jsonl`                 | ✅ git-tracked             | SSOT cho Beads task state — FrankenSQLite là cache |
+| `src/` (source code)                  | ✅ git-tracked             | Core codebase                                      |
+| `.github/` (Actions workflows)        | ✅ git-tracked             | CI/CD pipeline                                     |
+| `.agents/` (skills, workflows, rules) | ✅ git-tracked             | Agent configuration                                |
+| `.beads/beads.db` (FrankenSQLite)     | ❌ local-only              | Cache — rebuild từ JSONL khi `git pull`            |
+| Zvec DB                               | ❌ local-only              | Temp semantic index — rebuild via `gmind reindex`  |
+| FastCode cache (`~/.fastcode/cache/`) | ❌ local-only              | Code index — rebuild via `gmind search-codebase`   |
+| `.beads/config.yaml`, daemon files    | ❌ local-only (.gitignore) | Machine-specific config                            |
+
+**Quy tắc commit:** Mọi commit PHẢI có `Beads-ID:` Git Trailer để link commit ↔ Beads task:
+
+```
+feat(storage): implement MVCC layer
+
+Beads-ID: br-a1b2
+```
+
+Truy vấn ngược: `git log --all --grep='Beads-ID: br-a1b2'`.
+
+---
+
 > **✅ GÓC NHÌN TỪ PRODUCT OWNER — ĐÃ ÁP DỤNG:**
 >
 > 1. ~~**DoltDB + JSON blob:**~~ → **Đã chuyển sang beads_rust + FrankenSQLite** với first-class SQL columns. PM metadata (assignee, dependencies, qa_verification) là cột indexed thay vì JSON blob — hiệu năng query tốt hơn, type-safe.
 > 2. ~~**Dolt Webhook cho real-time:**~~ → **Polling `events` table** mỗi 3-5 giây. Đơn giản, đủ cho MVP.
 > 3. ~~**Cell-level merge:**~~ → **Page-level MVCC** đủ dùng cho single-machine multi-agent (mỗi agent được gán task riêng, rất hiếm khi sửa cùng 1 row).
 > 4. ~~**`dolt diff` cho sync:**~~ → **`events` audit trail** + JSONL git diff thay thế.
+> 5. ~~**Dolt Webhook cho GitHub sync:**~~ → **JSONL + git sync** (2026-02-28): FrankenSQLite + Zvec + FastCode cache local-only (rebuild-able). Commit convention: `Beads-ID:` Git Trailer. Xem [spike-github-integration.md](../researches/spikes/spike-github-integration.md).
+> 6. ~~**Tree-sitter+Zvec cho Graph RAG:**~~ → **Đã chuyển sang FastCode CLI** (2026-02-28, internal dependency của gmind): `gmind search-codebase` tự điều phối code intelligence. Zvec thu hẹp scope: chỉ còn Docs & Chat History. Xem [spike-fastcode-cli-integration.md](../researches/spikes/spike-fastcode-cli-integration.md).

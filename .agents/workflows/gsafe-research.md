@@ -1,11 +1,11 @@
 ---
-description: SAFe 6.0 Continuous Exploration workflow — Iterative research phase before planning and implementation
+description: SAFe 6.0 Continuous Exploration workflow — 4-activity CE cycle before PI Planning
 ---
 
 # /gsafe-research — Continuous Exploration Workflow
 
 > **SAFe 6.0 Phase 1: Continuous Exploration**
-> Mục đích: Nghiên cứu, phân tích, và đề xuất rõ ràng TRƯỚC KHI viết code.
+> Mục đích: Hypothesize → Collaborate & Research → Architect → Synthesize — TRƯỚC KHI viết code.
 > Tham chiếu: [SAFe-framework-for-Agentic-RustTradingBot.md](../../docs/researches/SAFe%206.0%20Framework/SAFe-framework-for-Agentic-RustTradingBot.md)
 
 ---
@@ -19,29 +19,46 @@ description: SAFe 6.0 Continuous Exploration workflow — Iterative research pha
 
 ---
 
+## SAFe 6.0 CE — 4 Activities
+
+| #   | Activity                   | Ai thực hiện    | Output artifact                                        |
+| --- | -------------------------- | --------------- | ------------------------------------------------------ |
+| A   | **Hypothesize**            | Human + PMO     | Epic Hypothesis Statement (Beads Epic)                 |
+| B   | **Collaborate & Research** | PMO             | `docs/researches/*.md`, Spike Reports                  |
+| C   | **Architect**              | Architect       | `docs/architecture/Architecture.md`, ADRs              |
+| D   | **Synthesize**             | PMO + Architect | `Vision.md`, `PRD-XX.md`, ART Backlog (Beads Features) |
+
+> ⛔ **Level 3 Human Approval Gate** chỉ ở cuối Activity D (Synthesize) — KHÔNG phải mỗi activity.
+
+---
+
 ## Workflow Steps
 
-### Step 1: Đọc context từ các Iteration Reports trước đó
+### Step 1: Đọc context từ Spikes và CE artifacts trước đó
 
 // turbo
 
 ```bash
-ls -la ./docs/iteration-reports/ 2>/dev/null || echo "No previous iterations found — this is the first research iteration."
+ls -la ./docs/researches/spikes/ 2>/dev/null || echo "No previous spikes found — this is the first CE cycle."
 ```
 
-- Nếu có iteration reports → **BẮT BUỘC** đọc tất cả trước khi tiếp tục
-- Tổng hợp: Findings đã có, Decisions đã thống nhất, Open Questions cần trả lời
-- Nếu không có → bỏ qua, đây là iteration đầu tiên
+- Nếu có spike reports → **BẮT BUỘC** đọc tất cả trước khi tiếp tục
+- Kiểm tra CE artifacts đã có: Vision.md? PRDs? Architecture.md?
+- Nếu không có → bỏ qua, đây là CE cycle đầu tiên
 
-### Step 2: Xác định Scope cho iteration hiện tại
+### Step 2: Xác định Activity hiện tại
 
-Trả lời 3 câu hỏi:
+Dựa trên CE artifacts đã tồn tại, xác định agent đang ở activity nào:
 
-1. **Mục tiêu iteration này là gì?** (Objectives — tối đa 3 objectives rõ ràng)
-2. **Input từ iteration trước?** (Open Questions → biến thành Objectives)
-3. **Output kỳ vọng?** (Findings, Decisions, hoặc Draft documents)
+| Đã có gì?                             | Activity tiếp theo                                     |
+| ------------------------------------- | ------------------------------------------------------ |
+| Chưa có gì                            | **A: Hypothesize** — Tạo Epic Hypothesis               |
+| Có Epic nhưng chưa research           | **B: Collaborate & Research** — Nghiên cứu, tạo Spikes |
+| Có research nhưng chưa architecture   | **C: Architect** — Draft Architecture.md               |
+| Có architecture nhưng chưa PRD/Vision | **D: Synthesize** — Viết Vision.md, PRDs, Backlog      |
+| Có đủ tất cả                          | **CE Complete** — Chờ Human approve → PI Planning      |
 
-### Step 3: Thực hiện nghiên cứu
+### Step 3: Thực hiện CE Activity
 
 Các hoạt động được phép:
 
@@ -53,91 +70,129 @@ Các hoạt động được phép:
 | Phân tích trade-offs và alternatives      | Tạo go.mod hoặc project scaffolding |
 | Viết ADRs (Architecture Decision Records) | Deploy hoặc build                   |
 | Đánh giá tech stack, dependencies         | Run tests trên code chưa viết       |
+| Tạo Spike reports cho research            | Tự ý chuyển sang PI Planning        |
+| Tạo Beads Epics/Features (`bd create`)    | Close Beads tasks (`bd close`)      |
 
-### Step 4: Tạo Iteration Report (CHỈ KHI HUMAN YÊU CẦU)
+#### Activity B: Spike Reports (Khi nghiên cứu)
 
-> ⚠️ **KHÔNG tự động tạo iteration report.** Chỉ tạo khi Human yêu cầu rõ ràng
-> (VD: "tạo iteration report", "ghi lại kết quả nghiên cứu", "viết report").
-> Nếu Human chỉ hỏi nghiên cứu đơn thuần → trả lời trực tiếp, không tạo report.
+Khi Human yêu cầu research một topic cụ thể, dùng **Spike** (SAFe 6.0: time-boxed research story):
 
-Khi được yêu cầu, tạo file `./docs/iteration-reports/iteration-XXX-research.md`:
+```bash
+# Tạo Spike task trong Beads
+bd create "Spike: Evaluate FrankenSQLite vs DoltDB" --type=spike
+
+# Nghiên cứu → ghi kết quả vào spike report
+```
 
 // turbo
 
 ```bash
 # Tạo thư mục nếu chưa có
-mkdir -p ./docs/iteration-reports
+mkdir -p ./docs/researches/spikes
 ```
 
-Template:
+Spike report template (`docs/researches/spikes/spike-{topic}.md`):
 
 ```markdown
-# Iteration XXX — [Tiêu đề]
+# Spike: [Topic]
 
-**Ngày:** YYYY-MM-DD
+**Beads ID:** bd-xxx (spike task)
 **Tác giả:** [Agent role]
-**Phase:** Continuous Exploration (SAFe 6.0)
+**Phase:** Continuous Exploration — Activity B (Collaborate & Research)
 
-## Mục tiêu (Objectives)
+## Hypothesis
 
-- [Câu hỏi 1]
-- [Câu hỏi 2]
+- Giả thuyết cần validate qua spike này
 
-## Phát hiện (Findings)
+## Research Sessions
 
-- [Kết quả phân tích]
+### Session 1 (YYYY-MM-DD)
 
-## Quyết định (Decisions Made)
+**Findings:**
 
-- [Decision 1 — Lý do]
+- Kết quả nghiên cứu phiên 1
 
-## Câu hỏi mở (Open Questions)
+**Open Items:**
 
-- [Câu hỏi chưa trả lời → input cho iteration tiếp]
+- Câu hỏi cần tiếp tục → Session 2
 
-## Đề xuất cho Iteration tiếp theo
+### Session 2 (YYYY-MM-DD)
 
-- [Hướng nghiên cứu tiếp]
+**Findings:**
+
+- Kết quả bổ sung từ phiên 2
+
+**Open Items:**
+
+- (Nếu còn → Session 3, nếu hết → chuyển sang Recommendation)
+
+## Recommendation
+
+- Đề xuất cụ thể dựa trên tổng hợp tất cả sessions
+
+## Decision (nếu đã thống nhất với Human)
+
+- Decision + Lý do (sẽ ghi thành ADR nếu là architectural decision)
+
+## Open Items → Next Spikes
+
+- Những gì chưa trả lời → tạo spike mới: `bd create "Spike: ..." --type=spike`
 ```
 
-### Step 5: Review & Approval Gate
+#### Activity D: Synthesize (Tổng hợp → CE artifacts)
 
-> ⚠️ **Level 3: HUMAN DECISION REQUIRED**
+Khi đủ research + architecture → tổng hợp thành CE deliverables:
 
-Sau khi hoàn thành iteration report:
+```
+docs/requirements/
+├── Vision.md              ← Product Vision (latest)
+└── archive/               ← Lịch sử phiên bản
+    ├── Vision-v1.0-PI1.md
+    └── PRD-v1.0-PI1.md
 
-1. **Trình bày** summary cho Human (tóm gọn Findings + Open Questions)
-2. **Human** quyết định:
-   - ✅ **"Next iteration"** → quay lại Step 1 với iteration mới
-   - ✅ **"Research complete, move to Planning"** → chuyển sang Phase 2
-   - 🔄 **"Revise"** → sửa iteration report theo feedback
-   - ❌ **"Pivot"** → thay đổi hướng nghiên cứu hoàn toàn
+docs/PRDs/
+├── PRD-01-Overview.md
+├── PRD-02-Storage.md
+└── PRD-03-CLI-and-Workflow.md
+```
 
----
+### Step 4: Trình bày CE Status cho Human
 
-## Tiêu chí hoàn thành Research Phase
+> ⚠️ **Level 3: HUMAN DECISION REQUIRED** — Chỉ khi Activity D (Synthesize) hoàn thành.
 
-Research Phase hoàn thành khi **TẤT CẢ** điều kiện sau được đáp ứng:
+Trình bày **CE Definition of Done** checklist:
 
-- [ ] Tối thiểu 3 Iteration Reports
-- [ ] Tất cả Open Questions đã được trả lời hoặc deferred
-- [ ] PRDs đã viết xong và được Human review
-- [ ] Architecture draft có (nếu applicable)
-- [ ] **Human approve** chuyển sang Planning Phase
+```markdown
+## CE Definition of Done
+
+- [ ] Vision.md đã viết và Human reviewed
+- [ ] Ít nhất 1 PRD đã viết
+- [ ] Architecture.md draft có (nếu applicable)
+- [ ] ART Backlog có ≥ 1 Epic với Features decomposed
+- [ ] Spike reports cho research đã đóng (bd close)
+- [ ] **Human approve** chuyển sang PI Planning
+```
+
+**Human** quyết định:
+
+- ✅ **"CE complete, move to PI Planning"** → chuyển sang Phase 2
+- 🔄 **"Need more research on X"** → tạo thêm Spike, quay lại Activity B
+- 🔄 **"Revise PRD/Architecture"** → quay lại Activity C hoặc D
+- ❌ **"Pivot"** → thay đổi hướng, tạo Epic Hypothesis mới
 
 ---
 
 ## Phase Transition
 
-Khi Research Phase hoàn thành và được Human approve:
+Khi CE hoàn thành và được Human approve:
 
 ```
-[Research Phase] ──Human Approve──> [Planning Phase]
-                                     │
-                                     ├── PI Planning (RTE)
-                                     ├── Task Decomposition (PMO)
-                                     ├── Architecture Runway (Architect)
-                                     └── Beads Task Creation (bd create)
+[CE Phase] ──Human Approve──> [PI Planning Phase]
+                                │
+                                ├── PI Planning (RTE)
+                                ├── Task Decomposition (PMO)
+                                ├── Architecture Runway (Architect)
+                                └── Beads Task Creation (bd create)
 ```
 
 > 💡 **Nhắc nhở:** "Agents đề xuất, Humans phê duyệt." Không agent nào được tự ý chuyển phase.
@@ -147,20 +202,19 @@ Khi Research Phase hoàn thành và được Human approve:
 ## Ví dụ sử dụng
 
 ```text
-Human: /gsafe-research
+Human: /gsafe-research — nghiên cứu FrankenSQLite vs DoltDB
 
-Agent: [Step 1] Kiểm tra iteration reports trước...
-       → Tìm thấy iteration-001, iteration-002
-       → Đọc summary: đã phân tích Storage Layer, còn open question về Zvec integration
+Agent: [Step 1] Kiểm tra CE artifacts...
+       → Tìm thấy: 2 spike reports, PRD-01 draft
+       → Chưa có: Architecture.md, Vision.md
 
-Agent: [Step 2] Iteration 003 objectives:
-       1. Trả lời: Zvec integration strategy (CGo vs subprocess?)
-       2. Evaluate: Tree-sitter Go bindings maturity
-       3. Draft: Architecture.md Section 1-3
+Agent: [Step 2] Xác định activity:
+       → Có research (spikes) nhưng chưa architecture → Activity C
 
-Agent: [Step 3] Nghiên cứu...
+Agent: [Step 3] Nhưng Human yêu cầu thêm research → Activity B
+       → bd create "Spike: FrankenSQLite vs DoltDB" --type=spike
+       → Nghiên cứu → viết docs/researches/spikes/spike-frankensqlite-vs-doltdb.md
+       → bd close <spike-id>
 
-Agent: [Step 4] Tạo iteration-003-research.md
-
-Agent: [Step 5] Trình bày summary cho Human → chờ approval
+Agent: Trình bày findings cho Human → chờ hướng dẫn tiếp
 ```

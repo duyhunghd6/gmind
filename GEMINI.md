@@ -1,2 +1,3 @@
 - Rules to put to git: Do not push to git without the agreement of me or PMO.
 - Project techstack: Go
+- br = bd = beads_rust (instead of beads CLI), use FrankenSQLite as storage (instead of SQLite).

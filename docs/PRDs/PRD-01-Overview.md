@@ -11,33 +11,34 @@ Trong quá trình vận hành các đội ngũ AI đa tác nhân (Multi-agent Sw
 
 ## 2. Tổng quan Hệ thống (System Architecture)
 
-Hệ thống `gmind` phân tách triệt để **5 lớp**: Dữ liệu (Storage — beads_rust/FrankenSQLite + Zvec), Giao thức kết nối (Routing/CLI), Thực thi (Agents), Xác minh (Verification CI/CD), và Trình bày (Presentation qua Go REST API).
+Hệ thống `gmind` phân tách triệt để **5 lớp**: Dữ liệu (Storage — beads_rust/FrankenSQLite + Zvec), Giao thức kết nối (Routing/CLI), Thực thi (Agents), Xác minh (Verification CI/CD), và Trình bày (Presentation qua Go REST API). Code Intelligence được xử lý bởi **FastCode** (internal dependency của `gmind`, gọi qua `gmind search-codebase`).
 
 ```mermaid
 graph TD
     subgraph StorageLayer["1. Storage Layer"]
         BR[("beads_rust / FrankenSQLite<br/>State & Issues SSOT")]
         Zvec[("Zvec Vector DB<br/>Docs & Chat History")]
-        AST["Tree-sitter AST<br/>Code Graph"] --> Zvec
     end
 
     subgraph ToolingLayer["2. Core Tooling Layer"]
         Beads["br CLI<br/>Issue Tracker"] --- BR
         Gmind["gmind CLI<br/>Context Synthesizer"] --- Zvec
         Gmind --- BR
-        Gmind --- AST
+        FastCode["fastcode CLI<br/>Code Intelligence (internal)"] -.-|"gmind search-codebase<br/>delegates internally"| Gmind
         Mail["mcp_agent_mail<br/>Messaging & File Locks"]
+        GH["git + gh CLI<br/>GitHub Integration"]
     end
 
     subgraph ExecutionLayer["3. Execution / Agent Layer"]
-        Claude["Claude / Sub-agents"] -->|"Search & Fetch Context"| Gmind
+        Claude["Claude / Sub-agents"] -->|"Search Docs & Fetch Context"| Gmind
         Claude -->|"Update State"| Beads
         Claude -->|"Coordinate"| Mail
         Claude -->|"Submit for Verification"| Verify
+        Claude -->|"Query PRs, CI, Commits"| GH
     end
 
     subgraph VerificationLayer["4. Verification Layer - CI/CD Gate"]
-        Verify["Verification Node<br/>Testing & Linting"]
+        Verify["GitHub Actions CI<br/>Testing & Linting"]
         Verify -->|"Pass → Mark Complete"| Beads
         Verify -->|"Fail → Return to Agent"| Claude
     end
@@ -53,6 +54,7 @@ graph TD
         HitlGraph["3. HITL Document Graph"] --- WebUI
     end
 
+    GH -->|"git + gh polling"| GitHub["GitHub Remote<br/>PRs, Actions, Issues"]
     WebUI -->|"Read/Write"| GW
     GW -->|"Query State"| BR
     GW -->|"Read Docs"| Zvec
@@ -92,12 +94,13 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con người** khi:
 
 1.  **Chuyển Phase (Phase Boundaries):** Từ Planning (Continuous Exploration) sang Execution (Continuous Integration), hoặc qua Release.
-2.  **The Ultimate Approval Panel:** Khi Agent đệ trình PR hoặc Task, Web UI gọp chung 4 luồng dữ liệu vào một màn hình duy nhất để Human xem xét: `Test Result (Từ Zvec QA Log)` + `Code Diff (AST/Git)` + `Beads ID (br-xxx)` + `PRD Requirements liên kết`.
+2.  **The Ultimate Approval Panel:** Khi Agent đệ trình PR hoặc Task, Web UI gọp chung 5 luồng dữ liệu vào một màn hình duy nhất để Human xem xét: `Test Result (Từ Zvec QA Log)` + `Code Diff (FastCode/Git)` + `Beads ID (br-xxx)` + `PRD Requirements liên kết` + `GitHub PR & CI Status (từ gh CLI)`.
 
 ### 4.4. Đồ thị Tài liệu & Lịch sử HITL (Human-in-the-Loop Document Graph)
 
-- **Document Tree & Commit Lineage:** Hiển thị trực quan lịch sử thay đổi của một tài liệu dưới dạng cây đồ thị liên kết trực tiếp tới từng `git commit` và thuộc tính `beads ID`.
+- **Document Tree & Commit Lineage:** Hiển thị trực quan lịch sử thay đổi của một tài liệu dưới dạng cây đồ thị liên kết trực tiếp tới từng `git commit` (qua `Beads-ID:` Git Trailer) và thuộc tính `beads ID`. Truy vấn local: `git log --grep='Beads-ID: br-xxx'`.
 - **Knowledge Context Linking:** Trỏ ngược từ Yêu cầu (Requirement) sang các Tài liệu tham chiếu (Research references) đã được AI dùng làm Context, giúp con người dễ dàng bổ sung thêm tham chiếu để điều chỉnh Spec.
+- **GitHub Enrichment:** Mỗi Beads task hiển thị linked PRs (`gh pr list --search "br-xxx"`), CI status (`gh run list`), và commit history (`git log --grep`). Tất cả query trực tiếp từ local git + `gh` CLI.
 
 ---
 
@@ -105,4 +108,6 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 >
 > 1. ~~**Mảnh ghép CI/CD:**~~ → **Đã thêm Verification Layer (Lớp 4):** Execution Layer bắt buộc đẩy code qua Verification Node trước khi đánh dấu Task Completion. AI không thể tự ý Complete task nếu Test chưa chạy pass.
 > 2. ~~**Kiến trúc Presentation Layer:**~~ → **Đã thêm API Gateway Layer (Lớp 5):** Web UI giao tiếp thông qua Go REST API (embedded FrankenSQLite) để bảo vệ tính toàn vẹn dữ liệu. Không cho phép UI read direct DB.
-> 3. ~~**DoltDB làm SSOT:**~~ → **Đã chuyển sang beads_rust + FrankenSQLite** (2026-02-28): In-process MVCC, JSONL git-friendly sync, first-class SQL columns thay JSON blob. Xem [iteration-001-research.md](../iteration-reports/iteration-001-research.md).
+> 3. ~~**DoltDB làm SSOT:**~~ → **Đã chuyển sang beads_rust + FrankenSQLite** (2026-02-28): In-process MVCC, JSONL git-friendly sync, first-class SQL columns thay JSON blob. Xem [spike-frankensqlite-vs-doltdb.md](../researches/spikes/spike-frankensqlite-vs-doltdb.md).
+> 4. ~~**GitHub qua Go API library:**~~ → **Đã chuyển sang `git` + `gh` CLI** (2026-02-28): Local-first, không webhook/server. Thêm `gmind github` subcommands. Commit convention: `Beads-ID:` Git Trailer. Xem [spike-github-integration.md](../researches/spikes/spike-github-integration.md).
+> 5. ~~**Zvec+Tree-sitter cho Code Intelligence:**~~ → **Đã chuyển sang FastCode CLI** (2026-02-28, internal dependency): `gmind search-codebase` tự điều phối FastCode (AST parsing, Graph RAG, BM25/Vector search). Zvec thu hẹp chỉ còn Docs & Chat History. Xem [spike-fastcode-cli-integration.md](../researches/spikes/spike-fastcode-cli-integration.md).
