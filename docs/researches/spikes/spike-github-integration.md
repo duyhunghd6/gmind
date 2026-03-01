@@ -662,18 +662,18 @@ gmind context br-a1b2 --depth 0 --github
 ╚════════════════════╦═══════════════════╦═════════════════════════╝
                      ║                   ║
         ┌────────────╨─────┐   ┌────────╨───────────┐
-        │  FrankenSQLite   │   │      Zvec           │
-        │  (State SSOT)    │   │  (Semantic Memory)  │
-        │                  │   │                     │
-        │ issues table:    │   │ github_commit docs  │
-        │  +github_pr_url  │   │ github_pr docs      │
-        │  +github_ci_stat │   │ github_test docs    │
-        │  +github_run_id  │   │ docs/*.md           │
-        │                  │   │ chat_history        │
-        │ (3 cột thêm,     │   │ AST code nodes      │
-        │  KHÔNG bảng mới) │   │                     │
-        └────────┬─────────┘   └────────┬────────────┘
-                 │                      │
+        │  FrankenSQLite   │   │      Zvec          │
+        │  (State SSOT)    │   │  (Semantic Memory) │
+        │                  │   │                    │
+        │ issues table:    │   │ github_commit docs │
+        │  +github_pr_url  │   │ github_pr docs     │
+        │  +github_ci_stat │   │ github_test docs   │
+        │  +github_run_id  │   │ docs/*.md          │
+        │                  │   │ chat_history       │
+        │ (3 cột thêm,     │   │ AST code nodes     │
+        │  KHÔNG bảng mới) │   │                    │
+         └────────┬─────────┘   └────────┬───────── ┘
+                  │                      │
                  └──────────┬───────────┘
                             │
                    ┌────────▼────────┐
