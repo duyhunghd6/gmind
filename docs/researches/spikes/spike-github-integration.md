@@ -206,47 +206,46 @@ import "github.com/google/go-github/v83/github"
 #### F. GitHub ↔ gmind Data Flow Architecture
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║                     GITHUB ECOSYSTEM                             ║
-║                                                                  ║
-║  Commits ──────┐                                                ║
-║  Pull Requests ──┤                                              ║
-║  Actions Runs ───┤── GitHub REST/GraphQL API ──┐                ║
-║  Check Runs ─────┤                             │                ║
-║  Issues ─────────┘                             │                ║
-╚════════════════════════════════════════════════╩═════════════════╝
-                                                 │
-                                                 ▼
-╔══════════════════════════════════════════════════════════════════╗
-║                     gmind GitHub Connector                       ║
-║                                                                  ║
-║  ┌─────────────────┐  ┌──────────────────┐  ┌────────────────┐ ║
-║  │ Commit Parser    │  │ Actions Fetcher  │  │ Webhook Server │ ║
-║  │ (git trailers)   │  │ (test results)   │  │ (push events)  │ ║
-║  └────────┬────────┘  └────────┬─────────┘  └───────┬────────┘ ║
-║           │                    │                     │          ║
-║           └────────────────────┼─────────────────────┘          ║
-║                                │                                ║
-║                    ┌───────────▼──────────┐                     ║
-║                    │  Beads ID Resolver   │                     ║
-║                    │  br-XXX → {commits,  │                     ║
-║                    │   PRs, test results, │                     ║
-║                    │   check status}      │                     ║
-║                    └───────────┬──────────┘                     ║
-║                                │                                ║
-╚════════════════════════════════╩═════════════════════════════════╝
-                                 │
-                                 ▼
-╔══════════════════════════════════════════════════════════════════╗
-║                     gmind Storage Layer                          ║
-║                                                                  ║
-║  FrankenSQLite ──── github_commits table                        ║
-║                 ──── github_pr_links table                      ║
-║                 ──── github_test_results table                  ║
-║                 ──── github_check_runs table                    ║
-║                                                                  ║
-║  Zvec ──────────── Semantic search across commit messages        ║
-╚══════════════════════════════════════════════════════════════════╝
+┌──────────────────────────────────────────────────────────────────┐
+│                     GITHUB REMOTE                                │
+│                                                                  │
+│  Repository ─────── Commits, Branches, Tags                      │
+│  Pull Requests ──── Reviews, Merge status                        │
+│  Actions ────────── CI/CD runs, Test results                     │
+│  Issues ─────────── (optional, Beads is primary)                 │
+│                                                                  │
+└──────────────────────────────┬───────────────────────────────────┘
+                               │
+                    git push/pull + gh CLI
+                               │
+                               ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                   LOCAL MACHINE (Developer)                      │
+│                                                                  │
+│  ┌────────────────┐  ┌─────────────────┐  ┌────────────────┐     │
+│  │ git CLI        │  │ gh CLI          │  │ gmind CLI      │     │
+│  │ (local repo)   │  │ (GitHub API)    │  │ (orchestrator) │     │
+│  └───────┬────────┘  └────────┬────────┘  └───────┬────────┘     │
+│          │                    │                    │             │
+│          └────────────────────┼────────────────────┘             │
+│                               │                                  │
+│                   ┌───────────▼──────────┐                       │
+│                   │  Beads ID Resolver   │                       │
+│                   │  br-XXX → {commits,  │                       │
+│                   │   PRs, CI status}    │                       │
+│                   └───────────┬──────────┘                       │
+│                               │                                  │
+│          ┌────────────────────┼────────────────────┐             │
+│          ▼                    ▼                    ▼             │
+│  ┌───────────────┐  ┌────────────────┐  ┌────────────────┐       │
+│  │ git log       │  │ gh pr list     │  │ gh run list    │       │
+│  │ --grep=       │  │ --search=      │  │ (CI status)    │       │
+│  │ 'Beads-ID:'   │  │ 'br-XXX'       │  │                │       │
+│  └───────────────┘  └────────────────┘  └────────────────┘       │
+│                                                                  │
+│  Storage: .beads/issues.jsonl (git-tracked SSOT)                 │
+│           .beads/beads.db (FrankenSQLite local cache)            │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -415,32 +414,32 @@ Zvec = Bộ nhớ Ngữ nghĩa (docs, chat history, semantic search)
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║  TẦNG 1: Git Native (local, zero API)                          ║
+║  TẦNG 1: Git Native (local, zero API)                            ║
 ║                                                                  ║
-║  git log --format='%(trailers:key=Beads-ID)' → parse trực tiếp ║
-║  Không cần DB. Không cần API. Chạy local.                       ║
-║  → Source of truth cho commit ↔ Beads mapping                   ║
+║  git log --format='%(trailers:key=Beads-ID)' → parse trực tiếp   ║
+║  Không cần DB. Không cần API. Chạy local.                        ║
+║  → Source of truth cho commit ↔ Beads mapping                    ║
 ╠══════════════════════════════════════════════════════════════════╣
-║  TẦNG 2: FrankenSQLite (chỉ cross-ref nhẹ)                     ║
+║  TẦNG 2: FrankenSQLite (chỉ cross-ref nhẹ)                       ║
 ║                                                                  ║
-║  Mở rộng bảng issues (có sẵn) — KHÔNG tạo bảng mới:            ║
-║  ALTER TABLE issues ADD COLUMN github_pr_url TEXT DEFAULT '';   ║
-║  ALTER TABLE issues ADD COLUMN github_last_run_status TEXT      ║
-║                                           DEFAULT '';           ║
-║  ALTER TABLE issues ADD COLUMN github_last_run_id INTEGER       ║
-║                                           DEFAULT 0;            ║
-║  → Chỉ lưu "snapshot" mới nhất, không lưu lịch sử             ║
+║  Mở rộng bảng issues (có sẵn) — KHÔNG tạo bảng mới:              ║
+║  ALTER TABLE issues ADD COLUMN github_pr_url TEXT DEFAULT '';    ║
+║  ALTER TABLE issues ADD COLUMN github_last_run_status TEXT       ║
+║                                           DEFAULT '';            ║
+║  ALTER TABLE issues ADD COLUMN github_last_run_id INTEGER        ║
+║                                           DEFAULT 0;             ║
+║  → Chỉ lưu "snapshot" mới nhất, không lưu lịch sử                ║
 ╠══════════════════════════════════════════════════════════════════╣
-║  TẦNG 3: Zvec (semantic search cho lịch sử đầy đủ)             ║
+║  TẦNG 3: Zvec (semantic search cho lịch sử đầy đủ)               ║
 ║                                                                  ║
-║  Mỗi commit/PR/test-run → 1 Zvec document:                     ║
+║  Mỗi commit/PR/test-run → 1 Zvec document:                       ║
 ║  {                                                               ║
 ║    "type": "github_commit",                                      ║
-║    "beads_id": "br-a1b2",                                       ║
-║    "content": "feat(storage): implement MVCC...",               ║
-║    "metadata": {"sha": "abc123", "author": "steve", ...}        ║
+║    "beads_id": "br-a1b2",                                        ║
+║    "content": "feat(storage): implement MVCC...",                ║
+║    "metadata": {"sha": "abc123", "author": "steve", ...}         ║
 ║  }                                                               ║
-║  → Searchable bằng gmind search "MVCC commit br-a1b2"          ║
+║  → Searchable bằng gmind search "MVCC commit br-a1b2"            ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
 
@@ -515,32 +514,32 @@ Lần sync thứ 2+:   ~50-100 requests (chỉ data thay đổi)
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║  CHIẾN LƯỢC 1: Git-local First (KHÔNG cần API)                 ║
+║  CHIẾN LƯỢC 1: Git-local First (KHÔNG cần API)                   ║
 ║                                                                  ║
-║  Khi nào: Mỗi khi agent chạy gmind context br-XXX              ║
-║  Cách:    git log --format='%(trailers:key=Beads-ID)' local     ║
+║  Khi nào: Mỗi khi agent chạy gmind context br-XXX                ║
+║  Cách:    git log --format='%(trailers:key=Beads-ID)' local      ║
 ║  Cost:    Zero API calls. Instant.                               ║
 ║  Data:    Commits + trailers từ local git repo                   ║
 ║                                                                  ║
-║  → ĐÂY LÀ TẦNG CHÍNH. 90% use cases dùng cái này.            ║
+║  → ĐÂY LÀ TẦNG CHÍNH. 90% use cases dùng cái này.                ║
 ╠══════════════════════════════════════════════════════════════════╣
-║  CHIẾN LƯỢC 2: Event-driven (push-based)                       ║
+║  CHIẾN LƯỢC 2: Event-driven (push-based)                         ║
 ║                                                                  ║
-║  Khi nào: GitHub Actions CI xong → trigger update               ║
-║  Cách:    CI step cuối gọi: br update br-XXX --test-result pass ║
-║  Cost:    Zero API calls (CI chạy trong GitHub, write local)    ║
+║  Khi nào: GitHub Actions CI xong → trigger update                ║
+║  Cách:    CI step cuối gọi: br update br-XXX --test-result pass  ║
+║  Cost:    Zero API calls (CI chạy trong GitHub, write local)     ║
 ║  Data:    Test results, CI status                                ║
 ║                                                                  ║
-║  → Tầng thứ 2. CI tự push data vào Beads khi kết thúc.        ║
+║  → Tầng thứ 2. CI tự push data vào Beads khi kết thúc.           ║
 ╠══════════════════════════════════════════════════════════════════╣
-║  CHIẾN LƯỢC 3: Scheduled Background Sync (API-based)           ║
+║  CHIẾN LƯỢC 3: Scheduled Background Sync (API-based)             ║
 ║                                                                  ║
-║  Khi nào: Cronjob mỗi 15-30 phút (configurable)                ║
-║  Cách:    gmind github sync --all (dùng ETag conditional)       ║
-║  Cost:    ~50-100 API calls/lần (nhờ ETag 304)                  ║
+║  Khi nào: Cronjob mỗi 15-30 phút (configurable)                  ║
+║  Cách:    gmind github sync --all (dùng ETag conditional)        ║
+║  Cost:    ~50-100 API calls/lần (nhờ ETag 304)                   ║
 ║  Data:    PRs, GitHub Issues, Workflow runs, Artifacts           ║
 ║                                                                  ║
-║  → Tầng bổ sung. Fetch data chỉ có trên GitHub remote.         ║
+║  → Tầng bổ sung. Fetch data chỉ có trên GitHub remote.           ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
 

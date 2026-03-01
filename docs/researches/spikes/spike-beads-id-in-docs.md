@@ -50,69 +50,69 @@ Code Commit (Beads-ID: bd-xxx Git Trailer) ← Đã có
 #### B.1. Tổng quan kiến trúc truy vết
 
 ```
-╔════════════════════════════════════════════════════════════════════════╗
-║  TẦNG 1: PRD (Requirements)                                          ║
-║                                                                        ║
-║  PRD-01-Overview.md                                                    ║
-║  ├── §1 Bối cảnh & Vấn đề ··············· REQ: br-prd01-s1           ║
-║  ├── §2 Tổng quan Hệ thống ·············· REQ: br-prd01-s2           ║
-║  ├── §3 Lớp Xác minh CI/CD ·············· REQ: br-prd01-s3           ║
-║  ├── §4 Kiến trúc Giao diện ·············· REQ: br-prd01-s4          ║
-║  │   ├── §4.1 API Gateway ················ REQ: br-prd01-s4.1        ║
-║  │   ├── §4.2 Giao diện Quản trị ········ REQ: br-prd01-s4.2        ║
-║  │   ├── §4.3 Cổng Phê duyệt Level 3 ···· REQ: br-prd01-s4.3       ║
-║  │   └── §4.4 Đồ thị Tài liệu HITL ····· REQ: br-prd01-s4.4        ║
-║  └── (tổng: 8 REQ IDs cho PRD-01)                                     ║
-║                                                                        ║
-║  PRD-02-Storage.md                                                     ║
-║  ├── §1 Lớp Lưu trữ ···················· REQ: br-prd02-s1            ║
-║  ├── §2 PM Custom Fields ················ REQ: br-prd02-s2            ║
-║  ├── §3 Universal Tracking ·············· REQ: br-prd02-s3            ║
-║  ├── §4 Sync & GC ······················ REQ: br-prd02-s4            ║
-║  └── §5 GitHub Sync ····················· REQ: br-prd02-s5            ║
-║                                                                        ║
-║  PRD-03-CLI-and-Workflow.md                                            ║
-║  ├── §1 gmind CLI ······················· REQ: br-prd03-s1            ║
-║  ├── §2 Agent Workflow ·················· REQ: br-prd03-s2            ║
-║  └── §3 Phân quyền Agent ················ REQ: br-prd03-s3            ║
-╠════════════════════════════════════════════════════════════════════════╣
-║  TẦNG 2: PLAN (Design Elements)                                       ║
-║                                                                        ║
-║  Plan sẽ có N elements, mỗi element có Beads ID riêng:                ║
-║                                                                        ║
-║  PLAN-01: "Implement FrankenSQLite adapter"                            ║
-║    beads-id: br-plan-01                                                ║
-║    satisfies: [br-prd02-s1]  ← link ngược lên PRD Section             ║
-║                                                                        ║
-║  PLAN-02: "Build gmind search-codebase command"                        ║
-║    beads-id: br-plan-02                                                ║
-║    satisfies: [br-prd03-s1]  ← link ngược lên PRD Section             ║
-║                                                                        ║
-║  PLAN-03: "Design API Gateway REST endpoints"                          ║
-║    beads-id: br-plan-03                                                ║
-║    satisfies: [br-prd01-s4.1] ← link ngược PRD 4.1                    ║
-║                                                                        ║
-║  ...                                                                   ║
-╠════════════════════════════════════════════════════════════════════════╣
-║  TẦNG 3: TASKS (Execution Beads)                                      ║
-║                                                                        ║
-║  Task decomposition từ Plan elements:                                  ║
-║                                                                        ║
-║  bd-a1b2:  "Setup FrankenSQLite embedded driver"                       ║
-║    type: task                                                          ║
-║    implements: br-plan-01  ← link ngược lên Plan element               ║
-║    satisfies: [br-prd02-s1] ← transitive link lên PRD                  ║
-║                                                                        ║
-║  bd-c3d4:  "Write MVCC page-level lock tests"                          ║
-║    type: task                                                          ║
-║    implements: br-plan-01                                               ║
-║    satisfies: [br-prd02-s1]                                             ║
-║                                                                        ║
-║  bd-e5f6:  "Implement gmind search-codebase orchestrator"              ║
-║    type: task                                                          ║
-║    implements: br-plan-02                                               ║
-║    satisfies: [br-prd03-s1]                                             ║
-╚════════════════════════════════════════════════════════════════════════╝
+┌──────────────────────────────────────────────────────────────────────┐
+│  TẦNG 1: PRD (Requirements)                                          │
+│                                                                      │
+│  PRD-01-Overview.md                                                  │
+│  ├── §1 Bối cảnh & Vấn đề .............. REQ: br-prd01-s1            │
+│  ├── §2 Tổng quan Hệ thống ............. REQ: br-prd01-s2            │
+│  ├── §3 Lớp Xác minh CI/CD ............. REQ: br-prd01-s3            │
+│  ├── §4 Kiến trúc Giao diện ............ REQ: br-prd01-s4            │
+│  │   ├── §4.1 API Gateway .............. REQ: br-prd01-s4.1          │
+│  │   ├── §4.2 Giao diện Quản trị ...... REQ: br-prd01-s4.2           │
+│  │   ├── §4.3 Cổng Phê duyệt Level 3 .. REQ: br-prd01-s4.3           │
+│  │   └── §4.4 Đồ thị Tài liệu HITL ... REQ: br-prd01-s4.4            │
+│  └── (tổng: 8 REQ IDs cho PRD-01)                                    │
+│                                                                      │
+│  PRD-02-Storage.md                                                   │
+│  ├── §1 Lớp Lưu trữ ................... REQ: br-prd02-s1             │
+│  ├── §2 PM Custom Fields ............... REQ: br-prd02-s2            │
+│  ├── §3 Universal Tracking ............. REQ: br-prd02-s3            │
+│  ├── §4 Sync & GC ...................... REQ: br-prd02-s4            │
+│  └── §5 GitHub Sync .................... REQ: br-prd02-s5            │
+│                                                                      │
+│  PRD-03-CLI-and-Workflow.md                                          │
+│  ├── §1 gmind CLI ...................... REQ: br-prd03-s1            │
+│  ├── §2 Agent Workflow ................. REQ: br-prd03-s2            │
+│  └── §3 Phân quyền Agent .............. REQ: br-prd03-s3             │
+├──────────────────────────────────────────────────────────────────────┤
+│  TẦNG 2: PLAN (Design Elements)                                      │
+│                                                                      │
+│  Plan sẽ có N elements, mỗi element có Beads ID riêng:               │
+│                                                                      │
+│  PLAN-01: "Implement FrankenSQLite adapter"                          │
+│    beads-id: br-plan-01                                              │
+│    satisfies: [br-prd02-s1]  <-- link ngược lên PRD Section          │
+│                                                                      │
+│  PLAN-02: "Build gmind search-codebase command"                      │
+│    beads-id: br-plan-02                                              │
+│    satisfies: [br-prd03-s1]  <-- link ngược lên PRD Section          │
+│                                                                      │
+│  PLAN-03: "Design API Gateway REST endpoints"                        │
+│    beads-id: br-plan-03                                              │
+│    satisfies: [br-prd01-s4.1] <-- link ngược PRD 4.1                 │
+│                                                                      │
+│  ...                                                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│  TẦNG 3: TASKS (Execution Beads)                                     │
+│                                                                      │
+│  Task decomposition từ Plan elements:                                │
+│                                                                      │
+│  bd-a1b2:  "Setup FrankenSQLite embedded driver"                     │
+│    type: task                                                        │
+│    implements: br-plan-01  <-- link ngược lên Plan element           │
+│    satisfies: [br-prd02-s1] <-- transitive link lên PRD              │
+│                                                                      │
+│  bd-c3d4:  "Write MVCC page-level lock tests"                        │
+│    type: task                                                        │
+│    implements: br-plan-01                                            │
+│    satisfies: [br-prd02-s1]                                          │
+│                                                                      │
+│  bd-e5f6:  "Implement gmind search-codebase orchestrator"            │
+│    type: task                                                        │
+│    implements: br-plan-02                                            │
+│    satisfies: [br-prd03-s1]                                          │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 #### B.2. Luồng truy vết hoàn chỉnh (Bidirectional)
@@ -826,7 +826,7 @@ gmind impact br-prd01-s4.1
 
 ## Decision
 
-- (Chờ Human review)
+- ✅ **Approved (2026-03-01):** Human đồng ý phương án 3-layer traceability. Đã tích hợp vào PRD-01 §4.4, PRD-02 §3, PRD-03 §1 & §2.
 
 ## Open Items → Next Spikes
 

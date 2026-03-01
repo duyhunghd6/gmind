@@ -31,7 +31,7 @@ Nội bộ FastCode đã tích hợp đầy đủ pipeline:
 
 ```
 ┌─────────────┐     ┌───────────────────┐     ┌───────────┐
-│ Source Code  │────>│ Tree-sitter Parser│────>│ AST Nodes │
+│ Source Code │────>│ Tree-sitter Parser│────>│ AST Nodes │
 └─────────────┘     └───────────────────┘     └─────┬─────┘
                                                     │
                                                     ▼
@@ -61,8 +61,11 @@ Nội bộ FastCode đã tích hợp đầy đủ pipeline:
                                                     │
                                                     ▼
                                         ┌───────────────────────┐
-                                        │ Answer Generator      │────> Final Response
-                                        └───────────────────────┘
+                                        │ Answer Generator      │
+                                        └───────────┴───────────┘
+                                                    │
+                                                    ▼
+                                             Final Response
 ```
 
 **Key modules** (từ reference Python source + Go re-implementation):
@@ -91,14 +94,22 @@ Nội bộ FastCode đã tích hợp đầy đủ pipeline:
 **Trước (PRDs hiện tại):**
 
 ```
-Zvec = Code AST Nodes + Docs + Chat History (mọi thứ semantic)
+┌──────────────────────────────────────────────────────────┐
+│  Zvec = Code AST Nodes + Docs + Chat History             │
+│  (mọi thứ semantic)                                      │
+└──────────────────────────────────────────────────────────┘
 ```
 
 **Sau (với FastCode):**
 
 ```
-Zvec = Docs + Chat History ONLY (semantic search cho docs)
-FastCode = Code Intelligence (AST + Graph + BM25/Vector + LLM)
+┌──────────────────────────────────────────────────────────┐
+│  Zvec = Docs + Chat History ONLY                         │
+│  (semantic search cho docs)                              │
+├──────────────────────────────────────────────────────────┤
+│  FastCode = Code Intelligence                            │
+│  (AST + Graph + BM25/Vector + LLM)                       │
+└──────────────────────────────────────────────────────────┘
 ```
 
 **Zvec KHÔNG còn:**
@@ -129,17 +140,21 @@ FastCode = Code Intelligence (AST + Graph + BM25/Vector + LLM)
 **Flow nội bộ của `gmind search-codebase`:**
 
 ```
-gmind search-codebase "how does auth work?"
-    │
-    ├─ 1. Kiểm tra fastcode binary có tồn tại không (which/exec.LookPath)
-    │     └─ Nếu không → báo lỗi: "fastcode not found, install first"
-    │
-    ├─ 2. Kiểm tra index cache đã có chưa (~/.fastcode/cache/)
-    │     ├─ Nếu chưa → exec: fastcode index --no-embeddings .
-    │     └─ Nếu rồi  → skip (hoặc --force nếu user yêu cầu)
-    │
-    └─ 3. Exec: fastcode query --repo . "how does auth work?"
-          └─ Trả kết quả cho agent/caller
+┌───────────────────────────────────────────────────────────────┐
+│  gmind search-codebase "how does auth work?"                  │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  1. Kiểm tra fastcode binary (exec.LookPath)                  │
+│     └─ Nếu không → lỗi: "fastcode not found"                  │
+│                                                               │
+│  2. Kiểm tra index cache (~/.fastcode/cache/)                 │
+│     ├─ Chưa có → exec: fastcode index --no-embeddings .       │
+│     └─ Có rồi → skip (hoặc --force nếu yêu cầu)               │
+│                                                               │
+│  3. Exec: fastcode query --repo . "<query>"                   │
+│     └─ Trả kết quả cho agent/caller                           │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
 ```
 
 **Lợi ích:**
