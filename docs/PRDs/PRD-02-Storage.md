@@ -136,7 +136,95 @@ sequenceDiagram
 Trái tim của hệ thống liên kết là **Beads ID** (VD: `br-123`). Đây là Primary Key xuyên suốt mọi layer và 2 Cơ sở Dữ liệu.
 
 - **mcp_agent_mail & File Leasing:** Agent dùng MCP khóa file với tham số `reason="br-123"`. Khởi tạo thảo luận nhóm dùng `thread_id="br-123"`.
-- **Git Hook:** Mọi commit từ bot phải gắn label `#br-123`.
+- **Git Hook:** Mọi commit từ bot phải gắn `Beads-ID:` Git Trailer (VD: `Beads-ID: br-123`).
+
+### 3.1. Section-level Beads IDs trong Documents
+
+> ✅ **Thêm mới (2026-03-01):** Mở rộng Beads ID từ task/issue level xuống document section level. Xem [spike-beads-id-in-docs.md](../researches/spikes/spike-beads-id-in-docs.md).
+
+Mỗi PRD section và Plan element được gắn Beads ID riêng thông qua **YAML front matter**:
+
+```yaml
+---
+beads-id: br-prd02
+title: "PRD 02: Storage Layer"
+sections:
+  - anchor: "1-lop-luu-tru"
+    title: "Lớp Lưu trữ"
+    beads-id: br-prd02-s1
+  - anchor: "2-pm-custom-fields"
+    title: "PM Custom Fields"
+    beads-id: br-prd02-s2
+  - anchor: "3-universal-tracking"
+    title: "Universal Tracking"
+    beads-id: br-prd02-s3
+  - anchor: "4-sync-gc"
+    title: "Sync & GC"
+    beads-id: br-prd02-s4
+  - anchor: "5-github-sync"
+    title: "GitHub Sync"
+    beads-id: br-prd02-s5
+---
+```
+
+**ID Convention:**
+
+| Loại         | Format                      | Ví dụ           |
+| ------------ | --------------------------- | --------------- |
+| PRD Section  | `br-prd{NN}-s{M}`           | `br-prd01-s4`   |
+| Subsection   | `br-prd{NN}-s{M}.{K}`       | `br-prd01-s4.1` |
+| Plan Element | `br-plan-{NN}`              | `br-plan-01`    |
+| Task         | `bd-{hash}` (auto by beads) | `bd-a1b2`       |
+
+### 3.2. Dependency Link Types: `satisfies` & `implements`
+
+Hai dependency link types mới để kết nối 3 tầng truy vết:
+
+- **`satisfies`**: Plan Element → PRD Section (Plan này đáp ứng yêu cầu nào trong PRD)
+- **`implements`**: Task → Plan Element (Task này triển khai phần nào trong Plan)
+
+**Cách sử dụng (Phase 1 — Tag workaround, không cần sửa beads_rust):**
+
+```bash
+# Tạo task với traceability tags
+bd create "Setup FrankenSQLite driver" \
+  --tag="implements:br-plan-01" \
+  --tag="satisfies:br-prd02-s1"
+
+# Hoặc thêm tag sau khi tạo
+bd tag add bd-a1b2 "implements:br-plan-01"
+bd tag add bd-a1b2 "satisfies:br-prd02-s1"
+```
+
+**Mở rộng tương lai (Phase 2 — Native dependency types):**
+
+```bash
+# Khi beads_rust hỗ trợ native dependency types
+bd dep add bd-a1b2 br-plan-01 --type=implements
+bd dep add br-plan-01 br-prd02-s1 --type=satisfies
+```
+
+### 3.3. Requirements Traceability Matrix (RTM) — Mô hình 3 tầng
+
+Hệ thống truy vết 3 tầng cho phép liên kết xuyên suốt từ Requirements đến Code:
+
+```
+PRD Section  ←──satisfies──  Plan Element  ←──implements──  Task  ←──Beads-ID──  Commit
+(br-prd02-s1)                (br-plan-01)                  (bd-a1b2)            (git log)
+```
+
+**Forward Tracing (Xuôi):** PRD Section → Plan Elements → Tasks → Commits
+**Backward Tracing (Ngược):** Task → Plan Element → PRD Section
+
+**Coverage Analysis:** Trả lời 3 câu hỏi quan trọng:
+
+1. **PRD Coverage:** Plan đã cover hết tất cả PRD sections chưa? (`gmind coverage prd`)
+2. **Plan Coverage:** Tasks đã decompose hết Plan elements chưa? (`gmind coverage plan`)
+3. **Task Progress:** Bao nhiêu tasks đã hoàn thành theo từng PRD section? (`gmind coverage full`)
+
+**Impact Analysis:** Khi sửa PRD section, `gmind impact <prd-section-id>` hiển thị cascading impact lên Plan elements → Tasks → Commits.
+
+**Gap Detection:** `gmind gaps prd-to-plan` / `gmind gaps plan-to-tasks` phát hiện PRD sections hoặc Plan elements chưa có downstream coverage.
 
 ---
 
@@ -209,3 +297,4 @@ Truy vấn ngược: `git log --all --grep='Beads-ID: br-a1b2'`.
 > 4. ~~**`dolt diff` cho sync:**~~ → **`events` audit trail** + JSONL git diff thay thế.
 > 5. ~~**Dolt Webhook cho GitHub sync:**~~ → **JSONL + git sync** (2026-02-28): FrankenSQLite + Zvec + FastCode cache local-only (rebuild-able). Commit convention: `Beads-ID:` Git Trailer. Xem [spike-github-integration.md](../researches/spikes/spike-github-integration.md).
 > 6. ~~**Tree-sitter+Zvec cho Graph RAG:**~~ → **Đã chuyển sang FastCode CLI** (2026-02-28, internal dependency của gmind): `gmind search-codebase` tự điều phối code intelligence. Zvec thu hẹp scope: chỉ còn Docs & Chat History. Xem [spike-fastcode-cli-integration.md](../researches/spikes/spike-fastcode-cli-integration.md).
+> 7. ~~**Beads ID chỉ ở task level:**~~ → **Đã mở rộng xuống document section level** (2026-03-01): PRD sections, Plan elements đều có Beads ID riêng. Thêm `satisfies`/`implements` link types, RTM 3-layer model, Coverage Analysis, Impact Analysis. Xem [spike-beads-id-in-docs.md](../researches/spikes/spike-beads-id-in-docs.md).

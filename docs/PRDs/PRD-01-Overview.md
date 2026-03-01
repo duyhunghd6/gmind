@@ -101,6 +101,9 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 - **Document Tree & Commit Lineage:** Hiển thị trực quan lịch sử thay đổi của một tài liệu dưới dạng cây đồ thị liên kết trực tiếp tới từng `git commit` (qua `Beads-ID:` Git Trailer) và thuộc tính `beads ID`. Truy vấn local: `git log --grep='Beads-ID: br-xxx'`.
 - **Knowledge Context Linking:** Trỏ ngược từ Yêu cầu (Requirement) sang các Tài liệu tham chiếu (Research references) đã được AI dùng làm Context, giúp con người dễ dàng bổ sung thêm tham chiếu để điều chỉnh Spec.
 - **GitHub Enrichment:** Mỗi Beads task hiển thị linked PRs (`gh pr list --search "br-xxx"`), CI status (`gh run list`), và commit history (`git log --grep`). Tất cả query trực tiếp từ local git + `gh` CLI.
+- **Requirements Traceability Matrix (RTM):** Hiển thị trực quan liên kết 3 tầng **PRD Section ↔ Plan Element ↔ Task**. Mỗi PRD section có Beads ID riêng (VD: `br-prd01-s1`), Plan elements link ngược qua `satisfies:`, Tasks link ngược qua `implements:`. Cho phép truy vết xuôi (PRD → Code) và ngược (Task → PRD). Xem chi tiết: PRD-02 §3.
+- **Coverage Heatmap:** Dashboard hiển thị mức độ cover của từng PRD section: bao nhiêu PRD sections có Plan elements? Bao nhiêu Plan elements đã decompose thành Tasks? Highlight các gaps (sections chưa covered) bằng màu đỏ. Dữ liệu từ `gmind coverage full`.
+- **Impact Analysis View:** Khi Human sửa/cập nhật một PRD section, hiển thị cascading impact: Plan elements nào bị ảnh hưởng → Tasks nào cần review/pause/rework → Commits nào liên quan. Dữ liệu từ `gmind impact <prd-section-id>`.
 
 ---
 
@@ -111,3 +114,4 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 > 3. ~~**DoltDB làm SSOT:**~~ → **Đã chuyển sang beads_rust + FrankenSQLite** (2026-02-28): In-process MVCC, JSONL git-friendly sync, first-class SQL columns thay JSON blob. Xem [spike-frankensqlite-vs-doltdb.md](../researches/spikes/spike-frankensqlite-vs-doltdb.md).
 > 4. ~~**GitHub qua Go API library:**~~ → **Đã chuyển sang `git` + `gh` CLI** (2026-02-28): Local-first, không webhook/server. Thêm `gmind github` subcommands. Commit convention: `Beads-ID:` Git Trailer. Xem [spike-github-integration.md](../researches/spikes/spike-github-integration.md).
 > 5. ~~**Zvec+Tree-sitter cho Code Intelligence:**~~ → **Đã chuyển sang FastCode CLI** (2026-02-28, internal dependency): `gmind search-codebase` tự điều phối FastCode (AST parsing, Graph RAG, BM25/Vector search). Zvec thu hẹp chỉ còn Docs & Chat History. Xem [spike-fastcode-cli-integration.md](../researches/spikes/spike-fastcode-cli-integration.md).
+> 6. ~~**Document Graph chỉ hiển thị commit lineage:**~~ → **Đã mở rộng thêm 3-Layer Traceability** (2026-03-01): RTM visualization (PRD Section ↔ Plan ↔ Task), Coverage Heatmap, Impact Analysis View. Xem [spike-beads-id-in-docs.md](../researches/spikes/spike-beads-id-in-docs.md).
