@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gmind Vercel Showcase & Monorepo Architecture</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Blueprint Aesthetic - Deep Slate/Blue */
+      :root {
+        /* Core Palette */
+        --bg: #0b1121;
+        --bg-gradient: radial-gradient(
+          circle at top right,
+          #1e293b 0%,
+          #0b1121 100%
+        );
+        --surface: #131c2f;
+        --surface-elevated: #1e293b;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-highlight: rgba(14, 165, 233, 0.3);
+
+        /* Typography Colors */
+        --text: #f8fafc;
+        --text-dim: #94a3b8;
+
+        /* Accents (Teal + Slate) */
+        --blueprint-line: rgba(56, 189, 248, 0.15);
+        --accent-cyan: #0ea5e9;
+        --accent-cyan-dim: rgba(14, 165, 233, 0.1);
+        --accent-teal: #14b8a6;
+        --accent-teal-dim: rgba(20, 184, 166, 0.1);
+        --accent-amber: #f59e0b;
+        --accent-amber-dim: rgba(245, 158, 11, 0.1);
+
+        /* Fonts */
+        --font-body: "DM Sans", system-ui, sans-serif;
+        --font-mono: "Fira Code", monospace;
+
+        /* Utilities */
+        --radius: 6px;
+        --shadow-hero: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border);
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f0f4f8;
+          --bg-gradient: radial-gradient(
+            circle at top right,
+            #ffffff 0%,
+            #f0f4f8 100%
+          );
+          --surface: #ffffff;
+          --surface-elevated: #f8fafc;
+          --border: rgba(0, 0, 0, 0.08);
+          --border-highlight: rgba(14, 165, 233, 0.4);
+
+          --text: #0f172a;
+          --text-dim: #475569;
+
+          --blueprint-line: rgba(14, 165, 233, 0.1);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background: var(--bg);
+        background-image: var(--bg-gradient);
+        /* Blueprint Grid Background */
+        background-size: 40px 40px;
+        background-image:
+          linear-gradient(to right, var(--blueprint-line) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--blueprint-line) 1px, transparent 1px);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 40px 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3 {
+        font-weight: 500;
+        letter-spacing: -0.02em;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      p.lead {
+        font-size: 1.25rem;
+        color: var(--text-dim);
+        max-width: 800px;
+        margin-bottom: 2rem;
+      }
+
+      /* Cards */
+      .ve-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        margin-bottom: 24px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+      }
+
+      .ve-card:hover {
+        border-color: var(--border-highlight);
+      }
+
+      .ve-card--hero {
+        background: var(--surface-elevated);
+        box-shadow: var(--shadow-hero);
+        border: 1px solid var(--border-highlight);
+      }
+
+      /* Mono Labels */
+      .label {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent-cyan);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .label::before {
+        content: "";
+        display: block;
+        width: 8px;
+        height: 8px;
+        background: var(--accent-cyan);
+        border-radius: 50%;
+      }
+
+      /* Monorepo Grid */
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 24px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 24px;
+      }
+
+      /* Code Snippets & Paths */
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.9em;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: var(--accent-teal);
+      }
+
+      .path-tree {
+        font-family: var(--font-mono);
+        font-size: 0.9rem;
+        line-height: 1.8;
+        color: var(--text-dim);
+        padding: 16px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+      }
+
+      .path-tree strong {
+        color: var(--text);
+      }
+
+      /* Section divider */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 60px 0;
+        position: relative;
+      }
+
+      .divider::after {
+        content: "▼";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--bg);
+        padding: 0 16px;
+        color: var(--text-dim);
+        font-size: 0.8rem;
+      }
+
+      /* Mermaid Container */
+      .mermaid-wrap {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+        margin: 24px 0;
+        position: relative;
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-up {
+        animation: fadeUp 0.6s ease-out forwards;
+        opacity: 0;
+      }
+
+      .delay-1 {
+        animation-delay: 0.1s;
+      }
+      .delay-2 {
+        animation-delay: 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="animate-up">
+        <div class="label">Project Architecture Proposal</div>
+        <h1>Gmind Monorepo & Showcase</h1>
+        <p class="lead">
+          Cấu trúc hóa dự án Gmind dưới dạng Monorepo, tách biệt lớp lõi
+          CLI/Agent và đưa các tính năng tinh túy lên Website Showcase (Vercel)
+          để giới thiệu tầm nhìn Agentic Software Engineering 2026.
+        </p>
+      </header>
+
+      <!-- WEBSITE SHOWCASE -->
+      <section class="ve-card ve-card--hero animate-up delay-1">
+        <div class="label">
+          Part 1: The Showcase Website (Next.js on Vercel)
+        </div>
+        <h2>gmind.gscfin.com</h2>
+        <p style="color: var(--text-dim); margin-bottom: 24px">
+          Trang web tĩnh (SSG) với các tương tác thị giác cao cấp. Trình diễn 4
+          trụ cột 'tinh túy' của nền tảng Gmind.
+        </p>
+
+        <div class="grid-2">
+          <div
+            class="ve-card"
+            style="
+              border-left: 3px solid var(--accent-cyan);
+              background: rgba(0, 0, 0, 0.1);
+            "
+          >
+            <div class="label" style="color: var(--accent-cyan)">
+              Pillar A: Code Intelligence
+            </div>
+            <h3>FastCode AST vs RAG</h3>
+            <p class="text-dim">
+              Giải pháp chống "mất trí nhớ cục bộ" của AI. Thay vì RAG vector
+              thuần túy, <code>fastcode</code> map toàn bộ cấu trúc AST
+              (imports, calls) kết hợp BM25 RAG. Trình bày UI so sánh
+              before/after của AI Agent.
+            </p>
+          </div>
+
+          <div
+            class="ve-card"
+            style="
+              border-left: 3px solid var(--accent-teal);
+              background: rgba(0, 0, 0, 0.1);
+            "
+          >
+            <div class="label" style="color: var(--accent-teal)">
+              Pillar B: SSOT Issue Tracking
+            </div>
+            <h3>FrankenSQLite + Git</h3>
+            <p class="text-dim">
+              Bỏ qua cơ sở dữ liệu cloud, sử dụng DB in-process MVCC lưu trữ
+              local-first. Đồng bộ Git Commit Lineage qua
+              <code>Beads-ID:</code> Trailers. Phô diễn sơ đồ luồng dữ liệu
+              Zero-Dependency.
+            </p>
+          </div>
+
+          <div
+            class="ve-card"
+            style="
+              border-left: 3px solid var(--accent-amber);
+              background: rgba(0, 0, 0, 0.1);
+            "
+          >
+            <div class="label" style="color: var(--accent-amber)">
+              Pillar C: Verification & SAFe 6.0
+            </div>
+            <h3>Layer 4: Level 3 Gates</h3>
+            <p class="text-dim">
+              Sub-agent Reviewer và CI/CD Gate. Trình diễn
+              <strong>Requirements Traceability Matrix (RTM)</strong>: Trực quan
+              hóa PRD ↔ Plan ↔ Task ↔ Commit trên Kanban Board của PM.
+            </p>
+          </div>
+
+          <div
+            class="ve-card"
+            style="
+              border-left: 3px solid #f43f5e;
+              background: rgba(0, 0, 0, 0.1);
+            "
+          >
+            <div class="label" style="color: #f43f5e">
+              Pillar D: The Ecosystem
+            </div>
+            <h3>Agent Village & Skills</h3>
+            <p class="text-dim">
+              Sự điều phối Agent: 15p Lease Timeout file lock. Thể hiện các
+              workflow như <code>gsafe-research</code> và kỹ năng
+              <code>visual-explainer</code> biến output terminal thành trình
+              duyệt.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- MONOREPO STRUCTURE -->
+      <section class="animate-up delay-2">
+        <div class="label">Part 2: Monorepo Architecture Layout</div>
+        <h2>Unified Workspace Organization</h2>
+        <p style="margin-bottom: 20px; color: var(--text-dim)">
+          Chuyển dịch các thành phần repo sang một unified layout, giúp chia sẻ
+          models, gmind protocols và documentation dễ dàng.
+        </p>
+
+        <div class="grid-2" style="align-items: flex-start">
+          <!-- Meriad Visual -->
+          <div class="mermaid-wrap">
+            <pre class="mermaid">
+            graph TD
+              %% Styling
+              classDef root fill:transparent,stroke:#94a3b8,stroke-dasharray: 5 5;
+              classDef next fill:#000000,stroke:#333,color:#fff;
+              classDef go fill:#00ADD8,stroke:#007B9A,color:#fff;
+              classDef rust fill:#DEA584,stroke:#B28063,color:#111;
+              classDef agents fill:#10b981,stroke:#059669,color:#fff;
+              classDef docs fill:#3b82f6,stroke:#2563eb,color:#fff;
+
+              Root["/gmind-mono"]:::root
+              
+              Root --> Apps["apps/"]
+              Apps --> Web["gmind-website<br>(Next.js Vercel)"]:::next
+              Apps --> UI["gmind-webui<br>(PM Dashboard)"]:::next
+              
+              Root --> CLI["cli/"]
+              CLI --> Gmind["gmind<br>(Go Context Gateway)"]:::go
+              CLI --> Beads["beads_rust<br>(Rust Issue Tracker)"]:::rust
+              CLI --> Mail["mcp_agent_mail<br>(Go MCP)"]:::go
+
+              Root --> Packages["packages/"]
+              Packages --> DesignSystem["design-system/<br>(Shared UI)"]:::next
+              Packages --> FastCode["fastcode<br>(Engine AST)"]:::rust
+              Packages --> CoreTypes["core-types/<br>(TS/Go DTOs)"]:::next
+
+              Root --> Agents[".agents/"]
+              Agents --> Skills["skills/<br>(visual-explainer)"]:::agents
+              Agents --> Workflows["workflows/"]:::agents
+
+              Root --> Docs["docs/"]:::docs
+              
+              Web -.-|"Shows Tinh túy từ"| Docs
+              Gmind -.-|"Controls"| Agents
+          </pre>
+          </div>
+
+          <!-- File Tree -->
+          <div class="path-tree">
+            <strong>/gmind-mono/</strong><br />
+            ├── <strong>apps/</strong><br />
+            │ &nbsp;&nbsp;├── website/
+            <span style="color: var(--accent-teal)">// Vercel showcase</span
+            ><br />
+            │ &nbsp;&nbsp;└── webui/
+            <span style="color: var(--accent-teal)"
+              >// React Dashboard, RTM</span
+            ><br />
+            ├── <strong>cli/</strong><br />
+            │ &nbsp;&nbsp;├── gmind/
+            <span style="color: var(--accent-cyan)"
+              >// Tooling Gmind CLI (Go)</span
+            ><br />
+            │ &nbsp;&nbsp;├── beads_rust/
+            <span style="color: var(--accent-cyan)">// Tracker (Rust)</span
+            ><br />
+            │ &nbsp;&nbsp;└── mcp_mail/
+            <span style="color: var(--accent-cyan)">// Lock System</span><br />
+            ├── <strong>packages/</strong><br />
+            │ &nbsp;&nbsp;├── design-system/
+            <span style="color: var(--accent-amber)">// Shared UI tokens/components</span
+            ><br />
+            │ &nbsp;&nbsp;├── fastcode/
+            <span style="color: var(--accent-amber)">// AST parser (Rust)</span
+            ><br />
+            │ &nbsp;&nbsp;└── core-types/
+            <span style="color: var(--accent-amber)">// Shared TS/Go DTOs</span
+            ><br />
+            ├── <strong>.agents/</strong><br />
+            │ &nbsp;&nbsp;├── skills/
+            <span style="color: #10b981">// visual-explainer, draw-...</span
+            ><br />
+            │ &nbsp;&nbsp;└── workflows/
+            <span style="color: #10b981">// gsafe-research</span><br />
+            └── <strong>docs/</strong><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;├── <strong>PRDs/</strong>
+            <span style="color: var(--text-dim)">// Centralized SSOT by Subsystem</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;├── apps-website/
+            <span style="color: var(--text-dim)">// UI/UX reqs</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;└── core-gmind/
+            <span style="color: var(--text-dim)">// CLI reqs</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;└── researches/
+            <span style="color: var(--text-dim)">// Spikes</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Mermaid JS -->
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: "base",
+        themeVariables: {
+          background: "transparent",
+          primaryColor: "#1e293b",
+          primaryTextColor: "#f8fafc",
+          primaryBorderColor: "rgba(255, 255, 255, 0.1)",
+          lineColor: "#94a3b8",
+          textColor: "#f8fafc",
+          fontFamily: '"DM Sans", system-ui, sans-serif',
+        },
+        flowchart: { curve: "basis" },
+      });
+    </script>
+  </body>
+</html>
