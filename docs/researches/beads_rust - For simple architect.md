@@ -3,7 +3,7 @@
 > **Vai trò:** Researcher & Business Analyst  
 > **Ngày:** 2026-02-28  
 > **Trạng thái:** Research Complete  
-> **Tham chiếu:** [beads_rust](file:///Users/steve/duyhunghd6/gmind/reference/beads_rust), [PRD-02-Storage](file:///Users/steve/duyhunghd6/gmind/docs/PRDs/PRD-02-Storage.md)
+> **Tham chiếu:** [beads_rust](file:///Users/steve/duyhunghd6/gmind/reference/beads_rust), [PRD-02-Storage](file:///Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-02-Storage.md)
 
 ---
 
