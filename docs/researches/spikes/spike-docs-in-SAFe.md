@@ -48,7 +48,7 @@ Zvec = search index only.
 |                                                                  |
 |  4. SYNTHESIZE (PMO + Architect -- Activity D)                   |
 |     +-- Write: docs/requirements/Vision.md                       |
-|     +-- Write: docs/PRDs/core-gmind/PRD-XX-*.md                             |
+|     +-- Write: docs/PRDs/PRD-XX-*.md                             |
 |     +-- PRDs REFERENCE back to spike reports + Beads Epics       |
 |     +-- [!!] Level 3 Human Approval Gate (ONLY HERE)             |
 |                                                                  |

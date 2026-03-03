@@ -1,9 +1,0 @@
-{
-  "name": "@gmind/beads-rust",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "cargo build --release",
-    "test": "cargo test"
-  }
-}

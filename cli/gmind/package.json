@@ -1,9 +1,0 @@
-{
-  "name": "@gmind/cli",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "go build -o bin/gmind main.go",
-    "test": "go test ./..."
-  }
-}
