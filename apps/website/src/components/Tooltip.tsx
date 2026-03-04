@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 interface TooltipProps {
   text: string;
   position?: "top" | "bottom";
@@ -9,10 +11,12 @@ export default function Tooltip({
   position = "top",
   children,
 }: TooltipProps) {
+  const tooltipId = useId();
   return (
-    <span className="tooltip-trigger">
+    <span className="tooltip-trigger" aria-describedby={tooltipId}>
       {children}
-      <span className={`tooltip tooltip--${position}`}>{text}</span>
+      <span className={`tooltip tooltip--${position}`} role="tooltip" id={tooltipId}>{text}</span>
     </span>
   );
 }
+

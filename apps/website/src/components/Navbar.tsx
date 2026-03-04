@@ -17,7 +17,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="navbar glass">
+    <nav className="navbar glass" aria-label="Điều hướng chính">
       <div className="navbar-inner">
         <Link href="/" className="navbar-brand">
           <span className="brand-dot" />
@@ -30,6 +30,7 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={pathname === link.href ? "active" : ""}
+                aria-current={pathname === link.href ? "page" : undefined}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
@@ -50,7 +51,8 @@ export default function Navbar() {
         <button
           className="menu-toggle"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Mở menu"
+          aria-label={isOpen ? "Đóng menu" : "Mở menu"}
+          aria-expanded={isOpen}
         >
           {isOpen ? "✕" : "☰"}
         </button>

@@ -43,8 +43,41 @@
   box-shadow: var(--shadow-glow-cyan);
 }
 
+/* ---- Copy Button: Active ---- */
+.code-block .copy-btn:active {
+  transform: scale(0.95);
+}
+
+/* ---- Copy Button: Disabled ---- */
+.code-block .copy-btn:disabled,
+.code-block .copy-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 /* ---- Copy Button: Copied ---- */
 .code-block .copy-btn.copied {
   border-color: var(--accent-teal);
   color: var(--accent-teal);
 }
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  .code-block {
+    background: #f1f5f9;
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #334155;
+  }
+  .code-block .copy-btn {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #475569;
+  }
+  .code-block .copy-btn:hover {
+    border-color: #0284c7;
+    color: #0284c7;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
+  }
+}
+

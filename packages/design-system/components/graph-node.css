@@ -63,6 +63,11 @@
   transform: translateY(-1px);
 }
 
+.graph-node:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.15);
+}
+
 .graph-node--selected {
   border-color: var(--accent-cyan, #00e5ff);
   box-shadow: 0 0 16px rgba(0, 229, 255, 0.2);

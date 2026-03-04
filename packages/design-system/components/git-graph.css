@@ -64,6 +64,11 @@
   filter: drop-shadow(0 0 6px currentColor);
 }
 
+.git-graph__dot:active {
+  r: calc(var(--graph-dot-size) / 2 + 3px);
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
 /* ── Tag / Version Labels ── */
 .git-graph__tag {
   display: inline-flex;

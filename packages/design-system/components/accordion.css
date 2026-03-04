@@ -28,6 +28,15 @@
 
 .accordion__trigger:hover { background: rgba(255, 255, 255, 0.02); }
 
+.accordion__trigger:active { background: rgba(255, 255, 255, 0.05); }
+
+.accordion__trigger:disabled,
+.accordion__trigger[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .accordion__chevron {
   transition: transform 200ms var(--ease-out, ease-out);
   font-size: 0.75rem;

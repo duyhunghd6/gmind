@@ -57,6 +57,8 @@ export default function GitGraph({
         className="git-graph__svg"
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="xMidYMid meet"
+        role="img"
+        aria-label={`Đồ thị Git: ${branches.map((b) => b.name).join(", ")}`}
       >
         {/* Connection lines */}
         {connections.map((conn, i) => {

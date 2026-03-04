@@ -23,7 +23,7 @@ export default function Terminal({
   const scanlineClass = scanline ? "terminal--scanline" : "";
 
   return (
-    <div className={`terminal ${stateClass} ${scanlineClass}`}>
+    <div className={`terminal ${stateClass} ${scanlineClass}`} role="log" aria-label={title}>
       <div className="terminal__titlebar">
         <div className="terminal__dots">
           <span className="terminal__dot terminal__dot--close" />

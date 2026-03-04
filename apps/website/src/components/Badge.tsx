@@ -4,5 +4,5 @@ interface BadgeProps {
 }
 
 export default function Badge({ accent = "cyan", children }: BadgeProps) {
-  return <span className={`badge badge-${accent}`}>{children}</span>;
+  return <span className={`badge badge-${accent}`} role="status">{children}</span>;
 }

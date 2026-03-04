@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
@@ -29,6 +29,20 @@ export default function BeadsTraversalScreen() {
   const [state, setState] = useState<ScreenState>("default");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [direction, setDirection] = useState<"forward" | "reverse">("forward");
+
+  /* Scroll to hash target layer (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        const el = document.getElementById(hash);
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
 
   const selected = selectedId ? beadsNodes.find((n) => n.id === selectedId) : null;
   const children = selectedId ? getChildren(selectedId) : [];
@@ -70,7 +84,7 @@ export default function BeadsTraversalScreen() {
               const layerNodes = beadsNodes.filter((n) => n.type === layer.type);
               if (layerNodes.length === 0) return null;
               return (
-                <div key={layer.type} style={{ marginBottom: "24px" }}>
+                <div key={layer.type} id={layer.type} style={{ marginBottom: "24px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
                     <span style={{ width: 12, height: 12, borderRadius: "50%", background: layer.color, display: "inline-block" }} />
                     <span style={{ fontSize: "0.8125rem", fontWeight: 600, color: "var(--text)" }}>{layer.label}</span>

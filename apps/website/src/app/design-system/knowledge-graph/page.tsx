@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
@@ -19,6 +19,19 @@ export default function KnowledgeGraphScreen() {
   const [state, setState] = useState<ScreenState>("default");
   const [selected, setSelected] = useState<string | null>(null);
   const [presetId, setPresetId] = useState("simple");
+
+  /* Auto-select preset from URL hash (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash && graphPresets.some((p) => p.id === hash)) {
+        setPresetId(hash);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
 
   const handleSelect = useCallback((id: string | null) => setSelected(id), []);
 

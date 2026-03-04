@@ -51,6 +51,10 @@
   color: var(--text, #c9d1d9);
 }
 
+.tab-panel__tab:active {
+  opacity: 0.8;
+}
+
 /* ── Active State ── */
 .tab-panel__tab--active {
   color: var(--text, #c9d1d9);
@@ -113,3 +117,31 @@
   background: rgba(0, 229, 255, 0.15);
   color: var(--accent-cyan, #00e5ff);
 }
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  .tab-panel__bar {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+  }
+  .tab-panel__tab {
+    color: #64748b;
+  }
+  .tab-panel__tab:hover {
+    color: #0f172a;
+  }
+  .tab-panel__tab--active {
+    color: #0f172a;
+  }
+  .tab-panel__tab::after {
+    background: #0284c7;
+  }
+  .tab-panel__badge {
+    background: rgba(0, 0, 0, 0.06);
+    color: #64748b;
+  }
+  .tab-panel__tab--active .tab-panel__badge {
+    background: rgba(2, 132, 199, 0.12);
+    color: #0284c7;
+  }
+}
+

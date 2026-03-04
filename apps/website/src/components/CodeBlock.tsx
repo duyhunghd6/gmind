@@ -29,7 +29,7 @@ export default function CodeBlock({ code, language, title }: CodeBlockProps) {
   };
 
   return (
-    <div className="code-block">
+    <div className="code-block" role="region" aria-label={title || "Code block"}>
       {title && (
         <div
           style={{
@@ -48,10 +48,12 @@ export default function CodeBlock({ code, language, title }: CodeBlockProps) {
       <button
         className={`copy-btn ${copied ? "copied" : ""}`}
         onClick={handleCopy}
+        aria-label={copied ? "Đã sao chép" : "Sao chép mã nguồn"}
+        type="button"
       >
         {copied ? "✓ Đã sao chép" : "Sao chép"}
       </button>
-      <pre style={{ margin: 0 }}>
+      <pre style={{ margin: 0 }} tabIndex={0}>
         <code>{code}</code>
       </pre>
     </div>

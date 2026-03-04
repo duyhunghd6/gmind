@@ -28,6 +28,11 @@
   border-color: rgba(14, 165, 233, 0.3);
 }
 
+.ds-id-badge:active {
+  transform: scale(0.95);
+  background: rgba(14, 165, 233, 0.2);
+}
+
 .ds-id-badge--copied {
   color: var(--accent-teal);
   background: rgba(20, 184, 166, 0.12);

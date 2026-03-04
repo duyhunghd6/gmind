@@ -85,3 +85,26 @@
   padding: 12px 20px;
   border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
 }
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  .modal-backdrop {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .modal {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  }
+  .modal__header {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+  .modal__title { color: #0f172a; }
+  .modal__close { color: #64748b; }
+  .modal__close:hover { color: #0f172a; }
+  .modal__body { color: #334155; }
+  .modal__footer {
+    border-top-color: rgba(0, 0, 0, 0.08);
+  }
+}
+

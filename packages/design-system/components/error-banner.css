@@ -61,3 +61,22 @@
 
 .error-banner--fullpage .error-banner__icon { font-size: 2.5rem; }
 .error-banner--fullpage .error-banner__text { max-width: 400px; }
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  .error-banner {
+    background: rgba(220, 38, 38, 0.06);
+    border-color: rgba(220, 38, 38, 0.2);
+    color: #dc2626;
+  }
+  .error-banner__title { color: #b91c1c; }
+  .error-banner__desc { color: #475569; }
+  .error-banner__retry {
+    color: #dc2626;
+    border-color: rgba(220, 38, 38, 0.3);
+  }
+  .error-banner__retry:hover {
+    background: rgba(220, 38, 38, 0.1);
+  }
+}
+

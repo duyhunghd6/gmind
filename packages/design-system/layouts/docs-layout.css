@@ -82,6 +82,10 @@
   background: var(--surface);
 }
 
+.docs-sidebar__item:active {
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .docs-sidebar__item.active {
   background: rgba(14, 165, 233, 0.15);
   color: var(--accent-cyan);

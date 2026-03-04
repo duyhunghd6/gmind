@@ -37,10 +37,16 @@
 .data-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.01); }
 .data-table tbody tr:nth-child(even):hover { background: rgba(255, 255, 255, 0.03); }
 
+.data-table tbody tr:active { background: rgba(255, 255, 255, 0.05); }
+
 /* Sortable header */
 .data-table th[data-sort] {
   cursor: pointer;
   user-select: none;
+}
+
+.data-table th[data-sort]:active {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .data-table th[data-sort]::after {

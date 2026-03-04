@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
 import GitGraph from "@/components/GitGraph";
@@ -12,6 +12,19 @@ import { gitScenarios } from "@/data/git-graph-data";
 export default function GitGraphScreen() {
   const [state, setState] = useState<ScreenState>("default");
   const [scenarioId, setScenarioId] = useState(gitScenarios[0].id);
+
+  /* Auto-select scenario from URL hash (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash && gitScenarios.some((s) => s.id === hash)) {
+        setScenarioId(hash);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
 
   const scenario = gitScenarios.find((s) => s.id === scenarioId) || gitScenarios[0];
 

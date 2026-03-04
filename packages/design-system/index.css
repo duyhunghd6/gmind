@@ -7,6 +7,8 @@
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";
 @import "./tokens/spacing.css";
+@import "./tokens/accessibility.css";
+@import "./tokens/light-overrides.css";
 
 /* ---- Components ---- */
 @import "./components/card.css";

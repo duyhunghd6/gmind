@@ -16,7 +16,7 @@ export default function PillarCard({
   codeSnippets,
 }: PillarCardProps) {
   return (
-    <div className={`ve-card ve-card--pillar accent-${accent}`}>
+    <div className={`ve-card ve-card--pillar accent-${accent}`} role="article">
       <SectionLabel text={label} accent={accent} />
       <h3 style={{ marginBottom: "0.5rem" }}>{title}</h3>
       <p style={{ color: "var(--text-dim)" }}>

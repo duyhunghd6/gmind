@@ -24,16 +24,17 @@ export default function DocsSidebar({ activeId, onNavigate }: DocsSidebarProps) 
   const activeGroup = getGroupForId(activeId);
 
   return (
-    <aside className="docs-sidebar">
-      <div className="docs-sidebar__group">
+    <aside className="docs-sidebar" role="complementary" aria-label="Mục lục trang">
+      <div className="docs-sidebar__group" role="navigation" aria-label="Navigation">
         <div className="docs-sidebar__group-title">{"> Navigation"}</div>
         {groups.map((group) => (
           <button
             key={group.id}
             className={`docs-sidebar__item ${activeGroup === group.id ? "active" : ""}`}
             onClick={() => onNavigate(getFirstIdForGroup(group.id))}
+            aria-current={activeGroup === group.id ? "true" : undefined}
           >
-            <span style={{ marginRight: "8px" }}>{group.icon}</span>
+            <span style={{ marginRight: "8px" }} aria-hidden="true">{group.icon}</span>
             {group.title}
           </button>
         ))}

@@ -1,0 +1,262 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Light Mode Overrides
+   Consolidated overrides for components missing
+   individual light mode blocks.
+   ═══════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: light) {
+
+  /* ── Approval Panel ── */
+  .approval-panel {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .approval-panel__title,
+  .approval-panel__label {
+    color: var(--text, #0f172a);
+  }
+  .approval-panel__desc {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Arch Layer ── */
+  .arch-layer {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+    color: var(--text, #0f172a);
+  }
+
+  /* ── Avatar Stack ── */
+  .avatar-stack__item {
+    border-color: var(--bg, #f0f4f8);
+  }
+
+  /* ── Data Table ── */
+  .data-table {
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .data-table th {
+    background: var(--surface, #ffffff);
+    color: var(--text, #0f172a);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .data-table td {
+    color: var(--text, #0f172a);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .data-table tr:hover td {
+    background: var(--surface-elevated, #f8fafc);
+  }
+
+  /* ── Divider ── */
+  .divider,
+  hr {
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+
+  /* ── Dropdown ── */
+  .dropdown__menu {
+    background: var(--surface-elevated, #f8fafc);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+  .dropdown__item {
+    color: var(--text, #0f172a);
+  }
+  .dropdown__item:hover {
+    background: var(--accent-cyan-dim, rgba(14, 165, 233, 0.08));
+  }
+
+  /* ── DS ID Badge ── */
+  .ds-id-badge {
+    color: var(--accent-cyan, #0369a1);
+    background: rgba(14, 165, 233, 0.06);
+    border-color: rgba(14, 165, 233, 0.15);
+  }
+
+  /* ── Empty State ── */
+  .empty-state__title {
+    color: var(--text, #0f172a);
+  }
+  .empty-state__desc {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── File Lease ── */
+  .file-lease {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .file-lease__name {
+    color: var(--text, #0f172a);
+  }
+  .file-lease__meta {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Forbidden Gate ── */
+  .forbidden-gate {
+    background: var(--surface, #ffffff);
+    color: var(--text, #0f172a);
+  }
+  .forbidden-gate__desc {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Git Graph ── */
+  .git-graph {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .git-graph__legend-item {
+    color: var(--text, #0f172a);
+  }
+  .git-graph__tag {
+    background: var(--surface-elevated, #f8fafc);
+    color: var(--text, #0f172a);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+
+  /* ── Graph Node ── */
+  .graph-node {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+    color: var(--text, #0f172a);
+  }
+  .graph-node__label {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Heatmap Cell ── */
+  .heatmap-cell {
+    border-color: var(--surface, #ffffff);
+  }
+  .heatmap-cell__label {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Label ── */
+  .label {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Offline Banner ── */
+  .offline-banner {
+    background: rgba(210, 153, 34, 0.1);
+    border-color: rgba(210, 153, 34, 0.3);
+    color: #92400e;
+  }
+
+  /* ── Path Tree ── */
+  .path-tree {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .path-tree__item {
+    color: var(--text, #0f172a);
+  }
+  .path-tree__item--file {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Progress Bar ── */
+  .progress-bar {
+    background: var(--border, rgba(0, 0, 0, 0.08));
+  }
+
+  /* ── Prompt Card ── */
+  .prompt-card {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .prompt-card__title {
+    color: var(--text, #0f172a);
+  }
+  .prompt-card__text {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── RTM Row ── */
+  .rtm-row {
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .rtm-row__label {
+    color: var(--text, #0f172a);
+  }
+  .rtm-row__cell {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Status Dot ── */
+  .status-dot__label {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Accordion ── */
+  .accordion {
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .accordion__header {
+    color: var(--text, #0f172a);
+    background: var(--surface, #ffffff);
+  }
+  .accordion__header:hover {
+    background: var(--surface-elevated, #f8fafc);
+  }
+  .accordion__body {
+    color: var(--text, #0f172a);
+    background: var(--surface, #ffffff);
+  }
+
+  /* ── Layouts: Glass ── */
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+
+  /* ── Layouts: Grid ── */
+  .grid-card {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+
+  /* ── Layouts: Hero ── */
+  .hero {
+    color: var(--text, #0f172a);
+  }
+  .hero__subtitle {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Layouts: Section ── */
+  .section-title {
+    color: var(--text, #0f172a);
+  }
+  .section-subtitle {
+    color: var(--text-dim, #334155);
+  }
+
+  /* ── Layouts: Kanban Board ── */
+  .kanban-board {
+    background: var(--bg, #f0f4f8);
+  }
+
+  /* ── Layouts: Terminal Mosaic ── */
+  .terminal-mosaic {
+    background: var(--bg, #f0f4f8);
+  }
+
+  /* ── Layouts: Timeline ── */
+  .timeline-container {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+
+  /* ── Layouts: Split Panel ── */
+  .split-panel {
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .split-panel__resizer {
+    background: var(--border, rgba(0, 0, 0, 0.08));
+  }
+}

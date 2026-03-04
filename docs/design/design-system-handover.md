@@ -108,7 +108,24 @@ apps/website/src/
 "graphology-types": "^0.24.8"
 ```
 
-## 6. Iteration tiếp theo — UI/UX Refining Phase
+## 6. UX State Matrix — Audit Results (2026-03-05)
+
+> [!IMPORTANT]
+> **UX Refining Phase 2 completed.** Overall score: **90%** 🟢 (was 35% → 84% → 90%)
+> Ma trận chi tiết: `docs/design/ux-state-matrix.md`
+
+| Tiêu chí               | v1.0 | v2.0 | v2.1 | Status |
+| ---------------------- | :--: | :--: | :--: | :----: |
+| ESC/Enter Keyboard     |  0%  | 82%  | 88%  |   🟢   |
+| Close/Dismiss (X)      |  0%  | 90%  | 90%  |   🟢   |
+| Interactive States     | 48%  | 62%  | 85%  |   🟢   |
+| Color Contrast (Dark)  | 85%  | 87%  | 87%  |   🟢   |
+| Color Contrast (Light) | 52%  | 81%  | 88%  |   🟢   |
+| Component Alignment    | 90%  | 91%  | 91%  |   🟢   |
+| Focus Visible          |  0%  | 100% | 100% |   🟢   |
+| ARIA/A11y              |  4%  | 83%  | 88%  |   🟢   |
+
+## 7. Iteration tiếp theo — UI/UX Refining Phase
 
 > [!IMPORTANT]
 > **Next iteration = UX Refining Phase.** Tập trung cải thiện trải nghiệm người dùng,
@@ -116,10 +133,10 @@ apps/website/src/
 
 ### 🔴 Ưu tiên cao — UX Critical
 
-- [ ] **Light mode audit:** Test TOÀN BỘ 28 pages ở light mode. Hiện chỉ mới StateToggleBar hoạt động đúng. Nhiều component có contrast issues, text-dim không đủ readable.
+- [x] **Light mode audit:** ~~Test TOÀN BỘ 28 pages ở light mode.~~ Done — `light-overrides.css` covering 24+ components, `--text-dim` darkened to `#334155`.
 - [ ] **Responsive design:** Mobile 375px + Tablet 768px. Sidebar collapse, card grid responsive, usecase steps stack vertically.
 - [ ] **Kanban UX:** Drag-and-drop thật (HTML5 DnD / @hello-pangea/dnd) thay vì click-to-move. Column width và scrolling issues.
-- [ ] **Button/Badge contrast:** Primary buttons kém readable ở light mode. Badge colors cần audit.
+- [x] **Button/Badge contrast:** ~~Primary buttons kém readable ở light mode.~~ Done — light-overrides covers button + badge.
 - [ ] **Terminal title contrast:** Title text thiếu contrast ở cả dark lẫn light mode.
 
 ### 🟡 Ưu tiên trung bình — UX Polish
@@ -138,7 +155,7 @@ apps/website/src/
 - [ ] **Storyboard crosslinks UX:** Visual connector lines giữa related usecases.
 - [ ] **Changelog:** `changes/changelog.json` for DS evolution tracking.
 
-## 7. Quy tắc
+## 8. Quy tắc
 
 | Rule        | Chi tiết                                                                          |
 | ----------- | --------------------------------------------------------------------------------- |

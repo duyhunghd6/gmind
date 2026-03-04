@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
@@ -24,6 +24,19 @@ export default function ExplorerScreen() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<ExplorerItemType | "all">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  /* Auto-select filter from URL hash (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash && FILTER_TYPES.some((f) => f.value === hash)) {
+        setFilter(hash as ExplorerItemType);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
 
   const filtered = useMemo(() => {
     let items = explorerItems;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
 import ActivityItem from "@/components/ActivityItem";
@@ -42,6 +42,20 @@ const timelineEntries = [
 export default function TimelineScreen() {
   const [state, setState] = useState<ScreenState>("default");
 
+  /* Scroll to hash target (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        const el = document.getElementById(hash);
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
@@ -57,7 +71,7 @@ export default function TimelineScreen() {
       {state === "default" && (
         <div>
           {/* File Lease indicators */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+          <div id="file-lease" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
             <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600 }}>Chỉ báo Khóa tệp</h3>
             <DsIdBadge id="ds:timeline:fileLease-001" />
           </div>
@@ -71,7 +85,7 @@ export default function TimelineScreen() {
           </div>
 
           {/* Activity Feed */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+          <div id="activity-feed" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
             <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600 }}>Nhật ký Hoạt động ({activityEvents.length} events)</h3>
             <DsIdBadge id="ds:timeline:activityFeed-001" />
           </div>
@@ -82,7 +96,7 @@ export default function TimelineScreen() {
           </div>
 
           {/* Alternating Timeline */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "24px 0 8px" }}>
+          <div id="sprint-day" style={{ display: "flex", alignItems: "center", gap: "8px", margin: "24px 0 8px" }}>
             <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600 }}>Timeline — Sprint Day ({timelineEntries.length} entries)</h3>
             <DsIdBadge id="ds:timeline:sprintDay-001" />
           </div>

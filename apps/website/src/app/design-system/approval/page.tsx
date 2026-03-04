@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
 import Skeleton from "@/components/Skeleton";
@@ -44,6 +44,20 @@ export default function ApprovalScreen() {
     setApprovalStates((prev) => ({ ...prev, [id]: newState }));
   };
 
+  /* Scroll to hash target (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        const el = document.getElementById(hash);
+        if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
+
   // RTM stats
   const covered = rtmRows.filter(r => r.status === "covered").length;
   const partial = rtmRows.filter(r => r.status === "partial").length;
@@ -64,7 +78,7 @@ export default function ApprovalScreen() {
       {state === "default" && (
         <div>
           {/* Multiple Approval Panels */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+          <div id="panels" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
             <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600 }}>Panels Phê duyệt ({approvalPanels.length} tasks)</h3>
             <DsIdBadge id="ds:approval:panels-001" />
           </div>
@@ -97,7 +111,7 @@ export default function ApprovalScreen() {
           </div>
 
           {/* RTM */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "0 0 8px" }}>
+          <div id="rtm" style={{ display: "flex", alignItems: "center", gap: "8px", margin: "0 0 8px" }}>
             <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600, margin: 0 }}>
               Ma trận Truy vết (RTM)
               <span style={{ fontWeight: 400, fontSize: "0.7rem", color: "var(--text-dim)", marginLeft: "8px" }}>
@@ -119,7 +133,7 @@ export default function ApprovalScreen() {
           </div>
 
           {/* Heatmap */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "24px 0 8px" }}>
+          <div id="heatmap" style={{ display: "flex", alignItems: "center", gap: "8px", margin: "24px 0 8px" }}>
             <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600, margin: 0 }}>Coverage Heatmap ({heatmapData.length} sections)</h3>
             <DsIdBadge id="ds:approval:coverageHeatmap-001" />
           </div>

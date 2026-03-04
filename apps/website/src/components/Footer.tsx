@@ -1,13 +1,13 @@
 export default function Footer() {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" role="contentinfo">
       <div className="footer-inner">
         <p className="footer-text">
           © 2026 Gmind · Được xây dựng bằng{" "}
           <span style={{ color: "var(--accent-cyan)" }}>Agentic SE</span> bởi
           GSCfin
         </p>
-        <ul className="footer-links">
+        <ul className="footer-links" aria-label="Liên kết footer">
           <li>
             <a
               href="https://github.com/duyhunghd6/gmind"

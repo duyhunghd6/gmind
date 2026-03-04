@@ -18,6 +18,10 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
+.rtm-row:active {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 /* ── Header Row ── */
 .rtm-row--header {
   font-size: 0.6875rem;

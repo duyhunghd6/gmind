@@ -16,7 +16,7 @@ export default function ActivityItem({
   variant = "info",
 }: ActivityItemProps) {
   return (
-    <div className={`activity-item activity-item--${variant}`}>
+    <div className={`activity-item activity-item--${variant}`} role="listitem" aria-label={`${agent}: ${action}`}>
       <div className="activity-item__indicator">
         <span className="activity-item__dot" />
         <span className="activity-item__line" />

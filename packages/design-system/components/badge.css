@@ -18,6 +18,16 @@
   border: 1px solid;
   white-space: nowrap;
   line-height: 1.5;
+  transition: filter var(--duration-fast, 150ms), transform var(--duration-fast, 150ms);
+}
+
+/* ── Interactive States ── */
+.badge:hover {
+  filter: brightness(1.15);
+}
+
+.badge:active {
+  transform: scale(0.95);
 }
 
 /* ---- Cyan ---- */
@@ -47,3 +57,28 @@
   border-color: rgba(244, 63, 94, 0.3);
   background: var(--accent-rose-dim);
 }
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  .badge-cyan {
+    color: #0369a1;
+    border-color: rgba(3, 105, 161, 0.25);
+    background: rgba(14, 165, 233, 0.08);
+  }
+  .badge-teal {
+    color: #0f766e;
+    border-color: rgba(15, 118, 110, 0.25);
+    background: rgba(20, 184, 166, 0.08);
+  }
+  .badge-amber {
+    color: #b45309;
+    border-color: rgba(180, 83, 9, 0.25);
+    background: rgba(245, 158, 11, 0.08);
+  }
+  .badge-rose {
+    color: #be123c;
+    border-color: rgba(190, 18, 60, 0.25);
+    background: rgba(244, 63, 94, 0.08);
+  }
+}
+

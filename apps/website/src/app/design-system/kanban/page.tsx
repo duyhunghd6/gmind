@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
@@ -14,6 +14,21 @@ export default function KanbanScreen() {
   const [state, setState] = useState<ScreenState>("default");
   const [boardId, setBoardId] = useState(kanbanBoards[0].id);
   const [columns, setColumns] = useState<KanbanColumnData[]>(kanbanBoards[0].columns);
+
+  /* Auto-select board from URL hash (on mount + on hash change) */
+  useEffect(() => {
+    const applyHash = () => {
+      const hash = window.location.hash.slice(1);
+      const b = kanbanBoards.find((x) => x.id === hash);
+      if (b) {
+        setBoardId(b.id);
+        setColumns(b.columns.map((c) => ({ ...c, cards: [...c.cards] })));
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, []);
 
   const board = kanbanBoards.find((b) => b.id === boardId) || kanbanBoards[0];
 

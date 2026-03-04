@@ -107,3 +107,47 @@
 .activity-item--error .activity-item__dot {
   background: rgba(255, 123, 114, 0.15);
 }
+
+/* ── Interactive States ── */
+.activity-item:hover {
+  background: var(--surface, #161b22);
+  border-radius: var(--radius-sm, 6px);
+}
+
+.activity-item:active {
+  background: var(--surface-elevated, #1e293b);
+}
+
+/* ── Light Mode ── */
+@media (prefers-color-scheme: light) {
+  .activity-item__agent {
+    color: var(--text, #0f172a);
+  }
+  .activity-item__action,
+  .activity-item__time {
+    color: var(--text-dim, #475569);
+  }
+  .activity-item__detail {
+    background: var(--surface, #ffffff);
+    border-color: var(--border, rgba(0, 0, 0, 0.08));
+    color: var(--text-dim, #475569);
+  }
+  .activity-item__dot {
+    background: var(--bg, #f0f4f8);
+  }
+  .activity-item__line {
+    background: var(--border, rgba(0, 0, 0, 0.08));
+  }
+  .activity-item:hover {
+    background: var(--surface, #ffffff);
+  }
+  .activity-item--success .activity-item__dot {
+    background: rgba(126, 231, 135, 0.2);
+  }
+  .activity-item--warning .activity-item__dot {
+    background: rgba(210, 153, 34, 0.2);
+  }
+  .activity-item--error .activity-item__dot {
+    background: rgba(255, 123, 114, 0.2);
+  }
+}
