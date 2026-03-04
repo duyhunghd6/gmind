@@ -57,7 +57,7 @@ export default function TimelineScreen() {
   }, []);
 
   return (
-    <div>
+    <div aria-label="Timeline Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>📅 Timeline & Activity Feed</h1>
         <DsIdBadge id="ds:screen:timeline-001" />

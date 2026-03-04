@@ -54,7 +54,7 @@ export default function BeadsTraversalScreen() {
   };
 
   return (
-    <div>
+    <div aria-label="Beads Traversal Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🔗 Beads Traversal</h1>
         <DsIdBadge id="ds:screen:beads-traversal-001" />

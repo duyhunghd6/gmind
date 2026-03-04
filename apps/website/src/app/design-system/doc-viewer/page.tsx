@@ -45,7 +45,7 @@ export default function DocViewerScreen() {
   const doc = docContents[selectedId];
 
   return (
-    <div>
+    <div aria-label="Doc Viewer Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>📄 Document Viewer</h1>
         <DsIdBadge id="ds:screen:doc-viewer-001" />

@@ -51,7 +51,7 @@ export default function ExplorerScreen() {
   const selected = selectedId ? explorerItems.find((i) => i.id === selectedId) : null;
 
   return (
-    <div>
+    <div aria-label="Gmind Explorer Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🔍 Gmind Explorer</h1>
         <DsIdBadge id="ds:screen:explorer-001" />

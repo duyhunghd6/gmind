@@ -32,7 +32,7 @@ export default function StoryboardScreen() {
   const outEdges = selectedNode ? storyEdges.filter((e) => e.source === selectedNode) : [];
 
   return (
-    <div>
+    <div aria-label="Storyboard Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🗺️ Storyboard</h1>
         <DsIdBadge id="ds:screen:storyboard-001" />

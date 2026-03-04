@@ -39,7 +39,7 @@ export default function KnowledgeGraphScreen() {
   const selectedNode = selected ? preset.data.nodes.find((n) => n.id === selected) : null;
 
   return (
-    <div>
+    <div aria-label="Knowledge Graph Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🧠 Knowledge Graph</h1>
         <DsIdBadge id="ds:screen:knowledge-graph-001" />

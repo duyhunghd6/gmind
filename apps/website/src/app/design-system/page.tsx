@@ -22,7 +22,7 @@ const screens = [
 
 export default function DesignSystemHub() {
   return (
-    <div>
+    <div aria-label="Design System Hub">
       <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
         <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--text)" }}>
           Hệ thống Thiết kế Gmind

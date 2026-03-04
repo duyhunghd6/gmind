@@ -93,7 +93,7 @@ export default function TerminalScreen() {
   const scenario = scenarios.find((s) => s.id === scenarioId) || scenarios[0];
 
   return (
-    <div>
+    <div aria-label="Terminal Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>💻 Terminal</h1>
         <DsIdBadge id="ds:screen:terminal-001" />

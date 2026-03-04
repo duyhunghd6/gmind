@@ -29,7 +29,7 @@ export default function GitGraphScreen() {
   const scenario = gitScenarios.find((s) => s.id === scenarioId) || gitScenarios[0];
 
   return (
-    <div>
+    <div aria-label="Beads Git Graph Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🌿 Beads: Đồ thị Git</h1>
         <DsIdBadge id="ds:screen:git-graph-001" />

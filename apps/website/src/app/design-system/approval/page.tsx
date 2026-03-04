@@ -64,7 +64,7 @@ export default function ApprovalScreen() {
   const gaps = rtmRows.filter(r => r.status === "gap").length;
 
   return (
-    <div>
+    <div aria-label="Phê duyệt &amp; RTM Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>✅ Phê duyệt & RTM</h1>
         <DsIdBadge id="ds:screen:approval-001" />

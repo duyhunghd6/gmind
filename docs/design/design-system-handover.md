@@ -111,7 +111,7 @@ apps/website/src/
 ## 6. UX State Matrix — Audit Results (2026-03-05)
 
 > [!IMPORTANT]
-> **UX Refining Phase 3 completed.** Overall score: **94%** 🟢 (was 35% → 84% → 90% → 94%)
+> **UX Refining Phase 4 completed.** Overall score: **95%** 🟢 (was 35% → 84% → 90% → 94% → 95%)
 > Ma trận chi tiết: `docs/design/ux-state-matrix.md`
 
 | Tiêu chí               | v1.0 | v2.0 | v2.1 | v3.0 | Status |
@@ -123,7 +123,7 @@ apps/website/src/
 | Color Contrast (Light) | 52%  | 81%  | 88%  | 96%  |   🟢   |
 | Component Alignment    | 90%  | 91%  | 91%  | 91%  |   🟢   |
 | Focus Visible          |  0%  | 100% | 100% | 100% |   🟢   |
-| ARIA/A11y              |  4%  | 83%  | 88%  | 92%  |   🟢   |
+| ARIA/A11y              |  4%  | 83%  | 88%  | 96%  |   🟢   |
 
 ## 7. Iteration tiếp theo — UI/UX Refining Phase
 

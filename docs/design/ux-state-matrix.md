@@ -1,7 +1,7 @@
 # UX State Matrix — Gmind Design System Showcase
 
 > **Ngày:** 2026-03-05
-> **Version:** v3.0.0 (Phase 3)
+> **Version:** v4.0.0 (Phase 4)
 > **Tham chiếu:** `design-system-handover.md`
 
 ---
@@ -13,7 +13,7 @@
 | Keyboard handlers (ESC/Enter)  |  0 handlers  |      ✅ Global       |    ✅ + Arrow keys     | ✅ + Navbar ESC mobile |
 | Modal/Dialog React wrappers    |      0       |    ✅ `Modal.tsx`    |        ✅ Same         |        ✅ Same         |
 | Close (X) / Dismiss buttons    |  0 buttons   | ✅ ErrorBanner+Modal |        ✅ Same         |        ✅ Same         |
-| `aria-label` attributes        |      3       |      ✅ **18+**      |       ✅ **18+**       |       ✅ **19+**       |
+| `aria-label` attributes        |      3       |      ✅ **18+**      |       ✅ **18+**       |       ✅ **31+**       |
 | `tabIndex` / `role` attributes |      0       |      ✅ **14**       |       ✅ **15**        |       ✅ **16**        |
 | CSS `:focus-visible`           |   0 rules    |      ✅ Global       |        ✅ Same         |        ✅ Same         |
 | CSS `:active` states           |   5 files    |       5 files        |    ✅ **18 files**     |    ✅ **21 files**     |
@@ -33,10 +33,17 @@
 | Contrast (Light)   |   **52%**    |    **81%**     |    **88%**     |    **96%**     |   🟢   |
 | Alignment          |   **90%**    |    **91%**     |    **91%**     |    **91%**     |   🟢   |
 | Focus Visible      |    **0%**    |    **100%**    |    **100%**    |    **100%**    |   🟢   |
-| ARIA/A11y          |    **4%**    |    **83%**     |    **88%**     |    **92%**     |   🟢   |
-| **OVERALL**        |   **35%**    |    **84%**     |    **90%**     |    **94%**     |   🟢   |
+| ARIA/A11y          |    **4%**    |    **83%**     |    **88%**     |    **96%**     |   🟢   |
+| **OVERALL**        |   **35%**    |    **84%**     |    **90%**     |    **95%**     |   🟢   |
 
 ---
+
+## Changes v3.0 → v4.0 (Phase 4)
+
+### ARIA (92% → 96%)
+
+- Added `aria-label` to all 12 screen page root elements
+- Total `aria-label` count: 19 → 31+
 
 ## Changes v2.1 → v3.0 (Phase 3)
 

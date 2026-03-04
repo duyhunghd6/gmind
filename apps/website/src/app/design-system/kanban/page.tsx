@@ -60,7 +60,7 @@ export default function KanbanScreen() {
   const doneCards = columns.find((c) => c.id === "done")?.cards.length || 0;
 
   return (
-    <div>
+    <div aria-label="Kanban Board Screen">
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>📋 Kanban Board</h1>
         <DsIdBadge id="ds:screen:kanban-001" />
