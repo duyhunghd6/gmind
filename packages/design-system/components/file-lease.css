@@ -88,3 +88,44 @@
   text-decoration: line-through;
   opacity: 0.5;
 }
+
+/* ── Interactive States ── */
+.file-lease:active {
+  transform: scale(0.97);
+}
+
+.file-lease[aria-disabled="true"],
+.file-lease.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Light Mode ── */
+@media (prefers-color-scheme: light) {
+  .file-lease__agent {
+    color: var(--text, #0f172a);
+  }
+  .file-lease__timer {
+    background: rgba(0, 0, 0, 0.04);
+  }
+  .file-lease--unlocked {
+    background: rgba(126, 231, 135, 0.1);
+    border-color: rgba(22, 163, 74, 0.25);
+    color: #16a34a;
+  }
+  .file-lease--locked {
+    background: rgba(14, 165, 233, 0.08);
+    border-color: rgba(3, 105, 161, 0.25);
+    color: #0369a1;
+  }
+  .file-lease--expiring {
+    background: rgba(210, 153, 34, 0.1);
+    border-color: rgba(180, 83, 9, 0.25);
+    color: #b45309;
+  }
+  .file-lease--expired {
+    background: rgba(220, 38, 38, 0.08);
+    border-color: rgba(220, 38, 38, 0.2);
+    color: #dc2626;
+  }
+}

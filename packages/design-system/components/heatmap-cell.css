@@ -25,6 +25,20 @@
   z-index: 2;
 }
 
+.heatmap-cell:active {
+  transform: scale(0.95);
+}
+
+/* ── Light Mode ── */
+@media (prefers-color-scheme: light) {
+  .heatmap-cell:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+  .heatmap-row__label {
+    color: var(--text-dim, #334155);
+  }
+}
+
 /* ── Coverage Levels ── */
 .heatmap-cell--0 {
   background: rgba(255, 123, 114, 0.25);

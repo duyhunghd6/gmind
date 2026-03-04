@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const navLinks = [
   { href: "/", label: "Trang chủ" },
@@ -16,6 +16,19 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  /* ESC to close mobile menu */
+  const handleEscape = useCallback(() => {
+    if (isOpen) setIsOpen(false);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleEscape();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [handleEscape]);
+
   return (
     <nav className="navbar glass" aria-label="Điều hướng chính">
       <div className="navbar-inner">
@@ -24,7 +37,7 @@ export default function Navbar() {
           gmind
         </Link>
 
-        <ul className={`navbar-links ${isOpen ? "open" : ""}`}>
+        <ul id="mobile-nav" className={`navbar-links ${isOpen ? "open" : ""}`}>
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
@@ -53,6 +66,7 @@ export default function Navbar() {
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Đóng menu" : "Mở menu"}
           aria-expanded={isOpen}
+          aria-controls="mobile-nav"
         >
           {isOpen ? "✕" : "☰"}
         </button>

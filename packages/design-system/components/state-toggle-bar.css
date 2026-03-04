@@ -43,6 +43,16 @@
   color: var(--text, #c9d1d9);
 }
 
+.state-toggle-bar__btn:active {
+  transform: scale(0.95);
+}
+
+.state-toggle-bar__btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .state-toggle-bar__btn--active {
   background: rgba(0, 229, 255, 0.1);
   border-color: rgba(0, 229, 255, 0.2);

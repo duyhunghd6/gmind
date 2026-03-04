@@ -7,26 +7,28 @@ export default function Footer() {
           <span style={{ color: "var(--accent-cyan)" }}>Agentic SE</span> bởi
           GSCfin
         </p>
-        <ul className="footer-links" aria-label="Liên kết footer">
-          <li>
-            <a
-              href="https://github.com/duyhunghd6/gmind"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="/architecture">Kiến trúc</a>
-          </li>
-          <li>
-            <a href="/prompts">Prompts</a>
-          </li>
-          <li>
-            <a href="/design-system">Design System</a>
-          </li>
-        </ul>
+        <nav aria-label="Liên kết footer">
+          <ul className="footer-links">
+            <li>
+              <a
+                href="https://github.com/duyhunghd6/gmind"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="/architecture">Kiến trúc</a>
+            </li>
+            <li>
+              <a href="/prompts">Prompts</a>
+            </li>
+            <li>
+              <a href="/design-system">Design System</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </footer>
   );

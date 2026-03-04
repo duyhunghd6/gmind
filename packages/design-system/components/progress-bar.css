@@ -49,3 +49,21 @@
   min-width: 36px;
   text-align: right;
 }
+
+/* ── Disabled ── */
+.progress-bar.disabled {
+  opacity: 0.45;
+}
+
+/* ── Light Mode ── */
+@media (prefers-color-scheme: light) {
+  .progress-bar {
+    background: rgba(0, 0, 0, 0.06);
+  }
+  .progress-bar__fill {
+    background: var(--accent-cyan, #0284c7);
+  }
+  .progress-bar__label {
+    color: var(--text-dim, #334155);
+  }
+}

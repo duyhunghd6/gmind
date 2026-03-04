@@ -111,19 +111,19 @@ apps/website/src/
 ## 6. UX State Matrix — Audit Results (2026-03-05)
 
 > [!IMPORTANT]
-> **UX Refining Phase 2 completed.** Overall score: **90%** 🟢 (was 35% → 84% → 90%)
+> **UX Refining Phase 3 completed.** Overall score: **94%** 🟢 (was 35% → 84% → 90% → 94%)
 > Ma trận chi tiết: `docs/design/ux-state-matrix.md`
 
-| Tiêu chí               | v1.0 | v2.0 | v2.1 | Status |
-| ---------------------- | :--: | :--: | :--: | :----: |
-| ESC/Enter Keyboard     |  0%  | 82%  | 88%  |   🟢   |
-| Close/Dismiss (X)      |  0%  | 90%  | 90%  |   🟢   |
-| Interactive States     | 48%  | 62%  | 85%  |   🟢   |
-| Color Contrast (Dark)  | 85%  | 87%  | 87%  |   🟢   |
-| Color Contrast (Light) | 52%  | 81%  | 88%  |   🟢   |
-| Component Alignment    | 90%  | 91%  | 91%  |   🟢   |
-| Focus Visible          |  0%  | 100% | 100% |   🟢   |
-| ARIA/A11y              |  4%  | 83%  | 88%  |   🟢   |
+| Tiêu chí               | v1.0 | v2.0 | v2.1 | v3.0 | Status |
+| ---------------------- | :--: | :--: | :--: | :--: | :----: |
+| ESC/Enter Keyboard     |  0%  | 82%  | 88%  | 95%  |   🟢   |
+| Close/Dismiss (X)      |  0%  | 90%  | 90%  | 90%  |   🟢   |
+| Interactive States     | 48%  | 62%  | 85%  | 95%  |   🟢   |
+| Color Contrast (Dark)  | 85%  | 87%  | 87%  | 90%  |   🟢   |
+| Color Contrast (Light) | 52%  | 81%  | 88%  | 96%  |   🟢   |
+| Component Alignment    | 90%  | 91%  | 91%  | 91%  |   🟢   |
+| Focus Visible          |  0%  | 100% | 100% | 100% |   🟢   |
+| ARIA/A11y              |  4%  | 83%  | 88%  | 92%  |   🟢   |
 
 ## 7. Iteration tiếp theo — UI/UX Refining Phase
 
@@ -133,11 +133,11 @@ apps/website/src/
 
 ### 🔴 Ưu tiên cao — UX Critical
 
-- [x] **Light mode audit:** ~~Test TOÀN BỘ 28 pages ở light mode.~~ Done — `light-overrides.css` covering 24+ components, `--text-dim` darkened to `#334155`.
+- [x] **Light mode audit:** ~~Test TOÀN BỘ 28 pages ở light mode.~~ Done — `light-overrides.css` covering 24+ components, `--text-dim` darkened to `#334155`. Phase 3: navbar + file-lease + heatmap-cell + progress-bar + status-dot light mode added.
 - [ ] **Responsive design:** Mobile 375px + Tablet 768px. Sidebar collapse, card grid responsive, usecase steps stack vertically.
 - [ ] **Kanban UX:** Drag-and-drop thật (HTML5 DnD / @hello-pangea/dnd) thay vì click-to-move. Column width và scrolling issues.
 - [x] **Button/Badge contrast:** ~~Primary buttons kém readable ở light mode.~~ Done — light-overrides covers button + badge.
-- [ ] **Terminal title contrast:** Title text thiếu contrast ở cả dark lẫn light mode.
+- [x] **Terminal title contrast:** ~~Title text thiếu contrast ở cả dark lẫn light mode.~~ Done — `#8b949e` → `#adbac7`.
 
 ### 🟡 Ưu tiên trung bình — UX Polish
 

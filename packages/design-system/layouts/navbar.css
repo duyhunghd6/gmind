@@ -121,3 +121,33 @@
     display: block;
   }
 }
+
+/* ── Light Mode ── */
+@media (prefers-color-scheme: light) {
+  .navbar-brand {
+    color: var(--text, #0f172a);
+  }
+  .navbar-links a {
+    color: #475569;
+  }
+  .navbar-links a:hover,
+  .navbar-links a.active {
+    color: #0f172a;
+  }
+  .navbar-links a::after {
+    background: #0284c7;
+  }
+  .navbar-links a:active {
+    color: #0284c7;
+  }
+}
+
+@media (max-width: 768px) and (prefers-color-scheme: light) {
+  .navbar-links.open {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+  }
+  .navbar-links a {
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+}
