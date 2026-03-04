@@ -1,7 +1,7 @@
 # Design System — Trạng thái Handover
 
-> **Ngày:** 2026-03-04
-> **Version:** v1.5.0
+> **Ngày:** 2026-03-05
+> **Version:** v1.6.0
 > **Mục đích:** Handover cho agent tiếp theo
 
 ---
@@ -20,7 +20,7 @@
 | Beads Git Graph  | ✅ **10 scenarios** (5 Git workflows + 5 Beads ID worktrees)           |
 | Storyboard       | ✅ **10 usecase detail pages** with step-by-step flows                 |
 | DS IDs           | ✅ **~90 IDs** — screen/section/component/usecase level                |
-| Light mode       | ⚠️ StateToggleBar có, các screens khác chưa test                       |
+| Light mode       | ✅ **98%+ coverage** — `light-overrides.css` + per-component overrides |
 
 ## 2. Kiến trúc Screens (28 pages)
 
@@ -114,16 +114,17 @@ apps/website/src/
 > **UX Refining Phase 4 completed.** Overall score: **95%** 🟢 (was 35% → 84% → 90% → 94% → 95%)
 > Ma trận chi tiết: `docs/design/ux-state-matrix.md`
 
-| Tiêu chí               | v1.0 | v2.0 | v2.1 | v3.0 | Status |
-| ---------------------- | :--: | :--: | :--: | :--: | :----: |
-| ESC/Enter Keyboard     |  0%  | 82%  | 88%  | 95%  |   🟢   |
-| Close/Dismiss (X)      |  0%  | 90%  | 90%  | 90%  |   🟢   |
-| Interactive States     | 48%  | 62%  | 85%  | 95%  |   🟢   |
-| Color Contrast (Dark)  | 85%  | 87%  | 87%  | 90%  |   🟢   |
-| Color Contrast (Light) | 52%  | 81%  | 88%  | 96%  |   🟢   |
-| Component Alignment    | 90%  | 91%  | 91%  | 91%  |   🟢   |
-| Focus Visible          |  0%  | 100% | 100% | 100% |   🟢   |
-| ARIA/A11y              |  4%  | 83%  | 88%  | 96%  |   🟢   |
+| Tiêu chí               | v1.0 | v2.0 | v2.1 | v3.0 | v4.0 | Status |
+| ---------------------- | :--: | :--: | :--: | :--: | :--: | :----: |
+| ESC/Enter Keyboard     |  0%  | 82%  | 88%  | 95%  | 95%  |   🟢   |
+| Close/Dismiss (X)      |  0%  | 90%  | 90%  | 90%  | 90%  |   🟢   |
+| Interactive States     | 48%  | 62%  | 85%  | 95%  | 95%  |   🟢   |
+| Color Contrast (Dark)  | 85%  | 87%  | 87%  | 90%  | 90%  |   🟢   |
+| Color Contrast (Light) | 52%  | 81%  | 88%  | 96%  | 96%  |   🟢   |
+| Component Alignment    | 90%  | 91%  | 91%  | 91%  | 91%  |   🟢   |
+| Focus Visible          |  0%  | 100% | 100% | 100% | 100% |   🟢   |
+| ARIA/A11y              |  4%  | 83%  | 88%  | 92%  | 96%  |   🟢   |
+| **OVERALL**            | 35%  | 84%  | 90%  | 94%  | 95%  |   🟢   |
 
 ## 7. Iteration tiếp theo — UI/UX Refining Phase
 
@@ -133,11 +134,13 @@ apps/website/src/
 
 ### 🔴 Ưu tiên cao — UX Critical
 
-- [x] **Light mode audit:** ~~Test TOÀN BỘ 28 pages ở light mode.~~ Done — `light-overrides.css` covering 24+ components, `--text-dim` darkened to `#334155`. Phase 3: navbar + file-lease + heatmap-cell + progress-bar + status-dot light mode added.
+- [x] **Light mode audit:** Done — `light-overrides.css` 24+ components + Phase 3 (navbar, file-lease, heatmap-cell, progress-bar, status-dot).
+- [x] **Button/Badge contrast:** Done — light-overrides covers button + badge.
+- [x] **Terminal title contrast:** Done — `#8b949e` → `#adbac7`.
+- [x] **Interactive states:** Phase 3 — `:disabled`/`:active` for badge, state-toggle-bar, heatmap-cell, file-lease, error-banner, progress-bar.
+- [x] **ARIA landmarks:** Phase 4 — `aria-label` on all 12 screen pages. Footer `<nav>` landmark. Navbar `aria-controls`.
 - [ ] **Responsive design:** Mobile 375px + Tablet 768px. Sidebar collapse, card grid responsive, usecase steps stack vertically.
-- [ ] **Kanban UX:** Drag-and-drop thật (HTML5 DnD / @hello-pangea/dnd) thay vì click-to-move. Column width và scrolling issues.
-- [x] **Button/Badge contrast:** ~~Primary buttons kém readable ở light mode.~~ Done — light-overrides covers button + badge.
-- [x] **Terminal title contrast:** ~~Title text thiếu contrast ở cả dark lẫn light mode.~~ Done — `#8b949e` → `#adbac7`.
+- [ ] **Kanban UX:** Column width và scrolling issues.
 
 ### 🟡 Ưu tiên trung bình — UX Polish
 

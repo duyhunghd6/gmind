@@ -125,6 +125,17 @@ export const DS_REGISTRY: DsEntry[] = [
   { id: "ds:comp:kanbanColumn-001", type: "comp", name: "KanbanColumn", description: "Droppable column" },
   { id: "ds:comp:gitGraph-001", type: "comp", name: "GitGraph", description: "SVG commit graph" },
   { id: "ds:comp:stateToggle-001", type: "comp", name: "StateToggleBar", description: "6-state switcher" },
+  { id: "ds:comp:progressBar-001", type: "comp", name: "ProgressBar", description: "Default / success / warning / indeterminate" },
+  { id: "ds:comp:avatarStack-001", type: "comp", name: "AvatarStack", description: "Overlapping avatar circles + overflow" },
+  { id: "ds:comp:modal-001", type: "comp", name: "Modal", description: "Backdrop + header/body/footer" },
+  { id: "ds:comp:dropdown-001", type: "comp", name: "Dropdown", description: "Trigger + floating menu" },
+  { id: "ds:comp:accordion-001", type: "comp", name: "Accordion", description: "Collapsible sections with chevron" },
+  { id: "ds:comp:tabPanel-001", type: "comp", name: "TabPanel", description: "Tab bar + content panels" },
+  { id: "ds:comp:dataTable-001", type: "comp", name: "DataTable", description: "Sortable rows, status columns" },
+  { id: "ds:comp:statusDot-001", type: "comp", name: "StatusDot", description: "online/away/busy/offline + lg variant" },
+  { id: "ds:comp:skeleton-001", type: "comp", name: "Skeleton", description: "text/bar/card loading placeholders" },
+  { id: "ds:comp:emptyState-001", type: "comp", name: "EmptyState", description: "Icon + title + description" },
+  { id: "ds:comp:errorBanner-001", type: "comp", name: "ErrorBanner", description: "Error title + message + retry" },
 
   /* ══════════════════════════════════════════════════
      TOKENS — Section-level IDs
