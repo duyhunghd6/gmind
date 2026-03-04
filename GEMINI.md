@@ -1,4 +1,5 @@
 - Rules to put to git: Do not push to git without the agreement of me or PMO.
 - Project techstack: Go
 - br = bd = beads_rust (instead of beads CLI), use FrankenSQLite as storage (instead of SQLite).
-- Keep code file smaller than 400 lines, split into multiple files if necessary.
+- Keep code file smaller than 400 lines, split into multiple files if necessary. Keep docs files smaller than 1000 lines.
+- Markdown Rules (\*.md): Nếu bạn đang write new/modify/remove các file tài liệu ---> Hãy tiến hành đọc lệnh và triển khai command: @/Users/steve/duyhunghd6/gmind/.agents/workflows/arch-review-docs-add-beads.md
