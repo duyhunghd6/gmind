@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "../../../../packages/design-system/index.css";
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  --color-blueprint-line: rgba(56, 189, 248, 0.15);
+  --color-accent-cyan: #0ea5e9;
+  --color-accent-cyan-dim: rgba(14, 165, 233, 0.1);
+  --color-accent-teal: #14b8a6;
+  --color-accent-teal-dim: rgba(20, 184, 166, 0.1);
+  --color-accent-amber: #f59e0b;
+  --color-accent-amber-dim: rgba(245, 158, 11, 0.1);
+
+  --radius-custom: 6px;
+}

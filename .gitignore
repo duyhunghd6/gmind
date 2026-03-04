@@ -3,3 +3,6 @@ reference/
 
 # bv (beads viewer) local config and caches
 .bv/
+apps/website/node_modules/
+apps/website/.next/
+node_modules/
