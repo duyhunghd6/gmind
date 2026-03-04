@@ -1,0 +1,129 @@
+/* ID: ds-comp-graph-node */
+/* States: default, hover, selected, dimmed */
+/* Description: Nút đồ thị tri thức — node types + edge styles cho Document Graph */
+
+/* ── Node Type Colors ── */
+:root {
+  --node-document: var(--accent-cyan, #00e5ff);
+  --node-task: var(--accent-teal, #3fb9a0);
+  --node-commit: #d2a8ff;
+  --node-prd: #ff7b72;
+  --node-plan: #d29922;
+}
+
+/* ── Graph Node ── */
+.graph-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--surface, #161b22);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast, 150ms) var(--ease-out, ease-out),
+    box-shadow var(--duration-fast, 150ms) var(--ease-out, ease-out),
+    opacity var(--duration-fast, 150ms) var(--ease-out, ease-out),
+    transform var(--duration-fast, 150ms) var(--ease-out, ease-out);
+  user-select: none;
+}
+
+.graph-node__icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.graph-node__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text, #c9d1d9);
+  white-space: nowrap;
+}
+
+.graph-node__id {
+  font-family: var(--font-mono, "Fira Code", monospace);
+  font-size: 0.6875rem;
+  color: var(--text-dim, #8b949e);
+}
+
+/* ── Node Types ── */
+.graph-node--document .graph-node__icon { background: var(--node-document); }
+.graph-node--task .graph-node__icon { background: var(--node-task); }
+.graph-node--commit .graph-node__icon { background: var(--node-commit); }
+.graph-node--prd .graph-node__icon { background: var(--node-prd); }
+.graph-node--plan .graph-node__icon { background: var(--node-plan); }
+
+/* ── States ── */
+.graph-node:hover {
+  border-color: var(--border-highlight, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.graph-node--selected {
+  border-color: var(--accent-cyan, #00e5ff);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.2);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.graph-node--dimmed {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ── Edge Styles (SVG) ── */
+.graph-edge {
+  fill: none;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+}
+
+.graph-edge--satisfies {
+  stroke: var(--node-plan);
+  stroke-dasharray: 6 3;
+}
+
+.graph-edge--implements {
+  stroke: var(--node-task);
+}
+
+.graph-edge--blocks {
+  stroke: var(--node-prd);
+  stroke-dasharray: 3 3;
+}
+
+/* ── Edge Label ── */
+.graph-edge-label {
+  font-size: 0.625rem;
+  fill: var(--text-dim, #8b949e);
+  font-family: var(--font-mono, "Fira Code", monospace);
+}
+
+/* ── Legend ── */
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 12px);
+  background: var(--surface, #161b22);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-sm, 6px);
+  font-size: 0.6875rem;
+  color: var(--text-dim, #8b949e);
+}
+
+.graph-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.graph-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

@@ -19,6 +19,29 @@
 @import "./components/button.css";
 @import "./components/badge.css";
 @import "./components/tooltip.css";
+@import "./components/terminal.css";
+@import "./components/git-graph.css";
+@import "./components/kanban-column.css";
+@import "./components/activity-item.css";
+@import "./components/tab-panel.css";
+@import "./components/approval-panel.css";
+@import "./components/rtm-row.css";
+@import "./components/heatmap-cell.css";
+@import "./components/graph-node.css";
+@import "./components/file-lease.css";
+@import "./components/skeleton.css";
+@import "./components/empty-state.css";
+@import "./components/error-banner.css";
+@import "./components/offline-banner.css";
+@import "./components/forbidden-gate.css";
+@import "./components/state-toggle-bar.css";
+@import "./components/modal.css";
+@import "./components/dropdown.css";
+@import "./components/accordion.css";
+@import "./components/data-table.css";
+@import "./components/progress-bar.css";
+@import "./components/status-dot.css";
+@import "./components/avatar-stack.css";
 
 /* ---- Layouts ---- */
 @import "./layouts/navbar.css";
@@ -29,3 +52,7 @@
 @import "./layouts/hero.css";
 @import "./layouts/section.css";
 @import "./layouts/docs-layout.css";
+@import "./layouts/kanban-board.css";
+@import "./layouts/terminal-mosaic.css";
+@import "./layouts/timeline.css";
+@import "./layouts/split-panel.css";

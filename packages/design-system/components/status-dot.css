@@ -1,0 +1,27 @@
+/* ID: ds-comp-status-dot */
+/* States: online, away, busy, offline */
+/* Description: Chấm trạng thái — online/away/busy/offline indicator */
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-dot--online { background: #7ee787; box-shadow: 0 0 6px rgba(126, 231, 135, 0.4); }
+.status-dot--away { background: #d29922; }
+.status-dot--busy { background: #ff7b72; }
+.status-dot--offline { background: var(--text-dim, #8b949e); opacity: 0.5; }
+
+.status-dot--lg { width: 12px; height: 12px; }
+
+/* With label */
+.status-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-dim, #8b949e);
+}

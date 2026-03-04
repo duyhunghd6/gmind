@@ -1,0 +1,63 @@
+/* ID: ds-comp-dropdown */
+/* States: default, open */
+/* Description: Menu thả xuống — CSS trigger, items, separators */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown__trigger {
+  cursor: pointer;
+}
+
+.dropdown__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 180px;
+  background: var(--surface, #161b22);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-md, 8px);
+  padding: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: all 150ms var(--ease-out, ease-out);
+  z-index: 50;
+}
+
+.dropdown--open .dropdown__menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm, 6px);
+  font-size: 0.8125rem;
+  color: var(--text, #c9d1d9);
+  cursor: pointer;
+  transition: background 100ms;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown__item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.dropdown__item--danger { color: #ff7b72; }
+
+.dropdown__separator {
+  height: 1px;
+  background: var(--border, rgba(255, 255, 255, 0.06));
+  margin: 4px 0;
+}

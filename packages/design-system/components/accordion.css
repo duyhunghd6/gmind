@@ -1,0 +1,56 @@
+/* ID: ds-comp-accordion */
+/* States: default, open */
+/* Description: Phần thu gọn — chevron xoay, nội dung mở rộng mượt */
+
+.accordion { border-radius: var(--radius-md, 8px); overflow: hidden; }
+
+.accordion__item {
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+}
+
+.accordion__item:last-child { border-bottom: none; }
+
+.accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--surface, #161b22);
+  border: none;
+  color: var(--text, #c9d1d9);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms;
+  text-align: left;
+}
+
+.accordion__trigger:hover { background: rgba(255, 255, 255, 0.02); }
+
+.accordion__chevron {
+  transition: transform 200ms var(--ease-out, ease-out);
+  font-size: 0.75rem;
+  color: var(--text-dim, #8b949e);
+}
+
+.accordion__item--open .accordion__chevron {
+  transform: rotate(180deg);
+}
+
+.accordion__content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 250ms var(--ease-out, ease-out);
+}
+
+.accordion__item--open .accordion__content {
+  max-height: 500px;
+}
+
+.accordion__body {
+  padding: 0 16px 14px;
+  font-size: 0.8125rem;
+  color: var(--text-dim, #8b949e);
+  line-height: 1.6;
+}

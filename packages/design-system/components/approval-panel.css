@@ -1,0 +1,113 @@
+/* ID: ds-comp-approval-panel */
+/* States: pending, approved, rejected */
+/* Description: Panel phê duyệt 5 phần — Test Result, Code Diff, Beads ID, PRD, CI */
+
+.approval-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3, 12px);
+  padding: var(--space-4, 16px);
+  background: var(--surface, #161b22);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-md, 8px);
+}
+
+/* ── Section Card ── */
+.approval-panel__section {
+  padding: 12px 16px;
+  background: var(--bg, #0d1117);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-sm, 6px);
+  transition: border-color var(--duration-fast, 150ms);
+}
+
+.approval-panel__section:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.approval-panel__section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.approval-panel__section-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+
+.approval-panel__section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim, #8b949e);
+}
+
+.approval-panel__section-body {
+  font-size: 0.8125rem;
+  color: var(--text, #c9d1d9);
+  line-height: 1.5;
+}
+
+/* ── Status Indicator ── */
+.approval-panel__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: var(--font-mono, "Fira Code", monospace);
+}
+
+/* ── States ── */
+.approval-panel--pending {
+  border-color: var(--accent-amber, #d29922);
+}
+
+.approval-panel--pending .approval-panel__status {
+  background: rgba(210, 153, 34, 0.15);
+  color: #d29922;
+}
+
+.approval-panel--approved {
+  border-color: #7ee787;
+}
+
+.approval-panel--approved .approval-panel__status {
+  background: rgba(126, 231, 135, 0.15);
+  color: #7ee787;
+}
+
+.approval-panel--rejected {
+  border-color: var(--term-red, #ff7b72);
+}
+
+.approval-panel--rejected .approval-panel__status {
+  background: rgba(255, 123, 114, 0.15);
+  color: #ff7b72;
+}
+
+/* ── Action Bar ── */
+.approval-panel__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2, 8px);
+  padding-top: var(--space-3, 12px);
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .approval-panel {
+    grid-template-columns: 1fr;
+  }
+}

@@ -12,6 +12,7 @@ const groups: SidebarGroup[] = [
   { id: "layouts", title: "Bố cục", icon: "📐" },
   { id: "states", title: "Trạng thái", icon: "📊" },
   { id: "flows", title: "Luồng", icon: "🔄" },
+  { id: "advanced", title: "Nâng cao", icon: "🚀" },
 ];
 
 interface DocsSidebarProps {
@@ -46,10 +47,12 @@ function getGroupForId(id: string): string {
   const tokenIds = ["colors", "spacing", "typography", "animations"];
   const componentIds = ["cards", "buttons", "badges", "tooltips", "labels", "code-block", "prompt-card"];
   const layoutIds = ["grid-layout", "glass-effect", "path-tree"];
+  const advancedIds = ["terminal", "git-graph", "kanban", "activity-feed", "tab-panel-demo", "prd-components"];
 
   if (tokenIds.includes(id)) return "tokens";
   if (componentIds.includes(id)) return "components";
   if (layoutIds.includes(id)) return "layouts";
+  if (advancedIds.includes(id)) return "advanced";
   if (id === "state-matrix") return "states";
   if (id === "user-flows") return "flows";
   return "tokens";
@@ -63,6 +66,7 @@ function getFirstIdForGroup(group: string): string {
     case "layouts": return "grid-layout";
     case "states": return "state-matrix";
     case "flows": return "user-flows";
+    case "advanced": return "terminal";
     default: return "colors";
   }
 }

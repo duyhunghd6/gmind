@@ -1,6 +1,6 @@
 {
   "$schema": "Component Registry for @gmind/design-system",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "tokens": [
     {
       "id": "ds-tok-colors",
@@ -96,6 +96,82 @@
       "states": ["default", "visible"],
       "variants": ["tooltip--top", "tooltip--bottom"],
       "description": "Chú thích nổi — CSS-only hover trigger, mũi tên chỉ hướng"
+    },
+    {
+      "id": "ds-comp-terminal",
+      "name": "Terminal",
+      "file": "components/terminal.css",
+      "states": ["default", "typing", "success", "error"],
+      "variants": ["terminal--scanline"],
+      "description": "Cửa sổ terminal — title bar 3 dots, prompt mono, ANSI colors, cursor blink"
+    },
+    {
+      "id": "ds-comp-git-graph",
+      "name": "Git Graph",
+      "file": "components/git-graph.css",
+      "states": ["default", "hover"],
+      "variants": ["master", "hotfix", "release", "develop", "feature-1", "feature-2"],
+      "description": "Đồ thị nhánh Git — SVG dots/lines, color-coded branches, tag badges"
+    },
+    {
+      "id": "ds-comp-kanban-column",
+      "name": "Kanban Column",
+      "file": "components/kanban-column.css",
+      "states": ["default", "hover", "drag-over", "disabled"],
+      "description": "Cột Kanban — header + badge WIP + card stack + vùng thả kéo"
+    },
+    {
+      "id": "ds-comp-activity-item",
+      "name": "Activity Item",
+      "file": "components/activity-item.css",
+      "states": ["default"],
+      "variants": ["info", "success", "warning", "error"],
+      "description": "Mục nhật ký — timestamp + icon + agent + hành động, đường nối dọc"
+    },
+    {
+      "id": "ds-comp-tab-panel",
+      "name": "Tab Panel",
+      "file": "components/tab-panel.css",
+      "states": ["default", "active", "disabled"],
+      "description": "Bảng tab — tab bar ngang, underline glow, fade transition"
+    },
+    {
+      "id": "ds-comp-approval-panel",
+      "name": "Approval Panel",
+      "file": "components/approval-panel.css",
+      "states": ["pending", "approved", "rejected"],
+      "description": "Panel phê duyệt 5 phần — Test Result, Code Diff, Beads ID, PRD, CI"
+    },
+    {
+      "id": "ds-comp-rtm-row",
+      "name": "RTM Row",
+      "file": "components/rtm-row.css",
+      "states": ["default", "hover"],
+      "variants": ["covered", "gap", "partial"],
+      "description": "Hàng ma trận truy vết — PRD Section → Plan Element → Task"
+    },
+    {
+      "id": "ds-comp-heatmap-cell",
+      "name": "Heatmap Cell",
+      "file": "components/heatmap-cell.css",
+      "states": ["default", "hover"],
+      "variants": ["0", "25", "50", "75", "100"],
+      "description": "Ô heatmap — gradient coverage rose(0%) → amber(50%) → teal(100%)"
+    },
+    {
+      "id": "ds-comp-graph-node",
+      "name": "Graph Node",
+      "file": "components/graph-node.css",
+      "states": ["default", "hover", "selected", "dimmed"],
+      "variants": ["document", "task", "commit", "prd", "plan"],
+      "description": "Nút đồ thị tri thức — node types + edge styles cho Document Graph"
+    },
+    {
+      "id": "ds-comp-file-lease",
+      "name": "File Lease",
+      "file": "components/file-lease.css",
+      "states": ["unlocked", "locked", "expiring", "expired"],
+      "description": "Chỉ báo khóa tệp — icon + agent + đếm ngược, flash khi sắp hết"
     }
   ],
   "layouts": [
@@ -142,6 +218,39 @@
       "name": "Section Wrapper",
       "file": "layouts/section.css",
       "description": "Bọc phần nội dung — max-width, padding chuẩn, compact/flush variants"
+    },
+    {
+      "id": "ds-lay-docs-layout",
+      "name": "Docs Layout",
+      "file": "layouts/docs-layout.css",
+      "description": "Bố cục tài liệu 3 cột — sidebar trái, nội dung, TOC phải"
+    },
+    {
+      "id": "ds-lay-kanban-board",
+      "name": "Kanban Board",
+      "file": "layouts/kanban-board.css",
+      "description": "Bảng Kanban — lưới cột ngang scroll-snap, header filters"
+    },
+    {
+      "id": "ds-lay-terminal-mosaic",
+      "name": "Terminal Mosaic",
+      "file": "layouts/terminal-mosaic.css",
+      "variants": ["horizontal", "vertical", "main-side"],
+      "description": "Lưới terminal 2x2 — multi-monitor view, responsive stack"
+    },
+    {
+      "id": "ds-lay-timeline",
+      "name": "Timeline",
+      "file": "layouts/timeline.css",
+      "variants": ["simple"],
+      "description": "Dòng thời gian dọc — đường nối giữa, sự kiện xen kẽ trái/phải"
+    },
+    {
+      "id": "ds-lay-split-panel",
+      "name": "Split Panel",
+      "file": "layouts/split-panel.css",
+      "variants": ["50-50", "30-70", "70-30", "40-60", "60-40", "divider"],
+      "description": "Bố cục 2 panel — tỉ lệ tùy chỉnh, divider, responsive stack"
     }
   ]
 }

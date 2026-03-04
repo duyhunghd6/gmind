@@ -1,0 +1,87 @@
+/* ID: ds-comp-heatmap-cell */
+/* States: default, hover */
+/* Description: Ô heatmap — gradient coverage từ rose(0%) → amber(50%) → teal(100%) */
+
+.heatmap-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: var(--radius-sm, 6px);
+  font-family: var(--font-mono, "Fira Code", monospace);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: default;
+  transition:
+    transform var(--duration-fast, 150ms) var(--ease-out, ease-out),
+    box-shadow var(--duration-fast, 150ms) var(--ease-out, ease-out);
+  position: relative;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+/* ── Coverage Levels ── */
+.heatmap-cell--0 {
+  background: rgba(255, 123, 114, 0.25);
+  color: #ff7b72;
+  border: 1px solid rgba(255, 123, 114, 0.3);
+}
+
+.heatmap-cell--25 {
+  background: rgba(255, 123, 114, 0.15);
+  color: #ff9a8f;
+  border: 1px solid rgba(255, 123, 114, 0.2);
+}
+
+.heatmap-cell--50 {
+  background: rgba(210, 153, 34, 0.2);
+  color: #d29922;
+  border: 1px solid rgba(210, 153, 34, 0.3);
+}
+
+.heatmap-cell--75 {
+  background: rgba(126, 231, 135, 0.12);
+  color: #7ee787;
+  border: 1px solid rgba(126, 231, 135, 0.2);
+}
+
+.heatmap-cell--100 {
+  background: rgba(63, 185, 160, 0.2);
+  color: #3fb9a0;
+  border: 1px solid rgba(63, 185, 160, 0.3);
+}
+
+/* ── Grid Container ── */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 4px;
+}
+
+/* ── Row Labels ── */
+.heatmap-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+}
+
+.heatmap-row__label {
+  min-width: 120px;
+  font-size: 0.75rem;
+  color: var(--text-dim, #8b949e);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.heatmap-row__cells {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}

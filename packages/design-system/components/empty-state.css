@@ -1,0 +1,40 @@
+/* ID: ds-comp-empty-state */
+/* States: default */
+/* Description: Trang trống — icon + tiêu đề + mô tả + CTA */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  min-height: 300px;
+}
+
+.empty-state__icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.6;
+}
+
+.empty-state__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text, #c9d1d9);
+  margin-bottom: 8px;
+}
+
+.empty-state__desc {
+  font-size: 0.875rem;
+  color: var(--text-dim, #8b949e);
+  max-width: 360px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.empty-state__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}

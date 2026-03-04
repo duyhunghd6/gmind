@@ -1,0 +1,102 @@
+/* ID: ds-comp-rtm-row */
+/* States: default, hover */
+/* Variants: covered, gap */
+/* Description: Hàng ma trận truy vết — PRD Section → Plan Element → Task */
+
+.rtm-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: var(--space-3, 12px);
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  transition:
+    background var(--duration-fast, 150ms) var(--ease-out, ease-out);
+}
+
+.rtm-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* ── Header Row ── */
+.rtm-row--header {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim, #8b949e);
+  background: var(--surface, #161b22);
+  border-radius: var(--radius-sm, 6px) var(--radius-sm, 6px) 0 0;
+  border-bottom: 2px solid var(--border, rgba(255, 255, 255, 0.06));
+}
+
+.rtm-row--header:hover {
+  background: var(--surface, #161b22);
+}
+
+/* ── Cell Styling ── */
+.rtm-row__cell {
+  font-size: 0.8125rem;
+  color: var(--text, #c9d1d9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rtm-row__id {
+  font-family: var(--font-mono, "Fira Code", monospace);
+  font-size: 0.75rem;
+  color: var(--accent-cyan, #00e5ff);
+}
+
+.rtm-row__arrow {
+  color: var(--text-dim, #8b949e);
+  font-size: 0.75rem;
+  user-select: none;
+}
+
+/* ── Coverage Badge ── */
+.rtm-row__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: var(--font-mono, "Fira Code", monospace);
+  white-space: nowrap;
+}
+
+.rtm-row__badge--covered {
+  background: rgba(126, 231, 135, 0.15);
+  color: #7ee787;
+}
+
+.rtm-row__badge--gap {
+  background: rgba(255, 123, 114, 0.15);
+  color: #ff7b72;
+}
+
+.rtm-row__badge--partial {
+  background: rgba(210, 153, 34, 0.15);
+  color: #d29922;
+}
+
+/* ── Container ── */
+.rtm-table {
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .rtm-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .rtm-row__arrow {
+    display: none;
+  }
+}

@@ -1,0 +1,51 @@
+/* ID: ds-lay-terminal-mosaic */
+/* Description: Lưới terminal 2x2 — multi-monitor view, responsive stack */
+
+.terminal-mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--space-3, 12px);
+  min-height: 400px;
+}
+
+.terminal-mosaic__panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Variant: 1x2 (side by side) ── */
+.terminal-mosaic--horizontal {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* ── Variant: 2x1 (stacked) ── */
+.terminal-mosaic--vertical {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+/* ── Variant: 1 main + 2 side ── */
+.terminal-mosaic--main-side {
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.terminal-mosaic--main-side > :first-child {
+  grid-row: 1 / -1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .terminal-mosaic,
+  .terminal-mosaic--horizontal,
+  .terminal-mosaic--main-side {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .terminal-mosaic--main-side > :first-child {
+    grid-row: auto;
+  }
+}

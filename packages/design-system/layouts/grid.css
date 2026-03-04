@@ -3,12 +3,9 @@
    ID: ds-lay-grid
    ═══════════════════════════════════════════════ */
 
-/* Blueprint Grid Background */
+/* Blueprint Grid Background — disabled, solid bg only */
 .bg-blueprint {
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, var(--blueprint-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--blueprint-line) 1px, transparent 1px);
+  background-image: none;
 }
 
 /* Container */

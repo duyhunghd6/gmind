@@ -1,0 +1,55 @@
+/* ID: ds-comp-skeleton */
+/* States: default */
+/* Variants: text, card, circle, bar */
+/* Description: Placeholder loading — pulse animation cho các vùng chờ dữ liệu */
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.skeleton {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-sm, 6px);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton--text {
+  height: 14px;
+  width: 80%;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeleton--text-short { width: 50%; }
+.skeleton--text-full { width: 100%; }
+
+.skeleton--card {
+  height: 120px;
+  border-radius: var(--radius-md, 8px);
+}
+
+.skeleton--circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton--bar {
+  height: 8px;
+  border-radius: 4px;
+}
+
+/* Container for skeleton groups */
+.skeleton-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

@@ -1,0 +1,109 @@
+/* ID: ds-comp-activity-item */
+/* States: default */
+/* Variants: info, success, warning, error */
+/* Description: Mục nhật ký — timestamp + icon + agent + hành động, đường nối dọc */
+
+.activity-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 12px;
+  position: relative;
+  padding-bottom: var(--space-4, 16px);
+}
+
+/* ── Timeline Connector ── */
+.activity-item__indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.activity-item__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--activity-color, var(--accent-cyan, #00e5ff));
+  background: var(--bg, #0d1117);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.activity-item__line {
+  width: 2px;
+  flex: 1;
+  background: var(--border, rgba(255, 255, 255, 0.06));
+  margin-top: 4px;
+}
+
+/* Hide line on last item */
+.activity-item:last-child .activity-item__line {
+  display: none;
+}
+
+/* ── Content ── */
+.activity-item__content {
+  padding-top: 0;
+}
+
+.activity-item__header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.activity-item__agent {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--text, #c9d1d9);
+}
+
+.activity-item__action {
+  font-size: 0.8125rem;
+  color: var(--text-dim, #8b949e);
+}
+
+.activity-item__time {
+  font-family: var(--font-mono, "Fira Code", monospace);
+  font-size: 0.6875rem;
+  color: var(--text-dim, #8b949e);
+  margin-left: auto;
+}
+
+.activity-item__detail {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--surface, #161b22);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-sm, 6px);
+  font-size: 0.75rem;
+  color: var(--text-dim, #8b949e);
+  font-family: var(--font-mono, "Fira Code", monospace);
+}
+
+/* ── Variant Colors ── */
+.activity-item--info {
+  --activity-color: var(--accent-cyan, #00e5ff);
+}
+
+.activity-item--success {
+  --activity-color: #7ee787;
+}
+.activity-item--success .activity-item__dot {
+  background: rgba(126, 231, 135, 0.15);
+}
+
+.activity-item--warning {
+  --activity-color: #d29922;
+}
+.activity-item--warning .activity-item__dot {
+  background: rgba(210, 153, 34, 0.15);
+}
+
+.activity-item--error {
+  --activity-color: #ff7b72;
+}
+.activity-item--error .activity-item__dot {
+  background: rgba(255, 123, 114, 0.15);
+}

@@ -1,0 +1,87 @@
+/* ID: ds-comp-modal */
+/* States: default, open */
+/* Variants: sm, md, lg */
+/* Description: Hộp thoại phủ — backdrop blur, header/body/footer, 3 kích thước */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms;
+}
+
+.modal-backdrop--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background: var(--surface, #161b22);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius-md, 8px);
+  width: min(90vw, 480px);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(8px) scale(0.98);
+  transition: transform 200ms var(--ease-out, ease-out);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+.modal-backdrop--open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal--sm { width: min(90vw, 360px); }
+.modal--lg { width: min(90vw, 640px); }
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+}
+
+.modal__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text, #c9d1d9);
+}
+
+.modal__close {
+  background: none;
+  border: none;
+  color: var(--text-dim, #8b949e);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 150ms;
+}
+
+.modal__close:hover { color: var(--text, #c9d1d9); }
+
+.modal__body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text, #c9d1d9);
+  line-height: 1.6;
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+}

@@ -141,6 +141,26 @@
   font-weight: 500;
 }
 
+/* ---- Light Mode Contrast ---- */
+@media (prefers-color-scheme: light) {
+  .docs-sidebar__item.active {
+    background: rgba(14, 165, 233, 0.1);
+    color: #0369a1;
+  }
+
+  .docs-sidebar__group-title {
+    color: #0369a1;
+  }
+
+  .docs-toc__title {
+    color: #b45309;
+  }
+
+  .docs-toc__item.active {
+    color: #b45309;
+  }
+}
+
 /* ---- Responsive ---- */
 
 /* Collapse right sidebar < 1100px */

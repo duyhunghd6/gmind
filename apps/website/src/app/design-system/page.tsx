@@ -1,157 +1,44 @@
-"use client";
+import Link from "next/link";
 
-import { useState, useCallback } from "react";
-import DocsSidebar from "@/components/DocsSidebar";
-import DocsToc from "@/components/DocsToc";
-import TokensTab from "./TokensTab";
-import ComponentsTab from "./ComponentsTab";
-import StatesTab from "./StatesTab";
-import FlowsTab from "./FlowsTab";
+const screens = [
+  { href: "/design-system/terminal", title: "Terminal", icon: "💻", desc: "Cửa sổ terminal — title bar, ANSI colors, cursor blink, mosaic layout" },
+  { href: "/design-system/git-graph", title: "Đồ thị Git", icon: "🌿", desc: "Trực quan nhánh Git — SVG commit graph, branch colors, tag badges" },
+  { href: "/design-system/kanban", title: "Kanban Board", icon: "📋", desc: "Bảng quản trị dự án — drag columns, card stack, WIP limits" },
+  { href: "/design-system/knowledge-graph", title: "Knowledge Graph", icon: "🧠", desc: "Đồ thị tri thức D3.js — force-directed, PRD → Task → Commit nodes" },
+  { href: "/design-system/approval", title: "Phê duyệt & RTM", icon: "✅", desc: "Approval Panel, Requirements Traceability Matrix, Coverage Heatmap" },
+  { href: "/design-system/timeline", title: "Timeline", icon: "📅", desc: "Nhật ký hoạt động — event feed, File Lease, alternating timeline" },
+  { href: "/design-system/components", title: "Components", icon: "🧩", desc: "Thành phần cơ bản — Card, Button, Badge, Modal, Accordion, DataTable" },
+];
 
-/* Right-sidebar TOC items per section */
-const tocMap: Record<string, { id: string; label: string }[]> = {
-  colors: [
-    { id: "colors", label: "Bảng Màu" },
-    { id: "spacing", label: "Khoảng cách" },
-    { id: "typography", label: "Typography" },
-    { id: "animations", label: "Animations" },
-  ],
-  spacing: [
-    { id: "colors", label: "Bảng Màu" },
-    { id: "spacing", label: "Khoảng cách" },
-    { id: "typography", label: "Typography" },
-    { id: "animations", label: "Animations" },
-  ],
-  typography: [
-    { id: "colors", label: "Bảng Màu" },
-    { id: "spacing", label: "Khoảng cách" },
-    { id: "typography", label: "Typography" },
-    { id: "animations", label: "Animations" },
-  ],
-  animations: [
-    { id: "colors", label: "Bảng Màu" },
-    { id: "spacing", label: "Khoảng cách" },
-    { id: "typography", label: "Typography" },
-    { id: "animations", label: "Animations" },
-  ],
-  cards: [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  buttons: [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  badges: [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  tooltips: [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  labels: [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  "code-block": [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  "prompt-card": [
-    { id: "cards", label: "Cards" },
-    { id: "buttons", label: "Buttons" },
-    { id: "badges", label: "Badges" },
-    { id: "tooltips", label: "Tooltips" },
-    { id: "labels", label: "Labels & Dividers" },
-    { id: "code-block", label: "Code Block" },
-    { id: "prompt-card", label: "Prompt Card" },
-  ],
-  "grid-layout": [
-    { id: "grid-layout", label: "Grid System" },
-    { id: "glass-effect", label: "Glassmorphism" },
-    { id: "path-tree", label: "Path Tree" },
-  ],
-  "glass-effect": [
-    { id: "grid-layout", label: "Grid System" },
-    { id: "glass-effect", label: "Glassmorphism" },
-    { id: "path-tree", label: "Path Tree" },
-  ],
-  "path-tree": [
-    { id: "grid-layout", label: "Grid System" },
-    { id: "glass-effect", label: "Glassmorphism" },
-    { id: "path-tree", label: "Path Tree" },
-  ],
-  "state-matrix": [{ id: "state-matrix", label: "Ma trận Trạng thái" }],
-  "user-flows": [{ id: "user-flows", label: "Luồng Người dùng" }],
-};
-
-export default function DesignSystemPage() {
-  const [activeId, setActiveId] = useState("colors");
-
-  const handleNavigate = useCallback((id: string) => {
-    setActiveId(id);
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, []);
-
-  const tocItems = tocMap[activeId] || [];
-
+export default function DesignSystemHub() {
   return (
-    <div className="docs-layout">
-      <DocsSidebar activeId={activeId} onNavigate={handleNavigate} />
+    <div>
+      <h1 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: "8px", color: "var(--text)" }}>
+        Hệ thống Thiết kế Gmind
+      </h1>
+      <p style={{ color: "var(--text-dim)", fontSize: "0.9375rem", marginBottom: "32px", maxWidth: "600px", lineHeight: 1.6 }}>
+        Mỗi screen là một showcase tương tác riêng biệt với <strong>6 trạng thái</strong> (Mặc định / Đang tải / Trống / Lỗi / Ngoại tuyến / Cấm). Click để khám phá.
+      </p>
 
-      <div className="docs-content">
-        {/* Tokens Section */}
-        <TokensTab />
-
-        {/* Components Section */}
-        <ComponentsTab />
-
-        {/* States Section */}
-        <div id="state-matrix">
-          <StatesTab />
-        </div>
-
-        {/* Flows Section */}
-        <div id="user-flows">
-          <FlowsTab />
-        </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
+        {screens.map((s) => (
+          <Link
+            key={s.href}
+            href={s.href}
+            style={{ textDecoration: "none" }}
+          >
+            <div className="ve-card" style={{ cursor: "pointer", height: "100%", transition: "transform 150ms, border-color 150ms" }}>
+              <div style={{ fontSize: "2rem", marginBottom: "12px" }}>{s.icon}</div>
+              <h3 style={{ fontSize: "1rem", fontWeight: 600, color: "var(--text)", marginBottom: "6px" }}>
+                {s.title}
+              </h3>
+              <p style={{ fontSize: "0.8125rem", color: "var(--text-dim)", lineHeight: 1.5 }}>
+                {s.desc}
+              </p>
+            </div>
+          </Link>
+        ))}
       </div>
-
-      <DocsToc items={tocItems} activeId={activeId} onNavigate={handleNavigate} />
     </div>
   );
 }

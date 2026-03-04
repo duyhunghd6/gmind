@@ -1,0 +1,51 @@
+/* ID: ds-comp-progress-bar */
+/* States: default */
+/* Variants: determinate, indeterminate */
+/* Description: Thanh tiến trình — linear, determinate hoặc indeterminate */
+
+.progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent-cyan, #00e5ff);
+  transition: width 300ms var(--ease-out, ease-out);
+}
+
+.progress-bar--success .progress-bar__fill { background: #7ee787; }
+.progress-bar--warning .progress-bar__fill { background: #d29922; }
+.progress-bar--error .progress-bar__fill { background: #ff7b72; }
+
+/* Indeterminate */
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+.progress-bar--indeterminate .progress-bar__fill {
+  width: 40% !important;
+  animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* With label */
+.progress-bar-labeled {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-bar-labeled .progress-bar { flex: 1; }
+
+.progress-bar__label {
+  font-family: var(--font-mono, "Fira Code", monospace);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-dim, #8b949e);
+  min-width: 36px;
+  text-align: right;
+}

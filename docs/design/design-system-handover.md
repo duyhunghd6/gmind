@@ -1,137 +1,112 @@
 # Design System — Trạng thái Handover
 
-> **Ngày:** 2026-03-04
-> **Agent:** Antigravity (phiên hiện tại)
-> **Mục đích:** Handover cho agent tiếp theo tiếp tục phát triển Design System
+> **Ngày:** 2026-03-04  
+> **Version:** v1.4.0 (registry bump pending)  
+> **Mục đích:** Handover cho agent tiếp theo
 
 ---
 
-## 1. Tổng quan trạng thái
+## 1. Tổng quan
 
-| Hạng mục                          | Trạng thái                                            |
-| --------------------------------- | ----------------------------------------------------- |
-| Token (Màu, Spacing, Typography)  | ✅ Hoàn thành — tách files                            |
-| Components (10 thành phần)        | ✅ Hoàn thành — tách files, có metadata ID            |
-| Layouts (8 bố cục)                | ✅ Hoàn thành — tách files                            |
-| Registry (`registry.json`)        | ✅ Hoàn thành v1.2.0 — ID cho tất cả thành phần       |
-| Showcase Website `/design-system` | ✅ Hoàn thành — 3-column docs layout                  |
-| Dọn dẹp file cũ (monolithic)      | ✅ Hoàn thành — `tokens.css`, `components.css` đã xóa |
-| States đầy đủ (4 states)          | ✅ Hoàn thành — PromptCard, ArchLayer đã bổ sung      |
-| Element Diff Protocol             | ❌ Chưa triển khai                                    |
-| Storyboard (interactive demos)    | ❌ Chưa triển khai                                    |
-| Light mode testing                | ❌ Chưa test                                          |
+| Hạng mục         | Trạng thái                                                             |
+| ---------------- | ---------------------------------------------------------------------- |
+| Components CSS   | ✅ **33 thành phần** (10 gốc + 10 Batch 1-3 + 13 mới)                  |
+| Layouts CSS      | ✅ **12 bố cục** (8 gốc + 4 mới)                                       |
+| React Wrappers   | ✅ **14 components** (5 Batch 1 + 4 infrastructure + 5 mới)            |
+| Registry         | ✅ v1.3.0 (cần bump lên v1.4.0 cho 13 comp mới)                        |
+| Showcase Website | ✅ **7 screens riêng biệt** + Hub index                                |
+| State Matrix     | ✅ **6 states/screen** (Default/Loading/Empty/Error/Offline/Forbidden) |
+| Knowledge Graph  | ✅ **Sigma.js 3.0.2 (WebGL)** + Graphology + ForceAtlas2               |
+| Light mode       | ⚠️ StateToggleBar có, các screens khác chưa test                       |
 
-## 2. Cấu trúc thư mục hiện tại
+## 2. Kiến trúc Screens
+
+```
+/design-system              → Hub index (grid cards)
+/design-system/terminal     → Terminal + Mosaic layout (2×2)
+/design-system/git-graph    → Git Branch Graph (SVG)
+/design-system/kanban       → Kanban Board (click-to-move interactive)
+/design-system/knowledge-graph → Sigma.js WebGL force-directed graph
+/design-system/approval     → Approval Panel + RTM + Heatmap
+/design-system/timeline     → Activity Feed + File Lease + Timeline
+/design-system/components   → Catalog (Modal, Dropdown, Accordion, DataTable...)
+```
+
+## 3. Cấu trúc thư mục
 
 ```
 packages/design-system/
-├── index.css               # Barrel import (32 dòng)
-├── registry.json           # Đăng ký ID + states cho mọi thành phần (v1.2.0)
-├── package.json            # @gmind/design-system v1.1.0
-├── tokens/
-│   ├── colors.css          # ds-tok-colors (53 dòng)
-│   ├── typography.css      # ds-tok-typography (50 dòng)
-│   └── spacing.css         # ds-tok-spacing (31 dòng)
-├── components/
-│   ├── card.css            # ds-comp-card — 4 states, 3 variants (56 dòng)
-│   ├── code-block.css      # ds-comp-code-block — 3 states (51 dòng)
-│   ├── label.css           # ds-comp-label — 4 variants (32 dòng)
-│   ├── divider.css         # ds-comp-divider (24 dòng)
-│   ├── prompt-card.css     # ds-comp-prompt-card — 4 states (59 dòng)
-│   ├── arch-layer.css      # ds-comp-arch-layer — 4 states (49 dòng)
-│   ├── path-tree.css       # ds-comp-path-tree (20 dòng)
-│   ├── button.css          # ds-comp-button — 4 states, 3 variants + sm (98 dòng) [MỚI]
-│   ├── badge.css           # ds-comp-badge — 4 variants (53 dòng) [MỚI]
-│   └── tooltip.css         # ds-comp-tooltip — CSS hover trigger (81 dòng) [MỚI]
-└── layouts/
-    ├── navbar.css           # ds-lay-navbar (120 dòng)
-    ├── footer.css           # ds-lay-footer (51 dòng)
-    ├── grid.css             # ds-lay-grid (34 dòng)
-    ├── glass.css            # ds-lay-glass (12 dòng)
-    ├── animations.css       # ds-lay-animations (45 dòng)
-    ├── hero.css             # ds-lay-hero — Hero section layout (63 dòng)
-    ├── section.css          # ds-lay-section — Section wrapper (45 dòng)
-    └── docs-layout.css      # ds-lay-docs-layout — 3-column grid layout (170 dòng) [MỚI]
-```
+├── index.css               # Barrel import (59 dòng)
+├── registry.json           # v1.3.0 (cần update thêm 13 comp)
+├── tokens/                 # colors, typography, spacing
+├── components/             # 33 files
+│   ├── [10 gốc]           # card, button, badge, tooltip, label, ...
+│   ├── [10 Batch 1-3]     # terminal, git-graph, kanban-column, ...
+│   └── [13 mới]           # skeleton, empty-state, error-banner,
+│                            # offline-banner, forbidden-gate, state-toggle-bar,
+│                            # modal, dropdown, accordion, data-table,
+│                            # progress-bar, status-dot, avatar-stack
+└── layouts/                # 12 files
 
-## 3. Website Showcase Pages
-
-```
 apps/website/src/
-├── app/
-│   ├── layout.tsx            # Root layout (lang="vi")
-│   ├── page.tsx              # Trang chủ
-│   ├── architecture/page.tsx # Kiến trúc 5+1 lớp
-│   ├── prompts/page.tsx      # Prompts & Quy trình
-│   ├── research/page.tsx     # Nghiên cứu (PRDs + Spikes)
-│   └── design-system/
-│       ├── page.tsx           # 3-column layout compositor
-│       ├── TokensTab.tsx      # Tokens content (with id anchors)
-│       ├── ComponentsTab.tsx  # Components content (with id anchors)
-│       ├── StatesTab.tsx      # Ma trận Trạng thái
-│       └── FlowsTab.tsx      # Luồng Người dùng
+├── app/design-system/
+│   ├── layout.tsx          # Shared sidebar layout
+│   ├── page.tsx            # Hub index (grid cards)
+│   ├── terminal/page.tsx
+│   ├── git-graph/page.tsx
+│   ├── kanban/page.tsx
+│   ├── knowledge-graph/page.tsx  # Sigma.js dynamic import
+│   ├── approval/page.tsx
+│   ├── timeline/page.tsx
+│   └── components/page.tsx
 ├── components/
-│   ├── Navbar.tsx            # 6 links (incl. Design System)
-│   ├── Footer.tsx            # 4 links (incl. Design System)
-│   ├── CodeBlock.tsx         # Nút "Sao chép"
-│   ├── PillarCard.tsx
-│   ├── SectionLabel.tsx
-│   ├── SectionDivider.tsx
-│   ├── Button.tsx            # React wrapper cho button.css
-│   ├── Badge.tsx             # React wrapper cho badge.css
-│   ├── Tooltip.tsx           # React wrapper cho tooltip.css
-│   ├── DocsSidebar.tsx       # Left sidebar — 5 nhóm chính [MỚI]
-│   └── DocsToc.tsx           # Right sidebar TOC [MỚI]
-└── data/
-    ├── design-system-data.ts # Data cho showcase
-    ├── prompts-data.ts
-    └── research-data.ts
+│   ├── KnowledgeGraphViewer.tsx  # Sigma.js + Graphology + ForceAtlas2
+│   ├── StateToggleBar.tsx        # 6-state pills bar
+│   ├── Skeleton.tsx, EmptyState.tsx, ErrorBanner.tsx
+│   ├── Terminal.tsx, GitGraph.tsx, KanbanColumn.tsx
+│   ├── ActivityItem.tsx, TabPanel.tsx
+│   └── [existing: Navbar, Footer, Button, Badge, ...]
 ```
 
-## 4. Quy tắc quan trọng
+## 4. Dependencies mới (Knowledge Graph)
 
-- **Ngôn ngữ:** Toàn bộ UI bằng tiếng Việt (xem `gsafe-showcase-website.md` rule)
-- **File size:** Giữ < 400 dòng (GEMINI.md rule)
-- **Metadata ID:** Mỗi CSS file có header `/* ID: ds-xxx-yyy */` + states
-- **Skill tham chiếu:** `.agents/skills/agenticse-design-system/SKILL.md`
-- **Dev server:** `./scripts/dev-showcase.sh` → `http://localhost:9993`
+```json
+"sigma": "^3.0.2",
+"graphology": "^0.26.0",
+"@react-sigma/core": "^5.0.6",
+"@react-sigma/layout-forceatlas2": "^5.0.6",
+"graphology-layout-forceatlas2": "^0.10.1",
+"graphology-types": "^0.24.8"
+```
 
-## 5. Việc cần làm tiếp (cho agent tiếp theo)
+## 5. Việc cần làm (cho iteration tiếp theo)
 
 ### Ưu tiên cao
 
-- [ ] **Test light mode:** Kiểm tra website với `prefers-color-scheme: light`
-- [ ] **Responsive audit:** Test mobile 375px / tablet 768px
+- [ ] Bump `registry.json` → v1.4.0, thêm 13 components mới
+- [ ] Light mode audit cho tất cả screens (chỉ mới có StateToggleBar)
+- [ ] Responsive test: mobile 375px / tablet 768px
 
 ### Ưu tiên trung bình
 
-- [ ] **Element Diff Protocol:** Triển khai before/after HTML cho mỗi sửa đổi UI
-- [x] ~~**3-column layout:** Chuyển từ tab bar ngang sang docs layout 3 cột~~
+- [ ] Knowledge Graph: thêm search/filter nodes, zoom controls UI
+- [ ] Kanban: drag-and-drop thật (HTML5 DnD API) thay vì click-to-move
+- [ ] Storyboard demos: typing animation trong Terminal, merge flow trong Git Graph
+- [ ] Element Diff Protocol (before/after HTML)
 
 ### Ưu tiên thấp
 
-- [ ] **Storyboard:** Demo tương tác (kéo thả, hover sequences)
-- [ ] **Changelog:** Tạo `changes/changelog.json` theo Hub spec
-- [ ] **Thêm components mới:** Modal, Dropdown, Accordion (nếu website cần)
+- [ ] React wrappers cho Batch 3 (approval, rtm-row, heatmap-cell, graph-node, file-lease)
+- [ ] Tokens showcase screen riêng (`/design-system/tokens`)
+- [ ] Changelog (`changes/changelog.json`)
 
-## 6. Cách chạy
+## 6. Quy tắc
 
-```bash
-# Dev server
-cd /Users/steve/duyhunghd6/gmind
-./scripts/dev-showcase.sh
-# → http://localhost:9993
-
-# Xem Design System
-# → http://localhost:9993/design-system
-```
-
-## 7. Tham chiếu
-
-| Tài liệu            | Đường dẫn                                                               |
-| ------------------- | ----------------------------------------------------------------------- |
-| Design System Skill | `.agents/skills/agenticse-design-system/SKILL.md`                       |
-| Component Rules     | `.agents/skills/agenticse-design-system/rules/enterprise-components.md` |
-| Hub Rules           | `.agents/skills/agenticse-design-system/rules/design-system-hub.md`     |
-| Workflow            | `.agents/workflows/gsafe-showcase-website.md`                           |
-| Registry            | `packages/design-system/registry.json`                                  |
+| Rule        | Chi tiết                                       |
+| ----------- | ---------------------------------------------- |
+| Ngôn ngữ UI | Tiếng Việt                                     |
+| File size   | < 400 dòng                                     |
+| CSS ID      | `/* ID: ds-comp-xxx */` + states               |
+| SSR         | Sigma.js dùng `dynamic import` (cần `window`)  |
+| Git         | KHÔNG push khi chưa có approval từ PMO         |
+| Dev server  | `./scripts/dev-showcase.sh` → `localhost:9993` |

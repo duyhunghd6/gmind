@@ -1,0 +1,71 @@
+/* ID: ds-lay-split-panel */
+/* Description: Bố cục 2 panel — tỉ lệ tùy chỉnh, responsive stack */
+
+.split-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4, 16px);
+  min-height: 300px;
+}
+
+/* ── Panels ── */
+.split-panel__left,
+.split-panel__right {
+  overflow: auto;
+  min-height: 0;
+}
+
+/* ── Divider (optional vertical bar) ── */
+.split-panel--divider {
+  gap: 0;
+}
+
+.split-panel--divider .split-panel__left {
+  border-right: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  padding-right: var(--space-4, 16px);
+}
+
+.split-panel--divider .split-panel__right {
+  padding-left: var(--space-4, 16px);
+}
+
+/* ── Ratio Variants ── */
+.split-panel--30-70 {
+  grid-template-columns: 3fr 7fr;
+}
+
+.split-panel--70-30 {
+  grid-template-columns: 7fr 3fr;
+}
+
+.split-panel--40-60 {
+  grid-template-columns: 4fr 6fr;
+}
+
+.split-panel--60-40 {
+  grid-template-columns: 6fr 4fr;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .split-panel,
+  .split-panel--30-70,
+  .split-panel--70-30,
+  .split-panel--40-60,
+  .split-panel--60-40 {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .split-panel--divider .split-panel__left {
+    border-right: none;
+    border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+    padding-right: 0;
+    padding-bottom: var(--space-4, 16px);
+  }
+
+  .split-panel--divider .split-panel__right {
+    padding-left: 0;
+    padding-top: var(--space-4, 16px);
+  }
+}

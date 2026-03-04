@@ -1,0 +1,47 @@
+/* ID: ds-comp-avatar-stack */
+/* States: default */
+/* Description: Chồng avatar — ảnh tròn chồng lên nhau + "+N" overflow */
+
+.avatar-stack {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.avatar-stack__item {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--bg, #0d1117);
+  background: var(--surface, #161b22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text, #c9d1d9);
+  margin-left: -8px;
+  position: relative;
+  transition: transform 150ms;
+}
+
+.avatar-stack__item:last-child { margin-left: 0; }
+.avatar-stack__item:hover { transform: translateY(-2px); z-index: 2; }
+
+.avatar-stack__item img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-stack__overflow {
+  background: rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono, "Fira Code", monospace);
+  font-size: 0.625rem;
+  color: var(--text-dim, #8b949e);
+}
+
+/* Size variants */
+.avatar-stack--sm .avatar-stack__item { width: 24px; height: 24px; margin-left: -6px; font-size: 0.5625rem; }
+.avatar-stack--lg .avatar-stack__item { width: 40px; height: 40px; margin-left: -10px; }
