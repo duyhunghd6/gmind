@@ -19,12 +19,22 @@ const TYPE_COLORS: Record<string, string> = {
   task: "#3fb9a0",
   commit: "#d2a8ff",
   document: "#00e5ff",
+  spike: "#f78166",
+  agent: "#58a6ff",
+  workflow: "#bc8cff",
+  test: "#7ee787",
+  release: "#79c0ff",
+  adr: "#ffa657",
 };
 
 const EDGE_COLORS: Record<string, string> = {
   satisfies: "#d29922",
   implements: "#3fb9a0",
   blocks: "#ff7b72",
+  triggers: "#bc8cff",
+  validates: "#7ee787",
+  "depends-on": "#58a6ff",
+  references: "#8b949e",
 };
 
 /* ─── ForceAtlas2 Auto-Layout ─── */
@@ -40,7 +50,7 @@ function ForceLayout() {
 
   useEffect(() => {
     start();
-    const timer = setTimeout(() => stop(), 2500);
+    const timer = setTimeout(() => stop(), 4000);
     return () => { clearTimeout(timer); stop(); };
   }, [start, stop]);
 
@@ -123,6 +133,7 @@ export default function KnowledgeGraphViewer({ data, onSelect }: { data: GraphDa
         style={{ height: "100%", width: "100%" }}
         graph={graph}
         settings={{
+          allowInvalidContainer: true,
           defaultNodeColor: "#8b949e",
           defaultEdgeColor: "#8b949e44",
           labelFont: "DM Sans, system-ui, sans-serif",

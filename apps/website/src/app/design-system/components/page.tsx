@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
+import DsIdBadge from "@/components/DsIdBadge";
 import TabPanel from "@/components/TabPanel";
 import Skeleton from "@/components/Skeleton";
 import EmptyState from "@/components/EmptyState";
@@ -15,7 +16,10 @@ export default function ComponentsScreen() {
 
   return (
     <div>
-      <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "4px", color: "var(--text)" }}>🧩 Components Catalog</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🧩 Components Catalog</h1>
+        <DsIdBadge id="ds:screen:components-001" />
+      </div>
       <p style={{ color: "var(--text-dim)", fontSize: "0.8125rem", marginBottom: "16px" }}>
         Tất cả thành phần cơ bản — tương tác trực tiếp trên showcase.
       </p>

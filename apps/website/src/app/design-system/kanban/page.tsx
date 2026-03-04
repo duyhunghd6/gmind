@@ -1,106 +1,153 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
-import KanbanColumn from "@/components/KanbanColumn";
+import DsIdBadge from "@/components/DsIdBadge";
+import KanbanCard from "@/components/KanbanCard";
 import Skeleton from "@/components/Skeleton";
 import EmptyState from "@/components/EmptyState";
 import ErrorBanner from "@/components/ErrorBanner";
-
-const initialData = {
-  backlog: [
-    { id: "t1", title: "Thiết kế API Gateway", meta: "bd-001 · P1" },
-    { id: "t2", title: "Tạo schema migration", meta: "bd-002 · P2" },
-    { id: "t3", title: "Viết docs cho mcp_mail", meta: "bd-007 · P3" },
-  ],
-  inProgress: [
-    { id: "t4", title: "Implement FrankenSQLite driver", meta: "bd-003 · P0" },
-  ],
-  review: [
-    { id: "t5", title: "Setup CI/CD pipeline", meta: "bd-004 · P1" },
-    { id: "t6", title: "Viết unit tests cho Zvec", meta: "bd-005 · P2" },
-  ],
-  done: [
-    { id: "t7", title: "Khởi tạo monorepo", meta: "bd-006 · P1 · ✓" },
-    { id: "t8", title: "Setup pnpm workspace", meta: "bd-008 · P2 · ✓" },
-  ],
-};
-
-type ColKey = keyof typeof initialData;
+import { kanbanBoards, type KanbanColumnData } from "@/data/kanban-data";
 
 export default function KanbanScreen() {
   const [state, setState] = useState<ScreenState>("default");
-  const [data, setData] = useState(initialData);
-  const [moving, setMoving] = useState<{ card: string; from: ColKey } | null>(null);
+  const [boardId, setBoardId] = useState(kanbanBoards[0].id);
+  const [columns, setColumns] = useState<KanbanColumnData[]>(kanbanBoards[0].columns);
 
-  const handleCardClick = (cardId: string, col: ColKey) => {
-    if (moving && moving.card === cardId) { setMoving(null); return; }
-    setMoving({ card: cardId, from: col });
-  };
+  const board = kanbanBoards.find((b) => b.id === boardId) || kanbanBoards[0];
 
-  const handleColumnClick = (targetCol: ColKey) => {
-    if (!moving || moving.from === targetCol) return;
-    setData((prev) => {
-      const card = prev[moving.from].find((c) => c.id === moving.card);
-      if (!card) return prev;
-      return {
-        ...prev,
-        [moving.from]: prev[moving.from].filter((c) => c.id !== moving.card),
-        [targetCol]: [...prev[targetCol], card],
-      };
+  const switchBoard = useCallback((id: string) => {
+    setBoardId(id);
+    const b = kanbanBoards.find((x) => x.id === id);
+    if (b) setColumns(b.columns.map((c) => ({ ...c, cards: [...c.cards] })));
+  }, []);
+
+  const handleDragEnd = useCallback((result: DropResult) => {
+    const { source, destination } = result;
+    if (!destination) return;
+    if (source.droppableId === destination.droppableId && source.index === destination.index) return;
+
+    setColumns((prev) => {
+      const next = prev.map((c) => ({ ...c, cards: [...c.cards] }));
+      const srcCol = next.find((c) => c.id === source.droppableId);
+      const dstCol = next.find((c) => c.id === destination.droppableId);
+      if (!srcCol || !dstCol) return prev;
+
+      const [moved] = srcCol.cards.splice(source.index, 1);
+      dstCol.cards.splice(destination.index, 0, moved);
+      return next;
     });
-    setMoving(null);
-  };
+  }, []);
 
-  const colNames: Record<ColKey, string> = { backlog: "Backlog", inProgress: "Đang làm", review: "Review", done: "Hoàn thành" };
+  // Stats
+  const totalCards = columns.reduce((sum, c) => sum + c.cards.length, 0);
+  const doneCards = columns.find((c) => c.id === "done")?.cards.length || 0;
 
   return (
     <div>
-      <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "4px", color: "var(--text)" }}>📋 Kanban Board</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>📋 Kanban Board</h1>
+        <DsIdBadge id="ds:screen:kanban-001" />
+      </div>
       <p style={{ color: "var(--text-dim)", fontSize: "0.8125rem", marginBottom: "16px" }}>
-        <code>ds-comp-kanban-column</code> + <code>ds-lay-kanban-board</code> — Click card → click column để di chuyển.
+        <code>@hello-pangea/dnd</code> — Drag-and-drop chuyên nghiệp. Kéo thả card giữa các cột, WIP limits, board switching.
       </p>
 
       <StateToggleBar activeState={state} onChange={setState} />
 
       {state === "default" && (
         <div>
-          {moving && <div style={{ padding: "8px 12px", marginBottom: "12px", background: "rgba(0,229,255,0.08)", border: "1px solid rgba(0,229,255,0.2)", borderRadius: "6px", fontSize: "0.75rem", color: "var(--accent-cyan)" }}>
-            📦 Đang di chuyển card — click vào cột đích để thả
-          </div>}
-          <div className="kanban-board">
-            <div className="kanban-board__columns">
-              {(Object.keys(data) as ColKey[]).map((col) => (
-                <div key={col} onClick={() => handleColumnClick(col)} style={{ cursor: moving ? "pointer" : "default" }}>
-                  <div className={`kanban-column${moving && moving.from !== col ? " kanban-column--drag-over" : ""}`}>
-                    <div className="kanban-column__header">
-                      <span className="kanban-column__title">{colNames[col]}</span>
-                      <span className="kanban-column__count">{data[col].length}</span>
-                    </div>
-                    <div className="kanban-column__cards">
-                      {data[col].map((card) => (
-                        <div
-                          key={card.id}
-                          className="kanban-card"
-                          onClick={(e) => { e.stopPropagation(); handleCardClick(card.id, col); }}
-                          style={moving?.card === card.id ? { borderColor: "var(--accent-cyan)", boxShadow: "0 0 12px rgba(0,229,255,0.2)" } : {}}
-                        >
-                          <div className="kanban-card__title">{card.title}</div>
-                          <div className="kanban-card__meta">{card.meta}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* Board Selector */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
+            {kanbanBoards.map((b) => (
+              <button
+                key={b.id}
+                className={`state-toggle-bar__btn${boardId === b.id ? " state-toggle-bar__btn--active" : ""}`}
+                onClick={() => switchBoard(b.id)}
+                style={{ fontSize: "0.75rem" }}
+              >
+                {b.label}
+              </button>
+            ))}
+            <DsIdBadge id={`ds:kanban:${boardId === "sprint" ? "sprintBoard" : boardId === "release" ? "releaseBoard" : "bugTriage"}-001`} />
+            <span style={{ marginLeft: "auto", fontSize: "0.7rem", color: "var(--text-dim)" }}>
+              {board.description}
+            </span>
           </div>
+
+          {/* Board Stats */}
+          <div style={{ display: "flex", gap: "16px", marginBottom: "16px", fontSize: "0.7rem", color: "var(--text-dim)" }}>
+            <span>📊 {totalCards} cards</span>
+            <span>✅ {doneCards} hoàn thành</span>
+            <span>📈 {totalCards > 0 ? Math.round((doneCards / totalCards) * 100) : 0}% progress</span>
+          </div>
+
+          {/* Kanban Board */}
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <div className="kanban-board">
+              <div className="kanban-board__columns">
+                {columns.map((col) => {
+                  const isOverWip = col.wipLimit !== undefined && col.cards.length > col.wipLimit;
+                  return (
+                    <div key={col.id} style={{ flex: "0 0 auto", minWidth: 260, maxWidth: 320 }}>
+                      <div className={`kanban-column${isOverWip ? " kanban-column--drag-over" : ""}`}>
+                        <div className="kanban-column__header">
+                          <span className="kanban-column__title">{col.title}</span>
+                          <span className="kanban-column__count">{col.cards.length}</span>
+                          {col.wipLimit !== undefined && (
+                            <span style={{
+                              fontSize: "0.6rem",
+                              padding: "1px 4px",
+                              borderRadius: "3px",
+                              background: isOverWip ? "rgba(255,123,114,0.15)" : "rgba(139,148,158,0.1)",
+                              color: isOverWip ? "#ff7b72" : "var(--text-dim)",
+                              marginLeft: "4px",
+                            }}>
+                              WIP {col.wipLimit}
+                            </span>
+                          )}
+                        </div>
+                        <Droppable droppableId={col.id}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              className="kanban-column__cards"
+                              style={{
+                                minHeight: 60,
+                                ...(snapshot.isDraggingOver ? { background: "rgba(0,229,255,0.04)", borderRadius: "6px" } : {}),
+                              }}
+                            >
+                              {col.cards.map((card, index) => (
+                                <Draggable key={card.id} draggableId={card.id} index={index}>
+                                  {(dragProvided, dragSnapshot) => (
+                                    <div
+                                      ref={dragProvided.innerRef}
+                                      {...dragProvided.draggableProps}
+                                    >
+                                      <KanbanCard card={card} isDragging={dragSnapshot.isDragging} dragHandleProps={dragProvided.dragHandleProps as unknown as Record<string, unknown>} />
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </DragDropContext>
         </div>
       )}
 
       {state === "loading" && (
         <div style={{ display: "flex", gap: "16px" }}>
-          {[1, 2, 3, 4].map((i) => <div key={i} style={{ flex: 1, minWidth: 200 }}><Skeleton variant="card" /><div style={{ marginTop: 8 }}><Skeleton count={2} /></div></div>)}
+          {[1, 2, 3, 4, 5, 6].map((i) => <div key={i} style={{ flex: 1, minWidth: 160 }}><Skeleton variant="card" /><div style={{ marginTop: 8 }}><Skeleton count={2} /></div></div>)}
         </div>
       )}
 

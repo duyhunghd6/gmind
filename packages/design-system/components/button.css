@@ -6,7 +6,10 @@
    ═══════════════════════════════════════════════ */
 
 /* ---- Base Button ---- */
-.btn {
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-danger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +34,10 @@
 /* ---- Disabled (all variants) ---- */
 .btn[aria-disabled="true"],
 .btn.disabled,
-.btn:disabled {
+.btn:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-danger:disabled {
   opacity: 0.45;
   pointer-events: none;
   cursor: not-allowed;
@@ -97,4 +103,40 @@
 .btn-sm {
   padding: var(--space-xs) var(--space-sm);
   font-size: 0.8rem;
+}
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  .btn-primary {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background: #0369a1;
+    border-color: #0369a1;
+    box-shadow: 0 2px 8px rgba(3, 105, 161, 0.25);
+  }
+
+  .btn-secondary {
+    color: #334155;
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-secondary:hover {
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .btn-danger {
+    color: #dc2626;
+    border-color: #dc2626;
+  }
+
+  .btn-danger:hover {
+    background: rgba(220, 38, 38, 0.08);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+  }
 }

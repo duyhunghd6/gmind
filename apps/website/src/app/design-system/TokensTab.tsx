@@ -1,5 +1,6 @@
 import SectionLabel from "@/components/SectionLabel";
 import SectionDivider from "@/components/SectionDivider";
+import DsIdBadge from "@/components/DsIdBadge";
 import { colorTokens, spacingTokens, typographyTokens, animationTokens } from "@/data/design-system-data";
 
 export default function TokensTab() {
@@ -8,7 +9,10 @@ export default function TokensTab() {
       {/* Colors */}
       <div id="colors">
       <SectionLabel text="Bảng Màu" accent="cyan" />
-      <h2 style={{ marginBottom: "16px" }}>Màu sắc</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Màu sắc</h2>
+        <DsIdBadge id="ds:token:colors-001" />
+      </div>
       <div className="grid-3" style={{ marginBottom: "32px" }}>
         {colorTokens.map((token) => (
           <div key={token.name} className="ve-card" style={{ padding: "0", overflow: "hidden" }}>
@@ -29,7 +33,10 @@ export default function TokensTab() {
       {/* Spacing */}
       <div id="spacing">
       <SectionLabel text="Khoảng cách" accent="teal" />
-      <h2 style={{ marginBottom: "16px" }}>Thang Khoảng cách</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Thang Khoảng cách</h2>
+        <DsIdBadge id="ds:token:spacing-001" />
+      </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
         {spacingTokens.map((token) => (
           <div key={token.name} style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -46,7 +53,10 @@ export default function TokensTab() {
       {/* Typography */}
       <div id="typography">
       <SectionLabel text="Kiểu chữ" accent="amber" />
-      <h2 style={{ marginBottom: "16px" }}>Font</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Font</h2>
+        <DsIdBadge id="ds:token:typography-001" />
+      </div>
       <div className="grid-2" style={{ marginBottom: "32px" }}>
         {typographyTokens.map((token) => (
           <div key={token.name} className="ve-card">
@@ -63,7 +73,10 @@ export default function TokensTab() {
       {/* Animations */}
       <div id="animations">
       <SectionLabel text="Hoạt ảnh" accent="rose" />
-      <h2 style={{ marginBottom: "16px" }}>Hiệu ứng Chuyển động</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Hiệu ứng Chuyển động</h2>
+        <DsIdBadge id="ds:token:animations-001" />
+      </div>
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
           <thead>
@@ -92,7 +105,10 @@ export default function TokensTab() {
 
       {/* Utilities */}
       <SectionLabel text="Tiện ích" accent="cyan" />
-      <h2 style={{ marginBottom: "16px" }}>Token Khác</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Token Khác</h2>
+        <DsIdBadge id="ds:token:utilities-001" />
+      </div>
       <div className="grid-3">
         <div className="ve-card">
           <code>--radius</code>

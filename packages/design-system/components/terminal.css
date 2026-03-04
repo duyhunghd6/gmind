@@ -57,9 +57,10 @@
 .terminal__title {
   flex: 1;
   text-align: center;
-  color: var(--term-dim);
+  color: #8b949e;
   font-size: 0.75rem;
   letter-spacing: 0.02em;
+  font-weight: 500;
 }
 
 /* ── Terminal Body ── */
@@ -142,4 +143,15 @@
 
 .terminal--scanline .terminal__body {
   position: relative;
+}
+
+/* ── Light Mode — title contrast only (terminal stays dark) ── */
+@media (prefers-color-scheme: light) {
+  .terminal--success .terminal__title {
+    color: var(--term-green);
+  }
+
+  .terminal--error .terminal__title {
+    color: var(--term-red);
+  }
 }

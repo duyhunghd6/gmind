@@ -88,10 +88,11 @@ export default function GitGraph({
               />
               {commit.tag && (
                 <foreignObject
-                  x={commit.x - 20}
-                  y={commit.y - 24}
-                  width="60"
-                  height="20"
+                  x={commit.x + 8}
+                  y={commit.y - 26}
+                  width="80"
+                  height="24"
+                  overflow="visible"
                 >
                   <span className="git-graph__tag git-graph__tag--version">
                     {commit.tag}

@@ -42,6 +42,7 @@
 @import "./components/progress-bar.css";
 @import "./components/status-dot.css";
 @import "./components/avatar-stack.css";
+@import "./components/ds-id-badge.css";
 
 /* ---- Layouts ---- */
 @import "./layouts/navbar.css";

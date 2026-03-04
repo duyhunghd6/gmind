@@ -91,3 +91,38 @@ Sau khi hoàn thành, tạo `Walkthrough.md` và Notify Human.
 - [ ] Section `Prompts & Workflows` hoạt động với nút Copy.
 - [ ] Section `Universal Tracking` được giải thích bằng UI timeline/diagram.
 - [ ] Không có lỗi build/lint khi chạy từ `turborepo`.
+
+---
+
+## 7. Design System ID Convention (DS ID)
+
+Mọi thành phần trong Design System đều có **ID duy nhất** hiển thị trực tiếp trên UI, cho phép agents và users tham chiếu nhanh khi debugging.
+
+### Format
+
+```
+ds:<type>:<name-NNN>
+```
+
+| Type     | Ví dụ                    | Áp dụng cho            |
+| -------- | ------------------------ | ---------------------- |
+| `hub`    | `ds:hub:overview-001`    | Hub page               |
+| `screen` | `ds:screen:terminal-001` | Các trang showcase     |
+| `comp`   | `ds:comp:button-001`     | Components tái sử dụng |
+| `token`  | `ds:token:colors-001`    | Design tokens          |
+| `layout` | `ds:layout:grid-001`     | Layout patterns        |
+| `state`  | `ds:state:matrix-001`    | State matrix           |
+| `flow`   | `ds:flow:explore-001`    | User flows             |
+
+### Files quan trọng
+
+- **Registry:** `apps/website/src/data/ds-registry.ts` — Source of truth cho tất cả IDs
+- **Badge Component:** `apps/website/src/components/DsIdBadge.tsx` — UI component hiển thị ID
+- **Badge CSS:** `packages/design-system/components/ds-id-badge.css`
+
+### Quy tắc khi thêm element mới
+
+1. Thêm entry vào `DS_REGISTRY` trong `ds-registry.ts`
+2. Nếu là screen, thêm vào `SCREEN_ID_MAP`
+3. Sử dụng `<DsIdBadge id="ds:..." />` trong component JSX
+4. Tăng số NNN (ví dụ: `002`, `003`) cho cùng type+name

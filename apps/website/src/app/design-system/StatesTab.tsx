@@ -1,13 +1,17 @@
 import SectionLabel from "@/components/SectionLabel";
 import SectionDivider from "@/components/SectionDivider";
 import CodeBlock from "@/components/CodeBlock";
+import DsIdBadge from "@/components/DsIdBadge";
 import { stateMatrix } from "@/data/design-system-data";
 
 export default function StatesTab() {
   return (
     <div className="animate-fade-up">
       <SectionLabel text="Ma trận Trạng thái" accent="amber" />
-      <h2 style={{ marginBottom: "8px" }}>Trạng thái Thành phần</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+        <h2>Trạng thái Thành phần</h2>
+        <DsIdBadge id="ds:state:matrix-001" />
+      </div>
       <p style={{ color: "var(--text-dim)", marginBottom: "24px" }}>
         Mỗi thành phần có các trạng thái tương tác khác nhau: Mặc định, Di chuột, và Nhấn/Sao chép.
       </p>
@@ -39,7 +43,10 @@ export default function StatesTab() {
       <SectionDivider />
 
       <SectionLabel text="Token CSS đặc trưng" accent="teal" />
-      <h2 style={{ marginBottom: "16px" }}>Cách Sử dụng Token</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Cách Sử dụng Token</h2>
+        <DsIdBadge id="ds:state:tokenUsage-001" />
+      </div>
       <CodeBlock
         code={`.ve-card {
   background: var(--surface);

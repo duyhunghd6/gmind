@@ -7,6 +7,7 @@ import CodeBlock from "@/components/CodeBlock";
 import Button from "@/components/Button";
 import Badge from "@/components/Badge";
 import Tooltip from "@/components/Tooltip";
+import DsIdBadge from "@/components/DsIdBadge";
 
 export default function ComponentsTab() {
   return (
@@ -14,7 +15,10 @@ export default function ComponentsTab() {
       {/* Cards */}
       <div id="cards">
       <SectionLabel text="Thẻ (Cards)" accent="cyan" />
-      <h2 style={{ marginBottom: "16px" }}>Các biến thể Thẻ</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Các biến thể Thẻ</h2>
+        <DsIdBadge id="ds:comp:card-001" />
+      </div>
       <div className="grid-2" style={{ marginBottom: "32px" }}>
         <div>
           <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", marginBottom: "8px" }}>.ve-card</p>
@@ -34,7 +38,10 @@ export default function ComponentsTab() {
 
       {/* Pillar Cards */}
       <SectionLabel text="Thẻ Trụ cột" accent="teal" />
-      <h2 style={{ marginBottom: "16px" }}>PillarCard — 4 Biến thể Màu</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>PillarCard — 4 Biến thể Màu</h2>
+        <DsIdBadge id="ds:comp:pillarCard-001" />
+      </div>
       <div className="grid-2" style={{ marginBottom: "32px" }}>
         <PillarCard accent="cyan" label="accent=cyan" title="Trí tuệ Mã nguồn" description="Viền trái cyan, nhãn cyan" codeSnippets={["gmind search-codebase"]} />
         <PillarCard accent="teal" label="accent=teal" title="Theo dõi SSOT" description="Viền trái teal, nhãn teal" codeSnippets={["Beads-ID:"]} />
@@ -48,7 +55,10 @@ export default function ComponentsTab() {
       {/* Buttons */}
       <div id="buttons">
       <SectionLabel text="Nút (Buttons)" accent="cyan" />
-      <h2 style={{ marginBottom: "16px" }}>Button — 3 Biến thể</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Button — 3 Biến thể</h2>
+        <DsIdBadge id="ds:comp:button-001" />
+      </div>
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "24px" }}>
         <Button variant="primary">Nút Chính</Button>
         <Button variant="secondary">Nút Phụ</Button>
@@ -68,7 +78,10 @@ export default function ComponentsTab() {
       {/* Badges */}
       <div id="badges">
       <SectionLabel text="Nhãn trạng thái (Badge)" accent="teal" />
-      <h2 style={{ marginBottom: "16px" }}>Badge — 4 Biến thể Màu</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Badge — 4 Biến thể Màu</h2>
+        <DsIdBadge id="ds:comp:badge-001" />
+      </div>
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "32px" }}>
         <Badge accent="cyan">Hoạt động</Badge>
         <Badge accent="teal">Hoàn thành</Badge>
@@ -82,7 +95,10 @@ export default function ComponentsTab() {
       {/* Tooltip */}
       <div id="tooltips">
       <SectionLabel text="Chú thích (Tooltip)" accent="amber" />
-      <h2 style={{ marginBottom: "16px" }}>Tooltip — CSS-only Hover</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Tooltip — CSS-only Hover</h2>
+        <DsIdBadge id="ds:comp:tooltip-001" />
+      </div>
       <div style={{ display: "flex", gap: "32px", flexWrap: "wrap", marginBottom: "32px", paddingTop: "48px" }}>
         <Tooltip text="Chú thích phía trên" position="top">
           <Button variant="secondary">Di chuột (trên)</Button>
@@ -98,7 +114,11 @@ export default function ComponentsTab() {
       {/* Labels & Dividers */}
       <div id="labels">
       <SectionLabel text="Nhãn & Phân cách" accent="amber" />
-      <h2 style={{ marginBottom: "16px" }}>SectionLabel — 4 Biến thể</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>SectionLabel — 4 Biến thể</h2>
+        <DsIdBadge id="ds:comp:sectionLabel-001" />
+        <DsIdBadge id="ds:comp:sectionDivider-001" />
+      </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
         <SectionLabel text="Nhãn mặc định (cyan)" />
         <SectionLabel text="Nhãn teal" accent="teal" />
@@ -113,7 +133,10 @@ export default function ComponentsTab() {
       {/* Code Block */}
       <div id="code-block">
       <SectionLabel text="Khối Mã nguồn" accent="cyan" />
-      <h2 style={{ marginBottom: "16px" }}>CodeBlock — Nút Sao chép</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>CodeBlock — Nút Sao chép</h2>
+        <DsIdBadge id="ds:comp:codeBlock-001" />
+      </div>
       <CodeBlock
         code={`# Ví dụ: Agent gọi gmind trước khi sửa code
 gmind search-codebase "cách auth middleware hoạt động?"
@@ -128,7 +151,10 @@ gmind trace bd-x1y2`}
       {/* Prompt Card */}
       <div id="prompt-card">
       <SectionLabel text="Thẻ Prompt" accent="teal" />
-      <h2 style={{ marginBottom: "16px" }}>PromptCard</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>PromptCard</h2>
+        <DsIdBadge id="ds:comp:promptCard-001" />
+      </div>
       <div className="prompt-card" style={{ marginBottom: "32px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--accent-teal)", background: "var(--accent-teal-dim)", padding: "4px 10px", borderRadius: "4px" }}>
@@ -145,7 +171,11 @@ gmind trace bd-x1y2`}
       {/* Layout Grid */}
       <div id="grid-layout">
       <SectionLabel text="Bố cục Lưới" accent="amber" />
-      <h2 style={{ marginBottom: "16px" }}>Grid-2, Grid-3, Glassmorphism</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+        <h2>Grid-2, Grid-3, Glassmorphism</h2>
+        <DsIdBadge id="ds:layout:grid-001" />
+        <DsIdBadge id="ds:layout:glass-001" />
+      </div>
       <div className="grid-3" style={{ marginBottom: "24px" }}>
         {[1, 2, 3].map((i) => (
           <div key={i} className="ve-card" style={{ textAlign: "center" }}>
@@ -166,14 +196,20 @@ gmind trace bd-x1y2`}
       </div>
 
       <div id="glass-effect">
-      <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", marginBottom: "8px" }}>.glass (Glassmorphism)</p>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+        <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", margin: 0 }}>.glass (Glassmorphism)</p>
+        <DsIdBadge id="ds:layout:glass-001" />
+      </div>
       <div className="glass" style={{ padding: "24px", borderRadius: "var(--radius-lg)", marginBottom: "16px" }}>
         <p>Hiệu ứng kính mờ (backdrop-filter: blur) — dùng cho Navbar.</p>
       </div>
       </div>
 
       <div id="path-tree">
-      <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", marginBottom: "8px" }}>.path-tree</p>
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+        <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", margin: 0 }}>.path-tree</p>
+        <DsIdBadge id="ds:layout:pathTree-001" />
+      </div>
       <div className="path-tree">
         <strong>/gmind/</strong><br />
         ├── <strong>apps/</strong> <span style={{ color: "var(--accent-teal)" }}>// Ứng dụng</span><br />

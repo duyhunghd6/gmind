@@ -1,0 +1,52 @@
+/* ── DS ID Badge ── */
+/* Inline monospace badge to display Design System IDs. */
+/* Click-to-copy interaction for quick debugging.       */
+
+.ds-id-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  line-height: 1;
+  color: var(--accent-cyan);
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+  user-select: all;
+  transition:
+    background var(--duration-fast, 150ms) ease-out,
+    border-color var(--duration-fast, 150ms) ease-out;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.ds-id-badge:hover {
+  background: rgba(14, 165, 233, 0.15);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.ds-id-badge--copied {
+  color: var(--accent-teal);
+  background: rgba(20, 184, 166, 0.12);
+  border-color: rgba(20, 184, 166, 0.3);
+}
+
+.ds-id-badge__icon {
+  font-size: 0.6rem;
+  opacity: 0.6;
+}
+
+/* Sidebar variant — even smaller */
+.ds-id-badge--sidebar {
+  font-size: 0.55rem;
+  padding: 1px 5px;
+  opacity: 0.5;
+  margin-left: 4px;
+}
+
+.ds-id-badge--sidebar:hover {
+  opacity: 0.9;
+}

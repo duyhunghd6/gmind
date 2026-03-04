@@ -2,72 +2,90 @@
 
 import { useState } from "react";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
+import DsIdBadge from "@/components/DsIdBadge";
 import GitGraph from "@/components/GitGraph";
 import Skeleton from "@/components/Skeleton";
 import EmptyState from "@/components/EmptyState";
 import ErrorBanner from "@/components/ErrorBanner";
-
-const branches = [
-  { name: "master", color: "#58a6ff", className: "master" },
-  { name: "develop", color: "#d2a8ff", className: "develop" },
-  { name: "feature/storage", color: "#3fb9a0", className: "feature-1" },
-  { name: "hotfix/fix-mvcc", color: "#ff7b72", className: "hotfix" },
-  { name: "release/v1.0", color: "#79c0ff", className: "release" },
-];
-
-const commits = [
-  { id: "c1", branch: "master", x: 60, y: 40, tag: "v0.1" },
-  { id: "c2", branch: "master", x: 200, y: 40 },
-  { id: "c3", branch: "master", x: 440, y: 40, tag: "v1.0" },
-  { id: "c4", branch: "develop", x: 120, y: 100 },
-  { id: "c5", branch: "develop", x: 260, y: 100 },
-  { id: "c6", branch: "develop", x: 360, y: 100 },
-  { id: "c7", branch: "feature/storage", x: 180, y: 160 },
-  { id: "c8", branch: "feature/storage", x: 280, y: 160 },
-  { id: "c9", branch: "hotfix/fix-mvcc", x: 140, y: 220 },
-  { id: "c10", branch: "release/v1.0", x: 380, y: 220 },
-];
-
-const connections = [
-  { from: { x: 60, y: 40 }, to: { x: 200, y: 40 }, branch: "master" },
-  { from: { x: 200, y: 40 }, to: { x: 440, y: 40 }, branch: "master" },
-  { from: { x: 60, y: 40 }, to: { x: 120, y: 100 }, branch: "develop" },
-  { from: { x: 120, y: 100 }, to: { x: 260, y: 100 }, branch: "develop" },
-  { from: { x: 260, y: 100 }, to: { x: 360, y: 100 }, branch: "develop" },
-  { from: { x: 360, y: 100 }, to: { x: 440, y: 40 }, branch: "develop" },
-  { from: { x: 120, y: 100 }, to: { x: 180, y: 160 }, branch: "feature/storage" },
-  { from: { x: 180, y: 160 }, to: { x: 280, y: 160 }, branch: "feature/storage" },
-  { from: { x: 280, y: 160 }, to: { x: 360, y: 100 }, branch: "feature/storage" },
-  { from: { x: 60, y: 40 }, to: { x: 140, y: 220 }, branch: "hotfix/fix-mvcc" },
-  { from: { x: 140, y: 220 }, to: { x: 200, y: 40 }, branch: "hotfix/fix-mvcc" },
-  { from: { x: 360, y: 100 }, to: { x: 380, y: 220 }, branch: "release/v1.0" },
-  { from: { x: 380, y: 220 }, to: { x: 440, y: 40 }, branch: "release/v1.0" },
-];
+import { gitScenarios } from "@/data/git-graph-data";
 
 export default function GitGraphScreen() {
   const [state, setState] = useState<ScreenState>("default");
+  const [scenarioId, setScenarioId] = useState(gitScenarios[0].id);
+
+  const scenario = gitScenarios.find((s) => s.id === scenarioId) || gitScenarios[0];
 
   return (
     <div>
-      <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "4px", color: "var(--text)" }}>🌿 Đồ thị Git</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--text)" }}>🌿 Beads: Đồ thị Git</h1>
+        <DsIdBadge id="ds:screen:git-graph-001" />
+      </div>
       <p style={{ color: "var(--text-dim)", fontSize: "0.8125rem", marginBottom: "16px" }}>
-        <code>ds-comp-git-graph</code> — Trực quan hóa nhánh Git với SVG, color-coded branches, tag badges.
+        <code>ds-comp-git-graph</code> — Trực quan hóa nhánh Git + Beads ID worktrees, color-coded branches, tag badges. 10 kịch bản.
       </p>
 
       <StateToggleBar activeState={state} onChange={setState} />
 
       {state === "default" && (
         <div>
-          <div className="ve-card" style={{ padding: "16px" }}>
-            <GitGraph branches={branches} commits={commits} connections={connections} width={520} height={260} />
+          {/* Scenario Tabs */}
+          <div style={{ display: "flex", gap: "6px", marginBottom: "16px", flexWrap: "wrap", alignItems: "center" }}>
+            {gitScenarios.map((s) => (
+              <button
+                key={s.id}
+                className={`state-toggle-bar__btn${scenarioId === s.id ? " state-toggle-bar__btn--active" : ""}`}
+                onClick={() => setScenarioId(s.id)}
+                style={{ fontSize: "0.75rem" }}
+              >
+                {s.label}
+              </button>
+            ))}
+            <DsIdBadge id={`ds:gitGraph:${{
+              "gitflow": "gitflow",
+              "multi-agent": "multiAgent",
+              "hotfix": "hotfixEmergency",
+              "release-train": "releaseTrain",
+              "monorepo": "monorepo",
+              "beads-prd-trace": "beadsPrdTrace",
+              "beads-deadlock": "beadsDeadlock",
+              "beads-ds-comp": "beadsDsComp",
+              "beads-traversal": "beadsTraversal",
+              "beads-sprint-review": "beadsSprintReview",
+            }[scenarioId] || scenarioId}-001`} />
           </div>
-          <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600, margin: "16px 0 8px" }}>Branch Colors</h3>
+
+          {/* Description */}
+          <p style={{ color: "var(--text-dim)", fontSize: "0.75rem", marginBottom: "12px", fontStyle: "italic" }}>
+            {scenario.description}
+          </p>
+
+          {/* Graph */}
+          <div className="ve-card" style={{ padding: "16px" }}>
+            <GitGraph
+              branches={scenario.branches}
+              commits={scenario.commits}
+              connections={scenario.connections}
+              width={scenario.width}
+              height={scenario.height}
+            />
+          </div>
+
+          {/* Branch Colors */}
+          <h3 style={{ color: "var(--text)", fontSize: "0.875rem", fontWeight: 600, margin: "16px 0 8px" }}>Branches</h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-            {branches.map((b) => (
+            {scenario.branches.map((b) => (
               <span key={b.name} className="git-graph__tag" style={{ background: `${b.color}22`, color: b.color, border: `1px solid ${b.color}44` }}>
                 {b.name}
               </span>
             ))}
+          </div>
+
+          {/* Stats */}
+          <div style={{ display: "flex", gap: "16px", marginTop: "12px", fontSize: "0.7rem", color: "var(--text-dim)" }}>
+            <span>🌿 {scenario.branches.length} branches</span>
+            <span>⏺ {scenario.commits.length} commits</span>
+            <span>🔗 {scenario.connections.length} connections</span>
           </div>
         </div>
       )}

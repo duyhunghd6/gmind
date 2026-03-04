@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@gmind/design-system": "workspace:*",
+    "@hello-pangea/dnd": "^18.0.1",
     "@react-sigma/core": "^5.0.6",
     "@react-sigma/layout-forceatlas2": "^5.0.6",
     "eslint-config-next": "^16.1.6",
