@@ -14,7 +14,7 @@ Tạo các thư mục cần thiết theo đúng kiến trúc Polyglot Monorepo c
 
 ```bash
 // turbo-all
-mkdir -p docs/PRDs/core-gmind
+mkdir -p docs/PRDs
 mkdir -p docs/plans
 mkdir -p docs/researches/spikes
 mkdir -p docs/architecture/adr
@@ -22,7 +22,7 @@ mkdir -p docs/architecture/adr
 
 ## Bước 2: Sinh file Khởi điểm (Boilerplate PRD)
 
-Bạn hãy trực tiếp tạo file `docs/PRDs/core-gmind/PRD-00-Vision-and-Architecture.md` (nếu chưa có) hoặc nội dung Vision chuẩn để định hướng cho các Spike sau này, với cấu trúc có YAML metadata và thẻ `<!-- beads-id: br-prdXX-sY -->` theo chuẩn `arch-review-docs-add-beads`.
+Bạn hãy trực tiếp tạo file `docs/PRDs/PRD-00-Vision-and-Architecture.md` (nếu chưa có) hoặc nội dung Vision chuẩn để định hướng cho các Spike sau này, với cấu trúc có YAML metadata và thẻ `<!-- beads-id: br-prdXX-sY -->` theo chuẩn `arch-review-docs-add-beads`.
 
 ## Bước 3: Tạo File Kế hoạch (Boilerplate Plan)
 

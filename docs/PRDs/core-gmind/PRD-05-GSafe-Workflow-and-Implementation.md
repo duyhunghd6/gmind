@@ -72,15 +72,27 @@ Luồng công việc sau mô phỏng quá trình từ khi khởi tạo một ý 
   │
 [Phase: Continuous Integration / Execution]
   │
-  ├──► Step 6: Thực thi Mã nguồn & File Locking (Execution)
-  │    ├─ Tác nhân (Code Agent) nhận task lấy context qua `gmind context <id>`.
-  │    ├─ Khóa file làm việc qua MCP (`mcp_agent_mail file_reservation`).
-  │    └─ Hoàn thiện mã nguồn theo Plan.
+  ├─►[ VÒNG LẶP ITERATION START ]
+  │  │
+  │  ├──► Step 6a: (Optional) UI/UX Design System Mockups
+  │  │    ├─ Nếu có UI/UX: Gọi lệnh `/create-gsafe-design-system`.
+  │  │    ├─ Đọc PRDs, tạo HTML mockup liên tục theo các iterations (refine liên tục).
+  │  │    └─ Cập nhật State Matrix. Pass khi Matrix cover ≥ 90% PRD IDs.
+  │  │
+  │  ├──► Step 6b: Thực thi Mã nguồn & File Locking (Code Execution)
+  │  │    ├─ Code Agent nhận task lấy context qua `gmind context <id>`.
+  │  │    ├─ Khóa file làm việc qua MCP (`mcp_agent_mail file_reservation`).
+  │  │    └─ Hoàn thiện mã nguồn theo Plan.
+  │  │
+  │  ├──► Step 7: Push & CI/CD Verification Gate
+  │  │    ├─ Cập nhật Handover Report chuẩn bị kết thúc Iteration.
+  │  │    ├─ Commit code (sau khi gom nhóm tasks theo rule).
+  │  │    ├─ CI/CD test tự động (`golangci-lint`, `go test`).
+  │  │    └─ LEVEL 3 APPROVAL GATE: Reviewer Agent hoặc Human phê duyệt.
+  │  │
+  │  └──◄ (Loop back if Fail/Rejected or Next Iteration)
   │
-  └──► Step 7: Push & CI/CD Verification Gate (Verification)
-       ├─ Commit code kèm Git Trailer `Beads-ID: bd-xxxx`.
-       ├─ Đẩy qua tầng CI/CD chạy test tự động (`golangci-lint`, `go test`).
-       └─ [!!!] LEVEL 3 APPROVAL GATE: Reviewer Agent hoặc Human phê duyệt trước khi Merge / Đóng Task.
+  └──► [ EXIT ITERATION: Merge & Đóng Task ]
 ```
 
 ---

@@ -10,5 +10,5 @@
 
   Mô tả chi tiết những gì đã làm, nguyên nhân và tác động.
 
-  Beads-ID: br-xxx
+  Beads-ID: br-xxx, bd-xxx, br-ds-xxx
   ```
