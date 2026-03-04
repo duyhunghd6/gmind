@@ -1,0 +1,20 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Path Tree
+   ID: ds-comp-path-tree
+   States: default
+   ═══════════════════════════════════════════════ */
+
+.path-tree {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: var(--text-dim);
+  padding: var(--space-md);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.path-tree strong {
+  color: var(--text);
+}

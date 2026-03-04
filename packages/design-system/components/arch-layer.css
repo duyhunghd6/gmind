@@ -1,0 +1,48 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Architecture Layer
+   ID: ds-comp-arch-layer
+   States: default, hover, active, disabled
+   ═══════════════════════════════════════════════ */
+
+/* ---- Default ---- */
+.arch-layer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  position: relative;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+/* ---- Hover ---- */
+.arch-layer:hover {
+  border-color: var(--border-highlight);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+/* ---- Active ---- */
+.arch-layer:active,
+.arch-layer.active {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 24px rgba(14, 165, 233, 0.25);
+}
+
+/* ---- Disabled ---- */
+.arch-layer[aria-disabled="true"],
+.arch-layer.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ---- Layer Number (watermark) ---- */
+.arch-layer .layer-number {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  opacity: 0.15;
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  line-height: 1;
+}

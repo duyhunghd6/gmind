@@ -1,0 +1,100 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Button
+   ID: ds-comp-button
+   States: default, hover, active, disabled
+   Variants: btn-primary, btn-secondary, btn-danger
+   ═══════════════════════════════════════════════ */
+
+/* ---- Base Button ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* ---- Disabled (all variants) ---- */
+.btn[aria-disabled="true"],
+.btn.disabled,
+.btn:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ---- Variant: Primary ---- */
+.btn-primary {
+  background: var(--accent-cyan);
+  color: #0b1121;
+  border-color: var(--accent-cyan);
+}
+
+.btn-primary:hover {
+  background: #38bdf8;
+  border-color: #38bdf8;
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.3);
+}
+
+.btn-primary:active,
+.btn-primary.active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.4);
+}
+
+/* ---- Variant: Secondary ---- */
+.btn-secondary {
+  background: transparent;
+  color: var(--text-dim);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  color: var(--text);
+  border-color: var(--border-highlight);
+  background: var(--surface);
+}
+
+.btn-secondary:active,
+.btn-secondary.active {
+  transform: scale(0.97);
+  background: var(--surface-elevated);
+}
+
+/* ---- Variant: Danger ---- */
+.btn-danger {
+  background: transparent;
+  color: var(--accent-rose);
+  border-color: var(--accent-rose);
+}
+
+.btn-danger:hover {
+  background: rgba(244, 63, 94, 0.1);
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.2);
+}
+
+.btn-danger:active,
+.btn-danger.active {
+  transform: scale(0.97);
+  background: rgba(244, 63, 94, 0.15);
+}
+
+/* ---- Size: Small ---- */
+.btn-sm {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.8rem;
+}

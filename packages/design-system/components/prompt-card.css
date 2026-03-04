@@ -1,0 +1,59 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Prompt Card
+   ID: ds-comp-prompt-card
+   States: default, hover, active, disabled
+   ═══════════════════════════════════════════════ */
+
+/* ---- Default ---- */
+.prompt-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.prompt-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-teal));
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+/* ---- Hover ---- */
+.prompt-card:hover {
+  border-color: var(--border-highlight);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.prompt-card:hover::before {
+  opacity: 1;
+}
+
+/* ---- Active ---- */
+.prompt-card:active,
+.prompt-card.active {
+  transform: scale(0.98);
+  border-color: var(--accent-cyan);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.prompt-card:active::before,
+.prompt-card.active::before {
+  opacity: 1;
+}
+
+/* ---- Disabled ---- */
+.prompt-card[aria-disabled="true"],
+.prompt-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

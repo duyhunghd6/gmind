@@ -1,0 +1,11 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Layout: Glassmorphism
+   ID: ds-lay-glass
+   ═══════════════════════════════════════════════ */
+
+.glass {
+  background: rgba(11, 17, 33, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}

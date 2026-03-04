@@ -1,0 +1,30 @@
+/* ============================================================
+   @gmind/design-system — Barrel Import
+   Import this single file to get all tokens, components, and layouts
+   ============================================================ */
+
+/* ---- Tokens ---- */
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+
+/* ---- Components ---- */
+@import "./components/card.css";
+@import "./components/label.css";
+@import "./components/divider.css";
+@import "./components/code-block.css";
+@import "./components/prompt-card.css";
+@import "./components/arch-layer.css";
+@import "./components/path-tree.css";
+@import "./components/button.css";
+@import "./components/badge.css";
+@import "./components/tooltip.css";
+
+/* ---- Layouts ---- */
+@import "./layouts/navbar.css";
+@import "./layouts/footer.css";
+@import "./layouts/grid.css";
+@import "./layouts/glass.css";
+@import "./layouts/animations.css";
+@import "./layouts/hero.css";
+@import "./layouts/section.css";

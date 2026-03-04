@@ -1,0 +1,45 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Layout: Section Wrapper
+   ID: ds-lay-section
+   ═══════════════════════════════════════════════ */
+
+/* ---- Section Wrapper ---- */
+.section-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+/* ---- Section Header ---- */
+.section-header {
+  margin-bottom: var(--space-xl);
+}
+
+.section-header h2 {
+  margin-bottom: var(--space-sm);
+}
+
+.section-header p {
+  color: var(--text-dim);
+  max-width: 700px;
+}
+
+/* ---- Section Spacing Variants ---- */
+.section-wrapper--compact {
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.section-wrapper--flush {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 768px) {
+  .section-wrapper {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .section-wrapper--compact {
+    padding: var(--space-lg) var(--space-md);
+  }
+}

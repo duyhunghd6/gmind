@@ -1,0 +1,30 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Token: Spacing & Utilities
+   ID: ds-tok-spacing
+   States: N/A (design token)
+   ═══════════════════════════════════════════════ */
+
+:root {
+  /* Border Radius */
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-hero: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-glow-cyan: 0 0 20px rgba(14, 165, 233, 0.15);
+
+  /* Spacing Scale (base 4px) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 60px;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 500ms;
+}

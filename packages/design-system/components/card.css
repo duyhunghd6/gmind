@@ -1,0 +1,55 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Card
+   ID: ds-comp-card
+   States: default, hover, active, disabled
+   Variants: ve-card, ve-card--hero, ve-card--pillar
+   ═══════════════════════════════════════════════ */
+
+/* ---- Base Card (Default) ---- */
+.ve-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+
+/* ---- Card: Hover ---- */
+.ve-card:hover {
+  border-color: var(--border-highlight);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+/* ---- Card: Disabled ---- */
+.ve-card[aria-disabled="true"],
+.ve-card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ---- Variant: Hero ---- */
+.ve-card--hero {
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-hero);
+  border: 1px solid var(--border-highlight);
+}
+
+.ve-card--hero:hover {
+  transform: none;
+}
+
+/* ---- Variant: Pillar (accent left-border) ---- */
+.ve-card--pillar {
+  background: rgba(0, 0, 0, 0.1);
+  border-left-width: 3px;
+  border-left-style: solid;
+}
+
+.ve-card--pillar.accent-cyan  { border-left-color: var(--accent-cyan); }
+.ve-card--pillar.accent-teal  { border-left-color: var(--accent-teal); }
+.ve-card--pillar.accent-amber { border-left-color: var(--accent-amber); }
+.ve-card--pillar.accent-rose  { border-left-color: var(--accent-rose); }

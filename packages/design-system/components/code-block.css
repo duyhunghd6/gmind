@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Code Block
+   ID: ds-comp-code-block
+   States: default, hover (copy btn), copied
+   ═══════════════════════════════════════════════ */
+
+.code-block {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  overflow-x: auto;
+  color: var(--text-dim);
+}
+
+/* ---- Copy Button: Default ---- */
+.code-block .copy-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ---- Copy Button: Hover ---- */
+.code-block .copy-btn:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+/* ---- Copy Button: Copied ---- */
+.code-block .copy-btn.copied {
+  border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}

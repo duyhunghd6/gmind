@@ -1,0 +1,81 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Tooltip
+   ID: ds-comp-tooltip
+   States: default (hidden), visible (on hover)
+   ═══════════════════════════════════════════════ */
+
+/* ---- Trigger Wrapper ---- */
+.tooltip-trigger {
+  position: relative;
+  display: inline-flex;
+}
+
+/* ---- Tooltip Bubble ---- */
+.tooltip {
+  position: absolute;
+  z-index: 50;
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+/* ---- Position: Top (default) ---- */
+.tooltip--top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.tooltip--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--border-highlight);
+}
+
+/* ---- Position: Bottom ---- */
+.tooltip--bottom {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.tooltip--bottom::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-bottom-color: var(--border-highlight);
+}
+
+/* ---- Visible State ---- */
+.tooltip-trigger:hover .tooltip,
+.tooltip.visible {
+  opacity: 1;
+}
+
+.tooltip-trigger:hover .tooltip--top,
+.tooltip--top.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-trigger:hover .tooltip--bottom,
+.tooltip--bottom.visible {
+  transform: translateX(-50%) translateY(0);
+}

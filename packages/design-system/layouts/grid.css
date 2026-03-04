@@ -1,0 +1,33 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Layout: Grid System
+   ID: ds-lay-grid
+   ═══════════════════════════════════════════════ */
+
+/* Blueprint Grid Background */
+.bg-blueprint {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--blueprint-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--blueprint-line) 1px, transparent 1px);
+}
+
+/* Container */
+.container-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 2-Column Grid */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* 3-Column Grid */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}

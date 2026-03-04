@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Token: Color Palette
+   ID: ds-tok-colors
+   States: N/A (design token)
+   ═══════════════════════════════════════════════ */
+
+/* ---- Dark Mode (mặc định) ---- */
+:root {
+  /* Nền */
+  --bg: #0b1121;
+  --bg-gradient: radial-gradient(circle at top right, #1e293b 0%, #0b1121 100%);
+  --surface: #131c2f;
+  --surface-elevated: #1e293b;
+
+  /* Viền */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(14, 165, 233, 0.3);
+
+  /* Chữ */
+  --text: #f8fafc;
+  --text-dim: #94a3b8;
+
+  /* Nhấn */
+  --accent-cyan: #0ea5e9;
+  --accent-cyan-dim: rgba(14, 165, 233, 0.1);
+  --accent-teal: #14b8a6;
+  --accent-teal-dim: rgba(20, 184, 166, 0.1);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245, 158, 11, 0.1);
+  --accent-rose: #f43f5e;
+  --accent-rose-dim: rgba(244, 63, 94, 0.1);
+
+  /* Blueprint Grid */
+  --blueprint-line: rgba(56, 189, 248, 0.15);
+}
+
+/* ---- Light Mode ---- */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f0f4f8;
+    --bg-gradient: radial-gradient(circle at top right, #ffffff 0%, #f0f4f8 100%);
+    --surface: #ffffff;
+    --surface-elevated: #f8fafc;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-highlight: rgba(14, 165, 233, 0.4);
+    --text: #0f172a;
+    --text-dim: #475569;
+    --blueprint-line: rgba(14, 165, 233, 0.1);
+    --shadow-hero: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border);
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
+}

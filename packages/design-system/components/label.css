@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Section Label
+   ID: ds-comp-label
+   States: default
+   Variants: accent-cyan, accent-teal, accent-amber, accent-rose
+   ═══════════════════════════════════════════════ */
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-cyan);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.section-label::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.section-label.accent-cyan  { color: var(--accent-cyan); }
+.section-label.accent-teal  { color: var(--accent-teal); }
+.section-label.accent-amber { color: var(--accent-amber); }
+.section-label.accent-rose  { color: var(--accent-rose); }

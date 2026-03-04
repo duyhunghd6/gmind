@@ -1,0 +1,49 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Badge
+   ID: ds-comp-badge
+   States: default
+   Variants: badge-cyan, badge-teal, badge-amber, badge-rose
+   ═══════════════════════════════════════════════ */
+
+/* ---- Base Badge ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 999px;
+  border: 1px solid;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+
+/* ---- Cyan ---- */
+.badge-cyan {
+  color: var(--accent-cyan);
+  border-color: rgba(14, 165, 233, 0.3);
+  background: var(--accent-cyan-dim);
+}
+
+/* ---- Teal ---- */
+.badge-teal {
+  color: var(--accent-teal);
+  border-color: rgba(20, 184, 166, 0.3);
+  background: var(--accent-teal-dim);
+}
+
+/* ---- Amber ---- */
+.badge-amber {
+  color: var(--accent-amber);
+  border-color: rgba(245, 158, 11, 0.3);
+  background: var(--accent-amber-dim);
+}
+
+/* ---- Rose ---- */
+.badge-rose {
+  color: var(--accent-rose);
+  border-color: rgba(244, 63, 94, 0.3);
+  background: var(--accent-rose-dim);
+}

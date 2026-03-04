@@ -1,0 +1,24 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Section Divider
+   ID: ds-comp-divider
+   States: default
+   ═══════════════════════════════════════════════ */
+
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--space-2xl) 0;
+  position: relative;
+}
+
+.section-divider::after {
+  content: "▼";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 0 16px;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@gmind/design-system",
+  "version": "1.1.0",
+  "description": "Gmind Blueprint/Sci-Fi Design System — tokens, components, layouts",
+  "main": "index.css",
+  "files": [
+    "index.css",
+    "tokens/",
+    "components/",
+    "layouts/",
+    "registry.json"
+  ]
+}
