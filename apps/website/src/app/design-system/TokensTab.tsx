@@ -6,6 +6,7 @@ export default function TokensTab() {
   return (
     <div className="animate-fade-up">
       {/* Colors */}
+      <div id="colors">
       <SectionLabel text="Bảng Màu" accent="cyan" />
       <h2 style={{ marginBottom: "16px" }}>Màu sắc</h2>
       <div className="grid-3" style={{ marginBottom: "32px" }}>
@@ -21,10 +22,12 @@ export default function TokensTab() {
           </div>
         ))}
       </div>
+      </div>
 
       <SectionDivider />
 
       {/* Spacing */}
+      <div id="spacing">
       <SectionLabel text="Khoảng cách" accent="teal" />
       <h2 style={{ marginBottom: "16px" }}>Thang Khoảng cách</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
@@ -36,10 +39,12 @@ export default function TokensTab() {
           </div>
         ))}
       </div>
+      </div>
 
       <SectionDivider />
 
       {/* Typography */}
+      <div id="typography">
       <SectionLabel text="Kiểu chữ" accent="amber" />
       <h2 style={{ marginBottom: "16px" }}>Font</h2>
       <div className="grid-2" style={{ marginBottom: "32px" }}>
@@ -51,10 +56,12 @@ export default function TokensTab() {
           </div>
         ))}
       </div>
+      </div>
 
       <SectionDivider />
 
       {/* Animations */}
+      <div id="animations">
       <SectionLabel text="Hoạt ảnh" accent="rose" />
       <h2 style={{ marginBottom: "16px" }}>Hiệu ứng Chuyển động</h2>
       <div style={{ overflowX: "auto" }}>
@@ -102,6 +109,7 @@ export default function TokensTab() {
           <p style={{ color: "var(--text-dim)", fontSize: "0.8rem", marginTop: "4px" }}>Đổ bóng thẻ</p>
           <div style={{ width: "60px", height: "60px", background: "var(--surface-elevated)", borderRadius: "6px", marginTop: "12px", boxShadow: "0 4px 16px rgba(0,0,0,0.2)" }} />
         </div>
+      </div>
       </div>
     </div>
   );

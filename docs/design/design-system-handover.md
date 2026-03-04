@@ -1,6 +1,6 @@
 # Design System — Trạng thái Handover
 
-> **Ngày:** 2026-03-03
+> **Ngày:** 2026-03-04
 > **Agent:** Antigravity (phiên hiện tại)
 > **Mục đích:** Handover cho agent tiếp theo tiếp tục phát triển Design System
 
@@ -12,9 +12,9 @@
 | --------------------------------- | ----------------------------------------------------- |
 | Token (Màu, Spacing, Typography)  | ✅ Hoàn thành — tách files                            |
 | Components (10 thành phần)        | ✅ Hoàn thành — tách files, có metadata ID            |
-| Layouts (7 bố cục)                | ✅ Hoàn thành — tách files                            |
+| Layouts (8 bố cục)                | ✅ Hoàn thành — tách files                            |
 | Registry (`registry.json`)        | ✅ Hoàn thành v1.2.0 — ID cho tất cả thành phần       |
-| Showcase Website `/design-system` | ✅ Hoàn thành — 4 tab tương tác                       |
+| Showcase Website `/design-system` | ✅ Hoàn thành — 3-column docs layout                  |
 | Dọn dẹp file cũ (monolithic)      | ✅ Hoàn thành — `tokens.css`, `components.css` đã xóa |
 | States đầy đủ (4 states)          | ✅ Hoàn thành — PromptCard, ArchLayer đã bổ sung      |
 | Element Diff Protocol             | ❌ Chưa triển khai                                    |
@@ -25,7 +25,7 @@
 
 ```
 packages/design-system/
-├── index.css               # Barrel import (31 dòng)
+├── index.css               # Barrel import (32 dòng)
 ├── registry.json           # Đăng ký ID + states cho mọi thành phần (v1.2.0)
 ├── package.json            # @gmind/design-system v1.1.0
 ├── tokens/
@@ -49,8 +49,9 @@ packages/design-system/
     ├── grid.css             # ds-lay-grid (34 dòng)
     ├── glass.css            # ds-lay-glass (12 dòng)
     ├── animations.css       # ds-lay-animations (45 dòng)
-    ├── hero.css             # ds-lay-hero — Hero section layout (63 dòng) [MỚI]
-    └── section.css          # ds-lay-section — Section wrapper (45 dòng) [MỚI]
+    ├── hero.css             # ds-lay-hero — Hero section layout (63 dòng)
+    ├── section.css          # ds-lay-section — Section wrapper (45 dòng)
+    └── docs-layout.css      # ds-lay-docs-layout — 3-column grid layout (170 dòng) [MỚI]
 ```
 
 ## 3. Website Showcase Pages
@@ -64,11 +65,11 @@ apps/website/src/
 │   ├── prompts/page.tsx      # Prompts & Quy trình
 │   ├── research/page.tsx     # Nghiên cứu (PRDs + Spikes)
 │   └── design-system/
-│       ├── page.tsx           # Tab compositor (82 dòng)
-│       ├── TokensTab.tsx      # Tab Token (109 dòng)
-│       ├── ComponentsTab.tsx  # Tab Thành phần — 10 components (152 dòng)
-│       ├── StatesTab.tsx      # Tab Ma trận Trạng thái (65 dòng)
-│       └── FlowsTab.tsx      # Tab Luồng Người dùng (49 dòng)
+│       ├── page.tsx           # 3-column layout compositor
+│       ├── TokensTab.tsx      # Tokens content (with id anchors)
+│       ├── ComponentsTab.tsx  # Components content (with id anchors)
+│       ├── StatesTab.tsx      # Ma trận Trạng thái
+│       └── FlowsTab.tsx      # Luồng Người dùng
 ├── components/
 │   ├── Navbar.tsx            # 6 links (incl. Design System)
 │   ├── Footer.tsx            # 4 links (incl. Design System)
@@ -76,9 +77,11 @@ apps/website/src/
 │   ├── PillarCard.tsx
 │   ├── SectionLabel.tsx
 │   ├── SectionDivider.tsx
-│   ├── Button.tsx            # React wrapper cho button.css [MỚI]
-│   ├── Badge.tsx             # React wrapper cho badge.css [MỚI]
-│   └── Tooltip.tsx           # React wrapper cho tooltip.css [MỚI]
+│   ├── Button.tsx            # React wrapper cho button.css
+│   ├── Badge.tsx             # React wrapper cho badge.css
+│   ├── Tooltip.tsx           # React wrapper cho tooltip.css
+│   ├── DocsSidebar.tsx       # Left sidebar — 5 nhóm chính [MỚI]
+│   └── DocsToc.tsx           # Right sidebar TOC [MỚI]
 └── data/
     ├── design-system-data.ts # Data cho showcase
     ├── prompts-data.ts
@@ -103,7 +106,7 @@ apps/website/src/
 ### Ưu tiên trung bình
 
 - [ ] **Element Diff Protocol:** Triển khai before/after HTML cho mỗi sửa đổi UI
-- [ ] **Thêm component: Tab Bar** — Tách tab bar từ design-system page thành component riêng
+- [x] ~~**3-column layout:** Chuyển từ tab bar ngang sang docs layout 3 cột~~
 
 ### Ưu tiên thấp
 

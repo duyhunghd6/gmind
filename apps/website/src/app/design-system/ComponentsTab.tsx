@@ -12,6 +12,7 @@ export default function ComponentsTab() {
   return (
     <div className="animate-fade-up">
       {/* Cards */}
+      <div id="cards">
       <SectionLabel text="Thẻ (Cards)" accent="cyan" />
       <h2 style={{ marginBottom: "16px" }}>Các biến thể Thẻ</h2>
       <div className="grid-2" style={{ marginBottom: "32px" }}>
@@ -41,9 +42,11 @@ export default function ComponentsTab() {
         <PillarCard accent="rose" label="accent=rose" title="Hệ sinh thái" description="Viền trái rose, nhãn rose" codeSnippets={["mcp_agent_mail"]} />
       </div>
 
+      </div>
       <SectionDivider />
 
       {/* Buttons */}
+      <div id="buttons">
       <SectionLabel text="Nút (Buttons)" accent="cyan" />
       <h2 style={{ marginBottom: "16px" }}>Button — 3 Biến thể</h2>
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "24px" }}>
@@ -59,9 +62,11 @@ export default function ComponentsTab() {
         <Button variant="danger" disabled>Danger Disabled</Button>
       </div>
 
+      </div>
       <SectionDivider />
 
       {/* Badges */}
+      <div id="badges">
       <SectionLabel text="Nhãn trạng thái (Badge)" accent="teal" />
       <h2 style={{ marginBottom: "16px" }}>Badge — 4 Biến thể Màu</h2>
       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "32px" }}>
@@ -71,9 +76,11 @@ export default function ComponentsTab() {
         <Badge accent="rose">Lỗi</Badge>
       </div>
 
+      </div>
       <SectionDivider />
 
       {/* Tooltip */}
+      <div id="tooltips">
       <SectionLabel text="Chú thích (Tooltip)" accent="amber" />
       <h2 style={{ marginBottom: "16px" }}>Tooltip — CSS-only Hover</h2>
       <div style={{ display: "flex", gap: "32px", flexWrap: "wrap", marginBottom: "32px", paddingTop: "48px" }}>
@@ -85,9 +92,11 @@ export default function ComponentsTab() {
         </Tooltip>
       </div>
 
+      </div>
       <SectionDivider />
 
       {/* Labels & Dividers */}
+      <div id="labels">
       <SectionLabel text="Nhãn & Phân cách" accent="amber" />
       <h2 style={{ marginBottom: "16px" }}>SectionLabel — 4 Biến thể</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
@@ -98,9 +107,11 @@ export default function ComponentsTab() {
       </div>
 
       <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", marginBottom: "8px" }}>SectionDivider</p>
+      </div>
       <SectionDivider />
 
       {/* Code Block */}
+      <div id="code-block">
       <SectionLabel text="Khối Mã nguồn" accent="cyan" />
       <h2 style={{ marginBottom: "16px" }}>CodeBlock — Nút Sao chép</h2>
       <CodeBlock
@@ -111,9 +122,11 @@ gmind trace bd-x1y2`}
         title="CODE BLOCK VÍ DỤ"
       />
 
+      </div>
       <div style={{ marginTop: "32px" }} />
 
       {/* Prompt Card */}
+      <div id="prompt-card">
       <SectionLabel text="Thẻ Prompt" accent="teal" />
       <h2 style={{ marginBottom: "16px" }}>PromptCard</h2>
       <div className="prompt-card" style={{ marginBottom: "32px" }}>
@@ -126,9 +139,11 @@ gmind trace bd-x1y2`}
         <p style={{ color: "var(--text-dim)", marginBottom: "8px" }}>Di chuột để xem gradient trên cùng xuất hiện và thẻ nâng lên.</p>
       </div>
 
+      </div>
       <SectionDivider />
 
       {/* Layout Grid */}
+      <div id="grid-layout">
       <SectionLabel text="Bố cục Lưới" accent="amber" />
       <h2 style={{ marginBottom: "16px" }}>Grid-2, Grid-3, Glassmorphism</h2>
       <div className="grid-3" style={{ marginBottom: "24px" }}>
@@ -148,17 +163,23 @@ gmind trace bd-x1y2`}
         ))}
       </div>
 
+      </div>
+
+      <div id="glass-effect">
       <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", marginBottom: "8px" }}>.glass (Glassmorphism)</p>
       <div className="glass" style={{ padding: "24px", borderRadius: "var(--radius-lg)", marginBottom: "16px" }}>
         <p>Hiệu ứng kính mờ (backdrop-filter: blur) — dùng cho Navbar.</p>
       </div>
+      </div>
 
+      <div id="path-tree">
       <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--accent-teal)", marginBottom: "8px" }}>.path-tree</p>
       <div className="path-tree">
         <strong>/gmind/</strong><br />
         ├── <strong>apps/</strong> <span style={{ color: "var(--accent-teal)" }}>// Ứng dụng</span><br />
         ├── <strong>packages/</strong> <span style={{ color: "var(--accent-amber)" }}>// Thư viện</span><br />
         └── <strong>docs/</strong> <span style={{ color: "var(--text-dim)" }}>// Tài liệu</span>
+      </div>
       </div>
     </div>
   );

@@ -1,0 +1,184 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Layout: Docs Layout (3-column)
+   ID: ds-lay-docs-layout
+   Reference: pinchtab.com/docs
+   ═══════════════════════════════════════════════ */
+
+/* ---- 3-Column Grid ---- */
+.docs-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr 200px;
+  min-height: calc(100vh - 60px);
+  gap: 0;
+}
+
+/* ---- Left Sidebar ---- */
+.docs-sidebar {
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: var(--space-lg) 0 var(--space-lg) var(--space-lg);
+  border-right: 1px solid var(--border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.docs-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.docs-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* Sidebar Group */
+.docs-sidebar__group {
+  margin-bottom: var(--space-lg);
+}
+
+.docs-sidebar__group-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  padding: 0 var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+/* Sidebar Item */
+.docs-sidebar__item {
+  display: block;
+  padding: 6px var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+}
+
+.docs-sidebar__item:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.docs-sidebar__item.active {
+  color: var(--text);
+  background: var(--accent-cyan);
+  background: rgba(14, 165, 233, 0.15);
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+/* ---- Center Content ---- */
+.docs-content {
+  padding: var(--space-xl) var(--space-xl);
+  overflow-y: auto;
+  max-width: 100%;
+}
+
+/* ---- Right Sidebar (TOC) ---- */
+.docs-toc {
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: var(--space-lg) var(--space-md) var(--space-lg) var(--space-lg);
+  border-left: 1px solid var(--border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.docs-toc::-webkit-scrollbar {
+  width: 4px;
+}
+
+.docs-toc::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.docs-toc__title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+  margin-bottom: var(--space-sm);
+}
+
+.docs-toc__item {
+  display: block;
+  padding: 4px 0;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-body);
+}
+
+.docs-toc__item:hover {
+  color: var(--text);
+}
+
+.docs-toc__item.active {
+  color: var(--accent-amber);
+  font-weight: 500;
+}
+
+/* ---- Responsive ---- */
+
+/* Collapse right sidebar < 1100px */
+@media (max-width: 1100px) {
+  .docs-layout {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .docs-toc {
+    display: none;
+  }
+}
+
+/* Collapse both sidebars < 768px */
+@media (max-width: 768px) {
+  .docs-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .docs-sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 280px;
+    height: calc(100vh - 60px);
+    z-index: 40;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    transform: translateX(-100%);
+    transition: transform var(--duration-normal) var(--ease-out);
+    padding: var(--space-lg);
+  }
+
+  .docs-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .docs-content {
+    padding: var(--space-lg) var(--space-md);
+  }
+}
