@@ -9,19 +9,19 @@
 
 Bảng này ánh xạ các tính năng cấp hệ thống trong PRD sang các màn hình giao diện cụ thể trong ứng dụng Showcase Design System (`apps/website/src/app/design-system/`).
 
-| PRD Section ID | Tên Yêu cầu (PRD)              | Màn hình Design System (Screen ID / Link)                   | Trạng thái (Coverage) | Ghi chú                                           |
-| :------------- | :----------------------------- | :---------------------------------------------------------- | :-------------------: | :------------------------------------------------ |
-| `br-prd00-s4`  | Escalation Ladder (5 cấp độ)   | `br-ds-approval` / `br-ds-kanban`                           |      🟢 Covered       | Đã bổ sung UI cảnh báo Level 2 Escalation         |
-| `br-prd01-s2`  | Knowledge Graph Engine         | `br-ds-knowledge-graph`                                     |      🟢 Covered       | Đã có 3 chế độ (Simple, Ecosystem, Sprint View)   |
-| `br-prd02-s4`  | RTM - Mô hình 3 tầng truy vết  | `br-ds-beads-traversal`                                     |      🟢 Covered       | Hiển thị quá trình trace từ PRD xuống Commit      |
-| `br-prd03-s1`  | API Gateway (CLI)              | `br-ds-terminal`                                            |      🟢 Covered       | Thể hiện output của `gmind` CLI                   |
-| `br-prd03-s4`  | RTE Approval Workflow          | `br-ds-approval`                                            |      🟢 Covered       | Các Approval Panels có đầy đủ                     |
-| `br-prd04-s1`  | PM Custom Fields (SQL Columns) | `br-ds-kanban`                                              |      🟢 Covered       | Thể hiện qua thẻ task trên Sprint/Release Board   |
-| `br-prd04-s3`  | Các Giao diện Quản trị (SAFe)  | `br-ds-portfolio-view`, `br-ds-pi-planning`, `br-ds-kanban` |      🟢 Covered       | Đã cập nhật Portfolio View và PI Planning Sandbox |
-| `br-prd04-s4`  | Level 3 Approval Gates         | `br-ds-approval`                                            |      🟢 Covered       | Tích hợp The Ultimate Approval Panel              |
-| `br-prd04-s5`  | Đồ thị Tài liệu & Lịch sử HITL | `br-ds-git-graph` / `br-ds-explorer`                        |      🟢 Covered       | Khám phá tài liệu và truy vết Git Worktree        |
-| `br-prd04-s6`  | RTM Dashboard                  | `br-ds-approval#heatmap`                                    |      🟢 Covered       | 4-panel dashboard hiển thị Coverage Heatmap       |
-| `br-prd05-s2`  | Luồng Triển khai GSAFe         | `br-ds-storyboard`                                          |      🟢 Covered       | Toàn bộ các Use Case Storyboards liên quan        |
+| PRD Section ID | Tên Yêu cầu (PRD)              | Màn hình Design System (Screen ID / Link)                   | Trạng thái (Coverage) | Ghi chú                                              |
+| :------------- | :----------------------------- | :---------------------------------------------------------- | :-------------------: | :--------------------------------------------------- |
+| `br-prd00-s4`  | Escalation Ladder (5 cấp độ)   | `br-ds-approval` / `br-ds-kanban`                           |      🟢 Covered       | Đã bổ sung UI cảnh báo Level 2 Escalation            |
+| `br-prd01-s2`  | Knowledge Graph Engine         | `br-ds-knowledge-graph`                                     |      🟢 Covered       | Đã có 3 chế độ (Simple, Ecosystem, Sprint View)      |
+| `br-prd02-s4`  | RTM - Mô hình 3 tầng truy vết  | `br-ds-beads-traversal`                                     |      🟢 Covered       | Hiển thị quá trình trace từ PRD xuống Commit         |
+| `br-prd03-s1`  | API Gateway (CLI)              | `br-ds-terminal`                                            |      🟢 Covered       | Thể hiện output của `gmind` CLI                      |
+| `br-prd03-s4`  | RTE Approval Workflow          | `br-ds-approval`                                            |      🟢 Covered       | Các Approval Panels có đầy đủ                        |
+| `br-prd04-s1`  | PM Custom Fields (SQL Columns) | `br-ds-kanban`                                              |      🟢 Covered       | Thể hiện qua thẻ task trên Sprint/Release Board      |
+| `br-prd04-s3`  | Các Giao diện Quản trị (SAFe)  | `br-ds-portfolio-view`, `br-ds-pi-planning`, `br-ds-kanban` |      🟡 Partial       | Đã có screen, nhưng Sandbox thiếu hoạt ảnh drag-drop |
+| `br-prd04-s4`  | Level 3 Approval Gates         | `br-ds-approval`                                            |      🟢 Covered       | Tích hợp The Ultimate Approval Panel                 |
+| `br-prd04-s5`  | Đồ thị Tài liệu & Lịch sử HITL | `br-ds-git-graph` / `br-ds-explorer`                        |      🟢 Covered       | Khám phá tài liệu và truy vết Git Worktree           |
+| `br-prd04-s6`  | RTM Dashboard                  | `br-ds-approval#heatmap`                                    |      🟢 Covered       | 4-panel dashboard hiển thị Coverage Heatmap          |
+| `br-prd05-s2`  | Luồng Triển khai GSAFe         | `br-ds-storyboard`                                          |      🟢 Covered       | Toàn bộ các Use Case Storyboards liên quan           |
 
 ## 2. GSAFe Workflows to StoryBoards Mapping
 
@@ -42,10 +42,8 @@ Bảng này ánh xạ các quy trình Agile (SAFe) thành các Use Cases/Storybo
 
 ## 3. Khoảng trống Yêu cầu (Missing Components / Logic)
 
-- **Đã giải quyết tất cả các gaps:**
-  - `br-ds-portfolio-view` đã được khởi tạo để đáp ứng PRD-04 (Portfolio View UI).
-  - `br-ds-pi-planning` đã được khởi tạo để đáp ứng PRD-04 (PI Planning Sandbox, ROAM Board).
-  - UI cảnh báo trạng thái Escalation đã được triển khai cho thẻ Kanban và Approval Panel (`br-prd00-s4`).
+- **Partial Gap: Tương tác Drag & Drop tại PI Planning Sandbox:** Screen `br-ds-pi-planning` đã được dựng khung UI tĩnh, tuy nhiên PRD-04 yêu cầu "Interactive UI: Strategic Sandbox". Cần tích hợp thư viện `@hello-pangea/dnd` để kéo thả phân bổ Capacity.
+- **Partial Gap: Hỗ trợ linh hoạt Dark/Light mode contrast:** Các màn hình Admin / Portfolio View mới xây dựng có thể gặp vấn đề về contrast trên Light mode. Cần kiểm duyệt lại toàn diện.
 
 ---
 
