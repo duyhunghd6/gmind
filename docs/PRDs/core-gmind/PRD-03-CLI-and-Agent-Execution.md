@@ -133,6 +133,7 @@ stateDiagram-v2
   - > ✅ **Đã áp dụng theo khuyến nghị PO:** Cơ chế **Lease Timeout** (Tự nhả khóa sau 15 phút) được bật mặc định. Web UI có tính năng **Lease Timeout Alert** (nhấp nháy báo động đỏ) để Human can thiệp: Kill session agent hoặc Release Lease thủ công.
   - Tương tác với `mcp_agent_mail file_reservation`, hiển thị trên Web UI (Agent Village).
 - **Coordination (Agent Village UI):** Human có thể xem **Swarm Activity Feed** theo dõi dòng thời gian: agent nào khóa file `reason="br-123"`, gửi mail/giải quyết conflict nội bộ với agent nào thông qua `thread_id="br-123"`.
+  - > ⚠️ **Ghi chú kiến trúc (2026-03-05):** Giao diện "Agent Village" **sẽ KHÔNG được triển khai** trong Gmind Design System hay Core WebUI. Thay vào đó, tính năng quản trị Swarm Coordination này sẽ được tách riêng và phát triển dưới dạng một phân hệ độc lập thuộc các sản phẩm khác của hệ sinh thái GSAFe.
 - **Verification:** Code bắt buộc qua CI/CD Testing & Linting trước khi được phép Complete.
 - **Traceability Tagging (bắt buộc):** Khi tạo task mới (`bd create`), Agent **PHẢI** gắn traceability tags để liên kết với Plan và PRD:
   ```bash
