@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import Graph from "graphology";
-import { SigmaContainer, useRegisterEvents, useSigma } from "@react-sigma/core";
+import { SigmaContainer, useRegisterEvents, useSigma, ControlsContainer, ZoomControl, FullScreenControl } from "@react-sigma/core";
 import { useWorkerLayoutForceAtlas2 } from "@react-sigma/layout-forceatlas2";
 import "@react-sigma/core/lib/style.css";
 
@@ -155,6 +155,10 @@ export default function KnowledgeGraphViewer({ data, onSelect }: { data: GraphDa
       >
         <ForceLayout />
         <GraphEvents onSelect={onSelect || (() => {})} />
+        <ControlsContainer position={"bottom-right"} className="sigma-controls-glass">
+          <ZoomControl className="sigma-btn-glass" />
+          <FullScreenControl className="sigma-btn-glass" />
+        </ControlsContainer>
       </SigmaContainer>
     </div>
   );

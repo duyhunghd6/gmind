@@ -1,139 +1,40 @@
-/* ID: ds-comp-git-graph */
-/* States: default, hover */
-/* Description: Đồ thị nhánh Git — SVG dots/lines, color-coded branches, tag badges */
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Sigma Graph Overrides
+   ═══════════════════════════════════════════════ */
 
-/* ── Branch Color Tokens ── */
-:root {
-  --branch-master: #58a6ff;
-  --branch-hotfix: #ff7b72;
-  --branch-release: #79c0ff;
-  --branch-develop: #d2a8ff;
-  --branch-feature-1: #3fb9a0;
-  --branch-feature-2: #7ee787;
-  --graph-line-width: 2px;
-  --graph-dot-size: 12px;
-  --graph-bg: transparent;
-}
-
-/* ── Container ── */
-.git-graph {
-  position: relative;
-  padding: var(--space-4, 16px);
-  overflow-x: auto;
-}
-
-.git-graph__svg {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* ── Branch Lines ── */
-.git-graph__line {
-  fill: none;
-  stroke-width: var(--graph-line-width);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.git-graph__line--master { stroke: var(--branch-master); }
-.git-graph__line--hotfix { stroke: var(--branch-hotfix); }
-.git-graph__line--release { stroke: var(--branch-release); }
-.git-graph__line--develop { stroke: var(--branch-develop); }
-.git-graph__line--feature-1 { stroke: var(--branch-feature-1); }
-.git-graph__line--feature-2 { stroke: var(--branch-feature-2); }
-
-/* ── Commit Dots ── */
-.git-graph__dot {
-  r: calc(var(--graph-dot-size) / 2);
-  stroke-width: 2px;
-  stroke: var(--term-bg, #0d1117);
-  cursor: pointer;
-  transition: r var(--duration-fast, 150ms) var(--ease-out, ease-out);
-}
-
-.git-graph__dot--master { fill: var(--branch-master); }
-.git-graph__dot--hotfix { fill: var(--branch-hotfix); }
-.git-graph__dot--release { fill: var(--branch-release); }
-.git-graph__dot--develop { fill: var(--branch-develop); }
-.git-graph__dot--feature-1 { fill: var(--branch-feature-1); }
-.git-graph__dot--feature-2 { fill: var(--branch-feature-2); }
-
-.git-graph__dot:hover {
-  r: calc(var(--graph-dot-size) / 2 + 2px);
-  filter: drop-shadow(0 0 6px currentColor);
-}
-
-.git-graph__dot:active {
-  r: calc(var(--graph-dot-size) / 2 + 3px);
-  filter: drop-shadow(0 0 10px currentColor);
-}
-
-/* ── Tag / Version Labels ── */
-.git-graph__tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 1px 5px;
-  border-radius: 3px;
-  font-family: var(--font-mono, "Fira Code", monospace);
-  font-size: 0.5rem;
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.git-graph__tag--version {
-  background: rgba(88, 166, 255, 0.15);
-  color: var(--branch-master);
-  border: 1px solid rgba(88, 166, 255, 0.3);
-}
-
-.git-graph__tag--hotfix {
-  background: rgba(255, 123, 114, 0.15);
-  color: var(--branch-hotfix);
-  border: 1px solid rgba(255, 123, 114, 0.3);
-}
-
-/* ── Branch Legend ── */
-.git-graph__legend {
+.sigma-controls-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3, 12px);
-  margin-top: var(--space-3, 12px);
-  font-size: 0.75rem;
+  gap: 4px;
 }
 
-.git-graph__legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-dim, #8b949e);
+.sigma-btn-glass {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease !important;
 }
 
-.git-graph__legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.sigma-btn-glass:hover {
+  background: var(--surface-elevated) !important;
+  border-color: var(--text-dim) !important;
 }
 
-/* ── Commit Tooltip (on hover) ── */
-.git-graph__commit-info {
-  position: absolute;
-  padding: 8px 12px;
-  background: var(--surface, #161b22);
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.06));
-  border-radius: var(--radius-sm, 6px);
-  font-size: 0.75rem;
-  color: var(--text, #c9d1d9);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--duration-fast, 150ms);
-  z-index: 10;
-  white-space: nowrap;
+.sigma-search-glass input {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
 }
 
-.git-graph__dot:hover ~ .git-graph__commit-info {
-  opacity: 1;
+@media (prefers-color-scheme: light) {
+  .sigma-controls-glass {
+    background: rgba(0, 0, 0, 0.03);
+  }
 }

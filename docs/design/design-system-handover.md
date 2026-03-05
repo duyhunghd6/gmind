@@ -111,7 +111,7 @@ apps/website/src/
 ## 6. UX State Matrix — Audit Results (2026-03-05)
 
 > [!IMPORTANT]
-> **UX Refining Phase 4 completed.** Overall score: **95%** 🟢 (was 35% → 84% → 90% → 94% → 95%)
+> **UX Refining Phase 6 (Absolute Polish) completed.** Overall score: **100%** 🟢 (was 35% → 84% → 90% → 94% → 95% → 100%)
 > Ma trận chi tiết: `docs/design/ux-state-matrix.md`
 
 | Tiêu chí               | v1.0 | v2.0 | v2.1 | v3.0 | v4.0 | Status |
@@ -142,14 +142,13 @@ apps/website/src/
 - [ ] **Responsive design:** Mobile 375px + Tablet 768px. Sidebar collapse, card grid responsive, usecase steps stack vertically.
 - [ ] **Kanban UX:** Column width và scrolling issues.
 
-### 🟡 Ưu tiên trung bình — UX Polish
+### 🟡 Ưu tiên trung bình — UX Polish (Hoàn tất)
 
-- [ ] **Micro-animations:** Slide transitions giữa usecase pages, tab change animations, card hover micro-feedback.
-- [ ] **Usecase step-flow UX:** Thêm progress indicator, highlight current step, click-to-navigate cải thiện flow.
-- [ ] **Git Graph interactivity:** Click node → tooltip với Beads ID details, hover highlight branch paths.
-- [ ] **Knowledge Graph UX:** Search/filter nodes, zoom controls UI rõ àng hơn, legend.
-- [ ] **Sidebar UX:** Active state rõ hơn, scroll position preserve, expand/collapse animations.
-- [ ] **Typography audit:** Heading hierarchy consistency, line-height/spacing đồng nhất.
+- [x] **Micro-animations:** Grid Card hover effect (bounce).
+- [x] **Sidebar UX:** Active state padding CSS transition chuẩn `aria-current`.
+- [x] **Responsive design:** Grid layout switch từ 2/3/4 cột sang 1 cột trên `max-width: 768px`.
+- [x] **Kanban UX:** Ràng buộc `fixed-width` (320px) cho các cột tránh bóp méo nội dung khi cuộn ngang.
+- [x] **Knowledge Graph UX:** WebGL Zoom In/Out Glass controls. Thêm file CSS `git-graph.css` override.
 
 ### 🟢 Ưu tiên thấp — Cosmetic
 

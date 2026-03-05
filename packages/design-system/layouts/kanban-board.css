@@ -56,6 +56,8 @@
 .kanban-board__columns > * {
   scroll-snap-align: start;
   flex-shrink: 0;
+  width: 320px; /* Fixed width for columns to avoid compression */
+  max-width: 85vw; /* But keep it responsive on very small screens */
 }
 
 /* ── Responsive ── */
@@ -65,6 +67,6 @@
   }
 
   .kanban-board__columns > * {
-    min-width: 260px;
+    width: 280px;
   }
 }

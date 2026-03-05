@@ -20,8 +20,8 @@
 /* ---- Card: Hover ---- */
 .ve-card:hover {
   border-color: var(--border-highlight);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hero);
 }
 
 /* ---- Card: Disabled ---- */
