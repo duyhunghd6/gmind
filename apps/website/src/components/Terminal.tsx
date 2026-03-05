@@ -1,7 +1,7 @@
 "use client";
 
 interface TerminalLine {
-  type?: "command" | "output" | "error" | "success";
+  type?: "command" | "output" | "error" | "success" | "comment";
   prompt?: string;
   text: string;
 }

@@ -7,12 +7,13 @@ import PromptsSidebar from "@/components/PromptsSidebar";
 import PromptViewer from "@/components/PromptViewer";
 
 export default function PromptsPage() {
-  const [activeSection, setActiveSection] = useState<"workflows" | "setup" | "theory">("setup");
+  const [activeSection, setActiveSection] = useState<"workflows" | "setup" | "theory" | "research">("setup");
   
   const [activeGuideId, setActiveGuideId] = useState<string | null>(setupGuides[0].id);
   const [activeTheoryId, setActiveTheoryId] = useState<string | null>(null);
   const [activeWorkflowId, setActiveWorkflowId] = useState<string | null>(null);
   const [activeStepId, setActiveStepId] = useState<string | null>(null);
+  const [activeResearchId, setActiveResearchId] = useState<string | null>(null);
 
   // Data Selectors
   const activeGuide = setupGuides.find((g) => g.id === activeGuideId);
@@ -30,6 +31,7 @@ export default function PromptsPage() {
     setActiveTheoryId(null);
     setActiveWorkflowId(null);
     setActiveStepId(null);
+    setActiveResearchId(null);
   };
 
   const handleSelectTheory = (theoryId: string) => {
@@ -37,6 +39,17 @@ export default function PromptsPage() {
     setActiveTheoryId(theoryId);
     // Reset others
     setActiveGuideId(null);
+    setActiveWorkflowId(null);
+    setActiveStepId(null);
+    setActiveResearchId(null);
+  };
+
+  const handleSelectResearch = (researchId: string) => {
+    setActiveSection("research");
+    setActiveResearchId(researchId);
+    // Reset others
+    setActiveGuideId(null);
+    setActiveTheoryId(null);
     setActiveWorkflowId(null);
     setActiveStepId(null);
   };
@@ -48,6 +61,7 @@ export default function PromptsPage() {
     // Reset others
     setActiveGuideId(null);
     setActiveTheoryId(null);
+    setActiveResearchId(null);
   };
 
   const handleSelectStep = (stepId: string) => {
@@ -76,11 +90,13 @@ export default function PromptsPage() {
           activeStepId={activeStepId}
           activeGuideId={activeGuideId}
           activeTheoryId={activeTheoryId}
+          activeResearchId={activeResearchId}
           
           onSelectWorkflow={handleSelectWorkflow}
           onSelectStep={handleSelectStep}
           onSelectSetup={handleSelectSetup}
           onSelectTheory={handleSelectTheory}
+          onSelectResearch={handleSelectResearch}
         />
       </div>
       <main className="docs-content" style={{ padding: "40px 20px 80px", minWidth: 0 }}>
@@ -90,6 +106,7 @@ export default function PromptsPage() {
           step={activeStep} 
           setupGuide={activeGuide}
           theoryTopic={activeTheory}
+          researchId={activeResearchId}
         />
       </main>
     </div>

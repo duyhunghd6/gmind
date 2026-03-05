@@ -8,16 +8,18 @@ interface PromptsSidebarProps {
   setupGuides: SetupGuide[];
   theoryTopics: TheoryTopic[];
   
-  activeSection: "workflows" | "setup" | "theory";
+  activeSection: "workflows" | "setup" | "theory" | "research";
   activeWorkflowId: string | null;
   activeStepId: string | null;
   activeGuideId: string | null;
   activeTheoryId: string | null;
+  activeResearchId: string | null;
   
   onSelectWorkflow: (workflowId: string) => void;
   onSelectStep: (stepId: string) => void;
   onSelectSetup: (guideId: string) => void;
   onSelectTheory: (theoryId: string) => void;
+  onSelectResearch: (researchId: string) => void;
 }
 
 export default function PromptsSidebar({
@@ -30,11 +32,13 @@ export default function PromptsSidebar({
   activeStepId,
   activeGuideId,
   activeTheoryId,
+  activeResearchId,
   
   onSelectWorkflow,
   onSelectStep,
   onSelectSetup,
   onSelectTheory,
+  onSelectResearch,
 }: PromptsSidebarProps) {
 
   return (
@@ -72,6 +76,17 @@ export default function PromptsSidebar({
               </span>
             </button>
           ))}
+          
+          {/* Research Spike Link */}
+          <button
+              className={`docs-sidebar__item ${activeSection === "research" ? "active" : ""}`}
+              onClick={() => onSelectResearch("500-issues")}
+            >
+              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span aria-hidden="true" style={{ opacity: 0.7 }}>🔍</span>
+                Nghiên cứu: 500 Vấn đề
+              </span>
+          </button>
 
         </div>
       </div>
