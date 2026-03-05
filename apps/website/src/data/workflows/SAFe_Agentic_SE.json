@@ -1,0 +1,95 @@
+{
+  "id": "wf-gsafe-full",
+  "title": "5. Agentic SE (GSAFe 6.0)",
+  "description": "Quy trình mức Doanh nghiệp: Yêu cầu tính truy vết 100%, Design System song hành và CI/CD nghiêm ngặt.",
+  "steps": [
+    {
+      "id": "gs-1",
+      "title": "Khởi tạo Yêu cầu Cấp độ Doanh nghiệp",
+      "role": "User",
+      "description": "Đưa ra Epics lớn cần giải quyết.",
+      "input": "Business Epic",
+      "output": "Initiation Trigger",
+      "loopGroup": "None",
+      "projectStateScenario": "Dự án Doanh nghiệp với nhiều đội ngũ (Agile Release Train), cần tài liệu chặt chẽ và theo dõi RTM ma trận.",
+      "promptText": "/init-gsafe-workflow\nMục tiêu: Xây dựng Hệ thống Quản trị Nhân sự Tập trung. Khởi tạo quy trình Continuous Exploration (CE).",
+      "icon": "🏢",
+      "nextSteps": [{"conditionLabel": "Bắt đầu CE", "nextNodeId": "gs-2"}],
+      "guidanceContext": "Tại GSAFe 6.0, một yêu cầu không đi thẳng vào code. Nó kích hoạt quy trình Continuous Exploration (CE) để khảo sát thị trường và khả thi kỹ thuật.",
+      "exampleDetails": "Sử dụng lệnh `/init-gsafe-workflow` để scaffolding thư mục dự án chuẩn SAFe."
+    },
+    {
+      "id": "gs-2",
+      "title": "CE Phase: Research & PRDs",
+      "role": "PMO / Architect",
+      "description": "Thực hiện nhiều Spikes. Tổng hợp PRD. So sánh độ phủ yêu cầu phần mềm.",
+      "input": "Business Market Specs",
+      "output": "Spike Reports, Master PRD",
+      "loopGroup": "Planning",
+      "icon": "📊",
+      "nextSteps": [{"conditionLabel": "Draft PRD", "nextNodeId": "gs-3"}],
+      "guidanceContext": "Agent đóng vai trò PMO: Thực hiện hàng tá vòng Spike Research để xác thực giả thuyết kỹ thuật. Kết quả là các file markdown tại `/docs/researches/spikes`.",
+      "exampleDetails": "Ví dụ: `spike-evaluate-dolt-vs-sqlite.md`"
+    },
+    {
+      "id": "gs-3",
+      "title": "Phát triển Design System (nếu có UI)",
+      "role": "User",
+      "description": "Duyệt PRD và yêu cầu lên UI.",
+      "input": "Master PRD",
+      "output": "Mockups / Design System HTML",
+      "loopGroup": "Planning",
+      "promptText": "Hãy chạy workflow /create-gsafe-design-system để thiết kế Design System cho trang Dashboard Nhân sự dựa trên PRD-01.",
+      "icon": "🎨",
+      "nextSteps": [{"conditionLabel": "Tạo Design System", "nextNodeId": "gs-4"}],
+      "guidanceContext": "GSAFe tách biệt Data Logic và UI Component. Cần có UI/UX Mockup và Design System Tokens (CSS) khớp 1-1 với PRD.",
+      "exampleDetails": "Sử dụng `/create-gsafe-design-system` workflow."
+    },
+    {
+      "id": "gs-4",
+      "title": "PRD/DS Coverage & Universal IDs",
+      "role": "System",
+      "description": "So khớp State Matrix của UI vs Logic PRD. Gán Beads ID (br-prd, br-ds) xuyên suốt.",
+      "input": "Master PRD, UI Mockups",
+      "output": "Aligned PRD (with Beads IDs)",
+      "loopGroup": "Planning",
+      "loopCondition": "Mâu thuẫn UI/Logic -> Vòng lại Refine PRD/DS",
+      "icon": "🔗",
+      "nextSteps": [
+        {"conditionLabel": "Đồng bộ", "nextNodeId": "gs-5"},
+        {"conditionLabel": "Mâu thuẫn", "nextNodeId": "gs-2", "isLoopBack": true}
+      ],
+      "guidanceContext": "Hệ thống RTM (Requirements Traceability Matrix) quét qua `.md` và `.tsx` để đảm bảo mọi feature đều được render trên UI.",
+      "exampleDetails": "Gán các mã định danh Beads ID như `br-prd-auth-login` vào source code."
+    },
+    {
+      "id": "gs-5",
+      "title": "Lập kế hoạch & Rã task (Plan)",
+      "role": "RTE",
+      "description": "Đánh ID planning. Cân nhắc sửa PRD nếu phát hiện luồng phụ bị lủng.",
+      "input": "Aligned PRD",
+      "output": "Implementation Plan, Beads Tasks",
+      "loopGroup": "Execution",
+      "icon": "📅",
+      "nextSteps": [{"conditionLabel": "Tạo Tasks", "nextNodeId": "gs-6"}],
+      "guidanceContext": "Release Train Engineer (RTE) phá vỡ các khối PRD lớn thành các User Stories siêu nhỏ (Beads Tasks).",
+      "exampleDetails": "Tạo file `task.md` với hàng chục checkbox rõ ràng."
+    },
+    {
+      "id": "gs-6",
+      "title": "Code Execution (Vòng lặp Implement)",
+      "role": "Dev Teams",
+      "description": "Code qua mô hình phân tách Role (Code agent viết, QA agent duyệt).",
+      "input": "Beads Tasks",
+      "output": "CI/CD Gates Passed, Software Increment",
+      "loopGroup": "Execution",
+      "loopCondition": "Lỗi QA/Security Gate -> Lặp lại Code nháp",
+      "icon": "👷",
+      "nextSteps": [
+        {"conditionLabel": "Kiểm thử lỗi", "nextNodeId": "gs-6", "isLoopBack": true}
+      ],
+      "guidanceContext": "Đội Dev AI chia làm Coder và Reviewer. Mã chỉ được hợp nhất (merge) khi qua toàn bộ các cổng CI/CD (lint, unit test, sec scan).",
+      "exampleDetails": "Đảm bảo mã nguồn được check bằng `golangci-lint` và `go test`."
+    }
+  ]
+}

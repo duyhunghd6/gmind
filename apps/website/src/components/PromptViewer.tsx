@@ -10,7 +10,7 @@ import Terminal from "./Terminal";
 
 // --- CUSTOM SVG FLOWCHART OVERLAY ---
 const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], activeSection: string }) => {
-  const [lines, setLines] = useState<{ id: string, sx: number, sy: number, ex: number, ey: number, label?: string, isLoop?: boolean }[]>([]);
+  const [lines, setLines] = useState<{ id: string, sx: number, sy: number, ex: number, ey: number, w: number, label?: string, type?: "loop-left" | "curve-right" | "jump-forward" | "straight", bendOffset: number }[]>([]);
 
   useEffect(() => {
     const updateLines = () => {
@@ -31,16 +31,45 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
           const endRect = endEl.getBoundingClientRect();
 
           const isLoop = next.isLoopBack;
-          let sx, sy, ex, ey;
+          const isBackward = endRect.top < startRect.top;
+          
+          // Use structural indexes to determine jumps, avoiding pixel flaws
+          const startIndex = steps.findIndex(step => step.id === s.id);
+          const endIndex = steps.findIndex(step => step.id === next.nextNodeId);
+          const isForwardJump = !isBackward && endIndex !== -1 && endIndex > startIndex + 1;
 
-          if (isLoop) {
-            // Loop: curve from right side to right side
+          // Base type on structural relationship, not just loop
+          let type: "loop-left" | "curve-right" | "jump-forward" | "straight" = "straight";
+          let sx = 0, sy = 0, ex = 0, ey = 0;
+          let bendOffset = 0;
+
+          if (isLoop || (isBackward && !next.isLoopBack)) {
+            // All loops, or small backward steps, curve left
+            type = "loop-left";
+            sx = startRect.left - containerRect.left;
+            sy = startRect.top + startRect.height / 2 - containerRect.top;
+            ex = endRect.left - containerRect.left;
+            ey = endRect.top + endRect.height / 2 - containerRect.top;
+            bendOffset = Math.max(80, Math.min(200, Math.abs(ey - sy) * 0.4)) + (i * 20);
+          } else if (isBackward && next.isLoopBack) {
+            // Very rare: backward but specifically requested to curve right if needed (or backward jumps)
+            type = "curve-right";
             sx = startRect.right - containerRect.left;
             sy = startRect.top + startRect.height / 2 - containerRect.top;
             ex = endRect.right - containerRect.left;
             ey = endRect.top + endRect.height / 2 - containerRect.top;
+            bendOffset = Math.max(80, Math.min(250, Math.abs(ey - sy) * 0.4)) + (i * 20);
+          } else if (isForwardJump) {
+            // Forward jump: start bottom, go to right margin, end top
+            type = "jump-forward";
+            sx = startRect.left + startRect.width / 2 - containerRect.left;
+            sy = startRect.bottom - containerRect.top;
+            ex = endRect.left + endRect.width / 2 - containerRect.left;
+            ey = endRect.top - containerRect.top;
+            bendOffset = Math.max(40, (endIndex - startIndex) * 40) + (i * 20);
           } else {
-            // Linear: bottom to top
+            // Direct neighbor (Straight)
+            type = "straight";
             sx = startRect.left + startRect.width / 2 - containerRect.left;
             sy = startRect.bottom - containerRect.top;
             ex = endRect.left + endRect.width / 2 - containerRect.left;
@@ -49,9 +78,10 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
 
           newLines.push({
             id: `${s.id}-${next.nextNodeId}-${i}`,
-            sx, sy, ex, ey,
+            sx, sy, ex, ey, w: startRect.width,
             label: next.conditionLabel,
-            isLoop
+            type,
+            bendOffset
           });
         });
       });
@@ -89,28 +119,80 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
       </defs>
       {lines.map((l) => {
         let pathD = "";
-        if (l.isLoop) {
-          // Curved path for loopback
-          pathD = `M ${l.sx} ${l.sy} C ${l.sx + 150} ${l.sy - 20}, ${l.ex + 150} ${l.ey + 20}, ${l.ex + 10} ${l.ey}`;
+        
+        // Orthogonal        let pathD = "";
+        const r = 16; // Corner padding radius for rounded orthogonal lines
+
+        if (l.type === "loop-left") {
+          // Orthogonal Left U-Turn
+          const rawMidX = Math.min(l.sx, l.ex) - Math.abs(l.bendOffset);
+          // Clamp midX to stop it from bleeding left into the sidebar menu
+          const midX = Math.max(15, rawMidX);
+          const actualBend = Math.abs(Math.min(l.sx, l.ex) - midX);
+          const dirY = l.ey > l.sy ? 1 : -1;
+          const safeR = Math.min(r, Math.abs(l.ey - l.sy) / 2, actualBend / 2);
+          
+          pathD = `
+            M ${l.sx} ${l.sy} 
+            L ${midX + safeR} ${l.sy} 
+            Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY} 
+            L ${midX} ${l.ey - safeR * dirY} 
+            Q ${midX} ${l.ey} ${midX + safeR} ${l.ey} 
+            L ${l.ex - 10} ${l.ey}
+          `;
+        } else if (l.type === "curve-right") {
+          // Orthogonal Right U-Turn (Backwards)
+          const midX = Math.max(l.sx, l.ex) + Math.abs(l.bendOffset);
+          const dirY = l.ey > l.sy ? 1 : -1;
+          const safeR = Math.min(r, Math.abs(l.ey - l.sy) / 2);
+          
+          pathD = `
+            M ${l.sx} ${l.sy} 
+            L ${midX - safeR} ${l.sy} 
+            Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY} 
+            L ${midX} ${l.ey - safeR * dirY} 
+            Q ${midX} ${l.ey} ${midX - safeR} ${l.ey} 
+            L ${l.ex + 10} ${l.ey}
+          `;
+        } else if (l.type === "jump-forward") {
+          // Orthogonal Forward Jump: Bottom -> Right -> Top
+          const offsetRight = Math.max(l.sx, l.ex) + l.w / 2 + l.bendOffset;
+          const safeR = r;
+          
+          pathD = `
+            M ${l.sx} ${l.sy} 
+            L ${l.sx} ${l.sy + 20 - safeR} 
+            Q ${l.sx} ${l.sy + 20} ${l.sx + safeR} ${l.sy + 20} 
+            L ${offsetRight - safeR} ${l.sy + 20} 
+            Q ${offsetRight} ${l.sy + 20} ${offsetRight} ${l.sy + 20 + safeR} 
+            L ${offsetRight} ${l.ey - 20 - safeR} 
+            Q ${offsetRight} ${l.ey - 20} ${offsetRight - safeR} ${l.ey - 20} 
+            L ${l.ex + safeR} ${l.ey - 20} 
+            Q ${l.ex} ${l.ey - 20} ${l.ex} ${l.ey - 20 + safeR} 
+            L ${l.ex} ${l.ey - 10}
+          `;
         } else {
-          // Straight path with subtle cubic bezier for nice connections
-          pathD = `M ${l.sx} ${l.sy} C ${l.sx} ${l.sy + 30}, ${l.ex} ${l.ey - 30}, ${l.ex} ${l.ey - 10}`;
+          // Straight down (Orthogonal/Linear) with no side branches
+          // When it's just neighbor to neighbor, draw a perfect straight vertical line or horizontal offset
+          pathD = `M ${l.sx} ${l.sy} L ${l.sx} ${(l.sy + l.ey)/2} L ${l.ex} ${(l.sy + l.ey)/2} L ${l.ex} ${l.ey - 10}`;
         }
 
-        const color = l.isLoop ? "var(--accent-rose)" : "var(--accent-teal)";
-        const marker = l.isLoop ? "url(#arrowhead-loop)" : "url(#arrowhead)";
+        const color = l.type === "loop-left" ? "var(--accent-rose)" : "var(--accent-teal)";
+        const marker = l.type === "loop-left" ? "url(#arrowhead-loop)" : "url(#arrowhead)";
 
         return (
           <g key={l.id}>
-            <path d={pathD} fill="none" stroke={color} strokeWidth="3" strokeDasharray={l.isLoop ? "6,6" : "none"} markerEnd={marker} opacity={0.6} />
-            {l.label && (
+            <path d={pathD.trim().replace(/\s+/g, ' ')} fill="none" stroke={color} strokeWidth="2.5" strokeDasharray={l.type === "loop-left" ? "6,6" : "none"} markerEnd={marker} opacity={0.7} />
+            {l.label && (() => {
+              const clampedLeftMidX = Math.max(15, Math.min(l.sx, l.ex) - Math.abs(l.bendOffset));
+              return (
               <text 
-                x={l.isLoop ? Math.max(l.sx, l.ex) + 80 : (l.sx + l.ex) / 2 + 10} 
+                x={l.type === "loop-left" ? clampedLeftMidX + 10 : l.type === "curve-right" ? Math.max(l.sx, l.ex) + (l.bendOffset - 30) : l.type === "jump-forward" ? Math.max(l.sx, l.ex) + 80 + l.bendOffset : (l.sx + l.ex) / 2 + 10} 
                 y={(l.sy + l.ey) / 2} 
                 fill={color} 
                 fontSize="12" 
                 fontWeight="bold"
-                textAnchor={l.isLoop ? "start" : "start"}
+                textAnchor={l.type === "loop-left" ? "start" : "start"}
                 style={{
                   textShadow: "1px 1px 0 var(--bg), -1px -1px 0 var(--bg), 1px -1px 0 var(--bg), -1px 1px 0 var(--bg)",
                   background: "var(--bg)" // fallback for Safari
@@ -118,7 +200,8 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
               >
                 {l.label}
               </text>
-            )}
+              );
+            })()}
           </g>
         );
       })}
@@ -228,94 +311,65 @@ export default function PromptViewer({
           {setupGuide.description}
         </p>
 
-        {/* FLOWCHART RENDERER */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "800px", margin: "0 auto" }}>
-          {setupGuide.steps.map((s, idx) => renderSetupNode(s, idx))}
+        {/* OS TABS (GLOBAL FOR SETUP) */}
+        <div style={{ display: "flex", gap: "12px", marginBottom: "32px", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
+          <button 
+            onClick={() => setActiveOsTab("macOs")}
+            style={{
+              padding: "8px 16px", borderRadius: "8px", fontWeight: 500, cursor: "pointer",
+              background: activeOsTab === "macOs" ? "var(--accent-cyan-dim)" : "transparent",
+              color: activeOsTab === "macOs" ? "var(--accent-cyan)" : "var(--text-dim)",
+              border: `1px solid ${activeOsTab === "macOs" ? "var(--accent-cyan)" : "transparent"}`
+            }}
+          >macOS</button>
+          <button 
+            onClick={() => setActiveOsTab("linux")}
+            style={{
+              padding: "8px 16px", borderRadius: "8px", fontWeight: 500, cursor: "pointer",
+              background: activeOsTab === "linux" ? "var(--accent-amber-dim)" : "transparent",
+              color: activeOsTab === "linux" ? "var(--accent-amber)" : "var(--text-dim)",
+              border: `1px solid ${activeOsTab === "linux" ? "var(--accent-amber)" : "transparent"}`
+            }}
+          >Linux</button>
+          <button 
+            onClick={() => setActiveOsTab("windows")}
+            style={{
+              padding: "8px 16px", borderRadius: "8px", fontWeight: 500, cursor: "pointer",
+              background: activeOsTab === "windows" ? "var(--accent-teal-dim)" : "transparent",
+              color: activeOsTab === "windows" ? "var(--accent-teal)" : "var(--text-dim)",
+              border: `1px solid ${activeOsTab === "windows" ? "var(--accent-teal)" : "transparent"}`
+            }}
+          >Windows</button>
         </div>
 
-        {/* SETUP MODAL OVERLAY */}
-        {activeSetupStep && (
-          <div 
-            style={{
-              position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-              background: "rgba(0,0,0,0.6)", backdropFilter: "blur(5px)",
-              zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px"
-            }}
-            onClick={() => setSelectedNodeId(null)}
-          >
-            <div 
-              style={{
-                background: "var(--bg)", width: "100%", maxWidth: "800px", maxHeight: "90vh",
-                overflowY: "auto", borderRadius: "16px", border: "1px solid var(--border-color)",
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)", padding: "32px", position: "relative"
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                onClick={() => setSelectedNodeId(null)}
-                style={{ position: "absolute", top: "20px", right: "24px", background: "transparent", border: "none", color: "var(--text-dim)", fontSize: "1.5rem", cursor: "pointer" }}
-              >✕</button>
-
-              <SectionLabel text="Chi tiết Cài đặt" accent="amber" />
-              <h2 style={{ fontSize: "2rem", marginBottom: "0.5rem", paddingRight: "40px" }}>{activeSetupStep.title}</h2>
-              
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1.5rem" }}>
-                <span style={{ fontSize: "0.85rem", color: "var(--accent-amber)", background: "var(--accent-amber-dim)", padding: "4px 10px", borderRadius: "4px", fontWeight: 600 }}>
-                  {activeSetupStep.role}
+        {/* SETUP CONTENT AS TUTORIAL POST */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+          {setupGuide.steps.map((step) => (
+            <div key={step.id}>
+              <h3 style={{ fontSize: "1.6rem", color: "var(--text)", marginBottom: "12px", display: "flex", alignItems: "center", gap: "12px" }}>
+                <span>{step.title}</span>
+                <span style={{ fontSize: "0.8rem", color: "var(--accent-amber)", background: "var(--accent-amber-dim)", padding: "4px 10px", borderRadius: "999px", fontWeight: 600, border: "1px solid var(--accent-amber-dim)" }}>
+                  {step.role}
                 </span>
-                <span style={{ color: "var(--text-dim)", fontSize: "0.9rem" }}>Thuộc luồng: {setupGuide.title}</span>
-              </div>
-
-              <p style={{ color: "var(--text-dim)", fontSize: "1.05rem", marginBottom: "2rem", lineHeight: "1.6" }}>
-                {activeSetupStep.description}
+              </h3>
+              <p style={{ color: "var(--text-dim)", fontSize: "1.1rem", marginBottom: "24px", lineHeight: "1.6" }}>
+                {step.description}
               </p>
-
-              {/* OS Tabs inside Modal */}
-              <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
-                <button 
-                  onClick={() => setActiveOsTab("macOs")}
-                  style={{
-                    padding: "8px 16px", borderRadius: "8px", fontWeight: 500,
-                    background: activeOsTab === "macOs" ? "var(--accent-cyan-dim)" : "var(--bg-surface)",
-                    color: activeOsTab === "macOs" ? "var(--accent-cyan)" : "var(--text-dim)",
-                    border: `1px solid ${activeOsTab === "macOs" ? "var(--accent-cyan)" : "var(--border-color)"}`
-                  }}
-                >macOS</button>
-                <button 
-                  onClick={() => setActiveOsTab("linux")}
-                  style={{
-                    padding: "8px 16px", borderRadius: "8px", fontWeight: 500,
-                    background: activeOsTab === "linux" ? "var(--accent-amber-dim)" : "var(--bg-surface)",
-                    color: activeOsTab === "linux" ? "var(--accent-amber)" : "var(--text-dim)",
-                    border: `1px solid ${activeOsTab === "linux" ? "var(--accent-amber)" : "var(--border-color)"}`
-                  }}
-                >Linux</button>
-                <button 
-                  onClick={() => setActiveOsTab("windows")}
-                  style={{
-                    padding: "8px 16px", borderRadius: "8px", fontWeight: 500,
-                    background: activeOsTab === "windows" ? "var(--accent-teal-dim)" : "var(--bg-surface)",
-                    color: activeOsTab === "windows" ? "var(--accent-teal)" : "var(--text-dim)",
-                    border: `1px solid ${activeOsTab === "windows" ? "var(--accent-teal)" : "var(--border-color)"}`
-                  }}
-                >Windows</button>
-              </div>
-
-              <div style={{ marginTop: "1rem", borderRadius: "12px", overflow: "hidden", boxShadow: "0 20px 40px rgba(0,0,0,0.2)" }}>
+              
+              <div style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid var(--border-color)", boxShadow: "0 10px 30px rgba(0,0,0,0.1)" }}>
                 <Terminal 
                   title={activeOsTab === "windows" ? "powershell" : "bash"}
                   lines={
-                    activeOsTab === "macOs" ? activeSetupStep.macOSTerminalLines! : 
-                    activeOsTab === "linux" ? activeSetupStep.linuxTerminalLines! : 
-                    activeSetupStep.windowsTerminalLines!
+                    activeOsTab === "macOs" ? step.macOSTerminalLines! : 
+                    activeOsTab === "linux" ? step.linuxTerminalLines! : 
+                    step.windowsTerminalLines!
                   } 
                   state="typing"
                 />
               </div>
-
             </div>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
     );
   }
@@ -344,144 +398,7 @@ export default function PromptViewer({
           {theoryTopic.content}
         </div>
 
-        {/* WORKFLOW STEPS (FLOWCHART NODES) */}
-        {theoryTopic.visualWorkflowSteps && (
-          <div style={{ marginBottom: "3rem" }}>
-            <h3 style={{ fontSize: "1.5rem", marginBottom: "1.5rem" }}>Workflow Cốt lõi</h3>
-            
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", maxWidth: "800px", margin: "0 auto" }}>
-              {theoryTopic.visualWorkflowSteps.map((s, index) => (
-                <div 
-                  key={index} 
-                  className="animate-fade-up flowchart-node" 
-                  style={{ animationDelay: `${index * 0.1}s`, cursor: "pointer", position: "relative", width: "100%" }}
-                  onClick={() => setSelectedNodeId(s.id)}
-                >
-                  <div style={{ 
-                    padding: "20px", background: "rgba(255,255,255,0.03)", backdropFilter: "blur(12px)",
-                    borderRadius: "16px", border: "1px solid var(--border-color)",
-                    transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-4px)";
-                    e.currentTarget.style.borderColor = "var(--accent-teal)";
-                    e.currentTarget.style.boxShadow = "var(--shadow-lg), 0 0 15px rgba(20, 184, 166, 0.2)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = "var(--border-color)";
-                    e.currentTarget.style.boxShadow = "none";
-                  }}>
-                    {/* Node Header */}
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-                      <h4 style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--text)" }}>
-                        {index + 1}. {s.title}
-                      </h4>
-                      <span style={{ fontSize: "0.75rem", color: "var(--accent-teal)", background: "var(--accent-teal-dim)", padding: "4px 10px", borderRadius: "999px", fontWeight: 600 }}>
-                        {s.role}
-                      </span>
-                    </div>
-                    
-                    {/* Node I/O Badges */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "0.9rem" }}>
-                      <div style={{ display: "flex", gap: "8px", alignItems: "baseline" }}>
-                        <span style={{ color: "var(--accent-indigo)", fontWeight: "bold", minWidth: "40px" }}>IN:</span>
-                        <span style={{ color: "var(--text-dim)" }}>{s.input || "N/A"}</span>
-                      </div>
-                      <div style={{ display: "flex", gap: "8px", alignItems: "baseline" }}>
-                        <span style={{ color: "var(--accent-rose)", fontWeight: "bold", minWidth: "40px" }}>OUT:</span>
-                        <span style={{ color: "var(--text-dim)" }}>{s.output || "N/A"}</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Down Arrow for Flow */}
-                  <div style={{ textAlign: "center", color: "var(--text-dim)", opacity: 0.5, margin: "8px 0" }}>↓</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* THEORY MODAL OVERLAY */}
-         {selectedNodeId && theoryTopic.visualWorkflowSteps && (
-          (() => {
-            const activeTheoryStep = theoryTopic.visualWorkflowSteps.find(s => s.id === selectedNodeId);
-            if (!activeTheoryStep) return null;
-
-            return (
-              <div 
-                style={{
-                  position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
-                  background: "rgba(0,0,0,0.6)", backdropFilter: "blur(5px)",
-                  zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "24px"
-                }}
-                onClick={() => setSelectedNodeId(null)}
-              >
-                <div 
-                  style={{
-                    background: "var(--bg)", width: "100%", maxWidth: "800px", maxHeight: "90vh",
-                    overflowY: "auto", borderRadius: "16px", border: "1px solid var(--border-color)",
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)", padding: "32px", position: "relative"
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button 
-                    onClick={() => setSelectedNodeId(null)}
-                    style={{ position: "absolute", top: "20px", right: "24px", background: "transparent", border: "none", color: "var(--text-dim)", fontSize: "1.5rem", cursor: "pointer" }}
-                  >✕</button>
-
-                  <SectionLabel text="Chi tiết Lý thuyết" accent="teal" />
-                  <h2 style={{ fontSize: "2rem", marginBottom: "0.5rem", paddingRight: "40px" }}>{activeTheoryStep.title}</h2>
-                  
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1.5rem" }}>
-                    <span style={{ fontSize: "0.85rem", color: "var(--accent-teal)", background: "var(--accent-teal-dim)", padding: "4px 10px", borderRadius: "4px", fontWeight: 600 }}>
-                      {activeTheoryStep.role}
-                    </span>
-                    <span style={{ color: "var(--text-dim)", fontSize: "0.9rem" }}>Thuộc luồng: {theoryTopic.title}</span>
-                  </div>
-
-                  <div style={{ display: "flex", gap: "24px", marginBottom: "2rem", padding: "16px", background: "var(--bg-surface)", borderRadius: "8px", border: "1px solid var(--border-color)" }}>
-                    <div style={{ flex: 1 }}>
-                      <span style={{ display: "block", color: "var(--accent-indigo)", fontWeight: "bold", marginBottom: "4px", fontSize: "0.85rem", textTransform: "uppercase" }}>Input</span>
-                      <span style={{ color: "var(--text)" }}>{activeTheoryStep.input || "N/A"}</span>
-                    </div>
-                    <div style={{ width: "1px", background: "var(--border-color)" }} />
-                    <div style={{ flex: 1 }}>
-                      <span style={{ display: "block", color: "var(--accent-rose)", fontWeight: "bold", marginBottom: "4px", fontSize: "0.85rem", textTransform: "uppercase" }}>Output</span>
-                      <span style={{ color: "var(--text)" }}>{activeTheoryStep.output || "N/A"}</span>
-                    </div>
-                  </div>
-
-                  <p style={{ color: "var(--text-dim)", fontSize: "1.05rem", marginBottom: "2rem", lineHeight: "1.6" }}>
-                    {activeTheoryStep.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })()
-        )}
-
-        {/* ROLES BADGES */}
-        {theoryTopic.roles && theoryTopic.roles.length > 0 && (
-          <div>
-            <h3 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Các Vai trò (Roles)</h3>
-            <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "16px" }}>
-              {theoryTopic.roles.map((role, idx) => (
-                <div key={idx} style={{
-                  padding: "20px", borderRadius: "12px",
-                  background: `var(--accent-${role.color}-dim)`, border: `1px solid rgba(var(--accent-${role.color}-rgb), 0.2)`
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
-                    <span style={{ fontSize: "1.5rem" }}>👤</span>
-                    <h4 style={{ fontSize: "1.15rem", color: `var(--accent-${role.color})` }}>{role.name}</h4>
-                  </div>
-                  <p style={{ fontSize: "0.95rem", color: "var(--text-dim)", lineHeight: "1.5" }}>{role.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     );
   }
@@ -498,7 +415,7 @@ export default function PromptViewer({
           Tổng hợp từ 10 phiên truy vấn NotebookLM phân tích hàng nghìn trang học thuật về Software Engineering Management. Dưới đây là 10 nhóm nguyên nhân gốc rễ (Root Causes) tàn phá năng suất, chất lượng và tinh thần của tổ chức phát triển phần mềm, được xếp từ mức độ <b>Critical</b> đến <b>Medium</b>.
         </p>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
           {performanceIssuesResearch.map((category, index) => (
             <div 
               key={category.id} 
@@ -511,7 +428,8 @@ export default function PromptViewer({
                 overflow: "hidden",
                 cursor: "pointer",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
-                animationDelay: `${index * 0.05}s`
+                animationDelay: `${index * 0.05}s`,
+                display: "flex", flexDirection: "column"
               }}
               onClick={() => setSelectedNodeId(category.id)}
               onMouseEnter={(e) => {
@@ -547,8 +465,8 @@ export default function PromptViewer({
                 </div>
               </div>
 
-              <div style={{ padding: "20px 24px" }}>
-                <p style={{ margin: 0, color: "var(--text-dim)", lineHeight: "1.5" }}>{category.description}</p>
+              <div style={{ padding: "20px 24px", flex: 1 }}>
+                <p style={{ margin: 0, color: "var(--text-dim)", lineHeight: "1.6" }}>{category.description}</p>
               </div>
             </div>
           ))}
@@ -601,18 +519,34 @@ export default function PromptViewer({
                   <span style={{ fontSize: "0.95rem", color: `var(--accent-${activeCategory.colorToken})`, textTransform: "uppercase", letterSpacing: "1px", fontWeight: "bold", display: "block", marginBottom: "16px" }}>
                     Các Điểm Tắc nghẽn Điển hình:
                   </span>
-                  
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "16px" }}>
-                    {activeCategory.topIssues.map(issue => (
-                      <div key={issue.id} style={{ 
-                        padding: "20px", background: "var(--bg-surface)", 
-                        borderRadius: "12px", border: `1px solid var(--border-color)`,
-                        borderLeft: `4px solid var(--accent-${activeCategory.colorToken})`
-                      }}>
-                        <h4 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "8px", color: "var(--text)" }}>{issue.name}</h4>
-                        <p style={{ fontSize: "0.95rem", color: "var(--text-dim)", lineHeight: "1.5" }}>{issue.desc}</p>
-                      </div>
-                    ))}
+                  <div style={{ overflowX: "auto", borderRadius: "8px", border: "1px solid var(--border-color)" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+                      <thead>
+                        <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: `2px solid var(--accent-${activeCategory.colorToken})` }}>
+                          <th style={{ padding: "16px", color: "var(--text)", fontWeight: "bold", width: "15%" }}>ID</th>
+                          <th style={{ padding: "16px", color: "var(--text)", fontWeight: "bold", width: "35%" }}>Vấn Đề (Issue)</th>
+                          <th style={{ padding: "16px", color: "var(--text)", fontWeight: "bold", width: "50%" }}>Mô tả ngắn gọn</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {activeCategory.topIssues.map((issue, idx) => (
+                          <tr 
+                            key={idx} 
+                            style={{ borderBottom: idx === activeCategory.topIssues.length - 1 ? "none" : "1px solid var(--border-color)", transition: "background 0.2s" }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.02)"}
+                            onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+                          >
+                            <td style={{ padding: "16px", color: `var(--accent-${activeCategory.colorToken})`, fontWeight: "bold", whiteSpace: "nowrap" }}>
+                              <span style={{ background: `var(--accent-${activeCategory.colorToken}-dim)`, padding: "4px 8px", borderRadius: "6px" }}>
+                                {issue.id}
+                              </span>
+                            </td>
+                            <td style={{ padding: "16px", color: "var(--text)", fontWeight: 500, lineHeight: "1.5" }}>{issue.name}</td>
+                            <td style={{ padding: "16px", color: "var(--text-dim)", lineHeight: "1.5" }}>{issue.desc}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
 
                 </div>
@@ -649,7 +583,7 @@ export default function PromptViewer({
         key={s.id} 
         id={`node-${s.id}`} /* ID added for SVG logic */
         className="animate-fade-up flowchart-node" 
-        style={{ animationDelay: `${index * 0.1}s`, cursor: "pointer", position: "relative", zIndex: 1, marginBottom: "3rem" }} /* Added margin-bottom instead of arrow gap */
+        style={{ animationDelay: `${index * 0.1}s`, cursor: "pointer", position: "relative", zIndex: 1, marginBottom: "15rem" }} /* Added margin-bottom instead of arrow gap */
         onClick={() => setSelectedNodeId(s.id)}
       >
         <div style={{ 
@@ -658,7 +592,7 @@ export default function PromptViewer({
           backdropFilter: "blur(12px)",
           borderRadius: "16px", 
           border: isSelected ? "2px solid var(--accent-cyan)" : "1px solid var(--border-color)",
-          boxShadow: isSelected ? "var(--shadow-lg), 0 0 15px rgba(20, 184, 166, 0.4)" : "none",
+          boxShadow: isSelected ? "var(--shadow-lg), 0 0 15px rgba(20, 184, 166, 0.4)" : "0 0 20px rgba(20, 184, 166, 0.1)",
           transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease"
         }}
         onMouseEnter={(e) => {
@@ -737,11 +671,10 @@ export default function PromptViewer({
                     padding: "4px 12px",
                     borderRadius: "4px",
                     fontSize: "0.75rem",
-                    cursor: "pointer",
                     fontWeight: "bold"
                   }}
                 >
-                  Copy Prompt
+                  Copy
                 </button>
               </div>
               <pre style={{
@@ -871,16 +804,28 @@ export default function PromptViewer({
           </div>
 
           {/* COLUMN 2: GUIDANCE PANEL */}
-          <div style={{ position: "sticky", top: "120px", height: "fit-content" }}>
+          <div style={{ position: "sticky", top: "120px", height: "fit-content", zIndex: 10 }}>
             {activeModalStep ? (
               <div style={{
-                background: "var(--bg-surface)",
+                position: "relative",
+                background: "var(--bg-surface-elevated, #111827)",
                 borderRadius: "16px",
                 border: "1px solid var(--border-color)",
-                borderTop: "4px solid var(--accent-cyan)",
                 padding: "32px",
-                boxShadow: "var(--shadow-lg)"
+                boxShadow: "0 0 0 1px rgba(14, 165, 233, 0.2), 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05), 0 0 30px rgba(14, 165, 233, 0.15)",
+                overflow: "hidden"
               }}>
+                {/* Glowing animated top border line */}
+                <div style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "4px",
+                  background: "linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-teal), transparent)",
+                  animation: "bg-pan-x 3s linear infinite"
+                }} />
+                
                 <SectionLabel text="Guidance Context" accent="cyan" />
                 <h3 style={{ fontSize: "1.5rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "8px", color: "var(--text)" }}>
                   {activeModalStep.icon && <span>{activeModalStep.icon}</span>}

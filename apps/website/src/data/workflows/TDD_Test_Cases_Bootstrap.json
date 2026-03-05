@@ -1,0 +1,78 @@
+{
+  "id": "wf-tdd-bootstrap",
+  "title": "TDD: Đảo ngược Luồng (Test trước Code sau)",
+  "description": "Tuân thủ chặt chẽ Test-Driven Development: Dùng AI sinh tự động hàng loạt bài Test Thất bại (Đỏ) làm rào cản, ép Đội kỹ sư phải hoàn thành Logic để qua bài (Xanh).",
+  "steps": [
+    {
+      "id": "tdd-1",
+      "title": "Phân tích Yêu cầu thành Test Case",
+      "role": "Agent",
+      "description": "Kỹ sư đưa PRD, Agent tự động bẻ gãy các Use Case thành các kịch bản kiểm thử (Test Cases / Unit Tests).",
+      "input": "PRD / User Story",
+      "output": "Test Suite Draft",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án yêu cầu an toàn tuyệt đối (Hàng không, Tài chính, Y tế), không cho phép bất kỳ dòng code nào chạy mà không có màng chắn Test Cover.",
+      "promptText": "Hệ thống Rút tiền ATM. Kịch bản: Rút quá số dư, Rút số âm, Rút thành công đổi trạng thái Database. Mày hãy sinh 10 Unit Tests bằng Golang (TDD) cho tao trước.",
+      "icon": "🧪",
+      "nextSteps": [{"conditionLabel": "Gửi cho Kỹ sư duyệt", "nextNodeId": "tdd-2"}],
+      "guidanceContext": "Cốt lõi của TDD là 'Mày không được phép gõ code logic khi chưa có bài Test'. Test sinh ra lúc này chắc chắn sẽ sai vì làm gì đã có code mà chạy.",
+      "exampleDetails": "Sử dụng package thư viện `Testing` hoặc `Jest` để sinh cấu trúc mã rỗng."
+    },
+    {
+      "id": "tdd-2",
+      "title": "Chạy Bài Thi - Màu Đỏ (RED)",
+      "role": "System",
+      "description": "Lưu các file Test vào máy, Terminal chạy và báo Lỗi Đỏ hàng loạt do hệ thống gọi vào hư không.",
+      "input": "Test Suite Draft",
+      "output": "Failing CI Logs (RED)",
+      "loopGroup": "Execution",
+      "icon": "🔴",
+      "nextSteps": [{"conditionLabel": "Lập trình Logic", "nextNodeId": "tdd-3"}],
+      "guidanceContext": "Cố tình mỉm cười với Màu Đỏ. Đây là màng lọc để chắc chắn rằng: Ta đang thực sự test thứ cần test.",
+      "exampleDetails": "Lỗi: `undefined object Withdraw()`, `expected 100 got nil`."
+    },
+    {
+      "id": "tdd-3",
+      "title": "Viết Mã Nguồn (Coding)",
+      "role": "Dev Teams",
+      "description": "Team kỹ sư nhào vô viết những khối mã tối giản nhất có thể, miễn là đủ sức để làm bài Test lừa dối này biến thành Pass.",
+      "input": "Failing CI Logs",
+      "output": "Implemented Logic Code",
+      "loopGroup": "Execution",
+      "promptText": "Agent, test hiện báo Đỏ. Mày hãy gõ hàm Logic sơ sài nhất để lừa qua mặt cái test case ATM rút tiền này đi. Tao chưa cần tối ưu thuật toán.",
+      "icon": "💻",
+      "nextSteps": [{"conditionLabel": "Chạy lại Phán xét", "nextNodeId": "tdd-4"}],
+      "guidanceContext": "Luật TDD: 'Thiết kế đơn giản'. Chỉ viết code vừa đủ xài để làm xanh (GREEN) bài kiểm tra. Nếu viết thừa mứa tính năng, đó là làm trái luật.",
+      "exampleDetails": "Viết hàm `Withdraw` trả đúng hardcode value trong lượt 1."
+    },
+    {
+      "id": "tdd-4",
+      "title": "Chạy Bài Thi - Màu Xanh (GREEN)",
+      "role": "System",
+      "description": "Sau khi có logic, chạy lệnh Test lại lần nữa. Bài kiểm tra qua ải (Màu Xanh), đánh dấu feature đó hoàn tất.",
+      "input": "Implemented Logic Code",
+      "output": "Passed CI Logs (GREEN)",
+      "loopGroup": "Execution",
+      "loopCondition": "Đỏ (Lỗi Test) -> Quay lại Code Logic.",
+      "icon": "🟢",
+      "nextSteps": [
+        {"conditionLabel": "Màu Xanh Tỏa Sáng", "nextNodeId": "tdd-5"},
+        {"conditionLabel": "Vẫn Đỏ", "nextNodeId": "tdd-3", "isLoopBack": true}
+      ],
+      "guidanceContext": "Dòng máu của lập trình viên chảy qua Nhịp đập mãnh liệt giữa Đỏ và Xanh. Đây là thuốc phiện sự nghiệp của họ.",
+      "exampleDetails": "`PASS: TestWithdraw (0.01s)`"
+    },
+    {
+      "id": "tdd-5",
+      "title": "Tái Cấu Trúc Định Kỳ (Refactor)",
+      "role": "Agent",
+      "description": "Bây giờ bài Test đã là tấm khiên bảo vệ (Safety Net), Dev thoải mái xoá toàn bộ đoạn code sơ sài ở trên để viết lại một thuật toán cực kỳ phức tạp và tinh tế mà không run sợ.",
+      "input": "Passed CI Logs (GREEN)",
+      "output": "Refactored Clean Code",
+      "loopGroup": "None",
+      "icon": "✨",
+      "guidanceContext": "Vòng lặp thần thánh Đỏ - Xanh - Refactor. Không bao giờ cấu trúc lại mã khi đang ở trạng thái Đỏ.",
+      "exampleDetails": "Biến đổi từ hàm IF-ELSE nhảm nhí thành Binary Search Tree tinh vĩ."
+    }
+  ]
+}

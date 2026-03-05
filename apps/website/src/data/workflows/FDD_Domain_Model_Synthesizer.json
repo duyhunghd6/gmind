@@ -1,0 +1,65 @@
+{
+  "id": "wf-fdd-domain",
+  "title": "FDD: Phân rã theo Kiến trúc Tính năng",
+  "description": "Feature-Driven Development ưu tiên xây dựng Domain Modeler toàn cảnh, sau đó chia nhỏ tính năng giao cho các Chủ Tướng Lập Trình (Chief Programmers).",
+  "steps": [
+    {
+      "id": "fdd-1",
+      "title": "Tổng Hợp Hệ Sinh Thái (Domain Object Model)",
+      "role": "Agent",
+      "description": "AI đọc PRD dài dằng dặc và sinh ra biểu đồ thực thể toàn bộ doanh nghiệp. Xác định các Class lớn và mối ràng buộc.",
+      "input": "Business Use Cases",
+      "output": "Global Domain Model",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án mới có chiều sâu nghiệp vụ (ERP, Core Banking...), nơi hiểu sai ngữ cảnh nghiệp vụ sẽ dấn tới xây sai nền tảng CSDL.",
+      "promptText": "Hệ thống Quản lý Bệnh viện. Yêu cầu vẽ lại sơ đồ Domain Model, liên kết giữa Bệnh Nhân, Hồ Sơ Bệnh Án, Bác Sĩ Cấp Cứu và Viện Phí. Định dạng Mermaid Class Diagram.",
+      "icon": "🌐",
+      "nextSteps": [{"conditionLabel": "Chốt bản kiến trúc chung", "nextNodeId": "fdd-2"}],
+      "guidanceContext": "FDD chia ra làm 2 pha: Lên mô hình Tổng thể và Xây dựng vi mô. Bước này là cốt tủy nhất trước khi nhúng tay viết code.",
+      "exampleDetails": "Mô hình quan hệ 1-N, N-N giữa Object A và Object B."
+    },
+    {
+      "id": "fdd-2",
+      "title": "Trích xuất Tính năng Nhỏ (Feature Slicing)",
+      "role": "Agent",
+      "description": "Từ Domain to, Agent chém nó ra thành hàng trăm tính năng nhỏ dưới chuẩn: '<Action> <Result> <Object>'.",
+      "input": "Global Domain Model",
+      "output": "Comprehensive Feature List",
+      "loopGroup": "Planning",
+      "icon": "🔪",
+      "nextSteps": [{"conditionLabel": "Gán quyền Kỹ sư trưởng", "nextNodeId": "fdd-3"}],
+      "guidanceContext": "Cú pháp FDD tiêu chuẩn cho phép đoạn đếm rõ ràng: 'Tính điểm trung bình của Học Sinh', 'Khởi tạo Hóa đơn từ Giỏ hàng'. Mỗi tác vụ phải nhỏ hơn 2 tuần làm việc.",
+      "exampleDetails": "Tính năng 1: 'Calculate Total of Invoice'."
+    },
+    {
+      "id": "fdd-3",
+      "title": "Chủ Tính Năng Triển Khai (Design by Feature)",
+      "role": "RTE",
+      "description": "AI đóng vai trò Người gác cổng, phân bổ cụm tính năng cho từng Kỹ sư Trưởng (Chief Programmer) phụ trách.",
+      "input": "Feature Slices",
+      "output": "Assigned Feature Set",
+      "loopGroup": "Execution",
+      "promptText": "Hãy phân bổ mảng 'Hóa đơn' cho team Backend 1. Các anh hãy thiết kế Method và Interface của Feature Array này trước khi code.",
+      "icon": "👑",
+      "nextSteps": [{"conditionLabel": "Thiết kế Method Xong", "nextNodeId": "fdd-4"}],
+      "guidanceContext": "Mỗi dev làm chủ một mảnh ghép và phải thiết kế chi tiết đường dẫn của đoạn mã mình sẽ viết (Class Owners).",
+      "exampleDetails": "Kỹ sư Trưởng thiết kế Sequence Diagram nội bộ của 'Tính Tổng'."
+    },
+    {
+      "id": "fdd-4",
+      "title": "Lập Trình Theo Chuẩn & Tích Hợp Đơn",
+      "role": "Dev Teams",
+      "description": "Team lập trình xoay quanh Class của họ. Tự code, tự test, qua Inspect Tool của AI và vứt thẳng lên nhánh chính ngay lập tức để ghép hình lớn.",
+      "input": "Assigned Feature Set",
+      "output": "Main Branch Merged Feature",
+      "loopGroup": "Execution",
+      "loopCondition": "Ghép nối Thất bại -> Tối ưu lại Class",
+      "icon": "🧩",
+      "nextSteps": [
+        {"conditionLabel": "Code failed", "nextNodeId": "fdd-3", "isLoopBack": true}
+      ],
+      "guidanceContext": "Code được xây dựng song song (Build by Feature) thay vì Code theo tầng (Tầng UI, Tầng DB riêng rẽ).",
+      "exampleDetails": "Merge Feature 'Hóa Đơn' và thấy hoạt động ngay lập tức với Main System."
+    }
+  ]
+}

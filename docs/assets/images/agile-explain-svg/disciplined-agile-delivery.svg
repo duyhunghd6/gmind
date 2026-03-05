@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" width="900" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      .bold-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; font-weight: 400; fill: #f8fafc; text-anchor: end; }
+      .copy-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 12px; font-weight: 400; fill: #64748b; text-anchor: end; }
+      .box-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px; font-weight: 400; fill: #e2e8f0; text-anchor: middle; dominant-baseline: middle; }
+      .box-rect { fill: #1e293b; stroke: rgba(255,255,255,0.1); stroke-width: 1.5; rx: 8; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="400" fill="url(#bg)" rx="16" />
+
+  <!-- Main Border -->
+  <rect x="30" y="20" width="840" height="340" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#shadow)" rx="12" />
+
+  <!-- ROW 1 -->
+  <!-- R1_1: Scrum -->
+  <rect class="box-rect" x="55" y="40" width="160" height="70" filter="url(#shadow)" stroke="#14b8a6" />
+  <text class="box-txt" fill="#2dd4bf" x="135" y="69.4" dominant-baseline="middle">Scrum</text>
+
+  <!-- R1_2: Extreme Programming (XP) -->
+  <rect class="box-rect" x="235" y="40" width="160" height="70" filter="url(#shadow)" stroke="#14b8a6" />
+  <text class="box-txt" fill="#2dd4bf" x="315" y="54.4" dominant-baseline="middle">Extreme</text>
+  <text class="box-txt" fill="#2dd4bf" x="315" y="69.4" dominant-baseline="middle">Programming</text>
+  <text class="box-txt" fill="#2dd4bf" x="315" y="84.4" dominant-baseline="middle">(XP)</text>
+
+  <!-- R1_3: Kanban -->
+  <rect class="box-rect" x="415" y="40" width="160" height="70" filter="url(#shadow)" stroke="#14b8a6" />
+  <text class="box-txt" fill="#2dd4bf" x="495" y="69.4" dominant-baseline="middle">Kanban</text>
+
+  <!-- R1_4: Agile Modeling (AM) -->
+  <rect class="box-rect" x="595" y="40" width="160" height="70" filter="url(#shadow)" stroke="#14b8a6" />
+  <text class="box-txt" fill="#2dd4bf" x="675" y="61.4" dominant-baseline="middle">Mô hình hóa Agile</text>
+  <text class="box-txt" fill="#2dd4bf" x="675" y="76.4" dominant-baseline="middle">(AM)</text>
+
+  <!-- ROW 2 -->
+  <!-- R2_1: Outside-In Software Development -->
+  <rect class="box-rect" x="145" y="130" width="160" height="70" filter="url(#shadow)" stroke="#3b82f6" />
+  <text class="box-txt" fill="#60a5fa" x="225" y="141.4" dominant-baseline="middle">Phát triển Phần mềm</text>
+  <text class="box-txt" fill="#60a5fa" x="225" y="156.4" dominant-baseline="middle">Từ Ngoài</text>
+  <text class="box-txt" fill="#60a5fa" x="225" y="171.4" dominant-baseline="middle">Vào Trong (Outside-In)</text>
+
+  <!-- R2_2: SAFe -->
+  <rect class="box-rect" x="325" y="130" width="160" height="70" filter="url(#shadow)" stroke="#3b82f6" />
+  <text class="box-txt" fill="#60a5fa" x="405" y="159.4" dominant-baseline="middle">SAFe</text>
+
+  <!-- R2_3: Agile Data (AD) -->
+  <rect class="box-rect" x="505" y="130" width="160" height="70" filter="url(#shadow)" stroke="#3b82f6" />
+  <text class="box-txt" fill="#60a5fa" x="585" y="151.4" dominant-baseline="middle">Dữ liệu Agile</text>
+  <text class="box-txt" fill="#60a5fa" x="585" y="166.4" dominant-baseline="middle">(AD)</text>
+
+  <!-- R2_4: Evo -->
+  <rect class="box-rect" x="685" y="130" width="160" height="70" filter="url(#shadow)" stroke="#3b82f6" />
+  <text class="box-txt" fill="#60a5fa" x="765" y="159.4" dominant-baseline="middle">Evo</text>
+
+  <!-- ROW 3 -->
+  <!-- R3_1: Lean Software Development -->
+  <rect class="box-rect" x="55" y="220" width="160" height="70" filter="url(#shadow)" stroke="#f59e0b" />
+  <text class="box-txt" fill="#fcd34d" x="135" y="241.4" dominant-baseline="middle">Phát triển Phần mềm</text>
+  <text class="box-txt" fill="#fcd34d" x="135" y="256.4" dominant-baseline="middle">Tinh gọn (Lean)</text>
+
+  <!-- R3_2: Unified Process (UP) -->
+  <rect class="box-rect" x="235" y="220" width="160" height="70" filter="url(#shadow)" stroke="#f59e0b" />
+  <text class="box-txt" fill="#fcd34d" x="315" y="241.4" dominant-baseline="middle">Quy trình Thống nhất</text>
+  <text class="box-txt" fill="#fcd34d" x="315" y="256.4" dominant-baseline="middle">(UP)</text>
+
+  <!-- R3_3: Traditional Software Development -->
+  <rect class="box-rect" x="415" y="220" width="160" height="70" filter="url(#shadow)" stroke="#f59e0b" />
+  <text class="box-txt" fill="#fcd34d" x="495" y="233.4" dominant-baseline="middle">Phát triển</text>
+  <text class="box-txt" fill="#fcd34d" x="495" y="248.4" dominant-baseline="middle">Phần mềm</text>
+  <text class="box-txt" fill="#fcd34d" x="495" y="263.4" dominant-baseline="middle">Truyền thống</text>
+
+  <!-- R3_4: And more... -->
+  <rect class="box-rect" x="595" y="220" width="160" height="70" filter="url(#shadow)" stroke="#f59e0b" />
+  <text class="box-txt" fill="#fcd34d" x="675" y="249.4" dominant-baseline="middle">Và nhiều hơn...</text>
+
+  <!-- Labels -->
+  <text class="bold-txt" x="850" y="334" dominant-baseline="middle">Disciplined Agile Delivery (DAD)</text>
+  
+
+</svg>

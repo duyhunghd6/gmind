@@ -1,0 +1,60 @@
+{
+  "id": "wf-xp-refactor",
+  "title": "XP Kỹ thuật số: Tái cấu trúc Liên tục",
+  "description": "Extreme Programming dồn ép chất lượng lên tận mức cực hạn. AI thay thế người Review code để dọn dẹp biến, hàm tồi tệ ngay khi vừa gõ xong.",
+  "steps": [
+    {
+      "id": "xp-1",
+      "title": "Phát hiện Code Smell (Continuous)",
+      "role": "Agent",
+      "description": "AI Agent đóng vai một Lập trình viên Cặp (Pair Programmer), liên tục phân tích cú pháp mỗi lần User thực thi (Save/Commit).",
+      "input": "New Code Delta",
+      "output": "Code Smells Report",
+      "loopGroup": "Execution",
+      "projectStateScenario": "Sử dụng cho các Core Module đắt giá, nơi một lỗi nhỏ có thể làm sập dây chuyền. Yêu cầu tính Simple Design.",
+      "icon": "👃",
+      "nextSteps": [{"conditionLabel": "Phát hiện rác", "nextNodeId": "xp-2"}],
+      "guidanceContext": "AI sử dụng AST (Abstract Syntax Tree) và LLM để vạch trần các đoạn hội mã 'bốc mùi' như: Hàm quá dài, biến tối nghĩa, Nested if-else sâu.",
+      "exampleDetails": "Cảnh báo độ phức tạp Cyclomatic Complexity > 10."
+    },
+    {
+      "id": "xp-2",
+      "title": "Giao tiếp & Ngã giá Thiết kế",
+      "role": "User",
+      "description": "Agent thảo luận với User (On-site Customer / Dev) để đưa ra lựa chọn đập đi xây lại (Refactoring) mà giữ nguyên logic.",
+      "input": "Code Smells Report",
+      "output": "Refactoring Agreement",
+      "loopGroup": "Execution",
+      "promptText": "Hàm tính chiết khấu này có tới 5 lệnh if lồng nhau hôi rình. Mày hãy cấu trúc lại bằng Design Pattern 'Strategy' xem có rành mạch hơn không?",
+      "icon": "🗣️",
+      "nextSteps": [{"conditionLabel": "Đồng ý Refactor", "nextNodeId": "xp-3"}],
+      "guidanceContext": "Trong XP, nguyên tắc bất di bất dịch là Tôn trọng & Giao tiếp. Quyết định thuộc về con người.",
+      "exampleDetails": "Chọn giữa Factory Pattern hoặc giữ nguyên Switch Case nhỏ gọn."
+    },
+    {
+      "id": "xp-3",
+      "title": "Thực Thi Tái Cấu Trúc (Refactor)",
+      "role": "Agent",
+      "description": "Agent trực tiếp thay mã (multi-edit file) bằng các nhát cắt nhỏ giọt (Incremental Changes).",
+      "input": "Refactoring Agreement",
+      "output": "Cleaned Code",
+      "loopGroup": "Execution",
+      "icon": "✨",
+      "nextSteps": [{"conditionLabel": "Chạy Continuous Integration", "nextNodeId": "xp-4"}],
+      "guidanceContext": "Agentic Coding phải luôn nhỏ giọt, không thay đổi toàn bộ file lớn để tránh gây vỡ logic diện rộng.",
+      "exampleDetails": "Sử dụng tool Multi_Replace để gõ lại nội hàm."
+    },
+    {
+      "id": "xp-4",
+      "title": "CI/CD & Bản quyền Tập thể",
+      "role": "System",
+      "description": "Chạy bộ kiểm thử (Automated Tests). Nếu qua, code tự động nối vào nhánh chính. Mọi người đều làm chủ mọi đoạn mã (Collective Code Ownership).",
+      "input": "Cleaned Code",
+      "output": "Deployable Build",
+      "loopGroup": "None",
+      "icon": "🔗",
+      "guidanceContext": "Một lần gộp code phải hoàn thành trong 10 phút. Nếu tests màu Đỏ, xoá luôn nhánh đó làm lại từ đầu.",
+      "exampleDetails": "Github Actions báo xanh."
+    }
+  ]
+}

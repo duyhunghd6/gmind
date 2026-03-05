@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-90 0 1100 800" width="120%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      .title { font-family: 'DM Sans', system-ui, sans-serif; font-size: 28px; font-weight: 500; fill: #f8fafc; text-anchor: middle; letter-spacing: 1px; }
+      .lbl { font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 400; text-anchor: middle; }
+      .desc { font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 400; fill: #cbd5e1; text-anchor: start; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+      <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bg)" rx="16" />
+  
+  <text x="450" y="40.2" dominant-baseline="middle" class="title">Các Vòng lặp Phản hồi trong XP</text>
+
+  <!-- Concentric staggered circles -->
+  <g stroke="rgba(255,255,255,0.1)" stroke-width="1">
+    <!-- 1: months -->
+    <circle cx="350" cy="400" r="350" fill="rgba(88, 28, 135, 0.4)" />
+    <!-- 2: weeks -->
+    <circle cx="350" cy="450" r="300" fill="rgba(67, 56, 202, 0.4)" />
+    <!-- 3: days -->
+    <circle cx="350" cy="500" r="250" fill="rgba(14, 165, 233, 0.4)" />
+    <!-- 4: 24h -->
+    <circle cx="350" cy="550" r="200" fill="rgba(13, 148, 136, 0.4)" />
+    <!-- 5: hours -->
+    <circle cx="350" cy="600" r="150" fill="rgba(16, 185, 129, 0.4)" />
+    <!-- 6: minutes -->
+    <circle cx="350" cy="650" r="100" fill="rgba(245, 158, 11, 0.4)" />
+    <!-- 7: seconds -->
+    <circle cx="350" cy="700" r="50" fill="rgba(225, 29, 72, 0.6)" filter="url(#glow)" />
+  </g>
+
+  <!-- Center labels in the crescents -->
+  <g class="lbl">
+    <text x="350" y="74" dominant-baseline="middle" fill="#f8fafc">tháng</text>
+    <text x="350" y="174" dominant-baseline="middle" fill="#f8fafc">tuần</text>
+    <text x="350" y="274" dominant-baseline="middle" fill="#f8fafc">ngày</text>
+    <text x="350" y="374" dominant-baseline="middle" fill="#f8fafc">24h</text>
+    <text x="350" y="474" dominant-baseline="middle" fill="#f8fafc">vài giờ</text>
+    <text x="350" y="574" dominant-baseline="middle" fill="#f8fafc">vài phút</text>
+    <text x="350" y="674" dominant-baseline="middle" fill="#f8fafc">vài giây</text>
+  </g>
+
+  <!-- Horizontal Lines and Labels -->
+  <g stroke="#334155" stroke-width="1" stroke-dasharray="4,4">
+    <line x1="390" y1="90" x2="650" y2="90" />
+    <line x1="390" y1="190" x2="650" y2="190" />
+    <line x1="390" y1="290" x2="650" y2="290" />
+    <line x1="480" y1="340" x2="650" y2="340" />
+    <line x1="390" y1="390" x2="650" y2="390" />
+    <line x1="390" y1="490" x2="650" y2="490" />
+    <line x1="390" y1="590" x2="650" y2="590" />
+    <line x1="390" y1="690" x2="650" y2="690" />
+  </g>
+  
+  <!-- Solid endpoints -->
+  <g fill="#94a3b8">
+    <circle cx="650" cy="90" r="4" />
+    <circle cx="650" cy="190" r="4" />
+    <circle cx="650" cy="290" r="4" />
+    <circle cx="650" cy="340" r="4" />
+    <circle cx="650" cy="390" r="4" />
+    <circle cx="650" cy="490" r="4" />
+    <circle cx="650" cy="590" r="4" />
+    <circle cx="650" cy="690" r="4" />
+  </g>
+
+  <g class="desc">
+    <text x="670" y="89" dominant-baseline="middle" fill="#a855f7">Lên KH phát hành (Release plan)</text>
+    <text x="670" y="189" dominant-baseline="middle" fill="#6366f1">Lên KH vòng lặp (Iteration plan)</text>
+    <text x="670" y="289" dominant-baseline="middle" fill="#0ea5e9">Kiểm thử chấp nhận (Acceptance test)</text>
+    <text x="670" y="339" dominant-baseline="middle" fill="#38bdf8">Họp trực nhật (Standup meeting)</text>
+    <text x="670" y="389" dominant-baseline="middle" fill="#14b8a6">Thảo luận cặp đôi (Pair negotiation)</text>
+    <text x="670" y="489" dominant-baseline="middle" fill="#10b981">Kiểm thử Unit (Unit test)</text>
+    <text x="670" y="589" dominant-baseline="middle" fill="#f59e0b">Lập trình cặp đôi (Pair programming)</text>
+    <text x="670" y="689" dominant-baseline="middle" fill="#f43f5e">Viết mã (Code)</text>
+  </g>
+
+</svg>

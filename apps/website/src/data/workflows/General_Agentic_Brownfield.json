@@ -1,0 +1,68 @@
+{
+  "id": "wf-agentic-brownfield",
+  "title": "4. Agentic Coding (Brownfield)",
+  "description": "Phát triển trên dự án Đã có sẵn (Brownfield). Phụ thuộc lớn vào việc đọc/hiểu mã nguồn cũ.",
+  "steps": [
+    {
+      "id": "ab-1",
+      "title": "Giao phó Bug / Feature Mới",
+      "role": "User",
+      "description": "Yêu cầu thay đổi luồng hiện tại.",
+      "input": "Bug Report / Feature Request",
+      "output": "Triaging Prompt",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Codebase legacy (Brownfield) đang chạy, cần fix bug đau đầu hoặc đắp thêm tính năng nhỏ mà không làm vỡ app.",
+      "promptText": "Hệ thống Thanh toán hiện hành (payment.ts) đang thỉnh thoảng lỗi timeout do gọi API phía thứ 3. Hãy nghiên cứu codebase hiện tại, thêm cơ chế Retry và Circuit Breaker vào đó.",
+      "icon": "🐛",
+      "nextSteps": [{"conditionLabel": "Tạo Ticket", "nextNodeId": "ab-2"}],
+      "guidanceContext": "Thách thức lớn nhất ở Brownfield là context. Agent phải được mớm context chuẩn xác hoặc tự biết cách tìm đường trong hàng vạn dòng code cũ.",
+      "exampleDetails": "Cung cấp file bị lỗi, mô hình lỗi (stack trace) hoặc ticket Jira cụ thể."
+    },
+    {
+      "id": "ab-2",
+      "title": "Đọc Codebase & Indexing",
+      "role": "Agent",
+      "description": "Dùng semantic search / grep để vét cạn module Thanh toán hiện có.",
+      "input": "Codebase Context",
+      "output": "Indexing & Traces",
+      "loopGroup": "Planning",
+      "loopCondition": "Chưa đủ Context -> Lặp lại trace code",
+      "icon": "🔍",
+      "nextSteps": [
+        {"conditionLabel": "Thiếu Context", "nextNodeId": "ab-2", "isLoopBack": true},
+        {"conditionLabel": "Đủ Context", "nextNodeId": "ab-3"}
+      ],
+      "guidanceContext": "Agent sử dụng các kỹ năng như Ripgrep để dò tìm code. Nó sẽ nhảy từ file này qua file khác để vẽ ra dependency graph.",
+      "exampleDetails": "Quá trình này tốn nhiều token. Cần khoanh vùng thư mục cụ thể để tránh Agent lang thang vào Node Modules."
+    },
+    {
+      "id": "ab-3",
+      "title": "Viết Plan & Đánh giá Rủi ro",
+      "role": "Agent",
+      "description": "Viết kế hoạch sửa code đảm bảo không phá vỡ logic thanh toán cũ.",
+      "input": "Indexing & Traces",
+      "output": "Modification Plan",
+      "loopGroup": "Execution",
+      "icon": "🛡️",
+      "nextSteps": [{"conditionLabel": "Plan Safe", "nextNodeId": "ab-4"}],
+      "guidanceContext": "Agent phân tích những file nào sẽ ảnh hưởng bởi sự thay đổi. Trình bày Impact Assessment.",
+      "exampleDetails": "Agent sinh ra file `Modification_Plan.md` với các khối [NEW], [MODIFY], [DELETE]."
+    },
+    {
+      "id": "ab-4",
+      "title": "Thực thi & Validate",
+      "role": "Agent",
+      "description": "Viết code, chạy Test Suite cũ để đảm bảo pass toàn bộ luồng. Cập nhật mã nguồn an toàn.",
+      "input": "Modification Plan",
+      "output": "Committed Code (Bug Fixed)",
+      "loopGroup": "Execution",
+      "loopCondition": "Vỡ CI -> Hoàn tác và Code lại",
+      "icon": "🩺",
+      "nextSteps": [
+        {"conditionLabel": "Fix Failed", "nextNodeId": "ab-3", "isLoopBack": true}
+      ],
+      "guidanceContext": "Năng lực quan trọng nhất của Agent là Regression Testing — đảm bảo sửa lỗi A không đẻ ra lỗi B.",
+      "exampleDetails": "Agent tự động chạy `npm run test` và phân tích log lỗi vỡ Assertions."
+    }
+  ]
+}

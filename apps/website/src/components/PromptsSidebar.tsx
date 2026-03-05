@@ -60,18 +60,36 @@ export default function PromptsSidebar({
           ))}
 
           {/* Theory Links */}
-          {theoryTopics.map((topic) => (
-            <button
-              key={topic.id}
-              className={`docs-sidebar__item ${activeSection === "theory" && activeTheoryId === topic.id ? "active" : ""}`}
-              onClick={() => onSelectTheory(topic.id)}
-            >
-              <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span aria-hidden="true" style={{ opacity: 0.7 }}>📚</span>
-                {topic.title}
-              </span>
-            </button>
-          ))}
+          {theoryTopics.map((topic) => {
+            const isActiveTheory = activeSection === "theory" && activeTheoryId === topic.id;
+            return (
+              <div key={topic.id} style={{ display: "flex", flexDirection: "column" }}>
+                <button
+                  className={`docs-sidebar__item ${isActiveTheory ? "active" : ""}`}
+                  onClick={() => onSelectTheory(topic.id)}
+                >
+                  <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span aria-hidden="true" style={{ opacity: 0.7 }}>📚</span>
+                    {topic.title}
+                  </span>
+                </button>
+                {isActiveTheory && topic.subItems && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "4px", paddingLeft: "16px", borderLeft: "2px solid var(--border-color)", marginLeft: "14px" }}>
+                    {topic.subItems.map((sub) => (
+                      <a
+                        key={sub.id}
+                        href={`#${sub.id}`}
+                        className="docs-sidebar__item docs-sidebar__item--sub"
+                        style={{ padding: "4px 8px", fontSize: "0.85rem", color: "var(--text-dim)", textDecoration: "none", background: "transparent", minHeight: "auto" }}
+                      >
+                        • {sub.title}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           
           {/* Research Spike Link */}
           <button

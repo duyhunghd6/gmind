@@ -1,0 +1,60 @@
+{
+  "id": "wf-dsdm-moscow",
+  "title": "DSDM: Bộ lọc Năng suất Cố định Thời hạn (MoSCoW)",
+  "description": "DSDM không nhân nhượng về Deadline. Quy trình này phân rã và sắp xếp các tính năng sống còn vào 4 bậc MoSCoW, sẵn sàng chém các tính năng dư thừa để thoát khỏi cháy thời gian.",
+  "steps": [
+    {
+      "id": "dsdm-1",
+      "title": "Dò quét Feature / Story Backlog",
+      "role": "Agent",
+      "description": "Agent gom mọi ý tưởng tính năng đưa vào 1 thau, tính toán ước lượng độ lớn và thời gian làm xong (Estimation).",
+      "input": "Raw Backlog",
+      "output": "Estimated Features",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án có ngân sách/thời hạn sống còn (Timebox cứng) ví dụ như Đấu thầu Nhà nước, Marketing Event. Trượt deadline là chết.",
+      "promptText": "Hệ thống cần Launch trước tháng 10. Hãy rà bộ Backlog, tính toán tổng quỹ thời gian và tự động dán nhãn mức độ sinh/tử cho từng Item theo chuẩn MoSCoW.",
+      "icon": "🕰️",
+      "nextSteps": [{"conditionLabel": "Cập nhật ước tính", "nextNodeId": "dsdm-2"}],
+      "guidanceContext": "DSDM đảo ngược Tam giác sắt: Giữ cố định Tiền và Giờ (Cost & Time), chỉ biến thiên Tính năng (Scope).",
+      "exampleDetails": "Tính năng Báo cáo Thuế cần 40 giờ (Must Have), Đổi màu UI cần 15 giờ."
+    },
+    {
+      "id": "dsdm-2",
+      "title": "Áp dụng Phân luồng MoSCoW",
+      "role": "Agent",
+      "description": "Agent chọc ngoáy phân bổ danh sách làm 4 giỏ: Must have (60% ngân sách), Should have (20%), Could have (20%), Won't have (Bỏ).",
+      "input": "Estimated Features",
+      "output": "Prioritized Task List",
+      "loopGroup": "Planning",
+      "icon": "⚖️",
+      "nextSteps": [{"conditionLabel": "Đồng thuận xếp hạng", "nextNodeId": "dsdm-3"}],
+      "guidanceContext": "Dung lượng giới hạn là nguyên lý. AI sẽ tàn nhẫn đẩy các mục làm đẹp, tối ưu hóa phụ trợ xuống mức 'Could' hoặc 'Won't' nếu thấy tổng số giờ sắp báo động đỏ.",
+      "exampleDetails": "Ví dụ: 'Won't Have': Dark Mode. 'Must Have': Gateway Thanh toán."
+    },
+    {
+      "id": "dsdm-3",
+      "title": "Đẩy Lịch Lập Trình (Timeboxing)",
+      "role": "Execution",
+      "description": "Team kỹ sư cày cuốc trên các phần tử lõi của 'Must Have' trước. Tuyệt đối bám sát Quỹ Giao Lịch (Timebox).",
+      "input": "Prioritized Task List",
+      "output": "Must-haves Done",
+      "loopGroup": "Execution",
+      "icon": "⏳",
+      "nextSteps": [{"conditionLabel": "Đụng trần Thời gian", "nextNodeId": "dsdm-4"}],
+      "guidanceContext": "Agent sẽ liên tục Ping cảnh báo mỗi khi Timebox trôi qua mốc 50% hoặc 80%.",
+      "exampleDetails": "Chỉ còn 3 ngày, Agent cảnh báo Dev ngưng đánh bóng Code mà chuyển sang Merge tính năng liền mạch."
+    },
+    {
+      "id": "dsdm-4",
+      "title": "Máy Chém Timebox (Drop Features)",
+      "role": "System",
+      "description": "Khi sắp chạm Deadline, AI sẽ kích hoạt lưỡi hái: Đóng băng toàn bộ các việc ở khu 'Could Have' để giải phóng nguồn lực cho việc sống còn.",
+      "input": "Time Exhausted State",
+      "output": "Launched Core System",
+      "loopGroup": "None",
+      "icon": "🔪",
+      "guidanceContext": "Người dùng phải vui vẻ thả rơi (Drop) các thiết kế kỳ vọng mộng mơ để bảo toàn một Ứng dụng Chạy tốt.",
+      "exampleDetails": "Do trễ báo giá hợp đồng, mục Should Have (In hoá đơn PDF) bị cắt ngang xương, chỉ xuất CSV."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { aiWorkflows } from "@/data/workflow-prompts";
 import { setupGuides, theoryTopics } from "@/data/setup-theory-data";
 import PromptsSidebar from "@/components/PromptsSidebar";
@@ -14,6 +14,44 @@ export default function PromptsPage() {
   const [activeWorkflowId, setActiveWorkflowId] = useState<string | null>(null);
   const [activeStepId, setActiveStepId] = useState<string | null>(null);
   const [activeResearchId, setActiveResearchId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Check hash on mount to correctly navigate to shared links
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+
+    // Check if the hash matches a theory sub-item
+    const foundTheory = theoryTopics.find(t => t.subItems?.some(sub => sub.id === hash));
+    if (foundTheory) {
+      setActiveSection("theory");
+      setActiveTheoryId(foundTheory.id);
+      setActiveGuideId(null);
+      
+      // Delay scroll slightly to ensure DOM is rendered
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+      return;
+    }
+
+    // Check if it directly matches a theory id
+    const foundDirectTheory = theoryTopics.find(t => t.id === hash);
+    if (foundDirectTheory) {
+      setActiveSection("theory");
+      setActiveTheoryId(foundDirectTheory.id);
+      setActiveGuideId(null);
+      return;
+    }
+
+    // Check if it matches a setup guide
+    const foundGuide = setupGuides.find(g => g.id === hash);
+    if (foundGuide) {
+      setActiveSection("setup");
+      setActiveGuideId(foundGuide.id);
+      return;
+    }
+  }, []);
 
   // Data Selectors
   const activeGuide = setupGuides.find((g) => g.id === activeGuideId);
@@ -97,7 +135,7 @@ export default function PromptsPage() {
           onSelectResearch={handleSelectResearch}
         />
       </div>
-      <main className="docs-content" style={{ padding: "40px 20px 80px", minWidth: 0 }}>
+      <main className="docs-content" style={{ padding: "40px 20px 80px", minWidth: 0, overflowY: "visible" }}>
         <PromptViewer 
           activeSection={activeSection}
           workflow={activeWorkflow} 

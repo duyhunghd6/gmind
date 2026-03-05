@@ -1,0 +1,79 @@
+{
+  "id": "wf-vibe-coding",
+  "title": "2. Vibe Coding (Interactive)",
+  "description": "Code qua phản hồi tương tác (feedback loop). Agent viết nháp, người dùng đánh giá và tinh chỉnh liên tục.",
+  "steps": [
+    {
+      "id": "vb-1",
+      "title": "Khởi tạo Ý tưởng (Prompt)",
+      "role": "User",
+      "description": "Mô tả sơ bộ về ý tưởng, không cần quá chi tiết.",
+      "input": "Khái niệm chung",
+      "output": "Prompt mở",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Ứng dụng UI/UX cần tinh chỉnh thẩm mỹ liên tục, hoặc explore ý tưởng chưa rõ ràng.",
+      "promptText": "Tôi muốn làm một trang landing page cho ứng dụng học ngoại ngữ. Bạn có thể gợi ý cấu trúc và code thử phần Header đi kèm Hero Section được không?",
+      "icon": "💡",
+      "nextSteps": [{"conditionLabel": "Đưa ý tưởng", "nextNodeId": "vb-2"}],
+      "guidanceContext": "Vibe coding tập trung vào việc thử nghiệm nhanh. Bạn không cần phải suy nghĩ quá sâu về logic hay kiến trúc rườm rà. Mục đích là để AI sinh ra một hình hài sơ khai, từ đó bạn có 'cảm giác' (vibe) để feedback.",
+      "exampleDetails": "Tập trung vào mô tả UI, màu sắc, cảm giác (nhẹ nhàng, năng động) thay vì cấu trúc database."
+    },
+    {
+      "id": "vb-2",
+      "title": "Phân tích PRDs & Lên kế hoạch (PLAN)",
+      "role": "Agent",
+      "description": "Phát thảo ý tưởng, lên Requirement ngắn gọn và kế hoạch triển khai.",
+      "input": "Prompt mở",
+      "output": "PRD nháp & Kế hoạch",
+      "loopGroup": "Planning",
+      "loopCondition": "Đồng ý Kế hoạch -> Chuyển sang Code",
+      "icon": "📝",
+      "nextSteps": [{"conditionLabel": "Duyệt Kế Hoạch", "nextNodeId": "vb-3"}],
+      "guidanceContext": "AI sẽ chia nhỏ yêu cầu mờ nhạt của bạn thành các gạch đầu dòng có thể thực thi (actionable items). Ở bước này, bạn nên đọc lướt để xem AI có hiểu nhầm ý định của mình không.",
+      "exampleDetails": "Ví dụ: AI đề xuất Next.js, Framer Motion cho animation, Tailwind cho styling."
+    },
+    {
+      "id": "vb-3",
+      "title": "Rã việc (Tasks tracking) & Code nháp",
+      "role": "Agent",
+      "description": "Liệt kê các module cần làm, code thử bản Draft 1.",
+      "input": "Kế hoạch",
+      "output": "Mã nguồn (Draft 1)",
+      "loopGroup": "Execution",
+      "icon": "🔨",
+      "nextSteps": [{"conditionLabel": "Trải nghiệm UI", "nextNodeId": "vb-4"}],
+      "guidanceContext": "Agent bắt đầu nhả ra hàng loạt file mã nguồn. Chú ý theo dõi quá trình này, nếu code đi chệch hướng, bạn có thể ngắt ngay lập tức để tiết kiệm token và thời gian.",
+      "exampleDetails": "Thấy AI bắt đầu cài đặt `passport.js` trong khi bạn chỉ cần UI? Hãy stop và sửa lại prompt."
+    },
+    {
+      "id": "vb-4",
+      "title": "Người dùng Vibe Check & Cập nhật",
+      "role": "User",
+      "description": "Người dùng xem kết quả, chỉnh sửa định hướng thiết kế.",
+      "input": "Trải nghiệm bản Draft 1",
+      "output": "Feedback tinh chỉnh",
+      "loopGroup": "Execution",
+      "promptText": "Màu sắc hiện tại hơi chói. Hãy đổi sang tone màu pastel nhẹ nhàng hơn (như xanh ngọc bích). Thêm một nút 'Học Thử Miễn Phí' to hơn ở giữa Hero Section.",
+      "icon": "👀",
+      "nextSteps": [{"conditionLabel": "Gửi Feedback", "nextNodeId": "vb-5"}],
+      "guidanceContext": "Đây là cốt lõi của Vibe Coding. Bạn chạy thử, nhìn ngắm ứng dụng (vibe check) và phản hồi như thể đang nói chuyện với một Designer/Coder ngồi cạnh.",
+      "exampleDetails": "Hãy dùng các từ mô tả cảm xúc thẩm mỹ như: 'bo góc mềm hơn', 'tối lùi lại (dim) background', v.v."
+    },
+    {
+      "id": "vb-5",
+      "title": "Code lại & QA",
+      "role": "Agent",
+      "description": "Cập nhật mã nguồn theo feedback và kiểm tra lỗi.",
+      "input": "Feedback tinh chỉnh",
+      "output": "Mã nguồn (Draft N)",
+      "loopGroup": "Execution",
+      "loopCondition": "Chưa ưng ý -> Lặp lại Vibe Check",
+      "icon": "🔄",
+      "nextSteps": [
+        {"conditionLabel": "Chưa ưng -> Sửa tiếp", "nextNodeId": "vb-4", "isLoopBack": true}
+      ],
+      "guidanceContext": "AI điều chỉnh chỉ những phần được yêu cầu. Đôi khi AI có thể làm vỡ component khác, hãy báo cho AI biết 'Nút A vừa bị mất sau khi cập nhật Header'.",
+      "exampleDetails": "Nếu vỡ layout quá nặng, bạn nên rollback lại commit trước đó thay vì cố bắt AI sửa tiếp lỗi của chính nó."
+    }
+  ]
+}

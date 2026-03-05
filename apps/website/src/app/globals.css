@@ -17,3 +17,7 @@
 
   --radius-custom: 6px;
 }
+
+html {
+  scroll-behavior: smooth;
+}

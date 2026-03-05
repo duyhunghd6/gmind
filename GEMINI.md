@@ -12,3 +12,5 @@
 
   Beads-ID: br-xxx, bd-xxx, br-ds-xxx
   ```
+
+- Running website showcase at port http://localhost:9993/ ; If you can't connect just run `npm run dev` at folder `apps/website`.

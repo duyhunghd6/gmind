@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="100%" height="100%">
+    <defs>
+        <!-- Soft Drop Shadow for large white circles -->
+        <filter id="shadow-large" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.12" />
+        </filter>
+        
+        <!-- Soft Drop Shadow for small step circles -->
+        <filter id="shadow-small" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.15" />
+        </filter>
+
+        <!-- Base text style -->
+        <style>
+            .title-text { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 34px; font-weight: 800; text-anchor: middle; }
+            .label-text { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 24px; font-weight: 700; text-anchor: middle; }
+            .step-text-small { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 10px; font-weight: 700; text-anchor: middle; }
+            .step-text-large { font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 20px; font-weight: 700; text-anchor: middle; }
+            
+      /* Set theme-aware standard text color */
+      .title-text, .label-text { fill: #f8fafc; }
+      .step-text-small { fill: #f4f4f5; }
+      .step-text-large { fill: #ffffff; }
+
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+        
+        .title-text, .label-text { fill: #0f172a !important; }
+        .step-text-small { fill: #000000 !important; }
+        .step-text-large { fill: #0f172a !important; }
+      }
+      
+    </style>
+        <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+      <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+
+    <!-- Background -->
+    <rect width="100%" height="100%" fill="url(#bg)" />
+
+    <!-- Logo (Top Right) -->
+    <g transform="translate(930, 55) scale(1.15)" fill="none" stroke="#0F9D58" stroke-width="4.5" stroke-linecap="butt" stroke-linejoin="round">
+        <path d="M -1.5 -8 C -12 -8 -15 0 -15 6 C -15 12 -12 18 -1.5 18 L -1.5 12 C -6 12 -9 10 -9 6 C -9 2 -6 0 -1.5 0 L 4.5 0" />
+        <path d="M 1.5 -8 C 12 -8 15 0 15 6 C 15 12 12 18 1.5 18 L 1.5 12 C 6 12 9 10 9 6 C 9 2 6 0 1.5 0 L -4.5 0" />
+    </g>
+
+    <!-- Main Title -->
+    <text x="500" y="130" class="title-text">Vòng đời của Extreme Programming (XP)</text>
+
+    <!-- ================= GRAPHICS GROUP ================= -->
+    <g transform="translate(0, 0)">
+        
+        <!-- Thick Connecting Arcs -->
+        <g stroke-width="34" stroke-linecap="butt" fill="none">
+            <!-- Node 1 (Planning) - Orange -->
+            <path d="M 100 400 A 80 80 0 0 0 260 400" stroke="#F19A1A" />
+            <!-- Node 2 (Design) - Purple -->
+            <path d="M 260 400 A 80 80 0 0 1 420 400" stroke="#754098" />
+            <!-- Node 3 (Coding) - Teal -->
+            <path d="M 420 400 A 80 80 0 0 0 580 400" stroke="#225C77" />
+            <!-- Node 4 (Testing) - Green -->
+            <path d="M 580 400 A 80 80 0 0 1 740 400" stroke="#179B5F" />
+            <!-- Node 5 (Listening) - Red -->
+            <path d="M 740 400 A 80 80 0 0 0 900 400" stroke="#B31A21" />
+            
+            <!-- Rounded End Caps for the snake path -->
+            <path d="M 100 383 A 17 17 0 0 0 100 417 Z" fill="#F19A1A" stroke="none" />
+            <path d="M 900 383 A 17 17 0 0 1 900 417 Z" fill="#B31A21" stroke="none" />
+        </g>
+
+        <!-- Large White Background Circles -->
+        <g fill="#FFFFFF" filter="url(#shadow-large)">
+            <circle cx="180" cy="400" r="54" />
+            <circle cx="340" cy="400" r="54" />
+            <circle cx="500" cy="400" r="54" />
+            <circle cx="660" cy="400" r="54" />
+            <circle cx="820" cy="400" r="54" />
+        </g>
+
+        <!-- Inner Colored Circles -->
+        <circle cx="180" cy="400" r="44" fill="#F19A1A" />
+        <circle cx="340" cy="400" r="44" fill="#754098" />
+        <circle cx="500" cy="400" r="44" fill="#225C77" />
+        <circle cx="660" cy="400" r="44" fill="#179B5F" />
+        <circle cx="820" cy="400" r="44" fill="#B31A21" />
+
+        <!-- Icons Group -->
+        <!-- Icon 1: Planning -->
+        <g transform="translate(180, 400)" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="-16" cy="14" r="3" fill="#FFFFFF" />
+            <path d="M -13 14 L 10 14 A 7 7 0 0 0 17 7 A 7 7 0 0 0 10 0 L -5 0" />
+            <circle cx="-8" cy="0" r="3" fill="#FFFFFF" />
+            <path d="M -8 -3 L -8 -10 A 7 7 0 0 1 -1 -17 L 15 -17" />
+            <circle cx="18" cy="-17" r="3" fill="#FFFFFF" />
+            <path d="M 18 -17 L 18 -27 L 27 -22 L 18 -17 Z" fill="#FFFFFF" />
+        </g>
+
+        <!-- Icon 2: Design -->
+        <g transform="translate(340, 400)" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="-16" y="-16" width="22" height="30" rx="1.5" />
+            <path d="M -2 20 L 22 20 L 22 -4 Z" fill="#754098" stroke="none" />
+            <path d="M -2 20 L 22 20 L 22 -4 Z" />
+            <circle cx="15" cy="13" r="1.5" />
+            <path d="M -8 10 L 10 -8 L 14 -4 L -4 14 Z" fill="#754098" stroke="none" />
+            <path d="M -8 10 L 10 -8 L 14 -4 L -4 14 Z" />
+            <path d="M -8 10 L -12 14 L -4 14 Z" fill="#FFFFFF" />
+            <line x1="8" y1="-6" x2="12" y2="-2" />
+        </g>
+
+        <!-- Icon 3: Coding -->
+        <g transform="translate(500, 400)" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="-22" y="-16" width="44" height="32" rx="3" />
+            <line x1="-22" y1="-6" x2="22" y2="-6" />
+            <circle cx="-15" cy="-11" r="1.5" fill="#FFFFFF" stroke="none" />
+            <circle cx="-9" cy="-11" r="1.5" fill="#FFFFFF" stroke="none" />
+            <circle cx="-3" cy="-11" r="1.5" fill="#FFFFFF" stroke="none" />
+            <path d="M -10 3 L -16 9 L -10 15" />
+            <path d="M 10 3 L 16 9 L 10 15" />
+            <line x1="-3" y1="17" x2="3" y2="1" />
+        </g>
+
+        <!-- Icon 4: Testing -->
+        <g transform="translate(660, 400)" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="-21" y="-13" width="42" height="26" rx="2" />
+            <path d="M -25 13 L 25 13 A 2 2 0 0 1 27 15 L -27 15 A 2 2 0 0 1 -25 13 Z" fill="#FFFFFF" stroke="none" />
+            <!-- Gear -->
+            <circle cx="0" cy="-3" r="4.5" />
+            <path d="M 0 -7.5 v -1.5 M 0 1.5 v 1.5 M -4.5 -3 h -1.5 M 4.5 -3 h 1.5 M -3 -6 l -1 -1 M 3 0 l 1 1 M 3 -6 l 1 -1 M -3 0 l -1 1" />
+            <!-- Check Circle -->
+            <circle cx="-11" cy="5" r="4.5" />
+            <path d="M -13 5 L -11 7 L -8 2" />
+            <!-- Cross Circle -->
+            <circle cx="11" cy="5" r="4.5" />
+            <path d="M 9 3 L 13 7 M 13 3 L 9 7" />
+        </g>
+
+        <!-- Icon 5: Listening -->
+        <g transform="translate(815, 400)" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Ear Outline -->
+            <path d="M -2 -14 C -14 -14 -16 -2 -16 4 C -16 12 -10 18 -4 18 C 2 18 4 14 2 10 C 0 6 -4 6 -4 2 C -4 -2 2 -4 2 -8 C 2 -12 0 -14 -2 -14 Z" />
+            <!-- Inner Ear Line -->
+            <path d="M -6 -2 Q -12 4 -4 10" />
+            <!-- Sound Waves -->
+            <line x1="12" y1="-8" x2="18" y2="-12" />
+            <line x1="14" y1="2" x2="22" y2="2" />
+            <line x1="12" y1="12" x2="18" y2="16" />
+        </g>
+
+        <!-- Small Step Circles & Text -->
+        <!-- Step 1 (Bottom) -->
+        <g transform="translate(180, 480)">
+            <circle cx="0" cy="0" r="24" fill="url(#cardBg)" filter="url(#shadow-small)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+            <text x="0" y="-5" class="step-text-small" fill="#F19A1A">BƯỚC</text>
+            <text x="0" y="14" class="step-text-large" fill="#F19A1A">01</text>
+        </g>
+        
+        <!-- Step 2 (Top) -->
+        <g transform="translate(340, 320)">
+            <circle cx="0" cy="0" r="24" fill="url(#cardBg)" filter="url(#shadow-small)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+            <text x="0" y="-5" class="step-text-small" fill="#754098">BƯỚC</text>
+            <text x="0" y="14" class="step-text-large" fill="#754098">02</text>
+        </g>
+
+        <!-- Step 3 (Bottom) -->
+        <g transform="translate(500, 480)">
+            <circle cx="0" cy="0" r="24" fill="url(#cardBg)" filter="url(#shadow-small)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+            <text x="0" y="-5" class="step-text-small" fill="#225C77">BƯỚC</text>
+            <text x="0" y="14" class="step-text-large" fill="#225C77">03</text>
+        </g>
+
+        <!-- Step 4 (Top) -->
+        <g transform="translate(660, 320)">
+            <circle cx="0" cy="0" r="24" fill="url(#cardBg)" filter="url(#shadow-small)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+            <text x="0" y="-5" class="step-text-small" fill="#179B5F">BƯỚC</text>
+            <text x="0" y="14" class="step-text-large" fill="#179B5F">04</text>
+        </g>
+
+        <!-- Step 5 (Bottom) -->
+        <g transform="translate(820, 480)">
+            <circle cx="0" cy="0" r="24" fill="url(#cardBg)" filter="url(#shadow-small)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+            <text x="0" y="-5" class="step-text-small" fill="#B31A21">BƯỚC</text>
+            <text x="0" y="14" class="step-text-large" fill="#B31A21">05</text>
+        </g>
+
+        <!-- Main Category Labels -->
+        <text x="180" y="545" class="label-text">Lập kế hoạch</text>
+        <text x="340" y="250" class="label-text">Thiết kế</text>
+        <text x="500" y="545" class="label-text">Lập trình</text>
+        <text x="660" y="250" class="label-text">Kiểm thử</text>
+        <text x="820" y="545" class="label-text">Lắng nghe</text>
+        
+    </g>
+
+</svg>

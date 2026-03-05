@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 320" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      .box-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 500; fill: #f8fafc; text-anchor: middle; }
+      .label-text { font-family: 'DM Sans', system-ui, sans-serif; font-size: 10px; fill: #94a3b8; text-anchor: middle; font-style: italic; }
+      .pill-text { font-family: 'DM Sans', system-ui, sans-serif; font-size: 11px; font-weight: 600; text-anchor: middle; }
+      .tdd-circle-text { font-family: 'DM Sans', system-ui, sans-serif; font-size: 11px; font-weight: 600; fill: #ffffff; text-anchor: middle; }
+      
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        /* Mappings adapted from agile-values */
+        text[fill="#ffffff" i], text[fill="#f8fafc" i], .box-txt { fill: #0f172a !important; }
+        text[fill="#94a3b8" i], .label-text { fill: #475569 !important; }
+        .box { fill: #ffffff !important; stroke: #cbd5e1 !important; }
+        .box-blue { fill: rgba(14, 165, 233, 0.05) !important; stroke: #0ea5e9 !important; }
+        .box-orange { fill: rgba(245, 158, 11, 0.05) !important; stroke: #f59e0b !important; }
+        path.line, line.line, path[stroke="#cbd5e1" i] { stroke: #94a3b8 !important; }
+        text[fill="#0ea5e9" i], .pill-text.blue { fill: #0284c7 !important; }
+        text[fill="#ec4899" i], .pill-text.red { fill: #e11d48 !important; }
+        text[fill="#10b981" i], .pill-text.green { fill: #059669 !important; }
+        /* Light mode tag background */
+        .tag-bg { fill: #f1f5f9 !important; }
+        /* TDD circles maintain their color + white text */
+        .tdd-circle-text { fill: #ffffff !important; }
+      }
+    </style>
+    <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.2" />
+    </filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Refined Arrowheads: smaller markerWidth/Height -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#64748b" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#ec4899" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3.5" markerHeight="3.5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#0ea5e9" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+
+  <!-- Flowchart Connectors (Edges) -->
+  <g id="edges">
+    <path d="M 290 113 L 305 113 L 305 56 L 314" class="line" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <path d="M 290 113 L 305 113 L 305 172 L 314" class="line" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    
+    <path d="M 445 172 L 462 172 L 462 145 L 474" class="line" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <path d="M 445 172 L 462 172 L 462 210 L 474" class="line" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    
+    <line x1="545" y1="225" x2="545" y2="251" class="line" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+
+    <!-- Connections to TDD Box -->
+    <line x1="430" y1="56" x2="666" y2="56" class="line" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    
+    <!-- "New Feature" splits to two arrow lines correctly entering the TDD box -->
+    <path d="M 580 145 L 610 145 L 610 105 L 666 105" class="line" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <path d="M 580 145 L 610 145 L 610 185 L 666 185" class="line" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+  </g>
+
+  <!-- Flowchart Nodes (Boxes) -->
+  <g id="nodes">
+    <!-- Project Type -->
+    <rect x="200" y="95" width="90" height="36" rx="18" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" stroke-width="1.5" class="box box-orange" filter="url(#shadow)" />
+    <text x="245" y="115" class="box-txt" dominant-baseline="middle">Loại dự án</text>
+
+    <!-- New Project -->
+    <rect x="320" y="40" width="110" height="32" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="375" y="58" class="box-txt" dominant-baseline="middle">Dự án mới</text>
+
+    <!-- In existing Project -->
+    <rect x="320" y="150" width="125" height="44" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="382.5" y="166" class="box-txt">
+      <tspan x="382.5" dy="0">Dự án hiện có</tspan>
+      <tspan x="382.5" dy="16" fill="#94a3b8" font-size="11" class="label-text">(Legacy Code)</tspan>
+    </text>
+
+    <!-- New Feature -->
+    <rect x="480" y="130" width="100" height="30" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="530" y="147" class="box-txt" dominant-baseline="middle">Tính năng mới</text>
+
+    <!-- Changes in old code -->
+    <rect x="480" y="195" width="130" height="30" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="545" y="212" class="box-txt" dominant-baseline="middle">Thay đổi code cũ</text>
+
+    <!-- Breaking Dependency -->
+    <rect x="480" y="255" width="140" height="44" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="550" y="271" class="box-txt">
+      <tspan x="550" dy="0">Kỹ thuật gỡ bỏ</tspan>
+      <tspan x="550" dy="16">Sự phụ thuộc</tspan>
+    </text>
+
+    <!-- Wrap/Sprout Method Labels -->
+    <rect x="575" y="88" width="85" height="14" fill="#0f172a" class="tag-bg" rx="4" opacity="0.95" />
+    <text x="617.5" y="98.5" class="label-text" font-size="10">Phương pháp Wrap</text>
+    <rect x="575" y="168" width="90" height="14" fill="#0f172a" class="tag-bg" rx="4" opacity="0.95" />
+    <text x="620" y="178.5" class="label-text" font-size="10">Phương pháp Sprout</text>
+  </g>
+
+  <!-- TDD Cycle Section -->
+  <g id="tdd-section">
+    <!-- Dashed Bounding Box -->
+    <rect x="670" y="25" width="250" height="260" rx="12" fill="none" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="6,4" />
+
+    <!-- Dashed Connectors for Pills -->
+    <line x1="795" y1="83" x2="795" y2="65" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3,3" />
+    <line x1="750" y1="210" x2="742" y2="240" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3,3" />
+    <line x1="840" y1="210" x2="855" y2="240" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,3" />
+
+    <!-- Cycle Arrows - refined sizing from stroke-width 8 to 4 -->
+    <!-- Red to Green -->
+    <path d="M 812 135 C 818 142 823 148 828 155" fill="none" stroke="#ec4899" stroke-width="4" marker-end="url(#arrow-red)" />
+    <!-- Green to Refactor -->
+    <path d="M 810 188 L 788 188" fill="none" stroke="#10b981" stroke-width="4" marker-end="url(#arrow-green)" />
+    <!-- Refactor to Red -->
+    <path d="M 762 160 C 768 152 773 145 778 138" fill="none" stroke="#0ea5e9" stroke-width="4" marker-end="url(#arrow-cyan)" />
+
+    <!-- RED Circle -->
+    <circle cx="795" cy="110" r="26" fill="#ec4899" filter="url(#shadow)" />
+    <text x="795" y="115" class="tdd-circle-text" font-size="12" dominant-baseline="middle">RED</text>
+
+    <!-- GREEN Circle -->
+    <circle cx="840" cy="185" r="26" fill="#10b981" filter="url(#shadow)" />
+    <text x="840" y="189" class="tdd-circle-text" font-size="10" dominant-baseline="middle">GREEN</text>
+
+    <!-- REFACTOR Circle -->
+    <circle cx="750" cy="185" r="26" fill="#0ea5e9" filter="url(#shadow)" />
+    <text x="750" y="189" class="tdd-circle-text" font-size="8.5" dominant-baseline="middle">REFACTOR</text>
+
+    <!-- Pattern Pills -->
+    <!-- Red-Bar Patterns -->
+    <rect x="745" y="45" width="100" height="22" rx="11" fill="rgba(236,72,153,0.05)" stroke="#ec4899" stroke-width="1.2" />
+    <text x="795" y="60.5" class="pill-text red" fill="#ec4899" dominant-baseline="middle">Các mẫu Red-Bar</text>
+
+    <!-- Refactoring Patterns -->
+    <rect x="680" y="240" width="125" height="22" rx="11" fill="rgba(14,165,233,0.05)" stroke="#0ea5e9" stroke-width="1.2" />
+    <text x="742.5" y="255.5" class="pill-text blue" fill="#0ea5e9" dominant-baseline="middle">Các mẫu Tái cấu trúc</text>
+
+    <!-- Green-Bar Patterns -->
+    <rect x="815" y="240" width="105" height="22" rx="11" fill="rgba(16,185,129,0.05)" stroke="#10b981" stroke-width="1.2" />
+    <text x="867.5" y="255.5" class="pill-text green" fill="#10b981" dominant-baseline="middle">Các mẫu Green-Bar</text>
+  </g>
+</svg>

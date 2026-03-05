@@ -1,0 +1,887 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="100%" height="100%">
+  <defs>
+    <!-- Base Styles -->
+    <style>
+      text { font-family: Arial, sans-serif; }
+      .bold { font-weight: bold; }
+      .small { font-size: 9px; }
+      .medium { font-size: 11px; }
+      .large { font-size: 14px; }
+      .xlarge { font-size: 18px; }
+      .title { font-size: 20px; font-weight: bold; fill: #1c3d6c; }
+      
+      /* Colors */
+      .bg-main { fill: #fcfcfc; }
+      .bg-sidebar { fill: #f3f3f3; }
+      .bg-footer { fill: #71757b; }
+      .bg-header { fill: #5f90c6; }
+      
+      .text-dark { fill: #333; }
+      .text-light { fill: #fff; }
+      .text-blue { fill: #2c568f; }
+      .text-gray { fill: #666; }
+      
+      .stroke-gray { stroke: #ccc; stroke-width: 1; }
+      .stroke-dark { stroke: #555; stroke-width: 1.5; }
+      
+      /* Tags */
+      .tag-epic { fill: #486395; }
+      .tag-feature { fill: #486395; }
+      .tag-enabler { fill: #974444; }
+      .tag-story { fill: #638ac8; }
+      
+      /* Competency Rings */
+      .comp-ring { fill: #fff; stroke: #0070ba; stroke-width: 3; }
+      .comp-icon { fill: #0070ba; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+
+    <!-- Shared Icons -->
+    <g id="person" fill="#698197">
+      <circle cx="10" cy="5" r="4.5" />
+      <path d="M 3 18 C 3 11, 17 11, 17 18 Z" />
+    </g>
+    <g id="person-dark" fill="#333">
+      <circle cx="10" cy="5" r="4.5" />
+      <path d="M 3 18 C 3 11, 17 11, 17 18 Z" />
+    </g>
+    <g id="team">
+      <use href="#person" x="-7" y="2" transform="scale(0.85)" />
+      <use href="#person" x="11" y="2" transform="scale(0.85)" />
+      <use href="#person" x="2" y="0" />
+    </g>
+    
+    <!-- Value Stream Chevron -->
+    <polygon id="vs-chevron" points="0,0 80,0 95,20 80,40 0,40 15,20" fill="#d2e0ed" stroke="#fff" stroke-width="2" />
+    
+    <!-- Pipeline Chevron -->
+    <polygon id="pl-chevron" points="0,0 120,0 130,12 120,24 0,24 10,12" fill="none" stroke="#ccc" stroke-dasharray="3,3" stroke-width="1.5" />
+
+    <!-- Small Kanban Board -->
+    <g id="kanban-small">
+      <rect x="0" y="0" width="30" height="35" fill="#e0e0e0" stroke="#888" rx="2" />
+      <line x1="10" y1="0" x2="10" y2="35" stroke="#fff" stroke-width="2" />
+      <line x1="20" y1="0" x2="20" y2="35" stroke="#fff" stroke-width="2" />
+      <rect x="2" y="4" width="6" height="4" fill="#558ec4" />
+      <rect x="2" y="10" width="6" height="4" fill="#9b3b3b" />
+      <rect x="12" y="4" width="6" height="4" fill="#558ec4" />
+      <rect x="12" y="10" width="6" height="4" fill="#558ec4" />
+      <rect x="22" y="4" width="6" height="4" fill="#9b3b3b" />
+    </g>
+
+      <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+      <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+
+  <!-- ================= BACKGROUND & STRUCTURE ================= -->
+  
+  <!-- Outer Border / Main Content Area -->
+  <path d="M 175 10 Q 175 0 185 0 L 1120 0 L 1120 540 L 185 540 Q 175 540 175 530 Z" class="bg-main stroke-dark" />
+  
+  <!-- Right Sidebar (Spanning Palette) -->
+  <rect x="1120" y="45" width="75" height="495" class="bg-sidebar stroke-dark" />
+  
+  <!-- Top Header Bar -->
+  <path d="M 390 0 L 1120 0 L 1120 45 L 390 45 Z" class="bg-header" />
+  <rect x="176" y="1" width="214" height="44" fill="#fff" rx="8" /> <!-- Top left corner cutout -->
+
+  <!-- Horizontal Divider Portfolio/Essential -->
+  <line x1="175" y1="200" x2="1120" y2="200" class="stroke-gray" />
+
+  <!-- Footer -->
+  <path d="M 175 540 L 1195 540 L 1195 580 Q 1195 590 1185 590 L 185 590 Q 175 590 175 580 Z" class="bg-footer stroke-dark" />
+
+
+  <!-- ================= TOP HEADER ================= -->
+  <text x="755" y="30" class="text-light bold title" font-size="22">Business Agility</text>
+  
+  <!-- Measure & Grow Gauge -->
+  <g transform="translate(1010, 8)">
+    <path d="M 5 25 A 20 20 0 0 1 45 25" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="6,4" />
+    <circle cx="25" cy="25" r="3" fill="#fff" />
+    <line x1="25" y1="25" x2="15" y2="10" stroke="#fff" stroke-width="2" />
+    <text x="55" y="12" class="text-light bold small">Measure</text>
+    <text x="55" y="24" class="text-light bold small">&amp; Grow</text>
+  </g>
+
+
+  <!-- ================= LEFT SIDEBAR (Competencies) ================= -->
+  
+  <!-- Organizational Agility -->
+  <g transform="translate(10, 30)">
+    <text x="145" y="30" text-anchor="end" class="text-dark bold medium">Organizational</text>
+    <text x="145" y="45" text-anchor="end" class="text-dark bold medium">Agility</text>
+    <circle cx="145" cy="35" r="25" class="comp-ring" transform="translate(30,0)" />
+    <!-- Icon: Network/Hierarchy -->
+    <g transform="translate(162, 22)" class="comp-icon">
+      <circle cx="13" cy="4" r="3" /><circle cx="5" cy="14" r="3" /><circle cx="13" cy="14" r="3" /><circle cx="21" cy="14" r="3" /><circle cx="1" cy="24" r="3" /><circle cx="9" cy="24" r="3" /><circle cx="17" cy="24" r="3" /><circle cx="25" cy="24" r="3" />
+      <path d="M 13 7 L 5 11 M 13 7 L 13 11 M 13 7 L 21 11 M 5 17 L 1 21 M 5 17 L 9 21 M 21 17 L 17 21 M 21 17 L 25 21" stroke="#0070ba" stroke-width="1.5" />
+    </g>
+  </g>
+
+  <!-- Lean Portfolio Management -->
+  <g transform="translate(10, 135)">
+    <text x="145" y="25" text-anchor="end" class="text-dark bold medium">Lean Portfolio</text>
+    <text x="145" y="40" text-anchor="end" class="text-dark bold medium">Management</text>
+    <circle cx="145" cy="35" r="25" class="comp-ring" transform="translate(30,0)" />
+    <g transform="translate(160, 20)">
+      <path d="M 15 2 L 2 25 L 28 25 Z" fill="none" stroke="#0070ba" stroke-width="2" />
+      <use href="#person" x="5" y="8" fill="#0070ba" transform="scale(0.6)" />
+      <use href="#person" x="15" y="8" fill="#0070ba" transform="scale(0.6)" />
+      <use href="#person" x="25" y="8" fill="#0070ba" transform="scale(0.6)" />
+    </g>
+  </g>
+
+  <!-- Agile Product Delivery -->
+  <g transform="translate(10, 240)">
+    <text x="145" y="25" text-anchor="end" class="text-dark bold medium">Agile</text>
+    <text x="145" y="40" text-anchor="end" class="text-dark bold medium">Product</text>
+    <text x="145" y="55" text-anchor="end" class="text-dark bold medium">Delivery</text>
+    <circle cx="145" cy="35" r="25" class="comp-ring" transform="translate(30,0)" />
+    <g transform="translate(160, 20)">
+      <circle cx="15" cy="15" r="12" fill="none" stroke="#0070ba" stroke-width="2" />
+      <path d="M 15 3 L 15 15 L 5 21 M 15 15 L 25 21" stroke="#0070ba" stroke-width="1.5" />
+      <text x="15" y="11" class="small bold" fill="#0070ba" text-anchor="middle">D</text>
+      <text x="9" y="21" class="small bold" fill="#0070ba" text-anchor="middle">V</text>
+      <text x="21" y="21" class="small bold" fill="#0070ba" text-anchor="middle">F</text>
+    </g>
+  </g>
+
+  <!-- Team and Technical Agility -->
+  <g transform="translate(10, 350)">
+    <text x="145" y="25" text-anchor="end" class="text-dark bold medium">Team and</text>
+    <text x="145" y="40" text-anchor="end" class="text-dark bold medium">Technical</text>
+    <text x="145" y="55" text-anchor="end" class="text-dark bold medium">Agility</text>
+    <circle cx="145" cy="35" r="25" class="comp-ring" transform="translate(30,0)" />
+    <g transform="translate(162, 22)">
+      <!-- Gear -->
+      <path d="M 12 4 A 8 8 0 1 0 12 20 A 8 8 0 1 0 12 4" fill="none" stroke="#0070ba" stroke-width="3" stroke-dasharray="4,2" />
+      <!-- Wrench -->
+      <path d="M 5 22 L 15 12" stroke="#0070ba" stroke-width="3" />
+    </g>
+  </g>
+
+  <!-- Continuous Learning Culture -->
+  <g transform="translate(10, 465)">
+    <text x="145" y="25" text-anchor="end" class="text-dark bold medium">Continuous</text>
+    <text x="145" y="40" text-anchor="end" class="text-dark bold medium">Learning</text>
+    <text x="145" y="55" text-anchor="end" class="text-dark bold medium">Culture</text>
+    <circle cx="145" cy="35" r="25" class="comp-ring" transform="translate(30,0)" />
+    <g transform="translate(160, 20)">
+      <use href="#team" x="5" y="5" fill="#0070ba" />
+      <!-- Ribbon/Badge -->
+      <circle cx="15" cy="22" r="4" fill="#0070ba" />
+      <path d="M 13 25 L 11 30 L 15 28 L 19 30 L 17 25" fill="#0070ba" />
+    </g>
+  </g>
+
+
+  <!-- ================= PORTFOLIO LEVEL (TOP) ================= -->
+  
+  <text x="1105" y="65" class="title" text-anchor="end">PORTFOLIO</text>
+
+  <!-- Enterprise / Government -->
+  <g transform="translate(190, 10)">
+    <!-- Enterprise Bldg -->
+    <rect x="15" y="15" width="8" height="25" fill="#0070ba" />
+    <rect x="25" y="5" width="10" height="35" fill="#0070ba" />
+    <rect x="37" y="20" width="8" height="20" fill="#0070ba" />
+    <polygon points="25,5 30,0 35,5" fill="#0070ba" />
+    <text x="28" y="55" class="bold medium text-dark" text-anchor="middle">Enterprise</text>
+    
+    <line x1="65" y1="10" x2="65" y2="45" stroke="#ccc" stroke-width="1.5" />
+
+    <!-- Government Bldg -->
+    <path d="M 90 20 L 110 20 L 100 10 Z" fill="#0070ba" />
+    <rect x="92" y="22" width="16" height="5" fill="#0070ba" />
+    <rect x="93" y="29" width="3" height="10" fill="#0070ba" />
+    <rect x="98.5" y="29" width="3" height="10" fill="#0070ba" />
+    <rect x="104" y="29" width="3" height="10" fill="#0070ba" />
+    <rect x="90" y="41" width="20" height="4" fill="#0070ba" />
+    <circle cx="100" cy="8" r="2" fill="#0070ba" />
+    <text x="100" y="55" class="bold medium text-dark" text-anchor="middle">Government</text>
+  </g>
+  
+  <line x1="220" y1="75" x2="220" y2="190" stroke="#ccc" stroke-width="1" />
+  <line x1="390" y1="75" x2="390" y2="190" stroke="#ccc" stroke-width="1" />
+
+  <!-- Roles: Epic Owners / Enterprise Architect -->
+  <g transform="translate(195, 115)">
+    <use href="#person" x="25" y="0" />
+    <use href="#person" x="35" y="5" />
+    <text x="35" y="35" class="bold medium text-dark" text-anchor="middle">Epic</text>
+    <text x="35" y="48" class="bold medium text-dark" text-anchor="middle">Owners</text>
+    
+    <use href="#person" x="115" y="0" />
+    <text x="120" y="35" class="bold medium text-dark" text-anchor="middle">Enterprise</text>
+    <text x="120" y="48" class="bold medium text-dark" text-anchor="middle">Architect</text>
+  </g>
+
+  <!-- Strategic Themes / Portfolio Vision -->
+  <path d="M 240 75 L 240 90 L 415 90 L 415 105" fill="none" stroke="#ccc" stroke-width="2" />
+  <polygon points="410,100 415,107 420,100" fill="#ccc" />
+  
+  <g transform="translate(410, 105)">
+    <!-- Themes List -->
+    <rect x="0" y="0" width="25" height="4" fill="#698197" />
+    <rect x="0" y="8" width="25" height="4" fill="#698197" />
+    <rect x="0" y="16" width="25" height="4" fill="#698197" />
+    <rect x="0" y="24" width="25" height="4" fill="#698197" />
+    <circle cx="-5" cy="2" r="2" fill="#698197" />
+    <circle cx="-5" cy="10" r="2" fill="#698197" />
+    <circle cx="-5" cy="18" r="2" fill="#698197" />
+    <circle cx="-5" cy="26" r="2" fill="#698197" />
+    <text x="10" y="45" class="bold medium text-dark" text-anchor="middle">Strategic</text>
+    <text x="10" y="58" class="bold medium text-dark" text-anchor="middle">Themes</text>
+
+    <!-- Arrow -->
+    <line x1="45" y1="15" x2="65" y2="15" stroke="#ccc" stroke-width="2" />
+    <polygon points="60,10 67,15 60,20" fill="#ccc" />
+
+    <!-- Portfolio Vision -->
+    <rect x="80" y="5" width="10" height="25" fill="#698197" />
+    <rect x="95" y="15" width="10" height="15" fill="#698197" />
+    <rect x="110" y="0" width="10" height="30" fill="#698197" />
+    <text x="100" y="45" class="bold medium text-dark" text-anchor="middle">Portfolio</text>
+    <text x="100" y="58" class="bold medium text-dark" text-anchor="middle">Vision</text>
+    
+    <!-- Arrow to Kanban -->
+    <line x1="135" y1="15" x2="165" y2="15" stroke="#ccc" stroke-width="2" />
+    <polygon points="160,10 167,15 160,20" fill="#ccc" />
+  </g>
+
+  <!-- Portfolio Backlog & Budgets -->
+  <g transform="translate(610, 60)">
+    <text x="-5" y="30" class="bold small text-gray" transform="rotate(-90 -5,30)">Kanban</text>
+    <g id="kanban-large">
+      <rect x="0" y="0" width="55" height="30" fill="#e0e0e0" stroke="#888" rx="2" />
+      <line x1="18" y1="0" x2="18" y2="30" stroke="#fff" stroke-width="2" />
+      <line x1="36" y1="0" x2="36" y2="30" stroke="#fff" stroke-width="2" />
+      <rect x="3" y="4" width="12" height="6" fill="#486395" />
+      <rect x="3" y="12" width="12" height="6" fill="#974444" />
+      <rect x="21" y="4" width="12" height="6" fill="#486395" />
+      <rect x="39" y="4" width="12" height="6" fill="#486395" />
+    </g>
+    <rect x="25" y="35" width="25" height="10" fill="#ccc" rx="5" />
+    <text x="37" y="43" class="bold small text-dark" text-anchor="middle">NFRs</text>
+    <text x="30" y="58" class="bold medium text-dark" text-anchor="middle">Portfolio Backlog</text>
+
+    <!-- Lean Budgets -->
+    <g transform="translate(-10, 75)">
+      <path d="M 15 15 L 15 0 A 15 15 0 0 1 30 15 Z" fill="#88b560" />
+      <path d="M 15 15 L 30 15 A 15 15 0 1 1 15 0 Z" fill="#a4c982" />
+      <text x="40" y="18" class="bold medium text-dark">Lean Budgets</text>
+    </g>
+    <line x1="-15" y1="100" x2="100" y2="100" stroke="#ccc" stroke-width="1.5" />
+    <line x1="-15" y1="115" x2="100" y2="115" stroke="#ccc" stroke-width="1.5" />
+    <text x="40" y="111" class="bold medium text-dark" text-anchor="middle">Guardrails</text>
+  </g>
+
+  <!-- Value Streams & Epics -->
+  <g transform="translate(740, 95)">
+    <!-- 4 Value Stream Chevrons -->
+    <use href="#vs-chevron" x="0" y="0" />
+    <use href="#vs-chevron" x="75" y="0" />
+    <use href="#vs-chevron" x="150" y="0" />
+    <use href="#vs-chevron" x="225" y="0" />
+    <text x="160" y="60" class="bold medium text-dark" text-anchor="middle">Value Streams</text>
+    
+    <rect x="150" y="12" width="60" height="16" fill="#fff" stroke="#ccc" rx="8" />
+    <text x="180" y="24" class="bold small text-dark" text-anchor="middle">Coordination</text>
+
+    <!-- Epic/Enabler Dropdowns -->
+    <!-- Epic 1 -->
+    <line x1="40" y1="-10" x2="40" y2="10" stroke="#486395" stroke-width="2" />
+    <rect x="20" y="-25" width="40" height="15" fill="#486395" rx="2" />
+    <text x="40" y="-14" class="bold small text-light" text-anchor="middle">Epic</text>
+
+    <!-- Enabler -->
+    <line x1="180" y1="0" x2="180" y2="15" stroke="#974444" stroke-width="2" />
+    <rect x="155" y="-15" width="50" height="15" fill="#974444" rx="2" />
+    <text x="180" y="-4" class="bold small text-light" text-anchor="middle">Enabler</text>
+
+    <!-- Epic 2 -->
+    <line x1="270" y1="-20" x2="270" y2="10" stroke="#486395" stroke-width="2" />
+    <rect x="250" y="-35" width="40" height="15" fill="#486395" rx="2" />
+    <text x="270" y="-24" class="bold small text-light" text-anchor="middle">Epic</text>
+  </g>
+
+  <text x="1080" y="120" class="bold medium text-dark">KPIs</text>
+
+
+  <!-- ================= ESSENTIAL LEVEL (BOTTOM) ================= -->
+  
+  <text x="1105" y="225" class="title" text-anchor="end">ESSENTIAL</text>
+
+  <!-- Roles Left Column -->
+  <g transform="translate(190, 220)">
+    <!-- Business Owners -->
+    <g transform="translate(80, 0)">
+      <use href="#person" x="0" y="0" />
+      <use href="#person" x="15" y="0" />
+      <text x="10" y="-5" class="bold medium text-dark" text-anchor="middle">Business</text>
+      <text x="10" y="8" class="bold medium text-dark" text-anchor="middle">Owners</text>
+    </g>
+
+    <!-- System Arch / Product Mgmt -->
+    <g transform="translate(30, 60)">
+      <use href="#person" x="5" y="0" />
+      <text x="10" y="25" class="bold medium text-dark" text-anchor="middle">System</text>
+      <text x="10" y="38" class="bold medium text-dark" text-anchor="middle">Arch/Eng</text>
+    </g>
+    <g transform="translate(100, 60)">
+      <use href="#person" x="5" y="0" />
+      <text x="10" y="25" class="bold medium text-dark" text-anchor="middle">Product</text>
+      <text x="10" y="38" class="bold medium text-dark" text-anchor="middle">Mgmt</text>
+    </g>
+    
+    <!-- RTE -->
+    <g transform="translate(75, 100)">
+      <use href="#person" x="0" y="0" />
+      <text x="10" y="25" class="bold medium text-dark" text-anchor="middle">RTE</text>
+    </g>
+
+    <!-- Agile Teams / PO / SM -->
+    <g transform="translate(40, 150)">
+      <text x="40" y="0" class="bold medium text-dark" text-anchor="middle">Agile Teams</text>
+      <g transform="translate(-10, 15)">
+        <use href="#team" x="0" y="5" />
+        <use href="#team" x="25" y="0" />
+      </g>
+      
+      <g transform="translate(60, 30)">
+        <use href="#person" x="5" y="0" />
+        <text x="10" y="25" class="bold medium text-dark" text-anchor="middle">Product</text>
+        <text x="10" y="38" class="bold medium text-dark" text-anchor="middle">Owner</text>
+      </g>
+      
+      <g transform="translate(30, 80)">
+        <use href="#person" x="5" y="0" />
+        <text x="10" y="25" class="bold medium text-dark" text-anchor="middle">Scrum</text>
+        <text x="10" y="38" class="bold medium text-dark" text-anchor="middle">Master</text>
+      </g>
+    </g>
+    
+    <!-- Connecting Lines (approximate) -->
+    <path d="M 90 25 C 90 40, 40 40, 40 60" fill="none" stroke="#ccc" stroke-width="1.5" />
+    <path d="M 90 25 C 90 40, 110 40, 110 60" fill="none" stroke="#ccc" stroke-width="1.5" />
+    <path d="M 85 115 L 85 135" fill="none" stroke="#ccc" stroke-width="1.5" />
+  </g>
+
+  <!-- Middle Center column (Customer, Design, Backlogs, Scrum/Kanban) -->
+  <g transform="translate(420, 215)">
+    <!-- Customer Centricity -->
+    <g transform="translate(45, 0)">
+      <text x="25" y="10" class="bold medium text-dark" text-anchor="middle">Customer Centricity</text>
+      <circle cx="25" cy="30" r="14" fill="#fff" stroke="#88b560" stroke-width="2" />
+      <use href="#person-dark" x="15" y="22" />
+    </g>
+
+    <!-- Design Thinking -->
+    <g transform="translate(55, 60)">
+      <!-- Overlapping diamonds -->
+      <polygon points="15,0 30,15 15,30 0,15" fill="none" stroke="#88b560" stroke-width="2" />
+      <polygon points="30,0 45,15 30,30 15,15" fill="none" stroke="#88b560" stroke-width="2" />
+      <text x="22" y="45" class="bold medium text-dark" text-anchor="middle">Design Thinking</text>
+    </g>
+
+    <!-- Program Backlog -->
+    <g transform="translate(-10, 115)">
+      <text x="-5" y="30" class="bold small text-gray" transform="rotate(-90 -5,30)">Kanban</text>
+      <rect x="0" y="0" width="35" height="40" fill="#e0e0e0" stroke="#888" rx="2" />
+      <line x1="12" y1="0" x2="12" y2="40" stroke="#fff" stroke-width="2" />
+      <line x1="24" y1="0" x2="24" y2="40" stroke="#fff" stroke-width="2" />
+      <text x="15" y="-5" class="small bold text-dark" text-anchor="middle">WSJF</text>
+      <rect x="2" y="4" width="8" height="5" fill="#486395" />
+      <rect x="2" y="12" width="8" height="5" fill="#486395" />
+      <rect x="14" y="4" width="8" height="5" fill="#974444" />
+      <rect x="26" y="4" width="8" height="5" fill="#486395" />
+      
+      <rect x="5" y="45" width="25" height="10" fill="#ccc" rx="5" />
+      <text x="17" y="53" class="bold small text-dark" text-anchor="middle">NFRs</text>
+      <text x="17" y="68" class="bold medium text-dark" text-anchor="middle">Program</text>
+      <text x="17" y="80" class="bold medium text-dark" text-anchor="middle">Backlog</text>
+    </g>
+
+    <!-- Team Backlog -->
+    <g transform="translate(0, 215)">
+      <!-- Stack of lists -->
+      <rect x="4" y="-4" width="20" height="30" fill="#fff" stroke="#888" />
+      <rect x="2" y="-2" width="20" height="30" fill="#fff" stroke="#888" />
+      <rect x="0" y="0" width="20" height="30" fill="#fff" stroke="#888" />
+      <rect x="2" y="4" width="16" height="4" fill="#638ac8" />
+      <rect x="2" y="10" width="16" height="4" fill="#974444" />
+      <rect x="2" y="16" width="16" height="4" fill="#638ac8" />
+      <rect x="2" y="22" width="16" height="4" fill="#638ac8" />
+      
+      <rect x="-2" y="35" width="25" height="10" fill="#ccc" rx="5" />
+      <text x="10" y="43" class="bold small text-dark" text-anchor="middle">NFRs</text>
+      <text x="10" y="58" class="bold medium text-dark" text-anchor="middle">Team</text>
+      <text x="10" y="70" class="bold medium text-dark" text-anchor="middle">Backlogs</text>
+    </g>
+
+    <!-- Scrum & Kanban Icons -->
+    <g transform="translate(90, 140)">
+      <path d="M 20 5 A 15 15 0 1 0 35 20 L 30 20 L 38 30 L 46 20 L 41 20 A 20 20 0 1 1 20 0 Z" fill="#888" />
+      <text x="45" y="5" class="bold large text-dark">XP</text>
+      <text x="50" y="18" class="small text-dark">• Plan</text>
+      <text x="50" y="28" class="small text-dark">• Execute</text>
+      <text x="50" y="38" class="small text-dark">• Review</text>
+      <text x="50" y="48" class="small text-dark">• Retro</text>
+      <text x="25" y="55" class="bold medium text-dark" text-anchor="middle">Scrum</text>
+    </g>
+    
+    <g transform="translate(100, 220)">
+      <rect x="0" y="0" width="30" height="25" fill="#fff" stroke="#888" stroke-width="1.5" />
+      <line x1="10" y1="0" x2="10" y2="25" stroke="#888" stroke-width="1.5" />
+      <line x1="20" y1="0" x2="20" y2="25" stroke="#888" stroke-width="1.5" />
+      <rect x="2" y="5" width="6" height="4" fill="#888" />
+      <rect x="12" y="5" width="6" height="4" fill="#888" />
+      <rect x="22" y="5" width="6" height="4" fill="#888" />
+      <text x="15" y="-5" class="small text-gray" text-anchor="middle">3</text>
+      <text x="15" y="45" class="bold medium text-dark" text-anchor="middle">Kanban</text>
+    </g>
+  </g>
+
+
+  <!-- ================= CONTINUOUS DELIVERY PIPELINE & ART ================= -->
+  
+  <g transform="translate(630, 210)">
+    <text x="180" y="0" class="bold medium text-dark" text-anchor="middle">Continuous Delivery Pipeline</text>
+    
+    <!-- Outer looping arrows (simplified to top/bottom dashed curves) -->
+    <path d="M 20 15 Q 180 -5 340 15" fill="none" stroke="#88b560" stroke-dasharray="4,4" stroke-width="1.5" />
+    <polygon points="335,12 345,15 335,18" fill="#88b560" />
+    <path d="M 340 45 Q 180 65 20 45" fill="none" stroke="#88b560" stroke-dasharray="4,4" stroke-width="1.5" />
+    <polygon points="25,48 15,45 25,42" fill="#88b560" />
+
+    <!-- Large Pipeline Chevron Background -->
+    <polygon points="0,20 340,20 355,30 340,40 0,40 15,30" fill="#d2e0ed" stroke="#fff" stroke-width="2" />
+    
+    <!-- Train Track & Text -->
+    <path d="M 10 25 L 340 25 M 10 35 L 340 35" stroke="#a0a0a0" stroke-width="1.5" />
+    <!-- Track ties -->
+    <line x1="20" y1="23" x2="20" y2="37" stroke="#a0a0a0" /><line x1="40" y1="23" x2="40" y2="37" stroke="#a0a0a0" /><line x1="60" y1="23" x2="60" y2="37" stroke="#a0a0a0" /><line x1="80" y1="23" x2="80" y2="37" stroke="#a0a0a0" /><line x1="100" y1="23" x2="100" y2="37" stroke="#a0a0a0" /><line x1="120" y1="23" x2="120" y2="37" stroke="#a0a0a0" /><line x1="140" y1="23" x2="140" y2="37" stroke="#a0a0a0" /><line x1="160" y1="23" x2="160" y2="37" stroke="#a0a0a0" /><line x1="180" y1="23" x2="180" y2="37" stroke="#a0a0a0" /><line x1="200" y1="23" x2="200" y2="37" stroke="#a0a0a0" /><line x1="220" y1="23" x2="220" y2="37" stroke="#a0a0a0" /><line x1="240" y1="23" x2="240" y2="37" stroke="#a0a0a0" /><line x1="260" y1="23" x2="260" y2="37" stroke="#a0a0a0" /><line x1="280" y1="23" x2="280" y2="37" stroke="#a0a0a0" /><line x1="300" y1="23" x2="300" y2="37" stroke="#a0a0a0" /><line x1="320" y1="23" x2="320" y2="37" stroke="#a0a0a0" />
+    
+    <rect x="110" y="24" width="130" height="12" fill="#fff" rx="4" />
+    <text x="175" y="33" class="bold small" fill="#856b3b" font-style="italic" text-anchor="middle">AGILE RELEASE TRAIN</text>
+
+    <!-- Sub-pipelines inside -->
+    <g transform="translate(10, 22)">
+      <use href="#pl-chevron" x="15" y="-4" transform="scale(0.7)" />
+      <use href="#pl-chevron" x="115" y="-4" transform="scale(0.7)" />
+      <use href="#pl-chevron" x="215" y="-4" transform="scale(0.7)" />
+      <!-- Release Box -->
+      <rect x="330" y="0" width="12" height="12" fill="#d4af37" />
+    </g>
+
+    <text x="50" y="60" class="bold small text-dark" text-anchor="middle">Continuous</text>
+    <text x="50" y="70" class="bold small text-dark" text-anchor="middle">Exploration</text>
+    
+    <text x="135" y="60" class="bold small text-dark" text-anchor="middle">Continuous</text>
+    <text x="135" y="70" class="bold small text-dark" text-anchor="middle">Integration</text>
+    
+    <text x="215" y="60" class="bold small text-dark" text-anchor="middle">Continuous</text>
+    <text x="215" y="70" class="bold small text-dark" text-anchor="middle">Deployment</text>
+    
+    <text x="315" y="60" class="bold small text-dark" text-anchor="middle">Release</text>
+    <text x="315" y="70" class="bold small text-dark" text-anchor="middle">on Demand</text>
+  </g>
+
+
+  <!-- ================= PI ITERATION GRID ================= -->
+  
+  <g transform="translate(630, 310)">
+    
+    <!-- Top Labels -->
+    <text x="20" y="0" class="bold medium text-dark">PI Objectives</text>
+    <text x="120" y="0" class="bold medium text-dark">System Demos</text>
+    <text x="270" y="0" class="bold medium text-dark">System Demos</text>
+    
+    <!-- System Demo Dots -->
+    <circle cx="95" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="130" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="165" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="200" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="245" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="280" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="315" cy="15" r="3" fill="#e6b85c" />
+    <circle cx="350" cy="15" r="3" fill="#e6b85c" />
+    
+    <!-- Base Timeline Red Line -->
+    <polyline points="0,170 15,170 30,165 45,170 215,170 230,165 245,170 380,170" fill="none" stroke="#974444" stroke-width="2" />
+    <text x="110" y="185" class="bold medium text-dark" text-anchor="middle">Program Increment</text>
+    <text x="310" y="185" class="bold medium text-dark" text-anchor="middle">Program Increment</text>
+
+    <!-- Column Dividers -->
+    <line x1="25" y1="20" x2="25" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="60" y1="20" x2="60" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="95" y1="20" x2="95" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="130" y1="20" x2="130" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="165" y1="20" x2="165" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="200" y1="20" x2="200" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="215" y1="20" x2="215" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    
+    <line x1="245" y1="20" x2="245" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="280" y1="20" x2="280" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="315" y1="20" x2="315" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="350" y1="20" x2="350" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+    <line x1="365" y1="20" x2="365" y2="160" stroke="#ccc" stroke-dasharray="2,2" />
+
+    <!-- PI Planning Blocks (Orange vertical bars) -->
+    <!-- Document Icon -->
+    <g transform="translate(0, 5)">
+      <rect x="0" y="0" width="12" height="16" fill="#6c8496" rx="1" />
+      <line x1="3" y1="4" x2="9" y2="4" stroke="#fff" />
+      <line x1="3" y1="8" x2="9" y2="8" stroke="#fff" />
+      <line x1="3" y1="12" x2="7" y2="12" stroke="#fff" />
+    </g>
+    
+    <rect x="15" y="25" width="10" height="135" fill="#c49b65" />
+    <text x="20" y="92" class="bold small text-light" transform="rotate(-90 20,92)" text-anchor="middle">PI Planning</text>
+    
+    <rect x="205" y="25" width="10" height="135" fill="#e6e6e6" />
+    <text x="210" y="92" class="bold small text-gray" transform="rotate(-90 210,92)" text-anchor="middle">IP Iteration</text>
+    
+    <!-- PI Planning 2 -->
+    <g transform="translate(225, 25)">
+      <!-- Target Icon -->
+      <circle cx="5" cy="-5" r="5" fill="#c49b65" />
+      <circle cx="5" cy="-5" r="3" fill="#fff" />
+      <circle cx="5" cy="-5" r="1" fill="#c49b65" />
+      <rect x="0" y="0" width="10" height="135" fill="#c49b65" />
+      <text x="5" y="67" class="bold small text-light" transform="rotate(-90 5,67)" text-anchor="middle">PI Planning</text>
+    </g>
+    
+    <rect x="355" y="25" width="10" height="135" fill="#e6e6e6" />
+    <text x="360" y="92" class="bold small text-gray" transform="rotate(-90 360,92)" text-anchor="middle">IP Iteration</text>
+    
+    <!-- PI Planning 3 -->
+    <g transform="translate(375, 25)">
+      <circle cx="5" cy="-5" r="5" fill="#c49b65" />
+      <circle cx="5" cy="-5" r="3" fill="#fff" />
+      <circle cx="5" cy="-5" r="1" fill="#c49b65" />
+      <rect x="0" y="0" width="10" height="135" fill="#c49b65" />
+      <text x="5" y="67" class="bold small text-light" transform="rotate(-90 5,67)" text-anchor="middle">PI Planning</text>
+    </g>
+
+    <!-- Goals text -->
+    <text x="35" y="20" class="bold small text-dark">Goals</text>
+    <text x="255" y="20" class="bold small text-dark">Goals</text>
+
+    <!-- Iteration Chevrons (CE, CI, CD rows) -->
+    <!-- I'll use a macro for one iteration column's chevrons -->
+    <defs>
+      <g id="iter-chevrons">
+        <!-- CD row -->
+        <polygon points="5,30 25,30 35,40 25,50 5,50 15,40" fill="#e2ecf5" stroke="#fff" stroke-width="1.5" />
+        <text x="17" y="44" class="bold small text-gray">CD</text>
+        <!-- CI row -->
+        <polygon points="5,80 25,80 35,90 25,100 5,100 15,90" fill="#e2ecf5" stroke="#fff" stroke-width="1.5" />
+        <text x="17" y="94" class="bold small text-gray">CI</text>
+        <!-- CE row -->
+        <polygon points="5,130 25,130 35,140 25,150 5,150 15,140" fill="#e2ecf5" stroke="#fff" stroke-width="1.5" />
+        <text x="17" y="144" class="bold small text-gray">CE</text>
+      </g>
+      <g id="iter-chevrons-empty">
+        <polygon points="5,30 25,30 35,40 25,50 5,50 15,40" fill="#f0f0f0" stroke="#fff" stroke-width="1.5" />
+        <polygon points="5,80 25,80 35,90 25,100 5,100 15,90" fill="#f0f0f0" stroke="#fff" stroke-width="1.5" />
+        <polygon points="5,130 25,130 35,140 25,150 5,150 15,140" fill="#f0f0f0" stroke="#fff" stroke-width="1.5" />
+      </g>
+    </defs>
+    
+    <!-- First PI block iterations -->
+    <use href="#iter-chevrons" x="25" y="0" />
+    <use href="#iter-chevrons-empty" x="60" y="0" />
+    <use href="#iter-chevrons-empty" x="95" y="0" />
+    <use href="#iter-chevrons-empty" x="130" y="0" />
+    <use href="#iter-chevrons-empty" x="165" y="0" />
+    <text x="110" y="155" class="bold small text-dark" text-anchor="middle">Iterations</text>
+
+    <!-- Second PI block iterations -->
+    <use href="#iter-chevrons" x="245" y="0" />
+    <use href="#iter-chevrons-empty" x="280" y="0" />
+    <use href="#iter-chevrons-empty" x="315" y="0" />
+
+    <!-- Features, Enablers, Stories Overlay -->
+    <!-- Feature 1 -->
+    <rect x="70" y="45" width="40" height="14" fill="#486395" rx="2" />
+    <text x="90" y="56" class="bold small text-light" text-anchor="middle">Feature</text>
+    
+    <!-- Enabler 1 -->
+    <rect x="40" y="70" width="35" height="14" fill="#974444" rx="2" />
+    <text x="57" y="81" class="bold small text-light" text-anchor="middle">Enabler</text>
+    
+    <!-- Story 1 -->
+    <rect x="135" y="120" width="25" height="12" fill="#638ac8" rx="2" />
+    <text x="147" y="129" class="small text-light" text-anchor="middle">Story</text>
+
+    <!-- Feature 2 -->
+    <rect x="290" y="100" width="40" height="14" fill="#486395" rx="2" />
+    <text x="310" y="111" class="bold small text-light" text-anchor="middle">Feature</text>
+    
+    <!-- Enabler 2 -->
+    <rect x="260" y="55" width="35" height="14" fill="#974444" rx="2" />
+    <text x="277" y="66" class="bold small text-light" text-anchor="middle">Enabler</text>
+    
+    <!-- Story 2 -->
+    <rect x="285" y="145" width="25" height="12" fill="#638ac8" rx="2" />
+    <text x="297" y="154" class="small text-light" text-anchor="middle">Story</text>
+
+
+    <!-- Architectural Runway Line -->
+    <path d="M 0 162 Q 60 145 150 162 T 380 162" fill="none" stroke="#e0e0e0" stroke-width="4" />
+    <text x="400" y="150" class="bold small text-dark">Architectural</text>
+    <text x="400" y="160" class="bold small text-dark">Runway</text>
+  </g>
+
+  <!-- Far Right Roles/Concepts -->
+  <g transform="translate(1010, 260)">
+    
+    <!-- Solution -->
+    <g transform="translate(20, 0)">
+      <path d="M 5 0 C 25 0, 30 15, 30 15 C 30 15, 25 30, 5 30 L 55 30 C 35 30, 30 15, 30 15 C 30 15, 35 0, 55 0 Z" fill="#ccc" />
+      <rect x="5" y="0" width="50" height="30" fill="#638ac8" rx="15" />
+      <text x="30" y="19" class="bold medium text-light" text-anchor="middle">Solution</text>
+    </g>
+    
+    <text x="50" y="45" class="bold medium text-dark" text-anchor="middle">Solution</text>
+    <text x="50" y="58" class="bold medium text-dark" text-anchor="middle">Context</text>
+    <rect x="80" y="45" width="4" height="15" fill="#6c8496" />
+
+    <!-- DevOps Loop -->
+    <g transform="translate(20, 95)">
+      <path d="M 15 25 C -5 25, -5 5, 15 5 C 30 5, 30 25, 45 25 C 65 25, 65 5, 45 5 C 30 5, 30 25, 15 25" fill="none" stroke="#638ac8" stroke-width="3" />
+      <circle cx="15" cy="5" r="6" fill="#638ac8" />
+      <circle cx="45" cy="5" r="6" fill="#638ac8" />
+      <circle cx="15" cy="25" r="6" fill="#638ac8" />
+      <circle cx="45" cy="25" r="6" fill="#638ac8" />
+      <text x="15" y="9" class="bold small text-light" text-anchor="middle">C</text>
+      <text x="45" y="9" class="bold small text-light" text-anchor="middle">A</text>
+      <text x="15" y="29" class="bold small text-light" text-anchor="middle">M</text>
+      <text x="45" y="29" class="bold small text-light" text-anchor="middle">L</text>
+      <text x="30" y="45" class="bold medium text-dark" text-anchor="middle">DevOps</text>
+    </g>
+
+    <!-- Built-In Quality -->
+    <g transform="translate(30, 165)">
+      <circle cx="20" cy="15" r="15" fill="#6c8496" />
+      <polyline points="10,15 17,22 28,8" fill="none" stroke="#fff" stroke-width="3" />
+      <text x="20" y="45" class="bold medium text-dark" text-anchor="middle">Built-In</text>
+      <text x="20" y="58" class="bold medium text-dark" text-anchor="middle">Quality</text>
+    </g>
+  </g>
+
+  <!-- Bottom Left Text -->
+  <text x="185" y="530" class="bold medium text-dark">Business | Dev | Ops | Support</text>
+
+  <!-- Copyright -->
+  <text x="1115" y="520" class="small text-gray" text-anchor="end">Leffingwell, et al. © Scaled Agile, Inc.</text>
+
+
+  <!-- ================= RIGHT SIDEBAR (Spanning Palette) ================= -->
+  
+  <g transform="translate(1120, 45)">
+    <!-- Vision -->
+    <g transform="translate(0, 15)">
+      <circle cx="30" cy="15" r="5" fill="none" stroke="#698197" stroke-width="2" />
+      <circle cx="45" cy="15" r="5" fill="none" stroke="#698197" stroke-width="2" />
+      <path d="M 27 10 L 33 10 L 35 25 L 25 25 Z" fill="#698197" />
+      <path d="M 42 10 L 48 10 L 50 25 L 40 25 Z" fill="#698197" />
+      <line x1="33" y1="12" x2="42" y2="12" stroke="#698197" stroke-width="2" />
+      <text x="37" y="38" class="bold small text-dark" text-anchor="middle">Vision</text>
+    </g>
+    <line x1="0" y1="60" x2="75" y2="60" stroke="#ccc" />
+
+    <!-- Roadmap -->
+    <g transform="translate(0, 75)">
+      <path d="M 25 10 L 35 15 L 45 10 L 50 25 L 40 30 L 30 25 L 20 30 Z" fill="#698197" />
+      <text x="37" y="45" class="bold small text-dark" text-anchor="middle">Roadmap</text>
+    </g>
+    <line x1="0" y1="130" x2="75" y2="130" stroke="#ccc" />
+
+    <!-- Milestones -->
+    <g transform="translate(0, 145)">
+      <polygon points="37,5 45,15 30,15" fill="#a4c982" />
+      <circle cx="37" cy="20" r="2" fill="#698197" />
+      <text x="37" y="35" class="bold small text-dark" text-anchor="middle">Milestones</text>
+    </g>
+    <line x1="0" y1="190" x2="75" y2="190" stroke="#ccc" />
+
+    <!-- Shared Services -->
+    <g transform="translate(0, 205)">
+      <use href="#person" x="27" y="5" />
+      <text x="37" y="35" class="bold small text-dark" text-anchor="middle">Shared</text>
+      <text x="37" y="47" class="bold small text-dark" text-anchor="middle">Services</text>
+    </g>
+    <line x1="0" y1="265" x2="75" y2="265" stroke="#ccc" />
+
+    <!-- CoP -->
+    <g transform="translate(0, 280)">
+      <use href="#team" x="22" y="5" />
+      <text x="37" y="35" class="bold small text-dark" text-anchor="middle">CoP</text>
+    </g>
+    <line x1="0" y1="330" x2="75" y2="330" stroke="#ccc" />
+
+    <!-- System Team -->
+    <g transform="translate(0, 345)">
+      <use href="#team" x="22" y="5" />
+      <circle cx="25" cy="20" r="4" fill="#698197" />
+      <circle cx="45" cy="20" r="4" fill="#698197" />
+      <line x1="25" y1="20" x2="45" y2="20" stroke="#698197" stroke-width="2" />
+      <text x="37" y="38" class="bold small text-dark" text-anchor="middle">System</text>
+      <text x="37" y="50" class="bold small text-dark" text-anchor="middle">Team</text>
+    </g>
+    <line x1="0" y1="410" x2="75" y2="410" stroke="#ccc" />
+
+    <!-- Lean UX -->
+    <g transform="translate(0, 420)">
+      <path d="M 25 15 A 12 12 0 1 1 49 15 M 25 15 L 29 20 L 45 20 L 49 15" fill="none" stroke="#698197" stroke-width="2" />
+      <polygon points="35,22 39,22 41,25 33,25" fill="#698197" />
+      <text x="37" y="40" class="bold small text-dark" text-anchor="middle">Lean UX</text>
+    </g>
+    <line x1="0" y1="475" x2="75" y2="475" stroke="#ccc" />
+
+    <!-- Metrics -->
+    <g transform="translate(0, 485)">
+      <path d="M 25 20 A 12 12 0 0 1 49 20" fill="none" stroke="#698197" stroke-width="3" />
+      <line x1="37" y1="20" x2="33" y2="12" stroke="#698197" stroke-width="2" />
+      <text x="37" y="35" class="bold small text-dark" text-anchor="middle">Metrics</text>
+    </g>
+  </g>
+
+
+  <!-- ================= BOTTOM FOOTER (Lean-Agile Leadership) ================= -->
+  
+  <text x="800" y="620" class="title" fill="#333" text-anchor="middle">Lean-Agile Leadership</text>
+
+  <g transform="translate(420, 550)">
+    <!-- Core Values -->
+    <g transform="translate(0, 0)">
+      <rect x="5" y="0" width="10" height="10" fill="none" stroke="#fff" stroke-width="1.5" />
+      <rect x="20" y="0" width="10" height="10" fill="none" stroke="#fff" stroke-width="1.5" />
+      <rect x="5" y="15" width="10" height="10" fill="none" stroke="#fff" stroke-width="1.5" />
+      <rect x="20" y="15" width="10" height="10" fill="none" stroke="#fff" stroke-width="1.5" />
+      <text x="50" y="12" class="bold medium text-light">Core</text>
+      <text x="50" y="24" class="bold medium text-light">Values</text>
+    </g>
+
+    <!-- Lean-Agile Mindset -->
+    <g transform="translate(110, 0)">
+      <rect x="0" y="0" width="25" height="3" fill="#fff" />
+      <rect x="2" y="6" width="21" height="3" fill="#fff" />
+      <rect x="4" y="12" width="17" height="3" fill="#fff" />
+      <rect x="6" y="18" width="13" height="3" fill="#fff" />
+      <rect x="8" y="24" width="9" height="3" fill="#fff" />
+      <text x="35" y="12" class="bold medium text-light">Lean-Agile</text>
+      <text x="35" y="24" class="bold medium text-light">Mindset</text>
+    </g>
+
+    <!-- SAFe Principles -->
+    <g transform="translate(240, 0)">
+      <rect x="0" y="10" width="25" height="3" fill="#fff" />
+      <rect x="2" y="4" width="21" height="3" fill="#fff" />
+      <rect x="2" y="16" width="21" height="3" fill="#fff" />
+      <rect x="4" y="-2" width="17" height="3" fill="#fff" />
+      <rect x="4" y="22" width="17" height="3" fill="#fff" />
+      <rect x="8" y="28" width="9" height="3" fill="#fff" />
+      <text x="35" y="12" class="bold medium text-light">SAFe</text>
+      <text x="35" y="24" class="bold medium text-light">Principles</text>
+    </g>
+
+    <!-- Lean-Agile Leadership Ring Icon -->
+    <g transform="translate(340, -10)">
+      <circle cx="25" cy="25" r="22" class="comp-ring" />
+      <circle cx="25" cy="25" r="18" fill="#0070ba" />
+      <use href="#team" x="12" y="15" fill="#fff" />
+      <polygon points="32,15 38,10 37,17" fill="#fff" />
+    </g>
+
+    <!-- Implementation Roadmap -->
+    <g transform="translate(420, 0)">
+      <path d="M 0 5 L 15 5 A 5 5 0 0 1 20 10 L 20 15 A 5 5 0 0 0 25 20 L 40 20 A 5 5 0 0 1 45 25 L 45 25" fill="none" stroke="#fff" stroke-width="3" />
+      <text x="55" y="12" class="bold medium text-light">Implementation</text>
+      <text x="55" y="24" class="bold medium text-light">Roadmap</text>
+    </g>
+
+    <!-- SAFe Program Consultant -->
+    <g transform="translate(600, 0)">
+      <use href="#person" x="5" y="5" fill="#fff" />
+      <!-- Hat -->
+      <path d="M 5 10 L 15 10 L 12 5 L 8 5 Z" fill="#fff" />
+      <text x="30" y="12" class="bold medium text-light">SAFe Program</text>
+      <text x="30" y="24" class="bold medium text-light">Consultant</text>
+    </g>
+  </g>
+
+  <!-- SAFe 5.0 Badge -->
+  <g transform="translate(1140, 550)">
+    <circle cx="15" cy="15" r="15" fill="#5f90c6" />
+    <text x="15" y="20" class="bold text-light" font-size="16" text-anchor="middle">5.0</text>
+  </g>
+
+</svg>

@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 550" width="100%" height="100%">
+    <defs>
+        <!-- Arrowhead Marker -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#333333" />
+        </marker>
+        
+        <style>
+            /* Base Box Styles */
+            .box-blue { fill: #4A90E2; rx: 4; }
+            .box-dark { fill: #424A53; rx: 4; }
+            
+            /* Text Styles */
+            .text-title { fill: #1A1A1A; font-family: 'Arial', sans-serif; font-size: 26px; font-weight: 500; }
+            .text-white { fill: #FFFFFF; font-family: 'Arial', sans-serif; font-size: 13px; text-anchor: middle; font-weight: normal; }
+            .text-label { fill: #333333; font-family: 'Arial', sans-serif; font-size: 13px; text-anchor: middle; }
+            
+            /* Line Style */
+            .line { stroke: #333333; stroke-width: 1.5; fill: none; }
+            
+            /* Halo Effect for text overlapping lines */
+            .halo { paint-order: stroke fill; stroke: #FFFFFF; stroke-width: 8px; stroke-linecap: round; stroke-linejoin: round; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+        <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+      <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+
+    <!-- Background -->
+    <rect width="100%" height="100%" fill="url(#bg)" />
+
+    <!-- Main Title -->
+    <text x="50" y="65" class="text-title">Phương pháp Extreme Programming (XP)</text>
+
+    <!-- Connecting Lines (Drawn behind text) -->
+    <g class="line" marker-end="url(#arrow)">
+        <!-- Test Scenarios -->
+        <path d="M 270 137.5 L 980 137.5 L 980 252" />
+        <!-- Requirements -->
+        <path d="M 255 175 L 386 264" />
+        <!-- System Metaphor -->
+        <path d="M 270 297.5 L 382 297.5" />
+        <!-- Release Plan -->
+        <path d="M 530 297.5 L 642 297.5" />
+        <!-- Latest Version -->
+        <path d="M 790 297.5 L 902 297.5" />
+        <!-- Customer Approval -->
+        <path d="M 1050 297.5 L 1162 297.5" />
+        
+        <!-- Curved Paths -->
+        <!-- New Stories -->
+        <path d="M 510 260 C 540 210, 600 210, 644 256" />
+        <!-- Bugs -->
+        <path d="M 770 260 C 800 210, 860 210, 904 256" />
+        <!-- Next Iteration (Arrow pointing left) -->
+        <path d="M 930 335 C 890 395, 830 395, 776 339" />
+        <!-- Uncertain Estimates (Arrow pointing down) -->
+        <path d="M 420 335 C 360 360, 360 395, 415 417" />
+        <!-- Confident Estimates (Arrow pointing up) -->
+        <path d="M 500 420 C 560 395, 560 360, 505 338" />
+    </g>
+
+    <!-- Text Labels (with halo effect to cut through lines) -->
+    <g class="text-label halo">
+        <text x="625" y="141">Kịch bản Test</text>
+        <text x="320" y="222">Yêu cầu</text>
+        
+        <text x="330" y="291">Kiến trúc</text>
+        <text x="330" y="306">Hệ thống</text>
+        
+        <text x="590" y="291">Kế hoạch</text>
+        <text x="590" y="306">Release</text>
+        
+        <text x="850" y="291">Phiên bản</text>
+        <text x="850" y="306">Mới nhất</text>
+        
+        <text x="1110" y="291">Khách hàng</text>
+        <text x="1110" y="306">Nghiệm thu</text>
+        
+        <text x="575" y="222">Story mới</text>
+        <text x="835" y="222">Lỗi (Bugs)</text>
+        <text x="850" y="385">Iteration Tới</text>
+        
+        <text x="340" y="372">Ước tính</text>
+        <text x="340" y="387">Chưa chắc</text>
+        
+        <text x="590" y="372">Ước tính</text>
+        <text x="590" y="387">Tự tin</text>
+    </g>
+
+    <!-- Nodes / Boxes -->
+    <!-- User Stories -->
+    <rect x="130" y="100" width="140" height="75" class="box-blue" />
+    <text x="200" y="133" class="text-white">
+        <tspan x="200" dy="0">Câu chuyện</tspan>
+        <tspan x="200" dy="16">Người dùng (US)</tspan>
+    </text>
+
+    <!-- Architectural Spike -->
+    <rect x="130" y="260" width="140" height="75" class="box-dark" />
+    <text x="200" y="293" class="text-white">
+        <tspan x="200" dy="0">Spike</tspan>
+        <tspan x="200" dy="16">Kiến trúc</tspan>
+    </text>
+
+    <!-- Release Planning -->
+    <rect x="390" y="260" width="140" height="75" class="box-dark" />
+    <text x="460" y="293" class="text-white">
+        <tspan x="460" dy="0">Lập kế hoạch</tspan>
+        <tspan x="460" dy="16">Release</tspan>
+    </text>
+
+    <!-- Spike -->
+    <rect x="390" y="420" width="140" height="75" class="box-dark" />
+    <text x="460" y="462" class="text-white">Spike</text>
+
+    <!-- Iteration -->
+    <rect x="650" y="260" width="140" height="75" class="box-dark" />
+    <text x="720" y="302" class="text-white">Vòng lặp</text>
+
+    <!-- Acceptance Tests -->
+    <rect x="910" y="260" width="140" height="75" class="box-dark" />
+    <text x="980" y="293" class="text-white">
+        <tspan x="980" dy="0">Kiểm thử</tspan>
+        <tspan x="980" dy="16">Nghiệm thu</tspan>
+    </text>
+
+    <!-- Small Releases -->
+    <rect x="1170" y="260" width="140" height="75" class="box-dark" />
+    <text x="1240" y="293" class="text-white">
+        <tspan x="1240" dy="0">Phát hành</tspan>
+        <tspan x="1240" dy="16">nhỏ lẻ</tspan>
+    </text>
+
+    <!-- Watermark Logo -->
+    <g transform="translate(1180, 480)">
+        <text x="145" y="-10" font-family="Arial, sans-serif" font-size="14" fill="#555555" text-anchor="end">Made in</text>
+        
+        <!-- Orange Part -->
+        <path d="M 8 2 L 2 8 L 8 14" fill="none" stroke="#F26A25" stroke-width="2.5" stroke-linejoin="round" />
+        <circle cx="8" cy="2" r="2.5" fill="#F26A25" />
+        <circle cx="8" cy="14" r="2.5" fill="#F26A25" />
+        
+        <!-- Blue Part -->
+        <path d="M 12 2 L 18 8 L 12 14" fill="none" stroke="#24364A" stroke-width="2.5" stroke-linejoin="round" />
+        <circle cx="12" cy="2" r="2.5" fill="#24364A" />
+        <circle cx="12" cy="14" r="2.5" fill="#24364A" />
+
+        <text x="26" y="14" font-family="'Segoe UI', Arial, sans-serif" font-size="22" font-weight="600" fill="#3D4752">Lucidchart</text>
+    </g>
+
+</svg>

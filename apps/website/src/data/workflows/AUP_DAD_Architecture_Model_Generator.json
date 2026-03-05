@@ -1,0 +1,64 @@
+{
+  "id": "wf-aup-dad",
+  "title": "AUP/DAD: Máy sinh Mô hình Kiến trúc Trọng lượng nhẹ",
+  "description": "Dành cho Doanh nghiệp: Tự động dịch yêu cầu PRD thành bộ khung kiến trúc UML/C4 và chốt chuẩn đầu vào bằng Governance Gate.",
+  "steps": [
+    {
+      "id": "aup-1",
+      "title": "Trích xuất Cấu trúc từ Yêu cầu",
+      "role": "Agent",
+      "description": "Agent đọc User Story, rà soát lại RUP/AUP guidelines và nhặt ra các thành tố kiến trúc hệ thống (Services, DB, API).",
+      "input": "User Story / Requirements",
+      "output": "Extracted Architectural Elements",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án cấp enterprise với bộ máy cồng kềnh, cần duy trì tài liệu chi tiết trước khi code nhưng lại muốn tránh sa lầy tốn thời gian như kiểu Waterfall.",
+      "promptText": "Hệ thống mới cần tích hợp Google SSO. Phân tích DAD, hãy vẽ ra C4 Container diagram và đề xuất luồng xác thực rẽ nhánh cho Enterprise Directory.",
+      "icon": "📝",
+      "nextSteps": [{"conditionLabel": "Cấu trúc rõ ràng", "nextNodeId": "aup-2"}],
+      "guidanceContext": "Agent sẽ dịch Text ra code Mermaid để tạo UML trực tiếp.",
+      "exampleDetails": "Text-to-UML cho biểu đồ tĩnh và biểu đồ luồng."
+    },
+    {
+      "id": "aup-2",
+      "title": "Tạo Mô hình Trực quan",
+      "role": "System",
+      "description": "Hệ thống render tự động mã C4-Modeling hoặc UML ra hình ảnh, đưa vào tài liệu tuân thủ (Compliance Documentation).",
+      "input": "Mermaid / PlantUML Code",
+      "output": "Architecture Models & Docs",
+      "loopGroup": "Planning",
+      "icon": "🖼️",
+      "nextSteps": [{"conditionLabel": "Gửi duyệt cổng", "nextNodeId": "aup-3"}],
+      "guidanceContext": "AUP (Agile Unified Process) vẫn yêu cầu làm Mô hình Thiết kế (Modeling), nhưng luôn là 'Đủ Tốt' chứ không rườm rà. AI giúp cái 'Đủ Tốt' này diễn ra chỉ trong 10s.",
+      "exampleDetails": "Sinh biểu đồ Luồng dữ liệu (Data Flow) và Sơ đồ Lớp (Class Diagram)."
+    },
+    {
+      "id": "aup-3",
+      "title": "Review trước Cổng (Governance Gate)",
+      "role": "PMO / Architect",
+      "description": "Enterprise Architect dùng mắt duyệt quyết định xem kiến trúc vi mô này có phá vỡ tầm nhìn chung không.",
+      "input": "Architecture Models",
+      "output": "Gate Approval",
+      "loopGroup": "Planning",
+      "loopCondition": "Không hợp chuẩn -> Trả về xoá làm lại",
+      "icon": "🚪",
+      "nextSteps": [
+        {"conditionLabel": "Chập thuận", "nextNodeId": "aup-4"},
+        {"conditionLabel": "Sửa đổi", "nextNodeId": "aup-1", "isLoopBack": true}
+      ],
+      "guidanceContext": "DAD (Disciplined Agile Delivery) nhấn dặn vào chu kỳ phân phối mạnh mẽ có quy củ. Gate Reviewer đảm bảo các chuẩn ISO, bảo mật được đáp ứng sớm.",
+      "exampleDetails": "Reviewer nhận định Auth Flow thiếu 2FA cho C-level, trả lại bản vẽ."
+    },
+    {
+      "id": "aup-4",
+      "title": "Sinh Bộ Code Dàn giáo (Scaffolding)",
+      "role": "Agent",
+      "description": "Sau khi cổng mở, AI lấy bản vẽ làm khuôn đúc và tự sinh luôn cấu trúc thư mục, Boilerplate code rỗng theo Clean Architecture.",
+      "input": "Approved Diagram",
+      "output": "Agile Boilerplate Repository",
+      "loopGroup": "Execution",
+      "icon": "🏗️",
+      "guidanceContext": "Tuyệt chiêu của DAD: Rút ngắn khoảng cách tối đa từ Bản vẽ đến Việc Lập Trình bằng cách để tự động hóa gánh vác việc setup nề nếp.",
+      "exampleDetails": "Các class Services, Repositories được tạo sẵn với method rỗng chặn type."
+    }
+  ]
+}

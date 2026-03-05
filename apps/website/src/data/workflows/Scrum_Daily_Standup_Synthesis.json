@@ -1,0 +1,60 @@
+{
+  "id": "wf-scrum-daily",
+  "title": "Trợ lý Scrum: Báo cáo Standup Tự động",
+  "description": "Scrum Framework: AI tổng hợp log công việc, commit, PRs của từng thành viên và gợi ý gỡ rối (blocker) để buổi Daily Standup diễn ra siêu tốc.",
+  "steps": [
+    {
+      "id": "scrum-1",
+      "title": "Thu thập Phân mảnh (Commit/PR)",
+      "role": "System",
+      "description": "Hệ thống tự động đồng bộ (sync) với Git repository và hệ thống quản lý task (Jira/Beads) để quét hoạt động trong 24h qua.",
+      "input": "Webhook / Cron Job",
+      "output": "Raw Activity Data",
+      "loopGroup": "None",
+      "projectStateScenario": "Sử dụng cho Scrum Team quy mô 5-9 người, áp dụng khi khối lượng công việc hàng ngày lớn và các thành viên tốn quá nhiều thời gian báo cáo mồm.",
+      "icon": "🔄",
+      "nextSteps": [{"conditionLabel": "Dữ liệu sẵn sàng", "nextNodeId": "scrum-2"}],
+      "guidanceContext": "Không cần sự can thiệp của con người ở bước này. AI sẽ tự động kích hoạt dựa trên lịch hẹn (ví dụ 8:00 sáng mỗi ngày).",
+      "exampleDetails": "Git commits: 'feat(cart): add validation', 'fix(auth): token expiry'."
+    },
+    {
+      "id": "scrum-2",
+      "title": "Phân tích Khối luồng (Sense-making)",
+      "role": "Agent",
+      "description": "Agent đọc lướt mã nguồn thay đổi, hiểu ngữ cảnh và tổng hợp thành 3 mục: Đã làm gì, Sẽ làm gì, Có mắc kẹt gì không (Blockers).",
+      "input": "Raw Activity Data",
+      "output": "Draft Standup Report",
+      "loopGroup": "Planning",
+      "icon": "🧠",
+      "nextSteps": [{"conditionLabel": "Gửi cho Dev Team", "nextNodeId": "scrum-3"}],
+      "guidanceContext": "AI nhận diện các PR bị quá hạn (stale) hoặc các đoạn mã có quá nhiều bình luận (heated discussion) để tự gán nhãn là 'Nguy cơ Blocker'.",
+      "exampleDetails": "Agent phát hiện PR #123 bị mở 3 ngày liền -> Đánh dấu thành viên A đang bị Blocker."
+    },
+    {
+      "id": "scrum-3",
+      "title": "Thành viên Confirm & Điều chỉnh",
+      "role": "Dev Teams",
+      "description": "Mỗi Kỹ sư nhận báo cáo nháp qua Slack/Team, nhanh chóng ấn nút duyệt hoặc gõ thêm ghi chú nếu AI đoán sai.",
+      "input": "Draft Standup Report",
+      "output": "Confirmed Standup Data",
+      "loopGroup": "Planning",
+      "promptText": "Hôm qua tôi đã push code module Login. Hôm nay tôi sẽ fix nốt CORS trên staging. Ticket BE-456 có ai rảnh Code Review giúp tôi không?",
+      "icon": "✍️",
+      "nextSteps": [{"conditionLabel": "Hoàn tất Update", "nextNodeId": "scrum-4"}],
+      "guidanceContext": "Con người luôn là người ra quyết định cuối cùng (Human-in-the-loop).",
+      "exampleDetails": "Chỉ mất 30 giây thay vì 15 phút nói vòng vo trong buổi họp."
+    },
+    {
+      "id": "scrum-4",
+      "title": "Phát Hành Biểu đồ Scrum Master",
+      "role": "Agent",
+      "description": "Xuất bảng Dashboard trực quan cho Scrum Master để điều phối trong buổi họp 15 phút, vẽ biểu đồ burndown dự phóng.",
+      "input": "Confirmed Standup Data",
+      "output": "Standup Dashboard & Action Items",
+      "loopGroup": "None",
+      "icon": "📈",
+      "guidanceContext": "Buổi Daily Standup chính thức chỉ tập trung vào giải quyết Action Items và chốt ai đi gỡ Blocker cho ai.",
+      "exampleDetails": "Dashboard hiển thị: 'Team A: On Track', 'Bloker: Cần DevOps cấp quyền S3'."
+    }
+  ]
+}

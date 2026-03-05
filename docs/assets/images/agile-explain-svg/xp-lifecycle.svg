@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1000" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      .title { fill: #f8fafc; font-size: 28px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; letter-spacing: 1px; }
+      .box-txt { fill: #f8fafc; font-size: 16px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
+      .lbl-txt { fill: #94a3b8; font-size: 14px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6" />
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+    </marker>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="100%" height="100%" fill="url(#bg)" rx="16" />
+  
+  <text x="450" y="40.2" dominant-baseline="middle" text-anchor="middle" class="title">VÒNG ĐỜI EXTREME PROGRAMMING (XP)</text>
+
+  <!-- Oval: Customer's user stories -->
+  <ellipse cx="150" cy="140" rx="90" ry="45" fill="rgba(14, 165, 233, 0.15)" stroke="#0ea5e9" stroke-width="1" filter="url(#shadow)" />
+  <text x="150" y="129.4" dominant-baseline="middle" text-anchor="middle" class="box-txt" fill="#38bdf8">User stories</text>
+  <text x="150" y="149.4" dominant-baseline="middle" text-anchor="middle" class="box-txt" fill="#38bdf8">của Khách hàng</text>
+
+  <!-- Spikes -->
+  <path d="M 740 70 L 810 170 L 670 170 Z" fill="rgba(244, 63, 94, 0.2)" stroke="#f43f5e" stroke-width="1" filter="url(#shadow)" />
+  <text x="740" y="144.4" dominant-baseline="middle" text-anchor="middle" class="box-txt" fill="#fb7185">Spikes</text>
+
+  <!-- Main flow rects -->
+  <g text-anchor="middle">
+    <rect x="350" y="110" width="200" height="60" rx="8" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="140.4" dominant-baseline="middle" class="box-txt">Lên KH phát hành</text>
+    
+    <rect x="350" y="230" width="200" height="60" rx="8" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="250.4" dominant-baseline="middle" class="box-txt">Lên KH &amp;</text>
+    <text x="450" y="272.4" dominant-baseline="middle" class="box-txt">thiết kế vòng lặp</text>
+    
+    <rect x="350" y="680" width="200" height="60" rx="8" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="700.4" dominant-baseline="middle" class="box-txt">Kiểm thử chấp nhận,</text>
+    <text x="450" y="722.4" dominant-baseline="middle" class="box-txt">tiếp nhận phản hồi</text>
+    
+    <rect x="350" y="800" width="200" height="60" rx="8" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="830.4" dominant-baseline="middle" class="box-txt">Phát hành nhỏ</text>
+    
+    <rect x="350" y="920" width="200" height="60" rx="8" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="950.4" dominant-baseline="middle" class="box-txt">Phát hành chính thức</text>
+  </g>
+
+  <!-- Iteration Container -->
+  <rect x="310" y="340" width="280" height="280" rx="16" fill="rgba(13, 148, 136, 0.1)" stroke="#0d9488" stroke-width="1" filter="url(#shadow)" />
+  <text x="450" y="368" dominant-baseline="middle" text-anchor="middle" class="box-txt" fill="#2dd4bf" font-size="20px">Iteration</text>
+  
+  <g text-anchor="middle">
+    <rect x="350" y="400" width="200" height="45" rx="6" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="422.4" dominant-baseline="middle" class="box-txt" fill="#ccfbf1">Lập trình (Coding)</text>
+    
+    <rect x="350" y="470" width="200" height="45" rx="6" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="492.4" dominant-baseline="middle" class="box-txt" fill="#ccfbf1">Tích hợp liên tục (CI)</text>
+    
+    <rect x="350" y="540" width="200" height="45" rx="6" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="450" y="562.4" dominant-baseline="middle" class="box-txt" fill="#ccfbf1">Kiểm thử (Unit tests)</text>
+  </g>
+
+  <!-- Solid Arrows -->
+  <g fill="none" stroke="#14b8a6" stroke-width="1.25" marker-end="url(#arrow)">
+    <line x1="240" y1="140" x2="335" y2="140" /> 
+    <line x1="450" y1="170" x2="450" y2="215" /> 
+    <line x1="450" y1="290" x2="450" y2="325" /> 
+    <line x1="450" y1="620" x2="450" y2="665" /> 
+    <line x1="450" y1="740" x2="450" y2="785" /> 
+    <line x1="450" y1="860" x2="450" y2="905" /> 
+    <line x1="550" y1="120" x2="655" y2="120" /> 
+    
+    <!-- Test Scenarios -->
+    <path d="M 150 185 L 150 710 L 335 710" />
+    
+    <!-- Bug fixes (now Amber) -->
+    <path d="M 550 710 L 630 710 L 630 260 L 565 260" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
+    
+    <!-- New user story (now Amber) -->
+    <path d="M 550 830 L 860 830 L 860 60 L 450 60 L 450 95" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
+  </g>
+  
+  <!-- Dotted Arrow -->
+  <line x1="655" y1="160" x2="565" y2="160" stroke="#f43f5e" stroke-width="1" stroke-dasharray="6,6" marker-end="url(#arrow)" />
+
+  <!-- Labels on arrows -->
+  <g class="lbl-txt">
+    <text x="290" y="124" dominant-baseline="middle" text-anchor="middle">Các Yêu cầu</text>
+    <text x="480" y="194" dominant-baseline="middle" text-anchor="start">KH phát hành</text>
+    <text x="480" y="314" dominant-baseline="middle" text-anchor="start">KH vòng lặp</text>
+    <text x="480" y="644" dominant-baseline="middle" text-anchor="start">Bản mới nhất</text>
+    <text x="480" y="764" dominant-baseline="middle" text-anchor="start">KH Chấp thuận</text>
+    <text x="480" y="884" dominant-baseline="middle" text-anchor="start">Thành phẩm</text>
+    <text x="600" y="104" dominant-baseline="middle" text-anchor="middle">Ước lượng khó hiểu</text>
+    <text x="600" y="174" dominant-baseline="middle" text-anchor="middle" fill="#f43f5e">Ước lượng rõ ràng</text>
+    <text x="210" y="694" dominant-baseline="middle" text-anchor="middle">Kịch bản kiểm thử</text>
+    <text x="640" y="679" dominant-baseline="middle" text-anchor="start" fill="#f59e0b">Sửa lỗi code,</text>
+    <text x="640" y="699" dominant-baseline="middle" text-anchor="start" fill="#f59e0b">vòng lặp tới</text>
+    <text x="620" y="809" dominant-baseline="middle" text-anchor="start" fill="#f59e0b">User story mới,</text>
+    <text x="620" y="829" dominant-baseline="middle" text-anchor="start" fill="#f59e0b">bản phát hành tới</text>
+  </g>
+</svg>

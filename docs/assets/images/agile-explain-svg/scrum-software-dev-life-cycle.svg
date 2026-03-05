@@ -1,0 +1,279 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="100%" height="100%">
+  <defs>
+    <!-- Arrowhead markers for solid teal lines -->
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0B93BA" />
+    </marker>
+    <!-- Arrowhead markers for pale blue lines -->
+    <marker id="arrow-pale" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#B1DFED" />
+    </marker>
+    
+    <!-- Team Member Icon Templates -->
+    <g id="dev-icon">
+      <circle cx="0" cy="-14" r="14" fill="#CC4D24" />
+      <path d="M -22 18 C -22 -6, 22 -6, 22 18 Z" fill="#CC4D24" />
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">Dev</text>
+    </g>
+    <g id="sm-icon">
+      <circle cx="0" cy="-14" r="14" fill="#296989" />
+      <path d="M -22 18 C -22 -6, 22 -6, 22 18 Z" fill="#296989" />
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">SM</text>
+    </g>
+    <g id="po-icon">
+      <circle cx="0" cy="-14" r="14" fill="#78A933" />
+      <path d="M -22 18 C -22 -6, 22 -6, 22 18 Z" fill="#78A933" />
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">PO</text>
+    </g>
+
+    <!-- Global Styles -->
+    <style>
+      .bold-label { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; fill: #f8fafc; text-anchor: middle; }
+      .white-text { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; fill: #FFFFFF; text-anchor: middle; }
+      .footer-text { font-family: 'Arial', sans-serif; font-size: 9px; font-weight: bold; fill: #94a3b8; text-anchor: end; }
+      .box-teal { fill: #0B93BA; rx: 8; ry: 8; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+      <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+      <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
+    </linearGradient>
+  </defs>
+
+  <!-- BACKGROUND: White / Transparent -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+
+  <!-- ==================== CONNECTING ARROWS & FEEDBACK LOOPS ==================== -->
+
+  <!-- Top Loop (Sprint Review -> Sprint Retrospective -> Sprint Planning) -->
+  <path d="M 1130 320 L 1130 110 Q 1130 100 1120 100 L 715 100" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
+  <path d="M 585 100 L 340 100 Q 330 100 330 110 L 330 295" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
+
+  <!-- Bottom Loop (Sprint Review -> Product Backlog) -->
+  <path d="M 1130 380 L 1130 520 Q 1130 530 1120 530 L 170 530 Q 160 530 160 520 L 160 435" fill="none" stroke="#B1DFED" stroke-width="6" stroke-dasharray="2, 4" marker-end="url(#arrow-pale)" />
+
+  <!-- Direct Flow Arrows -->
+  <line x1="220" y1="350" x2="255" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+  <line x1="390" y1="350" x2="425" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+
+  <!-- Swooping Ribbon: Sprint Backlog to Scrum Team -->
+  <path d="M 510 340 Q 550 340 575 375 L 555 395 Q 540 360 510 360 Z" fill="#4BABC6" />
+
+  <!-- Swooping Ribbon with Arrowhead: Scrum Team to Increment -->
+  <path d="M 830 365 Q 865 350 905 350 L 905 335 L 940 360 L 905 385 L 905 370 Q 865 370 815 400 Z" fill="#4BABC6" />
+
+  <!-- Straight Arrow: Increment to Sprint Review -->
+  <line x1="1040" y1="350" x2="1075" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+
+
+  <!-- ==================== MAIN SHAPES & DIAGRAM ELEMENTS ==================== -->
+
+  <!-- Product Backlog -->
+  <g transform="translate(110, 180)">
+    <!-- Base outer box -->
+    <rect x="0" y="0" width="100" height="230" class="box-teal" />
+    <rect x="5" y="5" width="90" height="220" rx="4" ry="4" fill="#097392" />
+    <!-- Inner white area -->
+    <rect x="15" y="15" width="70" height="200" fill="#FFFFFF" />
+    <!-- Grid/Stack lines -->
+    <line x1="15" y1="35" x2="85" y2="35" stroke="#0B93BA" stroke-width="2" />
+    <line x1="15" y1="55" x2="85" y2="55" stroke="#0B93BA" stroke-width="2" />
+    <line x1="15" y1="75" x2="85" y2="75" stroke="#0B93BA" stroke-width="2" />
+    <line x1="15" y1="95" x2="85" y2="95" stroke="#0B93BA" stroke-width="2" />
+    <line x1="15" y1="125" x2="85" y2="125" stroke="#0B93BA" stroke-width="2" />
+    <line x1="15" y1="170" x2="85" y2="170" stroke="#0B93BA" stroke-width="2" />
+  </g>
+
+  <!-- Product Backlog Refinement Loop Arrow -->
+  <path d="M 125 185 C 50 185 50 110 115 110 C 145 110 155 135 145 155" fill="none" stroke="#0B93BA" stroke-width="6" marker-end="url(#arrow-teal)" />
+
+  <!-- Sprint Planning -->
+  <g transform="translate(265, 320)">
+    <rect x="0" y="0" width="110" height="60" class="box-teal" />
+    <text x="55" y="27" class="white-text">Lập kế hoạch</text>
+    <text x="55" y="44" class="white-text">Sprint</text>
+  </g>
+
+  <!-- Sprint Backlog -->
+  <g transform="translate(435, 310)">
+    <rect x="0" y="0" width="80" height="90" class="box-teal" />
+    <rect x="10" y="10" width="60" height="70" fill="#FFFFFF" />
+    <!-- Vertical Lines -->
+    <line x1="30" y1="10" x2="30" y2="80" stroke="#0B93BA" stroke-width="1.5" />
+    <line x1="50" y1="10" x2="50" y2="80" stroke="#0B93BA" stroke-width="1.5" />
+    <!-- Horizontal Lines -->
+    <line x1="10" y1="27.5" x2="70" y2="27.5" stroke="#0B93BA" stroke-width="1.5" />
+    <line x1="10" y1="45" x2="70" y2="45" stroke="#0B93BA" stroke-width="1.5" />
+    <line x1="10" y1="62.5" x2="70" y2="62.5" stroke="#0B93BA" stroke-width="1.5" />
+    <!-- Fill some task squares to match original styling -->
+    <rect x="10" y="10" width="20" height="17.5" fill="#0B93BA" />
+    <rect x="30" y="27.5" width="20" height="17.5" fill="#0B93BA" />
+    <rect x="10" y="45" width="20" height="17.5" fill="#0B93BA" />
+    <rect x="50" y="45" width="20" height="17.5" fill="#0B93BA" />
+    <rect x="30" y="62.5" width="20" height="17.5" fill="#0B93BA" />
+  </g>
+
+  <!-- Scrum Team (Central Graphic) -->
+  <g transform="translate(710, 350)">
+    <!-- Outer Rings -->
+    <circle cx="0" cy="0" r="145" fill="none" stroke="#4BABC6" stroke-width="12" />
+    <circle cx="0" cy="0" r="135" fill="none" stroke="#0B93BA" stroke-width="4" />
+    <circle cx="0" cy="0" r="120" fill="none" stroke="#0B93BA" stroke-width="4" />
+    
+    <path d="M -140 0 A 140 140 0 1 1 140 0 A 140 140 0 1 1 -140 0" fill="none" stroke="#3DA3C1" stroke-width="20" />
+    
+    <!-- Inner Background -->
+    <circle cx="0" cy="0" r="115" fill="#FFFFFF" />
+    
+    <!-- Text on the bottom ring -->
+    <text x="0" y="127" class="white-text">Scrum Team</text>
+
+    <!-- Team Members -->
+    <use href="#dev-icon" x="-60" y="-50" />
+    <use href="#dev-icon" x="-75" y="30" />
+    <use href="#dev-icon" x="-10" y="70" />
+    
+    <use href="#sm-icon" x="50" y="-30" />
+    <use href="#po-icon" x="40" y="50" />
+  </g>
+
+  <!-- Daily Scrum -->
+  <g transform="translate(810, 195)">
+    <circle cx="0" cy="0" r="45" fill="#4BABC6" />
+    <text x="0" y="-5" class="white-text">Daily</text>
+    <text x="0" y="12" class="white-text">Scrum</text>
+  </g>
+
+  <!-- Increment (3D Isometric Open Box) -->
+  <g transform="translate(980, 360)">
+    <!-- Inner Left Wall -->
+    <polygon points="-40,-15 0,-30 0,5" fill="#145F7C" />
+    <!-- Inner Right Wall -->
+    <polygon points="40,-15 0,-30 0,5" fill="#196A8A" />
+    
+    <!-- Outer Left Wall -->
+    <polygon points="0,25 -40,5 -40,-15 0,5" fill="#389EBC" />
+    <!-- Outer Right Wall -->
+    <polygon points="0,25 40,5 40,-15 0,5" fill="#2782A0" />
+    
+    <!-- Flaps -->
+    <!-- Front Left Flap -->
+    <polygon points="-40,-15 -10,-5 0,5 -30,-5" fill="#5CADD1" />
+    <!-- Front Right Flap -->
+    <polygon points="40,-15 10,-5 0,5 30,-5" fill="#5CADD1" />
+    <!-- Back Left Flap -->
+    <polygon points="-40,-15 -20,-35 20,-25 0,-30" fill="#5CADD1" />
+    <!-- Back Right Flap -->
+    <polygon points="40,-15 20,-35 -20,-25 0,-30" fill="#5CADD1" />
+  </g>
+
+  <!-- Sprint Review -->
+  <g transform="translate(1085, 320)">
+    <rect x="0" y="0" width="100" height="60" class="box-teal" />
+    <text x="50" y="27" class="white-text">Sơ kết</text>
+    <text x="50" y="44" class="white-text">Sprint</text>
+  </g>
+
+  <!-- Sprint Retrospective -->
+  <g transform="translate(585, 70)">
+    <rect x="0" y="0" width="130" height="60" class="box-teal" />
+    <text x="65" y="27" class="white-text">Cải tiến</text>
+    <text x="65" y="44" class="white-text">Sprint</text>
+  </g>
+
+  <!-- ==================== TEXT LABELS ==================== -->
+
+  <!-- Product Backlog Refinement -->
+  <text x="60" y="195" class="bold-label" text-anchor="end">Product</text>
+  <text x="60" y="210" class="bold-label" text-anchor="end">Backlog</text>
+  <text x="60" y="225" class="bold-label" text-anchor="end">(Làm mịn)</text>
+
+  <!-- Product Goal -->
+  <text x="160" y="145" class="bold-label">Mục tiêu</text>
+  <text x="160" y="160" class="bold-label">Sản phẩm</text>
+
+  <!-- Product Backlog -->
+  <text x="160" y="430" class="bold-label">Product</text>
+  <text x="160" y="445" class="bold-label">Backlog</text>
+
+  <!-- Sprint Goal -->
+  <text x="475" y="280" class="bold-label">Mục tiêu</text>
+  <text x="475" y="295" class="bold-label">Sprint</text>
+
+  <!-- Sprint Backlog -->
+  <text x="475" y="420" class="bold-label">Sprint</text>
+  <text x="475" y="435" class="bold-label">Backlog</text>
+
+  <!-- Definition of Done -->
+  <text x="980" y="260" class="bold-label">Định nghĩa</text>
+  <text x="980" y="275" class="bold-label">Hoàn thành</text>
+
+  <!-- Increment -->
+  <text x="980" y="420" class="bold-label">Increment</text>
+
+  <!-- Copyright Footer -->
+  <text x="1150" y="510" class="footer-text">Scrum Framework © 2020 Scrum.org</text>
+
+</svg>

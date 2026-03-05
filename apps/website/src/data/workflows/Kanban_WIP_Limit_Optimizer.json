@@ -1,0 +1,60 @@
+{
+  "id": "wf-kanban-wip",
+  "title": "Tối ưu hóa Luồng Kanban: Quản lý WIP",
+  "description": "Dựa theo triết lý Lean, Agent tự động phân tích dòng chảy (Flow Metrics) để phát hiện nút thắt nghẽn và đưa ra cảnh báo giới hạn WIP.",
+  "steps": [
+    {
+      "id": "kan-1",
+      "title": "Theo dõi Thẻ (Card Tracking)",
+      "role": "System",
+      "description": "Agent giám sát liên tục bảng Kanban, ghi nhận thời gian các thẻ công việc (Cards) nằm lỳ tại một cột (Cycle Time / Lead Time).",
+      "input": "Kanban Board State",
+      "output": "Flow Metrics",
+      "loopGroup": "None",
+      "projectStateScenario": "Dự án vận hành (Operations/Support) hoặc các luồng công việc liên tục không có khung thời gian Sprint cố định.",
+      "icon": "⏱️",
+      "nextSteps": [{"conditionLabel": "Nhận diện Bottleneck", "nextNodeId": "kan-2"}],
+      "guidanceContext": "Kanban nhấn mạnh vào Flow. Cột nào có số thẻ tích tụ lớn hơn định mức (WIP Limit) sẽ bị đánh cờ đỏ.",
+      "exampleDetails": "Cột 'Code Review' đang có 7 tickets, trong khi WIP Limit là 3."
+    },
+    {
+      "id": "kan-2",
+      "title": "Phân tích Nút thắt nghẽn",
+      "role": "Agent",
+      "description": "AI chạy giải thuật để tìm ra nguyên nhân: Thiếu người, task quá to, hay lỗi phụ thuộc bên thứ 3.",
+      "input": "Flow Metrics",
+      "output": "Bottleneck Alert",
+      "loopGroup": "Execution",
+      "icon": "⚠️",
+      "nextSteps": [{"conditionLabel": "Gợi ý Giải pháp", "nextNodeId": "kan-3"}],
+      "guidanceContext": "Nội dung cảnh báo không chỉ là 'Bạn đang chậm', mà phải là 'Vì sao chậm'.",
+      "exampleDetails": "AI phân tích: 'Tester đang quá tải do 5 tickets đẩy sang cùng lúc lúc 4h chiều hôm qua'."
+    },
+    {
+      "id": "kan-3",
+      "title": "Swarming (Hợp quần gỡ rối)",
+      "role": "Dev Teams",
+      "description": "Team lập tức dừng việc kéo thẻ mới (Pull), tập trung nhân lực vào cột nghẽn để giải cứu (Swarm).",
+      "input": "Bottleneck Alert",
+      "output": "Clear the Board",
+      "loopGroup": "Execution",
+      "promptText": "Hãy phân tích ticket #890 đang bị kẹt ở Review. Agent, mày hãy gợi ý các checklist Review tự động để anh em đỡ phải đọc code tay.",
+      "icon": "👥",
+      "nextSteps": [{"conditionLabel": "Nghẽn được thông", "nextNodeId": "kan-4"}],
+      "guidanceContext": "Nguyên lý bất di bất dịch của Kanban: 'Stop Starting, Start Finishing'. Không được bắt đầu việc mới khi việc cũ chưa xong.",
+      "exampleDetails": "Cả 3 kỹ sư xúm vào Code Review."
+    },
+    {
+      "id": "kan-4",
+      "title": "Cấu hình lại WIP Limit",
+      "role": "PMO / Architect",
+      "description": "Dựa theo tần suất nghẽn cổ chai, AI rà soát và đề xuất PMO giảm hoặc tăng WIP Limit động (Dynamic WIP).",
+      "input": "Historical Data",
+      "output": "New Kanban Rules",
+      "loopGroup": "Planning",
+      "icon": "⚙️",
+      "guidanceContext": "Continuous Improvement (Kaizen) là trái tim của Lean.",
+      "exampleDetails": "WIP Limit cột Review giảm từ 3 xuống 2 để ép dev san sẻ việc."
+    }
+  ]
+}

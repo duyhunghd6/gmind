@@ -1,0 +1,69 @@
+{
+  "id": "wf-agentic-greenfield",
+  "title": "3. Agentic Coding (Greenfield)",
+  "description": "Phát triển dự án Mới hoàn toàn (Greenfield). Agent tự chủ định hướng kiến trúc từ đầu.",
+  "steps": [
+    {
+      "id": "ag-1",
+      "title": "Giao phó Core Request",
+      "role": "User",
+      "description": "Đưa ra mục tiêu cốt lõi của dự án.",
+      "input": "Mục tiêu kinh doanh",
+      "output": "Core Request Prompt",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án mới tinh (Greenfield) từ con số 0, cần thiết lập kiến trúc chuẩn chỉnh và document đầy đủ.",
+      "promptText": "Hãy khởi tạo một dự án E-commerce Microservices bằng Golang. Sử dụng kiến trúc Clean Architecture. Dự toán cần có service: User, Product, Order. Viết PRD và Architecture Plan cho tôi trước khi code.",
+      "icon": "🎯",
+      "nextSteps": [{"conditionLabel": "Giao Task", "nextNodeId": "ag-2"}],
+      "guidanceContext": "Bước cực kỳ quan trọng quyết định toàn bộ kiến trúc dự án. Trái với Vibe Coding, Agentic Coding đòi hỏi bạn phải tư duy hệ thống ngay từ đầu.",
+      "exampleDetails": "Nêu rõ ngôn ngữ (Golang/Rust/TS), kiến trúc (Microservices/Monolith), thư viện UI cốt lõi."
+    },
+    {
+      "id": "ag-2",
+      "title": "Viết PRD & Nghiên cứu Spikes",
+      "role": "Agent",
+      "description": "Tạo PRD nháp và thực hiện các luồng Spike (giả thuyết kỹ thuật).",
+      "input": "Core Request Prompt",
+      "output": "PRD & Spikes Markdown",
+      "loopGroup": "Planning",
+      "icon": "🔬",
+      "nextSteps": [{"conditionLabel": "Trình bày Plan", "nextNodeId": "ag-3"}],
+      "guidanceContext": "Agent sẽ tự đi lùng sục best practices, viết các file `.md` mô tả thiết kế hệ thống, sơ đồ CSDL, cấu trúc thư mục.",
+      "exampleDetails": "Kiểm tra kỹ các file `Architecture.md` và `PRD.md` được sinh ra. Xem Agent có đề xuất sai design pattern không."
+    },
+    {
+      "id": "ag-3",
+      "title": "Duyệt Kiến trúc & Planning",
+      "role": "User",
+      "description": "Người dùng chốt Architecture và Plan.",
+      "input": "PRD & Spikes Markdown",
+      "output": "Approval / Feedback",
+      "loopGroup": "Planning",
+      "loopCondition": "Nếu Spike sai hướng -> Lặp lại Nghiên cứu",
+      "promptText": "Tôi đồng ý với thiết kế CSDL FrankenSQLite và kiến trúc Golang. Hãy bắt đầu implement module Auth trước tiên. Gán theo chuẩn Universal ID của Beads.",
+      "icon": "✅",
+      "nextSteps": [
+        {"conditionLabel": "Đồng ý", "nextNodeId": "ag-4"},
+        {"conditionLabel": "Sai hướng", "nextNodeId": "ag-2", "isLoopBack": true}
+      ],
+      "guidanceContext": "Bạn đóng vai trò là Product Manager (PM) kết hợp System Architect. Tuyệt đối không để Agent tự ý code nếu bạn chưa review bản vẽ thiết kế.",
+      "exampleDetails": "Phê duyệt hoặc phản biện ý tưởng: 'Dùng Redis ở đây là thừa, hãy đổi sang biến in-memory'."
+    },
+    {
+      "id": "ag-4",
+      "title": "Code tự chủ & Tracking",
+      "role": "Agent",
+      "description": "Tự tạo beads task, code, chạy tool kiểm thử và commit code theo từng cục UI/API.",
+      "input": "Approved Plan & Tasks",
+      "output": "Working Software Increments",
+      "loopGroup": "Execution",
+      "loopCondition": "Bug/Lỗi Test -> Agent tự lặp lại Code",
+      "icon": "🤖",
+      "nextSteps": [
+        {"conditionLabel": "Dev - Test - Commit", "nextNodeId": "ag-4", "isLoopBack": true}
+      ],
+      "guidanceContext": "Agent sẽ tự code, tự gõ command terminal, tự đọc lỗi terminal và tự sửa code. Nó hoạt động như một Senior Coder độc lập.",
+      "exampleDetails": "Theo dõi Agent chạy các lệnh Git, npm install, và chạy test tự động."
+    }
+  ]
+}

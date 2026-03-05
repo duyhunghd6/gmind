@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1100" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
+      .title { fill: #f8fafc; font-size: 28px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; letter-spacing: 1px; }
+      .section-title { fill: #38bdf8; font-size: 22px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
+      .list-txt { fill: #cbd5e1; font-size: 18px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
+      .bullet { fill: #10b981; }
+      .card { fill: rgba(30, 41, 59, 1); stroke: rgba(255,255,255,0.05); stroke-width: 1.5; rx: 16; }
+      /* Theme Adaptation */
+      rect[fill="url(#bg)"] { fill: transparent !important; }
+      @media (prefers-color-scheme: light) {
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        .box, .node-rect, .card { 
+          fill: #ffffff !important; 
+          stroke: #cbd5e1 !important; 
+        }
+        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
+          fill: #ffffff !important; 
+          stroke: #e2e8f0 !important; 
+        }
+        
+        /* Dark text (previously white/light) */
+        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
+        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
+        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
+        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
+        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
+        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
+        .white-txt, .white-text, .text-white, .text-light,
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+          fill: #0f172a !important;
+        }
+
+        /* Gray text (previously light gray) */
+        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
+        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+          fill: #475569 !important;
+        }
+
+        /* Specific foreignObject HTML content */
+        .body { color: #475569 !important; }
+        
+        /* Vibrant color mappings for light mode contrast */
+        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
+        text[fill="#93c5fd" i] { fill: #2563eb !important; }
+        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        
+        /* Paths and lines */
+        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
+          stroke: #94a3b8 !important;
+        }
+        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
+          stroke: rgba(0,0,0,0.1) !important;
+        }
+        circle[fill="#ffffff" i], circle[fill="#fff" i] {
+          fill: #0f172a !important;
+        }
+      }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b1121" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="cardBg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <rect width="100%" height="100%" fill="url(#bg)" rx="16" />
+  
+  <text x="500" y="60.2" dominant-baseline="middle" text-anchor="middle" class="title">XP SO VỚI CÁC FRAMEWORKS KHÁC</text>
+
+  <!-- XP vs Scrum -->
+  <text x="500" y="134" dominant-baseline="middle" text-anchor="middle" class="section-title">XP vs Scrum</text>
+  <rect class="card" x="50" y="170" width="900" height="200" fill="url(#cardBg1)" filter="url(#shadow)" />
+  
+  <g class="list-txt">
+    <circle cx="120" cy="214" r="4" class="bullet" />
+    <circle cx="120" cy="244" r="4" class="bullet" />
+    <circle cx="120" cy="274" r="4" class="bullet" />
+    <circle cx="120" cy="304" r="4" class="bullet" />
+    <text x="140" y="214" dominant-baseline="middle">Vòng lặp cực ngắn (Shorter iterations)</text>
+    <text x="140" y="244" dominant-baseline="middle">Linh hoạt thích ứng với thay đổi</text>
+    <text x="140" y="274" dominant-baseline="middle">Tập trung kỹ thuật thực hành (technical)</text>
+    <text x="140" y="304" dominant-baseline="middle">Khách hàng quyết định thứ tự</text>
+    <text x="140" y="329" dominant-baseline="middle">ưu tiên phát triển tính năng</text>
+
+    <!-- Divider Line -->
+    <line x1="480" y1="190" x2="480" y2="350" stroke="#334155" stroke-width="1" stroke-dasharray="8,4" />
+
+    <circle cx="520" cy="214" r="4" fill="#38bdf8" />
+    <circle cx="520" cy="244" r="4" fill="#38bdf8" />
+    <circle cx="520" cy="274" r="4" fill="#38bdf8" />
+    <circle cx="520" cy="304" r="4" fill="#38bdf8" />
+    <text x="540" y="214" dominant-baseline="middle">Sprints có chu kỳ dài hơn</text>
+    <text x="540" y="244" dominant-baseline="middle">Không thay đổi yêu cầu trong sprint</text>
+    <text x="540" y="274" dominant-baseline="middle">Tập trung vào khía cạnh quản lý</text>
+    <text x="540" y="304" dominant-baseline="middle">Nhóm tự tổ chức để quyết định</text>
+    <text x="540" y="329" dominant-baseline="middle">thứ tự thực hiện tính năng</text>
+  </g>
+
+  <!-- XP vs Kanban -->
+  <text x="500" y="434" dominant-baseline="middle" text-anchor="middle" class="section-title">XP vs Kanban</text>
+  <rect class="card" x="50" y="470" width="900" height="200" fill="url(#cardBg1)" filter="url(#shadow)" />
+  
+  <g class="list-txt">
+    <circle cx="120" cy="534" r="4" class="bullet" />
+    <circle cx="120" cy="564" r="4" class="bullet" />
+    <circle cx="120" cy="594" r="4" class="bullet" />
+    <text x="140" y="534" dominant-baseline="middle">Quản lý theo vòng lặp (Iteration-based)</text>
+    <text x="140" y="564" dominant-baseline="middle">Các vai trò được xác định rõ ràng</text>
+    <text x="140" y="594" dominant-baseline="middle">Tập trung vào thực hành kỹ thuật</text>
+
+    <line x1="480" y1="490" x2="480" y2="650" stroke="#334155" stroke-width="1" stroke-dasharray="8,4" />
+
+    <circle cx="520" cy="534" r="4" fill="#a855f7" />
+    <circle cx="520" cy="564" r="4" fill="#a855f7" />
+    <circle cx="520" cy="594" r="4" fill="#a855f7" />
+    <text x="540" y="534" dominant-baseline="middle">Luồng công việc liên tục (continuous flow)</text>
+    <text x="540" y="564" dominant-baseline="middle">Không quy định các vai trò cứng nhắc</text>
+    <text x="540" y="594" dominant-baseline="middle">Tập trung vào trực quan hóa (visualization)</text>
+  </g>
+
+  <!-- XP vs Lean -->
+  <text x="500" y="734" dominant-baseline="middle" text-anchor="middle" class="section-title">XP vs Lean</text>
+  <rect class="card" x="50" y="770" width="900" height="200" fill="url(#cardBg1)" filter="url(#shadow)" />
+  
+  <g class="list-txt">
+    <circle cx="120" cy="854" r="4" class="bullet" />
+    <text x="140" y="854" dominant-baseline="middle">Tập trung vào các vòng lặp và</text>
+    <text x="140" y="879" dominant-baseline="middle">chuẩn mực kỹ thuật (technical practices)</text>
+
+    <line x1="480" y1="790" x2="480" y2="950" stroke="#334155" stroke-width="1" stroke-dasharray="8,4" />
+
+    <circle cx="520" cy="854" r="4" fill="#f59e0b" />
+    <text x="540" y="854" dominant-baseline="middle">Tập trung ra mắt MVP siêu tốc</text>
+    <text x="540" y="879" dominant-baseline="middle">và cắt giảm sự lãng phí (reducing waste)</text>
+  </g>
+
+</svg>

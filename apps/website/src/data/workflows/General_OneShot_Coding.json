@@ -1,0 +1,47 @@
+{
+  "id": "wf-one-shot",
+  "title": "1. One-shot Coding",
+  "description": "Luồng cơ bản nhất: Người dùng yêu cầu toàn bộ trong một prompt, Agent trả về code hoàn chỉnh.",
+  "steps": [
+    {
+      "id": "os-1",
+      "title": "Khởi tạo Yêu cầu (Prompt)",
+      "role": "User",
+      "description": "Người dùng mô tả rành rọt toàn bộ yêu cầu, bao gồm PRD, kiến trúc mạng, giao diện...",
+      "input": "Ý tưởng thô",
+      "output": "Prompt chi tiết",
+      "loopGroup": "None",
+      "projectStateScenario": "Tính năng nhỏ lẻ, viết script rời, fix 1 hàm đơn giản.",
+      "promptText": "Hãy xây dựng một ứng dụng web quản lý công việc (Todo App) bằng Next.js và Tailwind CSS. Yêu cầu tính năng:\n1. Thêm/Sửa/Xóa task.\n2. Lưu trữ tại LocalStorage.\n3. Giao diện Dark mode tối giản.\nTôi cần bạn trả về toàn bộ code các file cần thiết trong 1 lần duy nhất.",
+      "icon": "📝",
+      "nextSteps": [{"conditionLabel": "Gửi Prompt", "nextNodeId": "os-2"}],
+      "guidanceContext": "Tại bước này, Agentic Workflow chỉ là zero-shot hoặc one-shot. Bạn cần định nghĩa cực kỳ rõ ràng Input/Output để LLM có thể làm đúng ngay từ lần đầu tiên. Context quá lớn sẽ dẫn đến Hallucination.",
+      "exampleDetails": "Ví dụ: Nếu yêu cầu viết Todo App, hãy định nghĩa luôn màu sắc, data structure (LocalStorage), thư viện UI (Tailwind)."
+    },
+    {
+      "id": "os-2",
+      "title": "Sinh Code & Tự QA",
+      "role": "Agent",
+      "description": "Agent tự động phân tích prompt, rã logic, code, và tự kiểm tra (QA) trước khi hoàn tất.",
+      "input": "Prompt chi tiết",
+      "output": "Mã nguồn hoàn chỉnh (Draft 1)",
+      "loopGroup": "None",
+      "icon": "⚙️",
+      "nextSteps": [{"conditionLabel": "Tạo xong Code", "nextNodeId": "os-3"}],
+      "guidanceContext": "Agent có thể tự gọi các công cụ (Tools) như linter, type-checker ở background để đảm bảo mã nguồn trả về không bị lỗi cú pháp căn bản.",
+      "exampleDetails": "Hệ thống tự động sử dụng `tsc --noEmit` hoặc ESLint để validate trước khi đưa code cho người dùng."
+    },
+    {
+      "id": "os-3",
+      "title": "Hoàn thiện & Người dùng Khởi chạy",
+      "role": "User",
+      "description": "Người dùng copy code, chạy build kiểm tra.",
+      "input": "Mã nguồn (Draft 1)",
+      "output": "Ứng dụng chạy được",
+      "loopGroup": "None",
+      "icon": "🚀",
+      "guidanceContext": "Nếu code lỗi ở bước này, với One-shot coding, người dùng thường phải tự debug hoặc khởi tạo lại prompt mới từ đầu. Đây là hạn chế lớn nhất của One-shot.",
+      "exampleDetails": "Chạy `npm run dev` để kiểm tra kết quả cuối cùng."
+    }
+  ]
+}

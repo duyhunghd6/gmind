@@ -1,0 +1,66 @@
+{
+  "id": "wf-rad-prototype",
+  "title": "RAD: Lắp ráp UI Prototype Thần tốc",
+  "description": "Rapid Application Development (Phát triển Nhanh). Dành cho Khách hàng lờ mờ: Vứt bỏ tài liệu dài dòng, AI vẽ ngay ra một ứng dụng giả lập (Mockup bấm được) để thử lửa thị trường.",
+  "steps": [
+    {
+      "id": "rad-1",
+      "title": "Thu Nhặt Ý tưởng Hỗn mang",
+      "role": "User",
+      "description": "Người dùng không cần PRD. Chỉ cần vẽ vời một bản thiết kế lên bảng trắng, chụp ảnh, hoặc gõ 3 dòng ý tưởng vứt cho hệ thống.",
+      "input": "Napkin Sketch / Raw Idea",
+      "output": "Structured Vision",
+      "loopGroup": "None",
+      "projectStateScenario": "Dự án cực ngắn, Prototype đem đi gọi vốn cho Startup, hoặc đối tác Business mù tịt về lập trình phần mềm.",
+      "promptText": "Tao có ý tưởng làm một cái app giống Tinder nhưng dành cho mua bán Thú cưng. Mày không cần lo database tốn kém. Dựng tao cái App UI vuốt trái vuốt phải bằng React/Tailwind liền tay.",
+      "icon": "💡",
+      "nextSteps": [{"conditionLabel": "Nhờ AI Dựng Khung", "nextNodeId": "rad-2"}],
+      "guidanceContext": "RAD bỏ qua khâu Hệ thống (Architecture) chuyên sâu mệt não. Tập trung ra hình thù bề mặt để đem đi 'lùa gà' khách hàng trước đã.",
+      "exampleDetails": "Cung cấp ảnh vẽ tay UI giao diện màn hình chính."
+    },
+    {
+      "id": "rad-2",
+      "title": "AI Dựng Prototype (Mockup HTML/JS)",
+      "role": "Agent",
+      "description": "Agent tạo ngay các component UI tĩnh (Static Web), cắm Data giả (Mock JSON) để đổ lên màn hình cực nhanh.",
+      "input": "Structured Vision",
+      "output": "Interactive Prototype UI",
+      "loopGroup": "Planning",
+      "icon": "🚀",
+      "nextSteps": [{"conditionLabel": "Gửi đối tác bấm thử", "nextNodeId": "rad-3"}],
+      "guidanceContext": "Sử dụng sức mạnh của các tool UI sinh mã như V0.dev hay Next.js vứt vào Vercel.",
+      "exampleDetails": "App Tinder Thú cưng hiện sống sờ sờ trên trình duyệt mà không cần Back-end."
+    },
+    {
+      "id": "rad-3",
+      "title": "Kiểm tra Thực nghiệm (Customer Vibe Check)",
+      "role": "User",
+      "description": "Đem cái bản nháp múa tay trong bị này cho đối tác xem xét và nhận Gạch đá. Đối tác phàn nàn chê xấu, chê thiếu năng.",
+      "input": "Interactive Prototype UI",
+      "output": "Harsh Real Feedback",
+      "loopGroup": "Execution",
+      "promptText": "Người dùng chê cái nút vuốt trái nhỏ xíu. Họ bảo muốn khi vuốt phải có tiếng 'Gâu Gâu' kêu lên, màn hình rung lên. Mày đổi gấp cho tao.",
+      "icon": "🤬",
+      "nextSteps": [{"conditionLabel": "Sửa UI theo Gạch Đá", "nextNodeId": "rad-4"}],
+      "guidanceContext": "Phản hồi càng phũ phàng, quá trình RAD càng hiệu quả. Đây là lúc bóc lột sự kiên nhẫn vô tận của AI so với Thợ Code truyền thống (dễ tổn thương cái tôi).",
+      "exampleDetails": "Thay đổi vị trí nút bấm liên tục 20 lần trong 1 giờ."
+    },
+    {
+      "id": "rad-4",
+      "title": "Chốt Tính Năng Bề Mặt, Bọc Vỏ Trả Code Lõi",
+      "role": "Agent",
+      "description": "AI cập nhật Prototype. Sau N vòng xoáy phản hồi, khách hàng mãn nguyện. Bây giờ Agent mới lấy cái Vỏ UI chuẩn đó đắp thịt Back-end và Database vào.",
+      "input": "Harsh Real Feedback",
+      "output": "Solid Front-End + Engine Backend",
+      "loopGroup": "Execution",
+      "loopCondition": "Sửa Lại UI (Vẫn bị chửi) -> Quay về Rad-3.",
+      "icon": "✅",
+      "nextSteps": [
+        {"conditionLabel": "Thành phẩm Cuối", "nextNodeId": "rad-4"},
+        {"conditionLabel": "Bị Khách Chê Tiếp", "nextNodeId": "rad-3", "isLoopBack": true}
+      ],
+      "guidanceContext": "Lợi ích của RAD: Không bao giờ xây cái móng nhà bê tông dư thừa 5 tầng khi mà cuối cùng khách hàng lại đòi ở Lều Cỏ.",
+      "exampleDetails": "Code Front-end đã ổn định. Mở khoá viết GraphQL APIs."
+    }
+  ]
+}
