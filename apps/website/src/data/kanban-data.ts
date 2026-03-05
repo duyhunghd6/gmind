@@ -10,6 +10,7 @@ export interface KanbanCard {
   labels?: string[];
   beadsId?: string;
   dueDate?: string;
+  escalationLevel?: number;
 }
 
 export interface KanbanColumnData {
@@ -179,7 +180,7 @@ const bugBoard: KanbanBoard = {
       title: "Đã Phân Loại",
       wipLimit: 3,
       cards: [
-        { id: "b5", title: "FrankenSQLite deadlock on concurrent writes", assignee: "Claude-01", assigneeColor: "#3fb9a0", priority: "P0", labels: ["critical", "storage"], beadsId: "bd-b05", dueDate: "Mar 5" },
+        { id: "b5", title: "FrankenSQLite deadlock on concurrent writes", assignee: "Claude-01", assigneeColor: "#3fb9a0", priority: "P0", labels: ["critical", "storage"], beadsId: "bd-b05", dueDate: "Mar 5", escalationLevel: 2 },
         { id: "b6", title: "Git graph SVG overflow trên mobile", assignee: "Claude-03", assigneeColor: "#f78166", priority: "P2", labels: ["ui", "responsive"], beadsId: "bd-b06" },
       ],
     },

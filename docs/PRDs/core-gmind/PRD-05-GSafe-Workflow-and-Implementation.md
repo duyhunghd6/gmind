@@ -15,6 +15,8 @@ sections:
 
 # PRD 05: Hướng dẫn Triển khai GSAFe 6.0 & Gmind Workflow
 
+<!-- beads-id: br-prd05 -->
+
 _Tài liệu này mang tính lưỡng dụng: Vừa là Hướng dẫn từng bước (Step-by-step Guide) cho người dùng/Agents, vừa là Đặc tả Yêu cầu (PRD) định hướng cho việc phát triển các tính năng hỗ trợ quy trình GSAFe 6.0 trên nền tảng Gmind._
 
 ---
@@ -74,10 +76,11 @@ Luồng công việc sau mô phỏng quá trình từ khi khởi tạo một ý 
   │
   ├─►[ VÒNG LẶP ITERATION START ]
   │  │
-  │  ├──► Step 6a: (Optional) UI/UX Design System Mockups
-  │  │    ├─ Nếu có UI/UX: Gọi lệnh `/create-gsafe-design-system`.
-  │  │    ├─ Đọc PRDs, tạo HTML mockup liên tục theo các iterations (refine liên tục).
-  │  │    └─ Cập nhật State Matrix. Pass khi Matrix cover ≥ 90% PRD IDs.
+  │  ├──► Step 6a: (Optional) Vòng lặp UI/UX Design System & Rà soát PRD (PRD <-> DS Feedback Loop)
+  │  │    ├─ Nếu dự án có UI: Gọi lệnh `/create-gsafe-design-system` để tạo HTML mockup theo PRD.
+  │  │    ├─ Gọi lệnh `/arch-review-prd-after-design-system` để đối chiếu State Matrix Coverage.
+  │  │    ├─ Sinh Báo cáo Bàn giao (Handover Report) chỉ ra các khoảng trống giao diện (Gaps).
+  │  │    └─ Hoàn thiện ngược lại PRD nếu phát hiện thiếu logic phụ trợ cho UI. (Feedback Loop).
   │  │
   │  ├──► Step 6b: Thực thi Mã nguồn & File Locking (Code Execution)
   │  │    ├─ Code Agent nhận task lấy context qua `gmind context <id>`.

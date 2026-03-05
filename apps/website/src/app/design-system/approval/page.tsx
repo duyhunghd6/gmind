@@ -27,9 +27,10 @@ const heatmapData = [
 ];
 
 const approvalPanels = [
-  { id: "bd-a1b2", task: "MVCC Layer", tests: "15/15 passed", diff: "+142 / −38 lines · 3 files", prd: "PRD-02 §2.1 (Storage Layer)", ci: "green" },
-  { id: "bd-e5f6", task: "gmind CLI Gateway", tests: "22/22 passed", diff: "+287 / −45 lines · 5 files", prd: "PRD-03 §1.1 (CLI Interface)", ci: "green" },
-  { id: "bd-g7h8", task: "Lease Manager", tests: "8/10 passed", diff: "+95 / −12 lines · 2 files", prd: "PRD-04 §2.1 (Agent Orchestration)", ci: "warning" },
+  { id: "bd-a1b2", task: "MVCC Layer", tests: "15/15 passed", diff: "+142 / −38 lines · 3 files", prd: "PRD-02 §2.1 (Storage Layer)", ci: "green", escalated: false },
+  { id: "bd-e5f6", task: "gmind CLI Gateway", tests: "22/22 passed", diff: "+287 / −45 lines · 5 files", prd: "PRD-03 §1.1 (CLI Interface)", ci: "green", escalated: false },
+  { id: "bd-g7h8", task: "Lease Manager", tests: "8/10 passed", diff: "+95 / −12 lines · 2 files", prd: "PRD-04 §2.1 (Agent Orchestration)", ci: "warning", escalated: false },
+  { id: "bd-b05", task: "Deadlock Resolution", tests: "1/5 passed", diff: "+2 / −15 lines · 1 files", prd: "PRD-01 §3.2", ci: "failed", escalated: true },
 ];
 
 export default function ApprovalScreen() {
@@ -38,6 +39,7 @@ export default function ApprovalScreen() {
     "bd-a1b2": "approved",
     "bd-e5f6": "pending",
     "bd-g7h8": "rejected",
+    "bd-b05": "pending",
   });
 
   const toggleApproval = (id: string, newState: "pending" | "approved" | "rejected") => {
@@ -98,7 +100,13 @@ export default function ApprovalScreen() {
                       ))}
                     </div>
                   </div>
-                  <div className={`approval-panel approval-panel--${aState}`}>
+                  <div className={`approval-panel approval-panel--${aState}${panel.escalated ? " approval-panel--escalated" : ""}`} style={panel.escalated ? { borderColor: "rgba(255,123,114,0.5)", background: "rgba(255,123,114,0.03)" } : {}}>
+                    {panel.escalated && (
+                      <div style={{ gridColumn: "1 / -1", padding: "8px 16px", background: "rgba(255,123,114,0.1)", color: "#ff7b72", fontSize: "0.75rem", fontWeight: 600, borderBottom: "1px solid rgba(255,123,114,0.2)", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span>⚠️ Escalated (L2)</span>
+                        <span style={{ fontWeight: 400, opacity: 0.8 }}>Yêu cầu phê duyệt từ RTE do ảnh hưởng đến kiến trúc.</span>
+                      </div>
+                    )}
                     <div className="approval-panel__section"><div className="approval-panel__section-header"><span className="approval-panel__section-icon">🧪</span><span className="approval-panel__section-title">Tests</span></div><div className="approval-panel__section-body">{panel.tests}</div></div>
                     <div className="approval-panel__section"><div className="approval-panel__section-header"><span className="approval-panel__section-icon">📝</span><span className="approval-panel__section-title">Diff</span></div><div className="approval-panel__section-body">{panel.diff}</div></div>
                     <div className="approval-panel__section"><div className="approval-panel__section-header"><span className="approval-panel__section-icon">🔗</span><span className="approval-panel__section-title">Beads ID</span></div><div className="approval-panel__section-body" style={{ fontFamily: "var(--font-mono)" }}>{panel.id}</div></div>

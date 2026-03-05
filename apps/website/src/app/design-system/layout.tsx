@@ -60,6 +60,16 @@ const menu: Category[] = [
         ],
       },
       {
+        href: "/design-system/portfolio",
+        label: "Portfolio View",
+        icon: "📈",
+      },
+      {
+        href: "/design-system/pi-planning",
+        label: "PI Planning Sandbox",
+        icon: "🎯",
+      },
+      {
         href: "/design-system/git-graph",
         label: "Beads: Đồ thị Git",
         icon: "🌿",

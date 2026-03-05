@@ -24,7 +24,11 @@ sections:
 
 # PRD 02: Tracking Đa năng & Ma trận Truy vết (Universal Tracking & RTM)
 
+<!-- beads-id: br-prd02 -->
+
 ## 1. Universal Tracking Strategy (Chiến lược Định danh Duy nhất)
+
+<!-- beads-id: br-prd02-s1 -->
 
 Trái tim của hệ thống liên kết là **Beads ID** (VD: `br-123`). Đây là Primary Key xuyên suốt mọi layer và 2 Cơ sở Dữ liệu.
 
@@ -32,6 +36,8 @@ Trái tim của hệ thống liên kết là **Beads ID** (VD: `br-123`). Đây 
 - **Git Hook:** Mọi commit từ bot phải gắn `Beads-ID:` Git Trailer (VD: `Beads-ID: br-123`).
 
 ## 2. Section-level Beads IDs trong Documents
+
+<!-- beads-id: br-prd02-s2 -->
 
 > ✅ **Thêm mới (2026-03-01):** Mở rộng Beads ID từ task/issue level xuống document section level. Xem [spike-beads-id-in-docs.md](../researches/spikes/spike-beads-id-in-docs.md).
 
@@ -62,6 +68,8 @@ sections:
 
 ## 3. Dependency Link Types: satisfies & implements
 
+<!-- beads-id: br-prd02-s3 -->
+
 Hai dependency link types mới để kết nối 3 tầng truy vết:
 
 - **`satisfies`**: Plan Element → PRD Section (Plan này đáp ứng yêu cầu nào trong PRD)
@@ -90,6 +98,8 @@ bd dep add br-plan-01 br-prd01-s1 --type=satisfies
 
 ## 4. Requirements Traceability Matrix (RTM) — Mô hình 3 tầng
 
+<!-- beads-id: br-prd02-s4 -->
+
 Hệ thống truy vết 3 tầng cho phép liên kết xuyên suốt từ Requirements đến Code:
 
 ```
@@ -111,6 +121,8 @@ PRD Section  ←──satisfies──  Plan Element  ←──implements──  
 **Gap Detection:** `gmind gaps prd-to-plan` / `gmind gaps plan-to-tasks` phát hiện PRD sections hoặc Plan elements chưa có downstream coverage.
 
 ## 5. Plan Document Format — Hybrid Approach
+
+<!-- beads-id: br-prd02-s5 -->
 
 > ✅ **Thêm mới (2026-03-02):** Plan documents sử dụng **hybrid approach**: Markdown = SSOT (human-readable, git-tracked), auto-synced sang Beads Issues qua `gmind plan sync`. Xem [spike-plan-document-format.md](../researches/spikes/spike-plan-document-format.md).
 
@@ -148,6 +160,8 @@ Description of element...
 3. **Git diff**: Mọi thay đổi Plan.md đều git-tracked — cho phép review qua PR.
 
 ## 6. GitHub Sync Strategy — Cái gì đẩy lên git, cái gì ở local?
+
+<!-- beads-id: br-prd02-s6 -->
 
 > ✅ **Nguyên tắc (2026-02-28):** Hệ thống chạy **local-first** trên máy Human (ThanhVV, HungBD). Server tập trung chỉ dành cho CI/CD và deploy. Mọi thứ có thể đẩy lên GitHub. Xem [spike-github-integration.md](../researches/spikes/spike-github-integration.md).
 

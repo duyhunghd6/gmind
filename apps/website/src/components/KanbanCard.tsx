@@ -31,9 +31,10 @@ export default function KanbanCard({ card, isDragging, dragHandleProps }: Kanban
 
   return (
     <div
-      className="kanban-card"
+      className={`kanban-card${card.escalationLevel ? " kanban-card--escalated" : ""}`}
       style={{
         position: "relative",
+        boxShadow: card.escalationLevel ? "0 0 0 1px rgba(255,123,114,0.4), 0 4px 12px rgba(255,123,114,0.15)" : undefined,
         ...(isDragging ? { borderColor: "var(--accent-cyan)", boxShadow: "0 8px 24px rgba(0,229,255,0.2)", transform: "rotate(2deg)" } : {}),
       }}
     >
@@ -57,10 +58,21 @@ export default function KanbanCard({ card, isDragging, dragHandleProps }: Kanban
         </div>
       )}
 
-      {/* Labels */}
-      {card.labels && card.labels.length > 0 && (
+      {/* Labels & Escalation Tag */}
+      {(card.labels && card.labels.length > 0) || card.escalationLevel ? (
         <div style={{ display: "flex", gap: "4px", flexWrap: "wrap", marginBottom: "6px", paddingRight: 24 }}>
-          {card.labels.map((label) => (
+          {card.escalationLevel && (
+            <span style={{
+              fontSize: "0.6rem", padding: "1px 6px", borderRadius: "3px", fontWeight: 600,
+              background: "rgba(255,123,114,0.15)", color: "#ff7b72",
+              border: "1px solid rgba(255,123,114,0.3)",
+              display: "flex", alignItems: "center", gap: "3px",
+              animation: "pulse-glow 2s infinite"
+            }}>
+              ⚠️ Escalated L{card.escalationLevel}
+            </span>
+          )}
+          {card.labels?.map((label) => (
             <span key={label} style={{
               fontSize: "0.6rem", padding: "1px 6px", borderRadius: "3px",
               background: "rgba(139,148,158,0.15)", color: "var(--text-dim)",
@@ -70,7 +82,7 @@ export default function KanbanCard({ card, isDragging, dragHandleProps }: Kanban
             </span>
           ))}
         </div>
-      )}
+      ) : null}
 
       {/* Title — clickable */}
       <div
@@ -97,6 +109,7 @@ export default function KanbanCard({ card, isDragging, dragHandleProps }: Kanban
             <span style={{ color: badge.color }}>Priority: {card.priority}</span>
             {card.assignee && <span> · Assignee: {card.assignee}</span>}
             {card.beadsId && <span> · ID: {card.beadsId}</span>}
+            {card.escalationLevel && <span style={{ color: "#ff7b72", fontWeight: 600 }}> · Escalated (Level {card.escalationLevel})</span>}
           </div>
           <div style={{ marginTop: 6, fontSize: "0.6rem", color: "var(--accent-cyan)", cursor: "pointer" }} onClick={() => setShowDetail(false)}>
             ✕ Đóng

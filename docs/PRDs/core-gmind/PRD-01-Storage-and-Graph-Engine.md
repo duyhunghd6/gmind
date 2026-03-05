@@ -15,7 +15,11 @@ sections:
 
 # PRD 01: Lớp Lưu trữ & Knowledge Graph Engine (Storage & Graph Engine)
 
+<!-- beads-id: br-prd01 -->
+
 ## 1. Lớp Lưu trữ (Storage Layer): Kiến trúc Hybrid SSOT
+
+<!-- beads-id: br-prd01-s1 -->
 
 Lớp lưu trữ sử dụng cách tiếp cận Hybrid (Kết hợp) để lưu các loại bộ nhớ khác nhau, được tối ưu hóa cho độ trễ cực thấp (In-process / Local). Hệ thống sử dụng **beads_rust (FrankenSQLite)** làm Single Source of Truth (SSOT - Nguồn chân lý duy nhất) cho các tác vụ quản lý dự án, **Zvec DB** xử lý lưu trữ ngữ nghĩa cho docs/chat history, và **FastCode** (internal dependency của `gmind`) xử lý Code Intelligence.
 
@@ -111,6 +115,8 @@ CREATE TABLE index_watermarks (
 
 ## 2. Knowledge Graph — Graph Query Engine
 
+<!-- beads-id: br-prd01-s2 -->
+
 > ✅ **Thêm mới (2026-03-02):** `gmind` hoạt động như một **Graph Query Engine** — xây dựng Knowledge Graph tại thời điểm truy vấn (query-time), không cần cơ sở dữ liệu đồ thị riêng biệt. Xem [spike-beads-knowledge-graph.md](../researches/spikes/spike-beads-knowledge-graph.md).
 
 **Beads ID = Universal Graph Node.** Mọi artifact trong hệ thống (PRD sections, Plan elements, Tasks, Commits, PRs, Chat sessions, CI runs) đều được kết nối thông qua Beads ID. Khi agent hoặc Web UI gọi `gmind trace <id>`, hệ thống truy vấn **5 data sources song song**:
@@ -139,6 +145,8 @@ CREATE TABLE index_watermarks (
 - **Tier 2 — Materialized cache** (Web UI): TTL 5 phút, lưu graph result vào temp file. `gmind serve` dùng tier này để dashboard không re-query mỗi lần render.
 
 ## 3. Chiến lược Đồng bộ (Sync) & Dọn Rác (Garbage Collection) giữa beads_rust và Zvec
+
+<!-- beads-id: br-prd01-s3 -->
 
 Với việc lưu Data ở tận 2 nơi, rủi ro "Dữ liệu mồ côi (Orphaned Data)" (khi Agent xóa 1 Issue ở beads_rust nhưng Chat logs ở Zvec vẫn còn) có thể xảy ra. Để giải quyết, hãy sử dụng chiến lược **Lazy Cleanup (Dọn rác thủ động)**:
 

@@ -18,7 +18,11 @@ sections:
 
 # PRD 00: Tầm nhìn & Kiến trúc Tổng thể (Vision & Architecture)
 
+<!-- beads-id: br-prd00 -->
+
 ## 1. Bối cảnh & Vấn đề (Problem Statement)
+
+<!-- beads-id: br-prd00-s1 -->
 
 Trong quá trình vận hành các đội ngũ AI đa tác nhân (Multi-agent Swarms), các tác nhân thường rơi vào trạng thái "mất trí nhớ cục bộ" hoặc thiếu tầm nhìn toàn cục do:
 
@@ -30,6 +34,8 @@ Trong quá trình vận hành các đội ngũ AI đa tác nhân (Multi-agent Sw
 > ✅ **Nghiên cứu nền tảng (2026-02-28):** Đã phân tích **500+ vấn đề** ảnh hưởng hiệu suất phát triển phần mềm (10 categories: Knowledge Management, PM, AI in SE, Technical Debt...). gmind được thiết kế để giải quyết các vấn đề này thông qua Satisfaction Matrix. Xem [spike-500-performance-issues.md](../researches/spikes/spike-500-performance-issues.md), [spike-issue-satisfaction-matrix.md](../researches/spikes/spike-issue-satisfaction-matrix.md).
 
 ## 2. Tổng quan Hệ thống (System Architecture)
+
+<!-- beads-id: br-prd00-s2 -->
 
 Hệ thống `gmind` phân tách triệt để **5 lớp**: Dữ liệu (Storage — beads_rust/FrankenSQLite + Zvec), Giao thức kết nối (Routing/CLI), Thực thi (Agents), Xác minh (Verification CI/CD), và Trình bày (Presentation qua Go REST API). Code Intelligence được xử lý bởi **FastCode** (internal dependency của `gmind`, gọi qua `gmind search-codebase`).
 
@@ -84,6 +90,8 @@ graph TD
 
 ## 3. Phân quyền Agent (Role-Based Authorization)
 
+<!-- beads-id: br-prd00-s3 -->
+
 > ✅ **Đã áp dụng theo khuyến nghị PO:** Phân chia rõ quyền hạn giữa các loại Sub-agent.
 
 | Vai trò Agent          | Quyền hạn                                               |
@@ -95,6 +103,8 @@ graph TD
 - Cơ chế này đảm bảo nguyên tắc **Four-Eyes Principle** (Hai người duyệt) — Agent viết code ≠ Agent duyệt code.
 
 ### 3.1. SAFe Role Mapping — Agentic Software House
+
+<!-- beads-id: br-prd00-s3.1 -->
 
 > ✅ **Thêm mới (2026-03-02):** Ánh xạ SAFe 6.0 roles sang Agentic config (2H + 18A). Xem [spike-roles-in-SAFe.md](../researches/spikes/spike-roles-in-SAFe.md).
 
@@ -113,6 +123,8 @@ graph TD
 **Nguyên tắc cốt lõi:** Agents đề xuất, Humans phê duyệt. Phase transition = Level 3 Human Decision Required.
 
 ## 4. Escalation Ladder — 5 Cấp độ Xử lý Sự cố
+
+<!-- beads-id: br-prd00-s4 -->
 
 > ✅ **Thêm mới (2026-03-02):** Hệ thống phân 5 cấp escalation để xác định "ai xử lý cái gì". Xem [spike-roles-in-SAFe.md](../researches/spikes/spike-roles-in-SAFe.md), [spike-rte-approval-workflow.md](../researches/spikes/spike-rte-approval-workflow.md).
 

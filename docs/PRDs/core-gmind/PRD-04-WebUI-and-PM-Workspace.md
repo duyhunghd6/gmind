@@ -24,7 +24,11 @@ sections:
 
 # PRD 04: Giao diện PM & Quản lý Không gian làm việc (Web UI & PM Workspace)
 
+<!-- beads-id: br-prd04 -->
+
 ## 1. Quản lý Project Tasks (PM Custom Fields) qua First-class SQL Columns
+
+<!-- beads-id: br-prd04-s1 -->
 
 Để thiết lập hệ thống gán việc như một "JIRA thu nhỏ", beads_rust sử dụng **first-class SQL columns** thay vì JSON blob. Các trường PM là cột indexed, type-safe, queryable trực tiếp — hiệu năng tốt hơn `JSON_EXTRACT()`.
 
@@ -109,6 +113,8 @@ sequenceDiagram
 
 ## 2. Kiến trúc Giao diện Người dùng (Presentation Layer)
 
+<!-- beads-id: br-prd04-s2 -->
+
 Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở rộng, tập trung vào trải nghiệm Người quản lý (Human-in-the-Loop Supervision) với các thành phần chính:
 
 ### 2.1. API Gateway (Lớp Bảo vệ Dữ liệu)
@@ -119,6 +125,8 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 
 ## 3. Các Giao diện Quản trị (SAFe & Board Views)
 
+<!-- beads-id: br-prd04-s3 -->
+
 - **Portfolio View:** Dành cho CEO/CTO xem Epic, Budget, Roadmap.
 - **ART View:** Kanban tổng cho Orchestrator (RTE) / PMO quản lý.
 - **Team View:** Bảng Kanban riêng rẽ cho từng Feature Team (VD: `Platform`, `Connectors`, `Quant`).
@@ -126,12 +134,16 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 
 ## 4. Cổng Phê duyệt Cấp 3 (Level 3 Approval Gates) & Không gian Phê duyệt
 
+<!-- beads-id: br-prd04-s4 -->
+
 Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con người** khi:
 
 1.  **Chuyển Phase (Phase Boundaries):** Từ Planning (Continuous Exploration) sang Execution (Continuous Integration), hoặc qua Release.
 2.  **The Ultimate Approval Panel:** Khi Agent đệ trình PR hoặc Task, Web UI gọp chung 5 luồng dữ liệu vào một màn hình duy nhất để Human xem xét: `Test Result (Từ Zvec QA Log)` + `Code Diff (FastCode/Git)` + `Beads ID (br-xxx)` + `PRD Requirements liên kết` + `GitHub PR & CI Status (từ gh CLI)`.
 
 ## 5. Đồ thị Tài liệu & Lịch sử HITL (Human-in-the-Loop Document Graph)
+
+<!-- beads-id: br-prd04-s5 -->
 
 - **Document Tree & Commit Lineage:** Hiển thị trực quan lịch sử thay đổi của một tài liệu dưới dạng cây đồ thị liên kết trực tiếp tới từng `git commit` (qua `Beads-ID:` Git Trailer) và thuộc tính `beads ID`. Truy vấn local: `git log --grep='Beads-ID: br-xxx'`.
 - **Knowledge Context Linking:** Trỏ ngược từ Yêu cầu (Requirement) sang các Tài liệu tham chiếu (Research references) đã được AI dùng làm Context, giúp con người dễ dàng bổ sung thêm tham chiếu để điều chỉnh Spec.
@@ -141,6 +153,8 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 - **Impact Analysis View:** Khi Human sửa/cập nhật một PRD section, hiển thị cascading impact: Plan elements nào bị ảnh hưởng → Tasks nào cần review/pause/rework → Commits nào liên quan. Dữ liệu từ `gmind impact <prd-section-id>`.
 
 ## 6. RTM Dashboard — 4-Panel Requirements Visibility
+
+<!-- beads-id: br-prd04-s6 -->
 
 > ✅ **Thêm mới (2026-03-02):** Dashboard tổng hợp hiển thị Requirements Traceability từ Knowledge Graph, phục vụ qua `gmind serve`. Xem [spike-webui-rtm-dashboard.md](../researches/spikes/spike-webui-rtm-dashboard.md).
 
