@@ -61,6 +61,13 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes flow-dash { to { stroke-dashoffset: -20; } }
+      .workflow-dashed { animation: flow-dash 1s linear infinite; }
+      @keyframes pulseFlow {
+        0%, 100% { transform: translateY(0); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6)); }
+        50% { transform: translateY(5px); filter: drop-shadow(0 8px 12px rgba(20, 184, 166, 0.6)); }
+      }
+      .workflow-arrow-block { animation: pulseFlow 2s ease-in-out infinite; transform-origin: center; }
     </style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0b1121" />
@@ -119,7 +126,7 @@
   <text x="730" y="137" dominant-baseline="middle" class="lbl-sm" fill="#94a3b8" text-anchor="end">HOÀN THÀNH RELEASE</text>
 
   <!-- Arrow down -->
-  <polygon points="380,140 420,140 420,170 435,170 400,200 365,170 380,170" fill="url(#tealGrad)" filter="url(#shadow)" />
+  <polygon points="380,140 420,140 420,170 435,170 400,200 365,170 380,170" fill="url(#tealGrad)" filter="url(#shadow)" class="workflow-arrow-block" />
 
   <!-- ========= AGILE METHODOLOGY ========= -->
   <rect x="20" y="210" width="760" height="40" rx="8" fill="url(#tealGrad)" filter="url(#shadow)" />
@@ -164,8 +171,8 @@
   <text x="730" y="382" dominant-baseline="middle" class="lbl-sm" fill="#94a3b8" text-anchor="end">HOÀN THÀNH RELEASE</text>
 
   <!-- Breakout to Iteration N -->
-  <path d="M 370 375 L 260 440" stroke="#475569" stroke-width="1" stroke-dasharray="6,4" fill="none" />
-  <path d="M 425 375 L 530 440" stroke="#475569" stroke-width="1" stroke-dasharray="6,4" fill="none" />
+  <path d="M 370 375 L 260 440" stroke="#475569" stroke-width="1" stroke-dasharray="6,4" fill="none" class="workflow-dashed" />
+  <path d="M 425 375 L 530 440" stroke="#475569" stroke-width="1" stroke-dasharray="6,4" fill="none" class="workflow-dashed" />
 
   <!-- ========= ITERATION N ========= -->
   <rect x="250" y="440" width="290" height="40" rx="8" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />

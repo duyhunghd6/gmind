@@ -63,6 +63,13 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes pulseRight {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(5px); }
+      }
+      .workflow-pulse-right { animation: pulseRight 1.5s ease-in-out infinite; }
+      @keyframes spinArc { 100% { transform: rotate(360deg); } }
+      .workflow-spin-arc { animation: spinArc 6s linear infinite; transform-origin: 535px 150px; }
     </style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0b1121" />
@@ -76,11 +83,11 @@
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
     
-    <g id="inner-arrow">
+    <g id="inner-arrow" class="workflow-pulse-right">
       <path d="M 0 -8 L 40 -8 L 40 -14 L 55 0 L 40 14 L 40 8 L 0 8 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="0.75" />
     </g>
     
-    <g id="conn-arrow">
+    <g id="conn-arrow" class="workflow-pulse-right">
       <path d="M 0 -6 L 15 -6 L 15 -14 L 30 0 L 15 14 L 15 6 L 0 6 Z" fill="#3b82f6" filter="url(#glow)" />
     </g>
     
@@ -128,9 +135,11 @@
   <text class="sm-txt" x="578" y="140.5" dominant-baseline="middle">Phát hành</text>
 
   <!-- Arc Arrows for Iterate Cycle -->
-  <use href="#arc-arrow" transform="rotate(45, 535, 150)" />
-  <use href="#arc-arrow" />
-  <use href="#arc-arrow" transform="rotate(-45, 535, 150)" />
+  <g>
+    <use href="#arc-arrow" transform="rotate(45, 535, 150)" />
+    <use href="#arc-arrow" />
+    <use href="#arc-arrow" transform="rotate(-45, 535, 150)" />
+  </g>
   
   <text class="box-txt" fill="#fcd34d" x="535" y="79.4" dominant-baseline="middle">Lặp lại</text>
 

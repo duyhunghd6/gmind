@@ -11,7 +11,7 @@
       @media (prefers-color-scheme: light) {
         rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
         rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
-        .box, .node-rect, .card { 
+        .box, .node-rect, .card, .ellipse { 
           fill: #ffffff !important; 
           stroke: #cbd5e1 !important; 
         }
@@ -28,9 +28,12 @@
         g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
         g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
         .white-txt, .white-text, .text-white, .text-light,
-        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt, .fg-txt {
           fill: #0f172a !important;
         }
+
+        /* Blur text background in light mode */
+        .bg-txt { fill: #ffffff !important; }
 
         /* Gray text (previously light gray) */
         text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
@@ -62,6 +65,16 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes pulseDown {
+        0%, 100% { transform: translateY(0); opacity: 0.8; }
+        50% { transform: translateY(5px); opacity: 1; }
+      }
+      .workflow-pulse-down { animation: pulseDown 2s ease-in-out infinite; transform-origin: top; }
+      @keyframes pulseOpacity {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      .workflow-pulse-opacity { animation: pulseOpacity 1.5s ease-in-out infinite; }
     </style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0b1121" />
@@ -88,14 +101,14 @@
   <rect width="600" height="400" fill="url(#bg)" rx="12" />
 
   <!-- Side Loop Arrows -->
-  <use href="#side-loop" />
-  <use href="#side-loop" transform="rotate(180, 300, 200)" />
+  <use href="#side-loop" class="workflow-pulse-opacity" />
+  <use href="#side-loop" transform="rotate(180, 300, 200)" class="workflow-pulse-opacity" />
 
   <!-- Top Downward Arrow -->
-  <path class="arrow" d="M 285 107 L 315 107 L 315 140 L 330 140 L 300 165 L 270 140 L 285 140 Z" />
+  <path class="arrow workflow-pulse-down" d="M 285 107 L 315 107 L 315 140 L 330 140 L 300 165 L 270 140 L 285 140 Z" />
   
   <!-- Bottom Downward Arrow -->
-  <path class="arrow" d="M 285 253 L 315 253 L 315 285 L 330 285 L 300 310 L 270 285 L 285 285 Z" />
+  <path class="arrow workflow-pulse-down" d="M 285 253 L 315 253 L 315 285 L 330 285 L 300 310 L 270 285 L 285 285 Z" />
 
   <!-- Ellipses Overlapping -->
   <g filter="url(#shadow)">

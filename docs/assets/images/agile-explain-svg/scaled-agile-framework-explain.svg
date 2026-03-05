@@ -89,6 +89,8 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes floatDash { to { stroke-dashoffset: -8; } }
+      .workflow-dash-flow { animation: floatDash 1s linear infinite; }
     </style>
 
     <!-- Shared Icons -->
@@ -514,9 +516,9 @@
     <text x="180" y="0" class="bold medium text-dark" text-anchor="middle">Continuous Delivery Pipeline</text>
     
     <!-- Outer looping arrows (simplified to top/bottom dashed curves) -->
-    <path d="M 20 15 Q 180 -5 340 15" fill="none" stroke="#88b560" stroke-dasharray="4,4" stroke-width="1.5" />
+    <path d="M 20 15 Q 180 -5 340 15" fill="none" stroke="#88b560" stroke-dasharray="4,4" stroke-width="1.5" class="workflow-dash-flow" />
     <polygon points="335,12 345,15 335,18" fill="#88b560" />
-    <path d="M 340 45 Q 180 65 20 45" fill="none" stroke="#88b560" stroke-dasharray="4,4" stroke-width="1.5" />
+    <path d="M 340 45 Q 180 65 20 45" fill="none" stroke="#88b560" stroke-dasharray="4,4" stroke-width="1.5" class="workflow-dash-flow" />
     <polygon points="25,48 15,45 25,42" fill="#88b560" />
 
     <!-- Large Pipeline Chevron Background -->
@@ -715,7 +717,7 @@
 
     <!-- DevOps Loop -->
     <g transform="translate(20, 95)">
-      <path d="M 15 25 C -5 25, -5 5, 15 5 C 30 5, 30 25, 45 25 C 65 25, 65 5, 45 5 C 30 5, 30 25, 15 25" fill="none" stroke="#638ac8" stroke-width="3" />
+      <path d="M 15 25 C -5 25, -5 5, 15 5 C 30 5, 30 25, 45 25 C 65 25, 65 5, 45 5 C 30 5, 30 25, 15 25" fill="none" stroke="#638ac8" stroke-width="3" stroke-dasharray="6,6" class="workflow-dash-flow" />
       <circle cx="15" cy="5" r="6" fill="#638ac8" />
       <circle cx="45" cy="5" r="6" fill="#638ac8" />
       <circle cx="15" cy="25" r="6" fill="#638ac8" />

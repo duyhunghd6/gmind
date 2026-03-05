@@ -62,6 +62,10 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes spin { 100% { transform: rotate(360deg); } }
+      .workflow-spin { animation: spin 4s linear infinite; transform-origin: 0 0; }
+      @keyframes flowArch { to { stroke-dashoffset: -40; } }
+      .workflow-arch { stroke-dasharray: 10 10; animation: flowArch 1.5s linear infinite; }
     </style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0b1121" />
@@ -75,7 +79,7 @@
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
     
-    <g id="iter-arrow">
+    <g id="iter-arrow" class="workflow-spin">
       <g transform="scale(0.7)">
         <path d="M -18 18 A 26 26 0 1 1 18 18 L 25 25 L 3 33 L 5 5 L 10 10 A 14 14 0 1 0 -10 10 Z" fill="#14b8a6" filter="url(#glow)" />
       </g>
@@ -94,7 +98,7 @@
   <rect width="800" height="300" fill="url(#bg)" rx="12" />
 
   <!-- Big Arch Arrow "Next Release" -->
-  <path d="M 720 100 Q 440 -10 160 100" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#big-arrow)" filter="url(#glow)" />
+  <path d="M 720 100 Q 440 -10 160 100" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#big-arrow)" filter="url(#glow)" class="workflow-arch" />
   <text class="label-text" x="440" y="24" dominant-baseline="middle">Bản Phát hành (Release) Tiếp theo</text>
 
   <!-- Iteration Loop Arrows -->

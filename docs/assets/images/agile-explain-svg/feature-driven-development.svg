@@ -9,7 +9,7 @@
       /* Theme Adaptation */
       rect[fill="url(#bg)"] { fill: transparent !important; }
       @media (prefers-color-scheme: light) {
-        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
+        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], rect[fill="#0b1121" i], 
         rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
         .box, .node-rect, .card { 
           fill: #ffffff !important; 
@@ -35,7 +35,7 @@
         /* Gray text (previously light gray) */
         text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
         tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
-        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt, .foot-txt {
           fill: #475569 !important;
         }
 
@@ -44,12 +44,12 @@
         
         /* Vibrant color mappings for light mode contrast */
         text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
-        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
+        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i], text[fill="#7dd3fc" i] { fill: #0284c7 !important; }
         text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
-        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
+        text[fill="#fcd34d" i], text[fill="#f59e0b" i], text[fill="#fbbf24" i] { fill: #d97706 !important; }
         text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
         text[fill="#93c5fd" i] { fill: #2563eb !important; }
-        text[fill="#a855f7" i] { fill: #9333ea !important; }
+        text[fill="#a855f7" i], text[fill="#a78bfa" i] { fill: #7c3aed !important; }
         
         /* Paths and lines */
         path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {

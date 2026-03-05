@@ -60,6 +60,8 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes flow { to { stroke-dashoffset: -16; } }
+      .workflow-arrow { stroke-dasharray: 8 8; animation: flow 1s linear infinite; }
     </style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0b1121" />
@@ -86,7 +88,7 @@
   <text x="500" y="50.2" dominant-baseline="middle" text-anchor="middle" class="title">CHU TRÌNH PHÁT TRIỂN PHẦN MỀM AGILE</text>
 
   <!-- Circular Arrows connecting the steps -->
-  <g fill="none" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#arrow)" filter="url(#glow)">
+  <g fill="none" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#arrow)" filter="url(#glow)" class="workflow-arrow">
     <path d="M 590 170 Q 700 180 730 240" />
     <path d="M 800 300 L 800 435" />
     <path d="M 730 500 Q 700 550 590 580" />

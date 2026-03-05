@@ -5,8 +5,9 @@
       .txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 400; fill: #f8fafc; text-anchor: middle; }
       .box { fill: #0f172a; stroke: #334155; stroke-width: 1.5; rx: 6; }
       .box-active { fill: rgba(13, 148, 136, 0.2); stroke: #14b8a6; stroke-width: 1.5; rx: 6; }
-      .path { fill: none; stroke: #64748b; stroke-width: 2; }
-      .path-active { fill: none; stroke: #14b8a6; stroke-width: 2; }
+      .path { fill: none; stroke: #64748b; stroke-width: 2; stroke-dasharray: 6 6; animation: dashFlow 1.5s linear infinite; }
+      .path-active { fill: none; stroke: #14b8a6; stroke-width: 2; stroke-dasharray: 6 6; animation: dashFlow 1s linear infinite; }
+      @keyframes dashFlow { to { stroke-dashoffset: -12; } }
       /* Theme Adaptation */
       rect[fill="url(#bg)"] { fill: transparent !important; }
       @media (prefers-color-scheme: light) {

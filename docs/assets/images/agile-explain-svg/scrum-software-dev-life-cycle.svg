@@ -54,19 +54,23 @@
         g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
         g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
         .white-txt, .white-text, .text-white, .text-light,
-        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
+        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .bold-label, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt {
           fill: #0f172a !important;
         }
+        #dev-icon text, #sm-icon text, #po-icon text { fill: #ffffff !important; }
 
         /* Gray text (previously light gray) */
         text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
         tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
-        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
+        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt, .footer-text {
           fill: #475569 !important;
         }
 
         /* Specific foreignObject HTML content */
         .body { color: #475569 !important; }
+        
+        /* Light Mode box overrides */
+        .box-teal { fill: rgba(11, 147, 186, 0.05) !important; stroke: #0B93BA !important; stroke-width: 1.5px; }
         
         /* Vibrant color mappings for light mode contrast */
         text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
@@ -85,9 +89,17 @@
           stroke: rgba(0,0,0,0.1) !important;
         }
         circle[fill="#ffffff" i], circle[fill="#fff" i] {
-          fill: #0f172a !important;
+          fill: #ffffff !important;
+          stroke: #cbd5e1 !important;
+          stroke-width: 2px !important;
         }
       }
+      @keyframes floatSolid { to { stroke-dashoffset: -20; } }
+      .workflow-arrow-solid { stroke-dasharray: 10 10; animation: floatSolid 1s linear infinite; }
+      @keyframes floatDash { to { stroke-dashoffset: -12; } }
+      .workflow-arrow-dash { animation: floatDash 1s linear infinite; }
+      @keyframes pulseOpacity { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+      .workflow-pulse-opacity { animation: pulseOpacity 1.5s ease-in-out infinite; }
     </style>
       <filter id="shadow" x="-5%" y="-5%" width="120%" height="120%">
       <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.6" />
@@ -108,24 +120,24 @@
   <!-- ==================== CONNECTING ARROWS & FEEDBACK LOOPS ==================== -->
 
   <!-- Top Loop (Sprint Review -> Sprint Retrospective -> Sprint Planning) -->
-  <path d="M 1130 320 L 1130 110 Q 1130 100 1120 100 L 715 100" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
-  <path d="M 585 100 L 340 100 Q 330 100 330 110 L 330 295" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
+  <path class="workflow-arrow-solid" d="M 1130 320 L 1130 110 Q 1130 100 1120 100 L 715 100" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
+  <path class="workflow-arrow-solid" d="M 585 100 L 340 100 Q 330 100 330 110 L 330 295" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
 
   <!-- Bottom Loop (Sprint Review -> Product Backlog) -->
-  <path d="M 1130 380 L 1130 520 Q 1130 530 1120 530 L 170 530 Q 160 530 160 520 L 160 435" fill="none" stroke="#B1DFED" stroke-width="6" stroke-dasharray="2, 4" marker-end="url(#arrow-pale)" />
+  <path class="workflow-arrow-dash" d="M 1130 380 L 1130 520 Q 1130 530 1120 530 L 170 530 Q 160 530 160 520 L 160 435" fill="none" stroke="#B1DFED" stroke-width="6" stroke-dasharray="2, 4" marker-end="url(#arrow-pale)" />
 
   <!-- Direct Flow Arrows -->
-  <line x1="220" y1="350" x2="255" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
-  <line x1="390" y1="350" x2="425" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+  <line class="workflow-arrow-solid" x1="220" y1="350" x2="255" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+  <line class="workflow-arrow-solid" x1="390" y1="350" x2="425" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
 
   <!-- Swooping Ribbon: Sprint Backlog to Scrum Team -->
-  <path d="M 510 340 Q 550 340 575 375 L 555 395 Q 540 360 510 360 Z" fill="#4BABC6" />
+  <path class="workflow-pulse-opacity" d="M 510 340 Q 550 340 575 375 L 555 395 Q 540 360 510 360 Z" fill="#4BABC6" />
 
   <!-- Swooping Ribbon with Arrowhead: Scrum Team to Increment -->
-  <path d="M 830 365 Q 865 350 905 350 L 905 335 L 940 360 L 905 385 L 905 370 Q 865 370 815 400 Z" fill="#4BABC6" />
+  <path class="workflow-pulse-opacity" d="M 830 365 Q 865 350 905 350 L 905 335 L 940 360 L 905 385 L 905 370 Q 865 370 815 400 Z" fill="#4BABC6" />
 
   <!-- Straight Arrow: Increment to Sprint Review -->
-  <line x1="1040" y1="350" x2="1075" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+  <line class="workflow-arrow-solid" x1="1040" y1="350" x2="1075" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
 
 
   <!-- ==================== MAIN SHAPES & DIAGRAM ELEMENTS ==================== -->
@@ -147,7 +159,7 @@
   </g>
 
   <!-- Product Backlog Refinement Loop Arrow -->
-  <path d="M 125 185 C 50 185 50 110 115 110 C 145 110 155 135 145 155" fill="none" stroke="#0B93BA" stroke-width="6" marker-end="url(#arrow-teal)" />
+  <path class="workflow-arrow-solid" d="M 125 185 C 50 185 50 110 115 110 C 145 110 155 135 145 155" fill="none" stroke="#0B93BA" stroke-width="6" marker-end="url(#arrow-teal)" />
 
   <!-- Sprint Planning -->
   <g transform="translate(265, 320)">
@@ -188,7 +200,7 @@
     <circle cx="0" cy="0" r="115" fill="#FFFFFF" />
     
     <!-- Text on the bottom ring -->
-    <text x="0" y="127" class="white-text">Scrum Team</text>
+    <text x="0" y="127" class="white-text" style="fill: #0f172a !important;">Scrum Team</text>
 
     <!-- Team Members -->
     <use href="#dev-icon" x="-60" y="-50" />
@@ -274,6 +286,5 @@
   <text x="980" y="420" class="bold-label">Increment</text>
 
   <!-- Copyright Footer -->
-  <text x="1150" y="510" class="footer-text">Scrum Framework © 2020 Scrum.org</text>
 
 </svg>

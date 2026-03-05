@@ -9,7 +9,7 @@
       rect[fill="url(#bg)"] { fill: transparent !important; }
       @media (prefers-color-scheme: light) {
         rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
-        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
+        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i], rect[fill="rgba(15, 23, 42, 0.8)" i],
         .box, .node-rect, .card { 
           fill: #ffffff !important; 
           stroke: #cbd5e1 !important; 
@@ -61,6 +61,8 @@
           fill: #0f172a !important;
         }
       }
+      @keyframes floatDash { to { stroke-dashoffset: -20; } }
+      .workflow-arrow-dash { stroke-dasharray: 10 10; animation: floatDash 1.2s linear infinite; }
     </style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#0b1121" />
@@ -135,26 +137,26 @@
 
   <!-- Solid Arrows -->
   <g fill="none" stroke="#14b8a6" stroke-width="1.25" marker-end="url(#arrow)">
-    <line x1="240" y1="140" x2="335" y2="140" /> 
-    <line x1="450" y1="170" x2="450" y2="215" /> 
-    <line x1="450" y1="290" x2="450" y2="325" /> 
-    <line x1="450" y1="620" x2="450" y2="665" /> 
-    <line x1="450" y1="740" x2="450" y2="785" /> 
-    <line x1="450" y1="860" x2="450" y2="905" /> 
-    <line x1="550" y1="120" x2="655" y2="120" /> 
+    <line class="workflow-arrow-dash" x1="240" y1="140" x2="335" y2="140" /> 
+    <line class="workflow-arrow-dash" x1="450" y1="170" x2="450" y2="215" /> 
+    <line class="workflow-arrow-dash" x1="450" y1="290" x2="450" y2="325" /> 
+    <line class="workflow-arrow-dash" x1="450" y1="620" x2="450" y2="665" /> 
+    <line class="workflow-arrow-dash" x1="450" y1="740" x2="450" y2="785" /> 
+    <line class="workflow-arrow-dash" x1="450" y1="860" x2="450" y2="905" /> 
+    <line class="workflow-arrow-dash" x1="550" y1="120" x2="655" y2="120" /> 
     
     <!-- Test Scenarios -->
-    <path d="M 150 185 L 150 710 L 335 710" />
+    <path class="workflow-arrow-dash" d="M 150 185 L 150 710 L 335 710" />
     
     <!-- Bug fixes (now Amber) -->
-    <path d="M 550 710 L 630 710 L 630 260 L 565 260" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
+    <path class="workflow-arrow-dash" d="M 550 710 L 630 710 L 630 260 L 565 260" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
     
     <!-- New user story (now Amber) -->
-    <path d="M 550 830 L 860 830 L 860 60 L 450 60 L 450 95" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
+    <path class="workflow-arrow-dash" d="M 550 830 L 860 830 L 860 60 L 450 60 L 450 95" stroke="#f59e0b" marker-end="url(#arrow-amber)" />
   </g>
   
   <!-- Dotted Arrow -->
-  <line x1="655" y1="160" x2="565" y2="160" stroke="#f43f5e" stroke-width="1" stroke-dasharray="6,6" marker-end="url(#arrow)" />
+  <line class="workflow-arrow-dash" x1="655" y1="160" x2="565" y2="160" stroke="#f43f5e" stroke-width="1" stroke-dasharray="6,6" marker-end="url(#arrow)" />
 
   <!-- Labels on arrows -->
   <g class="lbl-txt">
