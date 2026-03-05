@@ -48,5 +48,15 @@
     --blueprint-line: rgba(14, 165, 233, 0.1);
     --shadow-hero: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--border);
     --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
+
+    /* Cải thiện độ tương phản (Contrast) cho Light Mode */
+    --accent-cyan: #0284c7; 
+    --accent-cyan-dim: rgba(2, 132, 199, 0.1);
+    --accent-teal: #0d9488; 
+    --accent-teal-dim: rgba(13, 148, 136, 0.1);
+    --accent-amber: #d97706; 
+    --accent-amber-dim: rgba(217, 119, 6, 0.1);
+    --accent-rose: #e11d48; 
+    --accent-rose-dim: rgba(225, 29, 72, 0.1);
   }
 }
