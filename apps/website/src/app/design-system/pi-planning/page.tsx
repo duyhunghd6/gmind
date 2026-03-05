@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
 import StateToggleBar, { type ScreenState } from "@/components/StateToggleBar";
 import DsIdBadge from "@/components/DsIdBadge";
 import Skeleton from "@/components/Skeleton";
@@ -17,6 +18,42 @@ const roamRisks = [
 
 export default function PiPlanningScreen() {
   const [state, setState] = useState<ScreenState>("default");
+  
+  // Hydration safe state
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
+
+  type FeatureItem = { id: string; content: string; points: number; };
+  type ColumnData = { id: string; title: string; capacity?: number; items: FeatureItem[] };
+
+  const [columns, setColumns] = useState<ColumnData[]>([
+    {
+      id: "backlog", title: "Feature Backlog", items: [
+        { id: "feat-01", content: "Agentic Flywheel", points: 13 },
+        { id: "feat-02", content: "Real-time RTM", points: 8 },
+        { id: "feat-03", content: "Beads Sync", points: 5 },
+      ]
+    },
+    { id: "sprint-1", title: "Sprint 1 (Current)", capacity: 20, items: [] },
+    { id: "sprint-2", title: "Sprint 2", capacity: 25, items: [] }
+  ]);
+
+  const handleDragEnd = (result: DropResult) => {
+    const { source, destination } = result;
+    if (!destination) return;
+    if (source.droppableId === destination.droppableId && source.index === destination.index) return;
+
+    setColumns(prev => {
+      const next = prev.map(c => ({ ...c, items: [...c.items] }));
+      const srcCol = next.find(c => c.id === source.droppableId);
+      const dstCol = next.find(c => c.id === destination.droppableId);
+      if (!srcCol || !dstCol) return prev;
+
+      const [moved] = srcCol.items.splice(source.index, 1);
+      dstCol.items.splice(destination.index, 0, moved);
+      return next;
+    });
+  };
 
   return (
     <div aria-label="PI Planning Sandbox Screen">
@@ -34,16 +71,84 @@ export default function PiPlanningScreen() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 350px", gap: "24px" }}>
           
           {/* Main Area: Strategic Sandbox */}
-          <div>
-            <div className="card" style={{ padding: "20px", marginBottom: "24px", minHeight: "300px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+            <div className="card" style={{ padding: "20px", minHeight: "300px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
                 <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--text)", margin: 0 }}>Strategic Sandbox (Kéo thả Capacity)</h3>
                 <span className="badge badge--success" style={{ fontSize: "0.75rem" }}>Capacity: 80%</span>
               </div>
-              <div style={{ padding: "40px", textAlign: "center", border: "2px dashed var(--border)", borderRadius: "8px", color: "var(--text-dim)" }}>
-                <p>Khung tương tác Drag & Drop để phân bổ nguồn lực sẽ xuất hiện tại đây.</p>
-                <button className="btn-secondary btn-sm" style={{ marginTop: "12px" }}>Mô phỏng DRAG-DROP bằng @hello-pangea/dnd</button>
-              </div>
+              
+              {!isMounted ? (
+                <div style={{ padding: "40px", textAlign: "center", border: "2px dashed var(--border)", borderRadius: "8px", color: "var(--text-dim)" }}>
+                  <p>Đang tải Drag & Drop Sandbox...</p>
+                </div>
+              ) : (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
+                    {columns.map(col => (
+                      <div key={col.id} style={{ display: "flex", flexDirection: "column", gap: "8px", background: "var(--surface-elevated)", padding: "12px", border: "1px solid var(--border)", borderRadius: "8px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontWeight: 600, color: "var(--text)", fontSize: "0.9rem" }}>{col.title}</span>
+                          <span className="badge" style={{ fontSize: "0.65rem" }}>{col.items.length}</span>
+                        </div>
+                        <Droppable droppableId={col.id}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                              style={{
+                                minHeight: "150px",
+                                borderRadius: "6px",
+                                background: snapshot.isDraggingOver ? "rgba(0, 229, 255, 0.05)" : "rgba(0,0,0,0.1)",
+                                border: snapshot.isDraggingOver ? "1px dashed var(--accent-cyan)" : "1px dashed var(--border)",
+                                padding: "8px",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "8px"
+                              }}
+                            >
+                              {col.items.map((item, index) => (
+                                <Draggable key={item.id} draggableId={item.id} index={index}>
+                                  {(dragProvided, dragSnapshot) => (
+                                    <div
+                                      ref={dragProvided.innerRef}
+                                      {...dragProvided.draggableProps}
+                                      {...dragProvided.dragHandleProps}
+                                      style={{
+                                        ...dragProvided.draggableProps.style,
+                                        background: dragSnapshot.isDragging ? "var(--surface)" : "var(--bg)",
+                                        border: "1px solid var(--border)",
+                                        borderRadius: "4px",
+                                        padding: "8px 12px",
+                                        fontSize: "0.8rem",
+                                        color: "var(--text)",
+                                        boxShadow: dragSnapshot.isDragging ? "var(--shadow-card)" : "none",
+                                        userSelect: "none"
+                                      }}
+                                    >
+                                      <div style={{ fontWeight: 500, marginBottom: "4px" }}>{item.content}</div>
+                                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.7rem", color: "var(--text-dim)" }}>
+                                        <span>{item.id}</span>
+                                        <span style={{ background: "var(--surface-elevated)", padding: "2px 4px", borderRadius: "2px" }}>{item.points} pts</span>
+                                      </div>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                        {col.capacity && (
+                           <div style={{ fontSize: "0.7rem", color: "var(--text-dim)", textAlign: "right", marginTop: "4px" }}>
+                              Total: {col.items.reduce((s, i) => s + i.points, 0)} / {col.capacity} pts
+                           </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </DragDropContext>
+              )}
             </div>
 
             <div className="card" style={{ padding: "20px" }}>
