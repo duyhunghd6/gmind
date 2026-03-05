@@ -81,11 +81,11 @@ export default function PortfolioScreen() {
             <div style={{ display: "grid", gridTemplateColumns: "100px 1fr", gap: "10px", borderLeft: "1px solid var(--border)", paddingLeft: "20px", position: "relative" }}>
                <div style={{ color: "var(--text-dim)", fontWeight: 600, paddingTop: "10px" }}>Q1 2026</div>
                <div style={{ display: "flex", gap: "10px", padding: "10px 0" }}>
-                  <div style={{ background: "rgba(0,229,255,0.1)", border: "1px solid var(--accent-cyan)", padding: "12px", borderRadius: "6px", width: "40%" }}>
-                     <div style={{ fontWeight: 600, color: "var(--accent-cyan)" }}>Phát triển Tính năng Nâng cao</div>
+                  <div style={{ background: "var(--accent-cyan-dim)", border: "1px solid var(--border-highlight)", padding: "12px", borderRadius: "6px", width: "40%" }}>
+                     <div style={{ fontWeight: 600, color: "var(--text)" }}>Phát triển Tính năng Nâng cao</div>
                      <div style={{ fontSize: "0.7rem", color: "var(--text-dim)", marginTop: "4px" }}>65% Hoàn thành</div>
                   </div>
-                  <div style={{ background: "rgba(139,148,158,0.1)", border: "1px solid var(--border)", padding: "12px", borderRadius: "6px", width: "60%" }}>
+                  <div style={{ background: "var(--surface)", border: "1px solid var(--border)", padding: "12px", borderRadius: "6px", width: "60%" }}>
                      <div style={{ fontWeight: 600, color: "var(--text)" }}>Cải thiện Hiệu năng CSDL</div>
                      <div style={{ fontSize: "0.7rem", color: "var(--text-dim)", marginTop: "4px" }}>90% Hoàn thành</div>
                   </div>
@@ -93,9 +93,9 @@ export default function PortfolioScreen() {
                
                <div style={{ color: "var(--text-dim)", fontWeight: 600, paddingTop: "10px" }}>Q2 2026</div>
                <div style={{ display: "flex", gap: "10px", padding: "10px 0" }}>
-                  <div style={{ background: "rgba(255,166,87,0.1)", border: "1px solid #ffa657", padding: "12px", borderRadius: "6px", width: "80%" }}>
-                     <div style={{ fontWeight: 600, color: "#ffa657" }}>Tích hợp AI Agents</div>
-                     <div style={{ fontSize: "0.7rem", color: "var(--text-dim)", marginTop: "4px" }}>Cảnh báo: Bị chậm tiến độ</div>
+                  <div style={{ background: "var(--accent-amber-dim)", border: "1px solid var(--accent-amber)", padding: "12px", borderRadius: "6px", width: "80%" }}>
+                     <div style={{ fontWeight: 600, color: "var(--text)" }}>Tích hợp AI Agents</div>
+                     <div style={{ fontSize: "0.7rem", color: "var(--accent-amber)", marginTop: "4px", fontWeight: 500 }}>Cảnh báo: Bị chậm tiến độ</div>
                   </div>
                </div>
 
