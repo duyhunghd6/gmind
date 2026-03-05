@@ -42,7 +42,7 @@ export default function PromptsSidebar({
       
       {/* GROUP 1: GETTING STARTED */}
       <div className="docs-sidebar__group" role="navigation" aria-label="Getting Started">
-        <div className="docs-sidebar__group-title" style={{ marginTop: "10px" }}>{"> Getting Started"}</div>
+        <div className="docs-sidebar__group-title" style={{ marginTop: "10px" }}>{"> GETTING STARTED"}</div>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
           
           {/* Setup Links */}
@@ -58,7 +58,14 @@ export default function PromptsSidebar({
               </span>
             </button>
           ))}
+        </div>
+      </div>
 
+      {/* GROUP 2: LÝ THUYẾT SOFTWARE ENGINEERING */}
+      <div className="docs-sidebar__group" role="navigation" aria-label="Lý thuyết Software Engineering">
+        <div className="docs-sidebar__group-title">{"> Lý thuyết Software Engineering"}</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+          
           {/* Theory Links */}
           {theoryTopics.map((topic) => {
             const isActiveTheory = activeSection === "theory" && activeTheoryId === topic.id;
@@ -105,7 +112,7 @@ export default function PromptsSidebar({
         </div>
       </div>
 
-      {/* GROUP 2: WORKFLOWS */}
+      {/* GROUP 3: WORKFLOWS */}
       <div className="docs-sidebar__group" role="navigation" aria-label="Workflows">
         <div className="docs-sidebar__group-title">{"> AI Workflows"}</div>
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>

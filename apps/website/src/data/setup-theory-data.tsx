@@ -28,7 +28,7 @@ import React from "react";
 export const setupGuides: SetupGuide[] = [
   {
     id: "setup-full-stack",
-    title: "Cài đặt Toàn diện (Multi-OS)",
+    title: "Installation",
     description: "Hướng dẫn cài đặt Agent (Antigravity), công cụ index (FastCode CLI) và Gmind CLI qua 3 bước.",
     steps: [
       {

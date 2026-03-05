@@ -261,8 +261,9 @@ export default function PromptViewer({
         onClick={() => setSelectedNodeId(s.id)}
       >
         <div style={{ 
-          padding: "20px", background: "rgba(255,255,255,0.03)", backdropFilter: "blur(12px)",
-          borderRadius: "16px", border: "1px solid var(--border-color)",
+          padding: "20px", background: selectedNodeId === s.id ? "var(--bg-surface-elevated)" : "var(--bg-surface)", backdropFilter: "blur(12px)",
+          borderRadius: "16px", border: selectedNodeId === s.id ? "2px solid var(--accent-amber)" : "1px solid var(--border-color)",
+          boxShadow: selectedNodeId === s.id ? "var(--shadow-lg), 0 0 15px rgba(245, 158, 11, 0.4)" : "var(--shadow-sm)",
           transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease"
         }}
         onMouseEnter={(e) => {
@@ -304,7 +305,7 @@ export default function PromptViewer({
     );
 
     return (
-      <div className="animate-fade-up" style={{ position: "relative" }}>
+      <div className="animate-fade-up" style={{ position: "relative" }} id={setupGuide.id}>
         <SectionLabel text="Hướng dẫn Cài đặt" accent="amber" />
         <h2 style={{ fontSize: "2.2rem", marginBottom: "1rem" }}>{setupGuide.title}</h2>
         <p style={{ color: "var(--text-dim)", fontSize: "1.1rem", marginBottom: "3rem", lineHeight: "1.6" }}>
@@ -379,7 +380,7 @@ export default function PromptViewer({
   // ==========================================
   if (activeSection === "theory" && theoryTopic) {
     return (
-      <div className="animate-fade-up">
+      <div className="animate-fade-up" id={theoryTopic.id}>
         <SectionLabel text="Lý thuyết & Bối cảnh" accent="teal" />
         <h2 style={{ fontSize: "2.2rem", marginBottom: "1rem" }}>{theoryTopic.title}</h2>
         
@@ -408,7 +409,7 @@ export default function PromptViewer({
   // ==========================================
   if (activeSection === "research" && researchId === "500-issues") {
     return (
-      <div className="animate-fade-up">
+      <div className="animate-fade-up" id={researchId}>
         <SectionLabel text="Phân tích Spike" accent="rose" />
         <h2 style={{ fontSize: "2.2rem", marginBottom: "1rem" }}>500 Vấn đề Làm Suy Giảm Hiệu Suất SE</h2>
         <p style={{ color: "var(--text-dim)", fontSize: "1.1rem", marginBottom: "2rem", lineHeight: "1.6" }}>
@@ -421,10 +422,11 @@ export default function PromptViewer({
               key={category.id} 
               className="animate-fade-up flowchart-node"
               style={{
-                background: "rgba(255,255,255,0.02)",
+                background: "var(--bg-surface)",
                 backdropFilter: "blur(12px)",
                 borderRadius: "16px",
                 border: `1px solid var(--accent-${category.colorToken}-dim)`,
+                boxShadow: "var(--shadow-sm)",
                 overflow: "hidden",
                 cursor: "pointer",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
@@ -522,7 +524,7 @@ export default function PromptViewer({
                   <div style={{ overflowX: "auto", borderRadius: "8px", border: "1px solid var(--border-color)" }}>
                     <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
                       <thead>
-                        <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: `2px solid var(--accent-${activeCategory.colorToken})` }}>
+                        <tr style={{ background: "var(--bg-surface-elevated)", borderBottom: `2px solid var(--accent-${activeCategory.colorToken})` }}>
                           <th style={{ padding: "16px", color: "var(--text)", fontWeight: "bold", width: "15%" }}>ID</th>
                           <th style={{ padding: "16px", color: "var(--text)", fontWeight: "bold", width: "35%" }}>Vấn Đề (Issue)</th>
                           <th style={{ padding: "16px", color: "var(--text)", fontWeight: "bold", width: "50%" }}>Mô tả ngắn gọn</th>
@@ -533,7 +535,7 @@ export default function PromptViewer({
                           <tr 
                             key={idx} 
                             style={{ borderBottom: idx === activeCategory.topIssues.length - 1 ? "none" : "1px solid var(--border-color)", transition: "background 0.2s" }}
-                            onMouseEnter={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.02)"}
+                            onMouseEnter={(e) => e.currentTarget.style.background = "var(--bg-surface-elevated)"}
                             onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
                           >
                             <td style={{ padding: "16px", color: `var(--accent-${activeCategory.colorToken})`, fontWeight: "bold", whiteSpace: "nowrap" }}>
@@ -588,11 +590,11 @@ export default function PromptViewer({
       >
         <div style={{ 
           padding: "20px", 
-          background: isSelected ? "var(--bg-surface)" : "rgba(255,255,255,0.03)", 
+          background: "rgba(20, 184, 166, 0.05)", 
           backdropFilter: "blur(12px)",
           borderRadius: "16px", 
-          border: isSelected ? "2px solid var(--accent-cyan)" : "1px solid var(--border-color)",
-          boxShadow: isSelected ? "var(--shadow-lg), 0 0 15px rgba(20, 184, 166, 0.4)" : "0 0 20px rgba(20, 184, 166, 0.1)",
+          border: isSelected ? "2px solid var(--accent-cyan)" : "1px solid var(--accent-cyan-dim)",
+          boxShadow: isSelected ? "var(--shadow-lg), 0 0 15px rgba(20, 184, 166, 0.4)" : "var(--shadow-sm)",
           transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease"
         }}
         onMouseEnter={(e) => {
@@ -605,8 +607,8 @@ export default function PromptViewer({
         onMouseLeave={(e) => {
           if (!isSelected) {
             e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.borderColor = "var(--border-color)";
-            e.currentTarget.style.boxShadow = "none";
+            e.currentTarget.style.borderColor = "var(--accent-cyan-dim)";
+            e.currentTarget.style.boxShadow = "var(--shadow-sm)";
           }
         }}>
           {/* Node Header */}
@@ -644,9 +646,9 @@ export default function PromptViewer({
               style={{
                 marginTop: "16px",
                 padding: "16px",
-                background: "rgba(0,0,0,0.3)",
+                background: "var(--bg)",
                 borderRadius: "8px",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid var(--border-color)",
                 position: "relative"
               }}
             >
@@ -701,7 +703,7 @@ export default function PromptViewer({
     const journeyNodes = workflow.steps.filter(s => s.projectStateScenario);
 
     return (
-      <div className="animate-fade-up" style={{ position: "relative" }}>
+      <div className="animate-fade-up" style={{ position: "relative" }} id={workflow.id}>
         
         <SectionLabel text="Trực quan hóa Flowchart" accent="cyan" />
         <h2 style={{ fontSize: "2.2rem", marginBottom: "1rem" }}>
@@ -808,11 +810,11 @@ export default function PromptViewer({
             {activeModalStep ? (
               <div style={{
                 position: "relative",
-                background: "var(--bg-surface-elevated, #111827)",
+                background: "var(--bg-surface-elevated)",
                 borderRadius: "16px",
                 border: "1px solid var(--border-color)",
                 padding: "32px",
-                boxShadow: "0 0 0 1px rgba(14, 165, 233, 0.2), 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05), 0 0 30px rgba(14, 165, 233, 0.15)",
+                boxShadow: "0 0 0 1px rgba(14, 165, 233, 0.2), var(--shadow-xl)",
                 overflow: "hidden"
               }}>
                 {/* Glowing animated top border line */}
@@ -864,7 +866,7 @@ export default function PromptViewer({
 
                 {activeModalStep.exampleDetails && (
                   <div style={{
-                    background: "rgba(0,0,0,0.2)",
+                    background: "var(--bg)",
                     padding: "16px",
                     borderRadius: "8px",
                     border: "1px dashed var(--accent-cyan-dim)"

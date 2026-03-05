@@ -70,6 +70,8 @@ export default function PromptsPage() {
     setActiveWorkflowId(null);
     setActiveStepId(null);
     setActiveResearchId(null);
+    window.location.hash = guideId;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelectTheory = (theoryId: string) => {
@@ -80,6 +82,8 @@ export default function PromptsPage() {
     setActiveWorkflowId(null);
     setActiveStepId(null);
     setActiveResearchId(null);
+    window.location.hash = theoryId;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelectResearch = (researchId: string) => {
@@ -90,6 +94,8 @@ export default function PromptsPage() {
     setActiveTheoryId(null);
     setActiveWorkflowId(null);
     setActiveStepId(null);
+    window.location.hash = researchId;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelectWorkflow = (workflowId: string) => {
@@ -100,6 +106,8 @@ export default function PromptsPage() {
     setActiveGuideId(null);
     setActiveTheoryId(null);
     setActiveResearchId(null);
+    window.location.hash = workflowId;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelectStep = (stepId: string) => {
