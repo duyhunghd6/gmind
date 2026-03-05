@@ -1,6 +1,6 @@
 interface SectionLabelProps {
   text: string;
-  accent?: "cyan" | "teal" | "amber" | "rose";
+  accent?: "cyan" | "teal" | "amber" | "rose" | "indigo";
 }
 
 export default function SectionLabel({

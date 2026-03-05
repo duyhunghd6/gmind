@@ -10,13 +10,11 @@ interface PromptsSidebarProps {
   
   activeSection: "workflows" | "setup" | "theory" | "research";
   activeWorkflowId: string | null;
-  activeStepId: string | null;
   activeGuideId: string | null;
   activeTheoryId: string | null;
   activeResearchId: string | null;
   
   onSelectWorkflow: (workflowId: string) => void;
-  onSelectStep: (stepId: string) => void;
   onSelectSetup: (guideId: string) => void;
   onSelectTheory: (theoryId: string) => void;
   onSelectResearch: (researchId: string) => void;
@@ -29,13 +27,11 @@ export default function PromptsSidebar({
   
   activeSection,
   activeWorkflowId,
-  activeStepId,
   activeGuideId,
   activeTheoryId,
   activeResearchId,
   
   onSelectWorkflow,
-  onSelectStep,
   onSelectSetup,
   onSelectTheory,
   onSelectResearch,
@@ -100,7 +96,7 @@ export default function PromptsSidebar({
             return (
               <div key={wf.id} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
                 <button
-                  className={`docs-sidebar__item ${isActiveWf && !activeStepId ? "active" : ""}`}
+                  className={`docs-sidebar__item ${isActiveWf ? "active" : ""}`}
                   onClick={() => onSelectWorkflow(wf.id)}
                   aria-expanded={isActiveWf}
                   style={{ fontWeight: isActiveWf ? 600 : 400, justifyContent: "space-between" }}
@@ -112,34 +108,6 @@ export default function PromptsSidebar({
                     {wf.title}
                   </span>
                 </button>
-
-                {isActiveWf && (
-                  <div style={{ display: "flex", flexDirection: "column", paddingLeft: "16px", gap: "2px", marginTop: "4px" }}>
-                    {wf.steps.map((step) => {
-                      const isActiveStep = activeSection === "workflows" && activeStepId === step.id;
-                      return (
-                        <button
-                          key={step.id}
-                          className={`docs-sidebar__item ${isActiveStep ? "active" : ""}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelectStep(step.id);
-                          }}
-                          style={{
-                            fontSize: "0.85rem",
-                            padding: "6px 12px",
-                            opacity: isActiveStep ? 1 : 0.8,
-                          }}
-                        >
-                          <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                            <span aria-hidden="true" style={{ opacity: 0.5, fontSize: "0.7rem" }}>↳</span>
-                            {step.title}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
               </div>
             );
           })}

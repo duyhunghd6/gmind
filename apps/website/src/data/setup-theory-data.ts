@@ -4,19 +4,33 @@ export interface TerminalLine {
   text: string;
 }
 
+export interface SetupStep {
+  id: string;
+  title: string;
+  role: string;
+  description: string;
+  input: string;
+  output: string;
+  macOSTerminalLines?: TerminalLine[];
+  linuxTerminalLines?: TerminalLine[];
+  windowsTerminalLines?: TerminalLine[];
+}
+
 export interface SetupGuide {
   id: string;
   title: string;
   description: string;
-  
-  // Single OS mode (Legacy)
-  terminalLines?: TerminalLine[];
-  
-  // Multi OS mode
-  hasOsTabs?: boolean;
-  macOSTerminalLines?: TerminalLine[];
-  linuxTerminalLines?: TerminalLine[];
-  windowsTerminalLines?: TerminalLine[];
+  steps: SetupStep[];
+}
+
+export interface TheoryWorkflowStep {
+  id: string;
+  title: string;
+  role: string;
+  description: string;
+  input: string;
+  output: string;
+  loopGroup?: "None" | "Planning" | "Execution";
 }
 
 export interface TheoryTopic {
@@ -25,62 +39,78 @@ export interface TheoryTopic {
   description: string;
   content: string; // Markdown or plain text block
   roles?: { name: string; description: string; color: string }[];
-  visualWorkflowSteps?: { title: string; desc: string; role: string; color: string }[];
+  visualWorkflowSteps?: TheoryWorkflowStep[];
 }
 
 export const setupGuides: SetupGuide[] = [
   {
     id: "setup-full-stack",
     title: "Cài đặt Toàn diện (Multi-OS)",
-    description: "Hướng dẫn cài đặt Agent (Antigravity), công cụ index (FastCode CLI) và Gmind CLI cho các hệ điều hành khác nhau.",
-    hasOsTabs: true,
-    macOSTerminalLines: [
-      { type: "comment", text: "# 1. Cài đặt Antigravity Agent" },
-      { prompt: "$", type: "command", text: "brew install google-deepmind/tap/antigravity" },
-      { type: "output", text: "==> Downloading https://ghcr.io/v2/google-deepmind/antigravity..." },
-      { type: "success", text: "🍺 antigravity was successfully installed!" },
-      { prompt: "$", type: "command", text: "export GEMINI_API_KEY=\"aizaSy...\"" },
-      { type: "comment", text: "" },
-      { type: "comment", text: "# 2. Cài đặt FastCode CLI (Bộ index AST cục bộ)" },
-      { prompt: "$", type: "command", text: "brew install fastcode-ai/cli/fastcode" },
-      { type: "success", text: "FastCode v2.1.0 installed." },
-      { type: "comment", text: "" },
-      { type: "comment", text: "# 3. Khởi tạo Gmind Project" },
-      { prompt: "$", type: "command", text: "npm i -g @gmind/cli" },
-      { prompt: "$", type: "command", text: "gmind init my-agent-workspace" },
-      { type: "success", text: "✨ GSAFe project initialized successfully." }
-    ],
-    linuxTerminalLines: [
-      { type: "comment", text: "# 1. Cài đặt Antigravity Agent" },
-      { prompt: "$", type: "command", text: "curl -sL https://install.antigravity.dev | bash" },
-      { type: "output", text: "Extracting binaries for Linux x86_64..." },
-      { type: "success", text: "Antigravity installed in ~/.local/bin." },
-      { prompt: "$", type: "command", text: "echo 'export GEMINI_API_KEY=\"aizaSy...\"' >> ~/.bashrc" },
-      { type: "comment", text: "" },
-      { type: "comment", text: "# 2. Cài đặt FastCode CLI" },
-      { prompt: "$", type: "command", text: "sudo apt-get install rustc cargo && cargo install fastcode-cli" },
-      { type: "success", text: "FastCode built and installed." },
-      { type: "comment", text: "" },
-      { type: "comment", text: "# 3. Khởi tạo Gmind Project" },
-      { prompt: "$", type: "command", text: "npm i -g @gmind/cli" },
-      { prompt: "$", type: "command", text: "gmind init my-agent-workspace" },
-      { type: "success", text: "✨ GSAFe project initialized successfully." }
-    ],
-    windowsTerminalLines: [
-      { type: "comment", text: "# 1. Cài đặt Antigravity Agent" },
-      { prompt: ">", type: "command", text: "winget install Deepmind.Antigravity" },
-      { type: "output", text: "Found Antigravity [Deepmind.Antigravity]" },
-      { type: "success", text: "Successfully installed." },
-      { prompt: ">", type: "command", text: "setx GEMINI_API_KEY \"aizaSy...\"" },
-      { type: "comment", text: "" },
-      { type: "comment", text: "# 2. Cài đặt FastCode CLI" },
-      { prompt: ">", type: "command", text: "choco install fastcode" },
-      { type: "success", text: "FastCode installed." },
-      { type: "comment", text: "" },
-      { type: "comment", text: "# 3. Khởi tạo Gmind Project" },
-      { prompt: ">", type: "command", text: "npm i -g @gmind/cli" },
-      { prompt: ">", type: "command", text: "gmind init my-agent-workspace" },
-      { type: "success", text: "✨ GSAFe project initialized successfully." }
+    description: "Hướng dẫn cài đặt Agent (Antigravity), công cụ index (FastCode CLI) và Gmind CLI qua 3 bước.",
+    steps: [
+      {
+        id: "install-agent",
+        title: "1. Cài đặt Antigravity Agent",
+        role: "System",
+        description: "Cài đặt core Agent của Google Deepmind để chuẩn bị cho môi trường Agentic AI.",
+        input: "Thiết bị Local",
+        output: "Agent Binary",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "brew install google-deepmind/tap/antigravity" },
+          { type: "output", text: "==> Downloading ..." },
+          { type: "success", text: "🍺 antigravity installed!" },
+          { prompt: "$", type: "command", text: "export GEMINI_API_KEY=\"aizaSy...\"" }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "curl -sL https://install.antigravity.dev | bash" },
+          { type: "success", text: "Antigravity installed." },
+          { prompt: "$", type: "command", text: "echo 'export GEMINI_API_KEY=\"aizaSy...\"' >> ~/.bashrc" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "winget install Deepmind.Antigravity" },
+          { type: "success", text: "Successfully installed." },
+          { prompt: ">", type: "command", text: "setx GEMINI_API_KEY \"aizaSy...\"" }
+        ]
+      },
+      {
+        id: "install-fastcode",
+        title: "2. Cài đặt FastCode CLI",
+        role: "System",
+        description: "Công cụ Index AST cục bộ siêu tốc độ (lên đến 20M tokens/min).",
+        input: "Agent Binary",
+        output: "Semantic Indexer",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "brew install fastcode-ai/cli/fastcode" },
+          { type: "success", text: "FastCode v2.1.0 installed." }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "sudo apt-get install rustc cargo && cargo install fastcode-cli" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "choco install fastcode" }
+        ]
+      },
+      {
+        id: "install-gmind",
+        title: "3. Khởi tạo Gmind Project",
+        role: "User",
+        description: "Cài đặt CLI quản trị GSAFe và khởi tạo Workspace.",
+        input: "Rỗng",
+        output: "GSAFe Workspace",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "npm i -g @gmind/cli" },
+          { prompt: "$", type: "command", text: "gmind init my-agent-workspace" },
+          { type: "success", text: "✨ GSAFe project initialized successfully." }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "npm i -g @gmind/cli" },
+          { prompt: "$", type: "command", text: "gmind init my-agent-workspace" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "npm i -g @gmind/cli" },
+          { prompt: ">", type: "command", text: "gmind init my-agent-workspace" }
+        ]
+      }
     ]
   }
 ];
@@ -97,10 +127,10 @@ export const theoryTopics: TheoryTopic[] = [
       { name: "Dev Team", description: "Nhóm tự quản lý, đa chức năng chịu trách nhiệm chuyển giao Increment.", color: "amber" }
     ],
     visualWorkflowSteps: [
-      { title: "Sprint Planning", desc: "PO và Team chọn mục tiêu từ Backlog.", role: "Toàn Team", color: "cyan" },
-      { title: "Daily Standup", desc: "Đồng bộ tiến độ 15 phút mỗi ngày.", role: "Dev Team", color: "amber" },
-      { title: "Sprint Review", desc: "Demo increment với khách hàng.", role: "PO", color: "cyan" },
-      { title: "Retrospective", desc: "Cải tiến liên tục sau mỗi Sprint.", role: "Scrum Master", color: "teal" }
+      { id: "agile-1", title: "Sprint Planning", role: "Toàn Team", description: "PO và Team chọn mục tiêu từ Backlog.", input: "Product Backlog", output: "Sprint Goal", loopGroup: "Planning" },
+      { id: "agile-2", title: "Daily Standup", role: "Dev Team", description: "Đồng bộ tiến độ 15 phút mỗi ngày.", input: "Daily Progress", output: "Impediments Identified", loopGroup: "Execution" },
+      { id: "agile-3", title: "Sprint Review", role: "PO", description: "Demo increment với khách hàng.", input: "Working Increment", output: "Stakeholder Feedback", loopGroup: "Execution" },
+      { id: "agile-4", title: "Retrospective", role: "Scrum Master", description: "Cải tiến liên tục sau mỗi Sprint.", input: "Sprint Experience", output: "Action Items", loopGroup: "Execution" }
     ]
   },
   {
@@ -114,10 +144,10 @@ export const theoryTopics: TheoryTopic[] = [
       { name: "Agent Swarm", description: "Thực thi rà soát code tự động và CI/CD.", color: "emerald" }
     ],
     visualWorkflowSteps: [
-      { title: "Continuous Exploration", desc: "Nghiên cứu thị trường và thiết kế kiến trúc thông qua Spikes (Phase B, C, D).", role: "PMO / Architect", color: "indigo" },
-      { title: "PI Planning", desc: "Lập kế hoạch 10 tuần, xác định rủi ro (ROAM) và dependency.", role: "RTE", color: "amber" },
-      { title: "Program Execution", desc: "Chạy các ARTs song song, Agent rà soát chéo.", role: "Dev Teams", color: "emerald" },
-      { title: "Inspect & Adapt", desc: "Phân tích nguyên nhân gốc rễ và demo diện rộng.", role: "Toàn tổ chức", color: "rose" }
+      { id: "safe-1", title: "Continuous Exploration", role: "PMO / Architect", description: "Nghiên cứu thị trường và thiết kế kiến trúc thông qua Spikes (Phase B, C, D).", input: "Epic / Vision", output: "Master PRD, Spike Reports", loopGroup: "Planning" },
+      { id: "safe-2", title: "PI Planning", role: "RTE", description: "Lập kế hoạch 10 tuần, xác định rủi ro (ROAM) và dependency.", input: "Master PRD", output: "PI Plan, ART Backlog", loopGroup: "Planning" },
+      { id: "safe-3", title: "Program Execution", role: "Dev Teams", description: "Chạy các ARTs song song, Agent rà soát chéo.", input: "PI Plan", output: "System Demo Equivalent", loopGroup: "Execution" },
+      { id: "safe-4", title: "Inspect & Adapt", role: "Toàn tổ chức", description: "Phân tích nguyên nhân gốc rễ và demo diện rộng.", input: "System Demo", output: "PI Improvements", loopGroup: "Execution" }
     ]
   }
 ];

@@ -87,13 +87,11 @@ export default function PromptsPage() {
           
           activeSection={activeSection}
           activeWorkflowId={activeWorkflowId}
-          activeStepId={activeStepId}
           activeGuideId={activeGuideId}
           activeTheoryId={activeTheoryId}
           activeResearchId={activeResearchId}
           
           onSelectWorkflow={handleSelectWorkflow}
-          onSelectStep={handleSelectStep}
           onSelectSetup={handleSelectSetup}
           onSelectTheory={handleSelectTheory}
           onSelectResearch={handleSelectResearch}
