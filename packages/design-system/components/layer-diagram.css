@@ -1,0 +1,215 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Interactive Layer Diagram
+   ID: ds-comp-layer-diagram
+   States: default, hover, selected, auto-cycling
+   ═══════════════════════════════════════════════ */
+
+/* ---- Container ---- */
+.layer-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* ---- Layer Bar ---- */
+.layer-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--duration-normal) var(--ease-out);
+  overflow: hidden;
+}
+
+.layer-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  border-radius: inherit;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+/* ---- Hover ---- */
+.layer-bar:hover {
+  border-color: var(--border-highlight);
+  transform: translateX(4px);
+}
+
+/* ---- Selected (Click) ---- */
+.layer-bar.selected {
+  border-color: var(--layer-accent, var(--accent-cyan));
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 25%, transparent),
+    0 0 40px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 10%, transparent),
+    inset 0 0 30px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 5%, transparent);
+  animation: layerGlow 2s ease-in-out infinite;
+}
+
+.layer-bar.selected::before {
+  opacity: 1;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 8%, transparent),
+    transparent 60%
+  );
+}
+
+@keyframes layerGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 25%, transparent),
+      0 0 40px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 10%, transparent),
+      inset 0 0 30px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 5%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 30px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 35%, transparent),
+      0 0 60px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 15%, transparent),
+      inset 0 0 40px color-mix(in srgb, var(--layer-accent, var(--accent-cyan)) 8%, transparent);
+  }
+}
+
+/* ---- Layer Header Row ---- */
+.layer-bar__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.layer-bar__number {
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 32px;
+  text-align: center;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.layer-bar.selected .layer-bar__number {
+  opacity: 1;
+}
+
+.layer-bar__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.layer-bar__tech {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--surface-elevated);
+  white-space: nowrap;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.layer-bar.selected .layer-bar__tech {
+  color: var(--layer-accent, var(--accent-cyan));
+}
+
+.layer-bar__chevron {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: transform 0.3s ease;
+  margin-left: 8px;
+}
+
+.layer-bar.selected .layer-bar__chevron {
+  transform: rotate(180deg);
+  color: var(--layer-accent, var(--accent-cyan));
+}
+
+/* ---- Detail Panel (Expandable) ---- */
+.layer-bar__detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s ease,
+              opacity 0.3s ease;
+  opacity: 0;
+}
+
+.layer-bar.selected .layer-bar__detail {
+  max-height: 500px;
+  padding-top: 14px;
+  opacity: 1;
+}
+
+.layer-bar__detail ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.layer-bar__detail li {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.layer-bar__detail li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+  color: var(--layer-accent, var(--accent-cyan));
+}
+
+/* ---- Connector between layers ---- */
+.layer-connector {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0;
+}
+
+.layer-connector__line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-dim);
+  opacity: 0.4;
+  font-size: 0.7rem;
+  line-height: 1;
+  font-family: var(--font-mono);
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.layer-connector__line.active {
+  opacity: 0.8;
+  color: var(--layer-accent, var(--accent-cyan));
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .layer-bar {
+    padding: 12px 14px;
+  }
+
+  .layer-bar__tech {
+    display: none;
+  }
+
+  .layer-bar__number {
+    font-size: 1.3rem;
+    min-width: 24px;
+  }
+
+  .layer-bar__title {
+    font-size: 0.95rem;
+  }
+}

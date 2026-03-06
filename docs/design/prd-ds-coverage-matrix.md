@@ -3,7 +3,19 @@
 <!-- beads-id: br-ds-matrix-01 -->
 
 > **Mục đích:** Bảng theo dõi (Tracking Matrix) định kỳ giúp kiểm soát độ bao phủ của Design System đối với các Yêu cầu Nghiệp vụ (PRD). File này là **đầu ra bắt buộc (output artifact)** của quy trình `/arch-review-prd-after-design-system`.
-> **Cập nhật lần cuối:** 2026-03-05
+> **Cập nhật lần cuối:** 2026-03-06
+
+## 0. Website Structure PRD (PRD-00)
+
+| PRD Section ID            | Tên Yêu cầu (PRD-00)           | Trang / Sections tương ứng                |  Trạng thái   | Ghi chú                                                     |
+| :------------------------ | :----------------------------- | :---------------------------------------- | :-----------: | :---------------------------------------------------------- |
+| `br-prd-web-structure-s1` | Site Map                       | Navbar (5 links)                          |  🟢 Covered   | Toàn bộ 5 trang + GitHub link                               |
+| `br-prd-web-structure-s2` | Trang chủ (/)                  | Hero, 4 Pillars, 5+1 Layers, Middle Layer |  🟢 Covered   |                                                             |
+| `br-prd-web-structure-s3` | Kiến trúc (/architecture)      | Flow Diagram, 5+1 Layers Detail           |  🟢 Covered   |                                                             |
+| `br-prd-web-structure-s4` | Prompt Palettes (/prompts)     | Sidebar + 4 activeSection modes           |  🟢 Covered   | 20 AI Workflows + 3 Theory + 1 Install                      |
+| `br-prd-web-structure-s5` | Nghiên cứu (/research)         | Research Cards (6 PRD + 16 Spike)         |  🟢 Covered   |                                                             |
+| `br-prd-web-structure-s6` | Design System (/design-system) | Hub + 13 sub-pages + 10 Storyboard UCs    |  🟢 Covered   |                                                             |
+| `br-prd-web-structure-s7` | Liên kết chéo (Cross-links)    | PRD-00 Section 7                          | 🟡 Documented | Hiện là tài liệu tham chiếu, chưa có automated link checker |
 
 ## 1. Core PRDs to Design System Screens Mapping
 

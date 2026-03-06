@@ -1,0 +1,17 @@
+.git
+node_modules
+cli/
+docs/architecture/
+docs/design/
+docs/PRDs/
+docs/requirements/
+docs/researches/
+scripts/
+reference/
+.agents/
+.beads/
+.cursor/
+.mcp.json
+go.work
+apps/website/.next
+apps/website/node_modules

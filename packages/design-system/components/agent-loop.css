@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════
+   @gmind/design-system — Component: Agent Loop Diagram
+   ID: ds-comp-agent-loop
+   States: default, phase-active, step-highlight
+   ═══════════════════════════════════════════════ */
+
+/* ---- Container ---- */
+.agent-loop {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* ---- Phase Block ---- */
+.agent-loop__phase {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  position: relative;
+  transition: all 0.4s ease;
+  background: var(--surface);
+}
+
+.agent-loop__phase.active {
+  border-color: var(--phase-accent, var(--accent-cyan));
+  box-shadow:
+    0 0 20px color-mix(in srgb, var(--phase-accent, var(--accent-cyan)) 20%, transparent),
+    0 0 40px color-mix(in srgb, var(--phase-accent, var(--accent-cyan)) 8%, transparent);
+  animation: phaseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes phaseGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px color-mix(in srgb, var(--phase-accent, var(--accent-cyan)) 20%, transparent),
+      0 0 40px color-mix(in srgb, var(--phase-accent, var(--accent-cyan)) 8%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 30px color-mix(in srgb, var(--phase-accent, var(--accent-cyan)) 30%, transparent),
+      0 0 60px color-mix(in srgb, var(--phase-accent, var(--accent-cyan)) 12%, transparent);
+  }
+}
+
+/* ---- Phase Header ---- */
+.agent-loop__phase-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.agent-loop__phase-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.agent-loop__phase-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.agent-loop__phase-chevron {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: transform 0.3s ease;
+}
+
+.agent-loop__phase.active .agent-loop__phase-chevron {
+  transform: rotate(180deg);
+  color: var(--phase-accent, var(--accent-cyan));
+}
+
+/* ---- Steps List ---- */
+.agent-loop__steps {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              padding 0.3s ease;
+}
+
+.agent-loop__phase.active .agent-loop__steps {
+  max-height: 800px;
+  opacity: 1;
+  padding-top: 14px;
+}
+
+.agent-loop__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  transition: all 0.3s ease;
+}
+
+.agent-loop__step.highlight {
+  color: var(--text);
+}
+
+.agent-loop__step-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  min-width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.agent-loop__step.highlight .agent-loop__step-arrow {
+  opacity: 1;
+}
+
+.agent-loop__step-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ---- Loop indicator ---- */
+.agent-loop__loop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 1px dashed var(--accent-amber);
+  color: var(--accent-amber);
+  margin-top: 10px;
+  animation: loopPulse 2s ease-in-out infinite;
+}
+
+@keyframes loopPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ---- Connector ---- */
+.agent-loop__connector {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0;
+}
+
+.agent-loop__connector-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-dim);
+  opacity: 0.3;
+  font-size: 0.65rem;
+  line-height: 1;
+  font-family: var(--font-mono);
+  transition: opacity 0.3s ease;
+}
+
+.agent-loop__connector-line.active {
+  opacity: 0.7;
+  color: var(--phase-accent, var(--accent-cyan));
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 640px) {
+  .agent-loop__phase {
+    padding: 12px 14px;
+  }
+
+  .agent-loop__step-label {
+    display: none;
+  }
+}

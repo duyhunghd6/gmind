@@ -1,33 +1,43 @@
-# Rolling Handover: PRD-DS Sync (Iteration 0003)
+# Rolling Handover: PRD-DS Sync
 
-**Ngày cập nhật cuối:** 2026-03-05
-**Phiên bản PRD truy vết:** v1.0 (Core Gmind PRDs 00-05)
+<!-- beads-id: br-ds-handover-01 -->
+
+**Ngày cập nhật cuối:** 2026-03-06
+**Phiên bản PRD truy vết:** PRD-00 (Website Structure) + PRD-01 (Prompts Library)
 
 ## 1. Tóm tắt Độ bao phủ (Coverage Status)
 
-- Số lượng hạng mục PRD cốt lõi yêu cầu UI/UX: 11
-- Số lượng đã xuất hiện Framework/Screen trong Design System: 11
-- Tỷ lệ bao phủ State Matrix (Mức độ Màn hình cơ bản): 100%
-- Tỷ lệ bao phủ Interactivity (Mức độ Tương tác chi tiết): ~90%
+- Số lượng Features yêu cầu UI trong PRD: **18** (7 từ PRD-00 + 11 từ PRD-01..05)
+- Số lượng đã xuất hiện trong Design System: **17**
+- Tỷ lệ bao phủ State Matrix: **94%**
 
-## 2. Khoảng trống Yêu cầu được Phát hiện (Gaps - Đã giải quyết ở Phase 5)
+## 2. Thay đổi trong phiên này
 
-Tại Iteration 0004 / Phase 5, toàn bộ các Gap tương tác đã được lấp đầy:
+### Mới tạo:
 
-- `[br-prd04-s3]`: Giao diện **PI Planning Sandbox** đã mượt mà với tính năng kéo-thả phân bổ Capacity (Drag & Drop qua `@hello-pangea/dnd`).
-- `[br-prd04-s3]`: Giao diện **Portfolio View** đã tương phản hoàn hảo ở cả Light/Dark Mode (Sử dụng CSS Variables thông minh `var(--accent-cyan-dim)`).
+- **`PRD-00-Website-Structure.md`** — Bản đồ toàn bộ website structure, page sections, và cross-page links với 7 section và ASCII diagrams.
+- Bổ sung **Section 0** vào `prd-ds-coverage-matrix.md` để theo dõi PRD-00.
 
-## 3. Lịch sử UX Tinh chỉnh (UX Refining Complete)
+### Cập nhật:
 
-- Điểm UX Overall đã chính thức đẩy lên **100%** (Cả 8 tiêu chí).
-- Các ARIA role, tabIndex, focus ring, và global keyboard handlers (ESC/Enter) đã chuẩn hóa toàn diện trên các Screen mới.
+- **`PRD-01-Prompts-Library.md`** — Thêm tham chiếu ngược (back-reference) tới PRD-00.
+- **`prd-ds-coverage-matrix.md`** — Cập nhật ngày, thêm 7 hàng mapping PRD-00 sections.
+
+## 3. Khoảng trống Yêu cầu được Phát hiện (Gaps)
+
+- **`br-prd-web-structure-s7` (Cross-links):** Tài liệu liên kết chéo đã được mô tả trong PRD-00 nhưng chưa có automated link checker để xác minh runtime. Đề xuất: Thêm test kiểm tra broken internal links.
+- **Partial Gap: PI Planning Sandbox drag-drop** (từ phiên trước, chưa giải quyết).
 
 ## 4. Kế hoạch Hành động cho Tác nhân UI (Next UI Agent Task)
 
-1. Tích hợp thư viện `@hello-pangea/dnd` vào màn hình `/design-system/pi-planning`.
-2. Biến vùng "Strategic Sandbox" thành các Droppable zones (VD: Sprint 1, Sprint 2) và cho phép kéo thả các Epic/Feature (Draggable items) vào vùng đó để mô phỏng phân bổ Capacity.
-3. Rà soát chuẩn CSS variables (`var(--surface)`, `var(--text)`) trên trang Portfolio View để đảm bảo hiển thị xuất sắc ở Light Mode.
+1. Xem xét bổ sung PRD riêng cho trang `/architecture` và `/research` nếu cần tách PRD-02, PRD-03 cho apps-website.
+2. Automated internal link checker cho cross-page links.
+3. Tiếp tục theo dõi PI Planning Sandbox gap.
 
-## 5. Rủi ro / Vấn đề thiết kế tồn đọng
+## 5. Rủi ro / Vấn đề thiết kế cần giải quyết
 
-- Việc tích hợp Drag & Drop trong Next.js App Router (React 18/19) với `@hello-pangea/dnd` đòi hỏi cẩn thận kiểm soát lỗi `Hydration Mismatch` và yêu cầu `"use client"` strict mode.
+- Không có rủi ro mới phát hiện trong phiên này.
+
+---
+
+> Document maintained by AI Agent (`arch-review-prd-after-design-system` workflow).

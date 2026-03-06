@@ -5,7 +5,7 @@ import SectionDivider from "@/components/SectionDivider";
 export const metadata = {
   title: "Nghiên cứu & Spike — Gmind",
   description:
-    "Danh mục đầy đủ nghiên cứu Khám phá Liên tục: 3 PRD và 8+ Spike thực hiện trước khi viết dòng code triển khai đầu tiên.",
+    "Danh mục đầy đủ nghiên cứu Khám phá Liên tục: 6 PRD và 16 Spike thực hiện trước khi viết dòng code triển khai đầu tiên.",
 };
 
 function StatusBadge({ status }: { status: string }) {

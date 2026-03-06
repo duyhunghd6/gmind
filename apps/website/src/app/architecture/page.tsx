@@ -4,154 +4,362 @@ import SectionDivider from "@/components/SectionDivider";
 export const metadata = {
   title: "Kiến trúc — Gmind",
   description:
-    "Kiến trúc 5+1 Lớp của Nền tảng Agentic SE Gmind: Lưu trữ, Công cụ, Thực thi, Xác minh, API Gateway, và Trình bày.",
+    "Kiến trúc Agentic Software Engineering: gmind là tầng Agent Memory Layer kết nối Agentic IDE, GSAFe 6.0 Workflow, Codebase, và LLM.",
 };
 
-const layers = [
+/* ───── Flow Diagram Data ───── */
+const flowNodes = [
   {
-    num: "1",
-    title: "Lớp Lưu trữ",
-    accent: "--accent-cyan",
-    tech: "beads_rust · FrankenSQLite · Zvec",
-    items: [
-      "FrankenSQLite: MVCC ghi đồng thời trong tiến trình — khoá mức trang",
-      "Cột SQL first-class (indexed, type-safe) — KHÔNG dùng JSON blob",
-      "JSONL là SSOT đồng bộ qua git — FrankenSQLite là cache cục bộ",
-      "Zvec: Tìm kiếm vector ngữ nghĩa cho tài liệu, lịch sử chat, và dữ liệu phi cấu trúc",
-      "FastCode: Động cơ trí tuệ mã nguồn nội bộ AST + Graph + BM25",
-    ],
-  },
-  {
-    num: "2",
-    title: "Lớp Công cụ Cốt lõi",
-    accent: "--accent-teal",
-    tech: "gmind CLI · beads_rust · FastCode · mcp_agent_mail",
-    items: [
-      "gmind CLI: Cổng API Ngữ cảnh duy nhất — agent không gọi gì khác",
-      "gmind search: Tài liệu/Lịch sử Chat qua Zvec",
-      "gmind search-codebase: Điều phối FastCode nội bộ (AST + Graph RAG + BM25)",
-      "gmind context: Ngữ cảnh task đầy đủ — FrankenSQLite + Zvec + tuỳ chọn GitHub",
-      "gmind trace: Duyệt Knowledge Graph tại thời điểm truy vấn xuyên 5+ nguồn dữ liệu",
-      "beads_rust (br CLI): Trình theo dõi issue với backend FrankenSQLite",
-      "mcp_agent_mail: Khoá tệp với Lease Timeout 15 phút",
-    ],
-  },
-  {
-    num: "3",
-    title: "Lớp Thực thi / Agent",
-    accent: "--accent-amber",
-    tech: "AI Agent · Phân vai Sub-agent",
-    items: [
-      "Quy trình: Phân loại → TimCode → NạpNgữCảnh → KhoáTệp → Code → Kiểm tra",
-      "Sub-agent Code: Có thể sửa code, chạy test, khoá tệp — KHÔNG THỂ đóng task",
-      "Sub-agent Reviewer: Quyền br close độc quyền — Nguyên tắc Bốn Mắt",
-      "Tag truy vết bắt buộc: --tag='implements:' và --tag='satisfies:'",
-      "Mọi commit phải có Beads-ID: Git Trailer cho theo dõi phổ quát",
-    ],
-  },
-  {
-    num: "4",
-    title: "Lớp Xác minh — Cổng CI/CD",
+    id: "expert",
+    emoji: "👨‍💻",
+    title: "Agentic Coding Expert",
+    subtitle: "Human Developer",
+    desc: "Ra yêu cầu, phê duyệt kết quả, quyết định kiến trúc. Giữ quyền L3 Approval tại mọi ranh giới giai đoạn.",
     accent: "--accent-rose",
-    tech: "GitHub Actions · golangci-lint · go test",
-    items: [
-      "Agent KHÔNG THỂ tự đóng task — phải qua Nút Xác minh trước",
-      "Tự động: Unit test, integration test, linting, kiểm tra định dạng",
-      "Đạt → Agent được phép Hoàn thành task (qua Reviewer Agent)",
-      "Không đạt → Trả về Code Agent để sửa lỗi",
-      "GitHub Checks API: Check run gắn Beads trên commit/PR",
-    ],
   },
   {
-    num: "5",
-    title: "Lớp API Gateway",
-    accent: "--accent-cyan",
-    tech: "Go REST API · Nhúng FrankenSQLite",
-    items: [
-      "Mọi request Web UI đều qua Go REST API — không truy cập DB trực tiếp",
-      "Nhúng FrankenSQLite — cùng tiến trình, không overhead mạng",
-      "Giới hạn tốc độ, xác thực, thực thi toàn vẹn dữ liệu",
-      "Cập nhật thời gian thực qua polling bảng events mỗi 3-5 giây",
-    ],
+    id: "ide",
+    emoji: "⚡",
+    title: "Agentic IDE",
+    subtitle: "Cursor · Windsurf · Kilo Code",
+    desc: "Giao diện coding tích hợp AI Agent. IDE gửi yêu cầu tới Agent, Agent gọi gmind để lấy ngữ cảnh trước khi sinh code.",
+    accent: "--accent-amber",
   },
   {
-    num: "6",
-    title: "Lớp Trình bày — Web UI",
+    id: "gsafe",
+    emoji: "🔄",
+    title: "AgenticSE GSAFe 6.0 Workflow",
+    subtitle: "CE → PI Planning → Execution → Verification",
+    desc: "Quy trình phát triển phần mềm có cấu trúc: Spike Research → PRD → Plan → Task Decomposition → Code → CI/CD Gate. Nguyên tắc Bốn Mắt và Escalation 5 cấp.",
     accent: "--accent-teal",
-    tech: "Beads Viewer PM Edition · Bảng điều khiển React",
-    items: [
-      "Góc nhìn Portfolio/ART/Nhóm: Bảng Kanban cho CEO/RTE/Nhóm",
-      "Cổng Phê duyệt Cấp 3: Human ký duyệt tại ranh giới giai đoạn",
-      "Bảng Phê duyệt Tối cao: Góc nhìn 5-in-1 (Test + Diff + Beads + PRD + CI)",
-      "Đồ thị Tài liệu: Lịch sử commit, Liên kết Ngữ cảnh Tri thức",
-      "Bảng điều khiển RTM: Bản đồ nhiệt độ phủ Mục PRD ↔ Kế hoạch ↔ Task",
-      "Phân tích Tác động: Phân tích thay đổi dây chuyền khi sửa PRD",
-    ],
+  },
+  {
+    id: "gmind",
+    emoji: "🧠",
+    title: "gmind — Agent Memory Layer",
+    subtitle: "Context Gateway · Knowledge Graph · Universal Tracking",
+    desc: "Tầng trung tâm: thu thập, tổng hợp, và tối ưu ngữ cảnh từ toàn bộ hệ thống. Agent chỉ cần gọi gmind — không truy cập trực tiếp bất kỳ nguồn dữ liệu nào.",
+    accent: "--accent-cyan",
+    isCenter: true,
+    commands: ["search-codebase", "context", "trace", "coverage", "gaps", "impact", "escalate"],
   },
 ];
+
+const bottomNodes = [
+  {
+    id: "codebase",
+    emoji: "💾",
+    title: "Codebase & Storage",
+    items: [
+      "FrankenSQLite — State SSOT (MVCC)",
+      "Zvec — Semantic Search (Docs/Chat)",
+      "FastCode — AST Code Intelligence",
+      "Git + GitHub — VCS & CI/CD",
+      "JSONL — Git-synced backup",
+    ],
+    accent: "--accent-cyan",
+  },
+  {
+    id: "llm",
+    emoji: "🤖",
+    title: "LLM Providers",
+    items: [
+      "Gemini 3 Pro — Primary reasoning",
+      "Claude 4 — Code generation",
+      "GPT-4.1 — Specialized tasks",
+      "Routing: gmind tối ưu prompt & context window",
+      "Token optimization: TOON format nén 40%",
+    ],
+    accent: "--accent-amber",
+  },
+];
+
+
+
+/* ───── Arrow Component ───── */
+function FlowArrow({ color = "var(--accent-teal)", bidirectional = true }: { color?: string; bidirectional?: boolean }) {
+  return (
+    <div style={{ display: "flex", justifyContent: "center", padding: "4px 0" }}>
+      <div style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        color,
+        fontSize: "1.2rem",
+        lineHeight: 1,
+        opacity: 0.7,
+      }}>
+        {bidirectional && <span>↑</span>}
+        <span style={{ fontSize: "0.6rem", letterSpacing: "0.1em" }}>│</span>
+        <span>↓</span>
+      </div>
+    </div>
+  );
+}
 
 export default function ArchitecturePage() {
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 20px 80px" }}>
+      {/* Hero */}
       <header className="animate-fade-up">
-        <SectionLabel text="Kiến trúc Hệ thống" />
+        <SectionLabel text="Agentic Software Engineering · Architecture" />
         <h1 style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)", marginBottom: "0.5rem" }}>
-          Kiến trúc AI 5+1 Lớp
+          Kiến trúc Agentic SE
         </h1>
-        <p style={{ fontSize: "1.1rem", color: "var(--text-dim)", maxWidth: "700px", marginBottom: "2rem" }}>
-          Kiến trúc phân tách triệt để — mỗi lớp có trách nhiệm riêng biệt.
-          Thiết kế qua 3 PRD, 15+ Spike, và Khám phá Liên tục SAFe 6.0.
+        <p style={{ fontSize: "1.1rem", color: "var(--text-dim)", maxWidth: "750px", marginBottom: "2rem" }}>
+          <strong>gmind</strong> là <em>Agent Memory Layer</em> — tầng trung tâm kết nối
+          Agentic Coding Expert, GSAFe 6.0 Workflow, Codebase, và LLM.
+          Mọi ngữ cảnh đều đi qua gmind trước khi đến AI Agent.
         </p>
       </header>
 
-      {/* Các Lớp Kiến trúc */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-        {layers.map((layer) => (
-          <div key={layer.num} className="arch-layer animate-fade-up" style={{ animationDelay: `${parseInt(layer.num) * 80}ms` }}>
-            <div className="layer-number">{layer.num}</div>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "12px", marginBottom: "8px" }}>
-              <span
+      {/* ═══ Agentic SE Flow Diagram ═══ */}
+      <section className="animate-fade-up delay-1">
+        <SectionLabel text="Sơ đồ Kiến trúc Tổng thể" accent="cyan" />
+        <h2 style={{ marginBottom: "24px" }}>Luồng Agentic Software Engineering</h2>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
+          {/* Top flow nodes: Expert → IDE → GSAFe → gmind */}
+          {flowNodes.map((node, idx) => (
+            <div key={node.id}>
+              <div
+                className="ve-card"
                 style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.75rem",
-                  color: `var(${layer.accent})`,
-                  background: `var(${layer.accent}-dim, rgba(14,165,233,0.1))`,
-                  padding: "3px 10px",
-                  borderRadius: "4px",
-                  whiteSpace: "nowrap",
+                  borderLeft: node.isCenter ? `4px solid var(${node.accent})` : `3px solid var(${node.accent})`,
+                  ...(node.isCenter ? {
+                    background: `var(${node.accent}-dim)`,
+                    border: `2px solid var(${node.accent})`,
+                    borderRadius: "12px",
+                    padding: "20px 24px",
+                  } : {}),
                 }}
               >
-                Lớp {layer.num}
-              </span>
-              <h2 style={{ fontSize: "1.25rem" }}>{layer.title}</h2>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
+                  <span style={{ fontSize: "1.5rem" }}>{node.emoji}</span>
+                  <div>
+                    <h3 style={{ fontSize: "1.1rem", marginBottom: "2px" }}>{node.title}</h3>
+                    <span style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.75rem",
+                      color: `var(${node.accent})`,
+                    }}>
+                      {node.subtitle}
+                    </span>
+                  </div>
+                </div>
+                <p style={{ color: "var(--text-dim)", fontSize: "0.9rem", marginBottom: node.commands ? "12px" : "0" }}>
+                  {node.desc}
+                </p>
+                {node.commands && (
+                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                    {node.commands.map((cmd) => (
+                      <code
+                        key={cmd}
+                        style={{
+                          fontSize: "0.75rem",
+                          padding: "2px 8px",
+                          borderRadius: "4px",
+                          background: "var(--bg-card)",
+                          color: `var(${node.accent})`,
+                          border: `1px solid var(${node.accent})`,
+                        }}
+                      >
+                        gmind {cmd}
+                      </code>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {idx < flowNodes.length - 1 && (
+                <FlowArrow color={`var(${flowNodes[idx + 1].accent})`} />
+              )}
             </div>
-            <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.8rem", color: "var(--text-dim)", marginBottom: "12px" }}>
-              {layer.tech}
-            </p>
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {layer.items.map((item, i) => (
-                <li
-                  key={i}
-                  style={{
-                    color: "var(--text-dim)",
-                    fontSize: "0.9rem",
-                    padding: "4px 0",
-                    paddingLeft: "16px",
-                    position: "relative",
-                  }}
-                >
-                  <span style={{ position: "absolute", left: 0, color: `var(${layer.accent})` }}>›</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+          ))}
+
+          {/* Fork arrow: gmind → codebase + LLM */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr auto 1fr",
+            gap: "12px",
+            alignItems: "start",
+            marginTop: "4px",
+          }}>
+            {/* Left: arrow down to codebase */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <FlowArrow color="var(--accent-cyan)" />
+              <div
+                className="ve-card"
+                style={{ borderLeft: "3px solid var(--accent-cyan)", width: "100%" }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                  <span style={{ fontSize: "1.5rem" }}>{bottomNodes[0].emoji}</span>
+                  <h3 style={{ fontSize: "1rem" }}>{bottomNodes[0].title}</h3>
+                </div>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {bottomNodes[0].items.map((item, i) => (
+                    <li key={i} style={{
+                      color: "var(--text-dim)",
+                      fontSize: "0.85rem",
+                      padding: "2px 0 2px 14px",
+                      position: "relative",
+                    }}>
+                      <span style={{ position: "absolute", left: 0, color: "var(--accent-cyan)" }}>›</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Center spacer */}
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingTop: "40px",
+              color: "var(--text-dim)",
+              fontSize: "0.75rem",
+              fontFamily: "var(--font-mono)",
+              writingMode: "vertical-rl",
+              opacity: 0.5,
+            }}>
+              ←── gmind queries ──→
+            </div>
+
+            {/* Right: arrow down to LLM */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <FlowArrow color="var(--accent-amber)" />
+              <div
+                className="ve-card"
+                style={{ borderLeft: "3px solid var(--accent-amber)", width: "100%" }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                  <span style={{ fontSize: "1.5rem" }}>{bottomNodes[1].emoji}</span>
+                  <h3 style={{ fontSize: "1rem" }}>{bottomNodes[1].title}</h3>
+                </div>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {bottomNodes[1].items.map((item, i) => (
+                    <li key={i} style={{
+                      color: "var(--text-dim)",
+                      fontSize: "0.85rem",
+                      padding: "2px 0 2px 14px",
+                      position: "relative",
+                    }}>
+                      <span style={{ position: "absolute", left: 0, color: "var(--accent-amber)" }}>›</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
 
       <SectionDivider />
 
-      {/* Phần Theo dõi Phổ quát */}
+      {/* ═══ Gmind Architecture Diagram ═══ */}
+      <section className="animate-fade-up delay-2">
+        <SectionLabel text="Sơ đồ Kiến trúc Chi tiết" />
+        <h2 style={{ marginBottom: "0.5rem" }}>Gmind — Agent Memory Layer</h2>
+        <p style={{ color: "var(--text-dim)", marginBottom: "8px" }}>
+          gmind là tầng trung tâm kết nối Coding IDE, LLM, GitHub, Vector Search (Zvec),
+          GraphRAG (FastCode), và Beads (FrankenSQLite). Mọi luồng dữ liệu đều đi qua gmind.
+        </p>
+        <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginBottom: "24px", fontStyle: "italic" }}>
+          Mũi tên chuyển động thể hiện hướng luồng dữ liệu thực tế trong hệ thống.
+        </p>
+
+        <div style={{
+          background: "var(--bg-card)",
+          borderRadius: "16px",
+          padding: "24px",
+          border: "1px solid var(--border)",
+          overflow: "hidden",
+        }}>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <object
+            type="image/svg+xml"
+            data="/images/gmind-architecture.svg"
+            aria-label="Gmind Architecture — Agent Memory Layer kết nối Coding IDE, GitHub, Zvec, FastCode, Beads, và LLM"
+            style={{
+              width: "100%",
+              maxWidth: "900px",
+              height: "auto",
+              display: "block",
+              margin: "0 auto",
+            }}
+          >
+            Gmind Architecture Diagram
+          </object>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* ═══ Monorepo Directory Structure ═══ */}
+      <section className="animate-fade-up">
+        <SectionLabel text="Monorepo Đa ngôn ngữ" accent="cyan" />
+        <h2 style={{ marginBottom: "0.5rem" }}>Cấu trúc Thư mục</h2>
+        <p style={{ color: "var(--text-dim)", marginBottom: "16px" }}>
+          Go (<code>go.work</code>) · Rust (<code>Cargo.toml</code>) · TypeScript (<code>pnpm-workspace.yaml</code>).
+          Điều phối bởi <strong>Turborepo</strong>.
+        </p>
+
+        <div className="grid-2" style={{ alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            <div className="ve-card" style={{ borderLeft: "3px solid var(--accent-cyan)" }}>
+              <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>
+                <code>cli/</code> — gmind Context Layer
+              </h3>
+              <p style={{ color: "var(--text-dim)", fontSize: "0.9rem" }}>
+                <code>gmind/</code> Go CLI (Cổng Ngữ cảnh) · <code>beads_rust/</code> Issue Tracker (Rust) · <code>mcp_mail/</code> Agent Coordination
+              </p>
+            </div>
+            <div className="ve-card" style={{ borderLeft: "3px solid var(--accent-teal)" }}>
+              <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>
+                <code>apps/</code> — Ứng dụng Web
+              </h3>
+              <p style={{ color: "var(--text-dim)", fontSize: "0.9rem" }}>
+                <code>website/</code> Showcase Next.js (Vercel) · <code>webui/</code> PM Dashboard (RTM, SAFe views)
+              </p>
+            </div>
+            <div className="ve-card" style={{ borderLeft: "3px solid var(--accent-amber)" }}>
+              <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>
+                <code>packages/</code> — Thư viện Chia sẻ
+              </h3>
+              <p style={{ color: "var(--text-dim)", fontSize: "0.9rem" }}>
+                <code>design-system/</code> UI Tokens · <code>fastcode/</code> AST Engine · <code>core-types/</code> Shared DTOs
+              </p>
+            </div>
+          </div>
+
+          <div className="path-tree">
+            <strong>/gmind/</strong><br />
+            ├── <strong>cli/</strong> <span style={{ color: "var(--accent-cyan)" }}>⬡ Middle Layer</span><br />
+            │ &nbsp;&nbsp;├── gmind/ <span style={{ color: "var(--accent-cyan)" }}>// Go Context Gateway</span><br />
+            │ &nbsp;&nbsp;├── beads_rust/ <span style={{ color: "var(--accent-cyan)" }}>// Rust Issue Tracker</span><br />
+            │ &nbsp;&nbsp;└── mcp_mail/ <span style={{ color: "var(--accent-cyan)" }}>// Agent Coordination</span><br />
+            ├── <strong>apps/</strong><br />
+            │ &nbsp;&nbsp;├── website/ <span style={{ color: "var(--accent-teal)" }}>// Showcase (Vercel)</span><br />
+            │ &nbsp;&nbsp;└── webui/ <span style={{ color: "var(--accent-teal)" }}>// PM Dashboard</span><br />
+            ├── <strong>packages/</strong><br />
+            │ &nbsp;&nbsp;├── design-system/ <span style={{ color: "var(--accent-amber)" }}>// Shared UI</span><br />
+            │ &nbsp;&nbsp;├── fastcode/ <span style={{ color: "var(--accent-amber)" }}>// AST Engine</span><br />
+            │ &nbsp;&nbsp;└── core-types/ <span style={{ color: "var(--accent-amber)" }}>// Shared DTOs</span><br />
+            ├── <strong>.agents/</strong><br />
+            │ &nbsp;&nbsp;├── skills/ <span style={{ color: "#10b981" }}>// 30+ Agent Skills</span><br />
+            │ &nbsp;&nbsp;└── workflows/ <span style={{ color: "#10b981" }}>// GSafe Workflows</span><br />
+            └── <strong>docs/</strong><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;├── <strong>PRDs/</strong> <span style={{ color: "var(--text-dim)" }}>// 6 PRDs (core-gmind)</span><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;└── researches/ <span style={{ color: "var(--text-dim)" }}>// 16 Spikes</span>
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* ═══ Beads-ID Tracking (kept) ═══ */}
       <section className="animate-fade-up">
         <SectionLabel text="Theo dõi Phổ quát" accent="teal" />
         <h2 style={{ marginBottom: "0.5rem" }}>Beads-ID: Chiếc Chìa Khoá Duy Nhất</h2>
@@ -161,54 +369,21 @@ export default function ArchitecturePage() {
         </p>
 
         <div className="grid-3">
-          <div className="ve-card" style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>📋</div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>Mục PRD</h3>
-            <code style={{ fontSize: "0.8rem" }}>br-prd01-s4.2</code>
-            <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>
-              YAML front matter
-            </p>
-          </div>
-          <div className="ve-card" style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>📐</div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>Phần tử Kế hoạch</h3>
-            <code style={{ fontSize: "0.8rem" }}>br-plan-42</code>
-            <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>
-              satisfies → PRD
-            </p>
-          </div>
-          <div className="ve-card" style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>✅</div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>Task / Issue</h3>
-            <code style={{ fontSize: "0.8rem" }}>bd-x1y2</code>
-            <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>
-              implements → Kế hoạch
-            </p>
-          </div>
-          <div className="ve-card" style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>💾</div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>Git Commit</h3>
-            <code style={{ fontSize: "0.8rem" }}>Beads-ID: trailer</code>
-            <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>
-              committed-for → Task
-            </p>
-          </div>
-          <div className="ve-card" style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>💬</div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>Chat / Cuộc họp</h3>
-            <code style={{ fontSize: "0.8rem" }}>thread_id</code>
-            <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>
-              discussed-in → Task
-            </p>
-          </div>
-          <div className="ve-card" style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2rem", marginBottom: "8px" }}>🔀</div>
-            <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>Pull Request</h3>
-            <code style={{ fontSize: "0.8rem" }}>gh pr search</code>
-            <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>
-              pr-for → Task
-            </p>
-          </div>
+          {[
+            { emoji: "📋", title: "Mục PRD", code: "br-prd01-s4.2", link: "YAML front matter" },
+            { emoji: "📐", title: "Phần tử Kế hoạch", code: "br-plan-42", link: "satisfies → PRD" },
+            { emoji: "✅", title: "Task / Issue", code: "bd-x1y2", link: "implements → Kế hoạch" },
+            { emoji: "💾", title: "Git Commit", code: "Beads-ID: trailer", link: "committed-for → Task" },
+            { emoji: "💬", title: "Chat / Cuộc họp", code: "thread_id", link: "discussed-in → Task" },
+            { emoji: "🔀", title: "Pull Request", code: "gh pr search", link: "pr-for → Task" },
+          ].map((item) => (
+            <div key={item.title} className="ve-card" style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "2rem", marginBottom: "8px" }}>{item.emoji}</div>
+              <h3 style={{ fontSize: "1rem", marginBottom: "4px" }}>{item.title}</h3>
+              <code style={{ fontSize: "0.8rem" }}>{item.code}</code>
+              <p style={{ color: "var(--text-dim)", fontSize: "0.85rem", marginTop: "8px" }}>{item.link}</p>
+            </div>
+          ))}
         </div>
 
         <div className="code-block" style={{ marginTop: "24px", textAlign: "center" }}>

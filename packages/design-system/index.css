@@ -17,6 +17,8 @@
 @import "./components/code-block.css";
 @import "./components/prompt-card.css";
 @import "./components/arch-layer.css";
+@import "./components/layer-diagram.css";
+@import "./components/agent-loop.css";
 @import "./components/path-tree.css";
 @import "./components/button.css";
 @import "./components/badge.css";

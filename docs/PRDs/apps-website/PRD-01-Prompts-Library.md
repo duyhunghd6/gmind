@@ -26,6 +26,9 @@ sections:
 
 <!-- beads-id: br-prd-web-prompts -->
 
+> **Tham chiếu cấu trúc trang:** Xem [PRD-00-Website-Structure.md](./PRD-00-Website-Structure.md) để nắm bản đồ toàn bộ website, page sections, và liên kết chéo giữa các trang.
+> PRD này tập trung vào trang `/prompts` (Section 4 trong PRD-00).
+
 ## 1. Tinh chỉnh UI & Giao diện
 
 <!-- beads-id: br-prd-web-prompts-s1 -->
