@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-collective",
-  "title": "13. XP: Collective Code Ownership",
+  "title": "C.11 XP: Collective Ownership",
   "description": "Tất thảy mọi người đều tự do bửa sửa code lỗi ở mọi khu vực mà họ thấy chướng mắt. Xóa bỏ độc quyền sở hữu logic.",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Dự án chậm do Silos (Bệnh chia rẽ bè phái): Ai sở hữu code người nấy, cấm động vào.",
       "promptText": "Hàm tính toán trong repo Backend của thằng Tom hơi chậm. Tao với mày (Pair AI) xộc vào đó tối ưu lại thành Big-O n log n luôn đi, bất chấp quyền tác giả ban đầu của nó.",
       "icon": "🕵️‍♂️",
-      "nextSteps": [{"conditionLabel": "Cập nhật mã", "nextNodeId": "own-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Cập nhật mã",
+          "nextNodeId": "own-2"
+        }
+      ],
       "guidanceContext": "Văn hóa mạnh mẽ của Phương pháp Linh hoạt: Bất kỳ ai nhìn thấy lỗi ở bất cứ ngóc ngách nào cũng có quyền (và nghĩa vụ) đắp lại nó.",
       "exampleDetails": "Tránh thói quen 'Not my code, not my bug'."
     },
@@ -27,7 +32,12 @@
       "output": "Safeguard Validations",
       "loopGroup": "Execution",
       "icon": "⚖️",
-      "nextSteps": [{"conditionLabel": "Xanh Test / Được phép", "nextNodeId": "own-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Xanh Test / Được phép",
+          "nextNodeId": "own-3"
+        }
+      ],
       "guidanceContext": "Luôn có rào cản từ dàn TDD và CI/CD siêu phàm chống lưng, kỹ sư cứ việc can đảm (Courage) đập sửa bất cứ đâu.",
       "exampleDetails": "Chạy bộ Test Suite rải rác. Vượt là báo an toàn."
     },

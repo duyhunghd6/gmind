@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-customer",
-  "title": "8. XP: On-site Customer Proxy",
+  "title": "C.6 XP: On-site Customer Proxy",
   "description": "Khoảng cách xa lạ của Business và Tech là thảm họa. Khách hàng/Business Analyst túc trực trả lời logic của Dev.",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Phát triển tính năng đặc thù ngành (Domain Specific) hoặc Tài chính Kế toán.",
       "promptText": "Anh ơi, nếu giỏ hàng của khách này > 100k nhưng nằm trong dải VIP thì em áp mã Coupon loại 1 hay ưu tiên Freeship trước? Em code đến đây mà bị kẹt rồi.",
       "icon": "🙋‍♂️",
-      "nextSteps": [{"conditionLabel": "Cần câu trả lời", "nextNodeId": "os-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Cần câu trả lời",
+          "nextNodeId": "os-2"
+        }
+      ],
       "guidanceContext": "Code sẽ ngay lập tức vô nghĩa nếu sai Business Logic. Tốt nhất là ngừng cào phím và quay sang hỏi On-site Customer (Người ôm ngân sách dự án/PM).",
       "exampleDetails": "Cung cấp chi tiết trường hợp mà code không xử lý định đoạt được."
     },
@@ -27,7 +32,12 @@
       "output": "Decisive Rule",
       "loopGroup": "Planning",
       "icon": "🤝",
-      "nextSteps": [{"conditionLabel": "Cập nhật Logic Code", "nextNodeId": "os-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Cập nhật Logic Code",
+          "nextNodeId": "os-3"
+        }
+      ],
       "guidanceContext": "Trong quy trình Agile cồng kềnh, bạn phải mở 1 block hỏi trên Jira và đợi 1 tuần. Trong XP, xoay mặt qua và có câu trả lời trong chớp mắt.",
       "exampleDetails": "Reply: 'App code: Ưu tiên mã Freeship nhé, khách VIP không được gộp Coupon 1 đâu.'"
     },
@@ -40,7 +50,13 @@
       "output": "Business Logic Applied",
       "loopGroup": "Execution",
       "icon": "💻",
-      "nextSteps": [{"conditionLabel": "Test pass xanh", "nextNodeId": "os-1", "isLoopBack": true}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Test pass xanh",
+          "nextNodeId": "os-1",
+          "isLoopBack": true
+        }
+      ],
       "guidanceContext": "Lực lượng Dev có lòng tin 100% vào quyết định của Khách. Vận hành tốc độ cao.",
       "exampleDetails": "Dev nhúng `if (user.isVIP) return calculateFreeShip()`."
     }

@@ -1,0 +1,88 @@
+{
+  "id": "wf-xp-one-shot-rules",
+  "title": "A.3 Create Rules",
+  "description": "Tạo và quản lý Project Rules cho AI Agent — bổ sung vào GEMINI.md hoặc tạo rules files riêng.",
+  "steps": [
+    {
+      "id": "rl-1",
+      "title": "Định nghĩa Rule cần thiết lập",
+      "role": "User",
+      "description": "Người dùng mô tả quy tắc cần thêm: coding standards, naming conventions, git rules, workflow triggers, file constraints.",
+      "input": "Nhu cầu quản trị dự án",
+      "output": "Rule Definition",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án đã có GEMINI.md cơ bản. Cần bổ sung/tinh chỉnh rules để Agent hoạt động chính xác hơn.",
+      "promptText": "Hãy thêm rules mới cho dự án.\n\n**Rules cần thiết lập:**\n1. [Mô tả rule 1 — ví dụ: Coding Standards]\n   - Chi tiết: [naming convention, file size limits, import ordering...]\n2. [Mô tả rule 2 — ví dụ: Git Commit Convention]\n   - Chi tiết: [conventional commits, Beads-ID trailer, scope naming...]\n3. [Mô tả rule 3 — ví dụ: Markdown Workflow Trigger]\n   - Chi tiết: [khi nào trigger workflow nào...]\n\n**Lưu ý:**\n- Bổ sung vào GEMINI.md hiện tại (không ghi đè).\n- Nếu rule quá phức tạp, tạo file riêng trong `.agents/rules/`.",
+      "icon": "📏",
+      "nextSteps": [
+        {
+          "conditionLabel": "Gửi yêu cầu",
+          "nextNodeId": "rl-2"
+        }
+      ],
+      "guidanceContext": "Rules là 'luật chơi' mà mọi Agent phải tuân thủ. Các loại rules phổ biến:\n- **Coding Standards:** Naming conventions, file size limits, import ordering\n- **Git Rules:** Commit message format, branch naming, no-push-without-approval\n- **Markdown Rules:** Auto-trigger workflows khi tạo/sửa tài liệu\n- **Architecture Rules:** Layer boundaries, dependency constraints\n- **Security Rules:** Secret management, API key handling",
+      "exampleDetails": "Ví dụ rule: 'Mọi file code không được vượt quá 400 dòng. Nếu vượt, phải tách ra file nhỏ hơn.'"
+    },
+    {
+      "id": "rl-2",
+      "title": "Phân tích Context & Codebase",
+      "role": "Agent",
+      "description": "Agent đọc GEMINI.md hiện tại, quét codebase để hiểu conventions đang dùng, tìm xung đột với rules mới.",
+      "input": "Rule Definition",
+      "output": "Context Analysis & Conflict Check",
+      "loopGroup": "Planning",
+      "icon": "🔍",
+      "nextSteps": [
+        {
+          "conditionLabel": "Phân tích xong",
+          "nextNodeId": "rl-3"
+        }
+      ],
+      "guidanceContext": "Agent cần thực hiện:\n1. Đọc GEMINI.md hiện tại — tránh trùng lặp hoặc xung đột\n2. Quét codebase — xem conventions thực tế có match với rules mới không\n3. Kiểm tra `.agents/workflows/` — xem có workflow nào bị ảnh hưởng không\n4. Đánh giá tính khả thi — rule có áp dụng được cho codebase hiện tại không?",
+      "exampleDetails": "Ví dụ: Agent phát hiện GEMINI.md đã có rule 'file < 400 lines' → không cần thêm lại, nhưng có thể bổ sung chi tiết hơn."
+    },
+    {
+      "id": "rl-3",
+      "title": "Bổ sung Rules vào GEMINI.md",
+      "role": "Agent",
+      "description": "Thêm rules mới vào GEMINI.md (append, không ghi đè). Nếu rule phức tạp, tạo file riêng trong .agents/rules/ và tham chiếu từ GEMINI.md.",
+      "input": "Context Analysis",
+      "output": "Updated GEMINI.md / Rules files",
+      "loopGroup": "Execution",
+      "icon": "✏️",
+      "nextSteps": [
+        {
+          "conditionLabel": "Rules đã cập nhật",
+          "nextNodeId": "rl-4"
+        }
+      ],
+      "guidanceContext": "Nguyên tắc khi thêm rules:\n- **Append-only:** KHÔNG xóa hay sửa rules cũ trừ khi người dùng yêu cầu\n- **Rõ ràng:** Mỗi rule phải có format: Tên + Mô tả + Ví dụ\n- **Actionable:** Agent phải hiểu được rule mà không cần giải thích thêm\n- **Tham chiếu:** Nếu rule liên quan tới workflow, ghi rõ path `@.agents/workflows/...`\n\nCấu trúc mở rộng cho rules phức tạp:\n```\n.agents/rules/\n├── coding-standards.md\n├── git-conventions.md\n└── security-rules.md\n```",
+      "exampleDetails": "Thêm vào GEMINI.md:\n```\n- Testing Rules: Mọi function public phải có unit test. Coverage tối thiểu 80%.\n```"
+    },
+    {
+      "id": "rl-4",
+      "title": "Validate & Approve Rules",
+      "role": "User",
+      "description": "Người dùng kiểm tra rules mới đã thêm vào GEMINI.md, đánh giá tính hợp lý và khả năng áp dụng.",
+      "input": "Updated GEMINI.md",
+      "output": "Approved Rules / Feedback",
+      "loopGroup": "Execution",
+      "loopCondition": "Rules chưa hợp lý → Agent chỉnh sửa lại",
+      "promptText": "Tôi đã review rules mới trong GEMINI.md.\n\nFeedback:\n- Rule 1: [OK / Quá nghiêm ngặt, nới lỏng thành...]\n- Rule 2: [OK / Cần bổ sung ngoại lệ cho...]\n- Rule 3: [OK / Xung đột với rule cũ, cần merge]\n\nHãy cập nhật theo feedback.",
+      "icon": "✅",
+      "nextSteps": [
+        {
+          "conditionLabel": "Approved",
+          "nextNodeId": "rl-4"
+        },
+        {
+          "conditionLabel": "Cần sửa",
+          "nextNodeId": "rl-3",
+          "isLoopBack": true
+        }
+      ],
+      "guidanceContext": "Khi review rules, hãy tự hỏi:\n- Rule có quá nghiêm ngặt hoặc quá lỏng lẻo không?\n- Rule có xung đột với conventions hiện tại không?\n- Agent có thể tự động enforce rule này không?\n- Rule có giúp tăng chất lượng code/docs thực sự không?",
+      "exampleDetails": "Chạy `cat GEMINI.md` để xem toàn bộ nội dung đã cập nhật. Đối chiếu với codebase thực tế."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-pace",
-  "title": "15. XP: Sustainable Pace Monitor",
+  "title": "C.13 XP: Sustainable Pace",
   "description": "Cốt lõi của XP là sự Minh Mẫn: Xây dựng nhịp độ bền vững ở tốc độ ánh sáng mà tuyệt đối không một ai phải OT (Overtime).",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Giai đoạn cuối dự án (Crunch Time) các Dev thường bị ép tăng ca thâu đêm, sinh ra mớ code chất lượng tồi tệ nợ kỹ thuật (Technical Debt) sang ngày mai.",
       "promptText": "Hôm tay là ngày thứ 6, tao mới sửa được 40% tính năng mới này thôi nhưng tao phải làm nốt xuyên đêm chứ thứ 2 sếp chửi chết.",
       "icon": "⚠️",
-      "nextSteps": [{"conditionLabel": "Vượt tuần 40 giờ", "nextNodeId": "pace-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Vượt tuần 40 giờ",
+          "nextNodeId": "pace-2"
+        }
+      ],
       "guidanceContext": "Người code mệt là người xả code thối (Code Smells). XP cấm việc làm thêm giờ (Overtime) như một nguyên tắc bất di bất dịch của 40-Hour Work Week.",
       "exampleDetails": "Agent cảnh báo độ trượt Velocity và rủi ro Bug."
     },
@@ -27,7 +32,12 @@
       "output": "Relaxed Brain",
       "loopGroup": "None",
       "icon": "☕",
-      "nextSteps": [{"conditionLabel": "Ngủ nghỉ nạp lại năng lượng", "nextNodeId": "pace-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Ngủ nghỉ nạp lại năng lượng",
+          "nextNodeId": "pace-3"
+        }
+      ],
       "guidanceContext": "Nếu cuối vòng lặp không xong? Lỗi ở người lên kế hoạch và Trò Chơi Khởi Sự bị sai Point. Team PM phải ra thông báo bỏ rớt tính năng thay vì bắt kỹ sư đền mạng.",
       "exampleDetails": "Thẳng thắn nhìn nhận thất bại trong hoạch định và sửa ở buổi sau."
     },

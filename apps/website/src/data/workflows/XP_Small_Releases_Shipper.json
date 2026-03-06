@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-micro-release",
-  "title": "10. XP: Micro-Releases Shipper",
+  "title": "C.8 XP: Small Releases Shipper",
   "description": "Launch sản phẩm trong nháy mắt. Cắt xẻ dự án thành những mảng siêu bé (Small Releases) để tung ra thị trường liên tục.",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Dự án quá lớn, sếp giục ra mắt ngay hôm nay nhưng Dev kêu tuần sau mới code xong đống chức năng phụ.",
       "promptText": "Tao có 5 bảng DB và 20 API đang code lộn xộn. Mày vớt cho tao riêng nhóm User Auth (Đăng ký/Đăng nhập) và xuất nó ra thành nhánh release-1.0 được không?",
       "icon": "✂️",
-      "nextSteps": [{"conditionLabel": "Gói tính năng", "nextNodeId": "rel-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Gói tính năng",
+          "nextNodeId": "rel-2"
+        }
+      ],
       "guidanceContext": "Nguyên lý XP yêu cầu đem phần mềm đi thử lửa với thị trường càng nhanh càng tốt. Giảm Cycle time xuống tính bằng ngày thay vì tháng.",
       "exampleDetails": "Git branch riêng cho tính năng đã hoàn chỉnh, vứt bỏ toàn mảng code thừa chưa test."
     },
@@ -27,7 +32,13 @@
       "output": "Live Software",
       "loopGroup": "None",
       "icon": "🚀",
-      "nextSteps": [{"conditionLabel": "Get Feedback vòng lặp sau", "nextNodeId": "rel-1", "isLoopBack": true}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Get Feedback vòng lặp sau",
+          "nextNodeId": "rel-1",
+          "isLoopBack": true
+        }
+      ],
       "guidanceContext": "Bằng cách release nhỏ gọn, nếu lỗi xảy ra, rủi ro chỉ khu trú bằng đầu tăm chứ không sập nguyên cả tòa lâu đài. Cực kỳ dễ roll-back.",
       "exampleDetails": "Vận hành bằng Docker push lên K8s Cluster nội bộ."
     }

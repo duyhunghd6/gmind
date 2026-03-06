@@ -1,0 +1,88 @@
+{
+  "id": "wf-xp-one-shot-workflows",
+  "title": "A.4 Create Workflows",
+  "description": "Tạo Agent Workflows (.agents/workflows/*.md) — thiết kế và viết quy trình tự động hóa cho AI Agent.",
+  "steps": [
+    {
+      "id": "wk-1",
+      "title": "Mô tả Workflow cần tạo",
+      "role": "User",
+      "description": "Người dùng mô tả quy trình cần tự động hóa: mục đích, trigger conditions, input/output mong đợi.",
+      "input": "Nhu cầu tự động hóa",
+      "output": "Workflow Requirements",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án đã có GEMINI.md và rules. Cần tạo workflows để Agent tự động thực hiện các quy trình lặp lại.",
+      "promptText": "Hãy tạo Agent Workflow mới cho dự án.\n\n**Thông tin Workflow:**\n- Tên workflow: [ví dụ: deploy-staging, run-tests, code-review]\n- Mục đích: [Tự động hóa quy trình gì?]\n- Trigger: [Khi nào workflow được kích hoạt?]\n- Các bước chính: [Liệt kê các bước cần thực hiện]\n\n**Yêu cầu:**\n1. Tạo file `.agents/workflows/{workflow-name}.md`\n2. Viết YAML frontmatter với description\n3. Viết từng bước cụ thể, có command mẫu\n4. Đánh dấu bước nào có thể auto-run (// turbo)",
+      "icon": "⚡",
+      "nextSteps": [
+        {
+          "conditionLabel": "Gửi yêu cầu",
+          "nextNodeId": "wk-2"
+        }
+      ],
+      "guidanceContext": "Workflows là 'công thức nấu ăn' cho Agent — step-by-step instructions để thực hiện một quy trình cụ thể. Các workflow phổ biến:\n- **Build & Deploy:** CI/CD, staging, production\n- **Testing:** Unit test, E2E test, performance test\n- **Code Review:** Architecture review, PRD review, design system audit\n- **Documentation:** Tạo docs, gán Beads ID, update changelog\n- **Research:** Spike reports, market research, tech evaluation",
+      "exampleDetails": "Ví dụ: Workflow 'deploy-staging' sẽ có các bước: build → test → deploy → verify → notify."
+    },
+    {
+      "id": "wk-2",
+      "title": "Phân tích & Thiết kế Flow",
+      "role": "Agent",
+      "description": "Agent phân tích yêu cầu, thiết kế luồng bước chạy tuần tự, xác định điều kiện phân nhánh và error handling.",
+      "input": "Workflow Requirements",
+      "output": "Flow Design & Draft",
+      "loopGroup": "Planning",
+      "icon": "🔧",
+      "nextSteps": [
+        {
+          "conditionLabel": "Design xong",
+          "nextNodeId": "wk-3"
+        }
+      ],
+      "guidanceContext": "Agent cần xác định:\n1. **Sequence:** Các bước chạy theo thứ tự nào?\n2. **Branching:** Có điều kiện phân nhánh không? (if/else)\n3. **Error handling:** Nếu bước X thất bại thì sao?\n4. **Turbo steps:** Bước nào an toàn để auto-run?\n5. **Dependencies:** Cần tool/command nào?\n\nKiểm tra `.agents/workflows/` hiện tại để tham khảo format mẫu.",
+      "exampleDetails": "Agent đọc workflow mẫu như `gsafe-research.md` hoặc `arch-review-docs-add-beads.md` để nắm format chuẩn."
+    },
+    {
+      "id": "wk-3",
+      "title": "Tạo Workflow .md File",
+      "role": "Agent",
+      "description": "Scaffold file workflow .md với YAML frontmatter (description) và step-by-step instructions chi tiết.",
+      "input": "Flow Design",
+      "output": "Workflow .md File",
+      "loopGroup": "Execution",
+      "icon": "📝",
+      "nextSteps": [
+        {
+          "conditionLabel": "Workflow đã tạo",
+          "nextNodeId": "wk-4"
+        }
+      ],
+      "guidanceContext": "Format chuẩn của workflow file:\n```markdown\n---\ndescription: Mô tả ngắn gọn workflow\n---\n# Tên Workflow\n\n## Bước 1: [Tên bước]\n[Instructions chi tiết]\n```command\n[Command mẫu]\n```\n\n// turbo\n## Bước 2: [Tên bước an toàn]\n[Auto-run step]\n```\n\nChú ý:\n- `// turbo` annotation = Agent auto-run bước đó\n- `// turbo-all` = Auto-run TẤT CẢ các bước\n- Mỗi bước phải có command cụ thể hoặc hướng dẫn rõ ràng",
+      "exampleDetails": "```yaml\n---\ndescription: Deploy ứng dụng lên staging environment\n---\n# Deploy Staging\n## 1. Build production bundle\n// turbo\n```bash\nnpm run build\n```\n## 2. Run tests\n```bash\nnpm run test\n```\n```"
+    },
+    {
+      "id": "wk-4",
+      "title": "Test & Approve Workflow",
+      "role": "User",
+      "description": "Người dùng chạy thử workflow (hoặc dry-run), xác nhận flow đúng, approve hoặc yêu cầu chỉnh sửa.",
+      "input": "Workflow .md File",
+      "output": "Approved Workflow / Feedback",
+      "loopGroup": "Execution",
+      "loopCondition": "Flow chưa đúng → Agent cập nhật workflow",
+      "promptText": "Tôi đã review workflow vừa tạo.\n\nFeedback:\n- Luồng bước: [OK / Thiếu bước XYZ giữa bước 2 và 3]\n- Commands: [OK / Command ABC sai syntax]\n- Error handling: [OK / Cần thêm fallback cho bước DEF]\n- Turbo annotation: [OK / Bước GHI không nên auto-run]\n\nHãy cập nhật theo feedback.",
+      "icon": "✅",
+      "nextSteps": [
+        {
+          "conditionLabel": "Approved",
+          "nextNodeId": "wk-4"
+        },
+        {
+          "conditionLabel": "Cần sửa",
+          "nextNodeId": "wk-3",
+          "isLoopBack": true
+        }
+      ],
+      "guidanceContext": "Khi test workflow, hãy kiểm tra:\n- Chạy `/workflow-name` trong chat → Agent có follow đúng các bước không?\n- Các command có chạy được trên OS hiện tại không?\n- Turbo steps có thực sự an toàn để auto-run không?\n- Error handling có cover các trường hợp edge case không?",
+      "exampleDetails": "Thử gọi workflow bằng slash command: `/deploy-staging` → xem Agent có thực hiện đúng từng bước không."
+    }
+  ]
+}

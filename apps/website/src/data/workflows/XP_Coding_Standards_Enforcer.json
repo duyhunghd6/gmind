@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-standards",
-  "title": "14. XP: Coding Standards Enforcer",
+  "title": "C.12 XP: Coding Standards",
   "description": "Ép buộc định dạng (Format) và phương pháp luận đặt tên biến về quy chuẩn chung và duy nhất của toàn Team. 10 người code nhìn như 1.",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Dự án quy tụ nhiều Dev đến từ các công ty/phong cách khác nhau và suốt ngày cãi nhau về dấu ngoặc nhọn `{}` nên để ở dòng nào.",
       "promptText": "Function này tao dùng PascalCase nhưng linter của team xài camelCase. Tự sửa hết 20 file tao vừa tạo đi.",
       "icon": "📐",
-      "nextSteps": [{"conditionLabel": "Chỉnh đốn xong", "nextNodeId": "std-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Chỉnh đốn xong",
+          "nextNodeId": "std-2"
+        }
+      ],
       "guidanceContext": "XP loại bỏ thời gian vô ích vào việc tranh luận thẩm mỹ code. Team tự chọn ra bộ quy chuẩn (như StandardJS, Biome, Prettier) và máy móc thực thi nó 100%.",
       "exampleDetails": "Format on save. Auto-fix linter on commit hook."
     },

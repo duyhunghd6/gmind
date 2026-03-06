@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-ci",
-  "title": "12. XP: CI / Merge Police",
+  "title": "C.10 XP: CI / Merge Police",
   "description": "Kịch bản Nhúng Tích Hợp Liên Tục. Mã sẽ được merge lên luồng chính bất cứ lúc nào chạy qua bài Test (Không đợi cuối ngày).",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Dự án yêu cầu luồng deploy cực kỳ năng động (Agile). Dev không được giấu code ở máy cá nhân qua đêm.",
       "promptText": "Tôi vừa code xong tính năng Login nhỏ xíu, hiện tại local test đang pass sạch sẽ. Tôi chuẩn bị ném nó lên luồng chính.",
       "icon": "⬇️",
-      "nextSteps": [{"conditionLabel": "Trigger Push", "nextNodeId": "ci-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Trigger Push",
+          "nextNodeId": "ci-2"
+        }
+      ],
       "guidanceContext": "Tần suất hợp nhất (merge/integrate) là mỗi vài giờ. Càng để lâu, khối lượng conflict mã nguồn càng phình to vượt khỏi tầm kiểm soát.",
       "exampleDetails": "Chạy git push định kỳ mỗi ngày 3 lần tối thiểu."
     },
@@ -28,8 +33,14 @@
       "loopGroup": "None",
       "icon": "🤖",
       "nextSteps": [
-        {"conditionLabel": "Xanh Toàn Tập", "nextNodeId": "ci-4"},
-        {"conditionLabel": "ĐỎ - Kêu gào Lỗi", "nextNodeId": "ci-3"}
+        {
+          "conditionLabel": "Xanh Toàn Tập",
+          "nextNodeId": "ci-4"
+        },
+        {
+          "conditionLabel": "ĐỎ - Kêu gào Lỗi",
+          "nextNodeId": "ci-3"
+        }
       ],
       "guidanceContext": "Chính sách của Nhóm: KHÔNG MỘT AI ĐƯỢC ĐI VỀ NHÀ nếu nhánh chính (Main) vẫn còn đang ĐỎ (fail). Mọi người tập trung sửa cho xong.",
       "exampleDetails": "Kết quả GitHub Actions run test bị Error."
@@ -43,7 +54,13 @@
       "output": "Reverted / Fixed Branch",
       "loopGroup": "Execution",
       "icon": "🔥",
-      "nextSteps": [{"conditionLabel": "Gửi lại Commit", "nextNodeId": "ci-1", "isLoopBack": true}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Gửi lại Commit",
+          "nextNodeId": "ci-1",
+          "isLoopBack": true
+        }
+      ],
       "guidanceContext": "XP nổi tiếng với sự khốc liệt: Nếu mất quá 10 phút để đi tìm lỗi, hãy quẳng đống code đó đi và bắt đầu lại bằng TDD.",
       "exampleDetails": "Xoá bỏ, sửa xong mới ném lại."
     },

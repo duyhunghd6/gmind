@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-refactor",
-  "title": "5. XP Kỹ thuật số: Tái cấu trúc Liên tục",
+  "title": "C.3 XP: Tái cấu trúc Liên tục",
   "description": "Extreme Programming dồn ép chất lượng lên tận mức cực hạn. AI thay thế người Review code để dọn dẹp biến, hàm tồi tệ ngay khi vừa gõ xong.",
   "steps": [
     {
@@ -13,7 +13,12 @@
       "loopGroup": "Execution",
       "projectStateScenario": "Sử dụng cho các Core Module đắt giá, nơi một lỗi nhỏ có thể làm sập dây chuyền. Yêu cầu tính Simple Design.",
       "icon": "👃",
-      "nextSteps": [{"conditionLabel": "Phát hiện rác", "nextNodeId": "xp-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Phát hiện rác",
+          "nextNodeId": "xp-2"
+        }
+      ],
       "guidanceContext": "AI sử dụng AST (Abstract Syntax Tree) và LLM để vạch trần các đoạn hội mã 'bốc mùi' như: Hàm quá dài, biến tối nghĩa, Nested if-else sâu.",
       "exampleDetails": "Cảnh báo độ phức tạp Cyclomatic Complexity > 10."
     },
@@ -27,7 +32,12 @@
       "loopGroup": "Execution",
       "promptText": "Hàm tính chiết khấu này có tới 5 lệnh if lồng nhau hôi rình. Mày hãy cấu trúc lại bằng Design Pattern 'Strategy' xem có rành mạch hơn không?",
       "icon": "🗣️",
-      "nextSteps": [{"conditionLabel": "Đồng ý Refactor", "nextNodeId": "xp-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Đồng ý Refactor",
+          "nextNodeId": "xp-3"
+        }
+      ],
       "guidanceContext": "Trong XP, nguyên tắc bất di bất dịch là Tôn trọng & Giao tiếp. Quyết định thuộc về con người.",
       "exampleDetails": "Chọn giữa Factory Pattern hoặc giữ nguyên Switch Case nhỏ gọn."
     },
@@ -40,7 +50,12 @@
       "output": "Cleaned Code",
       "loopGroup": "Execution",
       "icon": "✨",
-      "nextSteps": [{"conditionLabel": "Chạy Continuous Integration", "nextNodeId": "xp-4"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Chạy Continuous Integration",
+          "nextNodeId": "xp-4"
+        }
+      ],
       "guidanceContext": "Agentic Coding phải luôn nhỏ giọt, không thay đổi toàn bộ file lớn để tránh gây vỡ logic diện rộng.",
       "exampleDetails": "Sử dụng tool Multi_Replace để gõ lại nội hàm."
     },

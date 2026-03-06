@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-yagni",
-  "title": "11. XP: Simple Design & YAGNI Guard",
+  "title": "C.9 XP: Simple Design & YAGNI",
   "description": "Rà soát mức độ phức tạp. Agent ép kỹ sư gỡ bỏ sự lo bò trắng răng (Over-engineering), tuân thủ nguyên lý thiết kế Đơn Giản Nhất Có Thể (Simple Design).",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Nhóm Dev trẻ thích dùng công nghệ xịn sò cho một cái tool chỉ phục vụ 10 User nội bộ.",
       "promptText": "Hệ thống Notification này của mình phải dùng Kafka chia Event Stream. Bạn setup cho tôi Docker Compose chạy 3 broker Kafka và Zookeeper nhé.",
       "icon": "🏗️",
-      "nextSteps": [{"conditionLabel": "Code cồng kềnh", "nextNodeId": "yag-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Code cồng kềnh",
+          "nextNodeId": "yag-2"
+        }
+      ],
       "guidanceContext": "Hố mìn lớn nhất của lập trình viên là làm rối tung mọi thứ chỉ vì lo xa 5 năm sau hệ thống sẽ mở rộng. XP dạy rằng: Cái tương lai kỳ diệu đó thường không bao giờ đến.",
       "exampleDetails": "Thêm tầng Abstraction vô ích, dựng Service to đùng cho hàm phụ."
     },
@@ -27,7 +32,12 @@
       "output": "Simplified Architecture",
       "loopGroup": "Planning",
       "icon": "🛡️",
-      "nextSteps": [{"conditionLabel": "Sửa lại thiết kế", "nextNodeId": "yag-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Sửa lại thiết kế",
+          "nextNodeId": "yag-3"
+        }
+      ],
       "guidanceContext": "Đóng vai vị kiến trúc sư trưởng lạnh lùng, dẹp bỏ mọi rườm rà. Mã nguồn tốn ít dòng nhất mà Pass bài Test là mã nguồn đẹp nhất.",
       "exampleDetails": "AI reply: 'Mày chỉ cần 1 cái mảng in-memory thay vì Redis. Không làm trò con bò. Mày chưa cần đến nó đâu (YAGNI).'"
     },
@@ -40,7 +50,13 @@
       "output": "Elegant Output",
       "loopGroup": "Execution",
       "icon": "🧘‍♂️",
-      "nextSteps": [{"conditionLabel": "Tinh ranh hơn", "nextNodeId": "yag-1", "isLoopBack": true}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Tinh ranh hơn",
+          "nextNodeId": "yag-1",
+          "isLoopBack": true
+        }
+      ],
       "guidanceContext": "Gìn giữ tài nguyên trí tuệ của đội nhóm ở mức thư thái (Zen), không gánh tạ tốn kém vào hệ thống.",
       "exampleDetails": "Thiết kế mỏng nhưng vẫn đủ tính kiểm thử."
     }

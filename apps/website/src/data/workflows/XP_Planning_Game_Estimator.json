@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-planning",
-  "title": "9. XP: The Planning Game Estimator",
+  "title": "C.7 XP: Planning Game Estimator",
   "description": "Tạm biệt những buổi họp mệt mỏi. Trò chơi Khởi sự nơi Dev và PM thương thảo rành mạch về sức chứa công việc.",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Giai đoạn đầu chu kỳ Release. Cần bốc task nào ra làm trước và bỏ task nào lại.",
       "promptText": "Hôm nay Product Team đưa xuống 5 features. Bạn đọc 5 thẻ này đi, tôi cần nó xong trước Lễ Tạ Ơn. Tính ra giá bằng điểm Story (Story Points) theo Fibonacci giúp tôi.",
       "icon": "🃏",
-      "nextSteps": [{"conditionLabel": "Đọc Story", "nextNodeId": "pg-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Đọc Story",
+          "nextNodeId": "pg-2"
+        }
+      ],
       "guidanceContext": "Business đưa ra cái họ muốn. Nhưng người quyết định giá tiền phải là Dev.",
       "exampleDetails": "Viết rành mạch: 'Là người dùng, tôi muốn... để...'."
     },
@@ -27,7 +32,12 @@
       "output": "Estimated Points",
       "loopGroup": "Planning",
       "icon": "⚖️",
-      "nextSteps": [{"conditionLabel": "Ngã giá", "nextNodeId": "pg-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Ngã giá",
+          "nextNodeId": "pg-3"
+        }
+      ],
       "guidanceContext": "Nếu điểm quá lớn (VD: 21 điểm), Agent có trách nhiệm phải xé nhỏ Story (Decomposition) trước khi đem lên cân lại.",
       "exampleDetails": "AI gán: Login bằng Apple ID = 8 pts, Login thường = 2 pts."
     },
@@ -40,7 +50,13 @@
       "output": "Sprint/Release Backlog",
       "loopGroup": "Planning",
       "icon": "💰",
-      "nextSteps": [{"conditionLabel": "Cam kết Làm", "nextNodeId": "pg-3", "isLoopBack": true}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Cam kết Làm",
+          "nextNodeId": "pg-3",
+          "isLoopBack": true
+        }
+      ],
       "guidanceContext": "Nếu tổng thẻ vượt quá sức (Capacity), PM tuyệt đối không được ép Dev OT. Trò chơi kết thúc, phải vứt tính năng rác ra khỏi rổ.",
       "exampleDetails": "Chỉ lấy được 3 card thôi vì tuần này tổng Velocity là 20. Để 2 card kia sang tháng."
     }

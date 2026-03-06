@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-tdd",
-  "title": "6. XP: Test-Driven Development (TDD) Bot",
+  "title": "C.4 XP: TDD Red-Green-Refactor",
   "description": "Logic kiểm thử phải được viết và thấy Thất bại (Màu Đỏ) trước khi viết Logic thực thi code. Cú chốt làm giảm lượng Bug bằng không.",
   "steps": [
     {
@@ -14,7 +14,12 @@
       "projectStateScenario": "Tính năng bắt buộc phải chính xác cao độ: Billing, Payment, Password Hashing.",
       "promptText": "Tôi cần 1 hàm validate độ mạnh mật khẩu (Pass > 8 ký tự, có đủ Hoa, Thường, Số, Đặc biệt). Hãy viết jest test case bắt nó fail trước đi.",
       "icon": "🔴",
-      "nextSteps": [{"conditionLabel": "Chạy Failed", "nextNodeId": "tdd-2"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Chạy Failed",
+          "nextNodeId": "tdd-2"
+        }
+      ],
       "guidanceContext": "Không bao giờ được viết production code nếu chưa có test xịt. Đây là quy tắc sống còn của TDD.",
       "exampleDetails": "Cảnh báo CI pipeline báo Fail do hàm `validatePassword` trả về undefined."
     },
@@ -27,7 +32,12 @@
       "output": "Passing Green Code",
       "loopGroup": "Execution",
       "icon": "🟢",
-      "nextSteps": [{"conditionLabel": "Test Pass Xanh", "nextNodeId": "tdd-3"}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Test Pass Xanh",
+          "nextNodeId": "tdd-3"
+        }
+      ],
       "guidanceContext": "Agent chỉ cần dùng code đơn giản và ngu ngốc nhất để vượt qua test. Không vội vàng tối ưu ở bước này.",
       "exampleDetails": "Trả thẳng về mảng cứng hoặc hardcode if-else nếu nó thoả mãn test."
     },
@@ -40,7 +50,13 @@
       "output": "Clean Refactored Code",
       "loopGroup": "Execution",
       "icon": "✨",
-      "nextSteps": [{"conditionLabel": "Test Vẫn Xanh -> Xong", "nextNodeId": "tdd-3", "isLoopBack": true}],
+      "nextSteps": [
+        {
+          "conditionLabel": "Test Vẫn Xanh -> Xong",
+          "nextNodeId": "tdd-3",
+          "isLoopBack": true
+        }
+      ],
       "guidanceContext": "Lúc này, kể cả có làm hỏng hàm thì bài Test màu Xanh sẽ bắt lại ngay sự cố. Cứ yên tâm mà sửa.",
       "exampleDetails": "Chuyển từ Switch-Case thành Strategy Pattern nhưng Assertions vẫn đỗ."
     }

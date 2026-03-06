@@ -1,0 +1,106 @@
+{
+  "id": "wf-xp-one-shot-init",
+  "title": "A.1 Initialized Projects",
+  "description": "Khởi tạo một dự án mới từ con số 0: GEMINI.md, cấu trúc docs Agile, Git setup, và Tech Stack.",
+  "steps": [
+    {
+      "id": "ip-1",
+      "title": "Mô tả Dự án & Chọn Tech Stack",
+      "role": "User",
+      "description": "Người dùng mô tả mục tiêu dự án, chọn tech stack và kiến trúc mong muốn.",
+      "input": "Ý tưởng dự án",
+      "output": "Project Brief & Tech Stack",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án mới tinh (Greenfield), chưa có file hay thư mục nào. Cần thiết lập nền tảng chuẩn chỉnh.",
+      "promptText": "Hãy khởi tạo một dự án mới cho tôi.\n\n**Thông tin dự án:**\n- Tên dự án: [Tên Project]\n- Mô tả: [Mục tiêu kinh doanh / kỹ thuật]\n- Tech Stack: [Go / Rust / TypeScript / Python]\n- Kiến trúc: [Monolith / Microservices / Monorepo]\n- Database: [PostgreSQL / FrankenSQLite / MongoDB]\n\n**Yêu cầu khởi tạo:**\n1. Tạo file `GEMINI.md` ở root project với các rules cơ bản.\n2. Tạo cấu trúc thư mục `./docs` theo chuẩn Agile Development.\n3. Kiểm tra và khởi tạo Git repository nếu chưa có.\n4. Tạo `.gitignore` phù hợp với tech stack đã chọn.\n\nHãy thực hiện tất cả trong một lần.",
+      "icon": "🎯",
+      "nextSteps": [
+        {
+          "conditionLabel": "Gửi yêu cầu",
+          "nextNodeId": "ip-2"
+        }
+      ],
+      "guidanceContext": "Đây là bước quan trọng nhất — quyết định toàn bộ \"bộ xương\" của dự án. Hãy mô tả rõ ràng tech stack và kiến trúc để Agent không phải đoán. Một GEMINI.md tốt sẽ giúp mọi Agent sau này hiểu ngay context dự án.",
+      "exampleDetails": "Ví dụ: 'Dự án E-commerce bằng Go, kiến trúc Clean Architecture, database FrankenSQLite. Cần CI/CD pipeline cho GitHub Actions.'"
+    },
+    {
+      "id": "ip-2",
+      "title": "Khởi tạo GEMINI.md",
+      "role": "Agent",
+      "description": "Tạo file GEMINI.md ở root project chứa toàn bộ project rules: tech stack, coding conventions, git commit format, Beads ID tracking, file size limits.",
+      "input": "Project Brief & Tech Stack",
+      "output": "GEMINI.md hoàn chỉnh",
+      "loopGroup": "Planning",
+      "icon": "📋",
+      "nextSteps": [
+        {
+          "conditionLabel": "GEMINI.md xong",
+          "nextNodeId": "ip-3"
+        }
+      ],
+      "guidanceContext": "GEMINI.md là 'não bộ' của dự án — mọi Agent đều đọc file này đầu tiên. Nội dung cần bao gồm:\n- Project techstack (ngôn ngữ, framework, database)\n- Git Commit Rules (conventional commits + Beads-ID trailer)\n- File size limits (code < 400 lines, docs < 1000 lines)\n- Markdown Rules (liên kết tới workflow gán Beads ID)\n- Các conventions đặc thù của dự án",
+      "exampleDetails": "File GEMINI.md mẫu:\n```\n- Project techstack: Go\n- Git Commit Rules: Conventional Commits + Beads-ID trailer\n- Keep code file < 400 lines, docs < 1000 lines\n```"
+    },
+    {
+      "id": "ip-3",
+      "title": "Scaffold Thư mục ./docs (Agile Dev)",
+      "role": "Agent",
+      "description": "Tạo cấu trúc thư mục tài liệu theo chuẩn Agile Development: PRDs, researches/spikes, design, architecture, requirements.",
+      "input": "GEMINI.md đã tạo",
+      "output": "Cấu trúc docs/ hoàn chỉnh",
+      "loopGroup": "Planning",
+      "icon": "📁",
+      "nextSteps": [
+        {
+          "conditionLabel": "Docs scaffold xong",
+          "nextNodeId": "ip-4"
+        }
+      ],
+      "guidanceContext": "Cấu trúc thư mục docs chuẩn Agile:\n```\ndocs/\n├── PRDs/              # Product Requirements Documents\n├── researches/\n│   └── spikes/        # Spike research reports\n├── design/            # UI/UX design docs\n├── architecture/      # Architecture Decision Records (ADR)\n│   └── adr/\n└── requirements/      # Vision.md, Feature specs\n```\nMỗi thư mục nên có một README.md giải thích mục đích.",
+      "exampleDetails": "Agent tự động tạo các file README.md trong mỗi thư mục con, giải thích: 'Thư mục này chứa các Spike reports theo quy trình SAFe 6.0 Continuous Exploration.'"
+    },
+    {
+      "id": "ip-4",
+      "title": "Kiểm tra & Khởi tạo Git",
+      "role": "Agent",
+      "description": "Kiểm tra xem Git đã được init chưa. Nếu chưa: git init, tạo .gitignore phù hợp tech stack, thực hiện initial commit.",
+      "input": "Cấu trúc project đã scaffold",
+      "output": "Git repo đã sẵn sàng",
+      "loopGroup": "Execution",
+      "icon": "🔧",
+      "nextSteps": [
+        {
+          "conditionLabel": "Git setup xong",
+          "nextNodeId": "ip-5"
+        }
+      ],
+      "guidanceContext": "Agent cần kiểm tra:\n1. `git status` — đã init chưa?\n2. Nếu chưa → `git init`\n3. Tạo `.gitignore` phù hợp (Go: vendor/, bin/; Node: node_modules/; Rust: target/)\n4. `git add .` && `git commit -m 'chore(init): scaffold project structure'`\n\nLưu ý: KHÔNG push lên remote mà không có sự đồng ý của người dùng hoặc PMO.",
+      "exampleDetails": "Kiểm tra: `git rev-parse --is-inside-work-tree` → nếu lỗi thì chạy `git init`."
+    },
+    {
+      "id": "ip-5",
+      "title": "Review & Approve Cấu trúc",
+      "role": "User",
+      "description": "Người dùng kiểm tra toàn bộ cấu trúc đã khởi tạo: GEMINI.md, docs/, .gitignore, git log.",
+      "input": "Project đã scaffold hoàn chỉnh",
+      "output": "Approval / Feedback chỉnh sửa",
+      "loopGroup": "Execution",
+      "loopCondition": "Nếu cấu trúc sai → Lặp lại chỉnh sửa",
+      "promptText": "Tôi đã xem qua cấu trúc project. [Đồng ý / Cần chỉnh sửa].\n\nFeedback:\n- GEMINI.md: [OK / Cần bổ sung rule XYZ]\n- Docs structure: [OK / Thiếu thư mục ABC]\n- .gitignore: [OK / Thêm pattern DEF]\n\nHãy cập nhật theo feedback trên.",
+      "icon": "✅",
+      "nextSteps": [
+        {
+          "conditionLabel": "Đồng ý",
+          "nextNodeId": "ip-5"
+        },
+        {
+          "conditionLabel": "Cần sửa",
+          "nextNodeId": "ip-2",
+          "isLoopBack": true
+        }
+      ],
+      "guidanceContext": "Bạn đóng vai trò Product Owner. Kiểm tra kỹ:\n- GEMINI.md có đầy đủ rules cần thiết không?\n- Cấu trúc docs/ có phù hợp với quy trình làm việc Agile không?\n- .gitignore có cover các pattern cần thiết không?\n- Git history có sạch sẽ không?",
+      "exampleDetails": "Chạy `tree -L 3` hoặc `find . -type f` để xem toàn bộ cấu trúc đã tạo."
+    }
+  ]
+}

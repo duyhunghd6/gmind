@@ -1,0 +1,88 @@
+{
+  "id": "wf-xp-one-shot-skills",
+  "title": "A.2 Create Agent Skills",
+  "description": "Tạo Agent Skills (.agents/skills/) cho dự án — từ nghiên cứu, trích xuất pattern, đến viết SKILL.md hoàn chỉnh.",
+  "steps": [
+    {
+      "id": "sk-1",
+      "title": "Mô tả Skill cần tạo",
+      "role": "User",
+      "description": "Người dùng định nghĩa skill: tên, mục đích, ngữ cảnh sử dụng, và domain cụ thể.",
+      "input": "Nhu cầu dự án",
+      "output": "Skill Requirements",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Dự án đã có cấu trúc cơ bản. Cần bổ sung skills để Agent hiểu sâu về domain-specific patterns.",
+      "promptText": "Hãy tạo Agent Skill mới cho dự án.\n\n**Thông tin Skill:**\n- Tên skill: [ví dụ: golang-pro, rust-design-patterns, database-architect]\n- Mục đích: [Giúp Agent hiểu và áp dụng patterns gì?]\n- Domain: [Backend / Frontend / Database / DevOps / Architecture]\n- Tham khảo: [Link docs / repo / codebase mẫu nếu có]\n\n**Yêu cầu:**\n1. Tạo thư mục `.agents/skills/{skill-name}/`\n2. Viết `SKILL.md` với frontmatter (name, description) và instructions chi tiết\n3. Bao gồm examples, anti-patterns, và 'When NOT to Use'\n4. Nếu cần, tạo thêm scripts/ hoặc resources/",
+      "icon": "🧠",
+      "nextSteps": [
+        {
+          "conditionLabel": "Gửi yêu cầu",
+          "nextNodeId": "sk-2"
+        }
+      ],
+      "guidanceContext": "Agent Skills là 'kiến thức chuyên môn' giúp Agent hoạt động tốt hơn trong một domain cụ thể. Một skill tốt cần:\n- Tên mô tả rõ ràng (kebab-case)\n- Instructions cụ thể, có thể hành động được\n- Ví dụ thực tế từ codebase\n- Counter-examples (khi nào KHÔNG nên dùng)",
+      "exampleDetails": "Ví dụ: Skill 'golang-pro' sẽ chứa patterns về error handling, concurrency, package layout trong Go."
+    },
+    {
+      "id": "sk-2",
+      "title": "Nghiên cứu & Trích xuất Patterns",
+      "role": "Agent",
+      "description": "Agent nghiên cứu codebase hiện tại, docs tham khảo, best practices để trích xuất patterns cho skill.",
+      "input": "Skill Requirements",
+      "output": "Pattern Analysis & Draft",
+      "loopGroup": "Planning",
+      "icon": "🔬",
+      "nextSteps": [
+        {
+          "conditionLabel": "Research xong",
+          "nextNodeId": "sk-3"
+        }
+      ],
+      "guidanceContext": "Quy trình Agent Skills Factory (5 bước):\n1. **Research** — Đọc codebase, docs, reference repos\n2. **Extract** — Rút trích patterns, rules, anti-patterns\n3. **Draft** — Viết bản nháp SKILL.md\n4. **Develop** — Hoàn thiện với examples, edge cases\n5. **Verify** — Kiểm tra skill có áp dụng được không\n\nỞ bước này, Agent tập trung vào Research + Extract.",
+      "exampleDetails": "Agent quét codebase bằng grep, đọc các file Pattern mẫu, phân tích conventions đang dùng trong dự án."
+    },
+    {
+      "id": "sk-3",
+      "title": "Tạo SKILL.md & Cấu trúc Thư mục",
+      "role": "Agent",
+      "description": "Scaffold thư mục skill và viết SKILL.md hoàn chỉnh với frontmatter, instructions, examples, và anti-patterns.",
+      "input": "Pattern Analysis",
+      "output": "SKILL.md & Skill Directory",
+      "loopGroup": "Execution",
+      "icon": "📝",
+      "nextSteps": [
+        {
+          "conditionLabel": "Skill đã tạo",
+          "nextNodeId": "sk-4"
+        }
+      ],
+      "guidanceContext": "Cấu trúc Skill directory:\n```\n.agents/skills/{skill-name}/\n├── SKILL.md          # Entry point (BẮT BUỘC)\n├── scripts/          # Helper scripts (nếu cần)\n├── examples/         # Reference implementations\n└── resources/        # Templates, assets\n```\n\nSKILL.md cần có:\n- YAML frontmatter: `name`, `description`\n- Sections: Overview, When to Use, When NOT to Use, Patterns, Examples, Anti-patterns\n- Comment-as-Documentation cho quantifiable impact",
+      "exampleDetails": "```yaml\n---\nname: golang-pro\ndescription: Best practices và patterns cho Go development\n---\n# Golang Pro Skill\n## When to Use\n- Go backend services, CLI tools, system programming\n## Patterns\n- Error wrapping with fmt.Errorf(\"%w\", err)\n- Table-driven tests\n```"
+    },
+    {
+      "id": "sk-4",
+      "title": "Review & Tinh chỉnh Skill",
+      "role": "User",
+      "description": "Người dùng review SKILL.md, kiểm tra patterns có chính xác không, feedback để tinh chỉnh.",
+      "input": "SKILL.md & Skill Directory",
+      "output": "Approved Skill / Feedback",
+      "loopGroup": "Execution",
+      "loopCondition": "Chưa đạt → Agent cập nhật SKILL.md",
+      "promptText": "Tôi đã xem SKILL.md vừa tạo.\n\nFeedback:\n- Patterns: [Đúng / Thiếu pattern XYZ]\n- Examples: [OK / Cần thêm ví dụ về ABC]\n- Anti-patterns: [OK / Thêm trường hợp DEF]\n- Instructions: [Rõ ràng / Cần cụ thể hơn phần GHI]\n\nHãy cập nhật theo feedback trên.",
+      "icon": "✅",
+      "nextSteps": [
+        {
+          "conditionLabel": "Approved",
+          "nextNodeId": "sk-4"
+        },
+        {
+          "conditionLabel": "Cần sửa",
+          "nextNodeId": "sk-3",
+          "isLoopBack": true
+        }
+      ],
+      "guidanceContext": "Kiểm tra Skill theo tiêu chí Gold Standard:\n- Patterns có phản ánh đúng codebase thực tế không?\n- Examples có chạy được không?\n- Anti-patterns có giúp Agent tránh sai lầm phổ biến không?\n- Instructions có đủ cụ thể để Agent follow mà không cần hỏi lại?",
+      "exampleDetails": "Mở file SKILL.md, đọc từng section. Thử áp dụng 1 pattern vào code thực để xem có match không."
+    }
+  ]
+}
