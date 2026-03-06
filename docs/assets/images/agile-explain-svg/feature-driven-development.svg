@@ -80,51 +80,51 @@
   <rect width="800" height="300" fill="url(#bg)" rx="12" />
 
   <!-- Title -->
-  <text class="title" x="400" y="25.2" dominant-baseline="middle">Phương pháp Feature Driven Development (FDD)</text>
+  <text class="title" x="400" y="25.2" dominant-baseline="middle">Phương pháp Feature Driven Development</text>
 
   <!-- Left Tall Boxes (Grey -> Sky Blue) -->
   <rect class="box" x="35" y="60" width="140" height="150" stroke="#0284c7" stroke-width="0.75" />
   <text class="box-txt" fill="#7dd3fc" x="105" y="121.4" dominant-baseline="middle">Phát triển</text>
-  <text class="box-txt" fill="#7dd3fc" x="105" y="141.4" dominant-baseline="middle">Mô hình Tổng thể</text>
+  <text class="box-txt" fill="#7dd3fc" x="105" y="141.4" dominant-baseline="middle">Mô hình Tổng quan</text>
 
   <rect class="box" x="185" y="60" width="140" height="150" stroke="#0ea5e9" stroke-width="0.75" />
-  <text class="box-txt" fill="#38bdf8" x="255" y="121.4" dominant-baseline="middle">Xây dựng Danh sách</text>
+  <text class="box-txt" fill="#38bdf8" x="255" y="121.4" dominant-baseline="middle">Xây dựng Backlog</text>
   <text class="box-txt" fill="#38bdf8" x="255" y="141.4" dominant-baseline="middle">Tính năng</text>
 
   <!-- Small Boxes (Row 1: Teal) -->
   <rect class="box" x="335" y="60" width="140" height="42" stroke="#0f766e" stroke-width="0.75" />
-  <text class="box-txt" fill="#2dd4bf" x="405" y="80.4" dominant-baseline="middle">Lên KH theo Tính năng</text>
+  <text class="box-txt" fill="#2dd4bf" x="405" y="80.4" dominant-baseline="middle"><tspan x="405" dy="-6">Lên KH</tspan><tspan x="405" dy="14">theo Tính năng</tspan></text>
   
   <rect class="box" x="485" y="60" width="140" height="42" stroke="#0f766e" stroke-width="0.75" />
-  <text class="box-txt" fill="#2dd4bf" x="555" y="80.4" dominant-baseline="middle">Thiết kế theo Tính năng</text>
+  <text class="box-txt" fill="#2dd4bf" x="555" y="80.4" dominant-baseline="middle"><tspan x="555" dy="-6">Thiết kế</tspan><tspan x="555" dy="14">theo Tính năng</tspan></text>
 
   <rect class="box" x="635" y="60" width="140" height="42" stroke="#0f766e" stroke-width="0.75" />
-  <text class="box-txt" fill="#2dd4bf" x="705" y="80.4" dominant-baseline="middle">Lập trình theo Tính năng</text>
+  <text class="box-txt" fill="#2dd4bf" x="705" y="80.4" dominant-baseline="middle"><tspan x="705" dy="-6">Lập trình</tspan><tspan x="705" dy="14">theo Tính năng</tspan></text>
 
   <!-- Small Boxes (Row 2: Amethyst/Purple) -->
   <rect class="box" x="335" y="114" width="140" height="42" stroke="#6d28d9" stroke-width="0.75" />
-  <text class="box-txt" fill="#a78bfa" x="405" y="134.4" dominant-baseline="middle">Lên KH theo Tính năng</text>
+  <text class="box-txt" fill="#a78bfa" x="405" y="134.4" dominant-baseline="middle"><tspan x="405" dy="-6">Lên KH</tspan><tspan x="405" dy="14">theo Tính năng</tspan></text>
   
   <rect class="box" x="485" y="114" width="140" height="42" stroke="#6d28d9" stroke-width="0.75" />
-  <text class="box-txt" fill="#a78bfa" x="555" y="134.4" dominant-baseline="middle">Thiết kế theo Tính năng</text>
+  <text class="box-txt" fill="#a78bfa" x="555" y="134.4" dominant-baseline="middle"><tspan x="555" dy="-6">Thiết kế</tspan><tspan x="555" dy="14">theo Tính năng</tspan></text>
 
   <rect class="box" x="635" y="114" width="140" height="42" stroke="#6d28d9" stroke-width="0.75" />
-  <text class="box-txt" fill="#a78bfa" x="705" y="134.4" dominant-baseline="middle">Lập trình theo Tính năng</text>
+  <text class="box-txt" fill="#a78bfa" x="705" y="134.4" dominant-baseline="middle"><tspan x="705" dy="-6">Lập trình</tspan><tspan x="705" dy="14">theo Tính năng</tspan></text>
 
   <!-- Small Boxes (Row 3: Amber) -->
   <rect class="box" x="335" y="168" width="140" height="42" stroke="#b45309" stroke-width="0.75" />
-  <text class="box-txt" fill="#fbbf24" x="405" y="188.4" dominant-baseline="middle">Lên KH theo Tính năng</text>
+  <text class="box-txt" fill="#fbbf24" x="405" y="188.4" dominant-baseline="middle"><tspan x="405" dy="-6">Lên KH</tspan><tspan x="405" dy="14">theo Tính năng</tspan></text>
   
   <rect class="box" x="485" y="168" width="140" height="42" stroke="#b45309" stroke-width="0.75" />
-  <text class="box-txt" fill="#fbbf24" x="555" y="188.4" dominant-baseline="middle">Thiết kế theo Tính năng</text>
+  <text class="box-txt" fill="#fbbf24" x="555" y="188.4" dominant-baseline="middle"><tspan x="555" dy="-6">Thiết kế</tspan><tspan x="555" dy="14">theo Tính năng</tspan></text>
 
   <rect class="box" x="635" y="168" width="140" height="42" stroke="#b45309" stroke-width="0.75" />
-  <text class="box-txt" fill="#fbbf24" x="705" y="188.4" dominant-baseline="middle">Lập trình theo Tính năng</text>
+  <text class="box-txt" fill="#fbbf24" x="705" y="188.4" dominant-baseline="middle"><tspan x="705" dy="-6">Lập trình</tspan><tspan x="705" dy="14">theo Tính năng</tspan></text>
 
   <!-- Footer Bracket for Left Grouping -->
   <path d="M 35 225 L 35 245 L 325 245 L 325 225" fill="none" stroke="#475569" stroke-width="1" />
   <rect x="90" y="235" width="180" height="20" fill="#0b1121" />
-  <text class="foot-txt" x="180" y="244" dominant-baseline="middle">Thiết lập Mô hình Tổng thể</text>
+  <text class="foot-txt" x="180" y="244" dominant-baseline="middle">Thiết lập Mô hình Tổng quan</text>
 
   <!-- Footer Bracket for Right Grouping -->
   <path d="M 335 225 L 335 245 L 775 245 L 775 225" fill="none" stroke="#475569" stroke-width="1" />

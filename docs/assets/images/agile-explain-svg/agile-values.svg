@@ -98,7 +98,7 @@
     <!-- Value 2 -->
     <rect x="520" y="120" width="380" height="250" rx="12" fill="rgba(16, 185, 129, 0.05)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
     <text x="550" y="154" dominant-baseline="middle" class="num" fill="#10b981">2</text>
-    <text x="600" y="149" dominant-baseline="middle" class="lead">Phần mềm chạy tốt</text>
+    <text x="600" y="149" dominant-baseline="middle" class="lead">Phần mềm Hoạt động Tốt</text>
     <text x="600" y="174" dominant-baseline="middle" class="sub">hơn là tài liệu đầy đủ</text>
     
     <foreignObject x="550" y="210" width="320" height="130">
@@ -110,7 +110,7 @@
     <!-- Value 3 -->
     <rect x="100" y="400" width="380" height="250" rx="12" fill="rgba(245, 158, 11, 0.05)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)" />
     <text x="130" y="434" dominant-baseline="middle" class="num" fill="#f59e0b">3</text>
-    <text x="180" y="429" dominant-baseline="middle" class="lead">Cộng tác với khách hàng</text>
+    <text x="180" y="429" dominant-baseline="middle" class="lead">Cộng tác với Khách hàng</text>
     <text x="180" y="454" dominant-baseline="middle" class="sub">hơn là đàm phán hợp đồng</text>
     
     <foreignObject x="130" y="490" width="320" height="130">
@@ -122,7 +122,7 @@
     <!-- Value 4 -->
     <rect x="520" y="400" width="380" height="250" rx="12" fill="rgba(236, 72, 153, 0.05)" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow)" />
     <text x="550" y="434" dominant-baseline="middle" class="num" fill="#ec4899">4</text>
-    <text x="600" y="429" dominant-baseline="middle" class="lead">Phản hồi với sự thay đổi</text>
+    <text x="600" y="429" dominant-baseline="middle" class="lead">Phản hồi Thay đổi</text>
     <text x="600" y="454" dominant-baseline="middle" class="sub">hơn là bám sát kế hoạch</text>
     
     <foreignObject x="550" y="490" width="320" height="130">

@@ -1,138 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-45 -30 690 460" width="115%" height="115%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 450" width="100%" height="100%">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&amp;display=swap');
-      .ellipse { fill: rgba(30, 41, 59, 0.8); stroke: #14b8a6; stroke-width: 2.5; backdrop-filter: blur(10px); }
-      .arrow { fill: #0d9488; stroke: #14b8a6; stroke-width: 1.5; filter: url(#glow); }
-      .fg-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 400; fill: #f8fafc; text-anchor: middle; letter-spacing: 0.5px; }
-      .bg-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 400; fill: #000000; text-anchor: middle; opacity: 0.6; filter: blur(2px); }
-      /* Theme Adaptation */
-      rect[fill="url(#bg)"] { fill: transparent !important; }
+      
+      /* Dark mode (default) */
+      .title-rad { fill: #d946ef; }
+      .cycle-txt { font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 700; fill: #cbd5e1; }
+      .cycle-bg { fill: rgba(30, 41, 59, 1); stroke: #334155; stroke-width: 2; }
+      .arrow-text { font-family: 'DM Sans', system-ui, sans-serif; font-weight: 700; font-size: 14px; }
+      .arrow-text-dark { fill: #0f172a; }
+      .arrow-text-light { fill: #ffffff; }
+      .design-txt { fill: #3b82f6; }
+      .user-txt { fill: #ec4899; }
+      
+      /* Light mode */
       @media (prefers-color-scheme: light) {
-        rect[fill="#1e293b" i], rect[fill="#0f172a" i], rect[fill="#131c2f" i], 
-        rect[fill="rgba(30, 41, 59, 1)" i], rect[fill="rgba(15, 23, 42, 1)" i],
-        .box, .node-rect, .card, .ellipse { 
-          fill: #ffffff !important; 
-          stroke: #cbd5e1 !important; 
-        }
-        rect[fill="url(#cardBg)" i], rect[fill="url(#cardBg1)" i], rect[fill="url(#surface)" i], rect[fill="url(#glass)" i] {
-          fill: #ffffff !important; 
-          stroke: #e2e8f0 !important; 
-        }
-        
-        /* Dark text (previously white/light) */
-        text[fill="#ffffff" i], text[fill="#fff" i], text[fill="white" i], 
-        text[fill="#f8fafc" i], text[fill="#f1f5f9" i],
-        tspan[fill="#ffffff" i], tspan[fill="#fff" i], tspan[fill="white" i], 
-        tspan[fill="#f8fafc" i], tspan[fill="#f1f5f9" i],
-        g[fill="#ffffff" i] text, g[fill="#fff" i] text, g[fill="white" i] text,
-        g[fill="#f8fafc" i] text, g[fill="#f1f5f9" i] text,
-        .white-txt, .white-text, .text-white, .text-light,
-        .box-txt, .node-txt, .hdr, .title, .phase-text, .lead, .lbl-bold, .title-text, .step-text-large, .num, .section-title, .header-txt, .group-txt, .prac-txt, .bold-txt, text.bold, text.large, text.txt, .fg-txt {
-          fill: #0f172a !important;
-        }
-
-        /* Blur text background in light mode */
-        .bg-txt { fill: #ffffff !important; }
-
-        /* Gray text (previously light gray) */
-        text[fill="#cbd5e1" i], text[fill="#94a3b8" i], text[fill="#e2e8f0" i],
-        tspan[fill="#cbd5e1" i], tspan[fill="#94a3b8" i],
-        .mono-txt, .desc-text, .sub, .sm-txt, .lbl-sm, .text-gray, text.small, text.medium, .step-text-small, .list-txt, .desc, .lbl-txt, .col-txt, .row-txt {
-          fill: #475569 !important;
-        }
-
-        /* Specific foreignObject HTML content */
-        .body { color: #475569 !important; }
-        
-        /* Vibrant color mappings for light mode contrast */
-        text[fill="#2dd4bf" i], .brace-txt { fill: #0d9488 !important; }
-        text[fill="#38bdf8" i], .label-text, text[fill="#0ea5e9" i] { fill: #0284c7 !important; }
-        text[fill="#fb7185" i], text[fill="#ec4899" i] { fill: #e11d48 !important; }
-        text[fill="#fcd34d" i], text[fill="#f59e0b" i] { fill: #d97706 !important; }
-        text[fill="#6ee7b7" i], text[fill="#10b981" i] { fill: #059669 !important; }
-        text[fill="#93c5fd" i] { fill: #2563eb !important; }
-        text[fill="#a855f7" i] { fill: #9333ea !important; }
-        
-        /* Paths and lines */
-        path[stroke="#64748b" i], line[stroke="#64748b" i], path[stroke="#475569" i], line[stroke="#475569" i], path[stroke="#cbd5e1" i], line[stroke="#cbd5e1" i], path[stroke="#ffffff" i], path[stroke="#fff" i] {
-          stroke: #94a3b8 !important;
-        }
-        line[stroke="rgba(255,255,255,0.1)"], line[stroke="rgba(255,255,255,0.2)"], line[stroke="#ffffff" i], line[stroke="#fff" i] {
-          stroke: rgba(0,0,0,0.1) !important;
-        }
-        circle[fill="#ffffff" i], circle[fill="#fff" i] {
-          fill: #0f172a !important;
-        }
+        .title-rad { fill: #be185d; }
+        .cycle-txt { fill: #334155; }
+        .cycle-bg { fill: rgba(255, 255, 255, 1); stroke: #cbd5e1; }
+        .design-txt { fill: #2563eb; }
+        .user-txt { fill: #db2777; }
       }
-      @keyframes pulseDown {
-        0%, 100% { transform: translateY(0); opacity: 0.8; }
-        50% { transform: translateY(5px); opacity: 1; }
-      }
-      .workflow-pulse-down { animation: pulseDown 2s ease-in-out infinite; transform-origin: top; }
-      @keyframes pulseOpacity {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 1; }
-      }
-      .workflow-pulse-opacity { animation: pulseOpacity 1.5s ease-in-out infinite; }
     </style>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0b1121" />
-      <stop offset="100%" stop-color="#0f172a" />
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
     <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.8" />
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.25" />
+    </filter>
+    <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.3" />
     </filter>
     
-    <g id="side-loop">
-      <path class="arrow" d="M 60 165 C -10 150, -20 275, 30 260 L 30 275 L 80 245 L 30 215 L 30 230 C 5 240, 10 180, 60 185 Z" />
-    </g>
-      <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="rgba(30, 41, 59, 1)" />
-      <stop offset="100%" stop-color="rgba(15, 23, 42, 1)" />
-    </linearGradient>
+    <marker id="arr-pink" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="4" markerHeight="4" orient="auto">
+      <path d="M 0 2 L 10 6 L 0 10 z" fill="#d946ef" />
+    </marker>
+    <marker id="arr-purp" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="4" markerHeight="4" orient="auto">
+      <path d="M 0 2 L 10 6 L 0 10 z" fill="#8b5cf6" />
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="4" markerHeight="4" orient="auto">
+      <path d="M 0 2 L 10 6 L 0 10 z" fill="#3b82f6" />
+    </marker>
   </defs>
 
-  <!-- Background -->
-  <rect width="600" height="400" fill="url(#bg)" rx="12" />
+  <!-- Transparent background -->
 
-  <!-- Side Loop Arrows -->
-  <use href="#side-loop" class="workflow-pulse-opacity" />
-  <use href="#side-loop" transform="rotate(180, 300, 200)" class="workflow-pulse-opacity" />
+  <!-- Title -->
+  <text x="550" y="80" text-anchor="middle" class="title-rad" font-family="'DM Sans', sans-serif" font-size="28" font-weight="700">Rapid Application Development (RAD)</text>
 
-  <!-- Top Downward Arrow -->
-  <path class="arrow workflow-pulse-down" d="M 285 107 L 315 107 L 315 140 L 330 140 L 300 165 L 270 140 L 285 140 Z" />
-  
-  <!-- Bottom Downward Arrow -->
-  <path class="arrow workflow-pulse-down" d="M 285 253 L 315 253 L 315 285 L 330 285 L 300 310 L 270 285 L 285 285 Z" />
+  <!-- Block Arrows -->
+  <g filter="url(#shadow-sm)">
+    <!-- Requirements Planning -->
+    <path class="arrow-bg-req" d="M 100,205 L 390,205 L 390,165 L 450,240 L 390,315 L 390,275 L 100,275 Q 90,275 90,265 L 90,215 Q 90,205 100,205 Z" fill="#93c5fd" />
+    <text x="215" y="245" text-anchor="middle" class="arrow-text arrow-text-dark">Requirements Planning</text>
 
-  <!-- Ellipses Overlapping -->
-  <g filter="url(#shadow)">
-    <!-- Top Ellipse -->
-    <ellipse class="ellipse" cx="300" cy="65" rx="140" ry="45" />
-    <text class="bg-txt" x="302" y="56" dominant-baseline="middle">Yêu cầu</text>
-    <text class="fg-txt" x="300" y="54" dominant-baseline="middle">Yêu cầu</text>
-    <text class="bg-txt" x="302" y="80" dominant-baseline="middle">Lập kế hoạch</text>
-    <text class="fg-txt" x="300" y="78" dominant-baseline="middle">Lập kế hoạch</text>
+    <!-- Construction -->
+    <path class="arrow-bg-const" d="M 390,205 L 670,205 L 670,165 L 730,240 L 670,315 L 670,275 L 390,275 L 450,240 Z" fill="#3b82f6" />
+    <text x="635" y="245" text-anchor="middle" class="arrow-text arrow-text-light">Construction</text>
 
-    <!-- Middle Left Ellipse -->
-    <ellipse class="ellipse" cx="180" cy="200" rx="130" ry="55" />
-    <text class="bg-txt" x="182" y="201" dominant-baseline="middle">Thiết kế Người dùng</text>
-    <text class="fg-txt" x="180" y="199" dominant-baseline="middle">Thiết kế Người dùng</text>
-
-    <!-- Middle Right Ellipse -->
-    <ellipse class="ellipse" cx="420" cy="200" rx="130" ry="55" />
-    <text class="bg-txt" x="422" y="201" dominant-baseline="middle">Xây dựng</text>
-    <text class="fg-txt" x="420" y="199" dominant-baseline="middle">Xây dựng</text>
-
-    <!-- Bottom Ellipse -->
-    <ellipse class="ellipse" cx="300" cy="340" rx="110" ry="35" />
-    <text class="bg-txt" x="302" y="341" dominant-baseline="middle">Chuyển đổi (Cutover)</text>
-    <text class="fg-txt" x="300" y="339" dominant-baseline="middle">Chuyển đổi (Cutover)</text>
+    <!-- Cutover -->
+    <path class="arrow-bg-cut" d="M 670,205 L 950,205 L 950,165 L 1010,240 L 950,315 L 950,275 L 670,275 L 730,240 Z" fill="#1d4ed8" />
+    <text x="860" y="245" text-anchor="middle" class="arrow-text arrow-text-light">Cutover</text>
   </g>
+
+  <!-- Circle Overlay Layer -->
+  <g filter="url(#shadow-sm)">
+    <circle cx="450" cy="240" r="100" class="cycle-bg" />
+  </g>
+
+  <!-- Inner User Design Text -->
+  <text x="450" y="247" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="700" font-size="22">
+    <tspan class="user-txt">User </tspan><tspan class="design-txt">Design</tspan>
+  </text>
+
+  <!-- Cycle Arrows (R=108, Center=450,240) -->
+  <g fill="none" stroke-width="4" stroke-linecap="round">
+    <!-- Refine -> Prototype (Pink) -->
+    <path d="M 367.2,309.4 A 108 108 0 0 1 404.3,142.1" stroke="#d946ef" marker-end="url(#arr-pink)" />
+    
+    <!-- Prototype -> Test (Purple) -->
+    <path d="M 495.7,142.1 A 108 108 0 0 1 532.8,309.4" stroke="#8b5cf6" marker-end="url(#arr-purp)" />
+    
+    <!-- Test -> Refine (Blue) -->
+    <path d="M 504.0,333.5 A 108 108 0 0 1 396.0,333.5" stroke="#3b82f6" marker-end="url(#arr-blue)" />
+  </g>
+
+  <!-- Cycle Labels -->
+  <text x="450" y="128" text-anchor="middle" class="cycle-txt">Prototype</text>
+  <text x="530" y="335" text-anchor="middle" class="cycle-txt">Test</text>
+  <text x="370" y="335" text-anchor="middle" class="cycle-txt">Refine</text>
 
 </svg>

@@ -93,7 +93,7 @@
   <rect x="60" y="140" width="780" height="30" fill="#0f172a" />
   
   <text x="100" y="142" dominant-baseline="middle" text-anchor="start" class="header-txt">Nhóm</text>
-  <text x="400" y="142" dominant-baseline="middle" text-anchor="start" class="header-txt" fill="#14b8a6">Kỹ thuật thực hành (Practices)</text>
+  <text x="400" y="142" dominant-baseline="middle" text-anchor="start" class="header-txt" fill="#14b8a6">Thực hành Kỹ thuật</text>
   
   <line x1="60" y1="170" x2="840" y2="170" stroke="#334155" stroke-width="1" />
 
@@ -103,20 +103,20 @@
   <!-- Group 1: Feedback -->
   <rect x="70" y="180" width="250" height="40" rx="4" fill="rgba(14, 165, 233, 0.1)" />
   <rect x="70" y="180" width="4" height="40" fill="#0ea5e9" />
-  <text x="90" y="200" dominant-baseline="middle" text-anchor="start" class="group-txt" fill="#38bdf8">Phản hồi (Feedback)</text>
+  <text x="90" y="200" dominant-baseline="middle" text-anchor="start" class="group-txt" fill="#38bdf8">Phản hồi</text>
   
   <g transform="translate(400, 190)" class="prac-txt">
     <use href="#check" x="0" y="0" />
     <text x="30" y="4" dominant-baseline="middle">Test-Driven Development (TDD)</text>
     
     <use href="#check" x="0" y="35" />
-    <text x="30" y="39" dominant-baseline="middle">Trò chơi Lên Kế hoạch (The Planning Game)</text>
+    <text x="30" y="39" dominant-baseline="middle">The Planning Game</text>
     
     <use href="#check" x="0" y="70" />
-    <text x="30" y="74" dominant-baseline="middle">Khách hàng tại chỗ (On-site Customer)</text>
+    <text x="30" y="74" dominant-baseline="middle">On-site Customer</text>
     
     <use href="#check" x="0" y="105" />
-    <text x="30" y="109" dominant-baseline="middle">Lập trình ghép cặp (Pair Programming)</text>
+    <text x="30" y="109" dominant-baseline="middle">Pair Programming</text>
   </g>
 
   <line x1="60" y1="360" x2="840" y2="360" stroke="#334155" stroke-width="0.5" />
@@ -128,13 +128,13 @@
   
   <g transform="translate(400, 380)" class="prac-txt">
     <use href="#check" x="0" y="0" />
-    <text x="30" y="4" dominant-baseline="middle">Tích hợp Liên tục (CI)</text>
+    <text x="30" y="4" dominant-baseline="middle">Continuous Integration (CI)</text>
     
     <use href="#check" x="0" y="35" />
-    <text x="30" y="39" dominant-baseline="middle">Tái cấu trúc Mã (Code Refactoring)</text>
+    <text x="30" y="39" dominant-baseline="middle">Code Refactoring</text>
     
     <use href="#check" x="0" y="70" />
-    <text x="30" y="74" dominant-baseline="middle">Phát hành Nhỏ (Small Releases)</text>
+    <text x="30" y="74" dominant-baseline="middle">Small Releases</text>
   </g>
 
   <line x1="60" y1="500" x2="840" y2="500" stroke="#334155" stroke-width="0.5" />
@@ -142,20 +142,20 @@
   <!-- Group 3: Code understanding -->
   <rect x="70" y="520" width="250" height="40" rx="4" fill="rgba(16, 185, 129, 0.1)" />
   <rect x="70" y="520" width="4" height="40" fill="#10b981" />
-  <text x="90" y="540" dominant-baseline="middle" text-anchor="start" class="group-txt" fill="#34d399">Thấu hiểu Mã</text>
+  <text x="90" y="540" dominant-baseline="middle" text-anchor="start" class="group-txt" fill="#34d399">Thấu hiểu Mã Nguồn</text>
   
   <g transform="translate(400, 520)" class="prac-txt">
     <use href="#check" x="0" y="0" />
-    <text x="30" y="4" dominant-baseline="middle">Thiết kế Đơn giản (Simple Design)</text>
+    <text x="30" y="4" dominant-baseline="middle">Simple Design</text>
     
     <use href="#check" x="0" y="35" />
-    <text x="30" y="39" dominant-baseline="middle">Sở hữu Mã Tập trung (Collective Code Ownership)</text>
+    <text x="30" y="39" dominant-baseline="middle">Collective Code Ownership</text>
     
     <use href="#check" x="0" y="70" />
-    <text x="30" y="74" dominant-baseline="middle">Ẩn dụ Hệ thống (System Metaphor)</text>
+    <text x="30" y="74" dominant-baseline="middle">System Metaphor</text>
     
     <use href="#check" x="0" y="105" />
-    <text x="30" y="109" dominant-baseline="middle">Chuẩn mực Viết mã (Coding Standards)</text>
+    <text x="30" y="109" dominant-baseline="middle">Coding Standards</text>
   </g>
 
   <line x1="60" y1="680" x2="840" y2="680" stroke="#334155" stroke-width="0.5" />
@@ -163,11 +163,11 @@
   <!-- Group 4: Work conditions -->
   <rect x="70" y="700" width="250" height="40" rx="4" fill="rgba(168, 85, 247, 0.1)" />
   <rect x="70" y="700" width="4" height="40" fill="#a855f7" />
-  <text x="90" y="720" dominant-baseline="middle" text-anchor="start" class="group-txt" fill="#c084fc">Điều kiện Làm việc</text>
+  <text x="90" y="720" dominant-baseline="middle" text-anchor="start" class="group-txt" fill="#c084fc"><tspan x="90" dy="-6">Môi trường</tspan><tspan x="90" dy="16">Làm việc</tspan></text>
   
   <g transform="translate(400, 710)" class="prac-txt">
     <use href="#check" x="0" y="0" />
-    <text x="30" y="4" dominant-baseline="middle">Nhịp độ Bền vững / Tuần 40 giờ (Sustainable Pace)</text>
+    <text x="30" y="4" dominant-baseline="middle">Sustainable Pace (40-hour Week)</text>
   </g>
 
 </svg>

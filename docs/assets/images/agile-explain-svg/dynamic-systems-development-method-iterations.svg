@@ -111,18 +111,23 @@
   <!-- Main Boxes -->
   <!-- Box 1 -->
   <rect class="box" filter="url(#shadow)" x="20" y="120" width="150" height="90" />
-  <text class="box-txt" x="95" y="154.4" dominant-baseline="middle">Phân tích Tính năng &amp;</text>
-  <text class="box-txt" x="95" y="172.4" dominant-baseline="middle">Phát triển Mô hình</text>
+  <text class="box-txt" x="95" y="165" dominant-baseline="middle">
+    <tspan x="95" dy="-18">Phân tích Tính năng</tspan>
+    <tspan x="95" dy="18">&amp; Mô hình</tspan>
+    <tspan x="95" dy="18">Phát triển Mô hình</tspan>
+  </text>
 
   <!-- Box 2 -->
   <rect class="box" filter="url(#shadow)" x="210" y="120" width="150" height="90" />
-  <text class="box-txt" x="285" y="139.4" dominant-baseline="middle">Yêu cầu /</text>
-  <text class="box-txt" x="285" y="157.4" dominant-baseline="middle">Ưu tiên /</text>
-  <text class="box-txt" x="285" y="175.4" dominant-baseline="middle">Lập kế hoạch</text>
+  <text class="box-txt" x="285" y="165" dominant-baseline="middle">
+    <tspan x="285" dy="-20">Yêu cầu /</tspan>
+    <tspan x="285" dy="20">Ưu tiên</tspan>
+    <tspan x="285" dy="20">Lập Kế hoạch</tspan>
+  </text>
 
-  <!-- Box 3 (Iterative) -->
+  <!-- Box 3 -->
   <rect class="box" filter="url(#shadow)" x="400" y="120" width="270" height="90" />
-  <text class="box-txt" x="535" y="189.4" dominant-baseline="middle">Các Vòng lặp Thiết kế &amp; Lập trình</text>
+  <text class="box-txt" x="535" y="185" dominant-baseline="middle"><tspan x="535" dy="-8">Các Vòng lặp Thiết kế</tspan><tspan x="535" dy="18">&amp; Lập trình</tspan></text>
   
   <!-- Inner Arrows -->
   <use href="#inner-arrow" x="420" y="140" />
@@ -145,13 +150,13 @@
 
   <!-- Box 4 (Deliver) -->
   <rect class="box-solid" filter="url(#shadow)" x="710" y="120" width="120" height="90" />
-  <text class="box-txt" fill="#0f172a" x="770" y="164.4" dominant-baseline="middle" font-size="16px" font-weight="400">Chuyển giao</text>
+  <text class="box-txt" fill="#0f172a" x="770" y="165" dominant-baseline="middle" font-size="16px" font-weight="400">Chuyển giao</text>
 
   <!-- Curly Braces -->
   <path d="M 20 230 Q 20 245, 35 245 L 175 245 Q 190 245, 190 260 Q 190 245, 205 245 L 345 245 Q 360 245, 360 230" fill="none" stroke="#64748b" stroke-width="1" />
   <text class="brace-txt" x="190" y="279" dominant-baseline="middle">Giai đoạn MỘT LẦN</text>
 
   <path d="M 400 230 Q 400 245, 415 245 L 520 245 Q 535 245, 535 260 Q 535 245, 550 245 L 655 245 Q 670 245, 670 230" fill="none" stroke="#64748b" stroke-width="1" />
-  <text class="brace-txt" fill="#f59e0b" x="535" y="279" dominant-baseline="middle">Giai đoạn LẶP LẠI (Iterative)</text>
+  <text class="brace-txt" fill="#f59e0b" x="535" y="279" dominant-baseline="middle">Giai đoạn LẶP LẠI</text>
 
 </svg>

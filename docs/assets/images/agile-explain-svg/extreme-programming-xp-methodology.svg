@@ -53,7 +53,7 @@
 
   <rect width="1400" height="770" fill="url(#bg)" rx="16" />
 
-  <text x="50" y="80" class="title">Phương pháp Extreme Programming (XP)</text>
+  <text x="50" y="80" class="title">Phương pháp Extreme Programming</text>
 
   <!-- Flow Lines -->
   <g>
@@ -85,14 +85,14 @@
 
   <!-- Line Labels with Halo -->
   <g class="label-txt halo">
-    <text x="625" y="177.5">Kịch bản Test</text>
+    <text x="625" y="177.5">Kịch bản Kiểm thử</text>
     <text x="320" y="280">Yêu cầu</text>
     
     <text x="330" y="385">Kiến trúc</text>
     <text x="330" y="410">Hệ thống</text>
     
     <text x="590" y="385">Kế hoạch</text>
-    <text x="590" y="410">Release</text>
+    <text x="590" y="410">Phát hành</text>
     
     <text x="850" y="385">Phiên bản</text>
     <text x="850" y="410">Mới nhất</text>
@@ -101,8 +101,8 @@
     <text x="1110" y="410">Nghiệm thu</text>
     
     <text x="575" y="322">Story mới</text>
-    <text x="835" y="322">Lỗi (Bugs)</text>
-    <text x="850" y="480">Iteration Tới</text>
+    <text x="835" y="322">Lỗi</text>
+    <text x="850" y="480">Vòng lặp Kế tiếp</text>
     
     <text x="350" y="500">Ước tính</text>
     <text x="350" y="525">Chưa chắc</text>
@@ -115,8 +115,8 @@
   <!-- User Stories -->
   <rect x="130" y="140" width="140" height="75" class="node-rect" stroke="#e11d48" filter="url(#shadow)" />
   <text class="box-txt" x="200" y="177.5">
-    <tspan x="200" dy="-10">Câu chuyện</tspan>
-    <tspan x="200" dy="24">Người dùng (US)</tspan>
+    <tspan x="200" dy="-10">Cốt truyện</tspan>
+    <tspan x="200" dy="24">Người dùng</tspan>
   </text>
 
   <!-- Architectural Spike -->
@@ -129,8 +129,8 @@
   <!-- Release Planning -->
   <rect x="390" y="360" width="140" height="75" class="node-rect" stroke="#f59e0b" filter="url(#shadow)" />
   <text class="box-txt" x="460" y="397.5">
-    <tspan x="460" dy="-10">Lập kế hoạch</tspan>
-    <tspan x="460" dy="24">Release</tspan>
+    <tspan x="460" dy="-10">Lập Kế hoạch</tspan>
+    <tspan x="460" dy="24">Phát hành</tspan>
   </text>
 
   <!-- Spike (Under Planning) -->
@@ -139,19 +139,19 @@
 
   <!-- Iteration -->
   <rect x="650" y="360" width="140" height="75" class="node-rect" stroke="#10b981" filter="url(#shadow)" />
-  <text class="box-txt" x="720" y="397.5">Vòng lặp (Iteration)</text>
+  <text class="box-txt" x="720" y="397.5">Vòng lặp</text>
 
   <!-- Acceptance Tests -->
   <rect x="910" y="360" width="140" height="75" class="node-rect" stroke="#3b82f6" filter="url(#shadow)" />
   <text class="box-txt" x="980" y="397.5">
     <tspan x="980" dy="-10">Kiểm thử</tspan>
-    <tspan x="980" dy="24">Nghiệm thu</tspan>
+    <tspan x="980" dy="24">Nghiệm </tspan>
   </text>
 
   <!-- Small Releases -->
   <rect x="1170" y="360" width="140" height="75" class="node-rect" stroke="#14b8a6" filter="url(#shadow)" />
   <text class="box-txt" x="1240" y="397.5">
     <tspan x="1240" dy="-10">Phát hành</tspan>
-    <tspan x="1240" dy="24">nhỏ lẻ</tspan>
+    <tspan x="1240" dy="24">quy mô nhỏ</tspan>
   </text>
 </svg>

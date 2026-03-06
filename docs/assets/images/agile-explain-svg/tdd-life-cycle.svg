@@ -58,59 +58,83 @@
 
   <!-- Flowchart Connectors (Edges) -->
   <g id="edges">
-    <path class="workflow-flow" d="M 290 113 L 305 113 L 305 56 L 314" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
-    <path class="workflow-flow" d="M 290 113 L 305 113 L 305 172 L 314" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <!-- Arrows from Project Type -->
+    <!-- Horizontal segment to branch point -->
+    <line class="workflow-flow" x1="290" y1="113" x2="305" y2="113" stroke="#64748b" stroke-width="1.5" />
     
-    <path class="workflow-flow" d="M 445 172 L 462 172 L 462 145 L 474" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
-    <path class="workflow-flow" d="M 445 172 L 462 172 L 462 210 L 474" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <!-- Vertical spanning dashed line with arrows on both ends -->
+    <line class="workflow-flow" x1="305" y1="56" x2="305" y2="172" stroke="#64748b" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)" />
+
+    <!-- Connectors pointing right from the vertical line -->
+    <line class="workflow-flow" x1="305" y1="56" x2="314" y2="56" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <line class="workflow-flow" x1="305" y1="172" x2="314" y2="172" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
     
-    <line class="workflow-flow-fast" x1="545" y1="225" x2="545" y2="251" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
+    <!-- Arrows from Existing Project -->
+    <!-- Horizontal segment to branch point -->
+    <line class="workflow-flow" x1="445" y1="172" x2="462" y2="172" stroke="#64748b" stroke-width="1.5" />
+
+    <!-- Vertical spanning dashed line with arrows on both ends -->
+    <line class="workflow-flow" x1="462" y1="145" x2="462" y2="210" stroke="#64748b" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)" />
+
+    <!-- Connectors pointing right from the vertical line -->
+    <line class="workflow-flow" x1="462" y1="145" x2="474" y2="145" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <line class="workflow-flow" x1="462" y1="210" x2="474" y2="210" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    
+    <line class="workflow-flow-fast" x1="535" y1="230" x2="535" y2="249" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-blue)" />
 
     <!-- Connections to TDD Box -->
     <line class="workflow-flow" x1="430" y1="56" x2="666" y2="56" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
     
     <!-- "New Feature" splits to two arrow lines correctly entering the TDD box -->
-    <path class="workflow-flow" d="M 580 145 L 610 145 L 610 105 L 666 105" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
-    <path class="workflow-flow" d="M 580 145 L 610 145 L 610 185 L 666 185" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <path class="workflow-flow" d="M 590 145 L 610 145 L 610 110 L 666 110" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    <path class="workflow-flow" d="M 590 145 L 610 145 L 610 185 L 666 185" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+    
+    <!-- Connection from Kỹ thuật Dọn dẹp into TDD Box -->
+    <line class="workflow-flow" x1="600" y1="277" x2="666" y2="277" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow-blue)" />
   </g>
 
   <!-- Flowchart Nodes (Boxes) -->
   <g id="nodes">
     <!-- Project Type -->
     <rect x="200" y="95" width="90" height="36" rx="18" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" stroke-width="1.5" class="box box-orange" filter="url(#shadow)" />
-    <text x="245" y="115" class="box-txt" dominant-baseline="middle">Loại dự án</text>
+    <text x="245" y="113" class="box-txt" dominant-baseline="middle">Loại Dự án</text>
 
     <!-- New Project -->
     <rect x="320" y="40" width="110" height="32" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
-    <text x="375" y="58" class="box-txt" dominant-baseline="middle">Dự án mới</text>
+    <text x="375" y="56" class="box-txt" dominant-baseline="middle">Dự án mới</text>
 
     <!-- In existing Project -->
     <rect x="320" y="150" width="125" height="44" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
-    <text x="382.5" y="166" class="box-txt">
-      <tspan x="382.5" dy="0">Dự án hiện có</tspan>
-      <tspan x="382.5" dy="16" fill="#94a3b8" font-size="11" class="label-text">(Legacy Code)</tspan>
+    <text x="382.5" y="172" class="box-txt" dominant-baseline="middle">
+      Dự án hiện có
     </text>
 
     <!-- New Feature -->
-    <rect x="480" y="130" width="100" height="30" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
-    <text x="530" y="147" class="box-txt" dominant-baseline="middle">Tính năng mới</text>
+    <rect x="480" y="125" width="110" height="40" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="535" y="145" class="box-txt" dominant-baseline="middle">
+      <tspan x="535" dy="-6">Tính năng</tspan>
+      <tspan x="535" dy="16">Mới</tspan>
+    </text>
 
     <!-- Changes in old code -->
-    <rect x="480" y="195" width="130" height="30" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
-    <text x="545" y="212" class="box-txt" dominant-baseline="middle">Thay đổi code cũ</text>
+    <rect x="480" y="190" width="110" height="40" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="535" y="210" class="box-txt" dominant-baseline="middle">
+      <tspan x="535" dy="-6">Tái cấu trúc</tspan>
+      <tspan x="535" dy="16">Mã Cũ</tspan>
+    </text>
 
     <!-- Breaking Dependency -->
-    <rect x="480" y="255" width="140" height="44" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
-    <text x="550" y="271" class="box-txt">
-      <tspan x="550" dy="0">Kỹ thuật gỡ bỏ</tspan>
-      <tspan x="550" dy="16">Sự phụ thuộc</tspan>
+    <rect x="470" y="255" width="130" height="44" rx="8" fill="rgba(14, 165, 233, 0.05)" stroke="#0ea5e9" stroke-width="1.2" class="box box-blue" filter="url(#shadow)" />
+    <text x="535" y="277" class="box-txt" dominant-baseline="middle">
+      <tspan x="535" dy="-8">Kỹ thuật Dọn dẹp</tspan>
+      <tspan x="535" dy="18">Sự Phụ thuộc</tspan>
     </text>
 
     <!-- Wrap/Sprout Method Labels -->
-    <rect x="575" y="88" width="85" height="14" fill="#0f172a" class="tag-bg" rx="4" opacity="0.95" />
-    <text x="617.5" y="98.5" class="label-text" font-size="10">Phương pháp Wrap</text>
+    <rect x="575" y="93" width="85" height="14" fill="#0f172a" class="tag-bg" rx="4" opacity="0.95" />
+    <text x="617.5" y="100" class="label-text" font-size="10" dominant-baseline="middle">Phương pháp Wrap</text>
     <rect x="575" y="168" width="90" height="14" fill="#0f172a" class="tag-bg" rx="4" opacity="0.95" />
-    <text x="620" y="178.5" class="label-text" font-size="10">Phương pháp Sprout</text>
+    <text x="620" y="175" class="label-text" font-size="10" dominant-baseline="middle">Phương pháp Sprout</text>
   </g>
 
   <!-- TDD Cycle Section -->
@@ -120,40 +144,40 @@
 
     <!-- Dashed Connectors for Pills -->
     <line class="workflow-flow-fast" x1="795" y1="83" x2="795" y2="65" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3,3" />
-    <line class="workflow-flow-fast" x1="750" y1="210" x2="742" y2="240" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3,3" />
-    <line class="workflow-flow-fast" x1="840" y1="210" x2="855" y2="240" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,3" />
+    <line class="workflow-flow-fast" x1="750" y1="212" x2="742.5" y2="240" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="3,3" />
+    <line class="workflow-flow-fast" x1="840" y1="212" x2="867.5" y2="240" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,3" />
 
-    <!-- Cycle Arrows - refined sizing from stroke-width 8 to 4 -->
+    <!-- Cycle Arrows - refined sizing to standard stroke-width 1.5 -->
     <!-- Red to Green -->
-    <path class="workflow-flow" d="M 812 135 C 818 142 823 148 828 155" fill="none" stroke="#ec4899" stroke-width="4" marker-end="url(#arrow-red)" />
+    <path class="workflow-flow" d="M 815 129 A 50 50 0 0 1 832.5 158" fill="none" stroke="#ec4899" stroke-width="1.5" marker-end="url(#arrow-red)" />
     <!-- Green to Refactor -->
-    <path class="workflow-flow" d="M 810 188 L 788 188" fill="none" stroke="#10b981" stroke-width="4" marker-end="url(#arrow-green)" />
+    <path class="workflow-flow" d="M 815.8 199 A 50 50 0 0 1 774.2 199" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-green)" />
     <!-- Refactor to Red -->
-    <path class="workflow-flow" d="M 762 160 C 768 152 773 145 778 138" fill="none" stroke="#0ea5e9" stroke-width="4" marker-end="url(#arrow-cyan)" />
+    <path class="workflow-flow" d="M 757.5 158 A 50 50 0 0 1 775 129" fill="none" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arrow-cyan)" />
 
     <!-- RED Circle -->
     <circle cx="795" cy="110" r="26" fill="#ec4899" filter="url(#shadow)" />
-    <text x="795" y="115" class="tdd-circle-text" font-size="12" dominant-baseline="middle">RED</text>
+    <text x="795" y="110" class="tdd-circle-text" font-size="12" dominant-baseline="middle">RED</text>
 
     <!-- GREEN Circle -->
     <circle cx="840" cy="185" r="26" fill="#10b981" filter="url(#shadow)" />
-    <text x="840" y="189" class="tdd-circle-text" font-size="10" dominant-baseline="middle">GREEN</text>
+    <text x="840" y="185" class="tdd-circle-text" font-size="10" dominant-baseline="middle">GREEN</text>
 
     <!-- REFACTOR Circle -->
     <circle cx="750" cy="185" r="26" fill="#0ea5e9" filter="url(#shadow)" />
-    <text x="750" y="189" class="tdd-circle-text" font-size="8.5" dominant-baseline="middle">REFACTOR</text>
+    <text x="750" y="185" class="tdd-circle-text" font-size="8.5" dominant-baseline="middle">TÁI CẤU TRÚC</text>
 
     <!-- Pattern Pills -->
     <!-- Red-Bar Patterns -->
     <rect x="745" y="45" width="100" height="22" rx="11" fill="rgba(236,72,153,0.05)" stroke="#ec4899" stroke-width="1.2" />
-    <text x="795" y="60.5" class="pill-text red" fill="#ec4899" dominant-baseline="middle">Các mẫu Red-Bar</text>
+    <text x="795" y="56" class="pill-text red" fill="#ec4899" dominant-baseline="middle">Mẫu Lỗi</text>
 
     <!-- Refactoring Patterns -->
     <rect x="680" y="240" width="125" height="22" rx="11" fill="rgba(14,165,233,0.05)" stroke="#0ea5e9" stroke-width="1.2" />
-    <text x="742.5" y="255.5" class="pill-text blue" fill="#0ea5e9" dominant-baseline="middle">Các mẫu Tái cấu trúc</text>
+    <text x="742.5" y="251" class="pill-text blue" fill="#0ea5e9" dominant-baseline="middle">Mẫu Tái cấu trúc</text>
 
     <!-- Green-Bar Patterns -->
     <rect x="815" y="240" width="105" height="22" rx="11" fill="rgba(16,185,129,0.05)" stroke="#10b981" stroke-width="1.2" />
-    <text x="867.5" y="255.5" class="pill-text green" fill="#10b981" dominant-baseline="middle">Các mẫu Green-Bar</text>
+    <text x="867.5" y="251" class="pill-text green" fill="#10b981" dominant-baseline="middle">Mẫu Đạt</text>
   </g>
 </svg>

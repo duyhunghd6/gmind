@@ -9,28 +9,27 @@
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B1DFED" />
     </marker>
     
-    <!-- Team Member Icon Templates -->
     <g id="dev-icon">
       <circle cx="0" cy="-14" r="14" fill="#CC4D24" />
       <path d="M -22 18 C -22 -6, 22 -6, 22 18 Z" fill="#CC4D24" />
-      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">Dev</text>
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="normal" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">Dev</text>
     </g>
     <g id="sm-icon">
       <circle cx="0" cy="-14" r="14" fill="#296989" />
       <path d="M -22 18 C -22 -6, 22 -6, 22 18 Z" fill="#296989" />
-      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">SM</text>
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="normal" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">QA</text>
     </g>
     <g id="po-icon">
       <circle cx="0" cy="-14" r="14" fill="#78A933" />
       <path d="M -22 18 C -22 -6, 22 -6, 22 18 Z" fill="#78A933" />
-      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">PO</text>
+      <text x="0" y="8" font-family="Arial, sans-serif" font-size="12" font-weight="normal" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">PO</text>
     </g>
 
     <!-- Global Styles -->
     <style>
-      .bold-label { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; fill: #f8fafc; text-anchor: middle; }
-      .white-text { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; fill: #FFFFFF; text-anchor: middle; }
-      .footer-text { font-family: 'Arial', sans-serif; font-size: 9px; font-weight: bold; fill: #94a3b8; text-anchor: end; }
+      .bold-label { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: normal; fill: #f8fafc; text-anchor: middle; }
+      .white-text { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: normal; fill: #FFFFFF; text-anchor: middle; }
+      .footer-text { font-family: 'Arial', sans-serif; font-size: 9px; font-weight: normal; fill: #94a3b8; text-anchor: end; }
       .box-teal { fill: #0B93BA; rx: 8; ry: 8; }
       /* Theme Adaptation */
       rect[fill="url(#bg)"] { fill: transparent !important; }
@@ -120,15 +119,15 @@
   <!-- ==================== CONNECTING ARROWS & FEEDBACK LOOPS ==================== -->
 
   <!-- Top Loop (Sprint Review -> Sprint Retrospective -> Sprint Planning) -->
-  <path class="workflow-arrow-solid" d="M 1130 320 L 1130 110 Q 1130 100 1120 100 L 715 100" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
-  <path class="workflow-arrow-solid" d="M 585 100 L 340 100 Q 330 100 330 110 L 330 295" fill="none" stroke="#B1DFED" stroke-width="6" marker-end="url(#arrow-pale)" />
+  <path class="workflow-arrow-solid" d="M 1130 320 L 1130 110 Q 1130 100 1120 100 L 715 100" fill="none" stroke="#B1DFED" stroke-width="2" marker-end="url(#arrow-pale)" />
+  <path class="workflow-arrow-solid" d="M 585 100 L 340 100 Q 330 100 330 110 L 330 295" fill="none" stroke="#B1DFED" stroke-width="2" marker-end="url(#arrow-pale)" />
 
   <!-- Bottom Loop (Sprint Review -> Product Backlog) -->
-  <path class="workflow-arrow-dash" d="M 1130 380 L 1130 520 Q 1130 530 1120 530 L 170 530 Q 160 530 160 520 L 160 435" fill="none" stroke="#B1DFED" stroke-width="6" stroke-dasharray="2, 4" marker-end="url(#arrow-pale)" />
+  <path class="workflow-arrow-solid" d="M 1130 380 L 1130 520 Q 1130 530 1120 530 L 170 530 Q 160 530 160 520 L 160 435" fill="none" stroke="#B1DFED" stroke-width="2" marker-end="url(#arrow-pale)" />
 
   <!-- Direct Flow Arrows -->
-  <line class="workflow-arrow-solid" x1="220" y1="350" x2="255" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
-  <line class="workflow-arrow-solid" x1="390" y1="350" x2="425" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+  <line class="workflow-arrow-solid" x1="220" y1="350" x2="255" y2="350" stroke="#0B93BA" stroke-width="2" marker-end="url(#arrow-teal)" />
+  <line class="workflow-arrow-solid" x1="390" y1="350" x2="425" y2="350" stroke="#0B93BA" stroke-width="2" marker-end="url(#arrow-teal)" />
 
   <!-- Swooping Ribbon: Sprint Backlog to Scrum Team -->
   <path class="workflow-pulse-opacity" d="M 510 340 Q 550 340 575 375 L 555 395 Q 540 360 510 360 Z" fill="#4BABC6" />
@@ -137,7 +136,7 @@
   <path class="workflow-pulse-opacity" d="M 830 365 Q 865 350 905 350 L 905 335 L 940 360 L 905 385 L 905 370 Q 865 370 815 400 Z" fill="#4BABC6" />
 
   <!-- Straight Arrow: Increment to Sprint Review -->
-  <line class="workflow-arrow-solid" x1="1040" y1="350" x2="1075" y2="350" stroke="#0B93BA" stroke-width="8" marker-end="url(#arrow-teal)" />
+  <line class="workflow-arrow-solid" x1="1040" y1="350" x2="1075" y2="350" stroke="#0B93BA" stroke-width="2" marker-end="url(#arrow-teal)" />
 
 
   <!-- ==================== MAIN SHAPES & DIAGRAM ELEMENTS ==================== -->
@@ -159,12 +158,12 @@
   </g>
 
   <!-- Product Backlog Refinement Loop Arrow -->
-  <path class="workflow-arrow-solid" d="M 125 185 C 50 185 50 110 115 110 C 145 110 155 135 145 155" fill="none" stroke="#0B93BA" stroke-width="6" marker-end="url(#arrow-teal)" />
+  <path class="workflow-arrow-solid" d="M 125 185 C 50 185 50 110 115 110 C 145 110 155 135 145 155" fill="none" stroke="#0B93BA" stroke-width="2" marker-end="url(#arrow-teal)" />
 
   <!-- Sprint Planning -->
   <g transform="translate(265, 320)">
     <rect x="0" y="0" width="110" height="60" class="box-teal" />
-    <text x="55" y="27" class="white-text">Lập kế hoạch</text>
+    <text x="55" y="27" class="white-text">Lập Kế hoạch</text>
     <text x="55" y="44" class="white-text">Sprint</text>
   </g>
 
@@ -200,7 +199,8 @@
     <circle cx="0" cy="0" r="115" fill="#FFFFFF" />
     
     <!-- Text on the bottom ring -->
-    <text x="0" y="127" class="white-text" style="fill: #0f172a !important;">Scrum Team</text>
+    <rect x="-42" y="113" width="84" height="24" rx="4" fill="#0f172a" />
+    <text x="0" y="130" class="white-text">Scrum Team</text>
 
     <!-- Team Members -->
     <use href="#dev-icon" x="-60" y="-50" />
@@ -214,7 +214,7 @@
   <!-- Daily Scrum -->
   <g transform="translate(810, 195)">
     <circle cx="0" cy="0" r="45" fill="#4BABC6" />
-    <text x="0" y="-5" class="white-text">Daily</text>
+    <text x="0" y="-5" class="white-text">Hằng ngày</text>
     <text x="0" y="12" class="white-text">Scrum</text>
   </g>
 
@@ -251,7 +251,7 @@
   <!-- Sprint Retrospective -->
   <g transform="translate(585, 70)">
     <rect x="0" y="0" width="130" height="60" class="box-teal" />
-    <text x="65" y="27" class="white-text">Cải tiến</text>
+    <text x="65" y="27" class="white-text">Cải tiến Liên tục</text>
     <text x="65" y="44" class="white-text">Sprint</text>
   </g>
 
@@ -260,11 +260,9 @@
   <!-- Product Backlog Refinement -->
   <text x="60" y="195" class="bold-label" text-anchor="end">Product</text>
   <text x="60" y="210" class="bold-label" text-anchor="end">Backlog</text>
-  <text x="60" y="225" class="bold-label" text-anchor="end">(Làm mịn)</text>
 
   <!-- Product Goal -->
-  <text x="160" y="145" class="bold-label">Mục tiêu</text>
-  <text x="160" y="160" class="bold-label">Sản phẩm</text>
+  <text x="160" y="152" class="bold-label">Mục tiêu Sản phẩm</text>
 
   <!-- Product Backlog -->
   <text x="160" y="430" class="bold-label">Product</text>
@@ -279,8 +277,8 @@
   <text x="475" y="435" class="bold-label">Backlog</text>
 
   <!-- Definition of Done -->
-  <text x="980" y="260" class="bold-label">Định nghĩa</text>
-  <text x="980" y="275" class="bold-label">Hoàn thành</text>
+  <text x="980" y="260" class="bold-label">Định nghĩa hoàn thành</text>
+  <text x="980" y="275" class="bold-label">(DoD)</text>
 
   <!-- Increment -->
   <text x="980" y="420" class="bold-label">Increment</text>

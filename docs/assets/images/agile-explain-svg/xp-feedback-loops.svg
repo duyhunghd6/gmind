@@ -2,9 +2,35 @@
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
-      .title { font-family: 'DM Sans', system-ui, sans-serif; font-size: 28px; font-weight: 500; fill: #f8fafc; text-anchor: middle; letter-spacing: 1px; }
-      .lbl { font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 400; text-anchor: middle; }
-      .desc { font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; font-weight: 400; fill: #cbd5e1; text-anchor: start; }
+      .title { font-family: 'DM Sans', system-ui, sans-serif; font-size: 36px; font-weight: 500; fill: #f8fafc; text-anchor: middle; letter-spacing: 1px; }
+      .lbl { font-family: 'DM Sans', system-ui, sans-serif; font-size: 21px; font-weight: 400; text-anchor: middle; }
+      .desc { font-family: 'DM Sans', system-ui, sans-serif; font-size: 21px; font-weight: 400; fill: #cbd5e1; text-anchor: start; }
+      
+      @keyframes rippleGlow {
+        0%, 100% { filter: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 1; }
+        15% { filter: url(#glow); stroke: rgba(255, 255, 255, 0.9); stroke-width: 2; }
+        30% { filter: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 1; }
+      }
+      .ring-1 { animation: rippleGlow 3.5s infinite 0s; transform-origin: center; }
+      .ring-2 { animation: rippleGlow 3.5s infinite 0.5s; transform-origin: center; }
+      .ring-3 { animation: rippleGlow 3.5s infinite 1.0s; transform-origin: center; }
+      .ring-4 { animation: rippleGlow 3.5s infinite 1.5s; transform-origin: center; }
+      .ring-5 { animation: rippleGlow 3.5s infinite 2.0s; transform-origin: center; }
+      .ring-6 { animation: rippleGlow 3.5s infinite 2.5s; transform-origin: center; }
+      .ring-7 { animation: rippleGlow 3.5s infinite 3.0s; transform-origin: center; }
+
+      @keyframes textGlow {
+        0%, 100% { filter: none; opacity: 0.8; stroke-width: 0; }
+        15% { filter: url(#glow); opacity: 1; stroke-width: 0.5; stroke: currentColor; }
+        30% { filter: none; opacity: 0.8; stroke-width: 0; }
+      }
+      .txt-ring-1 { animation: textGlow 3.5s infinite 0s; }
+      .txt-ring-2 { animation: textGlow 3.5s infinite 0.5s; }
+      .txt-ring-3 { animation: textGlow 3.5s infinite 1.0s; }
+      .txt-ring-4 { animation: textGlow 3.5s infinite 1.5s; }
+      .txt-ring-5 { animation: textGlow 3.5s infinite 2.0s; }
+      .txt-ring-6 { animation: textGlow 3.5s infinite 2.5s; }
+      .txt-ring-7 { animation: textGlow 3.5s infinite 3.0s; }
       /* Theme Adaptation */
       rect[fill="url(#bg)"] { fill: transparent !important; }
       @media (prefers-color-scheme: light) {
@@ -81,35 +107,35 @@
 
   <rect width="100%" height="100%" fill="url(#bg)" rx="16" />
   
-  <text x="450" y="40.2" dominant-baseline="middle" class="title">Các Vòng lặp Phản hồi trong XP</text>
+  <text x="450" y="40.2" dominant-baseline="middle" class="title">Vòng lặp phản hồi XP</text>
 
   <!-- Concentric staggered circles -->
   <g stroke="rgba(255,255,255,0.1)" stroke-width="1">
     <!-- 1: months -->
-    <circle cx="350" cy="400" r="350" fill="rgba(88, 28, 135, 0.4)" />
+    <circle cx="350" cy="400" r="350" fill="rgba(88, 28, 135, 0.4)" class="ring-7" />
     <!-- 2: weeks -->
-    <circle cx="350" cy="450" r="300" fill="rgba(67, 56, 202, 0.4)" />
+    <circle cx="350" cy="450" r="300" fill="rgba(67, 56, 202, 0.4)" class="ring-6" />
     <!-- 3: days -->
-    <circle cx="350" cy="500" r="250" fill="rgba(14, 165, 233, 0.4)" />
+    <circle cx="350" cy="500" r="250" fill="rgba(14, 165, 233, 0.4)" class="ring-5" />
     <!-- 4: 24h -->
-    <circle cx="350" cy="550" r="200" fill="rgba(13, 148, 136, 0.4)" />
+    <circle cx="350" cy="550" r="200" fill="rgba(13, 148, 136, 0.4)" class="ring-4" />
     <!-- 5: hours -->
-    <circle cx="350" cy="600" r="150" fill="rgba(16, 185, 129, 0.4)" />
+    <circle cx="350" cy="600" r="150" fill="rgba(16, 185, 129, 0.4)" class="ring-3" />
     <!-- 6: minutes -->
-    <circle cx="350" cy="650" r="100" fill="rgba(245, 158, 11, 0.4)" />
+    <circle cx="350" cy="650" r="100" fill="rgba(245, 158, 11, 0.4)" class="ring-2" />
     <!-- 7: seconds -->
-    <circle cx="350" cy="700" r="50" fill="rgba(225, 29, 72, 0.6)" filter="url(#glow)" />
+    <circle cx="350" cy="700" r="50" fill="rgba(225, 29, 72, 0.6)" class="ring-1" />
   </g>
 
   <!-- Center labels in the crescents -->
   <g class="lbl">
-    <text x="350" y="74" dominant-baseline="middle" fill="#f8fafc">tháng</text>
-    <text x="350" y="174" dominant-baseline="middle" fill="#f8fafc">tuần</text>
-    <text x="350" y="274" dominant-baseline="middle" fill="#f8fafc">ngày</text>
+    <text x="350" y="74" dominant-baseline="middle" fill="#f8fafc">Months</text>
+    <text x="350" y="174" dominant-baseline="middle" fill="#f8fafc">Weeks</text>
+    <text x="350" y="274" dominant-baseline="middle" fill="#f8fafc">Days</text>
     <text x="350" y="374" dominant-baseline="middle" fill="#f8fafc">24h</text>
-    <text x="350" y="474" dominant-baseline="middle" fill="#f8fafc">vài giờ</text>
-    <text x="350" y="574" dominant-baseline="middle" fill="#f8fafc">vài phút</text>
-    <text x="350" y="674" dominant-baseline="middle" fill="#f8fafc">vài giây</text>
+    <text x="350" y="474" dominant-baseline="middle" fill="#f8fafc">Hours</text>
+    <text x="350" y="574" dominant-baseline="middle" fill="#f8fafc">Minutes</text>
+    <text x="350" y="674" dominant-baseline="middle" fill="#f8fafc">Seconds</text>
   </g>
 
   <!-- Horizontal Lines and Labels -->
@@ -137,14 +163,14 @@
   </g>
 
   <g class="desc">
-    <text x="670" y="89" dominant-baseline="middle" fill="#a855f7">Lên KH phát hành (Release plan)</text>
-    <text x="670" y="189" dominant-baseline="middle" fill="#6366f1">Lên KH vòng lặp (Iteration plan)</text>
-    <text x="670" y="289" dominant-baseline="middle" fill="#0ea5e9">Kiểm thử chấp nhận (Acceptance test)</text>
-    <text x="670" y="339" dominant-baseline="middle" fill="#38bdf8">Họp trực nhật (Standup meeting)</text>
-    <text x="670" y="389" dominant-baseline="middle" fill="#14b8a6">Thảo luận cặp đôi (Pair negotiation)</text>
-    <text x="670" y="489" dominant-baseline="middle" fill="#10b981">Kiểm thử Unit (Unit test)</text>
-    <text x="670" y="589" dominant-baseline="middle" fill="#f59e0b">Lập trình cặp đôi (Pair programming)</text>
-    <text x="670" y="689" dominant-baseline="middle" fill="#f43f5e">Viết mã (Code)</text>
+    <text class="txt-ring-7" x="670" y="89" dominant-baseline="middle" fill="#a855f7">Release Plan</text>
+    <text class="txt-ring-6" x="670" y="189" dominant-baseline="middle" fill="#6366f1">Iteration Plan</text>
+    <text class="txt-ring-5" x="670" y="289" dominant-baseline="middle" fill="#0ea5e9">Acceptance Test</text>
+    <text class="txt-ring-4" x="670" y="339" dominant-baseline="middle" fill="#38bdf8">Stand Up Meeting</text>
+    <text class="txt-ring-4" x="670" y="389" dominant-baseline="middle" fill="#14b8a6">Pair Negotiation</text>
+    <text class="txt-ring-3" x="670" y="489" dominant-baseline="middle" fill="#10b981">Unit Test</text>
+    <text class="txt-ring-2" x="670" y="589" dominant-baseline="middle" fill="#f59e0b">Pair Programming</text>
+    <text class="txt-ring-1" x="670" y="689" dominant-baseline="middle" fill="#f43f5e">Code</text>
   </g>
 
 </svg>

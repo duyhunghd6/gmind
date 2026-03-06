@@ -99,7 +99,7 @@
 
   <!-- Big Arch Arrow "Next Release" -->
   <path d="M 720 100 Q 440 -10 160 100" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#big-arrow)" filter="url(#glow)" class="workflow-arch" />
-  <text class="label-text" x="440" y="24" dominant-baseline="middle">Bản Phát hành (Release) Tiếp theo</text>
+  <text class="label-text" x="440" y="24" dominant-baseline="middle"><tspan x="440" dy="-6">Bản Phát hành</tspan><tspan x="440" dy="14">Kế tiếp</tspan></text>
 
   <!-- Iteration Loop Arrows -->
   <use href="#iter-arrow" x="90" y="150" />
@@ -116,16 +116,16 @@
   <text class="phase-text" fill="#fcd34d" x="90" y="218" dominant-baseline="middle">Khởi tạo</text>
 
   <rect x="170" y="200" width="480" height="36" rx="6" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
-  <text class="phase-text" fill="#6ee7b7" x="410" y="218" dominant-baseline="middle">Xây dựng</text>
+  <text class="phase-text" fill="#6ee7b7" x="410" y="218" dominant-baseline="middle">Phát triển</text>
 
   <rect x="660" y="200" width="120" height="36" rx="6" fill="url(#cardBg)" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" filter="url(#shadow)" />
   <text class="phase-text" fill="#93c5fd" x="720" y="218" dominant-baseline="middle">Chuyển giao</text>
 
   <!-- Phase Descriptions below the bar -->
   <text class="desc-text" x="90" y="254" dominant-baseline="middle">Định hướng &amp;</text>
-  <text class="desc-text" x="90" y="274" dominant-baseline="middle">Lập kế hoạch</text>
+  <text class="desc-text" x="90" y="274" dominant-baseline="middle">Lập Kế hoạch</text>
 
-  <text class="desc-text" x="410" y="264" dominant-baseline="middle">Xây dựng giải pháp hoàn thiện tăng dần</text>
+  <text class="desc-text" x="410" y="264" dominant-baseline="middle">Xây dựng Giải pháp Hoàn thiện Tăng dần</text>
 
   <text class="desc-text" x="720" y="254" dominant-baseline="middle">Phát hành</text>
   <text class="desc-text" x="720" y="274" dominant-baseline="middle">giải pháp</text>

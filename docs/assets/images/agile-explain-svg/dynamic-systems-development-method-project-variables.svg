@@ -95,14 +95,14 @@
 
   <rect width="800" height="500" fill="url(#bg)" rx="16" />
   
-  <text x="400" y="40.2" dominant-baseline="middle" class="title" text-anchor="middle">Các biến số Dự án - Truyền thống &amp; Atern</text>
+  <text x="400" y="40.2" dominant-baseline="middle" class="title" text-anchor="middle">Biến số Dự án: Truyền thống vs Atern</text>
   
   <!-- Surface Cards -->
   <rect x="70" y="80" width="300" height="40" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#shadow)" />
-  <text x="220" y="100" dominant-baseline="middle" class="subtitle" text-anchor="middle">Cách tiếp cận Truyền thống</text>
+  <text x="220" y="100" dominant-baseline="middle" class="subtitle" text-anchor="middle">Phương pháp Truyền thống</text>
   
   <rect x="430" y="80" width="300" height="40" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" filter="url(#shadow)" />
-  <text x="580" y="100" dominant-baseline="middle" class="subtitle" text-anchor="middle">Cách tiếp cận Atern</text>
+  <text x="580" y="100" dominant-baseline="middle" class="subtitle" text-anchor="middle">Phương pháp Atern</text>
   
   <text x="360" y="164" dominant-baseline="middle" class="fixed-text" text-anchor="end">Cố định</text>
   <text x="440" y="369" dominant-baseline="middle" class="var-text" text-anchor="start">Thay đổi</text>

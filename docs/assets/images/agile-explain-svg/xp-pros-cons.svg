@@ -95,11 +95,11 @@
 
   <rect width="100%" height="100%" fill="url(#bg)" rx="16" />
   
-  <text x="500" y="70.2" dominant-baseline="middle" text-anchor="middle" class="title">ƯU VÀ NHƯỢC ĐIỂM CỦA EXTREME PROGRAMMING (XP)</text>
+  <text x="500" y="70.2" dominant-baseline="middle" text-anchor="middle" class="title">ƯU VÀ NHƯỢC ĐIỂM CỦA EXTREME PROGRAMMING</text>
 
   <!-- Headers -->
-  <text x="250" y="154" dominant-baseline="middle" text-anchor="middle" class="header-txt" fill="#34d399">Ưu điểm (Advantages)</text>
-  <text x="750" y="154" dominant-baseline="middle" text-anchor="middle" class="header-txt" fill="#fb7185">Nhược điểm (Disadvantages)</text>
+  <text x="250" y="154" dominant-baseline="middle" text-anchor="middle" class="header-txt" fill="#34d399">Ưu điểm</text>
+  <text x="750" y="154" dominant-baseline="middle" text-anchor="middle" class="header-txt" fill="#fb7185">Nhược điểm</text>
 
   <!-- Green Box -->
   <rect x="20" y="200" width="465" height="500" rx="20" fill="url(#advBg)" stroke="#10b981" stroke-width="1" filter="url(#shadow)" />
@@ -121,13 +121,13 @@
 
     <!-- Texts -->
     <text x="100" y="254" dominant-baseline="middle">Hệ thống ổn định</text>
-    <text x="100" y="304" dominant-baseline="middle">Mã nguồn rõ ràng, dễ đọc</text>
+    <text x="100" y="304" dominant-baseline="middle">Mã nguồn Dễ bảo trì (Clear, Readable Code)</text>
     <text x="100" y="354" dominant-baseline="middle">Ra mắt MVP nhanh chóng</text>
-    <text x="100" y="404" dominant-baseline="middle">Giảm thiểu tài liệu không cần thiết</text>
-    <text x="100" y="454" dominant-baseline="middle">Không phải làm thêm giờ quá sức</text>
-    <text x="100" y="504" dominant-baseline="middle">Tính minh bạch cao</text>
-    <text x="100" y="554" dominant-baseline="middle">Hợp tác nhóm cực kỳ mạnh mẽ</text>
-    <text x="100" y="604" dominant-baseline="middle">Mức độ hài lòng của khách hàng cao hơn</text>
+    <text x="100" y="404" dominant-baseline="middle">Giảm thiểu Tài liệu Thừa</text>
+    <text x="100" y="454" dominant-baseline="middle">Hạn chế Làm thêm Giờ</text>
+    <text x="100" y="504" dominant-baseline="middle">Tính Minh bạch Cao</text>
+    <text x="100" y="554" dominant-baseline="middle">Hợp tác Nhóm Chuyên sâu</text>
+    <text x="100" y="604" dominant-baseline="middle">Tăng Sự Hài lòng của Khách hàng</text>
   </g>
 
   <!-- Disadvantages List -->
@@ -143,14 +143,14 @@
     <use href="#icon-minus" x="555" y="604" />
 
     <!-- Texts -->
-    <text x="590" y="254" dominant-baseline="middle">Ước lượng thời gian/ngân sách ban đầu không rõ ràng</text>
-    <text x="590" y="304" dominant-baseline="middle">Có thể lãng phí thời gian nếu thiếu tính tổ chức</text>
-    <text x="590" y="354" dominant-baseline="middle">Có thể bị thiếu hụt tài liệu (Not enough documentation)</text>
-    <text x="590" y="404" dominant-baseline="middle">Đòi hỏi sự thay đổi văn hóa làm việc rất lớn</text>
-    <text x="590" y="454" dominant-baseline="middle">Lập trình cặp (Pair programming) tốn thêm thời gian</text>
-    <text x="590" y="504" dominant-baseline="middle">Thường chỉ phù hợp với team ngồi làm việc cùng nhau</text>
-    <text x="590" y="554" dominant-baseline="middle">Có thể gây áp lực khi phải duy trì một nhịp độ liên tục</text>
-    <text x="590" y="604" dominant-baseline="middle">Đôi khi quá chú trọng vào Code mà bỏ quyên Thiết kế</text>
+    <text x="590" y="254" dominant-baseline="middle">Ước lượng Nguồn lực Khó khăn</text>
+    <text x="590" y="304" dominant-baseline="middle">Rủi ro Lãng phí nếu Thiếu Tổ chức</text>
+    <text x="590" y="354" dominant-baseline="middle">Rủi ro Thiếu hụt Tài liệu</text>
+    <text x="590" y="404" dominant-baseline="middle">Đòi hỏi Thay đổi Văn hóa Sâu rộng</text>
+    <text x="590" y="454" dominant-baseline="middle">Lập trình Cặp tiêu tốn Thời gian Đầu</text>
+    <text x="590" y="504" dominant-baseline="middle">Tối ưu cho Nhóm Làm việc Trực tiếp</text>
+    <text x="590" y="554" dominant-baseline="middle">Áp lực Duy trì Nhịp độ Phân phối</text>
+    <text x="590" y="604" dominant-baseline="middle">Rủi ro Thiếu Tầm nhìn Kiến trúc</text>
   </g>
 
 </svg>

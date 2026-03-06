@@ -2,9 +2,9 @@
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
-      .title { fill: #f8fafc; font-size: 28px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; letter-spacing: 1px; }
-      .section-title { fill: #38bdf8; font-size: 22px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
-      .list-txt { fill: #cbd5e1; font-size: 18px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
+      .title { fill: #f8fafc; font-size: 36px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 500; letter-spacing: 1px; }
+      .section-title { fill: #38bdf8; font-size: 28px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
+      .list-txt { fill: #cbd5e1; font-size: 23px; font-family: 'DM Sans', system-ui, sans-serif; font-weight: 400; }
       .bullet { fill: #10b981; }
       .card { fill: rgba(30, 41, 59, 1); stroke: rgba(255,255,255,0.05); stroke-width: 1.5; rx: 16; }
       /* Theme Adaptation */
@@ -79,7 +79,7 @@
 
   <rect width="100%" height="100%" fill="url(#bg)" rx="16" />
   
-  <text x="500" y="60.2" dominant-baseline="middle" text-anchor="middle" class="title">XP SO VỚI CÁC FRAMEWORKS KHÁC</text>
+  <text x="500" y="60.2" dominant-baseline="middle" text-anchor="middle" class="title">XP SO VỚI CÁC FRAMEWORK KHÁC</text>
 
   <!-- XP vs Scrum -->
   <text x="500" y="134" dominant-baseline="middle" text-anchor="middle" class="section-title">XP vs Scrum</text>
@@ -90,11 +90,11 @@
     <circle cx="120" cy="244" r="4" class="bullet" />
     <circle cx="120" cy="274" r="4" class="bullet" />
     <circle cx="120" cy="304" r="4" class="bullet" />
-    <text x="140" y="214" dominant-baseline="middle">Vòng lặp cực ngắn (Shorter iterations)</text>
-    <text x="140" y="244" dominant-baseline="middle">Linh hoạt thích ứng với thay đổi</text>
-    <text x="140" y="274" dominant-baseline="middle">Tập trung kỹ thuật thực hành (technical)</text>
+    <text x="140" y="214" dominant-baseline="middle">Vòng lặp Siêu ngắn</text>
+    <text x="140" y="244" dominant-baseline="middle">Linh hoạt Thích ứng</text>
+    <text x="140" y="274" dominant-baseline="middle">Tập trung Thực hành Kỹ thuật</text>
     <text x="140" y="304" dominant-baseline="middle">Khách hàng quyết định thứ tự</text>
-    <text x="140" y="329" dominant-baseline="middle">ưu tiên phát triển tính năng</text>
+    <text x="140" y="329" dominant-baseline="middle">ưu tiên phát triển Tính năng</text>
 
     <!-- Divider Line -->
     <line x1="480" y1="190" x2="480" y2="350" stroke="#334155" stroke-width="1" stroke-dasharray="8,4" />
@@ -104,10 +104,10 @@
     <circle cx="520" cy="274" r="4" fill="#38bdf8" />
     <circle cx="520" cy="304" r="4" fill="#38bdf8" />
     <text x="540" y="214" dominant-baseline="middle">Sprints có chu kỳ dài hơn</text>
-    <text x="540" y="244" dominant-baseline="middle">Không thay đổi yêu cầu trong sprint</text>
-    <text x="540" y="274" dominant-baseline="middle">Tập trung vào khía cạnh quản lý</text>
-    <text x="540" y="304" dominant-baseline="middle">Nhóm tự tổ chức để quyết định</text>
-    <text x="540" y="329" dominant-baseline="middle">thứ tự thực hiện tính năng</text>
+    <text x="540" y="244" dominant-baseline="middle">Cố định Yêu cầu trong Sprint</text>
+    <text x="540" y="274" dominant-baseline="middle">Định hướng Quản lý</text>
+    <text x="540" y="304" dominant-baseline="middle">Nhóm Tự Tổ chức</text>
+    <text x="540" y="329" dominant-baseline="middle">Thứ tự Tính năng</text>
   </g>
 
   <!-- XP vs Kanban -->
@@ -118,18 +118,18 @@
     <circle cx="120" cy="534" r="4" class="bullet" />
     <circle cx="120" cy="564" r="4" class="bullet" />
     <circle cx="120" cy="594" r="4" class="bullet" />
-    <text x="140" y="534" dominant-baseline="middle">Quản lý theo vòng lặp (Iteration-based)</text>
-    <text x="140" y="564" dominant-baseline="middle">Các vai trò được xác định rõ ràng</text>
-    <text x="140" y="594" dominant-baseline="middle">Tập trung vào thực hành kỹ thuật</text>
+    <text x="140" y="534" dominant-baseline="middle">Quản lý theo vòng lặp</text>
+    <text x="140" y="564" dominant-baseline="middle">Phân định Vai trò Rõ ràng</text>
+    <text x="140" y="594" dominant-baseline="middle">Định hướng Kỹ thuật</text>
 
     <line x1="480" y1="490" x2="480" y2="650" stroke="#334155" stroke-width="1" stroke-dasharray="8,4" />
 
     <circle cx="520" cy="534" r="4" fill="#a855f7" />
     <circle cx="520" cy="564" r="4" fill="#a855f7" />
     <circle cx="520" cy="594" r="4" fill="#a855f7" />
-    <text x="540" y="534" dominant-baseline="middle">Luồng công việc liên tục (continuous flow)</text>
-    <text x="540" y="564" dominant-baseline="middle">Không quy định các vai trò cứng nhắc</text>
-    <text x="540" y="594" dominant-baseline="middle">Tập trung vào trực quan hóa (visualization)</text>
+    <text x="540" y="534" dominant-baseline="middle">Luồng Công việc Liên tục</text>
+    <text x="540" y="564" dominant-baseline="middle">Không Gò bó Vai trò</text>
+    <text x="540" y="594" dominant-baseline="middle">Định hướng Trực quan hóa</text>
   </g>
 
   <!-- XP vs Lean -->
@@ -138,14 +138,14 @@
   
   <g class="list-txt">
     <circle cx="120" cy="854" r="4" class="bullet" />
-    <text x="140" y="854" dominant-baseline="middle">Tập trung vào các vòng lặp và</text>
-    <text x="140" y="879" dominant-baseline="middle">chuẩn mực kỹ thuật (technical practices)</text>
+    <text x="140" y="854" dominant-baseline="middle">Tối ưu hóa các Vòng lặp và</text>
+    <text x="140" y="879" dominant-baseline="middle">chuẩn mực kỹ thuật</text>
 
     <line x1="480" y1="790" x2="480" y2="950" stroke="#334155" stroke-width="1" stroke-dasharray="8,4" />
 
     <circle cx="520" cy="854" r="4" fill="#f59e0b" />
-    <text x="540" y="854" dominant-baseline="middle">Tập trung ra mắt MVP siêu tốc</text>
-    <text x="540" y="879" dominant-baseline="middle">và cắt giảm sự lãng phí (reducing waste)</text>
+    <text x="540" y="854" dominant-baseline="middle">Mục tiêu Ra mắt MVP Siêu tốc</text>
+    <text x="540" y="879" dominant-baseline="middle">và Loại bỏ Lãng phí</text>
   </g>
 
 </svg>

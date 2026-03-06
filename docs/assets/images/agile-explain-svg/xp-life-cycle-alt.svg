@@ -113,7 +113,7 @@
     </g>
 
     <!-- Main Title -->
-    <text x="500" y="130" class="title-text">Vòng đời của Extreme Programming (XP)</text>
+    <text x="500" y="130" class="title-text">Vòng đời của Extreme Programming</text>
 
     <!-- ================= GRAPHICS GROUP ================= -->
     <g transform="translate(0, 0)">
@@ -251,7 +251,7 @@
         </g>
 
         <!-- Main Category Labels -->
-        <text x="180" y="545" class="label-text">Lập kế hoạch</text>
+        <text x="180" y="545" class="label-text">Lập Kế hoạch</text>
         <text x="340" y="250" class="label-text">Thiết kế</text>
         <text x="500" y="545" class="label-text">Lập trình</text>
         <text x="660" y="250" class="label-text">Kiểm thử</text>
