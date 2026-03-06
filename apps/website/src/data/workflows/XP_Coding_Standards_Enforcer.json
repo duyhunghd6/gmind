@@ -1,0 +1,34 @@
+{
+  "id": "wf-xp-standards",
+  "title": "14. XP: Coding Standards Enforcer",
+  "description": "Ép buộc định dạng (Format) và phương pháp luận đặt tên biến về quy chuẩn chung và duy nhất của toàn Team. 10 người code nhìn như 1.",
+  "steps": [
+    {
+      "id": "std-1",
+      "title": "Áp Dụng Linter Mạnh Tay",
+      "role": "Agent",
+      "description": "Bất kỳ đoạn code nào gõ lệch thụt lề (indentation) hay sai quy tắc đặt tên (camelCase, snake_case) bị Agent format sửa lại lập tức trên editor (cấm bàn cãi).",
+      "input": "Unformatted Code",
+      "output": "Standardized Code",
+      "loopGroup": "Execution",
+      "projectStateScenario": "Dự án quy tụ nhiều Dev đến từ các công ty/phong cách khác nhau và suốt ngày cãi nhau về dấu ngoặc nhọn `{}` nên để ở dòng nào.",
+      "promptText": "Function này tao dùng PascalCase nhưng linter của team xài camelCase. Tự sửa hết 20 file tao vừa tạo đi.",
+      "icon": "📐",
+      "nextSteps": [{"conditionLabel": "Chỉnh đốn xong", "nextNodeId": "std-2"}],
+      "guidanceContext": "XP loại bỏ thời gian vô ích vào việc tranh luận thẩm mỹ code. Team tự chọn ra bộ quy chuẩn (như StandardJS, Biome, Prettier) và máy móc thực thi nó 100%.",
+      "exampleDetails": "Format on save. Auto-fix linter on commit hook."
+    },
+    {
+      "id": "std-2",
+      "title": "Chấp Nhận Quy Chuẩn Chung",
+      "role": "User",
+      "description": "Người dùng không được cố tình override tool linter làm gì. Tuân thủ văn hóa tập thể và quen với nó.",
+      "input": "Standardized Code",
+      "output": "Clean Shared Repo",
+      "loopGroup": "Execution",
+      "icon": "📝",
+      "guidanceContext": "Mã nguồn chuẩn là tiền đề cho Bản quyền Tập thể (Collective Ownership). Không ai có thể phân biệt được file này do Bob hay Alice viết.",
+      "exampleDetails": "Chỉ có một giọng nói chung trên toàn Repo."
+    }
+  ]
+}

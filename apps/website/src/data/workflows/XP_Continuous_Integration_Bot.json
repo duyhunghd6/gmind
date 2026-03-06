@@ -1,0 +1,63 @@
+{
+  "id": "wf-xp-ci",
+  "title": "12. XP: CI / Merge Police",
+  "description": "Kịch bản Nhúng Tích Hợp Liên Tục. Mã sẽ được merge lên luồng chính bất cứ lúc nào chạy qua bài Test (Không đợi cuối ngày).",
+  "steps": [
+    {
+      "id": "ci-1",
+      "title": "Merge Liên Tục",
+      "role": "User",
+      "description": "Lập trình viên hoàn thành một cụm code cực nhỏ (có test đi kèm) và push thẳng nó vào nhánh Integration/Main.",
+      "input": "Tiến độ Công việc",
+      "output": "Code Commit",
+      "loopGroup": "Execution",
+      "projectStateScenario": "Dự án yêu cầu luồng deploy cực kỳ năng động (Agile). Dev không được giấu code ở máy cá nhân qua đêm.",
+      "promptText": "Tôi vừa code xong tính năng Login nhỏ xíu, hiện tại local test đang pass sạch sẽ. Tôi chuẩn bị ném nó lên luồng chính.",
+      "icon": "⬇️",
+      "nextSteps": [{"conditionLabel": "Trigger Push", "nextNodeId": "ci-2"}],
+      "guidanceContext": "Tần suất hợp nhất (merge/integrate) là mỗi vài giờ. Càng để lâu, khối lượng conflict mã nguồn càng phình to vượt khỏi tầm kiểm soát.",
+      "exampleDetails": "Chạy git push định kỳ mỗi ngày 3 lần tối thiểu."
+    },
+    {
+      "id": "ci-2",
+      "title": "CI Police Tuần Tra",
+      "role": "System",
+      "description": "Hệ thống CI tự động kiểm duyệt mọi bài Test suite trên server. Nếu có bất kỳ sự kiện Đỏ (Fail) nào, hệ thống kêu còi báo động toàn sàn.",
+      "input": "Code Commit",
+      "output": "CI Pipeline Status",
+      "loopGroup": "None",
+      "icon": "🤖",
+      "nextSteps": [
+        {"conditionLabel": "Xanh Toàn Tập", "nextNodeId": "ci-4"},
+        {"conditionLabel": "ĐỎ - Kêu gào Lỗi", "nextNodeId": "ci-3"}
+      ],
+      "guidanceContext": "Chính sách của Nhóm: KHÔNG MỘT AI ĐƯỢC ĐI VỀ NHÀ nếu nhánh chính (Main) vẫn còn đang ĐỎ (fail). Mọi người tập trung sửa cho xong.",
+      "exampleDetails": "Kết quả GitHub Actions run test bị Error."
+    },
+    {
+      "id": "ci-3",
+      "title": "Bỏ Code hoặc Sửa Lỗi Ngay",
+      "role": "User",
+      "description": "Coder vi phạm phải ngay lập tức sửa lỗi CI đỏ. Hoặc tàn bạo hơn: Nhánh đó sẽ tự động bị xóa sổ, bắt code lại từ đầu.",
+      "input": "Red Branch / Failed Log",
+      "output": "Reverted / Fixed Branch",
+      "loopGroup": "Execution",
+      "icon": "🔥",
+      "nextSteps": [{"conditionLabel": "Gửi lại Commit", "nextNodeId": "ci-1", "isLoopBack": true}],
+      "guidanceContext": "XP nổi tiếng với sự khốc liệt: Nếu mất quá 10 phút để đi tìm lỗi, hãy quẳng đống code đó đi và bắt đầu lại bằng TDD.",
+      "exampleDetails": "Xoá bỏ, sửa xong mới ném lại."
+    },
+    {
+      "id": "ci-4",
+      "title": "Tích Hợp An Toàn Tuyệt Đối",
+      "role": "Agent",
+      "description": "Logic hoàn thiện, báo cáo cho hệ thống ghi nhận thành công và tự động build lên server nội bộ cho việc demo.",
+      "input": "Green Test Flag",
+      "output": "Live Demo Environment",
+      "loopGroup": "None",
+      "icon": "✅",
+      "guidanceContext": "Luồng mạch trơn tru của phần mềm được duy trì. Báo hiệu sức khỏe dự án luôn ở mức 100%.",
+      "exampleDetails": "Cung cấp đường link cho khách hàng coi chơi."
+    }
+  ]
+}

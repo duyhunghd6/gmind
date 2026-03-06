@@ -1,5 +1,5 @@
 {
-  "id": "wf-one-shot",
+  "id": "wf-xp-one-shot",
   "title": "1. One-shot Coding",
   "description": "Luồng cơ bản nhất: Người dùng yêu cầu toàn bộ trong một prompt, Agent trả về code hoàn chỉnh.",
   "steps": [

@@ -1,0 +1,47 @@
+{
+  "id": "wf-xp-collective",
+  "title": "13. XP: Collective Code Ownership",
+  "description": "Tất thảy mọi người đều tự do bửa sửa code lỗi ở mọi khu vực mà họ thấy chướng mắt. Xóa bỏ độc quyền sở hữu logic.",
+  "steps": [
+    {
+      "id": "own-1",
+      "title": "Bắt Mạch Module Khác",
+      "role": "User",
+      "description": "Lập trình viên đang làm việc ở Frontend tự do đi lang thang xuống code của Backend để fix lỗi API thay vì phải đợi Backend Dev.",
+      "input": "Nhu cầu chỉnh sửa",
+      "output": "Cross-domain Code Mod",
+      "loopGroup": "Execution",
+      "projectStateScenario": "Dự án chậm do Silos (Bệnh chia rẽ bè phái): Ai sở hữu code người nấy, cấm động vào.",
+      "promptText": "Hàm tính toán trong repo Backend của thằng Tom hơi chậm. Tao với mày (Pair AI) xộc vào đó tối ưu lại thành Big-O n log n luôn đi, bất chấp quyền tác giả ban đầu của nó.",
+      "icon": "🕵️‍♂️",
+      "nextSteps": [{"conditionLabel": "Cập nhật mã", "nextNodeId": "own-2"}],
+      "guidanceContext": "Văn hóa mạnh mẽ của Phương pháp Linh hoạt: Bất kỳ ai nhìn thấy lỗi ở bất cứ ngóc ngách nào cũng có quyền (và nghĩa vụ) đắp lại nó.",
+      "exampleDetails": "Tránh thói quen 'Not my code, not my bug'."
+    },
+    {
+      "id": "own-2",
+      "title": "Agent Giữ Chuẩn Xác",
+      "role": "Agent",
+      "description": "AI rà soát xem sự đột nhập mã nguồn trái tuyến này có gây ra khủng hoảng dây chuyền hay không.",
+      "input": "Cross-domain Code Mod",
+      "output": "Safeguard Validations",
+      "loopGroup": "Execution",
+      "icon": "⚖️",
+      "nextSteps": [{"conditionLabel": "Xanh Test / Được phép", "nextNodeId": "own-3"}],
+      "guidanceContext": "Luôn có rào cản từ dàn TDD và CI/CD siêu phàm chống lưng, kỹ sư cứ việc can đảm (Courage) đập sửa bất cứ đâu.",
+      "exampleDetails": "Chạy bộ Test Suite rải rác. Vượt là báo an toàn."
+    },
+    {
+      "id": "own-3",
+      "title": "Công Khai & Hòa Nhập Tập Thể",
+      "role": "System",
+      "description": "Phát thông báo cho toàn team biết dòng logic đó vừa được đẽo gọt. Mã ghi công cho toàn bộ đội.",
+      "input": "Safeguard Validations",
+      "output": "Broadcast Notification",
+      "loopGroup": "None",
+      "icon": "📣",
+      "guidanceContext": "Không còn câu chuyện 'Anh nghỉ ốm nền dự án đứng im'. Kiến thức dàn trải rộng thắp vạn mặt trận.",
+      "exampleDetails": "Team Chat hiện notification về cú Refactoring đẹp đẽ."
+    }
+  ]
+}

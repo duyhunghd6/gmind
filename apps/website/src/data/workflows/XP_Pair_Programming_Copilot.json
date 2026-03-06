@@ -1,0 +1,36 @@
+{
+  "id": "wf-xp-pair",
+  "title": "7. XP: Pair Programming Copilot",
+  "description": "Hai cái đầu - một luồng mã. Agent đọc từng nét phím gõ của bạn, hoạt động như Navigator dập tắt mọi rủi ro về edge case trước khi bạn kịp commit.",
+  "steps": [
+    {
+      "id": "pair-1",
+      "title": "Người dùng Lái xe (Driver)",
+      "role": "User",
+      "description": "Người dùng độc lập code logic trực tiếp, bắt đầu xả mã nguồn vào dự án.",
+      "input": "Nhiệm vụ",
+      "output": "Live Code Stream",
+      "loopGroup": "Execution",
+      "projectStateScenario": "Tính năng phức tạp đang code dở, não bộ có cảm giác quá tải (Cognitive Overload).",
+      "icon": "⌨️",
+      "nextSteps": [{"conditionLabel": "Đang Gõ Phím", "nextNodeId": "pair-2"}],
+      "guidanceContext": "Driver tập trung suy nghĩ về khía cạnh ngắn hạn: Làm sao vòng lặp For này chạy được với Array này. Không thèm quan tâm chuyện tối ưu.",
+      "exampleDetails": "Cứ code tự tin. Sai đã có Copilot lo."
+    },
+    {
+      "id": "pair-2",
+      "title": "AI Dẫn đường (Navigator)",
+      "role": "Agent",
+      "description": "Theo dõi mã trực tiếp, AI (hoặc tool editor) vạch ra các edge-case mà Coder chưa lường trước và đưa giải pháp chèn ngang.",
+      "input": "Live Code Stream",
+      "output": "Real-time Suggestions",
+      "loopGroup": "Execution",
+      "loopCondition": "Đồng ý ý tưởng -> Driver Update Code",
+      "promptText": "Mày thấy đoạn tính Thuế này tao gõ ổn không? Tỉ lệ 10% có bị làm tròn dấu phẩy động ở backend TS không?",
+      "icon": "🗺️",
+      "nextSteps": [{"conditionLabel": "Chỉ lỗi rò rỉ bộ nhớ", "nextNodeId": "pair-1", "isLoopBack": true}],
+      "guidanceContext": "Navigator chịu trách nhiệm nhìn bản đồ dài hạn. Nhắc driver nhớ giải phóng bộ nhớ (Memory Leak), hoặc phòng ngừa SQL Injection.",
+      "exampleDetails": "AI hiện tooltip: 'Biến này không đổi, vứt sang const đi bro.'"
+    }
+  ]
+}

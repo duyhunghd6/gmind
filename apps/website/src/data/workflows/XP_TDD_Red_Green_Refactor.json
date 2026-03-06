@@ -1,0 +1,48 @@
+{
+  "id": "wf-xp-tdd",
+  "title": "6. XP: Test-Driven Development (TDD) Bot",
+  "description": "Logic kiểm thử phải được viết và thấy Thất bại (Màu Đỏ) trước khi viết Logic thực thi code. Cú chốt làm giảm lượng Bug bằng không.",
+  "steps": [
+    {
+      "id": "tdd-1",
+      "title": "Viết Test Case (Fail/Red)",
+      "role": "Agent",
+      "description": "AI Agent phân tích yêu cầu từ User và sinh ra Unit Test rỗng, cố tình chạy lỗi đỏ chót để định hình hình dạng hàm sắp viết.",
+      "input": "User Story / Cấu trúc hàm",
+      "output": "Failing Test Code",
+      "loopGroup": "Execution",
+      "projectStateScenario": "Tính năng bắt buộc phải chính xác cao độ: Billing, Payment, Password Hashing.",
+      "promptText": "Tôi cần 1 hàm validate độ mạnh mật khẩu (Pass > 8 ký tự, có đủ Hoa, Thường, Số, Đặc biệt). Hãy viết jest test case bắt nó fail trước đi.",
+      "icon": "🔴",
+      "nextSteps": [{"conditionLabel": "Chạy Failed", "nextNodeId": "tdd-2"}],
+      "guidanceContext": "Không bao giờ được viết production code nếu chưa có test xịt. Đây là quy tắc sống còn của TDD.",
+      "exampleDetails": "Cảnh báo CI pipeline báo Fail do hàm `validatePassword` trả về undefined."
+    },
+    {
+      "id": "tdd-2",
+      "title": "Viết mã thực thi (Pass/Green)",
+      "role": "Agent",
+      "description": "Agent trần ai viết vừa đủ một đoạn code nhỏ bé xíu để Test Case kia có thể vượt qua và báo màu Xanh.",
+      "input": "Failing Test Code",
+      "output": "Passing Green Code",
+      "loopGroup": "Execution",
+      "icon": "🟢",
+      "nextSteps": [{"conditionLabel": "Test Pass Xanh", "nextNodeId": "tdd-3"}],
+      "guidanceContext": "Agent chỉ cần dùng code đơn giản và ngu ngốc nhất để vượt qua test. Không vội vàng tối ưu ở bước này.",
+      "exampleDetails": "Trả thẳng về mảng cứng hoặc hardcode if-else nếu nó thoả mãn test."
+    },
+    {
+      "id": "tdd-3",
+      "title": "Tái Cấu Trúc (Refactor)",
+      "role": "Agent",
+      "description": "Khi đã an toàn nhờ hàng rào Test bảo vệ, Agent mới tiến hành gọt dũa mã nguồn cho láng mịn và tuân thủ Clean Code.",
+      "input": "Passing Green Code",
+      "output": "Clean Refactored Code",
+      "loopGroup": "Execution",
+      "icon": "✨",
+      "nextSteps": [{"conditionLabel": "Test Vẫn Xanh -> Xong", "nextNodeId": "tdd-3", "isLoopBack": true}],
+      "guidanceContext": "Lúc này, kể cả có làm hỏng hàm thì bài Test màu Xanh sẽ bắt lại ngay sự cố. Cứ yên tâm mà sửa.",
+      "exampleDetails": "Chuyển từ Switch-Case thành Strategy Pattern nhưng Assertions vẫn đỗ."
+    }
+  ]
+}

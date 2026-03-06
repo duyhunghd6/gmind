@@ -1,6 +1,6 @@
 {
   "id": "wf-xp-refactor",
-  "title": "XP Kỹ thuật số: Tái cấu trúc Liên tục",
+  "title": "5. XP Kỹ thuật số: Tái cấu trúc Liên tục",
   "description": "Extreme Programming dồn ép chất lượng lên tận mức cực hạn. AI thay thế người Review code để dọn dẹp biến, hàm tồi tệ ngay khi vừa gõ xong.",
   "steps": [
     {

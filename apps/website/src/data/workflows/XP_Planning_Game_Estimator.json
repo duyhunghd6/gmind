@@ -1,0 +1,48 @@
+{
+  "id": "wf-xp-planning",
+  "title": "9. XP: The Planning Game Estimator",
+  "description": "Tạm biệt những buổi họp mệt mỏi. Trò chơi Khởi sự nơi Dev và PM thương thảo rành mạch về sức chứa công việc.",
+  "steps": [
+    {
+      "id": "pg-1",
+      "title": "Khách hàng Viết Story",
+      "role": "User",
+      "description": "Viết User Stories lên thẻ bìa (Index cards), định giá mức độ Ưu tiên cao nhất về mặt thương mại.",
+      "input": "Tính năng",
+      "output": "User Stories",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Giai đoạn đầu chu kỳ Release. Cần bốc task nào ra làm trước và bỏ task nào lại.",
+      "promptText": "Hôm nay Product Team đưa xuống 5 features. Bạn đọc 5 thẻ này đi, tôi cần nó xong trước Lễ Tạ Ơn. Tính ra giá bằng điểm Story (Story Points) theo Fibonacci giúp tôi.",
+      "icon": "🃏",
+      "nextSteps": [{"conditionLabel": "Đọc Story", "nextNodeId": "pg-2"}],
+      "guidanceContext": "Business đưa ra cái họ muốn. Nhưng người quyết định giá tiền phải là Dev.",
+      "exampleDetails": "Viết rành mạch: 'Là người dùng, tôi muốn... để...'."
+    },
+    {
+      "id": "pg-2",
+      "title": "Kỹ sư Ước lượng (Estimate)",
+      "role": "Agent",
+      "description": "Phân tích độ phức tạp, rủi ro, thời gian và gán điểm (Points) cho các tính năng.",
+      "input": "User Stories",
+      "output": "Estimated Points",
+      "loopGroup": "Planning",
+      "icon": "⚖️",
+      "nextSteps": [{"conditionLabel": "Ngã giá", "nextNodeId": "pg-3"}],
+      "guidanceContext": "Nếu điểm quá lớn (VD: 21 điểm), Agent có trách nhiệm phải xé nhỏ Story (Decomposition) trước khi đem lên cân lại.",
+      "exampleDetails": "AI gán: Login bằng Apple ID = 8 pts, Login thường = 2 pts."
+    },
+    {
+      "id": "pg-3",
+      "title": "Khách hàng Chốt Điểm / Bỏ túi",
+      "role": "User",
+      "description": "Dựa trên Vận tốc nhóm (Velocity), Khách rút lấy các Story có tổng điểm vừa khít túi tiền (Sức lao động) của Dev.",
+      "input": "Estimated Points",
+      "output": "Sprint/Release Backlog",
+      "loopGroup": "Planning",
+      "icon": "💰",
+      "nextSteps": [{"conditionLabel": "Cam kết Làm", "nextNodeId": "pg-3", "isLoopBack": true}],
+      "guidanceContext": "Nếu tổng thẻ vượt quá sức (Capacity), PM tuyệt đối không được ép Dev OT. Trò chơi kết thúc, phải vứt tính năng rác ra khỏi rổ.",
+      "exampleDetails": "Chỉ lấy được 3 card thôi vì tuần này tổng Velocity là 20. Để 2 card kia sang tháng."
+    }
+  ]
+}

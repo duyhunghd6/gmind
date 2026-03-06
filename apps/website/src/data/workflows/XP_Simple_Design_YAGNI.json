@@ -1,0 +1,48 @@
+{
+  "id": "wf-xp-yagni",
+  "title": "11. XP: Simple Design & YAGNI Guard",
+  "description": "Rà soát mức độ phức tạp. Agent ép kỹ sư gỡ bỏ sự lo bò trắng răng (Over-engineering), tuân thủ nguyên lý thiết kế Đơn Giản Nhất Có Thể (Simple Design).",
+  "steps": [
+    {
+      "id": "yag-1",
+      "title": "Bẫy Kiến Trúc Nặng Nề",
+      "role": "User",
+      "description": "Lập trình viên mang tính tự tôn cao, thích áp dụng Design Patterns khủng hay Kafka/Redis vào những chỗ nhỏ bé để phòng hờ tương lai.",
+      "input": "Phác thảo Kiến thức To tát",
+      "output": "Over-engineered Code",
+      "loopGroup": "Planning",
+      "projectStateScenario": "Nhóm Dev trẻ thích dùng công nghệ xịn sò cho một cái tool chỉ phục vụ 10 User nội bộ.",
+      "promptText": "Hệ thống Notification này của mình phải dùng Kafka chia Event Stream. Bạn setup cho tôi Docker Compose chạy 3 broker Kafka và Zookeeper nhé.",
+      "icon": "🏗️",
+      "nextSteps": [{"conditionLabel": "Code cồng kềnh", "nextNodeId": "yag-2"}],
+      "guidanceContext": "Hố mìn lớn nhất của lập trình viên là làm rối tung mọi thứ chỉ vì lo xa 5 năm sau hệ thống sẽ mở rộng. XP dạy rằng: Cái tương lai kỳ diệu đó thường không bao giờ đến.",
+      "exampleDetails": "Thêm tầng Abstraction vô ích, dựng Service to đùng cho hàm phụ."
+    },
+    {
+      "id": "yag-2",
+      "title": "YAGNI Guard Ngăn chặn",
+      "role": "Agent",
+      "description": "AI gõ búa, bác bỏ giải pháp cồng kềnh, đề nghị giải pháp đơn giản nhất (Simple Design) với nguyên lý YAGNI (You Aren't Gonna Need It).",
+      "input": "Over-engineered Code",
+      "output": "Simplified Architecture",
+      "loopGroup": "Planning",
+      "icon": "🛡️",
+      "nextSteps": [{"conditionLabel": "Sửa lại thiết kế", "nextNodeId": "yag-3"}],
+      "guidanceContext": "Đóng vai vị kiến trúc sư trưởng lạnh lùng, dẹp bỏ mọi rườm rà. Mã nguồn tốn ít dòng nhất mà Pass bài Test là mã nguồn đẹp nhất.",
+      "exampleDetails": "AI reply: 'Mày chỉ cần 1 cái mảng in-memory thay vì Redis. Không làm trò con bò. Mày chưa cần đến nó đâu (YAGNI).'"
+    },
+    {
+      "id": "yag-3",
+      "title": "Chấp nhận Đơn Giản Nhiệm Màu",
+      "role": "User",
+      "description": "Xóa code rối, quay lại cấu hình đơn giản để đi đường dài, tiết kiệm não bộ.",
+      "input": "Simplified Architecture",
+      "output": "Elegant Output",
+      "loopGroup": "Execution",
+      "icon": "🧘‍♂️",
+      "nextSteps": [{"conditionLabel": "Tinh ranh hơn", "nextNodeId": "yag-1", "isLoopBack": true}],
+      "guidanceContext": "Gìn giữ tài nguyên trí tuệ của đội nhóm ở mức thư thái (Zen), không gánh tạ tốn kém vào hệ thống.",
+      "exampleDetails": "Thiết kế mỏng nhưng vẫn đủ tính kiểm thử."
+    }
+  ]
+}

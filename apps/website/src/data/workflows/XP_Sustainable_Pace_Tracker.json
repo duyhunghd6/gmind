@@ -1,0 +1,47 @@
+{
+  "id": "wf-xp-pace",
+  "title": "15. XP: Sustainable Pace Monitor",
+  "description": "Cốt lõi của XP là sự Minh Mẫn: Xây dựng nhịp độ bền vững ở tốc độ ánh sáng mà tuyệt đối không một ai phải OT (Overtime).",
+  "steps": [
+    {
+      "id": "pace-1",
+      "title": "Cảnh Báo Kiệt Sức",
+      "role": "Agent",
+      "description": "Agent đo lường số giờ code thực tế hoặc lượng Commit mỗi ngày/cá nhân. Nếu phát hiện code vào lúc 8h tối: Còi báo động vỡ nhịp (Pace Break) vang lên.",
+      "input": "Git Activity Logs",
+      "output": "Burnout Warning",
+      "loopGroup": "None",
+      "projectStateScenario": "Giai đoạn cuối dự án (Crunch Time) các Dev thường bị ép tăng ca thâu đêm, sinh ra mớ code chất lượng tồi tệ nợ kỹ thuật (Technical Debt) sang ngày mai.",
+      "promptText": "Hôm tay là ngày thứ 6, tao mới sửa được 40% tính năng mới này thôi nhưng tao phải làm nốt xuyên đêm chứ thứ 2 sếp chửi chết.",
+      "icon": "⚠️",
+      "nextSteps": [{"conditionLabel": "Vượt tuần 40 giờ", "nextNodeId": "pace-2"}],
+      "guidanceContext": "Người code mệt là người xả code thối (Code Smells). XP cấm việc làm thêm giờ (Overtime) như một nguyên tắc bất di bất dịch của 40-Hour Work Week.",
+      "exampleDetails": "Agent cảnh báo độ trượt Velocity và rủi ro Bug."
+    },
+    {
+      "id": "pace-2",
+      "title": "Sống Thư Thái / Vứt Việc Xuống",
+      "role": "User",
+      "description": "Nhận ra vấn đề. Tắt máy tính, nhấc cặp đi về nhà và sống cuộc đời bình thường để duy trì độ bén cho não.",
+      "input": "Burnout Warning",
+      "output": "Relaxed Brain",
+      "loopGroup": "None",
+      "icon": "☕",
+      "nextSteps": [{"conditionLabel": "Ngủ nghỉ nạp lại năng lượng", "nextNodeId": "pace-3"}],
+      "guidanceContext": "Nếu cuối vòng lặp không xong? Lỗi ở người lên kế hoạch và Trò Chơi Khởi Sự bị sai Point. Team PM phải ra thông báo bỏ rớt tính năng thay vì bắt kỹ sư đền mạng.",
+      "exampleDetails": "Thẳng thắn nhìn nhận thất bại trong hoạch định và sửa ở buổi sau."
+    },
+    {
+      "id": "pace-3",
+      "title": "Bền Vững Chặng Đường Dài",
+      "role": "Agent",
+      "description": "Hệ thống tự động điều chỉnh lại điểm Story Point cho tuần sau và hạ mức Velocity kỳ vọng của Team xuống để tái tạo nhịp độ chuẩn xác.",
+      "input": "Relaxed Brain",
+      "output": "Recalibrated Velocity",
+      "loopGroup": "Planning",
+      "icon": "🔋",
+      "guidanceContext": "Tốc độ Đỉnh là Vô dụng nếu không duy trì được Bền Vững (Sustainable). Cỗ máy vĩ đại được thiết kế để chạy đường trường.",
+      "exampleDetails": "Tuần này Vận tốc giảm từ 20 xuống 15 điểm."
+    }
+  ]
+}
