@@ -120,7 +120,6 @@ import XpFeedbackLoopsSvg from "../../../../docs/assets/images/agile-explain-svg
 import XpLifecycle2Svg from "../../../../docs/assets/images/agile-explain-svg/xp-lifecycle.svg";
 import XpPracticesSvg from "../../../../docs/assets/images/agile-explain-svg/xp-practices.svg";
 import XpProsConsSvg from "../../../../docs/assets/images/agile-explain-svg/xp-pros-cons.svg";
-import XpValuesPrincSvg from "../../../../docs/assets/images/agile-explain-svg/xp-values-principles.svg";
 import ScrumSDLC from "../../../../docs/assets/images/agile-explain-svg/scrum-software-dev-life-cycle.svg";
 import TDDLifeCycle from "../../../../docs/assets/images/agile-explain-svg/tdd-life-cycle.svg";
 import SAFeExplain from "../../../../docs/assets/images/agile-explain-svg/scaled-agile-framework-explain.svg";
@@ -316,7 +315,6 @@ export const theoryTopics: TheoryTopic[] = [
 
         <h3 style={{ color: "var(--accent-rose)", fontSize: "1.4rem", marginTop: "1rem", fontWeight: 600 }}>1. Giá trị và Nguyên tắc</h3>
         <p style={{ lineHeight: "1.6", color: "var(--text-dim)" }}>XP được định hướng dựa trên tập hợp các giá trị và nguyên tắc xuyên suốt. Các yếu tố này là nền móng để Agentic AI thấu hiểu cách thức lập trình phần mềm có giá trị cao.</p>
-        <ImgView src={XpValuesPrincSvg} alt="Giá trị và Nguyên tắc XP" />
 
         <h3 style={{ color: "var(--accent-rose)", fontSize: "1.4rem", marginTop: "1rem", fontWeight: 600 }}>2. Các thực tiễn & Vòng lặp phản hồi XP</h3>
         <p style={{ lineHeight: "1.6", color: "var(--text-dim)" }}>Cách XP kiểm soát rủi ro thông qua việc lồng ghép nhiều bộ Feedback Loops (từ cấp độ Giây/Phút cho đến Tháng).</p>

@@ -8,10 +8,8 @@ import SectionLabel from "./SectionLabel";
 import CodeBlock from "./CodeBlock";
 import Terminal from "./Terminal";
 
-// --- CUSTOM SVG FLOWCHART OVERLAY ---
 const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], activeSection: string }) => {
-  const [lines, setLines] = useState<{ id: string, sx: number, sy: number, ex: number, ey: number, w: number, label?: string, type?: "loop-left" | "curve-right" | "jump-forward" | "straight", bendOffset: number }[]>([]);
-
+  const [lines, setLines] = useState<{ id: string, sx: number, sy: number, ex: number, ey: number, w: number, label?: string, type?: "loop-left" | "curve-right" | "jump-forward" | "straight" | "self-loop", bendOffset: number }[]>([]);
   useEffect(() => {
     const updateLines = () => {
       const container = document.getElementById("flowchart-container");
@@ -39,18 +37,26 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
           const isForwardJump = !isBackward && endIndex !== -1 && endIndex > startIndex + 1;
 
           // Base type on structural relationship, not just loop
-          let type: "loop-left" | "curve-right" | "jump-forward" | "straight" = "straight";
+          let type: "loop-left" | "curve-right" | "jump-forward" | "straight" | "self-loop" = "straight";
           let sx = 0, sy = 0, ex = 0, ey = 0;
           let bendOffset = 0;
 
-          if (isLoop || (isBackward && !next.isLoopBack)) {
+          if (s.id === next.nextNodeId) {
+            // Self loop: start from bottom, go left, enter from left side
+            type = "self-loop";
+            sx = startRect.left + startRect.width / 2 - containerRect.left;
+            sy = startRect.bottom - containerRect.top;
+            ex = startRect.left - containerRect.left;
+            ey = startRect.top + startRect.height / 2 - containerRect.top;
+            bendOffset = Math.max(80, 80 + (i * 20));
+          } else if (isLoop || (isBackward && !next.isLoopBack)) {
             // All loops, or small backward steps, curve left
             type = "loop-left";
             sx = startRect.left - containerRect.left;
             sy = startRect.top + startRect.height / 2 - containerRect.top;
             ex = endRect.left - containerRect.left;
             ey = endRect.top + endRect.height / 2 - containerRect.top;
-            bendOffset = Math.max(80, Math.min(200, Math.abs(ey - sy) * 0.4)) + (i * 20);
+            bendOffset = Math.max(100, Math.min(200, Math.abs(ey - sy) * 0.4)) + (i * 25);
           } else if (isBackward && next.isLoopBack) {
             // Very rare: backward but specifically requested to curve right if needed (or backward jumps)
             type = "curve-right";
@@ -58,7 +64,7 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
             sy = startRect.top + startRect.height / 2 - containerRect.top;
             ex = endRect.right - containerRect.left;
             ey = endRect.top + endRect.height / 2 - containerRect.top;
-            bendOffset = Math.max(80, Math.min(250, Math.abs(ey - sy) * 0.4)) + (i * 20);
+            bendOffset = Math.max(100, Math.min(250, Math.abs(ey - sy) * 0.4)) + (i * 25);
           } else if (isForwardJump) {
             // Forward jump: start bottom, go to right margin, end top
             type = "jump-forward";
@@ -110,11 +116,11 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
   return (
     <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0, overflow: "visible" }}>
       <defs>
-        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent-teal)" />
+        <marker id="arrowhead" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="var(--accent-teal)" />
         </marker>
-        <marker id="arrowhead-loop" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-          <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent-rose)" />
+        <marker id="arrowhead-loop" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+          <polygon points="0 0, 7 2.5, 0 5" fill="var(--accent-rose)" />
         </marker>
       </defs>
       {lines.map((l) => {
@@ -127,7 +133,7 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
           // Orthogonal Left U-Turn
           const rawMidX = Math.min(l.sx, l.ex) - Math.abs(l.bendOffset);
           // Clamp midX to stop it from bleeding left into the sidebar menu
-          const midX = Math.max(15, rawMidX);
+          const midX = Math.max(-5, rawMidX); 
           const actualBend = Math.abs(Math.min(l.sx, l.ex) - midX);
           const dirY = l.ey > l.sy ? 1 : -1;
           const safeR = Math.min(r, Math.abs(l.ey - l.sy) / 2, actualBend / 2);
@@ -137,6 +143,23 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
             L ${midX + safeR} ${l.sy} 
             Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY} 
             L ${midX} ${l.ey - safeR * dirY} 
+            Q ${midX} ${l.ey} ${midX + safeR} ${l.ey} 
+            L ${l.ex - 10} ${l.ey}
+          `;
+        } else if (l.type === "self-loop") {
+          // Self-loop: Orthogonal Bottom -> Left -> Enter Left
+          const rawMidX = l.ex - l.bendOffset;
+          const midX = Math.max(-5, rawMidX);
+          const actualBend = Math.abs(l.ex - midX);
+          const safeR = Math.min(r, actualBend / 2, Math.abs(l.sy + 20 - l.ey) / 2);
+          
+          pathD = `
+            M ${l.sx} ${l.sy} 
+            L ${l.sx} ${l.sy + 20 - safeR} 
+            Q ${l.sx} ${l.sy + 20} ${l.sx - safeR} ${l.sy + 20} 
+            L ${midX + safeR} ${l.sy + 20} 
+            Q ${midX} ${l.sy + 20} ${midX} ${l.sy + 20 - safeR} 
+            L ${midX} ${l.ey + safeR} 
             Q ${midX} ${l.ey} ${midX + safeR} ${l.ey} 
             L ${l.ex - 10} ${l.ey}
           `;
@@ -177,22 +200,22 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
           pathD = `M ${l.sx} ${l.sy} L ${l.sx} ${(l.sy + l.ey)/2} L ${l.ex} ${(l.sy + l.ey)/2} L ${l.ex} ${l.ey - 10}`;
         }
 
-        const color = l.type === "loop-left" ? "var(--accent-rose)" : "var(--accent-teal)";
-        const marker = l.type === "loop-left" ? "url(#arrowhead-loop)" : "url(#arrowhead)";
+        const color = (l.type === "loop-left" || l.type === "self-loop") ? "var(--accent-rose)" : "var(--accent-teal)";
+        const marker = (l.type === "loop-left" || l.type === "self-loop") ? "url(#arrowhead-loop)" : "url(#arrowhead)";
 
         return (
           <g key={l.id}>
             <path d={pathD.trim().replace(/\s+/g, ' ')} fill="none" stroke={color} strokeWidth="2.5" strokeDasharray={l.type === "loop-left" ? "6,6" : "none"} markerEnd={marker} opacity={0.7} />
             {l.label && (() => {
-              const clampedLeftMidX = Math.max(15, Math.min(l.sx, l.ex) - Math.abs(l.bendOffset));
+              const clampedLeftMidX = Math.max(-5, Math.min(l.sx, l.ex) - Math.abs(l.bendOffset));
               return (
               <text 
-                x={l.type === "loop-left" ? clampedLeftMidX + 10 : l.type === "curve-right" ? Math.max(l.sx, l.ex) + (l.bendOffset - 30) : l.type === "jump-forward" ? Math.max(l.sx, l.ex) + 80 + l.bendOffset : (l.sx + l.ex) / 2 + 10} 
-                y={(l.sy + l.ey) / 2} 
+                x={l.type === "loop-left" ? clampedLeftMidX + 10 : l.type === "self-loop" ? Math.max(-5, l.ex - l.bendOffset) + 10 : l.type === "curve-right" ? Math.max(l.sx, l.ex) + (l.bendOffset - 30) : l.type === "jump-forward" ? Math.max(l.sx, l.ex) + 80 + l.bendOffset : (l.sx + l.ex) / 2 + 10} 
+                y={l.type === "self-loop" ? (l.sy + 20 + l.ey) / 2 : (l.sy + l.ey) / 2} 
                 fill={color} 
                 fontSize="12" 
                 fontWeight="bold"
-                textAnchor={l.type === "loop-left" ? "start" : "start"}
+                textAnchor={l.type === "loop-left" || l.type === "self-loop" ? "start" : "start"}
                 style={{
                   textShadow: "1px 1px 0 var(--bg), -1px -1px 0 var(--bg), 1px -1px 0 var(--bg), -1px 1px 0 var(--bg)",
                   background: "var(--bg)" // fallback for Safari
@@ -585,7 +608,7 @@ export default function PromptViewer({
         key={s.id} 
         id={`node-${s.id}`} /* ID added for SVG logic */
         className="animate-fade-up flowchart-node" 
-        style={{ animationDelay: `${index * 0.1}s`, cursor: "pointer", position: "relative", zIndex: 1, marginBottom: "15rem" }} /* Added margin-bottom instead of arrow gap */
+        style={{ animationDelay: `${index * 0.1}s`, cursor: "pointer", position: "relative", zIndex: 1, marginBottom: "15rem", width: "100%", maxWidth: "650px", marginLeft: "auto", marginRight: "auto" }} /* Standardized node sizing */
         onClick={() => setSelectedNodeId(s.id)}
       >
         <div style={{ 

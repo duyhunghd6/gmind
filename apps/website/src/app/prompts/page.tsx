@@ -44,6 +44,16 @@ export default function PromptsPage() {
       return;
     }
 
+    // Check if it matches an AI Workflow
+    const foundWorkflow = aiWorkflows.find(wf => wf.id === hash);
+    if (foundWorkflow) {
+      setActiveSection("workflows");
+      setActiveWorkflowId(foundWorkflow.id);
+      setActiveGuideId(null);
+      setActiveTheoryId(null);
+      return;
+    }
+
     // Check if it matches a setup guide
     const foundGuide = setupGuides.find(g => g.id === hash);
     if (foundGuide) {
@@ -125,7 +135,19 @@ export default function PromptsPage() {
       minHeight: "calc(100vh - 80px)",
       alignItems: "start"
     }}>
-      <div style={{ position: "sticky", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto", borderRight: "1px solid var(--border-color)", padding: "20px 0" }}>
+      <style>{`
+        .sidebar-wrapper::-webkit-scrollbar {
+          width: 6px;
+        }
+        .sidebar-wrapper::-webkit-scrollbar-thumb {
+          background: var(--accent-cyan-dim, rgba(14, 165, 233, 0.1));
+          border-radius: 3px;
+        }
+        .sidebar-wrapper::-webkit-scrollbar-thumb:hover {
+          background: var(--accent-cyan, #0ea5e9);
+        }
+      `}</style>
+      <div className="sidebar-wrapper" style={{ position: "sticky", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto", borderRight: "1px solid var(--border-color)", padding: "20px 0" }}>
         <PromptsSidebar
           workflows={aiWorkflows}
           setupGuides={setupGuides}
