@@ -6,3 +6,4 @@ reference/
 apps/website/node_modules/
 apps/website/.next/
 node_modules/
+apps/website/tsconfig.tsbuildinfo
