@@ -1,0 +1,60 @@
+import type { DiagramEntry } from "./index";
+
+export const diagram: DiagramEntry = {
+  id: "01",
+  group: "toolcall",
+  groupLabel: "Tool Call cơ bản",
+  title: "Bài toán nhân số lớn",
+  description: "LLM không giỏi tính toán chính xác — tool_call: calculator giải quyết tức thì.",
+  accent: "cyan",
+  withLabel: "CÓ tool_call",
+  withoutLabel: "KHÔNG CÓ tool_call",
+  withMermaid: `sequenceDiagram
+    autonumber
+    actor User as Người dùng
+    participant IDE as Agentic IDE
+    participant LLM as Gemini LLM
+    participant Calc as Calculator Tool
+
+    User->>IDE: "847291 nhân 936482 bằng bao nhiêu?"
+    IDE->>LLM: User Prompt + Available Tools [calculator]
+
+    Note over LLM: Nhận diện: bài toán tính toán → dùng tool
+    LLM->>IDE: tool_call: calculator.multiply(847291, 936482)
+    IDE->>Calc: multiply(847291, 936482)
+    Calc-->>IDE: 793,548,523,162
+    IDE->>LLM: Kết quả: 793,548,523,162
+
+    LLM->>IDE: "847291 × 936482 = 793.548.523.162"
+    IDE->>User: ✅ Kết quả chính xác 100%`,
+
+  withoutMermaid: `sequenceDiagram
+    autonumber
+    actor User as Người dùng
+    participant IDE as Agentic IDE
+    participant LLM as Gemini LLM
+
+    User->>IDE: "847291 nhân 936482 bằng bao nhiêu?"
+    IDE->>LLM: User Prompt (KHÔNG có calculator tool)
+
+    Note over LLM: ⚠ Tự tính nhân số lớn bằng "suy luận"
+    Note over LLM: Token prediction ≠ Arithmetic
+    LLM->>IDE: "847291 × 936482 = 793,412,xxx,xxx (?)"
+    IDE->>User: ❌ Kết quả SAI — LLM hallucinate số
+
+    Note over User: Phải tự kiểm tra bằng máy tính
+    User->>User: Mở calculator → phát hiện sai`,
+
+  quiz: {
+    question: "Tại sao LLM (Large Language Model) không thể tính chính xác phép nhân số lớn nếu không có tool_call?",
+    options: [
+      "A. LLM không được huấn luyện về toán học",
+      "B. LLM predict token tiếp theo, KHÔNG thực hiện phép tính — nên kết quả chỉ là 'đoán'",
+      "C. LLM bị giới hạn bộ nhớ RAM khi tính toán",
+      "D. LLM chỉ hoạt động với văn bản, không xử lý được số"
+    ],
+    correctIndex: 1,
+    explanation: "LLM hoạt động bằng cách dự đoán token tiếp theo (next-token prediction), KHÔNG thực hiện phép tính toán thực. Khi gặp phép nhân số lớn, LLM 'đoán' kết quả dựa trên pattern — dẫn đến sai.",
+    theory: "Tool Call (Function Calling) cho phép LLM gọi hàm bên ngoài (calculator, API, database) thay vì tự xử lý. Đây là cơ chế cốt lõi biến LLM từ 'trả lời bằng text' thành 'hành động trong thế giới thực'."
+  }
+};
