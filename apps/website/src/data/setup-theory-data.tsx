@@ -29,18 +29,18 @@ export const setupGuides: SetupGuide[] = [
   {
     id: "setup-full-stack",
     title: "Installation",
-    description: "Hướng dẫn cài đặt Agent (Antigravity), công cụ index (FastCode CLI) và Gmind CLI qua 3 bước.",
+    description: "Hướng dẫn cài đặt đầy đủ môi trường phát triển: AI Agents (Antigravity, Gemini CLI, Claude Code), công cụ index (FastCode CLI), DevOps (Git, GitHub CLI, Vercel CLI) và Gmind CLI qua 8 bước.",
     steps: [
       {
         id: "install-agent",
         title: "1. Cài đặt Antigravity Agent",
         role: "System",
-        description: "Cài đặt core Agent của Google Deepmind để chuẩn bị cho môi trường Agentic AI.",
+        description: "Cài đặt core Agent của Google DeepMind. Tải tại: https://antigravity.google/download",
         input: "Thiết bị Local",
         output: "Agent Binary",
         macOSTerminalLines: [
           { prompt: "$", type: "command", text: "brew install google-deepmind/tap/antigravity" },
-          { type: "output", text: "==> Downloading ..." },
+          { type: "output", text: "==> Downloading from antigravity.google/download ..." },
           { type: "success", text: "🍺 antigravity installed!" },
           { prompt: "$", type: "command", text: "export GEMINI_API_KEY=\"aizaSy...\"" }
         ],
@@ -59,23 +59,151 @@ export const setupGuides: SetupGuide[] = [
         id: "install-fastcode",
         title: "2. Cài đặt FastCode CLI",
         role: "System",
-        description: "Công cụ Index AST cục bộ siêu tốc độ (lên đến 20M tokens/min).",
+        description: "Go-native Codebase Intelligence Engine — Index AST, hybrid search & graph modeling. GitHub: https://github.com/duyhunghd6/fastcode-cli",
         input: "Agent Binary",
         output: "Semantic Indexer",
         macOSTerminalLines: [
-          { prompt: "$", type: "command", text: "brew install fastcode-ai/cli/fastcode" },
-          { type: "success", text: "FastCode v2.1.0 installed." }
+          { prompt: "$", type: "command", text: "git clone https://github.com/duyhunghd6/fastcode-cli.git" },
+          { prompt: "$", type: "command", text: "cd fastcode-cli && go build -o fastcode ./cmd/fastcode" },
+          { type: "success", text: "FastCode built successfully." },
+          { prompt: "$", type: "command", text: "sudo mv fastcode /usr/local/bin/" },
+          { type: "success", text: "fastcode ready at /usr/local/bin/fastcode" }
         ],
         linuxTerminalLines: [
-          { prompt: "$", type: "command", text: "sudo apt-get install rustc cargo && cargo install fastcode-cli" }
+          { prompt: "$", type: "command", text: "git clone https://github.com/duyhunghd6/fastcode-cli.git" },
+          { prompt: "$", type: "command", text: "cd fastcode-cli && go build -o fastcode ./cmd/fastcode" },
+          { type: "success", text: "FastCode built successfully." },
+          { prompt: "$", type: "command", text: "sudo mv fastcode /usr/local/bin/" }
         ],
         windowsTerminalLines: [
-          { prompt: ">", type: "command", text: "choco install fastcode" }
+          { prompt: ">", type: "command", text: "git clone https://github.com/duyhunghd6/fastcode-cli.git" },
+          { prompt: ">", type: "command", text: "cd fastcode-cli && go build -o fastcode.exe ./cmd/fastcode" },
+          { type: "success", text: "FastCode built successfully." }
+        ]
+      },
+      {
+        id: "install-gemini-cli",
+        title: "3. Cài đặt Gemini CLI",
+        role: "System",
+        description: "AI Agent mã nguồn mở đưa sức mạnh Gemini vào terminal. GitHub: https://github.com/google-gemini/gemini-cli",
+        input: "Node.js ≥ 18",
+        output: "Gemini Agent",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "brew install gemini-cli" },
+          { type: "success", text: "gemini-cli installed." },
+          { type: "comment", text: "# Hoặc cài qua npm:" },
+          { prompt: "$", type: "command", text: "npm install -g @google/gemini-cli" }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "npm install -g @google/gemini-cli" },
+          { type: "success", text: "gemini-cli installed." },
+          { type: "comment", text: "# Hoặc chạy nhanh không cần cài:" },
+          { prompt: "$", type: "command", text: "npx @google/gemini-cli" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "npm install -g @google/gemini-cli" },
+          { type: "success", text: "gemini-cli installed." }
+        ]
+      },
+      {
+        id: "install-claude-code",
+        title: "4. Cài đặt Claude Code",
+        role: "System",
+        description: "Agentic coding tool từ Anthropic — đọc codebase, sửa file, chạy lệnh trực tiếp trong terminal. Docs: https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview",
+        input: "Thiết bị Local",
+        output: "Claude Agent",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "brew install --cask claude-code" },
+          { type: "success", text: "🍺 claude-code installed!" },
+          { type: "comment", text: "# Hoặc cài qua script:" },
+          { prompt: "$", type: "command", text: "curl -fsSL https://claude.ai/install.sh | bash" }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "curl -fsSL https://claude.ai/install.sh | bash" },
+          { type: "success", text: "Claude Code installed." }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "winget install Anthropic.ClaudeCode" },
+          { type: "success", text: "Successfully installed." }
+        ]
+      },
+      {
+        id: "install-git",
+        title: "5. Cài đặt Git",
+        role: "System",
+        description: "Hệ thống quản lý phiên bản phân tán — nền tảng bắt buộc cho mọi dự án phần mềm.",
+        input: "Thiết bị Local",
+        output: "Git Binary",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "brew install git" },
+          { type: "success", text: "git installed." },
+          { prompt: "$", type: "command", text: "git config --global user.name \"Your Name\"" },
+          { prompt: "$", type: "command", text: "git config --global user.email \"you@example.com\"" }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "sudo apt-get update && sudo apt-get install git" },
+          { type: "success", text: "git installed." },
+          { prompt: "$", type: "command", text: "git config --global user.name \"Your Name\"" },
+          { prompt: "$", type: "command", text: "git config --global user.email \"you@example.com\"" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "winget install Git.Git" },
+          { type: "success", text: "Successfully installed." },
+          { prompt: ">", type: "command", text: "git config --global user.name \"Your Name\"" },
+          { prompt: ">", type: "command", text: "git config --global user.email \"you@example.com\"" }
+        ]
+      },
+      {
+        id: "install-github-cli",
+        title: "6. Cài đặt GitHub CLI",
+        role: "System",
+        description: "Đưa toàn bộ GitHub workflow vào terminal — quản lý PR, Issues, Repos từ dòng lệnh. Website: https://cli.github.com",
+        input: "Git Binary",
+        output: "GitHub CLI (gh)",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "brew install gh" },
+          { type: "success", text: "gh installed." },
+          { prompt: "$", type: "command", text: "gh auth login" },
+          { type: "output", text: "? What account do you want to log into? GitHub.com" }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "sudo apt-get install gh" },
+          { type: "success", text: "gh installed." },
+          { prompt: "$", type: "command", text: "gh auth login" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "winget install GitHub.cli" },
+          { type: "success", text: "Successfully installed." },
+          { prompt: ">", type: "command", text: "gh auth login" }
+        ]
+      },
+      {
+        id: "install-vercel-cli",
+        title: "7. Cài đặt Vercel CLI",
+        role: "System",
+        description: "Deploy, preview và quản lý dự án Vercel từ terminal. Docs: https://vercel.com/docs/cli",
+        input: "Node.js ≥ 18",
+        output: "Vercel CLI",
+        macOSTerminalLines: [
+          { prompt: "$", type: "command", text: "npm i -g vercel" },
+          { type: "success", text: "vercel installed." },
+          { prompt: "$", type: "command", text: "vercel login" },
+          { type: "output", text: "Vercel CLI — Log in to Vercel" }
+        ],
+        linuxTerminalLines: [
+          { prompt: "$", type: "command", text: "npm i -g vercel" },
+          { type: "success", text: "vercel installed." },
+          { prompt: "$", type: "command", text: "vercel login" }
+        ],
+        windowsTerminalLines: [
+          { prompt: ">", type: "command", text: "npm i -g vercel" },
+          { type: "success", text: "vercel installed." },
+          { prompt: ">", type: "command", text: "vercel login" }
         ]
       },
       {
         id: "install-gmind",
-        title: "3. Khởi tạo Gmind Project",
+        title: "8. Khởi tạo Gmind Project",
         role: "User",
         description: "Cài đặt CLI quản trị GSAFe và khởi tạo Workspace.",
         input: "Rỗng",
