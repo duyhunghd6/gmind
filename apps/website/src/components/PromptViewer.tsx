@@ -16,81 +16,138 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
       if (!container) return;
       const containerRect = container.getBoundingClientRect();
 
-      const newLines: any[] = [];
+      // Collect ALL connections first to determine staggered offsets
+      type RawConnection = {
+        sourceStep: WorkflowStep;
+        next: { conditionLabel?: string; nextNodeId: string; isLoopBack?: boolean };
+        nextIndex: number;
+        startRect: DOMRect;
+        endRect: DOMRect;
+        isBackward: boolean;
+      };
+      const allConnections: RawConnection[] = [];
+
       steps.forEach(s => {
         if (!s.nextSteps) return;
         const startEl = document.getElementById(`node-${s.id}`);
         if (!startEl) return;
         const startRect = startEl.getBoundingClientRect();
-
         s.nextSteps.forEach((next, i) => {
           const endEl = document.getElementById(`node-${next.nextNodeId}`);
           if (!endEl) return;
           const endRect = endEl.getBoundingClientRect();
-
-          const isLoop = next.isLoopBack;
           const isBackward = endRect.top < startRect.top;
-          
-          // Use structural indexes to determine jumps, avoiding pixel flaws
-          const startIndex = steps.findIndex(step => step.id === s.id);
-          const endIndex = steps.findIndex(step => step.id === next.nextNodeId);
-          const isForwardJump = !isBackward && endIndex !== -1 && endIndex > startIndex + 1;
+          allConnections.push({ sourceStep: s, next, nextIndex: i, startRect, endRect, isBackward });
+        });
+      });
 
-          // Base type on structural relationship, not just loop
-          let type: "loop-left" | "curve-right" | "jump-forward" | "straight" | "self-loop" = "straight";
-          let sx = 0, sy = 0, ex = 0, ey = 0;
-          let bendOffset = 0;
+      // Separate backward arrows for staggered offset assignment
+      const backwardArrows = allConnections.filter(c => c.isBackward || c.next.isLoopBack);
+      // Assign side: alternate left/right for backward arrows. First goes left, second goes right, etc.
+      // Use staggered offsets within each side
+      let leftCount = 0;
+      let rightCount = 0;
+      const backwardSideMap = new Map<string, { side: "left" | "right"; sideIndex: number }>();
+      backwardArrows.forEach((c) => {
+        const key = `${c.sourceStep.id}-${c.next.nextNodeId}-${c.nextIndex}`;
+        // isLoopBack explicitly goes left; non-loopBack backward goes right
+        if (c.next.isLoopBack) {
+          backwardSideMap.set(key, { side: "left", sideIndex: leftCount });
+          leftCount++;
+        } else {
+          backwardSideMap.set(key, { side: "right", sideIndex: rightCount });
+          rightCount++;
+        }
+      });
 
-          if (s.id === next.nextNodeId) {
-            // Self loop: start from bottom, go left, enter from left side
-            type = "self-loop";
-            sx = startRect.left + startRect.width / 2 - containerRect.left;
-            sy = startRect.bottom - containerRect.top;
-            ex = startRect.left - containerRect.left;
-            ey = startRect.top + startRect.height / 2 - containerRect.top;
-            bendOffset = Math.max(80, 80 + (i * 20));
-          } else if (isLoop || (isBackward && !next.isLoopBack)) {
-            // All loops, or small backward steps, curve left
-            type = "loop-left";
-            sx = startRect.left - containerRect.left;
-            sy = startRect.top + startRect.height / 2 - containerRect.top;
-            ex = endRect.left - containerRect.left;
-            ey = endRect.top + endRect.height / 2 - containerRect.top;
-            bendOffset = Math.max(100, Math.min(200, Math.abs(ey - sy) * 0.4)) + (i * 25);
-          } else if (isBackward && next.isLoopBack) {
-            // Very rare: backward but specifically requested to curve right if needed (or backward jumps)
+      // Now build the line data
+      const newLines: any[] = [];
+      allConnections.forEach((c) => {
+        const { sourceStep: s, next, nextIndex: i, startRect, endRect, isBackward } = c;
+        const key = `${s.id}-${next.nextNodeId}-${i}`;
+
+        let type: "loop-left" | "curve-right" | "jump-forward" | "straight" | "self-loop" = "straight";
+        let sx = 0, sy = 0, ex = 0, ey = 0;
+        let bendOffset = 0;
+
+        if (s.id === next.nextNodeId) {
+          // Self loop
+          type = "self-loop";
+          sx = startRect.left + startRect.width / 2 - containerRect.left;
+          sy = startRect.bottom - containerRect.top;
+          ex = startRect.left - containerRect.left;
+          ey = startRect.top + startRect.height / 2 - containerRect.top;
+          bendOffset = Math.max(80, 80 + (i * 20));
+        } else if (isBackward || next.isLoopBack) {
+          // Backward (bottom-to-top) connection
+          const assignment = backwardSideMap.get(key);
+          if (assignment && assignment.side === "right") {
+            // Route via RIGHT side
             type = "curve-right";
             sx = startRect.right - containerRect.left;
             sy = startRect.top + startRect.height / 2 - containerRect.top;
             ex = endRect.right - containerRect.left;
             ey = endRect.top + endRect.height / 2 - containerRect.top;
-            bendOffset = Math.max(100, Math.min(250, Math.abs(ey - sy) * 0.4)) + (i * 25);
-          } else if (isForwardJump) {
-            // Forward jump: start bottom, go to right margin, end top
+            bendOffset = 60 + (assignment.sideIndex * 40);
+          } else {
+            // Route via LEFT side
+            type = "loop-left";
+            sx = startRect.left - containerRect.left;
+            sy = startRect.top + startRect.height / 2 - containerRect.top;
+            ex = endRect.left - containerRect.left;
+            ey = endRect.top + endRect.height / 2 - containerRect.top;
+            const leftIdx = assignment ? assignment.sideIndex : 0;
+            bendOffset = 80 + (leftIdx * 40);
+          }
+        } else {
+          // Forward (top-to-bottom) connection
+          // Detect if it's a visual neighbor or a jump
+          // "Neighbor" = no other node element exists visually between the two
+          const gap = endRect.top - startRect.bottom;
+          const hasNodesBetween = allConnections.some(other => {
+            if (other === c) return false;
+            // Check if any node rect sits visually between start and end
+            const otherEl = document.getElementById(`node-${other.sourceStep.id}`);
+            if (!otherEl) return false;
+            const otherRect = otherEl.getBoundingClientRect();
+            return otherRect.top > startRect.bottom && otherRect.bottom < endRect.top;
+          });
+          // Also check target nodes
+          const hasTargetBetween = steps.some(step => {
+            if (step.id === s.id || step.id === next.nextNodeId) return false;
+            const el = document.getElementById(`node-${step.id}`);
+            if (!el) return false;
+            const r2 = el.getBoundingClientRect();
+            return r2.top >= startRect.bottom - 10 && r2.bottom <= endRect.top + 10;
+          });
+
+          if (hasTargetBetween) {
+            // Forward jump: route via right side
             type = "jump-forward";
             sx = startRect.left + startRect.width / 2 - containerRect.left;
             sy = startRect.bottom - containerRect.top;
             ex = endRect.left + endRect.width / 2 - containerRect.left;
             ey = endRect.top - containerRect.top;
-            bendOffset = Math.max(40, (endIndex - startIndex) * 40) + (i * 20);
+            bendOffset = 40 + (i * 30);
           } else {
-            // Direct neighbor (Straight)
+            // Direct neighbor: straight line
             type = "straight";
             sx = startRect.left + startRect.width / 2 - containerRect.left;
             sy = startRect.bottom - containerRect.top;
             ex = endRect.left + endRect.width / 2 - containerRect.left;
             ey = endRect.top - containerRect.top;
           }
+        }
 
-          newLines.push({
-            id: `${s.id}-${next.nextNodeId}-${i}`,
-            sx, sy, ex, ey, w: startRect.width,
-            label: next.conditionLabel,
-            type,
-            bendOffset
-          });
+        newLines.push({
+          id: key,
+          sx, sy, ex, ey, w: startRect.width,
+          label: next.conditionLabel,
+          type,
+          bendOffset
         });
       });
+
       setLines(newLines);
     };
 
@@ -125,106 +182,112 @@ const FlowchartSVGOverlay = ({ steps, activeSection }: { steps: WorkflowStep[], 
       </defs>
       {lines.map((l) => {
         let pathD = "";
-        
-        // Orthogonal        let pathD = "";
-        const r = 16; // Corner padding radius for rounded orthogonal lines
+        const r = 16; // Corner radius for rounded orthogonal lines
 
         if (l.type === "loop-left") {
-          // Orthogonal Left U-Turn
+          // Orthogonal Left U-Turn (backward arrow via left)
           const rawMidX = Math.min(l.sx, l.ex) - Math.abs(l.bendOffset);
-          // Clamp midX to stop it from bleeding left into the sidebar menu
-          const midX = Math.max(-5, rawMidX); 
+          const midX = Math.max(-5, rawMidX);
           const actualBend = Math.abs(Math.min(l.sx, l.ex) - midX);
           const dirY = l.ey > l.sy ? 1 : -1;
           const safeR = Math.min(r, Math.abs(l.ey - l.sy) / 2, actualBend / 2);
-          
           pathD = `
-            M ${l.sx} ${l.sy} 
-            L ${midX + safeR} ${l.sy} 
-            Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY} 
-            L ${midX} ${l.ey - safeR * dirY} 
-            Q ${midX} ${l.ey} ${midX + safeR} ${l.ey} 
+            M ${l.sx} ${l.sy}
+            L ${midX + safeR} ${l.sy}
+            Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY}
+            L ${midX} ${l.ey - safeR * dirY}
+            Q ${midX} ${l.ey} ${midX + safeR} ${l.ey}
             L ${l.ex - 10} ${l.ey}
           `;
         } else if (l.type === "self-loop") {
-          // Self-loop: Orthogonal Bottom -> Left -> Enter Left
+          // Self-loop: Bottom -> Left -> Enter Left
           const rawMidX = l.ex - l.bendOffset;
           const midX = Math.max(-5, rawMidX);
           const actualBend = Math.abs(l.ex - midX);
           const safeR = Math.min(r, actualBend / 2, Math.abs(l.sy + 20 - l.ey) / 2);
-          
           pathD = `
-            M ${l.sx} ${l.sy} 
-            L ${l.sx} ${l.sy + 20 - safeR} 
-            Q ${l.sx} ${l.sy + 20} ${l.sx - safeR} ${l.sy + 20} 
-            L ${midX + safeR} ${l.sy + 20} 
-            Q ${midX} ${l.sy + 20} ${midX} ${l.sy + 20 - safeR} 
-            L ${midX} ${l.ey + safeR} 
-            Q ${midX} ${l.ey} ${midX + safeR} ${l.ey} 
+            M ${l.sx} ${l.sy}
+            L ${l.sx} ${l.sy + 20 - safeR}
+            Q ${l.sx} ${l.sy + 20} ${l.sx - safeR} ${l.sy + 20}
+            L ${midX + safeR} ${l.sy + 20}
+            Q ${midX} ${l.sy + 20} ${midX} ${l.sy + 20 - safeR}
+            L ${midX} ${l.ey + safeR}
+            Q ${midX} ${l.ey} ${midX + safeR} ${l.ey}
             L ${l.ex - 10} ${l.ey}
           `;
         } else if (l.type === "curve-right") {
-          // Orthogonal Right U-Turn (Backwards)
+          // Orthogonal Right U-Turn (backward arrow via right)
           const midX = Math.max(l.sx, l.ex) + Math.abs(l.bendOffset);
           const dirY = l.ey > l.sy ? 1 : -1;
           const safeR = Math.min(r, Math.abs(l.ey - l.sy) / 2);
-          
           pathD = `
-            M ${l.sx} ${l.sy} 
-            L ${midX - safeR} ${l.sy} 
-            Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY} 
-            L ${midX} ${l.ey - safeR * dirY} 
-            Q ${midX} ${l.ey} ${midX - safeR} ${l.ey} 
+            M ${l.sx} ${l.sy}
+            L ${midX - safeR} ${l.sy}
+            Q ${midX} ${l.sy} ${midX} ${l.sy + safeR * dirY}
+            L ${midX} ${l.ey - safeR * dirY}
+            Q ${midX} ${l.ey} ${midX - safeR} ${l.ey}
             L ${l.ex + 10} ${l.ey}
           `;
         } else if (l.type === "jump-forward") {
-          // Orthogonal Forward Jump: Bottom -> Right -> Top
+          // Forward Jump: Bottom -> Right margin -> Top of target
           const offsetRight = Math.max(l.sx, l.ex) + l.w / 2 + l.bendOffset;
           const safeR = r;
-          
           pathD = `
-            M ${l.sx} ${l.sy} 
-            L ${l.sx} ${l.sy + 20 - safeR} 
-            Q ${l.sx} ${l.sy + 20} ${l.sx + safeR} ${l.sy + 20} 
-            L ${offsetRight - safeR} ${l.sy + 20} 
-            Q ${offsetRight} ${l.sy + 20} ${offsetRight} ${l.sy + 20 + safeR} 
-            L ${offsetRight} ${l.ey - 20 - safeR} 
-            Q ${offsetRight} ${l.ey - 20} ${offsetRight - safeR} ${l.ey - 20} 
-            L ${l.ex + safeR} ${l.ey - 20} 
-            Q ${l.ex} ${l.ey - 20} ${l.ex} ${l.ey - 20 + safeR} 
+            M ${l.sx} ${l.sy}
+            L ${l.sx} ${l.sy + 20 - safeR}
+            Q ${l.sx} ${l.sy + 20} ${l.sx + safeR} ${l.sy + 20}
+            L ${offsetRight - safeR} ${l.sy + 20}
+            Q ${offsetRight} ${l.sy + 20} ${offsetRight} ${l.sy + 20 + safeR}
+            L ${offsetRight} ${l.ey - 20 - safeR}
+            Q ${offsetRight} ${l.ey - 20} ${offsetRight - safeR} ${l.ey - 20}
+            L ${l.ex + safeR} ${l.ey - 20}
+            Q ${l.ex} ${l.ey - 20} ${l.ex} ${l.ey - 20 + safeR}
             L ${l.ex} ${l.ey - 10}
           `;
         } else {
-          // Straight down (Orthogonal/Linear) with no side branches
-          // When it's just neighbor to neighbor, draw a perfect straight vertical line or horizontal offset
-          pathD = `M ${l.sx} ${l.sy} L ${l.sx} ${(l.sy + l.ey)/2} L ${l.ex} ${(l.sy + l.ey)/2} L ${l.ex} ${l.ey - 10}`;
+          // Straight down: simple vertical or L-shaped
+          pathD = `M ${l.sx} ${l.sy} L ${l.sx} ${(l.sy + l.ey) / 2} L ${l.ex} ${(l.sy + l.ey) / 2} L ${l.ex} ${l.ey - 10}`;
         }
 
-        const color = (l.type === "loop-left" || l.type === "self-loop") ? "var(--accent-rose)" : "var(--accent-teal)";
-        const marker = (l.type === "loop-left" || l.type === "self-loop") ? "url(#arrowhead-loop)" : "url(#arrowhead)";
+        const isBackType = l.type === "loop-left" || l.type === "self-loop";
+        const color = isBackType ? "var(--accent-rose)" : "var(--accent-teal)";
+        const marker = isBackType ? "url(#arrowhead-loop)" : "url(#arrowhead)";
+        const isDashed = l.type === "loop-left";
+
+        // Label position calculation
+        let labelX = (l.sx + l.ex) / 2 + 10;
+        let labelY = (l.sy + l.ey) / 2;
+        if (l.type === "loop-left") {
+          const clampedMidX = Math.max(-5, Math.min(l.sx, l.ex) - Math.abs(l.bendOffset));
+          labelX = clampedMidX + 10;
+        } else if (l.type === "self-loop") {
+          labelX = Math.max(-5, l.ex - l.bendOffset) + 10;
+          labelY = (l.sy + 20 + l.ey) / 2;
+        } else if (l.type === "curve-right") {
+          labelX = Math.max(l.sx, l.ex) + l.bendOffset - 30;
+        } else if (l.type === "jump-forward") {
+          labelX = Math.max(l.sx, l.ex) + l.w / 2 + l.bendOffset + 8;
+        }
 
         return (
           <g key={l.id}>
-            <path d={pathD.trim().replace(/\s+/g, ' ')} fill="none" stroke={color} strokeWidth="2.5" strokeDasharray={l.type === "loop-left" ? "6,6" : "none"} markerEnd={marker} opacity={0.7} />
-            {l.label && (() => {
-              const clampedLeftMidX = Math.max(-5, Math.min(l.sx, l.ex) - Math.abs(l.bendOffset));
-              return (
-              <text 
-                x={l.type === "loop-left" ? clampedLeftMidX + 10 : l.type === "self-loop" ? Math.max(-5, l.ex - l.bendOffset) + 10 : l.type === "curve-right" ? Math.max(l.sx, l.ex) + (l.bendOffset - 30) : l.type === "jump-forward" ? Math.max(l.sx, l.ex) + 80 + l.bendOffset : (l.sx + l.ex) / 2 + 10} 
-                y={l.type === "self-loop" ? (l.sy + 20 + l.ey) / 2 : (l.sy + l.ey) / 2} 
-                fill={color} 
-                fontSize="12" 
+            <path d={pathD.trim().replace(/\s+/g, ' ')} fill="none" stroke={color} strokeWidth="2.5" strokeDasharray={isDashed ? "6,6" : "none"} markerEnd={marker} opacity={0.7} />
+            {l.label && (
+              <text
+                x={labelX}
+                y={labelY}
+                fill={color}
+                fontSize="12"
                 fontWeight="bold"
-                textAnchor={l.type === "loop-left" || l.type === "self-loop" ? "start" : "start"}
+                textAnchor="start"
                 style={{
                   textShadow: "1px 1px 0 var(--bg), -1px -1px 0 var(--bg), 1px -1px 0 var(--bg), -1px 1px 0 var(--bg)",
-                  background: "var(--bg)" // fallback for Safari
+                  background: "var(--bg)"
                 }}
               >
                 {l.label}
               </text>
-              );
-            })()}
+            )}
           </g>
         );
       })}

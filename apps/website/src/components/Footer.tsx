@@ -22,7 +22,7 @@ export default function Footer() {
               <a href="/architecture">Kiến trúc</a>
             </li>
             <li>
-              <a href="/prompts">Prompts</a>
+              <a href="/prompts">Prompt Palettes</a>
             </li>
             <li>
               <a href="/design-system">Design System</a>

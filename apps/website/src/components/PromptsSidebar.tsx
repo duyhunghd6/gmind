@@ -1,10 +1,11 @@
 "use client";
 
-import { AITrackingWorkflow } from "@/data/workflow-prompts";
+import { AITrackingWorkflow, WorkflowCategory } from "@/data/workflow-prompts";
 import { SetupGuide, TheoryTopic } from "@/data/setup-theory-data";
+import { useState } from "react";
 
 interface PromptsSidebarProps {
-  workflows: AITrackingWorkflow[];
+  workflowCategories: WorkflowCategory[];
   setupGuides: SetupGuide[];
   theoryTopics: TheoryTopic[];
   
@@ -21,7 +22,7 @@ interface PromptsSidebarProps {
 }
 
 export default function PromptsSidebar({
-  workflows,
+  workflowCategories,
   setupGuides,
   theoryTopics,
   
@@ -36,6 +37,35 @@ export default function PromptsSidebar({
   onSelectTheory,
   onSelectResearch,
 }: PromptsSidebarProps) {
+
+  // Track which workflow categories are expanded
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
+    // Auto-expand the category that contains the active workflow
+    const initial = new Set<string>();
+    if (activeWorkflowId) {
+      const cat = workflowCategories.find(c => c.workflows.some(w => w.id === activeWorkflowId));
+      if (cat) initial.add(cat.id);
+    }
+    return initial;
+  });
+
+  const toggleCategory = (catId: string) => {
+    setExpandedCategories(prev => {
+      const next = new Set(prev);
+      if (next.has(catId)) next.delete(catId);
+      else next.add(catId);
+      return next;
+    });
+  };
+
+  // Auto-expand when a workflow becomes active
+  const activeCat = activeWorkflowId
+    ? workflowCategories.find(c => c.workflows.some(w => w.id === activeWorkflowId))
+    : null;
+  if (activeCat && !expandedCategories.has(activeCat.id)) {
+    // Use a scheduled update to avoid updating state during render
+    setTimeout(() => setExpandedCategories(prev => new Set(prev).add(activeCat.id)), 0);
+  }
 
   return (
     <aside className="docs-sidebar" role="complementary" aria-label="Library Navigation">
@@ -112,27 +142,66 @@ export default function PromptsSidebar({
         </div>
       </div>
 
-      {/* GROUP 3: WORKFLOWS */}
-      <div className="docs-sidebar__group" role="navigation" aria-label="Workflows">
+      {/* GROUP 3: AI WORKFLOWS — Categorized */}
+      <div className="docs-sidebar__group" role="navigation" aria-label="AI Workflows">
         <div className="docs-sidebar__group-title">{"> AI Workflows"}</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          {workflows.map((wf) => {
-            const isActiveWf = activeSection === "workflows" && activeWorkflowId === wf.id;
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          {workflowCategories.map((cat) => {
+            const isExpanded = expandedCategories.has(cat.id);
+            const hasActiveChild = activeSection === "workflows" && cat.workflows.some(w => w.id === activeWorkflowId);
+            
             return (
-              <div key={wf.id} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <div key={cat.id} style={{ display: "flex", flexDirection: "column" }}>
+                {/* Category parent item */}
                 <button
-                  className={`docs-sidebar__item ${isActiveWf ? "active" : ""}`}
-                  onClick={() => onSelectWorkflow(wf.id)}
-                  aria-expanded={isActiveWf}
-                  style={{ fontWeight: isActiveWf ? 600 : 400, justifyContent: "space-between" }}
+                  className={`docs-sidebar__item ${hasActiveChild ? "active" : ""}`}
+                  onClick={() => toggleCategory(cat.id)}
+                  aria-expanded={isExpanded}
+                  style={{ fontWeight: 600, justifyContent: "space-between" }}
                 >
                   <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span aria-hidden="true" style={{ opacity: 0.7 }}>
-                      {isActiveWf ? "📂" : "📁"}
-                    </span>
-                    {wf.title}
+                    <span aria-hidden="true" style={{ opacity: 0.7 }}>{cat.icon}</span>
+                    {cat.label}
+                  </span>
+                  <span style={{ fontSize: "0.7rem", opacity: 0.5, marginLeft: "auto", paddingLeft: "4px" }}>
+                    {isExpanded ? "▼" : "▶"}
                   </span>
                 </button>
+                
+                {/* Sub-items: individual workflows */}
+                {isExpanded && (
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "2px",
+                    marginTop: "2px",
+                    paddingLeft: "12px",
+                    borderLeft: "2px solid var(--border-color)",
+                    marginLeft: "14px",
+                    marginBottom: "6px",
+                  }}>
+                    {cat.workflows.map((wf) => {
+                      const isActiveWf = activeSection === "workflows" && activeWorkflowId === wf.id;
+                      return (
+                        <button
+                          key={wf.id}
+                          className={`docs-sidebar__item ${isActiveWf ? "active" : ""}`}
+                          onClick={() => onSelectWorkflow(wf.id)}
+                          style={{
+                            padding: "5px 8px",
+                            fontSize: "0.85rem",
+                            fontWeight: isActiveWf ? 600 : 400,
+                            minHeight: "auto",
+                          }}
+                        >
+                          <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            {wf.title}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}

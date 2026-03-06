@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { aiWorkflows } from "@/data/workflow-prompts";
+import { aiWorkflows, workflowCategories } from "@/data/workflow-prompts";
 import { setupGuides, theoryTopics } from "@/data/setup-theory-data";
 import PromptsSidebar from "@/components/PromptsSidebar";
 import PromptViewer from "@/components/PromptViewer";
@@ -149,7 +149,7 @@ export default function PromptsPage() {
       `}</style>
       <div className="sidebar-wrapper" style={{ position: "sticky", top: "80px", height: "calc(100vh - 80px)", overflowY: "auto", borderRight: "1px solid var(--border-color)", padding: "20px 0" }}>
         <PromptsSidebar
-          workflows={aiWorkflows}
+          workflowCategories={workflowCategories}
           setupGuides={setupGuides}
           theoryTopics={theoryTopics}
           

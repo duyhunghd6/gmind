@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback } from "react";
 const navLinks = [
   { href: "/", label: "Trang chủ" },
   { href: "/architecture", label: "Kiến trúc" },
-  { href: "/prompts", label: "Prompts" },
+  { href: "/prompts", label: "Prompt Palettes" },
   { href: "/research", label: "Nghiên cứu" },
   { href: "/design-system", label: "Design System" },
 ];
