@@ -52,10 +52,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ MCP phía trên, LLM gọi MCP Librarian tìm 'oauth2 PKCE flow' → nhận verified snippets kèm security notes (S256, CSRF protection). Diagram KHÔNG CÓ cho thấy LLM viết code thiếu security patterns. MCP Librarian khác gì so với Google Search khi tìm code snippets?",
     options: [
-      "A. Google Search kết hợp với LLM verification (search → LLM review code quality → filter) cho kết quả tốt tương đương — LLM đủ thông minh để phân biệt code tốt/xấu từ search results, nên MCP Librarian chỉ thêm layer trung gian không cần thiết",
-      "B. MCP Librarian cung cấp code ĐÃ VERIFY + security notes từ curated knowledge base — Google Search trả về kết quả chưa kiểm chứng từ nhiều nguồn",
-      "C. Với các LLM model hiện đại (GPT-4, Gemini Pro), chất lượng code generation từ parametric knowledge đã vượt qua cả verified snippets — vì model đã được train trên hàng triệu security-reviewed repositories, implicit knowledge đủ tối ưu",
-      "D. MCP Librarian chỉ có hiệu quả khi snippet database đã có sẵn code cho use case cụ thể — với OAuth2 PKCE flow (use case niche), database có thể không có snippets phù hợp, và LLM phải fallback về Google Search giống như không có Librarian"
+      "Google Search kết hợp với LLM verification (search → LLM review code quality → filter) cho kết quả tốt tương đương — LLM đủ thông minh để phân biệt code tốt/xấu từ search results, nên MCP Librarian chỉ thêm layer trung gian không cần thiết",
+      "Khác biệt cốt lõi ở 'Curated Quality'. MCP Librarian fetch code trực tiếp từ Internal Design System hoặc Team's Best Practices, đảm bảo 100% tuân thủ Architecture. Trong khi Web Search trả về code StackOverflow cũ tiềm ẩn memory leaks/kém bảo mật.",
+      "Với các LLM model hiện đại (GPT-4, Gemini Pro), chất lượng code generation từ parametric knowledge đã vượt qua cả verified snippets — vì model đã được train trên hàng triệu security-reviewed repositories, implicit knowledge đủ tối ưu",
+      "MCP Librarian chỉ có hiệu quả khi snippet database đã có sẵn code cho use case cụ thể — với OAuth2 PKCE flow (use case niche), database có thể không có snippets phù hợp, và LLM phải fallback về Google Search giống như không có Librarian"
     ],
     correctIndex: 1,
     explanation: "MCP Librarian cung cấp code verified + curated: đã kiểm tra security, compatibility, best practices. Google Search trả về code từ nhiều nguồn — có thể outdated, insecure, hoặc sai.",

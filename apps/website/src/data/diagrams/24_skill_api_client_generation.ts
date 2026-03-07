@@ -49,10 +49,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy Skill đọc OpenAPI spec → generate typed API client tự động, mỗi endpoint trở thành một typed function. Kiểu tạo code từ spec (OpenAPI, GraphQL schema) này thuộc loại automation nào?",
     options: [
-      "A. AI-Augmented Generation — LLM đọc OpenAPI spec rồi dùng creative reasoning để generate 'better' code hơn spec quy định: thêm retry logic, caching layer, request batching vì LLM hiểu intent tốt hơn rigid schema-to-code mapping",
-      "B. Schema-Driven Generation — code được tạo CHÍNH XÁC từ specification với mapping 1:1, không phụ thuộc vào LLM creativity hay training data",
-      "C. Template-Based Codegen — tools như openapi-generator dùng Mustache/Handlebars templates cố định, output code cứng nhắc nhưng 100% chính xác. Approach này KHÔNG cần LLM vì hoàn toàn deterministic — Skill chỉ dùng script codegen, không involve AI",
-      "D. Semantic Code Search — LLM tìm kiếm trong codebase hiện tại các API client patterns đã có (ví dụ: existing PaymentClient hoặc UserClient) rồi clone & adapt pattern đó cho Payment API mới, đảm bảo consistency với coding conventions của project"
+      "AI-Augmented Generation — LLM đọc OpenAPI spec rồi dùng creative reasoning để generate 'better' code hơn spec quy định: thêm retry logic, caching layer, request batching vì LLM hiểu intent tốt hơn rigid schema-to-code mapping",
+      "Đây là nguyên lý thiết kế Schema-Driven: Code OpenAPI Typescript interfaces, interceptors và Models sinh ra tự động từ OpenAPI specs / Swagger qua code generators. Đảm bảo tính nhất quán (Type-Safety) tuyệt đối, loại trừ hoàn toàn code hallucination từ model.",
+      "Template-Based Codegen — tools như openapi-generator dùng Mustache/Handlebars templates cố định, output code cứng nhắc nhưng 100% chính xác. Approach này KHÔNG cần LLM vì hoàn toàn deterministic — Skill chỉ dùng script codegen, không involve AI",
+      "Semantic Code Search — LLM tìm kiếm trong codebase hiện tại các API client patterns đã có (ví dụ: existing PaymentClient hoặc UserClient) rồi clone & adapt pattern đó cho Payment API mới, đảm bảo consistency với coding conventions của project"
     ],
     correctIndex: 1,
     explanation: "Schema-Driven Generation: code được derive trực tiếp từ OpenAPI spec (source of truth). Mỗi endpoint → 1 typed function. Đây là deterministic generation — không phụ thuộc 'sáng tạo' của LLM.",

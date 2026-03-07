@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ MCP phía trên, LLM gọi 'figma.getFileComponents()' qua MCP Figma Server — server này kết nối Figma API và trả về structured JSON. Đây không phải tool_call thông thường mà là MCP (Model Context Protocol). MCP khác gì so với tool_call thông thường?",
     options: [
-      "A. MCP sử dụng persistent WebSocket connection (thay vì HTTP request/response cho mỗi tool_call), giảm handshake overhead — vì vậy MCP tool calls có latency thấp hơn đáng kể so với standard tool_call qua REST API",
-      "B. MCP là GIAO THỨC CHUẨN kết nối LLM ↔ External Services — mỗi MCP Server đóng gói NHIỀU tools thành 1 service thống nhất",
-      "C. MCP được Anthropic thiết kế ban đầu cho Design-to-Code pipeline (Figma, Sketch, Adobe XD) — các service khác (databases, APIs) vẫn nên dùng standard tool_call vì MCP overhead không justify cho simple request/response patterns",
-      "D. MCP là next-generation replacement cho tool_call: mọi tool_call hiện tại sẽ dần migrate sang MCP protocol vì MCP hỗ trợ tool versioning, schema validation, và bi-directional streaming — tool_call đang trong deprecation path"
+      "MCP sử dụng persistent WebSocket connection (thay vì HTTP request/response cho mỗi tool_call), giảm handshake overhead — vì vậy MCP tool calls có latency thấp hơn đáng kể so với standard tool_call qua REST API",
+      "Model Context Protocol (MCP) thiết lập một chuẩn giao tiếp thống nhất giữa Client (Agent) và Local/Remote Services. Khác với tích hợp Tool rời, một session MCP Server thường bundle sẵn toàn bộ API specs, Resources, Scripts thành một subsystem hoàn chỉnh.",
+      "MCP được Anthropic thiết kế ban đầu cho Design-to-Code pipeline (Figma, Sketch, Adobe XD) — các service khác (databases, APIs) vẫn nên dùng standard tool_call vì MCP overhead không justify cho simple request/response patterns",
+      "MCP là next-generation replacement cho tool_call: mọi tool_call hiện tại sẽ dần migrate sang MCP protocol vì MCP hỗ trợ tool versioning, schema validation, và bi-directional streaming — tool_call đang trong deprecation path"
     ],
     correctIndex: 1,
     explanation: "MCP là protocol tiêu chuẩn (như USB cho AI): mọi service implement MCP spec → LLM kết nối được. Mỗi MCP Server expose nhiều tools. tool_call là cơ chế gọi hàm, MCP là cách đóng gói và kết nối.",

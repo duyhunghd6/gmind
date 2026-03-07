@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy Skill đọc git log của CẢ feature branch và main branch trước khi resolve. Diagram KHÔNG CÓ Skill cho thấy LLM chỉ đọc conflict markers và chọn 1 bên. Tại sao cần đọc log CẢ HAI branches?",
     options: [
-      "A. Đọc git log xác định branch nào commit SAU cùng — theo nguyên tắc 'Last Write Wins' (LWW) trong distributed systems, branch commit sau cùng chứa developer intent mới nhất nên được ưu tiên giữ lại khi có conflict",
-      "B. Đọc commit messages → hiểu INTENT (mục đích) của thay đổi → resolve conflict giữ đúng ý đồ cả hai bên thay vì chọn 1 bên",
-      "C. git merge --continue yêu cầu Git index phải 'clean' — chạy git log trước đảm bảo Git refreshes index state và loads commit graph vào memory. Nếu skip git log, merge --continue có thể fail với 'index not up-to-date' error",
-      "D. Đọc git log đếm LOC (Lines of Code) changed trên mỗi branch — branch có diff lớn hơn (nhiều insertions/deletions hơn) thể hiện scope thay đổi lớn hơn, nên khi conflict xảy ra, LLM ưu tiên giữ code từ branch có scope lớn hơn"
+      "Đọc git log xác định branch nào commit SAU cùng — theo nguyên tắc 'Last Write Wins' (LWW) trong distributed systems, branch commit sau cùng chứa developer intent mới nhất nên được ưu tiên giữ lại khi có conflict",
+      "Theo Semantic Merge Resolution principles: Không áp dụng text matching 3-way thuần, LLM Contextual Agent phân tích AST và đọc commit history của 2 branches. Qua đó hiểu sâu sắc 'Developer Intent', kiến tạo giải pháp hybrid mix logic của cả 2 phía.",
+      "git merge --continue yêu cầu Git index phải 'clean' — chạy git log trước đảm bảo Git refreshes index state và loads commit graph vào memory. Nếu skip git log, merge --continue có thể fail với 'index not up-to-date' error",
+      "Đọc git log đếm LOC (Lines of Code) changed trên mỗi branch — branch có diff lớn hơn (nhiều insertions/deletions hơn) thể hiện scope thay đổi lớn hơn, nên khi conflict xảy ra, LLM ưu tiên giữ code từ branch có scope lớn hơn"
     ],
     correctIndex: 1,
     explanation: "Intent-Aware Resolution: conflict chỉ cho thấy 'code khác nhau', nhưng LLM cần hiểu 'TẠI SAO khác'. Git log cho biết intent → LLM resolve giữ ý đồ cả feature branch lẫn main branch.",

@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM dùng grep_search('UserService') để tìm chính xác file tại src/services/user.service.ts, rồi view_file đọc routes.ts phát hiện typo '../service/' (thiếu 's'). Tại sao grep_search và view_file là 2 tools quan trọng nhất cho code debugging?",
     options: [
-      "A. grep_search và view_file là O(1) lookup operations (indexed bởi IDE language server) nên trả kết quả gần như instant — các tools khác như bash hay edit_file cần disk I/O nên chậm hơn đáng kể, đây là lý do chúng được ưu tiên trong debugging",
-      "B. grep_search TÌM vị trí code trong codebase, view_file ĐỌC nội dung code — kết hợp cho LLM 'đôi mắt' để navigate codebase",
-      "C. grep_search và view_file là 2 tools thuộc 'core tool set' bắt buộc — Agentic IDE spec (theo Anthropic và Google) quy định mọi IDE phải implement tối thiểu 2 tools này. Các tools khác (bash, edit) là optional extensions",
-      "D. grep_search tích hợp regex pattern matching + semantic analysis có khả năng phát hiện common bugs (typo, wrong import path) tự động — LLM chỉ cần confirm fix suggestion từ grep engine mà không cần tự phân tích code"
+      "grep_search và view_file là O(1) lookup operations (indexed bởi IDE language server) nên trả kết quả gần như instant — các tools khác như bash hay edit_file cần disk I/O nên chậm hơn đáng kể, đây là lý do chúng được ưu tiên trong debugging",
+      "Đứng trước codebase khổng lồ, Context Window của LLM là hữu hạn. Kết hợp grep_search để Regex toàn bộ codebase (Fast Retrieval) và view_file để đọc chi tiết line range (Deep Context), giúp tiết kiệm tokens và ngăn chặn context dilution triệt để.",
+      "grep_search và view_file là 2 tools thuộc 'core tool set' bắt buộc — Agentic IDE spec (theo Anthropic và Google) quy định mọi IDE phải implement tối thiểu 2 tools này. Các tools khác (bash, edit) là optional extensions",
+      "grep_search tích hợp regex pattern matching + semantic analysis có khả năng phát hiện common bugs (typo, wrong import path) tự động — LLM chỉ cần confirm fix suggestion từ grep engine mà không cần tự phân tích code"
     ],
     correctIndex: 1,
     explanation: "grep_search giúp LLM tìm WHERE (ở đâu trong codebase), view_file giúp LLM hiểu WHAT (nội dung code). Kết hợp lại, LLM có khả năng 'navigate' codebase giống developer dùng IDE.",

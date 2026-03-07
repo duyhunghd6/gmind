@@ -64,10 +64,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ SubAgent phía trên cho thấy Antigravity tạo 10 Tasks riêng biệt — mỗi Task convert 1 file Go sang Rust với context riêng, không chia sẻ lẫn nhau. So sánh với diagram KHÔNG CÓ (convert tất cả 10 file trong 1 context chung). Tại sao cách chia nhỏ này giúp giảm hallucination?",
     options: [
-      "A. SubAgent Tasks được distribute across multiple LLM instances (horizontal scaling) — mỗi Task gọi LLM API endpoint riêng nên có thể chạy truly parallel, giảm total wall-clock time từ 10 sequential calls xuống còn thời gian 1 call duy nhất",
-      "B. Mỗi Task có Context Window riêng — code Go file trước KHÔNG tồn tại trong context file sau, ngăn pattern bleeding giữa files",
-      "C. SubAgent sử dụng specialized fine-tuned models cho từng file type — auth.go được convert bằng model fine-tuned cho security patterns, db.go bằng model chuyên database operations. Multi-model approach cho chất lượng conversion cao hơn single general-purpose model",
-      "D. Mỗi SubAgent Task tự động chạy cargo check + cargo test sau conversion — phát hiện compile errors ngay trong Task context. Đây là lý do chính SubAgent hiệu quả hơn: integrated verification loop trong mỗi Task, không phải context isolation"
+      "SubAgent Tasks được distribute across multiple LLM instances (horizontal scaling) — mỗi Task gọi LLM API endpoint riêng nên có thể chạy truly parallel, giảm total wall-clock time từ 10 sequential calls xuống còn thời gian 1 call duy nhất",
+      "Áp dụng 'Context Window Isolation' qua delegation Architecture: Giới hạn mỗi SubAgent chỉ nhận file sandbox context siêu vô trùng (chỉ Code mình đảm trách). Phân mảnh này chặt đứt Attention Bleeding, nguyên nhân gây nhiễm chéo data giữa các Task threads.",
+      "SubAgent sử dụng specialized fine-tuned models cho từng file type — auth.go được convert bằng model fine-tuned cho security patterns, db.go bằng model chuyên database operations. Multi-model approach cho chất lượng conversion cao hơn single general-purpose model",
+      "Mỗi SubAgent Task tự động chạy cargo check + cargo test sau conversion — phát hiện compile errors ngay trong Task context. Đây là lý do chính SubAgent hiệu quả hơn: integrated verification loop trong mỗi Task, không phải context isolation"
     ],
     correctIndex: 1,
     explanation: "Mỗi SubAgent/Task nhận context riêng biệt. Khi convert file thứ 5, context KHÔNG chứa code của file 1-4. Điều này giữ context sạch, tập trung, giảm hallucination từ code nhiễu.",

@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Quan sát sequence diagram CÓ tool_call phía trên: Developer hỏi → IDE chuyển cho LLM → LLM tự quyết định gọi tool_call: forex.convert() → IDE thực thi. Trong chuỗi này, tool_call được kích hoạt bởi ai?",
     options: [
-      "A. Developer gõ command trực tiếp trong IDE terminal (/forex USD VND) và IDE route command đó thành tool_call — LLM không tham gia vào quyết định gọi tool nào mà chỉ format kết quả thành câu trả lời tự nhiên",
-      "B. LLM tự quyết định KHI NÀO cần gọi tool dựa trên prompt — IDE chỉ thực thi tool call đó",
-      "C. IDE sử dụng rule-based routing engine: phân tích keywords trong prompt (ví dụ 'USD', 'VND' → forex tool) và pre-execute tools phù hợp TRƯỚC khi chuyển kết quả cùng prompt cho LLM — đây là pattern 'eager tool execution' giúp giảm latency",
-      "D. Orchestrator layer (không phải LLM) quyết định tool nào cần gọi bằng cách match prompt với tool descriptions qua embedding similarity — LLM chỉ nhận kết quả tool execution và generate response, không trực tiếp emit tool_call"
+      "Developer gõ command trực tiếp trong IDE terminal (/forex USD VND) và IDE route command đó thành tool_call — LLM không tham gia vào quyết định gọi tool nào mà chỉ format kết quả thành câu trả lời tự nhiên",
+      "Trong Agentic Tool Calling, LLM được fine-tune để tự nhận diện intent từ user và sinh ra JSON Tool Request. Môi trường IDE/Backend chỉ đóng vai trò executor: parse request đó, gọi tool tương ứng, và gửi lại Observation cho LLM.",
+      "IDE sử dụng rule-based routing engine: phân tích keywords trong prompt (ví dụ 'USD', 'VND' → forex tool) và pre-execute tools phù hợp TRƯỚC khi chuyển kết quả cùng prompt cho LLM — đây là pattern 'eager tool execution' giúp giảm latency",
+      "Orchestrator layer (không phải LLM) quyết định tool nào cần gọi bằng cách match prompt với tool descriptions qua embedding similarity — LLM chỉ nhận kết quả tool execution và generate response, không trực tiếp emit tool_call"
     ],
     correctIndex: 1,
     explanation: "Trong Agent Loop, LLM phân tích prompt → quyết định cần tool nào → gửi tool_call request → IDE thực thi → trả kết quả về LLM. LLM là 'bộ não' quyết định, IDE là 'cánh tay' thực thi.",

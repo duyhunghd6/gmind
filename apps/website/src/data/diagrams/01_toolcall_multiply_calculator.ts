@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Sau khi quan sát 2 sequence diagrams CÓ/KHÔNG CÓ tool_call phía trên (LLM cho kết quả đúng 793.548.523.162 với calculator vs đoán sai), hãy trả lời: Tại sao LLM không thể tính chính xác phép nhân số lớn nếu không có tool_call?",
     options: [
-      "A. LLM thực tế CÓ khả năng tính toán chính xác cho số nhỏ (2×3=6), nhưng kiến trúc Transformer giới hạn số lượng phép tính mỗi forward pass — nên với số lớn (847291×936482), LLM cần nhiều forward passes hơn capacity cho phép",
-      "B. LLM predict token tiếp theo (next-token prediction), KHÔNG thực hiện phép tính — nên kết quả chỉ là 'đoán' dựa trên pattern",
-      "C. LLM sử dụng floating-point precision (FP16/BF16) khi xử lý số — giống CPU tính toán, precision giảm khi số quá lớn dẫn đến kết quả bị rounding error, tương tự lỗi IEEE 754 overflow trong các ngôn ngữ lập trình",
-      "D. LLM có khả năng arithmetic reasoning nhờ chain-of-thought, nhưng phép nhân số lớn yêu cầu multi-step carry propagation — mỗi bước carry là một token riêng và attention mechanism mất dần accuracy qua nhiều carry steps"
+      "LLM thực tế CÓ khả năng tính toán chính xác cho số nhỏ (2×3=6), nhưng kiến trúc Transformer giới hạn số lượng phép tính mỗi forward pass — nên với số lớn (847291×936482), LLM cần nhiều forward passes hơn capacity cho phép",
+      "Khác với CPU thực thi arithmetic logic (ALU), LLM hoạt động hoàn toàn dựa trên cơ chế next-token prediction qua các pattern học được. Do đó, LLM dự đoán kết quả dựa trên xác suất ngôn ngữ thay vì tính toán thực sự, dẫn đến sai sót với số quá lớn.",
+      "LLM sử dụng floating-point precision (FP16/BF16) khi xử lý số — giống CPU tính toán, precision giảm khi số quá lớn dẫn đến kết quả bị rounding error, tương tự lỗi IEEE 754 overflow trong các ngôn ngữ lập trình",
+      "LLM có khả năng arithmetic reasoning nhờ chain-of-thought, nhưng phép nhân số lớn yêu cầu multi-step carry propagation — mỗi bước carry là một token riêng và attention mechanism mất dần accuracy qua nhiều carry steps"
     ],
     correctIndex: 1,
     explanation: "LLM hoạt động bằng cách dự đoán token tiếp theo (next-token prediction), KHÔNG thực hiện phép tính toán thực. Khi gặp phép nhân số lớn, LLM 'đoán' kết quả dựa trên pattern — dẫn đến sai.",

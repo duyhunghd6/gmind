@@ -53,10 +53,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Workflow phía trên cho thấy /init-project chạy nhiều bước tuần tự: git init → beads init → tạo GEMINI.md → cài rules — quy trình đa bước có thứ tự. Workflow /slash-command khác gì so với Agent Skill?",
     options: [
-      "A. Workflow (.md trong workflows/) và Skill (SKILL.md trong skills/) đều cung cấp instructions cho LLM đọc và thực thi — sự khác biệt chỉ là organizational convention: Workflow dành cho team-level processes, Skill dành cho individual-level tasks",
-      "B. Workflow là QUY TRÌNH ĐA BƯỚC (step-by-step) được kích hoạt bằng /command — Skill là GÓI TRI THỨC được load on-demand khi LLM cần",
-      "C. Workflow chỉ phù hợp cho các quy trình ONE-TIME (init project, first-time setup, migration) vì workflow instructions được designed cho idempotent execution. Các task lặp lại (debug, test, deploy) nên dùng Skill vì Skill có runtime caching",
-      "D. Agent Skill mạnh hơn Workflow vì Skill có scripts/ directory chứa executable code — Workflow chỉ là plain Markdown instructions không có execution capability. Nếu cần automation thì Skill là lựa chọn duy nhất; Workflow chỉ dành cho documentation"
+      "Workflow (.md trong workflows/) và Skill (SKILL.md trong skills/) đều cung cấp instructions cho LLM đọc và thực thi — sự khác biệt chỉ là organizational convention: Workflow dành cho team-level processes, Skill dành cho individual-level tasks",
+      "Workflow định nghĩa một Orchestration Pipeline cấu trúc chặt chẽ (steps 1..N, approval gates), được IDE trigger chạy tuần tự rành mạch. Đặc tính này khác với Agent Skills vốn thiên về kho tri thức tĩnh / Plugin toolkit để LLM load on-demand theo context.",
+      "Workflow chỉ phù hợp cho các quy trình ONE-TIME (init project, first-time setup, migration) vì workflow instructions được designed cho idempotent execution. Các task lặp lại (debug, test, deploy) nên dùng Skill vì Skill có runtime caching",
+      "Agent Skill mạnh hơn Workflow vì Skill có scripts/ directory chứa executable code — Workflow chỉ là plain Markdown instructions không có execution capability. Nếu cần automation thì Skill là lựa chọn duy nhất; Workflow chỉ dành cho documentation"
     ],
     correctIndex: 1,
     explanation: "Workflow = multi-step recipe (bước 1 → bước 2 → ... → bước N). Skill = knowledge package (SKILL.md + scripts). Workflow thường GỌI skills hoặc tools trong từng bước. Workflow kích hoạt bằng /command, Skill load tự động.",

@@ -56,10 +56,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Workflow phía trên cho thấy workflow tự động generate report gồm: những gì đã làm, chưa xong, blocked items, và notes cho iteration tiếp theo. Handover Report giải quyết vấn đề gì trong team development?",
     options: [
-      "A. Handover Report tự động extract time-tracking data (commit timestamps, session duration) giúp project manager đánh giá velocity và planning accuracy — đây là reporting tool cho management layer, không phải knowledge transfer tool",
-      "B. Knowledge Continuity — đảm bảo context KHÔNG BỊ MẤT giữa các iterations/sessions, giúp developer tiếp theo tiếp tục hiệu quả",
-      "C. Handover Report đáp ứng compliance requirement: ISO 27001 Clause A.12.1.2 yêu cầu 'documented operating procedures' cho mọi operational changes — Agent-generated reports tự động fulfill compliance documentation mà không cần manual effort",
-      "D. Handover Report là human-readable version của git log: tóm tắt các commits gần nhất thành paragraphs dễ đọc cho non-technical stakeholders. Nội dung tương đương git log --oneline nhưng được LLM rewrite thành plain language"
+      "Handover Report tự động extract time-tracking data (commit timestamps, session duration) giúp project manager đánh giá velocity và planning accuracy — đây là reporting tool cho management layer, không phải knowledge transfer tool",
+      "Frame Handover Report giải quyết triệt để sự thất thoát 'Cognitive Memory Space'. Hệ thống tự động tóm tắt state tree workflow, block-dependencies hiện thời, thiết lập context snapshot cốt lõi để duy trì Developer Flow mượt mà xuyên session / iteration.",
+      "Handover Report đáp ứng compliance requirement: ISO 27001 Clause A.12.1.2 yêu cầu 'documented operating procedures' cho mọi operational changes — Agent-generated reports tự động fulfill compliance documentation mà không cần manual effort",
+      "Handover Report là human-readable version của git log: tóm tắt các commits gần nhất thành paragraphs dễ đọc cho non-technical stakeholders. Nội dung tương đương git log --oneline nhưng được LLM rewrite thành plain language"
     ],
     correctIndex: 1,
     explanation: "Knowledge Continuity: mỗi session tạo 'context' (gì đã làm, gì chưa xong, gì bị block). Nếu không ghi lại → context bị mất → next session phải 'khám phá lại'. Handover Report bảo toàn context đó.",

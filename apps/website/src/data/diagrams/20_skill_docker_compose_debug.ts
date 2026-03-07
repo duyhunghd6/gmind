@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy LLM đọc docker-compose.yml trước → biết chính xác container names và network config → fix đúng issue. Diagram KHÔNG CÓ cho thấy LLM đoán sai container name. Tại sao đọc docker-compose.yml TRƯỚC KHI debug networking là bắt buộc?",
     options: [
-      "A. Đọc docker-compose.yml giúp LLM xác định compose file version (v2 vs v3) và Docker engine compatibility — syntax networking khác nhau giữa versions (v2 dùng links, v3 dùng networks), LLM cần biết version để chọn đúng debug commands",
-      "B. docker-compose.yml chứa SERVICE NAMES, NETWORKS, PORTS — đây là 'source of truth' cho cấu trúc multi-container, không thể đoán được",
-      "C. Docker Engine API yêu cầu clients gọi /containers/json với compose-project label trước khi cho phép exec vào container — đây là security mechanism của Docker engine, không phải best practice của LLM debugging workflow",
-      "D. LLM cần toàn bộ docker-compose.yml trong context để cross-reference environment variables, volume mounts, và depends_on chains — nếu chỉ đọc 1 service definition thì thiếu context về dependency graph giữa services"
+      "Đọc docker-compose.yml giúp LLM xác định compose file version (v2 vs v3) và Docker engine compatibility — syntax networking khác nhau giữa versions (v2 dùng links, v3 dùng networks), LLM cần biết version để chọn đúng debug commands",
+      "Trong kiến trúc hạ tầng, `docker-compose.yml` đóng vai trò là 'Source of Truth' của Network Topology. Agent phân tích file này để parse ra chính xác internal route hostnames, port mapping configurations và module dependency hierarchy DAG.",
+      "Docker Engine API yêu cầu clients gọi /containers/json với compose-project label trước khi cho phép exec vào container — đây là security mechanism của Docker engine, không phải best practice của LLM debugging workflow",
+      "LLM cần toàn bộ docker-compose.yml trong context để cross-reference environment variables, volume mounts, và depends_on chains — nếu chỉ đọc 1 service definition thì thiếu context về dependency graph giữa services"
     ],
     correctIndex: 1,
     explanation: "docker-compose.yml là infrastructure-as-code: chứa topology (services, networks, volumes). LLM cần đọc file này để hiểu 'bản đồ' hệ thống — không thể đoán service names hay network config.",

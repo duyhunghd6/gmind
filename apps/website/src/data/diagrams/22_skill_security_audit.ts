@@ -49,10 +49,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy Skill chạy 3 tools liên tiếp: npm audit (dependencies) → semgrep (code patterns) → trivy (container images). Tại sao cần chạy NHIỀU tools thay vì chỉ 1 tool mạnh nhất?",
     options: [
-      "A. Chạy nhiều tools tạo ra report dài hơn và chi tiết hơn, giúp stakeholders dễ audit hơn trong compliance review",
-      "B. Defense in Depth — mỗi tool phát hiện loại vulnerability khác nhau: npm audit (dependencies), semgrep (source code patterns), trivy (container images)",
-      "C. Chỉ cần chạy 1 tool mạnh nhất (như Snyk) là đủ vì tool hiện đại đã tích hợp tất cả các loại scan vào một platform duy nhất",
-      "D. Chạy nhiều tools giúp kết quả chính xác hơn nhờ cơ chế majority voting — nếu 2/3 tools đồng ý thì vulnerability là real"
+      "Chạy nhiều tools tạo ra report dài hơn và chi tiết hơn, giúp stakeholders dễ audit hơn trong compliance review",
+      "Mô hình 'Defense in Depth' yêu cầu layering bảo mật toàn diện cho DevSecOps: npm audit chặn supply-chain risk dependencies, semgrep detect AST rule vulnerabilities trực tiếp trong source code, còn trivy quét CVE flaws ẩn giấu dưới tầng Docker Engine.",
+      "Chỉ cần chạy 1 tool mạnh nhất (như Snyk) là đủ vì tool hiện đại đã tích hợp tất cả các loại scan vào một platform duy nhất",
+      "Chạy nhiều tools giúp kết quả chính xác hơn nhờ cơ chế majority voting — nếu 2/3 tools đồng ý thì vulnerability là real"
     ],
     correctIndex: 1,
     explanation: "Defense in Depth: không có 1 tool nào cover 100% vulnerabilities. npm audit chỉ check dependencies, semgrep check code patterns, trivy check container. Kết hợp tất cả → coverage tối đa.",

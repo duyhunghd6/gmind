@@ -49,10 +49,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ Agent Skill phía trên, Skill dùng AST parser script để extract tất cả i18n strings chính xác; diagram KHÔNG CÓ Skill cho thấy LLM bỏ sót strings khi đọc code thủ công. Tại sao dùng SCRIPT chuyên dụng hiệu quả hơn để LLM tự đọc code?",
     options: [
-      "A. AST parser script xử lý deterministic (cùng input → cùng output) nên kết quả reproducible, trong khi LLM có temperature > 0 dẫn đến output non-deterministic — mỗi lần chạy có thể extract khác nhau, thiếu consistency cho i18n workflows",
-      "B. LLM bị giới hạn CONTEXT WINDOW — không thể đọc tất cả files cùng lúc. Script xử lý toàn bộ codebase không giới hạn kích thước",
-      "C. LLM tokenizer (BPE/SentencePiece) xử lý code và text cùng vocabulary — nhưng string literals có dấu ngoặc kép bị merge tokens không nhất quán, khiến attention mechanism bỏ sót strings nằm trong multi-token boundaries",
-      "D. Script extract.js chạy trong Node.js runtime CÙNG version với project — đảm bảo parse TypeScript/JSX syntax chính xác vì dùng cùng parser (babel/typescript). LLM dùng internal tokenizer khác nên có thể misparse JSX fragments"
+      "AST parser script xử lý deterministic (cùng input → cùng output) nên kết quả reproducible, trong khi LLM có temperature > 0 dẫn đến output non-deterministic — mỗi lần chạy có thể extract khác nhau, thiếu consistency cho i18n workflows",
+      "Codebase hàng nghìn files sẽ gây tràn (overflow) Token Context Window của LLM, hoặc khiến models bị 'Lost in the middle'. Kết hợp regex/AST bash scripts để process extraction localized data là phương án tiết kiệm cost và bảo toàn tốc độ cao gấp nhiều lần.",
+      "LLM tokenizer (BPE/SentencePiece) xử lý code và text cùng vocabulary — nhưng string literals có dấu ngoặc kép bị merge tokens không nhất quán, khiến attention mechanism bỏ sót strings nằm trong multi-token boundaries",
+      "Script extract.js chạy trong Node.js runtime CÙNG version với project — đảm bảo parse TypeScript/JSX syntax chính xác vì dùng cùng parser (babel/typescript). LLM dùng internal tokenizer khác nên có thể misparse JSX fragments"
     ],
     correctIndex: 1,
     explanation: "Context Window: LLM có giới hạn tokens (128K-1M). Nếu codebase có 50+ files, LLM không thể đọc hết. Script chạy ngoài LLM → không bị giới hạn → extract 100% strings.",

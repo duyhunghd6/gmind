@@ -52,10 +52,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong 2 diagrams phía trên, diagram CÓ bash tool cho thấy LLM trực tiếp chạy 'docker logs' và 'docker stats' trên hệ thống rồi đọc output. So sánh với các ví dụ tool_call API (gọi dịch vụ web bên ngoài) ở section trước, tool_call: bash có điểm khác biệt quan trọng gì?",
     options: [
-      "A. Bash tool chỉ đọc output text (stdout/stderr) nên giới hạn ở text-based diagnostics, trong khi API tools trả về structured JSON có thể parse chính xác — vì vậy API luôn đáng tin cậy hơn bash cho debugging vì LLM xử lý JSON tốt hơn raw text",
-      "B. Bash thực thi TRỰC TIẾP trên máy local (đọc file, chạy process) — API gọi service bên ngoài. Bash mạnh hơn nhưng rủi ro cao hơn",
-      "C. Bash tool và API tool đều sử dụng cùng một tool_call interface nên chi phí execution tương đương — sự khác biệt duy nhất là bash trả về plaintext còn API trả về JSON, và LLM cần thêm 1 bước parsing khi xử lý bash output",
-      "D. Bash và API đều là tool_call nhưng bash AN TOÀN hơn vì chạy trong Docker container sandbox của IDE — mọi lệnh bash đều được isolate tự động, không thể ảnh hưởng host system, nên không cần cơ chế approval riêng biệt"
+      "Bash tool chỉ đọc output text (stdout/stderr) nên giới hạn ở text-based diagnostics, trong khi API tools trả về structured JSON có thể parse chính xác — vì vậy API luôn đáng tin cậy hơn bash cho debugging vì LLM xử lý JSON tốt hơn raw text",
+      "Bash Tool Call cấp cho LLM quyền host-level execution để đọc/ghi file hoặc chạy shell commands trực tiếp trên file system cục bộ. Sức mạnh này đi kèm security risks cực lớn thay vì chỉ gói gọn qua HTTP API layer thông thường.",
+      "Bash tool và API tool đều sử dụng cùng một tool_call interface nên chi phí execution tương đương — sự khác biệt duy nhất là bash trả về plaintext còn API trả về JSON, và LLM cần thêm 1 bước parsing khi xử lý bash output",
+      "Bash và API đều là tool_call nhưng bash AN TOÀN hơn vì chạy trong Docker container sandbox của IDE — mọi lệnh bash đều được isolate tự động, không thể ảnh hưởng host system, nên không cần cơ chế approval riêng biệt"
     ],
     correctIndex: 1,
     explanation: "Bash tool thực thi lệnh trên máy local (đọc file, chạy process, kiểm tra hệ thống). Đây là quyền mạnh nhất — vì vậy Agentic IDE thường yêu cầu user xác nhận trước khi chạy lệnh nguy hiểm.",

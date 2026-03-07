@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM gọi google.search('Next.js 16 new features') → nhận kết quả mới nhất → trả lời chính xác. Quy trình 'tìm kiếm thông tin trước, rồi đưa vào context để trả lời' này là một dạng RAG. RAG (Retrieval-Augmented Generation) và tool_call: google_search có mối quan hệ như thế nào?",
     options: [
-      "A. RAG và tool_call là hai architectural layers hoàn toàn độc lập: RAG xử lý ở inference pipeline (trước khi prompt đến LLM), còn tool_call xử lý ở output pipeline (sau khi LLM generate response) — chúng không bao giờ hoạt động trên cùng request",
-      "B. RAG là kỹ thuật tổng quát 'truy xuất trước, sinh sau' — tool_call: google_search là MỘT cách triển khai RAG qua web search",
-      "C. tool_call là phiên bản nâng cấp (successor) của RAG trong kiến trúc Agentic — RAG chỉ retrieve static documents, trong khi tool_call có thể gọi APIs dynamic. Vì vậy các hệ thống hiện đại đã migrate hoàn toàn từ RAG sang tool_call paradigm",
-      "D. RAG yêu cầu pre-indexed corpus (vector embeddings đã tính trước) để thực hiện semantic search — Google Search trả về raw HTML/text chưa được vectorize, nên tool_call: google_search thuộc dạng Information Retrieval (IR) truyền thống, không phải RAG"
+      "RAG và tool_call là hai architectural layers hoàn toàn độc lập: RAG xử lý ở inference pipeline (trước khi prompt đến LLM), còn tool_call xử lý ở output pipeline (sau khi LLM generate response) — chúng không bao giờ hoạt động trên cùng request",
+      "Tool Call và RAG phục vụ hai mục đích Information Retrieval khác biệt. RAG chuyên dùng để search trên vector database nội bộ đã được index sẵn, trong khi Tool Call cho phép LLM chủ động query các external sources động cực kỳ linh hoạt (như Google Search).",
+      "tool_call là phiên bản nâng cấp (successor) của RAG trong kiến trúc Agentic — RAG chỉ retrieve static documents, trong khi tool_call có thể gọi APIs dynamic. Vì vậy các hệ thống hiện đại đã migrate hoàn toàn từ RAG sang tool_call paradigm",
+      "RAG yêu cầu pre-indexed corpus (vector embeddings đã tính trước) để thực hiện semantic search — Google Search trả về raw HTML/text chưa được vectorize, nên tool_call: google_search thuộc dạng Information Retrieval (IR) truyền thống, không phải RAG"
     ],
     correctIndex: 1,
     explanation: "RAG (Retrieval-Augmented Generation) là pattern: lấy thông tin liên quan TRƯỚC, rồi đưa vào context cho LLM generate câu trả lời. Google Search là một implementation của RAG — retrieve từ web.",

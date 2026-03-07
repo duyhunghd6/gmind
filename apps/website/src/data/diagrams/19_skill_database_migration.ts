@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ Agent Skill phía trên, Skill tạo cả migration UP (thay đổi schema) và DOWN (rollback) scripts. So sánh với diagram KHÔNG CÓ Skill — LLM chỉ tạo UP migration. Tại sao cần cả UP lẫn DOWN scripts?",
     options: [
-      "A. Tạo cả UP và DOWN scripts tuân theo Convention Over Configuration pattern — migration tools (Flyway, golang-migrate) BẮT BUỘC phải có cả 2 files mới accept migration, đây là technical requirement của tool chứ không phải requirement của database",
-      "B. DOWN script là ROLLBACK — nếu migration gây lỗi production, có thể revert schema về trạng thái trước đó AN TOÀN trong vài giây",
-      "C. DOWN script thực chất là wrapper cho SQL transaction ROLLBACK — khi migration UP chạy trong BEGIN/COMMIT block, DOWN script tương đương với ROLLBACK statement. Database engine tự quản lý undo log nên DOWN script chỉ là syntactic sugar",
-      "D. DOWN script cần thiết cho CI/CD pipeline: mỗi lần chạy test suite, pipeline tạo fresh database bằng cách chạy tất cả UP migrations, rồi chạy tất cả DOWN migrations để cleanup. Không có DOWN thì test database bị 'drift' qua các runs"
+      "Tạo cả UP và DOWN scripts tuân theo Convention Over Configuration pattern — migration tools (Flyway, golang-migrate) BẮT BUỘC phải có cả 2 files mới accept migration, đây là technical requirement của tool chứ không phải requirement của database",
+      "Theo nguyên tắc Safe Deployment (CI/CD), mỗi 'UP' schema migration đều đi kèm một 'DOWN' script logic đối ứng. Nếu release mới gây data mismatch, DevOps Agent có thể trigger lệnh rollback phục hồi hệ thống database state về mốc an toàn nguyên thủy.",
+      "DOWN script thực chất là wrapper cho SQL transaction ROLLBACK — khi migration UP chạy trong BEGIN/COMMIT block, DOWN script tương đương với ROLLBACK statement. Database engine tự quản lý undo log nên DOWN script chỉ là syntactic sugar",
+      "DOWN script cần thiết cho CI/CD pipeline: mỗi lần chạy test suite, pipeline tạo fresh database bằng cách chạy tất cả UP migrations, rồi chạy tất cả DOWN migrations để cleanup. Không có DOWN thì test database bị 'drift' qua các runs"
     ],
     correctIndex: 1,
     explanation: "Rollback Safety: mọi thay đổi production phải có khả năng revert. DOWN script cho phép 'undo' migration trong vài giây — thay vì fix manual mất hàng giờ khi production bị lỗi.",
