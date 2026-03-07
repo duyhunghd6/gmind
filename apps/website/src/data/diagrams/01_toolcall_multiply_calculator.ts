@@ -22,10 +22,10 @@ export const diagram: DiagramEntry = {
     Note over LLM: Nhận diện: bài toán tính toán → dùng tool
     LLM->>IDE: tool_call: calculator.multiply(847291, 936482)
     IDE->>Calc: multiply(847291, 936482)
-    Calc-->>IDE: 793,548,523,162
-    IDE->>LLM: Kết quả: 793,548,523,162
+    Calc-->>IDE: 793,472,770,262
+    IDE->>LLM: Kết quả: 793,472,770,262
 
-    LLM->>IDE: "847291 × 936482 = 793.548.523.162"
+    LLM->>IDE: "847291 × 936482 = 793.472.770.262"
     IDE->>User: ✅ Kết quả chính xác 100%`,
 
   withoutMermaid: `sequenceDiagram
@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     User->>User: Mở calculator → phát hiện sai`,
 
   quiz: {
-    question: "Sau khi quan sát 2 sequence diagrams CÓ/KHÔNG CÓ tool_call phía trên (LLM cho kết quả đúng 793.548.523.162 với calculator vs đoán sai), hãy trả lời: Tại sao LLM không thể tính chính xác phép nhân số lớn nếu không có tool_call?",
+    question: "Sau khi quan sát 2 sequence diagrams CÓ/KHÔNG CÓ tool_call phía trên (LLM cho kết quả đúng 793.472.770.262 với calculator vs đoán sai), hãy trả lời: Tại sao LLM không thể tính chính xác phép nhân số lớn nếu không có tool_call?",
     options: [
-      "LLM thực tế CÓ khả năng tính toán chính xác cho số nhỏ (2×3=6), nhưng kiến trúc Transformer giới hạn số lượng phép tính mỗi forward pass — nên với số lớn (847291×936482), LLM cần nhiều forward passes hơn capacity cho phép",
-      "Khác với CPU thực thi arithmetic logic (ALU), LLM hoạt động hoàn toàn dựa trên cơ chế next-token prediction qua các pattern học được. Do đó, LLM dự đoán kết quả dựa trên xác suất ngôn ngữ thay vì tính toán thực sự, dẫn đến sai sót với số quá lớn.",
-      "LLM sử dụng floating-point precision (FP16/BF16) khi xử lý số — giống CPU tính toán, precision giảm khi số quá lớn dẫn đến kết quả bị rounding error, tương tự lỗi IEEE 754 overflow trong các ngôn ngữ lập trình",
-      "LLM có khả năng arithmetic reasoning nhờ chain-of-thought, nhưng phép nhân số lớn yêu cầu multi-step carry propagation — mỗi bước carry là một token riêng và attention mechanism mất dần accuracy qua nhiều carry steps"
+      "Kiến trúc Transformer bị giới hạn số lượng phép tính. Với số quá lớn, LLM cần nhiều forward passes hơn dung lượng cho phép nên phát sinh lỗi.",
+      "LLM hoạt động bằng cơ chế đoán từ (next-token prediction) dựa trên xác suất ngôn ngữ, hoàn toàn không có ALU để thực thi logic toán học thực sự.",
+      "LLM dùng floating-point (FP16/BF16) để xử lý số. Khi nhân số quá lớn sẽ gây ra rounding error tương tự lỗi tràn bộ nhớ IEEE 754.",
+      "Phép nhân số lớn yêu cầu nhớ nợ (carry) nhiều bước. Mỗi bước bị tách thành một token riêng khiến attention mechanism mất dần độ chính xác."
     ],
     correctIndex: 1,
     explanation: "LLM hoạt động bằng cách dự đoán token tiếp theo (next-token prediction), KHÔNG thực hiện phép tính toán thực. Khi gặp phép nhân số lớn, LLM 'đoán' kết quả dựa trên pattern — dẫn đến sai.",

@@ -53,10 +53,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Self-Improvement phía trên cho thấy LLM phát hiện pattern lặp → tự tạo SKILL.md + scripts → dùng lại lần sau tự động. Khái niệm 'Self-Improvement' trong Agentic Coding nghĩa là gì?",
     options: [
-      "LLM áp dụng RLHF (Reinforcement Learning from Human Feedback) implicit: khi developer approve output → positive reward signal, khi reject → negative reward. Qua nhiều phiên, model weights được micro-adjust để output phù hợp với developer preference",
-      "Khái niệm Continuous Self-Improvement: Thông qua cơ chế Memory Reflection, hệ thống tự extract các successful patterns từ previous conversations, lưu lại thành markdown guidelines (Memory Rules), giúp tăng zero-shot accuracy cho các tasks tương lai.",
-      "LLM monitor model registry (Hugging Face, Google AI) và tự động download checkpoint mới khi available — tương tự auto-update của browser. New checkpoint chứa knowledge mới hơn, giải quyết staleness issue mà không cần external files",
-      "LLM sử dụng In-Context Learning (ICL): lưu conversation history vào long-term memory, và ở phiên sau LLM tự inject examples từ phiên trước vào context window — đây là cải thiện thông qua few-shot examples tích lũy, không cần external Skills"
+      "LLM tự động huấn luyện lại Model (RLHF) ngầm định mỗi khi User khen/chê. Qua thời gian, các tham số trọng số (Weights) bị điều chỉnh để khớp với User.",
+      "Cải tiến liên tục (Continuous Self-Improvement). Thông qua tự phản hồi, Agent tự phân tích quy luật thành Markdown Rule lưu vào ổ cứng để tăng năng lực giải Task cho tương lai.",
+      "Trí tuệ nhân tạo liên tục ping lên Server của HuggingFace ban đêm để xin Checkpoint dữ liệu mới. Cơ chế này giống Browser Auto-update giúp LLM luôn khôn hơn mỗi ngày.",
+      "ICL (In-Context Learning). Hệ thống bơm lén hàng nghìn dòng hội thoại cũ dồn vào Long-term Memory để tạo ra Prompt ẩn siêu dài nhằm tăng độ thông minh."
     ],
     correctIndex: 1,
     explanation: "Self-Improvement: LLM không thay đổi weights (parametric knowledge), nhưng tạo Skills/Rules lưu trên disk → đọc lại ở phiên sau. Đây là 'external memory' cho AI — giống developer viết documentation cho chính mình.",

@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill cho thấy LLM dùng đúng Testnet endpoint (testnet.binance.vision) và HMAC-SHA256 signing; diagram KHÔNG CÓ cho thấy LLM dùng sai Mainnet URL (api.binance.com) — nguy hiểm nếu chạy thật! Tại sao Agent Skill quan trọng hơn việc LLM 'biết' Binance API từ training data?",
     options: [
-      "Binance API không thay đổi thường xuyên — endpoint testnet.binance.vision đã stable từ 2021 và HMAC-SHA256 là chuẩn signing duy nhất. LLM chỉ cần 1 lần prompt correction ('dùng testnet, không phải mainnet') là đủ chính xác",
-      "Hệ thống Trading Finance yêu cầu rule-set cực nghiêm ngặt: HMAC-SHA256 signature, Testnet/Mainnet isolation. Agent Skill cung cấp knowledge framework này, triệt tiêu ảo giác (hallucination) để LLM tuân thủ chặt các chuẩn Authentication phức tạp.",
-      "LLM có training data dồi dào về crypto APIs (GitHub repos, StackOverflow answers, tutorials) nên parametric knowledge đủ chính xác — vấn đề thực sự là LLM thiếu API key/secret để authenticate, không phải thiếu knowledge",
-      "Agent Skill pre-generates trading code templates với optimized WebSocket connections cho low-latency execution — code LLM generate từ scratch dùng REST API có latency cao hơn 10-50ms, có thể miss price movements trong volatile market"
+      "Các đặc tả của API Binance không bao giờ thay đổi nên Endpoint Testnet đã ổn định nhiều năm nay. Chỉ cần nhắc nhẹ LLM một dòng Prompt là đủ chứ không cần Skill.",
+      "Lĩnh vực Trading đòi hỏi tính chuẩn xác tuyệt đối (Ký HMAC-SHA256, Isolation mạng). Agent Skill nhúng bộ khung hệ thống (Framework) này để triệt tiêu hội chứng ảo giác của LLM.",
+      "Dữ liệu huấn luyện của LLM về Crypto đã quá dư thừa và chính xác. Vấn đề duy nhất là không có đủ API Key để hoạt động chứ không phải thiếu kiến thức.",
+      "Agent Skill tự tạo các socket siêu nhanh giúp triệt tiêu độ trễ mạng trong giao dịch HFT, thay vì để LLM tự chắp vá qua REST API chậm chạp."
     ],
     correctIndex: 1,
     explanation: "Binance API thay đổi: endpoints mới, signing algorithms cập nhật, rate limits thay đổi. Agent Skill lưu trữ thông tin chính xác tại thời điểm viết — quan trọng hơn knowledge cũ từ training data.",

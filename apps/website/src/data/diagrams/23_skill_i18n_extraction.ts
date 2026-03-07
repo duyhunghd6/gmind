@@ -49,10 +49,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ Agent Skill phía trên, Skill dùng AST parser script để extract tất cả i18n strings chính xác; diagram KHÔNG CÓ Skill cho thấy LLM bỏ sót strings khi đọc code thủ công. Tại sao dùng SCRIPT chuyên dụng hiệu quả hơn để LLM tự đọc code?",
     options: [
-      "AST parser script xử lý deterministic (cùng input → cùng output) nên kết quả reproducible, trong khi LLM có temperature > 0 dẫn đến output non-deterministic — mỗi lần chạy có thể extract khác nhau, thiếu consistency cho i18n workflows",
-      "Codebase hàng nghìn files sẽ gây tràn (overflow) Token Context Window của LLM, hoặc khiến models bị 'Lost in the middle'. Kết hợp regex/AST bash scripts để process extraction localized data là phương án tiết kiệm cost và bảo toàn tốc độ cao gấp nhiều lần.",
-      "LLM tokenizer (BPE/SentencePiece) xử lý code và text cùng vocabulary — nhưng string literals có dấu ngoặc kép bị merge tokens không nhất quán, khiến attention mechanism bỏ sót strings nằm trong multi-token boundaries",
-      "Script extract.js chạy trong Node.js runtime CÙNG version với project — đảm bảo parse TypeScript/JSX syntax chính xác vì dùng cùng parser (babel/typescript). LLM dùng internal tokenizer khác nên có thể misparse JSX fragments"
+      "Bởi vì kịch bản AST Parser có tính Quyết định, nó luôn trích xuất chính xác 100%. Còn LLM có hệ số Temperature nên chạy 10 lần ra 10 bản lỗi i18n khác nhau.",
+      "Nhằm chống tràn Token Context Window và chống quên giữa chừng (Lost in the middle). Script hỗ trợ cày nát các file cực nhanh, rẻ và chuẩn tuyệt đối.",
+      "Bộ phân tách từ Tokenizer của LLM thường xuyên bị nhầm lẫn dấu ngoặc kép của String Literals. Điều này khiến Attention Mechanism rớt mất nội dung chữ.",
+      "Ngôn ngữ TypeScript/JSX chỉ có thể phân giải được nếu bộ cài Node.js trên máy quét của LLM phải trùng với Project gốc tới từng dấu chấm."
     ],
     correctIndex: 1,
     explanation: "Context Window: LLM có giới hạn tokens (128K-1M). Nếu codebase có 50+ files, LLM không thể đọc hết. Script chạy ngoài LLM → không bị giới hạn → extract 100% strings.",

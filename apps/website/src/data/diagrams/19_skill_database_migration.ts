@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ Agent Skill phía trên, Skill tạo cả migration UP (thay đổi schema) và DOWN (rollback) scripts. So sánh với diagram KHÔNG CÓ Skill — LLM chỉ tạo UP migration. Tại sao cần cả UP lẫn DOWN scripts?",
     options: [
-      "Tạo cả UP và DOWN scripts tuân theo Convention Over Configuration pattern — migration tools (Flyway, golang-migrate) BẮT BUỘC phải có cả 2 files mới accept migration, đây là technical requirement của tool chứ không phải requirement của database",
-      "Theo nguyên tắc Safe Deployment (CI/CD), mỗi 'UP' schema migration đều đi kèm một 'DOWN' script logic đối ứng. Nếu release mới gây data mismatch, DevOps Agent có thể trigger lệnh rollback phục hồi hệ thống database state về mốc an toàn nguyên thủy.",
-      "DOWN script thực chất là wrapper cho SQL transaction ROLLBACK — khi migration UP chạy trong BEGIN/COMMIT block, DOWN script tương đương với ROLLBACK statement. Database engine tự quản lý undo log nên DOWN script chỉ là syntactic sugar",
-      "DOWN script cần thiết cho CI/CD pipeline: mỗi lần chạy test suite, pipeline tạo fresh database bằng cách chạy tất cả UP migrations, rồi chạy tất cả DOWN migrations để cleanup. Không có DOWN thì test database bị 'drift' qua các runs"
+      "Đây là luật rập khuôn của các Tool CI/CD (như Flyway). Tool luôn báo lỗi nếu thư mục vắng mặt cặp file ngược chiều dù đôi khi chả có tác dụng gì ở DB thật.",
+      "Theo tính toàn vẹn Safe Deployment, mọi mã thay đổi Schema (UP) đều phải đi kèm phương pháp lùi (DOWN). Agent cần DOWN Scripts làm nút Rollback khẩn cấp nếu dính lỗi đứt gãy Production.",
+      "Mã DOWN thực ra là cú lừa hình thức bọc lấy SQL Transaction. Database engine nào cũng có Undo Log chìm tự động đảo chiều nên DOWN Scripts chỉ là lớp đường cú phá (Syntactic sugar).",
+      "Dùng riêng biệt cho Tester và CI. Mỗi vòng Test sẽ vứt lại rác Database, lúc này Pipeline tự động dọn dẹp bằng cách kích hoạt cơ chế trừ khử rác của DOWN scripts."
     ],
     correctIndex: 1,
     explanation: "Rollback Safety: mọi thay đổi production phải có khả năng revert. DOWN script cho phép 'undo' migration trong vài giây — thay vì fix manual mất hàng giờ khi production bị lỗi.",

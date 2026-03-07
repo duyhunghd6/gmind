@@ -64,10 +64,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ SubAgent phía trên cho thấy Antigravity tạo 10 Tasks riêng biệt — mỗi Task convert 1 file Go sang Rust với context riêng, không chia sẻ lẫn nhau. So sánh với diagram KHÔNG CÓ (convert tất cả 10 file trong 1 context chung). Tại sao cách chia nhỏ này giúp giảm hallucination?",
     options: [
-      "SubAgent Tasks được distribute across multiple LLM instances (horizontal scaling) — mỗi Task gọi LLM API endpoint riêng nên có thể chạy truly parallel, giảm total wall-clock time từ 10 sequential calls xuống còn thời gian 1 call duy nhất",
-      "Áp dụng 'Context Window Isolation' qua delegation Architecture: Giới hạn mỗi SubAgent chỉ nhận file sandbox context siêu vô trùng (chỉ Code mình đảm trách). Phân mảnh này chặt đứt Attention Bleeding, nguyên nhân gây nhiễm chéo data giữa các Task threads.",
-      "SubAgent sử dụng specialized fine-tuned models cho từng file type — auth.go được convert bằng model fine-tuned cho security patterns, db.go bằng model chuyên database operations. Multi-model approach cho chất lượng conversion cao hơn single general-purpose model",
-      "Mỗi SubAgent Task tự động chạy cargo check + cargo test sau conversion — phát hiện compile errors ngay trong Task context. Đây là lý do chính SubAgent hiệu quả hơn: integrated verification loop trong mỗi Task, không phải context isolation"
+      "Chiến thuật mở rộng ngang (Horizontal Scaling). Gọi hàng chục hàm API của LLM cùng lúc để tiết kiệm thời gian chờ đợi thay vì bắt người dùng gõ từng lệnh.",
+      "Làm sạch Context Window bằng SubAgent. Ép mỗi Agent tự kỷ trong Sandbox với đúng 1 File duy nhất, tuyệt đối đứt đoạn Attention Bleeding để không bị lú lẫn râu ông nọ cắm cằm bà kia.",
+      "Trang bị Model riêng biệt cho mỗi loại File. File Auth thì gọi Model tinh chỉnh bảo mật. File DB thì gọi Model trùm Data. SubAgent sinh ra để chọn Model cho đúng hệ.",
+      "Lý do ăn tiền là có tích hợp vòng Feedback Loop. Mỗi Task tự động biết Build gõ lệnh Cargo Check ngay bên trong Context của Task để tự bắt lỗi chính mình."
     ],
     correctIndex: 1,
     explanation: "Mỗi SubAgent/Task nhận context riêng biệt. Khi convert file thứ 5, context KHÔNG chứa code của file 1-4. Điều này giữ context sạch, tập trung, giảm hallucination từ code nhiễu.",

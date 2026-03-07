@@ -58,10 +58,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ SubAgent phía trên cho thấy 2 tasks chạy song song: SubAgent-1 review code trong khi SubAgent-2 fix lint — không ai phải 'chờ' ai. So sánh với diagram KHÔNG CÓ (phải review xong → mới fix lint → rồi review lại). Parallel SubAgent tasks giải quyết vấn đề nào trong Agentic Coding?",
     options: [
-      "Parallel SubAgent tasks tiết kiệm tổng token cost: review task chỉ cần read-only context (PR diff), lint task chỉ cần code files — hai contexts nhỏ hơn tổng 1 context lớn chứa cả PR diff + code. Token savings ≈ 30-40% so với sequential",
-      "Kiến trúc Single-Responsibility SubAgents bóc tách triệt để phí 'Context Penalty'. Ép 1 Agent vừa review logic architecture, vừa soi chừng AST syntax sẽ over-limit Cognitive load model. Vận hành song song bẻ gãy điểm nghẽn, mỗi Node chìm dắm sâu vào nhánh scope.",
-      "Parallel SubAgent tasks chia sẻ KV-cache: tokens từ PR diff đã được attend bởi Review Task được reuse bởi Lint Task qua shared cache bucket — giảm duplicate computation cho overlapping context, tương tự HTTP cache sharing",
-      "Parallel SubAgent Tasks tự động merge results thành unified report: review comments được inject vào lint fix commits, tạo thành 'self-documenting fixes' — mỗi lint fix commit có review comment giải thích WHY fix cần thiết"
+      "Mánh khóe để qua mặt API tiết kiệm tiền mặt (Token). Cắt đôi việc gọi Review và Lint thành 2 cuốc API riêng rẻ tiền hơn hẳn việc gộp chung 1 cục to chà bá.",
+      "Kiến trúc Single-Responsibility. Nhồi nhét bắt LLM vừa căng mắt soi bắt bẻ Architecture chém gió, vừa căng não đếm dấu chấm phẩy sửa Syntax phá vỡ Tải lượng Nhận thức. SubAgent độc lập thì việc ai nấy làm trơn tru.",
+      "Xài chung vùng nhớ RAM ảo KV-Cache. Token được Load vào Review Task lại được nhè ra đút mớm cho Lint Task tận dụng lại nên tăng tốc như Caching trên HTTP Server.",
+      "Giúp nhồi nhét Báo cáo (Report) đè lên Commit nhắn gửi. Kết quả Lint được tự động hợp nhất chèn thành chữ diễn giải lý do tại sao phải Fix bằng Comment ngay trong Tool Git."
     ],
     correctIndex: 1,
     explanation: "Khi review phải 'tạm dừng' để fix lint rồi quay lại, LLM mất focus và có thể quên observation trước đó. Parallel tasks = không có context switching, mỗi task vận hành độc lập.",

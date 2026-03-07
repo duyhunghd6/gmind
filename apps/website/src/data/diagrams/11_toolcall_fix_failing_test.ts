@@ -57,10 +57,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, sau khi sửa formatPrice(), LLM tự chạy lại 'npm test' và xác nhận '12/12 tests passed' trước khi báo developer. So sánh với diagram KHÔNG CÓ tools (dev phải 3 vòng copy-paste, LLM không tự verify). Tại sao bước chạy lại test tự động quan trọng?",
     options: [
-      "Chạy lại test tạo thêm tokens trong conversation history — giúp LLM có thêm 'evidence' trong context window cho các task tương tự trong tương lai, hoạt động như implicit few-shot learning từ chính output trước đó",
-      "Đây là nguyên lý Agentic Verification Loop. Thay vì Developer phải review manual, Autonomous Agent tự động trigger Test Suite (jest/mocha) sau mỗi thay đổi file; nếu test fail, Agent sẽ lấy error logs đó để tự động refine code liên tục thành vòng lặp.",
-      "Test runner (Jest/Vitest) cần warm-up run đầu tiên để initialize module graph và JIT-compile TypeScript — kết quả run đầu tiên thường unreliable do cold start. Run thứ hai cho kết quả chính xác hơn nhờ hot cache",
-      "IDE Agentic policy enforce 'Edit-Verify Contract': mỗi file modification (edit_file) PHẢI được follow bởi verification command (bash) trong cùng tool_call chain — nếu thiếu, IDE rollback edit và báo policy violation"
+      "Lệnh chạy Test sinh ra thêm lượng lớn Token log. Điều này vô tình tạo hiệu ứng Few-shot Learning ảo giúp LLM đoán mò tốt hơn trong task kế tiếp.",
+      "Vòng lặp Agentic Verification Loop. Thay vì chờ người duyệt, Agent tự chạy Test Suite để kiểm chứng. Nếu Fail, nó tự đọc log để sửa tiếp thành chu trình khép kín.",
+      "Test Runner luông cần phải khởi động (warm-up) ở vòng đầu tiên tải thư viện. Phải ép LLM chạy liên tiếp vòng 2 mới ra kết quả chính xác thực sự.",
+      "Chính sách bảo mật IDE ép buộc 1 lệnh Edit phải đi kèm 1 lệnh Test liên tiếp. Nếu thiếu cặp cấu trúc này IDE sẽ chối từ không cho sửa mã nguồn."
     ],
     correctIndex: 1,
     explanation: "Verification Loop: LLM sửa code → chạy test → nếu fail thì sửa tiếp → chạy test lại. Đây là tự kiểm chứng (self-verification) — LLM không dừng lại sau khi sửa mà đảm bảo kết quả đúng.",

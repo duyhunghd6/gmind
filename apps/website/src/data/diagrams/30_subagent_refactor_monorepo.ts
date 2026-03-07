@@ -60,10 +60,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ SubAgent phía trên cho thấy 50+ files được chia thành SubAgents theo module: mỗi SubAgent chỉ cần context riêng của module mình. Diagram KHÔNG CÓ cho thấy 1 context xử lý tuần tự tất cả files → context window overflow. Tại sao chia theo module hiệu quả hơn?",
     options: [
-      "SubAgent Tasks được scheduled trên GPU cluster — mỗi module refactoring chạy trên GPU node riêng với full model instance, tận dụng parallel computing infrastructure. Speedup ≈ N modules (linear scaling) nếu cluster có đủ GPU capacity",
-      "Ứng dụng quy luật 'Locality of Reference' trong LLM architecture. Bằng cách slice monorepo ra từng Module cho từng SubAgent module-bound riêng, mật độ tokens chuyên môn runtime tăng mạnh (Signal-to-Noise cao) giúp suy luận cực kỳ siêu tập trung tối ưu.",
-      "SubAgent tự động generate regression tests cho mỗi module bằng cách diff before/after code — đây là key advantage vì human developer thường skip writing tests cho refactored code. SubAgent enforce test coverage gate trước khi report 'done'",
-      "SubAgent Tasks communicate qua shared artifact store (message queue hoặc shared file system): Task A publish refactored module exports → Task B consume để update imports. Đây là event-driven architecture giữa SubAgents, đảm bảo consistency"
+      "Lên lịch chia Task cho Cụm GPU. Mỗi Module đem vứt sang 1 máy chủ GPU khác nhau chạy hệt như trâu cày tiền ảo theo cấp số nhân song song.",
+      "Tận dụng 'Locality of Reference'. Cắt vụn Monorepo ra chia cho từng SubAgent. Việc khoanh vùng ép LLM chỉ tập trung mã nguồn của 1 Module giúp tăng tỷ lệ Tín hiệu trên Nhiễu ồn.",
+      "Điểm sáng giá là sinh ra Test hồi quy. SubAgent ép chạy Test tự động đối chiếu Code trước/sau Refactor để gánh còng lưng thao tác lười viết Test của Con người.",
+      "Giao tiếp chia sẻ qua Message Queue (Kafka hay RabbitMQ). SubAgent A Refactor xong sẽ phóng Event phát sóng cho SubAgent B hứng để sửa File Import cho đúng mạch."
     ],
     correctIndex: 1,
     explanation: "Module A chỉ cần context 12 files, không cần 'biết' code của Module C. Chia nhỏ = context tập trung = LLM hiểu sâu hơn từng module thay vì hiểu nông 50 files.",

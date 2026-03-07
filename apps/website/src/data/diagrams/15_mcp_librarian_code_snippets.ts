@@ -52,10 +52,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ MCP phía trên, LLM gọi MCP Librarian tìm 'oauth2 PKCE flow' → nhận verified snippets kèm security notes (S256, CSRF protection). Diagram KHÔNG CÓ cho thấy LLM viết code thiếu security patterns. MCP Librarian khác gì so với Google Search khi tìm code snippets?",
     options: [
-      "Google Search kết hợp với LLM verification (search → LLM review code quality → filter) cho kết quả tốt tương đương — LLM đủ thông minh để phân biệt code tốt/xấu từ search results, nên MCP Librarian chỉ thêm layer trung gian không cần thiết",
-      "Khác biệt cốt lõi ở 'Curated Quality'. MCP Librarian fetch code trực tiếp từ Internal Design System hoặc Team's Best Practices, đảm bảo 100% tuân thủ Architecture. Trong khi Web Search trả về code StackOverflow cũ tiềm ẩn memory leaks/kém bảo mật.",
-      "Với các LLM model hiện đại (GPT-4, Gemini Pro), chất lượng code generation từ parametric knowledge đã vượt qua cả verified snippets — vì model đã được train trên hàng triệu security-reviewed repositories, implicit knowledge đủ tối ưu",
-      "MCP Librarian chỉ có hiệu quả khi snippet database đã có sẵn code cho use case cụ thể — với OAuth2 PKCE flow (use case niche), database có thể không có snippets phù hợp, và LLM phải fallback về Google Search giống như không có Librarian"
+      "Google Search + LLM verify sẽ ra kết quả y hệt. Trí tuệ LLM đủ sức tự lọc Code lỗi từ mạng Internet, việc thêm MCP Librarian là thừa thãi hệ thống.",
+      "Chất lượng 'Curated Quality'. Librarian cung cấp Code từ chính Data nội bộ của Team đã qua Review bảo mật nghiêm ngặt. Trái ngược hoàn toàn với Code sao chép mạng dễ chứa mã độc.",
+      "Nhờ tham số Parametric cực lớn, các LLM hiện đại có khả năng sinh Code an toàn vượt trội hơn mọi Snippet có trong Database nên Librarian chỉ dùng cho đồ án nhỏ.",
+      "MCP Librarian quá hạn chế vì chỉ có tác dụng khi Data có kịch bản định trước. Gặp Case khó sinh LLM bắt buộc từ bỏ Librarian để chạy về dùng Web Search."
     ],
     correctIndex: 1,
     explanation: "MCP Librarian cung cấp code verified + curated: đã kiểm tra security, compatibility, best practices. Google Search trả về code từ nhiều nguồn — có thể outdated, insecure, hoặc sai.",

@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram KHÔNG CÓ tool_call phía trên, LLM trả lời 'Hà Nội tháng 3 thường khoảng 20-25°C...' — thông tin chung chung và có thể sai. Khái niệm nào giải thích hạn chế này? Knowledge Cutoff là gì và tại sao nó ảnh hưởng đến khả năng trả lời của LLM?",
     options: [
-      "LLM có khả năng inference dữ liệu thời tiết dựa trên seasonal patterns trong training data (mùa đông lạnh, mùa hè nóng), nhưng API rate limit của weather service giới hạn số lượng queries — nên cần caching layer trung gian",
-      "Mô hình pre-trained có điểm dừng kiến thức tĩnh (knowledge cutoff) tại thời điểm hoàn tất huấn luyện. Để có thông tin realtime như thời tiết, kiến trúc Agentic bắt buộc tích hợp Tool Calling để full dữ liệu động từ external APIs.",
-      "LLM được huấn luyện với historical weather data nên có parametric knowledge về climate patterns, nhưng sandbox environment của IDE chặn outbound network requests — vì vậy LLM không thể tự fetch data mới dù có internet",
-      "LLM có thể dự đoán thời tiết chính xác bằng cách suy luận từ geographical data và seasonal trends — vấn đề thực sự là LLM không biết ngày hiện tại (current date) do thiếu system clock access, nên không khớp được prediction với đúng ngày"
+      "LLM dùng inference để suy luận thời tiết dựa trên quy luật mùa vụ. Nhưng do rate limit từ các API web, hệ thống bắt buộc phải có caching layer.",
+      "Mô hình AI bị dừng cập nhật tại một thời điểm (Knowledge Cutoff). Để có dữ liệu realtime, Agent bắt buộc phải dùng Tool Call gọi External APIs.",
+      "Môi trường Sandbox của IDE chặn outbound requests. Dù LLM có tham số hệ thống dự báo khí hậu, nó không thể tự kết nối mạng để tải dữ liệu.",
+      "LLM thiếu quyền truy cập vào System Clock. Nó có thể dự đoán đúng quy luật nhưng không biết ngày giờ hiện tại để khớp với thời điểm truy vấn."
     ],
     correctIndex: 1,
     explanation: "Knowledge Cutoff là thời điểm cuối cùng LLM được cập nhật dữ liệu huấn luyện. Sau đó, LLM KHÔNG tự biết gì mới — cần tool_call để lấy dữ liệu realtime.",

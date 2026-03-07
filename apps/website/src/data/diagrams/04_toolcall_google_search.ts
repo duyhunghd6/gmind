@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM gọi google.search('Next.js 16 new features') → nhận kết quả mới nhất → trả lời chính xác. Quy trình 'tìm kiếm thông tin trước, rồi đưa vào context để trả lời' này là một dạng RAG. RAG (Retrieval-Augmented Generation) và tool_call: google_search có mối quan hệ như thế nào?",
     options: [
-      "RAG và tool_call là hai architectural layers hoàn toàn độc lập: RAG xử lý ở inference pipeline (trước khi prompt đến LLM), còn tool_call xử lý ở output pipeline (sau khi LLM generate response) — chúng không bao giờ hoạt động trên cùng request",
-      "Tool Call và RAG phục vụ hai mục đích Information Retrieval khác biệt. RAG chuyên dùng để search trên vector database nội bộ đã được index sẵn, trong khi Tool Call cho phép LLM chủ động query các external sources động cực kỳ linh hoạt (như Google Search).",
-      "tool_call là phiên bản nâng cấp (successor) của RAG trong kiến trúc Agentic — RAG chỉ retrieve static documents, trong khi tool_call có thể gọi APIs dynamic. Vì vậy các hệ thống hiện đại đã migrate hoàn toàn từ RAG sang tool_call paradigm",
-      "RAG yêu cầu pre-indexed corpus (vector embeddings đã tính trước) để thực hiện semantic search — Google Search trả về raw HTML/text chưa được vectorize, nên tool_call: google_search thuộc dạng Information Retrieval (IR) truyền thống, không phải RAG"
+      "RAG và Tool Call là hai layer độc lập: RAG chạy trước khi vào LLM (Inference pipeline), còn Tool Call chạy sau khi LLM phản hồi (Output pipeline).",
+      "RAG thường thụ động tìm kiếm trên Vector DB nội bộ. Ngược lại, Tool Call cấp quyền cho LLM chủ động query các external sources động (như Web Search).",
+      "Tool Call là phiên bản nâng cấp thay thế hoàn toàn RAG. RAG chỉ lấy được tài liệu tĩnh nên các hệ thống Agentic hiện nay đã dần loại bỏ RAG.",
+      "RAG bắt buộc phải tìm kiếm qua Vector Embeddings. Google Search trả về HTML thuần túy nên nó thuộc nhóm Information Retrieval truyền thống, không phải RAG."
     ],
     correctIndex: 1,
     explanation: "RAG (Retrieval-Augmented Generation) là pattern: lấy thông tin liên quan TRƯỚC, rồi đưa vào context cho LLM generate câu trả lời. Google Search là một implementation của RAG — retrieve từ web.",

@@ -56,10 +56,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Workflow phía trên cho thấy workflow tự động generate report gồm: những gì đã làm, chưa xong, blocked items, và notes cho iteration tiếp theo. Handover Report giải quyết vấn đề gì trong team development?",
     options: [
-      "Handover Report tự động extract time-tracking data (commit timestamps, session duration) giúp project manager đánh giá velocity và planning accuracy — đây là reporting tool cho management layer, không phải knowledge transfer tool",
-      "Frame Handover Report giải quyết triệt để sự thất thoát 'Cognitive Memory Space'. Hệ thống tự động tóm tắt state tree workflow, block-dependencies hiện thời, thiết lập context snapshot cốt lõi để duy trì Developer Flow mượt mà xuyên session / iteration.",
-      "Handover Report đáp ứng compliance requirement: ISO 27001 Clause A.12.1.2 yêu cầu 'documented operating procedures' cho mọi operational changes — Agent-generated reports tự động fulfill compliance documentation mà không cần manual effort",
-      "Handover Report là human-readable version của git log: tóm tắt các commits gần nhất thành paragraphs dễ đọc cho non-technical stakeholders. Nội dung tương đương git log --oneline nhưng được LLM rewrite thành plain language"
+      "Công cụ gián điệp bí mật đi soi mói và bóc tách dữ liệu Time-tracking đếm giờ dev code thực. Sinh ra chỉ để mớm thông tin KPI cho Giám đốc Dự án phán xét Velocity.",
+      "Bảo hộ Khối óc 'Cognitive Memory Space'. Chụp ảnh (Snapshot) toàn bộ bối cảnh tư duy dở dang nén lại gửi cho ca sau, giữ nhịp độ Developer Flow không đứt gãy giữa đêm.",
+      "Chỉ là biên bản đóng mộc đối phó sinh ra để lấp hố đen tuân thủ tiêu chuẩn ISO 27001. Giúp doanh nghiệp vượt qua vòng Audit gắt gao mệt mỏi mà chả tốn tí gân sức thủ công định kỳ.",
+      "Đơn thuần là bản biên dịch Git Log ra ngôn ngữ con người. Khác biệt chăng ở việc LLM dùng văn nói kể lể ngọt ngào thay vì một rổ thông báo lệnh khô khan (Terminal output)."
     ],
     correctIndex: 1,
     explanation: "Knowledge Continuity: mỗi session tạo 'context' (gì đã làm, gì chưa xong, gì bị block). Nếu không ghi lại → context bị mất → next session phải 'khám phá lại'. Handover Report bảo toàn context đó.",

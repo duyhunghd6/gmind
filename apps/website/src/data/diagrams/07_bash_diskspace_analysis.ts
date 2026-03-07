@@ -60,10 +60,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ bash tool phía trên, LLM chạy 3 lệnh liên tiếp: df -h → du -sh /* → du -sh /var/*, mỗi lệnh dựa trên kết quả lệnh trước để drill down sâu hơn. Pattern reasoning + iterative tool use này gọi là gì?",
     options: [
-      "Batch Processing — LLM phân tích prompt và pre-plan toàn bộ 3 lệnh (df, du /*, du /var/*) trước khi thực thi, rồi gửi tất cả tool_calls cùng lúc để IDE chạy song song — tiết kiệm thời gian round-trip giữa LLM và IDE",
-      "Mô hình ReAct (Reasoning and Acting) kết hợp Chain of Thought. Ở bước 1 (df -h), LLM thu thập filesystem size; qua observation này nó lập luận bước 2 (du -sh) để verify chi tiết. Đây là quá trình iterative discovery tự phân tích kết quả thay vì single-shot.",
-      "Recursive Decomposition — LLM tự động tạo sub-prompts cho mỗi directory level (/, /var, /var/log) và gọi chính nó (self-invocation) với sub-prompt đó, tạo thành recursive call stack depth-first traversal qua filesystem tree",
-      "Unix Pipeline Pattern — output của df -h được pipe trực tiếp thành input cho du -sh /* qua shell pipe operator (|), IDE tự động chain các commands mà LLM không cần đọc intermediate results — tương tự 'df -h | du -sh /*'"
+      "Batch Processing. LLM lên siêu kế hoạch sẵn cho cả 3 lệnh ngay từ đầu, thiết lập Tool Call chạy song song qua IDE để triệt tiêu thời gian phản hồi (round-trip time).",
+      "Mô hình ReAct (Reasoning + Acting). LLM quan sát kết quả bước 1 để lập luận cho bước 2, rồi đào sâu vào bước 3. Quá trình chia rẽ tự động lập luận lặp lại liên tục.",
+      "Recursive Decomposition. Agent tự nảy sinh ra các prompt nhỏ cho từng cấp thư mục phân nhánh và tự đệ quy gọi chính mình (self-invocation) theo dạng hình cây.",
+      "Unix Pipeline Pattern. Đầu rã của lệnh trước được cắm thẳng vào lệnh sau trên cùng một string Tool Call duy nhất, ép IDE nối tiếp lệnh mà LLM không cần theo dõi."
     ],
     correctIndex: 1,
     explanation: "LLM dùng kết quả df → quyết định kiểm tra du /* → thấy /var lớn → drill down /var/*. Mỗi bước suy luận dựa trên observation từ bước trước. Đây là Iterative Tool Use trong ReAct pattern.",

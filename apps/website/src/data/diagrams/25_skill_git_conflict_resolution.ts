@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy Skill đọc git log của CẢ feature branch và main branch trước khi resolve. Diagram KHÔNG CÓ Skill cho thấy LLM chỉ đọc conflict markers và chọn 1 bên. Tại sao cần đọc log CẢ HAI branches?",
     options: [
-      "Đọc git log xác định branch nào commit SAU cùng — theo nguyên tắc 'Last Write Wins' (LWW) trong distributed systems, branch commit sau cùng chứa developer intent mới nhất nên được ưu tiên giữ lại khi có conflict",
-      "Theo Semantic Merge Resolution principles: Không áp dụng text matching 3-way thuần, LLM Contextual Agent phân tích AST và đọc commit history của 2 branches. Qua đó hiểu sâu sắc 'Developer Intent', kiến tạo giải pháp hybrid mix logic của cả 2 phía.",
-      "git merge --continue yêu cầu Git index phải 'clean' — chạy git log trước đảm bảo Git refreshes index state và loads commit graph vào memory. Nếu skip git log, merge --continue có thể fail với 'index not up-to-date' error",
-      "Đọc git log đếm LOC (Lines of Code) changed trên mỗi branch — branch có diff lớn hơn (nhiều insertions/deletions hơn) thể hiện scope thay đổi lớn hơn, nên khi conflict xảy ra, LLM ưu tiên giữ code từ branch có scope lớn hơn"
+      "Đọc Log để tìm Branch nào sửa muộn nhất. Áp dụng luật 'Kẻ đến sau thắng' (LWW) xóa sạch Code cũ để giữ lại dòng chữ mới gõ của Developer.",
+      "Nguyên lý Semantic Merge. Thay vì so sánh chữ vụn vặt, Agent soi lịch sử Commit để thấu hiểu 'Mưu đồ' (Intent) của người viết, từ đó dung hòa Logic hai bên thành Code mới.",
+      "Đây là mánh lới kỹ thuật để lừa Git. Chạy Git Log để ép Git làm mới (Refresh) lại Index bộ nhớ, chống lỗi vặt khi chạy tiếp lệnh Merge ở khâu cuối.",
+      "Làm toán đếm số dòng Code (LOC). Suy luận cực kỳ đơn giản: Branch nào gõ nhiều chữ hơn thì quan trọng hơn, khi đụng độ LLM sẽ bênh vực Branch to xác."
     ],
     correctIndex: 1,
     explanation: "Intent-Aware Resolution: conflict chỉ cho thấy 'code khác nhau', nhưng LLM cần hiểu 'TẠI SAO khác'. Git log cho biết intent → LLM resolve giữ ý đồ cả feature branch lẫn main branch.",

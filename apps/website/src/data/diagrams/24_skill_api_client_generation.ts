@@ -49,10 +49,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy Skill đọc OpenAPI spec → generate typed API client tự động, mỗi endpoint trở thành một typed function. Kiểu tạo code từ spec (OpenAPI, GraphQL schema) này thuộc loại automation nào?",
     options: [
-      "AI-Augmented Generation — LLM đọc OpenAPI spec rồi dùng creative reasoning để generate 'better' code hơn spec quy định: thêm retry logic, caching layer, request batching vì LLM hiểu intent tốt hơn rigid schema-to-code mapping",
-      "Đây là nguyên lý thiết kế Schema-Driven: Code OpenAPI Typescript interfaces, interceptors và Models sinh ra tự động từ OpenAPI specs / Swagger qua code generators. Đảm bảo tính nhất quán (Type-Safety) tuyệt đối, loại trừ hoàn toàn code hallucination từ model.",
-      "Template-Based Codegen — tools như openapi-generator dùng Mustache/Handlebars templates cố định, output code cứng nhắc nhưng 100% chính xác. Approach này KHÔNG cần LLM vì hoàn toàn deterministic — Skill chỉ dùng script codegen, không involve AI",
-      "Semantic Code Search — LLM tìm kiếm trong codebase hiện tại các API client patterns đã có (ví dụ: existing PaymentClient hoặc UserClient) rồi clone & adapt pattern đó cho Payment API mới, đảm bảo consistency với coding conventions của project"
+      "Hệ thống cho phép LLM đọc sơ qua Spec rồi tự sáng tạo sinh Code chắp vá thêm Logic như Caching, Retry. AI sẽ đẻ ra mã tốt hơn văn bản đặc tả nghèo nàn.",
+      "Nguyên lý Schema-Driven Generation. Trình dịch sẽ quét sạch OpenAPI và biến nó thành Code chuẩn không sai 1 li (Type-safe), xóa sạch nguy cơ ảo giác LLM.",
+      "Cách dùng thư viện sinh Code cũ kỹ qua Template. Phương pháp này đóng băng hoàn toàn tác dụng của LLM, chỉ trông chờ vào công thức gõ sẵn nhàm chán.",
+      "Quét Code Semantic. LLM đi lang thang lượm nhặt các Client API cũ trong kho, sao chép cấu trúc rồi nhồi Data API mới vào cho hợp quy củ đội nhóm."
     ],
     correctIndex: 1,
     explanation: "Schema-Driven Generation: code được derive trực tiếp từ OpenAPI spec (source of truth). Mỗi endpoint → 1 typed function. Đây là deterministic generation — không phụ thuộc 'sáng tạo' của LLM.",

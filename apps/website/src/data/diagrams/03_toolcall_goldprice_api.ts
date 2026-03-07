@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ tool_call phía trên cho thấy LLM trả lời 'Mua 92.5tr, Bán 94.5tr' (chính xác); diagram KHÔNG CÓ trả lời 'khoảng 7x-8x triệu' (SAI HOÀN TOÀN). Khi LLM cần trả lời về dữ liệu thay đổi liên tục (giá vàng, tỷ giá, cổ phiếu), giải pháp nào đúng nhất?",
     options: [
-      "Fine-tune LLM hàng tuần với financial data feeds (Reuters, Bloomberg) để cập nhật giá vàng mới nhất vào model weights — chi phí fine-tuning đã giảm đáng kể nhờ LoRA/QLoRA nên đây là giải pháp bền vững cho production",
-      "Giải pháp tối ưu nhất cho Live Data là tích hợp Tool Calling để model gọi trực tiếp External API mỗi khi có truy vấn. Điều này bypass hoàn toàn giới hạn knowledge cutoff của model weights, đảm bảo user luôn nhận được tick data chính xác từng giây.",
-      "Kết hợp RAG pipeline với vector database lưu trữ toàn bộ lịch sử giá vàng — khi user hỏi, LLM tìm embedding gần nhất trong vector DB và trả về giá gần nhất, không cần gọi API realtime vì prices thay đổi ít trong 24h",
-      "Inject giá vàng mới nhất vào system prompt mỗi phiên (system prompt injection) — vì system prompt được load 1 lần duy nhất khi khởi tạo session, LLM sẽ có giá chính xác tại thời điểm session start mà không cần tool_call"
+      "Fine-tune LLM định kỳ hàng tuần bằng dữ liệu tài chính (Reuters, Bloomberg) để nạp giá vàng mới nhất trực tiếp vào model weights.",
+      "Sử dụng Tool Calling để model chủ động gọi External API khi có truy vấn. Điều này bypass hoàn toàn giới hạn Knowledge Cutoff, giúp lấy live data tức thì.",
+      "Dùng RAG pipeline kết nối với Vector Database chứa lịch sử giá vàng. Khi truy vấn, LLM tìm semantic match gần nhất để trả về mà không cần gọi API.",
+      "Bơm (inject) tỷ giá vàng mới nhất vào System Prompt mỗi đầu phiên. Lúc khởi tạo LLM sẽ nắm giá chính xác mà không cần tool truy xuất ra ngoài."
     ],
     correctIndex: 1,
     explanation: "Tool_call gọi API tại thời điểm truy vấn để lấy dữ liệu mới nhất. Huấn luyện lại LLM tốn chi phí khổng lồ và vẫn bị outdated ngay lập tức.",

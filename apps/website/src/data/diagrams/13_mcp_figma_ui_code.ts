@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ MCP phía trên, LLM gọi 'figma.getFileComponents()' qua MCP Figma Server — server này kết nối Figma API và trả về structured JSON. Đây không phải tool_call thông thường mà là MCP (Model Context Protocol). MCP khác gì so với tool_call thông thường?",
     options: [
-      "MCP sử dụng persistent WebSocket connection (thay vì HTTP request/response cho mỗi tool_call), giảm handshake overhead — vì vậy MCP tool calls có latency thấp hơn đáng kể so với standard tool_call qua REST API",
-      "Model Context Protocol (MCP) thiết lập một chuẩn giao tiếp thống nhất giữa Client (Agent) và Local/Remote Services. Khác với tích hợp Tool rời, một session MCP Server thường bundle sẵn toàn bộ API specs, Resources, Scripts thành một subsystem hoàn chỉnh.",
-      "MCP được Anthropic thiết kế ban đầu cho Design-to-Code pipeline (Figma, Sketch, Adobe XD) — các service khác (databases, APIs) vẫn nên dùng standard tool_call vì MCP overhead không justify cho simple request/response patterns",
-      "MCP là next-generation replacement cho tool_call: mọi tool_call hiện tại sẽ dần migrate sang MCP protocol vì MCP hỗ trợ tool versioning, schema validation, và bi-directional streaming — tool_call đang trong deprecation path"
+      "MCP giữ kết nối WebSocket liên tục thay vì HTTP rời rạc. Điều này giúp loại bỏ triệt để handshake overhead, khiến tốc độ gọi Tool của MCP độ trễ thấp hơn hẳn API.",
+      "MCP tạo ra chuẩn giao tiếp hợp nhất giữa Agent và Services. Một MCP Server sẽ đóng gói toàn bộ Data, Resources, Prompts thành một Subsystem chuẩn chỉnh thay vì các Tool rời rạc.",
+      "Giao thức này ban đầu được Anthropic tạo riêng cho quy trình Design-to-Code (Figma). Các tác vụ khác như Database hay API vẫn bị ép dùng Tool Call truyền thống.",
+      "MCP sắp được đưa lên làm giao thức thay thế (Deprecate) tất cả Tool Call hiện nay vì nó hỗ trợ Versioning và Streaming hai chiều."
     ],
     correctIndex: 1,
     explanation: "MCP là protocol tiêu chuẩn (như USB cho AI): mọi service implement MCP spec → LLM kết nối được. Mỗi MCP Server expose nhiều tools. tool_call là cơ chế gọi hàm, MCP là cách đóng gói và kết nối.",

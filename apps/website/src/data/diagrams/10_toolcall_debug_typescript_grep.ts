@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM dùng grep_search('UserService') để tìm chính xác file tại src/services/user.service.ts, rồi view_file đọc routes.ts phát hiện typo '../service/' (thiếu 's'). Tại sao grep_search và view_file là 2 tools quan trọng nhất cho code debugging?",
     options: [
-      "grep_search và view_file là O(1) lookup operations (indexed bởi IDE language server) nên trả kết quả gần như instant — các tools khác như bash hay edit_file cần disk I/O nên chậm hơn đáng kể, đây là lý do chúng được ưu tiên trong debugging",
-      "Đứng trước codebase khổng lồ, Context Window của LLM là hữu hạn. Kết hợp grep_search để Regex toàn bộ codebase (Fast Retrieval) và view_file để đọc chi tiết line range (Deep Context), giúp tiết kiệm tokens và ngăn chặn context dilution triệt để.",
-      "grep_search và view_file là 2 tools thuộc 'core tool set' bắt buộc — Agentic IDE spec (theo Anthropic và Google) quy định mọi IDE phải implement tối thiểu 2 tools này. Các tools khác (bash, edit) là optional extensions",
-      "grep_search tích hợp regex pattern matching + semantic analysis có khả năng phát hiện common bugs (typo, wrong import path) tự động — LLM chỉ cần confirm fix suggestion từ grep engine mà không cần tự phân tích code"
+      "Đây là hai Tool được lập chỉ mục (index) sẵn bởi IDE nên chúng chạy tốc độ O(1). Mọi loại Tool khác đều chạy quá chậm để bắt lỗi nhanh.",
+      "Đối mặt với codebase khổng lồ, LLM dùng Grep Search quét diện rộng (Fast Retrieval) và View File đọc cụ thể (Deep Context) để khoanh vùng lỗi mà không làm tràn Context Window.",
+      "Hai Tool này là chuẩn giao tiếp bắt buộc (Core Spec) của Google trong mọi thao tác Editor. Mọi Agentic IDE không gọi luôn bị báo lỗi vi phạm.",
+      "Grep Search tự động chạy phân tích Semantic bên trong Engine để dò lỗi typo. LLM chỉ làm nhiệm vụ confirm và hiển thị kết quả cuối cùng ra UI."
     ],
     correctIndex: 1,
     explanation: "grep_search giúp LLM tìm WHERE (ở đâu trong codebase), view_file giúp LLM hiểu WHAT (nội dung code). Kết hợp lại, LLM có khả năng 'navigate' codebase giống developer dùng IDE.",

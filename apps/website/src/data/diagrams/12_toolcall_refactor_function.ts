@@ -59,10 +59,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM làm 3 bước trước khi sửa code: (1) view_file đọc processOrder(), (2) grep_search tìm 5 callers, (3) view_file đọc 8 test cases — rồi mới refactor. Tại sao LLM cần đọc callers và tests TRƯỚC KHI refactor?",
     options: [
-      "Pre-loading context (callers + tests) vào context window sớm giúp LLM model tận dụng KV-cache efficiently — tokens đã attend ở đầu conversation được cache, giảm re-computation cost khi LLM generate refactored code ở cuối",
-      "Việc refactor logic thường hỏng reference khắp codebase. Công cụ tìm kiếm hoặc MCP (như Librarian) cung cấp chức năng Graph Traversal / Find References, cấp cho Agent cái nhìn Context Awareness toàn cục để update đồng bộ mọi function callers.",
-      "LLM output quality tỷ lệ thuận với context length (scaling law) — nhiều code hơn trong prompt cho LLM nhiều 'reference' hơn để generate code tương tự. Không đọc callers/tests thì prompt quá ngắn, output bị generic",
-      "IDE implement 'Read-Before-Write Lock': trước khi cho phép edit_file, IDE yêu cầu LLM phải đọc (view_file/grep_search) ít nhất 3 files liên quan — đây là safety mechanism tự động của IDE, không phải quyết định của LLM"
+      "Tải trước lượng lớn thư viện giúp LLM đẩy data vào bộ nhớ KV-cache của AI. Bước này chỉ dùng cho mục đích ép hiệu năng sinh Output cuối cùng.",
+      "Việc sửa hàm dễ gây lỗi lan rộng. Chủ động tìm Callers và Tests cấp cho Agent 'Context Awareness' (nhận thức ngữ cảnh) để lường trước 'Blast Radius' và sửa đồng bộ hóa.",
+      "Để tăng chất lượng ra quyết định, LLM luôn cần được bơm nhồi hàng ngàn dòng code dư thừa để Prompt đủ dài thì Output mới khỏi bị chung chung.",
+      "Công cụ bảo vệ của bản thân IDE ngăn chặn (Lock) các thao tác ghi nếu LLM không triệu hồi view_file ít nhất 3 lần để rà soát thư mục root trước đó."
     ],
     correctIndex: 1,
     explanation: "Blast Radius: mỗi thay đổi code ảnh hưởng đến callers, tests, và downstream code. LLM cần hiểu toàn bộ scope trước khi sửa — giống developer phải kiểm tra 'ai dùng hàm này?' trước khi refactor.",

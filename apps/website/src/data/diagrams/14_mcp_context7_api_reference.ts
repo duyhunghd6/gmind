@@ -52,10 +52,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram KHÔNG CÓ MCP phía trên cho thấy LLM generate code dùng 'stripe.charges.create()' — API đã DEPRECATED; trong khi diagram CÓ MCP dùng Context7 fetch docs mới nhất và dùng 'checkout.sessions.create()' (API hiện hành). Vấn đề 'API Staleness' (API lỗi thời) nghiêm trọng như thế nào?",
     options: [
-      "Không nghiêm trọng trong thực tế — major APIs (Stripe, AWS, GCP) tuân thủ Semantic Versioning (semver) nghiêm ngặt: deprecated endpoints vẫn hoạt động ít nhất 2 năm sau deprecation notice, đủ thời gian cho LLM training cycle cập nhật",
-      "Vấn đề 'Knowledge Cutoff Hallucination': Nếu API đã ra mắt version mới gây breaking changes nhưng LLM chỉ học version cũ, nó sẽ tự tin generate code syntax sai endpoint/methods, dẫn đến code pass AST nhưng fail hoàn toàn phía Production Runtime.",
-      "Chỉ ảnh hưởng API có breaking changes (major version bumps) — hầu hết APIs sử dụng backward-compatible evolution (thêm fields mới, không xóa fields cũ), nên code dùng API cũ vẫn hoạt động bình thường dù không phải version mới nhất",
-      "LLM có khả năng phát hiện deprecated patterns nhờ training data chứa deprecation warnings — khi generate code dùng old API, LLM tự thêm comment '// TODO: migrate to v3' nhưng vẫn dùng working v2 code vì tương thích ngược"
+      "Không đáng lo ngại vì các API lớn (Stripe, AWS) luôn giữ tính Backward Compatibility ít nhất 2 năm. LLM có thừa thời gian để Train lại data mới.",
+      "Hội chứng 'Knowledge Cutoff Hallucination'. Trí nhớ LLM dừng lại ở bản cũ, sinh ra Code vượt qua kiểm tra tĩnh (AST) nhưng sụp đổ phá hoại Runtime thực tế.",
+      "Vấn đề này chỉ áp dụng khi API Major Upgrade. Hệ thống chuẩn luôn giữ lại field cũ, nên LLM dùng data cũ viết Code thì App vẫn chạy bình thường.",
+      "LLM đã được train bằng Log lỗi nên nó luôn tự chèn Comment cảnh báo '//TODO: Update API' nhắc Developer tự nâng cấp Version bằng tay."
     ],
     correctIndex: 1,
     explanation: "API Staleness: LLM biết API từ training data → code 'nhìn đúng' nhưng dùng endpoint cũ → runtime fail. MCP Context7 giải quyết bằng cách fetch API docs MỚI NHẤT tại thời điểm code.",

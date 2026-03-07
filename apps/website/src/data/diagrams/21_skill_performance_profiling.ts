@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Agent Skill phía trên cho thấy Skill tự động chạy perf record + flamegraph.pl → tạo flamegraph.svg cho LLM phân tích bottleneck. Flamegraph cho thấy gì và tại sao nó hữu ích cho LLM hơn text log thuần?",
     options: [
-      "Flamegraph là biểu đồ nhiệt độ CPU theo thời gian thực — mỗi màu thể hiện mức nhiệt của một CPU core khác nhau",
-      "Bằng cách phân tích AST hoặc text form từ Flamegraph (ví dụ stackcollapse profiles), Agentic LLM có thể trace ngược toàn bộ CPU Sample call-stack hierarchy, từ chẩn đoán chính xác bottleneck instruction thay vì rồ mò debug chay performance.",
-      "Flamegraph chỉ hoạt động với ngôn ngữ JVM-based (Java, Kotlin, Scala) vì cần JMX để thu thập profiling data",
-      "LLM parse trực tiếp file flamegraph.svg bằng built-in SVG parser, đọc vector paths để hiểu cấu trúc call stack thay vì cần text version"
+      "Flamegraph là biểu đồ đo thân nhiệt phần cứng CPU theo chu kỳ. Các ô màu thể hiện Core nào đang cày ải quá sức để Developer mua tản nhiệt mới.",
+      "Agentic LLM phân tích text form (stackcollapse) từ Flamegraph thành chuỗi Call-stack phân tầng. Từ đó chẩn đoán chính xác Bottleneck thay vì mò mẫm Performance.",
+      "Biểu đồ Flamegraph là công cụ độc quyền của hệ thống Java Virtual Machine. Nên nó vô dụng hoàn toàn với NodeJS hay Python.",
+      "LLM sử dụng trình đọc đồ họa tích hợp để soi từng Pixel và Vector Path trên file SVG, qua đó nội suy chính xác cấu trúc hàm bên trong."
     ],
     correctIndex: 1,
     explanation: "Flamegraph hiển thị call stack: mỗi 'tầng' là function call, chiều rộng = % CPU time. Khi convert sang text (stackcollapse), LLM đọc được danh sách functions + % CPU → xác định bottleneck.",
