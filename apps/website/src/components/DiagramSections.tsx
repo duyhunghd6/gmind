@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import DiagramGroupSection from "./DiagramGroupSection";
 import SectionDivider from "./SectionDivider";
+import RewardForm from "./RewardForm";
 import { type DiagramGroup, DIAGRAM_KEYS_BY_GROUP } from "@/data/diagrams";
 
 /* ──────── Constants ──────── */
@@ -23,6 +24,23 @@ export default function DiagramSections() {
   const handleQuizAnswer = useCallback((correct: boolean) => {
     setGlobalAnswered((a) => a + 1);
     if (correct) setGlobalCorrect((c) => c + 1);
+  }, []);
+
+  /* ── Dev-mode skip: type "devskip" on keyboard to unlock everything ── */
+  useEffect(() => {
+    let buffer = "";
+    const handler = (e: KeyboardEvent) => {
+      buffer += e.key.toLowerCase();
+      if (buffer.length > 7) buffer = buffer.slice(-7);
+      if (buffer === "devskip") {
+        setGlobalCorrect(TOTAL_QUESTIONS);
+        setGlobalAnswered(TOTAL_QUESTIONS);
+        setUnlockedGroupIdx(GROUPS.length - 1);
+        buffer = "";
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, []);
 
   const pct = TOTAL_QUESTIONS > 0 ? (globalAnswered / TOTAL_QUESTIONS) * 100 : 0;
@@ -157,6 +175,11 @@ export default function DiagramSections() {
             Hoàn thành tất cả — {globalCorrect}/{TOTAL_QUESTIONS} câu đúng!
           </span>
         </div>
+      )}
+
+      {/* Reward Form: show when all answered AND >= 30 correct */}
+      {globalAnswered >= TOTAL_QUESTIONS && globalCorrect >= 30 && (
+        <RewardForm score={globalCorrect} total={TOTAL_QUESTIONS} />
       )}
 
       {/* Responsive styles */}
