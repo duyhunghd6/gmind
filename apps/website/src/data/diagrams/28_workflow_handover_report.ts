@@ -56,10 +56,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Workflow phía trên cho thấy workflow tự động generate report gồm: những gì đã làm, chưa xong, blocked items, và notes cho iteration tiếp theo. Handover Report giải quyết vấn đề gì trong team development?",
     options: [
-      "A. Giúp project manager track thời gian làm việc và productivity metrics của từng developer qua các iterations",
+      "A. Handover Report tự động extract time-tracking data (commit timestamps, session duration) giúp project manager đánh giá velocity và planning accuracy — đây là reporting tool cho management layer, không phải knowledge transfer tool",
       "B. Knowledge Continuity — đảm bảo context KHÔNG BỊ MẤT giữa các iterations/sessions, giúp developer tiếp theo tiếp tục hiệu quả",
-      "C. Handover Report là tài liệu pháp lý bắt buộc theo tiêu chuẩn ISO 27001 cho mọi dự án software có trên 3 developers",
-      "D. Report chỉ là bản backup tóm tắt code changes — tương đương git log nhưng ở dạng readable hơn cho non-technical stakeholders"
+      "C. Handover Report đáp ứng compliance requirement: ISO 27001 Clause A.12.1.2 yêu cầu 'documented operating procedures' cho mọi operational changes — Agent-generated reports tự động fulfill compliance documentation mà không cần manual effort",
+      "D. Handover Report là human-readable version của git log: tóm tắt các commits gần nhất thành paragraphs dễ đọc cho non-technical stakeholders. Nội dung tương đương git log --oneline nhưng được LLM rewrite thành plain language"
     ],
     correctIndex: 1,
     explanation: "Knowledge Continuity: mỗi session tạo 'context' (gì đã làm, gì chưa xong, gì bị block). Nếu không ghi lại → context bị mất → next session phải 'khám phá lại'. Handover Report bảo toàn context đó.",

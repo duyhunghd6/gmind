@@ -62,10 +62,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ SubAgent phía trên tạo 3 SubAgent riêng cho Chrome, Firefox, Safari — mỗi SubAgent test trong context riêng. Diagram KHÔNG CÓ cho thấy logs 3 browsers trộn lẫn trong 1 context. 'Cross-contamination' trong context có nghĩa là gì khi test đa browser?",
     options: [
-      "A. Đây là virus hoặc malware lây lan giữa các browser instances khi chạy test trên cùng một máy qua shared temp files",
+      "A. Cross-contamination xảy ra ở browser level: Chrome và Firefox share disk cache khi chạy trên cùng OS — test artifacts (cookies, localStorage, screenshots) từ Chrome test bị Firefox test đọc nhầm, gây false positive/negative results",
       "B. Test logs của Chrome/Firefox/Safari trộn lẫn trong 1 context — LLM nhầm bug của browser này với browser kia khi phân tích",
-      "C. Cookies và session storage tự động chia sẻ giữa các browser profiles — gây test state bị lẫn lộn giữa các test suites",
-      "D. CSS rendering engine của browser này ảnh hưởng layout calculation của browser khác khi chạy trên cùng display server"
+      "C. Test runner (Playwright/Selenium) sử dụng shared test fixtures: login credentials, test data, và browser state được chia sẻ qua global setup file — khi Chrome test modify shared state, Firefox test nhận modified state thay vì clean slate",
+      "D. Cross-contamination ở rendering layer: khi 3 browser instances chạy đồng thời trên cùng display server, GPU texture memory được shared — CSS animations từ Chrome test can thiệp vào Firefox rendering pipeline gây visual regression false alarms"
     ],
     correctIndex: 1,
     explanation: "Khi 6000 tokens logs từ 3 browsers nằm chung context, LLM có thể nhầm 'Firefox CSS bug' với 'Safari WebKit issue'. SubAgent giữ mỗi browser trong context riêng → phân tích chính xác từng browser.",

@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ tool_call phía trên cho thấy LLM trả lời 'Mua 92.5tr, Bán 94.5tr' (chính xác); diagram KHÔNG CÓ trả lời 'khoảng 7x-8x triệu' (SAI HOÀN TOÀN). Khi LLM cần trả lời về dữ liệu thay đổi liên tục (giá vàng, tỷ giá, cổ phiếu), giải pháp nào đúng nhất?",
     options: [
-      "A. Huấn luyện lại LLM mỗi ngày để cập nhật dữ liệu mới nhất",
+      "A. Fine-tune LLM hàng tuần với financial data feeds (Reuters, Bloomberg) để cập nhật giá vàng mới nhất vào model weights — chi phí fine-tuning đã giảm đáng kể nhờ LoRA/QLoRA nên đây là giải pháp bền vững cho production",
       "B. Dùng tool_call gọi API lấy dữ liệu realtime tại thời điểm truy vấn — đảm bảo chính xác tức thì",
-      "C. Tăng kích thước model (parameters) để LLM 'nhớ' nhiều dữ liệu hơn",
-      "D. Cung cấp toàn bộ lịch sử giá trong system prompt để LLM tham khảo"
+      "C. Kết hợp RAG pipeline với vector database lưu trữ toàn bộ lịch sử giá vàng — khi user hỏi, LLM tìm embedding gần nhất trong vector DB và trả về giá gần nhất, không cần gọi API realtime vì prices thay đổi ít trong 24h",
+      "D. Inject giá vàng mới nhất vào system prompt mỗi phiên (system prompt injection) — vì system prompt được load 1 lần duy nhất khi khởi tạo session, LLM sẽ có giá chính xác tại thời điểm session start mà không cần tool_call"
     ],
     correctIndex: 1,
     explanation: "Tool_call gọi API tại thời điểm truy vấn để lấy dữ liệu mới nhất. Huấn luyện lại LLM tốn chi phí khổng lồ và vẫn bị outdated ngay lập tức.",

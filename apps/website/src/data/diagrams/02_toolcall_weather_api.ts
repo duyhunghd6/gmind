@@ -48,10 +48,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram KHÔNG CÓ tool_call phía trên, LLM trả lời 'Hà Nội tháng 3 thường khoảng 20-25°C...' — thông tin chung chung và có thể sai. Khái niệm nào giải thích hạn chế này? Knowledge Cutoff là gì và tại sao nó ảnh hưởng đến khả năng trả lời của LLM?",
     options: [
-      "A. LLM bị giới hạn số lượng câu trả lời mỗi ngày do server overload",
+      "A. LLM có khả năng inference dữ liệu thời tiết dựa trên seasonal patterns trong training data (mùa đông lạnh, mùa hè nóng), nhưng API rate limit của weather service giới hạn số lượng queries — nên cần caching layer trung gian",
       "B. LLM chỉ biết thông tin đến thời điểm huấn luyện (training data) — sau đó KHÔNG tự cập nhật, cần tool_call lấy dữ liệu mới",
-      "C. LLM bị cấm truy cập internet vì lý do bảo mật hệ thống",
-      "D. LLM chỉ hoạt động khi device có kết nối mạng internet"
+      "C. LLM được huấn luyện với historical weather data nên có parametric knowledge về climate patterns, nhưng sandbox environment của IDE chặn outbound network requests — vì vậy LLM không thể tự fetch data mới dù có internet",
+      "D. LLM có thể dự đoán thời tiết chính xác bằng cách suy luận từ geographical data và seasonal trends — vấn đề thực sự là LLM không biết ngày hiện tại (current date) do thiếu system clock access, nên không khớp được prediction với đúng ngày"
     ],
     correctIndex: 1,
     explanation: "Knowledge Cutoff là thời điểm cuối cùng LLM được cập nhật dữ liệu huấn luyện. Sau đó, LLM KHÔNG tự biết gì mới — cần tool_call để lấy dữ liệu realtime.",

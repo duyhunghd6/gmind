@@ -60,10 +60,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ SubAgent phía trên cho thấy 50+ files được chia thành SubAgents theo module: mỗi SubAgent chỉ cần context riêng của module mình. Diagram KHÔNG CÓ cho thấy 1 context xử lý tuần tự tất cả files → context window overflow. Tại sao chia theo module hiệu quả hơn?",
     options: [
-      "A. SubAgent chạy song song trên nhiều CPU cores nên refactor nhanh hơn gấp 5 lần so với xử lý tuần tự trên 1 thread duy nhất",
+      "A. SubAgent Tasks được scheduled trên GPU cluster — mỗi module refactoring chạy trên GPU node riêng với full model instance, tận dụng parallel computing infrastructure. Speedup ≈ N modules (linear scaling) nếu cluster có đủ GPU capacity",
       "B. Mỗi SubAgent chỉ cần context của module mình — giảm tokens lãng phí, tăng độ chính xác vì LLM focus vào scope nhỏ hơn",
-      "C. SubAgent tự động viết unit test cho mỗi module sau khi refactor — đảm bảo regression coverage 100% mà không cần developer",
-      "D. SubAgent sử dụng shared memory pool để trao đổi kết quả refactor giữa các modules — đảm bảo consistency toàn codebase"
+      "C. SubAgent tự động generate regression tests cho mỗi module bằng cách diff before/after code — đây là key advantage vì human developer thường skip writing tests cho refactored code. SubAgent enforce test coverage gate trước khi report 'done'",
+      "D. SubAgent Tasks communicate qua shared artifact store (message queue hoặc shared file system): Task A publish refactored module exports → Task B consume để update imports. Đây là event-driven architecture giữa SubAgents, đảm bảo consistency"
     ],
     correctIndex: 1,
     explanation: "Module A chỉ cần context 12 files, không cần 'biết' code của Module C. Chia nhỏ = context tập trung = LLM hiểu sâu hơn từng module thay vì hiểu nông 50 files.",

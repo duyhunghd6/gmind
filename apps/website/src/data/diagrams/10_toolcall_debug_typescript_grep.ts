@@ -54,10 +54,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM dùng grep_search('UserService') để tìm chính xác file tại src/services/user.service.ts, rồi view_file đọc routes.ts phát hiện typo '../service/' (thiếu 's'). Tại sao grep_search và view_file là 2 tools quan trọng nhất cho code debugging?",
     options: [
-      "A. Chúng thực thi nhanh hơn tất cả các tools khác trong IDE",
+      "A. grep_search và view_file là O(1) lookup operations (indexed bởi IDE language server) nên trả kết quả gần như instant — các tools khác như bash hay edit_file cần disk I/O nên chậm hơn đáng kể, đây là lý do chúng được ưu tiên trong debugging",
       "B. grep_search TÌM vị trí code trong codebase, view_file ĐỌC nội dung code — kết hợp cho LLM 'đôi mắt' để navigate codebase",
-      "C. Chúng là 2 tools duy nhất mà Agentic IDE cung cấp cho LLM",
-      "D. Chúng tự động phát hiện và sửa lỗi mà không cần LLM phân tích"
+      "C. grep_search và view_file là 2 tools thuộc 'core tool set' bắt buộc — Agentic IDE spec (theo Anthropic và Google) quy định mọi IDE phải implement tối thiểu 2 tools này. Các tools khác (bash, edit) là optional extensions",
+      "D. grep_search tích hợp regex pattern matching + semantic analysis có khả năng phát hiện common bugs (typo, wrong import path) tự động — LLM chỉ cần confirm fix suggestion từ grep engine mà không cần tự phân tích code"
     ],
     correctIndex: 1,
     explanation: "grep_search giúp LLM tìm WHERE (ở đâu trong codebase), view_file giúp LLM hiểu WHAT (nội dung code). Kết hợp lại, LLM có khả năng 'navigate' codebase giống developer dùng IDE.",

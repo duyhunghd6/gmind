@@ -52,10 +52,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ Agent Skill phía trên, Skill cung cấp cả SKILL.md (hướng dẫn xử lý file .xlsx) và script 'convert_excel_to_txt.py' (công cụ chuyển đổi) — một gói kiến thức hoàn chỉnh. Agent Skill khác gì so với tool_call thông thường?",
     options: [
-      "A. Skill thực thi nhanh hơn tool_call vì code đã được compile trước",
+      "A. Agent Skill scripts được pre-compiled và cached bởi IDE runtime — khi LLM gọi skill lần đầu, IDE compile script; từ lần 2 trở đi chạy từ cache binary. Đây là lý do Skill nhanh hơn tool_call: cold start chỉ xảy ra 1 lần",
       "B. Skill là GÓI TRI THỨC gồm SKILL.md (hướng dẫn) + scripts/ (công cụ) + examples/ — dạy LLM CÁCH giải quyết một loại bài toán cụ thể",
-      "C. Skill chỉ là một tập hợp nhiều tool_calls được gom lại thành bundle",
-      "D. Skill thay thế hoàn toàn tool_call — khi có Skill thì không cần tool_call nữa"
+      "C. Skill là alias/shortcut cho một chuỗi tool_calls đã được pre-configured — khi LLM gọi Skill 'excel-parser', IDE tự động expand thành 3 tool_calls (download → convert → read) mà LLM không cần biết internal implementation",
+      "D. Skill bao gồm tool_call bên trong: SKILL.md chỉ là wrapper documentation, còn functionality thực sự nằm ở tool_call: bash() bên trong. Vì vậy Skill và tool_call là cùng một thứ — Skill chỉ thêm layer README cho LLM đọc trước"
     ],
     correctIndex: 1,
     explanation: "Agent Skill = Knowledge Package: SKILL.md dạy LLM 'khi gặp file .xlsx thì dùng script X với args Y'. Đây là tri thức (knowledge), không chỉ là tool (công cụ).",

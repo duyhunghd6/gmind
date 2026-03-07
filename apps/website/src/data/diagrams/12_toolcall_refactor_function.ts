@@ -59,10 +59,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM làm 3 bước trước khi sửa code: (1) view_file đọc processOrder(), (2) grep_search tìm 5 callers, (3) view_file đọc 8 test cases — rồi mới refactor. Tại sao LLM cần đọc callers và tests TRƯỚC KHI refactor?",
     options: [
-      "A. Để tăng tốc độ xử lý của LLM bằng cách pre-load context sớm",
+      "A. Pre-loading context (callers + tests) vào context window sớm giúp LLM model tận dụng KV-cache efficiently — tokens đã attend ở đầu conversation được cache, giảm re-computation cost khi LLM generate refactored code ở cuối",
       "B. Context Awareness — hiểu toàn bộ 'blast radius' (ảnh hưởng) trước khi sửa, đảm bảo không break callers và tests",
-      "C. LLM cần nhiều code trong prompt mới generate output chất lượng cao được",
-      "D. IDE bắt buộc phải scan tất cả files trước khi cho phép edit bất kỳ file nào"
+      "C. LLM output quality tỷ lệ thuận với context length (scaling law) — nhiều code hơn trong prompt cho LLM nhiều 'reference' hơn để generate code tương tự. Không đọc callers/tests thì prompt quá ngắn, output bị generic",
+      "D. IDE implement 'Read-Before-Write Lock': trước khi cho phép edit_file, IDE yêu cầu LLM phải đọc (view_file/grep_search) ít nhất 3 files liên quan — đây là safety mechanism tự động của IDE, không phải quyết định của LLM"
     ],
     correctIndex: 1,
     explanation: "Blast Radius: mỗi thay đổi code ảnh hưởng đến callers, tests, và downstream code. LLM cần hiểu toàn bộ scope trước khi sửa — giống developer phải kiểm tra 'ai dùng hàm này?' trước khi refactor.",

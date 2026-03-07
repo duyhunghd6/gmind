@@ -63,10 +63,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Trong diagram CÓ tool_call phía trên, LLM thực hiện: cargo build → đọc error E0308 → view_file xem code → edit_file sửa → cargo build lại → thành công. Vòng lặp 'build → đọc error → sửa → build lại' này minh hoạ pattern nào?",
     options: [
-      "A. Waterfall — mỗi phase (build, test, deploy) chỉ chạy đúng 1 lần rồi chuyển tiếp",
+      "A. Waterfall Sequential — LLM thực hiện pipeline tuyến tính: đọc toàn bộ source code → phân tích tĩnh tìm lỗi → sửa tất cả lỗi cùng lúc → build 1 lần duy nhất cuối cùng. Không cần vòng lặp vì LLM đã phân tích đủ context ở bước đầu",
       "B. Compile Feedback Loop — LLM dùng output compiler làm input cho bước sửa tiếp theo, lặp đến khi thành công",
-      "C. Test-Driven Development — viết test trước rồi viết code để test pass",
-      "D. Static Analysis — phân tích cấu trúc code mà không cần compile hay chạy"
+      "C. Test-Driven Development (TDD) — LLM viết unit test cho function handler TRƯỚC, rồi sửa code cho đến khi test pass. Cargo build chỉ là bước verify cuối cùng sau khi tất cả tests đã green, không phải trọng tâm của feedback loop",
+      "D. Static Analysis Loop — LLM sử dụng clippy (Rust linter) kết hợp với AST parsing để phát hiện lỗi TRƯỚC khi compile. Cargo build trong diagram thực chất là clippy check, không phải full compilation — vì static analysis nhanh hơn và đủ để tìm type errors"
     ],
     correctIndex: 1,
     explanation: "LLM tạo vòng lặp: cargo build → đọc error → sửa code → cargo build lại → kiểm tra success. Compiler là 'oracle' cho LLM biết code đúng hay sai.",

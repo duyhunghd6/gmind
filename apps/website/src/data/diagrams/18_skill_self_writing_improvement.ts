@@ -53,10 +53,10 @@ export const diagram: DiagramEntry = {
   quiz: {
     question: "Diagram CÓ Self-Improvement phía trên cho thấy LLM phát hiện pattern lặp → tự tạo SKILL.md + scripts → dùng lại lần sau tự động. Khái niệm 'Self-Improvement' trong Agentic Coding nghĩa là gì?",
     options: [
-      "A. LLM dùng reinforcement learning từ các phiên trước để fine-tune lại weights, giúp output tốt hơn mà không cần external files",
+      "A. LLM áp dụng RLHF (Reinforcement Learning from Human Feedback) implicit: khi developer approve output → positive reward signal, khi reject → negative reward. Qua nhiều phiên, model weights được micro-adjust để output phù hợp với developer preference",
       "B. LLM phát hiện pattern lặp → tạo Agent Skills + Rules để tái sử dụng — cải thiện qua TỪNG PHIÊN làm việc mà không thay đổi model weights",
-      "C. LLM tự cập nhật phiên bản model mới hơn bằng cách download weights mới nhất từ cloud storage sau mỗi phiên",
-      "D. LLM thu thập feedback của user (like/dislike/rating) → gửi về server để retrain model theo preference cá nhân"
+      "C. LLM monitor model registry (Hugging Face, Google AI) và tự động download checkpoint mới khi available — tương tự auto-update của browser. New checkpoint chứa knowledge mới hơn, giải quyết staleness issue mà không cần external files",
+      "D. LLM sử dụng In-Context Learning (ICL): lưu conversation history vào long-term memory, và ở phiên sau LLM tự inject examples từ phiên trước vào context window — đây là cải thiện thông qua few-shot examples tích lũy, không cần external Skills"
     ],
     correctIndex: 1,
     explanation: "Self-Improvement: LLM không thay đổi weights (parametric knowledge), nhưng tạo Skills/Rules lưu trên disk → đọc lại ở phiên sau. Đây là 'external memory' cho AI — giống developer viết documentation cho chính mình.",
