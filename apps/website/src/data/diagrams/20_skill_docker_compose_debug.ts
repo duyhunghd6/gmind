@@ -52,12 +52,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Vấn đề đơn giản nhưng debug lâu vì thiếu context`,
 
   quiz: {
-    question: "Trong Docker Compose, tại sao LLM cần đọc docker-compose.yml TRƯỚC KHI debug networking?",
+    question: "Diagram CÓ Agent Skill phía trên cho thấy LLM đọc docker-compose.yml trước → biết chính xác container names và network config → fix đúng issue. Diagram KHÔNG CÓ cho thấy LLM đoán sai container name. Tại sao đọc docker-compose.yml TRƯỚC KHI debug networking là bắt buộc?",
     options: [
-      "A. Để LLM hiểu Docker version",
+      "A. Đọc docker-compose.yml giúp LLM xác định Docker engine version compatibility — từ đó chọn đúng syntax lệnh tương thích",
       "B. docker-compose.yml chứa SERVICE NAMES, NETWORKS, PORTS — đây là 'source of truth' cho cấu trúc multi-container, không thể đoán được",
-      "C. Docker yêu cầu đọc file trước khi chạy lệnh",
-      "D. Để LLM copy-paste config"
+      "C. Docker daemon bắt buộc client phải gọi API /compose/read trước khi cho phép thực thi bất kỳ lệnh debug nào",
+      "D. LLM cần copy-paste toàn bộ config từ docker-compose.yml vào context window để có đủ tokens cho suy luận chính xác"
     ],
     correctIndex: 1,
     explanation: "docker-compose.yml là infrastructure-as-code: chứa topology (services, networks, volumes). LLM cần đọc file này để hiểu 'bản đồ' hệ thống — không thể đoán service names hay network config.",

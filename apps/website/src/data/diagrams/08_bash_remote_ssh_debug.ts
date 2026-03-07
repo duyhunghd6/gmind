@@ -55,12 +55,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: 🔄 Context switching liên tục giữa IDE và terminal`,
 
   quiz: {
-    question: "Khi LLM chạy lệnh trên remote server qua SSH, rủi ro bảo mật nào cần quan tâm nhất?",
+    question: "Diagram CÓ bash tool phía trên cho thấy LLM tự SSH vào production server và chạy 'top', 'netstat' để chẩn đoán. Khi LLM có quyền thực thi lệnh trên remote server qua SSH như vậy, rủi ro bảo mật nào cần quan tâm nhất?",
     options: [
-      "A. LLM có thể đọc được password của server",
-      "B. LLM có quyền thực thi lệnh trên production — cần mechanism xác nhận (approval) cho lệnh nguy hiểm",
-      "C. SSH connection không an toàn",
-      "D. LLM có thể bị hack bởi server đích"
+      "A. LLM có thể đọc được system password lưu trên server production",
+      "B. LLM có quyền thực thi BẤT KỲ lệnh nào trên production — cần mechanism approval/confirmation cho lệnh nguy hiểm (rm, DROP, deploy)",
+      "C. Bản thân giao thức SSH không an toàn và dễ bị tấn công MITM",
+      "D. LLM có thể bị server production hack ngược lại qua reverse shell"
     ],
     correctIndex: 1,
     explanation: "LLM có quyền chạy bất kỳ lệnh nào qua bash → trên production server có thể gây hại (rm -rf, DROP TABLE). Agentic IDE cần approval gate: LLM đề xuất lệnh → user xác nhận → IDE mới thực thi.",

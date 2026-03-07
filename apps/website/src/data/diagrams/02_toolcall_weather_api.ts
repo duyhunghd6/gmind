@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     User->>User: Mở Weather app → thực tế 28°C, mưa nhẹ`,
 
   quiz: {
-    question: "Knowledge Cutoff là gì và tại sao nó ảnh hưởng đến khả năng trả lời của LLM?",
+    question: "Trong diagram KHÔNG CÓ tool_call phía trên, LLM trả lời 'Hà Nội tháng 3 thường khoảng 20-25°C...' — thông tin chung chung và có thể sai. Khái niệm nào giải thích hạn chế này? Knowledge Cutoff là gì và tại sao nó ảnh hưởng đến khả năng trả lời của LLM?",
     options: [
-      "A. LLM bị giới hạn số lượng câu trả lời mỗi ngày",
-      "B. LLM chỉ biết thông tin đến thời điểm huấn luyện (training data) — không tự cập nhật",
-      "C. LLM bị cấm truy cập internet vì lý do bảo mật",
-      "D. LLM chỉ hoạt động khi có kết nối mạng"
+      "A. LLM bị giới hạn số lượng câu trả lời mỗi ngày do server overload",
+      "B. LLM chỉ biết thông tin đến thời điểm huấn luyện (training data) — sau đó KHÔNG tự cập nhật, cần tool_call lấy dữ liệu mới",
+      "C. LLM bị cấm truy cập internet vì lý do bảo mật hệ thống",
+      "D. LLM chỉ hoạt động khi device có kết nối mạng internet"
     ],
     correctIndex: 1,
     explanation: "Knowledge Cutoff là thời điểm cuối cùng LLM được cập nhật dữ liệu huấn luyện. Sau đó, LLM KHÔNG tự biết gì mới — cần tool_call để lấy dữ liệu realtime.",

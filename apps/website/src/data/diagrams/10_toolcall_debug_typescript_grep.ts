@@ -52,12 +52,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ LLM không thể tự tìm lỗi typo trong path`,
 
   quiz: {
-    question: "Tại sao grep_search và view_file là hai tools quan trọng nhất cho code debugging?",
+    question: "Trong diagram CÓ tool_call phía trên, LLM dùng grep_search('UserService') để tìm chính xác file tại src/services/user.service.ts, rồi view_file đọc routes.ts phát hiện typo '../service/' (thiếu 's'). Tại sao grep_search và view_file là 2 tools quan trọng nhất cho code debugging?",
     options: [
-      "A. Chúng nhanh hơn các tools khác",
-      "B. grep_search TÌM vị trí code, view_file ĐỌC nội dung code — kết hợp cho LLM 'mắt' để nhìn codebase",
-      "C. Chúng là tools duy nhất mà LLM có thể sử dụng",
-      "D. Chúng tự động sửa code mà không cần LLM"
+      "A. Chúng thực thi nhanh hơn tất cả các tools khác trong IDE",
+      "B. grep_search TÌM vị trí code trong codebase, view_file ĐỌC nội dung code — kết hợp cho LLM 'đôi mắt' để navigate codebase",
+      "C. Chúng là 2 tools duy nhất mà Agentic IDE cung cấp cho LLM",
+      "D. Chúng tự động phát hiện và sửa lỗi mà không cần LLM phân tích"
     ],
     correctIndex: 1,
     explanation: "grep_search giúp LLM tìm WHERE (ở đâu trong codebase), view_file giúp LLM hiểu WHAT (nội dung code). Kết hợp lại, LLM có khả năng 'navigate' codebase giống developer dùng IDE.",

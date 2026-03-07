@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Không có rollback script → phải fix manual`,
 
   quiz: {
-    question: "Tại sao Agent Skill cho database migration luôn yêu cầu tạo cả UP và DOWN scripts?",
+    question: "Trong diagram CÓ Agent Skill phía trên, Skill tạo cả migration UP (thay đổi schema) và DOWN (rollback) scripts. So sánh với diagram KHÔNG CÓ Skill — LLM chỉ tạo UP migration. Tại sao cần cả UP lẫn DOWN scripts?",
     options: [
-      "A. Để code nhìn chuyên nghiệp hơn",
-      "B. DOWN script là ROLLBACK — nếu migration gây lỗi production, có thể revert AN TOÀN",
-      "C. Database engine yêu cầu cả hai để chạy",
-      "D. DOWN script dùng để xoá database"
+      "A. Tạo cả UP và DOWN giúp codebase nhìn chuyên nghiệp hơn khi code review, thể hiện team có quy trình migration bài bản",
+      "B. DOWN script là ROLLBACK — nếu migration gây lỗi production, có thể revert schema về trạng thái trước đó AN TOÀN trong vài giây",
+      "C. DOWN script dùng để undo bằng database transaction (BEGIN/ROLLBACK) — tương tự cơ chế rollback tự động của SQL engine",
+      "D. DOWN script chỉ dùng khi muốn xoá toàn bộ database và tạo lại từ đầu trong quá trình development"
     ],
     correctIndex: 1,
     explanation: "Rollback Safety: mọi thay đổi production phải có khả năng revert. DOWN script cho phép 'undo' migration trong vài giây — thay vì fix manual mất hàng giờ khi production bị lỗi.",

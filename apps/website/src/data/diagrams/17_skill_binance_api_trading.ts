@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Rủi ro: code có thể trade thật trên Mainnet`,
 
   quiz: {
-    question: "Tại sao Agent Skill cho Binance API quan trọng hơn việc LLM 'biết' Binance API từ training data?",
+    question: "Diagram CÓ Agent Skill cho thấy LLM dùng đúng Testnet endpoint (testnet.binance.vision) và HMAC-SHA256 signing; diagram KHÔNG CÓ cho thấy LLM dùng sai Mainnet URL (api.binance.com) — nguy hiểm nếu chạy thật! Tại sao Agent Skill quan trọng hơn việc LLM 'biết' Binance API từ training data?",
     options: [
-      "A. Agent Skill có giao diện đẹp hơn",
+      "A. Agent Skill có giao diện điều khiển đẹp hơn cho trading",
       "B. Skill chứa thông tin CHÍNH XÁC + CẬP NHẬT: Testnet endpoints, signing algorithms, rate limits — những thứ thay đổi thường xuyên mà training data không theo kịp",
-      "C. LLM không được huấn luyện về crypto",
-      "D. Skill chạy nhanh hơn LLM"
+      "C. LLM hoàn toàn không được huấn luyện về cryptocurrency hay trading",
+      "D. Skill có tốc độ thực thi giao dịch nhanh hơn so với code LLM generate"
     ],
     correctIndex: 1,
     explanation: "Binance API thay đổi: endpoints mới, signing algorithms cập nhật, rate limits thay đổi. Agent Skill lưu trữ thông tin chính xác tại thời điểm viết — quan trọng hơn knowledge cũ từ training data.",

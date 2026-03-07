@@ -58,12 +58,12 @@ export const diagram: DiagramEntry = {
     IDE->>Dev: Kết quả: build fail, circular imports`,
 
   quiz: {
-    question: "Khi refactor 50+ files, tại sao chia thành SubAgent theo module hiệu quả hơn xử lý tuần tự?",
+    question: "Diagram CÓ SubAgent phía trên cho thấy 50+ files được chia thành SubAgents theo module: mỗi SubAgent chỉ cần context riêng của module mình. Diagram KHÔNG CÓ cho thấy 1 context xử lý tuần tự tất cả files → context window overflow. Tại sao chia theo module hiệu quả hơn?",
     options: [
-      "A. SubAgent chạy song song nên nhanh hơn gấp 5 lần",
-      "B. Mỗi SubAgent chỉ cần context của module mình — giảm token, tăng độ chính xác",
-      "C. SubAgent tự động viết test cho mỗi module",
-      "D. SubAgent dùng nhiều GPU hơn nên xử lý nhanh"
+      "A. SubAgent chạy song song trên nhiều CPU cores nên refactor nhanh hơn gấp 5 lần so với xử lý tuần tự trên 1 thread duy nhất",
+      "B. Mỗi SubAgent chỉ cần context của module mình — giảm tokens lãng phí, tăng độ chính xác vì LLM focus vào scope nhỏ hơn",
+      "C. SubAgent tự động viết unit test cho mỗi module sau khi refactor — đảm bảo regression coverage 100% mà không cần developer",
+      "D. SubAgent sử dụng shared memory pool để trao đổi kết quả refactor giữa các modules — đảm bảo consistency toàn codebase"
     ],
     correctIndex: 1,
     explanation: "Module A chỉ cần context 12 files, không cần 'biết' code của Module C. Chia nhỏ = context tập trung = LLM hiểu sâu hơn từng module thay vì hiểu nông 50 files.",

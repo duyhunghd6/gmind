@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     User->>User: Phải tự search Google để xác nhận`,
 
   quiz: {
-    question: "Khi LLM cần trả lời câu hỏi về dữ liệu thay đổi liên tục (giá vàng, tỷ giá, cổ phiếu), giải pháp nào đúng nhất?",
+    question: "Diagram CÓ tool_call phía trên cho thấy LLM trả lời 'Mua 92.5tr, Bán 94.5tr' (chính xác); diagram KHÔNG CÓ trả lời 'khoảng 7x-8x triệu' (SAI HOÀN TOÀN). Khi LLM cần trả lời về dữ liệu thay đổi liên tục (giá vàng, tỷ giá, cổ phiếu), giải pháp nào đúng nhất?",
     options: [
-      "A. Huấn luyện lại LLM mỗi ngày với dữ liệu mới",
-      "B. Dùng tool_call để gọi API lấy dữ liệu realtime tại thời điểm truy vấn",
-      "C. Tăng kích thước model để LLM 'nhớ' nhiều hơn",
-      "D. Cung cấp toàn bộ lịch sử giá trong prompt"
+      "A. Huấn luyện lại LLM mỗi ngày để cập nhật dữ liệu mới nhất",
+      "B. Dùng tool_call gọi API lấy dữ liệu realtime tại thời điểm truy vấn — đảm bảo chính xác tức thì",
+      "C. Tăng kích thước model (parameters) để LLM 'nhớ' nhiều dữ liệu hơn",
+      "D. Cung cấp toàn bộ lịch sử giá trong system prompt để LLM tham khảo"
     ],
     correctIndex: 1,
     explanation: "Tool_call gọi API tại thời điểm truy vấn để lấy dữ liệu mới nhất. Huấn luyện lại LLM tốn chi phí khổng lồ và vẫn bị outdated ngay lập tức.",

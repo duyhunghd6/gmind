@@ -56,12 +56,12 @@ export const diagram: DiagramEntry = {
     IDE->>Dev: Review thiếu: chỉ tìm 2/3 issues`,
 
   quiz: {
-    question: "Parallel SubAgent tasks giải quyết vấn đề nào trong Agentic Coding?",
+    question: "Diagram CÓ SubAgent phía trên cho thấy 2 tasks chạy song song: SubAgent-1 review code trong khi SubAgent-2 fix lint — không ai phải 'chờ' ai. So sánh với diagram KHÔNG CÓ (phải review xong → mới fix lint → rồi review lại). Parallel SubAgent tasks giải quyết vấn đề nào trong Agentic Coding?",
     options: [
-      "A. Giảm chi phí cloud computing vì dùng ít GPU hơn",
-      "B. Loại bỏ context switching — mỗi task giữ focus 100% vào nhiệm vụ riêng",
-      "C. Tăng tốc vì LLM có cache chia sẻ giữa tasks",
-      "D. Tự động merge code khi cả hai task xong"
+      "A. Giảm chi phí cloud computing vì parallel tasks chia sẻ cùng một GPU instance thay vì mỗi task cần GPU riêng",
+      "B. Loại bỏ context switching — mỗi task giữ focus 100% vào nhiệm vụ riêng, tránh nhiễu giữa review logic và lint fixing",
+      "C. Tăng tốc nhờ LLM cache chia sẻ giữa các parallel tasks — kết quả phân tích từ task review được task lint tái sử dụng",
+      "D. Tự động merge kết quả của cả hai tasks khi hoàn thành — LLM orchestrator kết hợp review comments với lint fixes thành 1 PR"
     ],
     correctIndex: 1,
     explanation: "Khi review phải 'tạm dừng' để fix lint rồi quay lại, LLM mất focus và có thể quên observation trước đó. Parallel tasks = không có context switching, mỗi task vận hành độc lập.",

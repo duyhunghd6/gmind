@@ -50,12 +50,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Mất thời gian fix API deprecated`,
 
   quiz: {
-    question: "Vấn đề 'API Staleness' (API lỗi thời) trong LLM nghiêm trọng như thế nào?",
+    question: "Diagram KHÔNG CÓ MCP phía trên cho thấy LLM generate code dùng 'stripe.charges.create()' — API đã DEPRECATED; trong khi diagram CÓ MCP dùng Context7 fetch docs mới nhất và dùng 'checkout.sessions.create()' (API hiện hành). Vấn đề 'API Staleness' (API lỗi thời) nghiêm trọng như thế nào?",
     options: [
-      "A. Không nghiêm trọng — API hiếm khi thay đổi",
-      "B. RẤT nghiêm trọng — LLM dùng API từ training data (cũ) → code có thể compile nhưng RUNTIME FAIL vì endpoint đã deprecated hoặc thay đổi",
-      "C. Chỉ ảnh hưởng API miễn phí, API trả phí luôn ổn định",
-      "D. LLM tự detect được API deprecated"
+      "A. Không nghiêm trọng — các API lớn hiếm khi thay đổi breaking changes",
+      "B. RẤT nghiêm trọng — LLM dùng API từ training data (cũ) → code compile được nhưng RUNTIME FAIL vì endpoint deprecated hoặc thay đổi",
+      "C. Chỉ ảnh hưởng API miễn phí — API trả phí (Stripe, AWS) luôn backward-compatible vĩnh viễn",
+      "D. LLM có khả năng tự detect API deprecated qua pattern matching trong code"
     ],
     correctIndex: 1,
     explanation: "API Staleness: LLM biết API từ training data → code 'nhìn đúng' nhưng dùng endpoint cũ → runtime fail. MCP Context7 giải quyết bằng cách fetch API docs MỚI NHẤT tại thời điểm code.",

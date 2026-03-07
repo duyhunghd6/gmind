@@ -52,12 +52,12 @@ export const diagram: DiagramEntry = {
     Dev->>Dev: So sánh → chỉnh sửa thủ công nhiều lần`,
 
   quiz: {
-    question: "MCP (Model Context Protocol) khác gì so với tool_call thông thường?",
+    question: "Trong diagram CÓ MCP phía trên, LLM gọi 'figma.getFileComponents()' qua MCP Figma Server — server này kết nối Figma API và trả về structured JSON. Đây không phải tool_call thông thường mà là MCP (Model Context Protocol). MCP khác gì so với tool_call thông thường?",
     options: [
-      "A. MCP nhanh hơn tool_call",
-      "B. MCP là GIAO THỨC CHUẨN cho kết nối LLM ↔ External Services — tool_call là CƠ CHẾ gọi hàm. MCP server đóng gói nhiều tools thành 1 service",
-      "C. MCP chỉ dành cho Figma, tool_call dùng cho mọi thứ khác",
-      "D. MCP thay thế tool_call hoàn toàn"
+      "A. MCP có tốc độ thực thi nhanh hơn tool_call thông thường",
+      "B. MCP là GIAO THỨC CHUẨN kết nối LLM ↔ External Services — mỗi MCP Server đóng gói NHIỀU tools thành 1 service thống nhất",
+      "C. MCP chỉ dành riêng cho Figma và design tools, không dùng cho service khác",
+      "D. MCP thay thế toàn bộ tool_call — khi có MCP thì không cần tool_call nữa"
     ],
     correctIndex: 1,
     explanation: "MCP là protocol tiêu chuẩn (như USB cho AI): mọi service implement MCP spec → LLM kết nối được. Mỗi MCP Server expose nhiều tools. tool_call là cơ chế gọi hàm, MCP là cách đóng gói và kết nối.",

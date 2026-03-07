@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     User->>User: Tự check trên Vietcombank → 25.480`,
 
   quiz: {
-    question: "Trong kiến trúc Agentic IDE, tool_call được kích hoạt bởi ai?",
+    question: "Quan sát sequence diagram CÓ tool_call phía trên: Developer hỏi → IDE chuyển cho LLM → LLM tự quyết định gọi tool_call: forex.convert() → IDE thực thi. Trong chuỗi này, tool_call được kích hoạt bởi ai?",
     options: [
-      "A. User trực tiếp gọi tool_call bằng command line",
-      "B. LLM tự quyết định KHI NÀO cần gọi tool — IDE thực thi tool call đó",
-      "C. IDE tự động gọi tất cả tools có sẵn trước khi gửi prompt cho LLM",
-      "D. Server backend lập lịch gọi tools theo schedule cố định"
+      "A. User/Developer trực tiếp gọi tool_call bằng command line trong IDE",
+      "B. LLM tự quyết định KHI NÀO cần gọi tool dựa trên prompt — IDE chỉ thực thi tool call đó",
+      "C. IDE tự động chạy tất cả tools có sẵn trước khi gửi prompt cho LLM phân tích",
+      "D. Server backend tự lập lịch gọi tools theo schedule cố định, không phụ thuộc prompt"
     ],
     correctIndex: 1,
     explanation: "Trong Agent Loop, LLM phân tích prompt → quyết định cần tool nào → gửi tool_call request → IDE thực thi → trả kết quả về LLM. LLM là 'bộ não' quyết định, IDE là 'cánh tay' thực thi.",

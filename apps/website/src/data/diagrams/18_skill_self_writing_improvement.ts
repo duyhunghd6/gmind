@@ -51,12 +51,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Mỗi lần câu trả lời khác → không học được`,
 
   quiz: {
-    question: "Khái niệm 'Self-Improvement' trong Agentic Coding nghĩa là gì?",
+    question: "Diagram CÓ Self-Improvement phía trên cho thấy LLM phát hiện pattern lặp → tự tạo SKILL.md + scripts → dùng lại lần sau tự động. Khái niệm 'Self-Improvement' trong Agentic Coding nghĩa là gì?",
     options: [
-      "A. LLM tự huấn luyện lại bằng dữ liệu mới",
-      "B. LLM phát hiện pattern lặp → tạo Agent Skills + Rules để tái sử dụng — cải thiện qua TỪNG PHIÊN làm việc",
-      "C. LLM tự update phiên bản mới hơn",
-      "D. LLM học từ feedback của user"
+      "A. LLM dùng reinforcement learning từ các phiên trước để fine-tune lại weights, giúp output tốt hơn mà không cần external files",
+      "B. LLM phát hiện pattern lặp → tạo Agent Skills + Rules để tái sử dụng — cải thiện qua TỪNG PHIÊN làm việc mà không thay đổi model weights",
+      "C. LLM tự cập nhật phiên bản model mới hơn bằng cách download weights mới nhất từ cloud storage sau mỗi phiên",
+      "D. LLM thu thập feedback của user (like/dislike/rating) → gửi về server để retrain model theo preference cá nhân"
     ],
     correctIndex: 1,
     explanation: "Self-Improvement: LLM không thay đổi weights (parametric knowledge), nhưng tạo Skills/Rules lưu trên disk → đọc lại ở phiên sau. Đây là 'external memory' cho AI — giống developer viết documentation cho chính mình.",

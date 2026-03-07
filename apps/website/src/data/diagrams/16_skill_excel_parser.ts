@@ -50,12 +50,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Mất formatting, formula, multiple sheets`,
 
   quiz: {
-    question: "Agent Skill khác gì so với tool_call thông thường?",
+    question: "Trong diagram CÓ Agent Skill phía trên, Skill cung cấp cả SKILL.md (hướng dẫn xử lý file .xlsx) và script 'convert_excel_to_txt.py' (công cụ chuyển đổi) — một gói kiến thức hoàn chỉnh. Agent Skill khác gì so với tool_call thông thường?",
     options: [
-      "A. Skill nhanh hơn tool_call",
+      "A. Skill thực thi nhanh hơn tool_call vì code đã được compile trước",
       "B. Skill là GÓI TRI THỨC gồm SKILL.md (hướng dẫn) + scripts/ (công cụ) + examples/ — dạy LLM CÁCH giải quyết một loại bài toán cụ thể",
-      "C. Skill chỉ là collection of tool_calls gom lại",
-      "D. Skill thay thế tool_call hoàn toàn"
+      "C. Skill chỉ là một tập hợp nhiều tool_calls được gom lại thành bundle",
+      "D. Skill thay thế hoàn toàn tool_call — khi có Skill thì không cần tool_call nữa"
     ],
     correctIndex: 1,
     explanation: "Agent Skill = Knowledge Package: SKILL.md dạy LLM 'khi gặp file .xlsx thì dùng script X với args Y'. Đây là tri thức (knowledge), không chỉ là tool (công cụ).",

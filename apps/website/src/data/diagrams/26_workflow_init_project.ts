@@ -51,12 +51,12 @@ export const diagram: DiagramEntry = {
     Dev->>Dev: Phải setup thủ công → mất 30 phút`,
 
   quiz: {
-    question: "Workflow /slash-command khác gì so với Agent Skill?",
+    question: "Diagram CÓ Workflow phía trên cho thấy /init-project chạy nhiều bước tuần tự: git init → beads init → tạo GEMINI.md → cài rules — quy trình đa bước có thứ tự. Workflow /slash-command khác gì so với Agent Skill?",
     options: [
-      "A. Workflow và Skill giống nhau — chỉ khác tên",
-      "B. Workflow là QUY TRÌNH ĐA BƯỚC (step-by-step) được kích hoạt bằng /command — Skill là GÓI TRI THỨC được load on-demand khi cần",
-      "C. Workflow chỉ dành cho init project",
-      "D. Skill mạnh hơn Workflow"
+      "A. Workflow và Skill đều cung cấp tri thức cho LLM — chỉ khác quy ước đặt tên file: workflow dùng .md, skill dùng SKILL.md",
+      "B. Workflow là QUY TRÌNH ĐA BƯỚC (step-by-step) được kích hoạt bằng /command — Skill là GÓI TRI THỨC được load on-demand khi LLM cần",
+      "C. Workflow chỉ dùng cho việc khởi tạo project mới — Skill dùng cho tất cả các tác vụ khác trong quá trình development",
+      "D. Skill mạnh hơn Workflow vì Skill có scripts executable còn Workflow chỉ là danh sách instructions thuần text"
     ],
     correctIndex: 1,
     explanation: "Workflow = multi-step recipe (bước 1 → bước 2 → ... → bước N). Skill = knowledge package (SKILL.md + scripts). Workflow thường GỌI skills hoặc tools trong từng bước. Workflow kích hoạt bằng /command, Skill load tự động.",

@@ -58,12 +58,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: 🔄 Quy trình 5 phút bị kéo dài 20 phút`,
 
   quiz: {
-    question: "Trong ví dụ trên, LLM chạy 3 lệnh bash liên tiếp. Pattern này gọi là gì?",
+    question: "Trong diagram CÓ bash tool phía trên, LLM chạy 3 lệnh liên tiếp: df -h → du -sh /* → du -sh /var/*, mỗi lệnh dựa trên kết quả lệnh trước để drill down sâu hơn. Pattern reasoning + iterative tool use này gọi là gì?",
     options: [
-      "A. Batch Processing — chạy tất cả lệnh cùng lúc",
-      "B. Chain of Thought + Iterative Tool Use — LLM suy luận từng bước, mỗi bước dùng kết quả trước để quyết định bước sau",
-      "C. Recursive Algorithm — LLM gọi chính nó",
-      "D. Pipeline Pattern — output lệnh này là input lệnh kia"
+      "A. Batch Processing — LLM gom tất cả lệnh và chạy đồng thời cùng lúc",
+      "B. Chain of Thought + Iterative Tool Use — LLM suy luận từng bước , mỗi bước dùng observation từ bước trước để quyết định bước sau",
+      "C. Recursive Algorithm — LLM gọi chính nó để xử lý lệnh con",
+      "D. Pipeline Pattern — output lệnh này tự động trở thành input lệnh kia mà không cần LLM"
     ],
     correctIndex: 1,
     explanation: "LLM dùng kết quả df → quyết định kiểm tra du /* → thấy /var lớn → drill down /var/*. Mỗi bước suy luận dựa trên observation từ bước trước. Đây là Iterative Tool Use trong ReAct pattern.",

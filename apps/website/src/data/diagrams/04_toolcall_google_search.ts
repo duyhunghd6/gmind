@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     User->>User: Google → đọc changelog → tìm features mới`,
 
   quiz: {
-    question: "RAG (Retrieval-Augmented Generation) và tool_call: google_search có mối quan hệ như thế nào?",
+    question: "Trong diagram CÓ tool_call phía trên, LLM gọi google.search('Next.js 16 new features') → nhận kết quả mới nhất → trả lời chính xác. Quy trình 'tìm kiếm thông tin trước, rồi đưa vào context để trả lời' này là một dạng RAG. RAG (Retrieval-Augmented Generation) và tool_call: google_search có mối quan hệ như thế nào?",
     options: [
-      "A. RAG và tool_call là hai khái niệm hoàn toàn khác nhau, không liên quan",
-      "B. RAG là kỹ thuật tổng quát 'truy xuất trước, sinh sau' — Google Search tool_call là MỘT cách triển khai RAG",
-      "C. tool_call thay thế hoàn toàn RAG trong Agentic Coding",
-      "D. RAG chỉ dành cho database, không áp dụng cho web search"
+      "A. RAG và tool_call là hai khái niệm hoàn toàn tách biệt, không liên quan",
+      "B. RAG là kỹ thuật tổng quát 'truy xuất trước, sinh sau' — tool_call: google_search là MỘT cách triển khai RAG qua web search",
+      "C. tool_call thay thế hoàn toàn RAG — không cần RAG khi có tool_call",
+      "D. RAG chỉ áp dụng cho database và vector search, không dùng được cho web search"
     ],
     correctIndex: 1,
     explanation: "RAG (Retrieval-Augmented Generation) là pattern: lấy thông tin liên quan TRƯỚC, rồi đưa vào context cho LLM generate câu trả lời. Google Search là một implementation của RAG — retrieve từ web.",

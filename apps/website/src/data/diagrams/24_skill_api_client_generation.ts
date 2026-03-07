@@ -47,12 +47,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Thiếu endpoints, thiếu types, thiếu error handling`,
 
   quiz: {
-    question: "Code Generation từ spec (OpenAPI, GraphQL schema) thuộc loại automation nào?",
+    question: "Diagram CÓ Agent Skill phía trên cho thấy Skill đọc OpenAPI spec → generate typed API client tự động, mỗi endpoint trở thành một typed function. Kiểu tạo code từ spec (OpenAPI, GraphQL schema) này thuộc loại automation nào?",
     options: [
-      "A. AI Generation — LLM tạo code từ mô tả",
-      "B. Schema-Driven Generation — code được tạo CHÍNH XÁC từ specification, không phụ thuộc LLM creativity",
-      "C. Template-Based — dùng template cố định",
-      "D. Copy-Paste Automation"
+      "A. AI Generation — LLM đọc mô tả bằng ngôn ngữ tự nhiên rồi sáng tạo code implementation phù hợp nhất dựa trên training data",
+      "B. Schema-Driven Generation — code được tạo CHÍNH XÁC từ specification với mapping 1:1, không phụ thuộc vào LLM creativity hay training data",
+      "C. Template-Based Generation — dùng template cố định (.hbs, .ejs) và chỉ điền giá trị biến vào placeholder, không cần AI hay LLM",
+      "D. Copy-Paste Automation — LLM tìm code tương tự từ StackOverflow/GitHub rồi adapt cho phù hợp với project hiện tại"
     ],
     correctIndex: 1,
     explanation: "Schema-Driven Generation: code được derive trực tiếp từ OpenAPI spec (source of truth). Mỗi endpoint → 1 typed function. Đây là deterministic generation — không phụ thuộc 'sáng tạo' của LLM.",

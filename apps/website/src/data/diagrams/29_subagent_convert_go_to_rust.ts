@@ -62,12 +62,12 @@ export const diagram: DiagramEntry = {
     IDE->>Dev: Kết quả: 4/10 đúng, 6/10 cần sửa tay`,
 
   quiz: {
-    question: "Tại sao việc tạo SubAgent/Task riêng cho mỗi file giúp giảm hallucination khi convert code?",
+    question: "Diagram CÓ SubAgent phía trên cho thấy Antigravity tạo 10 Tasks riêng biệt — mỗi Task convert 1 file Go sang Rust với context riêng, không chia sẻ lẫn nhau. So sánh với diagram KHÔNG CÓ (convert tất cả 10 file trong 1 context chung). Tại sao cách chia nhỏ này giúp giảm hallucination?",
     options: [
-      "A. SubAgent chạy nhanh hơn vì dùng GPU riêng",
-      "B. Mỗi Task có Context Window riêng — code Go file trước KHÔNG tồn tại trong context file sau",
-      "C. SubAgent dùng model LLM khác mạnh hơn",
-      "D. Task tự động chạy test nên phát hiện lỗi sớm"
+      "A. SubAgent chạy nhanh hơn vì mỗi Task được phân bổ GPU riêng biệt — parallel execution tăng throughput gấp N lần",
+      "B. Mỗi Task có Context Window riêng — code Go file trước KHÔNG tồn tại trong context file sau, ngăn pattern bleeding giữa files",
+      "C. SubAgent sử dụng model LLM khác nhau (Gemini cho logic, Claude cho syntax) — mỗi model chuyên biệt cho một kiểu conversion",
+      "D. Mỗi SubAgent Task tự động chạy cargo test sau khi convert — phát hiện lỗi compile sớm nhờ verification loop tích hợp sẵn"
     ],
     correctIndex: 1,
     explanation: "Mỗi SubAgent/Task nhận context riêng biệt. Khi convert file thứ 5, context KHÔNG chứa code của file 1-4. Điều này giữ context sạch, tập trung, giảm hallucination từ code nhiễu.",

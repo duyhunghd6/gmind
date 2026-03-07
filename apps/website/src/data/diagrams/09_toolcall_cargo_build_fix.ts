@@ -61,12 +61,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: 🔄 4 lượt copy-paste thay vì 0`,
 
   quiz: {
-    question: "Vòng lặp 'build → đọc error → sửa → build lại' trong ví dụ trên minh hoạ pattern nào?",
+    question: "Trong diagram CÓ tool_call phía trên, LLM thực hiện: cargo build → đọc error E0308 → view_file xem code → edit_file sửa → cargo build lại → thành công. Vòng lặp 'build → đọc error → sửa → build lại' này minh hoạ pattern nào?",
     options: [
-      "A. Waterfall — mỗi bước chỉ chạy 1 lần",
-      "B. Compile Feedback Loop — LLM dùng output compiler làm input cho bước sửa tiếp theo",
-      "C. Test-Driven Development — viết test trước, code sau",
-      "D. Static Analysis — phân tích code không cần chạy"
+      "A. Waterfall — mỗi phase (build, test, deploy) chỉ chạy đúng 1 lần rồi chuyển tiếp",
+      "B. Compile Feedback Loop — LLM dùng output compiler làm input cho bước sửa tiếp theo, lặp đến khi thành công",
+      "C. Test-Driven Development — viết test trước rồi viết code để test pass",
+      "D. Static Analysis — phân tích cấu trúc code mà không cần compile hay chạy"
     ],
     correctIndex: 1,
     explanation: "LLM tạo vòng lặp: cargo build → đọc error → sửa code → cargo build lại → kiểm tra success. Compiler là 'oracle' cho LLM biết code đúng hay sai.",

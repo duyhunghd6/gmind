@@ -52,12 +52,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ LLM không biết context tổng thể → resolve sai`,
 
   quiz: {
-    question: "Tại sao Agent Skill git-resolver đọc git log CẢ HAI branches trước khi resolve conflicts?",
+    question: "Diagram CÓ Agent Skill phía trên cho thấy Skill đọc git log của CẢ feature branch và main branch trước khi resolve. Diagram KHÔNG CÓ Skill cho thấy LLM chỉ đọc conflict markers và chọn 1 bên. Tại sao cần đọc log CẢ HAI branches?",
     options: [
-      "A. Để biết branch nào tạo trước",
-      "B. Đọc commit messages → hiểu INTENT (mục đích) của thay đổi → resolve conflict giữ đúng ý đồ cả hai bên",
-      "C. Git yêu cầu phải đọc log trước khi resolve",
-      "D. Để count số commits"
+      "A. Đọc git log xác định branch nào commit SAU cùng — branch mới hơn luôn được ưu tiên vì chứa code cập nhật nhất",
+      "B. Đọc commit messages → hiểu INTENT (mục đích) của thay đổi → resolve conflict giữ đúng ý đồ cả hai bên thay vì chọn 1 bên",
+      "C. Git CLI bắt buộc phải chạy 'git log' trước 'git merge --continue' — nếu không sẽ báo lỗi merge incomplete",
+      "D. Đọc git log để đếm số commits trên mỗi branch — branch có nhiều commits hơn thể hiện effort lớn hơn nên được ưu tiên giữ"
     ],
     correctIndex: 1,
     explanation: "Intent-Aware Resolution: conflict chỉ cho thấy 'code khác nhau', nhưng LLM cần hiểu 'TẠI SAO khác'. Git log cho biết intent → LLM resolve giữ ý đồ cả feature branch lẫn main branch.",

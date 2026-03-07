@@ -47,12 +47,12 @@ export const diagram: DiagramEntry = {
     Dev->>Dev: Phải review lại manual → mất nửa ngày`,
 
   quiz: {
-    question: "Agent Skill i18n dùng SCRIPT để extract strings. Tại sao không để LLM tự đọc code và tìm strings?",
+    question: "Trong diagram CÓ Agent Skill phía trên, Skill dùng AST parser script để extract tất cả i18n strings chính xác; diagram KHÔNG CÓ Skill cho thấy LLM bỏ sót strings khi đọc code thủ công. Tại sao dùng SCRIPT chuyên dụng hiệu quả hơn để LLM tự đọc code?",
     options: [
-      "A. Script nhanh hơn LLM",
-      "B. LLM bị giới hạn CONTEXT WINDOW — không thể đọc tất cả files cùng lúc. Script xử lý toàn bộ codebase không giới hạn",
-      "C. LLM không hiểu strings",
-      "D. Script viết bằng Node.js nên tương thích hơn"
+      "A. Script AST parser xử lý nhanh hơn LLM hàng trăm lần vì chạy native code — tiết kiệm thời gian chờ đợi cho developer",
+      "B. LLM bị giới hạn CONTEXT WINDOW — không thể đọc tất cả files cùng lúc. Script xử lý toàn bộ codebase không giới hạn kích thước",
+      "C. LLM thiếu khả năng nhận diện string literals trong source code vì tokenizer xử lý text khác với code syntax",
+      "D. Script viết bằng Node.js nên tương thích 100% với hệ sinh thái TypeScript/React — LLM thì output code không nhất quán với project config"
     ],
     correctIndex: 1,
     explanation: "Context Window: LLM có giới hạn tokens (128K-1M). Nếu codebase có 50+ files, LLM không thể đọc hết. Script chạy ngoài LLM → không bị giới hạn → extract 100% strings.",

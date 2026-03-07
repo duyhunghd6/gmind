@@ -57,12 +57,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: 🔄 Mất context lớn → refactor không an toàn`,
 
   quiz: {
-    question: "Tại sao LLM cần đọc callers (grep_search) và tests TRƯỚC KHI refactor code?",
+    question: "Trong diagram CÓ tool_call phía trên, LLM làm 3 bước trước khi sửa code: (1) view_file đọc processOrder(), (2) grep_search tìm 5 callers, (3) view_file đọc 8 test cases — rồi mới refactor. Tại sao LLM cần đọc callers và tests TRƯỚC KHI refactor?",
     options: [
-      "A. Để tăng tốc độ xử lý của LLM",
-      "B. Context Awareness — hiểu toàn bộ 'blast radius' (ảnh hưởng) của thay đổi trước khi sửa",
-      "C. LLM cần nhiều code để generate output tốt hơn",
-      "D. IDE bắt buộc phải đọc tất cả files trước khi edit"
+      "A. Để tăng tốc độ xử lý của LLM bằng cách pre-load context sớm",
+      "B. Context Awareness — hiểu toàn bộ 'blast radius' (ảnh hưởng) trước khi sửa, đảm bảo không break callers và tests",
+      "C. LLM cần nhiều code trong prompt mới generate output chất lượng cao được",
+      "D. IDE bắt buộc phải scan tất cả files trước khi cho phép edit bất kỳ file nào"
     ],
     correctIndex: 1,
     explanation: "Blast Radius: mỗi thay đổi code ảnh hưởng đến callers, tests, và downstream code. LLM cần hiểu toàn bộ scope trước khi sửa — giống developer phải kiểm tra 'ai dùng hàm này?' trước khi refactor.",

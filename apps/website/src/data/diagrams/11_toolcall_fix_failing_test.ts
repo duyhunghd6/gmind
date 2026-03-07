@@ -55,12 +55,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: 🔄 3 vòng copy-paste, LLM không tự verify`,
 
   quiz: {
-    question: "Sau khi sửa code, LLM chạy lại npm test để kiểm tra. Tại sao bước này quan trọng?",
+    question: "Trong diagram CÓ tool_call phía trên, sau khi sửa formatPrice(), LLM tự chạy lại 'npm test' và xác nhận '12/12 tests passed' trước khi báo developer. So sánh với diagram KHÔNG CÓ tools (dev phải 3 vòng copy-paste, LLM không tự verify). Tại sao bước chạy lại test tự động quan trọng?",
     options: [
-      "A. Để LLM có thêm output cho conversation log",
-      "B. Verification Loop: LLM tự kiểm chứng code đã sửa ĐÚNG bằng cách chạy test — không phụ thuộc human confirm",
-      "C. npm test cần chạy nhiều lần để cache warm up",
-      "D. LLM bắt buộc phải chạy test theo policy"
+      "A. Để LLM có thêm output cho conversation log lưu trữ sau này",
+      "B. Verification Loop — LLM tự kiểm chứng code đã sửa ĐÚNG bằng cách chạy test, không phụ thuộc human confirm",
+      "C. npm test bắt buộc phải chạy nhiều lần liên tiếp để cache warm up",
+      "D. IDE policy bắt buộc mọi tool_call: edit_file phải theo sau bằng tool_call: bash"
     ],
     correctIndex: 1,
     explanation: "Verification Loop: LLM sửa code → chạy test → nếu fail thì sửa tiếp → chạy test lại. Đây là tự kiểm chứng (self-verification) — LLM không dừng lại sau khi sửa mà đảm bảo kết quả đúng.",

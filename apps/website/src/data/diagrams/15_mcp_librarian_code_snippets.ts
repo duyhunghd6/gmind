@@ -50,12 +50,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: ⚠ Security gap có thể bị exploit`,
 
   quiz: {
-    question: "MCP Librarian khác gì so với Google Search khi tìm code snippets?",
+    question: "Trong diagram CÓ MCP phía trên, LLM gọi MCP Librarian tìm 'oauth2 PKCE flow' → nhận verified snippets kèm security notes (S256, CSRF protection). Diagram KHÔNG CÓ cho thấy LLM viết code thiếu security patterns. MCP Librarian khác gì so với Google Search khi tìm code snippets?",
     options: [
-      "A. Google Search nhanh hơn MCP Librarian",
-      "B. MCP Librarian cung cấp code ĐÃ VERIFY + security notes, Google Search trả về kết quả chưa kiểm chứng từ StackOverflow/blog",
-      "C. Không khác gì — cả hai đều tìm code",
-      "D. MCP Librarian chỉ tìm code JavaScript"
+      "A. Google Search trả kết quả nhanh hơn MCP Librarian vì có cache CDN toàn cầu",
+      "B. MCP Librarian cung cấp code ĐÃ VERIFY + security notes từ curated knowledge base — Google Search trả về kết quả chưa kiểm chứng từ nhiều nguồn",
+      "C. Không có khác biệt đáng kể — cả hai đều tìm code từ internet và trả về kết quả",
+      "D. MCP Librarian chỉ hỗ trợ tìm code JavaScript/TypeScript, không support ngôn ngữ khác"
     ],
     correctIndex: 1,
     explanation: "MCP Librarian cung cấp code verified + curated: đã kiểm tra security, compatibility, best practices. Google Search trả về code từ nhiều nguồn — có thể outdated, insecure, hoặc sai.",

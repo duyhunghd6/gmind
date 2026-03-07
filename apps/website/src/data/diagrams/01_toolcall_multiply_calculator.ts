@@ -46,12 +46,12 @@ export const diagram: DiagramEntry = {
     User->>User: Mở calculator → phát hiện sai`,
 
   quiz: {
-    question: "Tại sao LLM (Large Language Model) không thể tính chính xác phép nhân số lớn nếu không có tool_call?",
+    question: "Sau khi quan sát 2 sequence diagrams CÓ/KHÔNG CÓ tool_call phía trên (LLM cho kết quả đúng 793.548.523.162 với calculator vs đoán sai), hãy trả lời: Tại sao LLM không thể tính chính xác phép nhân số lớn nếu không có tool_call?",
     options: [
-      "A. LLM không được huấn luyện về toán học",
-      "B. LLM predict token tiếp theo, KHÔNG thực hiện phép tính — nên kết quả chỉ là 'đoán'",
-      "C. LLM bị giới hạn bộ nhớ RAM khi tính toán",
-      "D. LLM chỉ hoạt động với văn bản, không xử lý được số"
+      "A. LLM không được huấn luyện về toán học nên không biết phép nhân",
+      "B. LLM predict token tiếp theo (next-token prediction), KHÔNG thực hiện phép tính — nên kết quả chỉ là 'đoán' dựa trên pattern",
+      "C. LLM bị giới hạn bộ nhớ RAM khi tính toán số lớn",
+      "D. LLM chỉ xử lý văn bản thuần túy, không nhận diện được ký tự số"
     ],
     correctIndex: 1,
     explanation: "LLM hoạt động bằng cách dự đoán token tiếp theo (next-token prediction), KHÔNG thực hiện phép tính toán thực. Khi gặp phép nhân số lớn, LLM 'đoán' kết quả dựa trên pattern — dẫn đến sai.",

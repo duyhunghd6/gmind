@@ -50,12 +50,12 @@ export const diagram: DiagramEntry = {
     Dev->>Dev: Tự chạy docker logs → mất 15 phút tìm nguyên nhân`,
 
   quiz: {
-    question: "Trong Agentic IDE, tool_call: bash có điểm khác biệt quan trọng gì so với tool_call: API?",
+    question: "Trong 2 diagrams phía trên, diagram CÓ bash tool cho thấy LLM trực tiếp chạy 'docker logs' và 'docker stats' trên hệ thống rồi đọc output. So sánh với các ví dụ tool_call API (gọi dịch vụ web bên ngoài) ở section trước, tool_call: bash có điểm khác biệt quan trọng gì?",
     options: [
-      "A. Bash chỉ dùng cho Linux, API dùng cho mọi hệ điều hành",
-      "B. Bash thực thi TRỰC TIẾP trên máy local — API gọi service bên ngoài. Bash mạnh hơn nhưng rủi ro hơn",
-      "C. Bash nhanh hơn API vì không cần network",
-      "D. Không có sự khác biệt — cả hai đều là tool_call"
+      "A. Bash chỉ dùng được trên Linux, trong khi API dùng cho mọi hệ điều hành",
+      "B. Bash thực thi TRỰC TIẾP trên máy local (đọc file, chạy process) — API gọi service bên ngoài. Bash mạnh hơn nhưng rủi ro cao hơn",
+      "C. Bash chạy nhanh hơn API chỉ vì không cần gửi request qua network",
+      "D. Không có sự khác biệt đáng kể — cả hai đều là tool_call với cơ chế giống nhau"
     ],
     correctIndex: 1,
     explanation: "Bash tool thực thi lệnh trên máy local (đọc file, chạy process, kiểm tra hệ thống). Đây là quyền mạnh nhất — vì vậy Agentic IDE thường yêu cầu user xác nhận trước khi chạy lệnh nguy hiểm.",

@@ -62,12 +62,12 @@ export const diagram: DiagramEntry = {
     Note over Dev: 🔄 4 vòng hỏi-đáp thay vì 1 workflow tự động`,
 
   quiz: {
-    question: "Tại sao Workflow enforce thứ tự 'Code → Test → User Approval → Commit'?",
+    question: "Diagram CÓ Workflow phía trên cho thấy workflow enforce 4 gates: Code → Test Pass → User Approve → Commit. Nếu bất kỳ gate nào fail, pipeline dừng lại. Tại sao cần enforce thứ tự 'Code → Test → User Approval → Commit' nghiêm ngặt như vậy?",
     options: [
-      "A. Đây là quy định bắt buộc của git",
-      "B. Quality Gate Pattern — mỗi bước phải PASS trước khi tiếp tục. Đảm bảo không có untested code hoặc unauthorized commits",
-      "C. Để LLM có thêm context",
-      "D. Workflow chỉ là documentation, không enforce thực sự"
+      "A. Đây là quy định bắt buộc của git hooks (pre-commit, pre-push) — git sẽ reject commit nếu test chưa pass",
+      "B. Quality Gate Pattern — mỗi bước phải PASS trước khi tiếp tục. Đảm bảo không có untested code hoặc unauthorized commits vào codebase",
+      "C. Workflow chỉ để document quy trình cho developer đọc — không có cơ chế thực sự enforce hay block commit",
+      "D. Thứ tự này giúp LLM có thêm context từ test results trước khi commit — nhiều context hơn cho commit message tốt hơn"
     ],
     correctIndex: 1,
     explanation: "Quality Gate: workflow tạo 'cổng chất lượng' tại mỗi bước. Code phải có test → test phải pass → user phải approve → mới commit. Nếu bất kỳ gate nào fail → dừng lại và fix.",
