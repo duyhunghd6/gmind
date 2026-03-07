@@ -13,8 +13,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Số điện thoại là bắt buộc" }, { status: 400 });
     }
 
-    const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const botToken = process.env.TELEGRAM_BOT_TOKEN?.trim();
+    const chatId = process.env.TELEGRAM_CHAT_ID?.trim();
 
     if (!botToken || !chatId) {
       console.error("Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID in env");
