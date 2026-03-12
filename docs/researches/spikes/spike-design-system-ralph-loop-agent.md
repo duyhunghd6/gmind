@@ -8,6 +8,150 @@
 
 > **Note:** This document provides a comprehensive overview of the UIUX Gatecheck process, 3-Tier Evaluation, Ralph Loop DoD, and Conflict analysis between Agents/Skills.
 
+## The Ralph Loop Ecosystem Hierarchy (Agent Architecture)
+
+To successfully run this pipeline, the system relies on a **3-Layer Agent Comprehension Pyramid**. This meta-framework exists to guide AI Agents on *what* to read and *when*, aggressively reducing token consumption and preventing hallucinations by providing strict context branching.
+
+```text
+====================================================================================================
+                        THE 3-LAYER AGENT COMPREHENSION PYRAMID
+====================================================================================================
+
+               /\               [ LAYER 1: THE SKELETON ]
+              /  \              Section: "Ecosystem Hierarchy"
+             /    \             Function: The Map. Guides the Agent on the overall 
+            /      \                      architecture. High-level Context only.
+           /────────\           
+          /          \          [ LAYER 2: THE BRANCHES (Role-Selection) ]
+         /            \         Sections: "Generative Flow" & "QA Flow"
+        /              \        Function: The Logic. Forces the Agent to select a role. 
+       /                \                 If creating: read Generative. If auditing: read QA. 
+      /                  \                Reduces tokens by pruning irrelevant contexts.
+     /────────────────────\     
+    /                      \    [ LAYER 3: THE DETAILS (Step-by-Step Execution) ]
+   /                        \   Sections: Workflow steps and Sub-Rules (*.md files)
+  /                          \  Function: The Action. Once the role is selected in Layer 2, 
+ /                            \           this layer holds the actual markdown instructions.
+/──────────────────────────────\          
+====================================================================================================
+```
+
+### Layer 1: The Skeleton (Ecosystem Map)
+
+```text
+====================================================================================================
+                        THE SAFe 6.0 AGENTIC ARCHITECTURE & ECOSYSTEM
+====================================================================================================
+
+  [ LEVEL 1: THE ROOT METHODOLOGY ]
+  ---------------------------------
+  Artifact: docs/researches/spikes/spike-design-system-ralph-loop-agent.md
+  
+  - Defines the "Why" and "What" of the Engineering approach.
+  - Documents the Theoretical Two-Stage Ralph Loop, Continuous RFT, and the 100-pt DoD mechanism.
+  
+  >> AGENT DIRECTIVE: If you are CREATING or MODIFYING the Orchestration Workflow 
+  >> or the Executor Skills based on this Methodology, you MUST proceed to read 
+  >> Section "### 1. Generative Flow" below as your NEXT STEP.
+                                     │
+                                     ▼
+  [ LEVEL 2: THE INSTANCE / ORCHESTRATION ]
+  -----------------------------------------
+  Artifact: .agents/workflows/gsafe-uiux-ralph-loop-antigravity.md
+  
+  - Defines the "When" and "Who". 
+  - The step-by-step pipeline that practically executes the theoretical methodology.
+  - Instructs the AI precisely WHEN to trigger specific Agent Skills and Human Gates.
+                                     │
+                 ┌───────────────────┴───────────────────┐
+                 ▼                                       ▼
+  [ LEVEL 3: THE EXECUTOR SKILLS (The "How") ]
+  --------------------------------------------
+  When Workflow triggers: Stage 1 / 2B    When Workflow triggers: Stage 2A
+  
+  Skill: design-system-gatecheck          Skill: agenticse-design-system
+  (The Evaluator Agent)                   (The Implementor Agent)
+  
+  Role:                                   Role:
+  - Generates ASCII Layouts (Low-Fi)      - Translates Layouts to HTML/CSS (Hi-Fi)
+  - Executes 12-Step Quality Gate         - Auto-polishes against Evaluator metrics
+  - Scores outputs & enforces Gates       - Adheres fully to Design System tokens
+  
+  >> AGENT DIRECTIVE: Once you have created or modified the Workflow and the 2 Skills, 
+  >> as your LAST STEP, you MUST proceed to read Section "### 2. QA Flow" below to 
+  >> verify that your implementation faithfully matches this Methodology.
+====================================================================================================
+```
+
+### 1. Generative Flow: Engineering Workflows & Skills from Methodology
+
+How Agentic AI (like Antigravity) uses the Root Methodology to build the ecosystem:
+
+```text
+====================================================================================================
+                        GENERATIVE FLOW: METHODOLOGY → ORCHESTRATION → EXECUTION
+====================================================================================================
+
+  [ ROOT METHODOLOGY (Spike) ]
+  Artifact: docs/researches/spikes/spike-design-system-ralph-loop-agent.md
+  Context: Core theory, DoD Scoreboard, 3-Tier concepts, constraints.
+           │
+           │ (Antigravity Agent reads Spike to understand the "Why" and "What")
+           ▼
+  [ ORCHESTRATION BUILDER ] ─────────────► [ EXECUTOR BUILDER ]
+  Creates Workflow Markdown                  Creates Agent Skills & Rules
+  (.agents/workflows/gsafe-...)              (.agents/skills/agenticse-...)
+  
+  Details generated from Spike:              Details generated from Spike:
+  1. Define `task_boundary` steps            1. Skill A: agenticse-design-system-create
+     (Task 1: Intake & Plan)                 (The Implementor)
+  2. Map Human Approval Gates                - Draft Rules for Hi-Fi Code Generation
+     (Gate A and Gate B logic)               - Ensure compliance with Design Tokens
+  3. Define Routing / Loops                  
+     (If QA fails → Route back to Code)      2. Skill B: agenticse-design-system-gatecheck
+                                             (The Evaluator)
+                                             - Translate 100-pt DoD into mechanical Rules
+                                             - Build the 12-Step Test Pipeline
+====================================================================================================
+```
+
+### 2. QA Flow: Verifying Implementation against Methodology
+
+How Quality Assurance (Humans or QA Agents) verifies that generated execution tools strictly adhere to the methodology researched:
+
+```text
+====================================================================================================
+                        QA FLOW: VERIFYING IMPLEMENTATION MATCHES METHODOLOGY
+====================================================================================================
+
+                 [ ROOT METHODOLOGY (The Source of Truth) ]
+                 Did we actually build what we researched?
+                                     │
+                 ┌───────────────────┴───────────────────┐
+                 ▼                                       ▼
+  [ QA: ORCHESTRATION CHECK ]               [ QA: EXECUTION CHECK (The 2 Skills) ]
+  Reviewing: gsafe-uiux-ralph...            Reviewing: agenticse-design-system-create 
+                                                       agenticse-design-system-gatecheck
+  Verify mapping to Spike:                  
+  1. Does the workflow correctly            Verify mapping to Spike:
+     route failures back to the             1. agenticse-design-system-create:
+     correct agent?                            - Does W1 correctly accept the constraint
+  2. Are Gate A (Low-Fi) and                   from the Evaluator's ASCII wireframes?
+     Gate B (Results) correctly                - Is the tool_budget_estimate enforced?
+     placed as blockers?                    
+  3. Is the "PRD Completeness Loop"         2. agenticse-design-system-gatecheck:
+     explicitly stated?                        - Is the DoD explicitly mapped to the
+                 │                               exact 100-pt scoring system?
+                 │                             - Are P0/P1/P2 failures mechanically 
+                 │                               defined (e.g. contrast ratio)?
+                 │                             - Does Gate A require Storyboards?
+                 └───────────────────┬───────────────────┘
+                                     ▼
+                            [ FINAL QA PASS ]
+                 Ecosystem is certified compliant with Spike.
+====================================================================================================
+```
+
 ---
 
 <!-- Original File: docs/researches/spikes/spike-design-system-ralph-loop-dod.md -->
@@ -33,36 +177,48 @@ The loop iterates until the implementation achieves a strict convergence thresho
 
 ```mermaid
 graph TD
-    PRD[Product Requirements Document / PRD] --> GateA
+    classDef stage fill:#f8f9fa,stroke:#ced4da,stroke-width:2px,stroke-dasharray: 5 5;
+    classDef gate fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
+    classDef agent fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
 
-    subgraph Planning Phase
-        GateA[Gate A: Evaluator Generates & Human Approves UI Contract]
-        GateA --> |layout-rules.json| Build
+    RawPRD[Raw PRD Text] --> G0[Step 0: Intake & Validate]
+    
+    subgraph Stage1 [Stage 1: The PRD / Low-Fi Ralph Loop]
+        G0 --> G1[Step 1: Convert Text to ASCII UI/UX & Storyboards]:::agent
+        G1 --> GateA{Gate A: Human UX Concept Approval}:::gate
+        
+        GateA -- "REJECT_FIX_CONTRACT\n(Tweak Layout)" --> G1
+        GateA -- "REJECT_FIX_PRD\n(Missing/Bad Requirements)" --> PRDWriter[Agent Fixes & Completes PRD]:::agent
+        PRDWriter --> G0
     end
+    
+    GateA -- "APPROVE" --> G2[Step 2: Compile Contract]
 
-    subgraph The Ralph Loop Continuous RFT
-        Build[Implementor: agenticse-design-system] --> UI[Rendered UI / Playwright Arena]
-        UI --> Audit[Evaluator: design-system-gatecheck]
-
-        Audit --> Score{DoD Scoreboard}
-
-        Score -- "Score < 95 or Has P0" --> Feedback[Machine JSON Feedback]
-        Feedback --> Build
+    subgraph Stage2 [Stage 2: The Implementation / Hi-Fi Ralph Loop]
+        G2 --> Build[Implementor Agent: Builds HTML/CSS]:::agent
+        Build --> UI[Rendered UI / Playwright Arena]
+        UI --> Eval[Evaluator Agent: Automated QA & Scoring]:::agent
+        Eval --> Score{Score >= 95 & Zero P0?}
+        
+        Score -- "NO\n(Provides Prioritized Fix Queue)" --> Build
     end
-
-    Score -- "Pass (Score >= 95 & No P0)" --> Sync[PRD-DS Sync: Coverage Matrix & Missing States]
-
-    Sync -- "UI Reveals Missing Logic" --> PRD_Update[PRD Refinement / Agile Iteration]
-    PRD_Update --> PRD
-
-    Sync -- "All States Covered" --> Merge[Gate B: Final Human Approval & Merge]
+    
+    Score -- "YES" --> AutoQA[Task 3: Verify 100% PRD Coverage]
+    
+    AutoQA -- "Missing UI States Discovered" --> PRDWriter
+    
+    AutoQA -- "100% Covered" --> GateB{Gate B: Final Human Approval}:::gate
+    GateB -- "REQUEST_FIX" --> Eval
+    GateB -- "APPROVE" --> Merge[Merge & Deploy]
+    
+    class Stage1,Stage2 stage;
 ```
 
 ### Loop Mechanics & RFT Alignment:
 
-1. **Generation:** Implementor builds the UI, interweaving reasoning with tool calls (e.g. terminal, code edits).
-2. **Evaluation:** Evaluator captures the rendered UI, structure, and accessibility, executing the 12-step Gatecheck pipeline.
-3. **Continuous Reward Formulation:** Evaluator calculates the DoD Score (0-100), effectively serving as an unhackable, continuous reward function.
+1. **Stage 1: The PRD / Low-Fi Ralph Loop (Gate A Iterations):** The Evaluator agent repeatedly tries to convert abstract, text-only PRD requirements into visual ASCII layouts and interaction storyboards. If the human reviewer spots missing logic or bad UX flows at Gate A, they reject the PRD. A PRD Writer agent is dispatched to complete the document, forcing the UI/UX conceptual design to explicitly stabilize *before* any code is written.
+2. **Stage 2: The Implementation / Hi-Fi Ralph Loop (Gate B Iterations):** The Implementor builds the UI, interweaving reasoning with tool calls. The Evaluator captures the rendered UI, structure, and accessibility, executing the 12-step Gatecheck pipeline.
+3. **Continuous Reward Formulation:** The Evaluator calculates the DoD Score (0-100), effectively serving as an unhackable, continuous reward function.
 4. **Iteration/Budget Penalty:** If the score fails the threshold, feedback is sent. To prevent long-tail tool call loops (e.g. >15 tool calls), the system enforces a strict tool-budget penalty.
 
 ---
@@ -692,7 +848,7 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 
 ### Output
 
-- `apps/website/tests/e2e/uiux-gatecheck/fixtures/*.json`
+- `<e2e-testing-root>/uiux-gatecheck/fixtures/*.json`
 - `playwright.config.ts` deterministic profile
 
 ### Switching
@@ -717,8 +873,8 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 
 ### Output
 
-- `apps/website/tests/e2e/uiux-gatecheck/reports/conformance.json`
-- `apps/website/tests/e2e/uiux-gatecheck/reports/conformance.md`
+- `<e2e-testing-root>/uiux-gatecheck/reports/conformance.json`
+- `<e2e-testing-root>/uiux-gatecheck/reports/conformance.md`
 
 ### Switching
 
@@ -747,8 +903,8 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 
 ### Output
 
-- `apps/website/tests/e2e/uiux-gatecheck/reports/visual/*.png` (baseline/actual/diff)
-- `apps/website/tests/e2e/uiux-gatecheck/reports/visual-summary.json`
+- `<e2e-testing-root>/uiux-gatecheck/reports/visual/*.png` (baseline/actual/diff)
+- `<e2e-testing-root>/uiux-gatecheck/reports/visual-summary.json`
 
 ### Switching
 
@@ -779,8 +935,8 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 
 ### Output
 
-- `apps/website/tests/e2e/uiux-gatecheck/reports/navigation-graph.json`
-- `apps/website/tests/e2e/uiux-gatecheck/reports/navigation-failures.md`
+- `<e2e-testing-root>/uiux-gatecheck/reports/navigation-graph.json`
+- `<e2e-testing-root>/uiux-gatecheck/reports/navigation-failures.md`
 
 ### Switching
 
@@ -803,8 +959,9 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 
 ### Output
 
-- `apps/website/tests/e2e/uiux-gatecheck/reports/a11y.json`
-- `apps/website/tests/e2e/uiux-gatecheck/reports/contrast.csv`
+- `<e2e-testing-root>/uiux-gatecheck/reports/a11y.json`
+- `<e2e-testing-root>/uiux-gatecheck/reports/contrast.csv`
+
 
 ### Switching
 
