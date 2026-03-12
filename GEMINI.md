@@ -2,7 +2,8 @@
 - Project techstack: Go
 - br = bd = beads_rust (instead of beads CLI), use FrankenSQLite as storage (instead of SQLite).
 - Keep code file smaller than 400 lines, split into multiple files if necessary. Keep docs files smaller than 1000 lines.
-- Markdown Rules (\*.md): Nếu bạn đang write new/modify/remove các file tài liệu ---> Hãy tiến hành đọc lệnh và triển khai command: @/Users/steve/duyhunghd6/gmind/.agents/workflows/arch-review-docs-add-beads.md
+- Markdown Rules (\*.md): When writing/modifying/removing documentation files → read and run: @/Users/steve/duyhunghd6/gmind/.agents/workflows/arch-review-docs-add-beads.md
+- Research / Spike Rules: `.agents/rules/research-rules.md` activates **only** when editing files under `docs/researches/spikes/**`. It enforces SAFe 6.0 CE rules (spike-before-code, read-prior-spikes, no implementation during CE). Outside that path, the rule is inactive.
 - Git Commit Rules: Group and split commits into logical clusters (1-3 significant changes per Beads ID: targeting 1 issue, 1 feature, 1 plan, or 1 bug). Commit messages **MUST be in English only**. Each commit message **must** include a Git Trailer with the Universal ID on the last line. Standard format:
 
   ```
