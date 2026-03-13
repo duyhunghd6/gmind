@@ -57,11 +57,17 @@ To successfully run this pipeline, the system relies on a **3-Layer Agent Compre
                                      ▼
   [ LEVEL 2: THE INSTANCE / ORCHESTRATION ]
   -----------------------------------------
-  Artifact: .agents/workflows/gsafe-uiux-ralph-loop-antigravity.md
+  Main Activator: .agents/workflows/gsafe-uiux-ralph-loop-antigravity.md
   
   - Defines the "When" and "Who". 
-  - The step-by-step pipeline that practically executes the theoretical methodology.
-  - Instructs the AI precisely WHEN to trigger specific Agent Skills and Human Gates.
+  - The top-level pipeline that routes PRD through Stage 1 → Stage 2 → Deploy.
+  - Instructs the AI precisely WHEN to trigger each Stage sub-workflow.
+  
+  Sub-workflows (dispatched by the Main Activator):
+  ├── .agents/workflows/gsafe-uiux-ralph-loop-stage1.md
+  │   Stage 1 (Low-Fi): g0→g1→g2→Gate A with PRD/Contract rejection loops
+  └── .agents/workflows/gsafe-uiux-ralph-loop-stage2.md
+      Stage 2 (Hi-Fi): W0→BUILD↔AUDIT→Agile Refine→Gate B
                                      │
                  ┌───────────────────┴───────────────────┐
                  ▼                                       ▼
@@ -99,19 +105,18 @@ How Agentic AI (like Antigravity) uses the Root Methodology to build the ecosyst
            │ (Antigravity Agent reads Spike to understand the "Why" and "What")
            ▼
   [ ORCHESTRATION BUILDER ] ─────────────► [ EXECUTOR BUILDER ]
-  Creates Workflow Markdown                  Creates Agent Skills & Rules
-  (.agents/workflows/gsafe-...)              (.agents/skills/agenticse-...)
-  
-  Details generated from Spike:              Details generated from Spike:
-  1. Define `task_boundary` steps            1. Skill A: agenticse-design-system-create
-     (Task 1: Intake & Plan)                 (The Implementor)
-  2. Map Human Approval Gates                - Draft Rules for Hi-Fi Code Generation
-     (Gate A and Gate B logic)               - Ensure compliance with Design Tokens
-  3. Define Routing / Loops                  
-     (If QA fails → Route back to Code)      2. Skill B: agenticse-design-system-gatecheck
-                                             (The Evaluator)
-                                             - Translate 100-pt DoD into mechanical Rules
-                                             - Build the 12-Step Test Pipeline
+  Creates Workflow Markdowns                 Creates Agent Skills & Rules
+                                             
+  Main:                                      Skill A: agenticse-design-system
+  gsafe-uiux-ralph-loop-antigravity.md       (The Implementor)
+  - Routes PRD through Stage 1 → Stage 2     - Draft Rules for Hi-Fi Code Generation
+  - Maps Human Approval Gates (A + B)        - Ensure compliance with Design Tokens
+                                             
+  Sub-workflows:                             Skill B: design-system-gatecheck
+  gsafe-uiux-ralph-loop-stage1.md            (The Evaluator)
+  - g0→g1→g2→Gate A with rejection loops     - Translate 100-pt DoD into mechanical Rules
+  gsafe-uiux-ralph-loop-stage2.md            - Build the 12-Step Test Pipeline
+  - BUILD↔AUDIT→Agile Refine→Gate B          
 ====================================================================================================
 ```
 
@@ -125,30 +130,31 @@ How Quality Assurance (Humans or QA Agents) verifies that generated execution to
 ====================================================================================================
 
                  [ ROOT METHODOLOGY (The Source of Truth) ]
-                 Did we actually build what we researched?
-                                     │
-                 ┌───────────────────┴───────────────────┐
-                 ▼                                       ▼
-  [ QA: ORCHESTRATION CHECK ]               [ QA: EXECUTION CHECK (The 2 Skills) ]
-  Reviewing: gsafe-uiux-ralph...            Reviewing: agenticse-design-system-create 
-                                                       agenticse-design-system-gatecheck
-  Verify mapping to Spike:                  
-  1. Does the workflow correctly            Verify mapping to Spike:
-     route failures back to the             1. agenticse-design-system-create:
-     correct agent?                            - Does W1 correctly accept the constraint
-  2. Are Gate A (Low-Fi) and                   from the Evaluator's ASCII wireframes?
-     Gate B (Results) correctly                - Is the tool_budget_estimate enforced?
-     placed as blockers?                    
-  3. Is the "PRD Completeness Loop"         2. agenticse-design-system-gatecheck:
-     explicitly stated?                        - Is the DoD explicitly mapped to the
-                 │                               exact 100-pt scoring system?
-                 │                             - Are P0/P1/P2 failures mechanically 
-                 │                               defined (e.g. contrast ratio)?
-                 │                             - Does Gate A require Storyboards?
-                 └───────────────────┬───────────────────┘
-                                     ▼
-                            [ FINAL QA PASS ]
-                 Ecosystem is certified compliant with Spike.
+                  Did we actually build what we researched?
+                                      │
+                  ┌───────────────────┴───────────────────┐
+                  ▼                                       ▼
+   [ QA: ORCHESTRATION CHECK ]               [ QA: EXECUTION CHECK (The 2 Skills) ]
+   Reviewing (3 files):                      Reviewing:
+   - gsafe-...-antigravity.md (main)         - agenticse-design-system (Implementor)
+   - gsafe-...-stage1.md (Low-Fi loop)       - design-system-gatecheck (Evaluator)
+   - gsafe-...-stage2.md (Hi-Fi loop)        
+                                             Verify mapping to Spike:
+   Verify mapping to Spike:                  1. agenticse-design-system:
+   1. Does main correctly dispatch              - Does W1 correctly accept the constraint
+      Stage 1 → Stage 2?                        from the Evaluator's ASCII wireframes?
+   2. Does Stage 1 route REJECT_FIX_PRD         - Is the tool_budget_estimate enforced?
+      back to g0 and REJECT_FIX_CONTRACT      
+      back to g1?                            2. design-system-gatecheck:
+   3. Does Stage 2 include W0 Plan Gate,        - Is the DoD explicitly mapped to the
+      BUILD↔AUDIT loop, and adaptive               exact 100-pt scoring system?
+      convergence?                              - Are P0/P1/P2 failures mechanically 
+   4. Are Gate A and Gate B correctly              defined (e.g. contrast ratio)?
+      placed as blockers?                       - Does Gate A require Storyboards?
+                  └───────────────────┬───────────────────┘
+                                      ▼
+                             [ FINAL QA PASS ]
+                  Ecosystem is certified compliant with Spike.
 ====================================================================================================
 ```
 
@@ -180,37 +186,42 @@ graph TD
     classDef stage fill:#f8f9fa,stroke:#ced4da,stroke-width:2px,stroke-dasharray: 5 5;
     classDef gate fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
     classDef agent fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
+    classDef score fill:#fff3bf,stroke:#e67700,stroke-width:2px;
 
     RawPRD[Raw PRD Text] --> G0[Step 0: Intake & Validate]
-    
-    subgraph Stage1 [Stage 1: The PRD / Low-Fi Ralph Loop]
-        G0 --> G1[Step 1: Convert Text to ASCII UI/UX & Storyboards]:::agent
-        G1 --> GateA{Gate A: Human UX Concept Approval}:::gate
-        
-        GateA -- "REJECT_FIX_CONTRACT\n(Tweak Layout)" --> G1
+
+    subgraph Stage1 ["Stage 1: Low-Fi Contract Ralph Loop (RFT)"]
+        G0 --> Gen["GENERATE: g1 (ASCII + Storyboards) + g2 (Compile)"]:::agent
+        Gen --> S1Eval["EVALUATE: Contract Quality Score (0-100)\n5-Pillar Scoring Engine"]:::score
+        S1Eval --> S1Conv{"Score >= 90\n& 0 AMBIGUOUS?"}
+
+        S1Conv -- "NO\n(Prioritized Fix Queue)" --> Gen
+        S1Conv -- "YES / STALL / TIMEOUT" --> GateA{Gate A: Human UX Concept Approval}:::gate
+
+        GateA -- "REJECT_FIX_CONTRACT\n(Tweak Layout)" --> Gen
         GateA -- "REJECT_FIX_PRD\n(Missing/Bad Requirements)" --> PRDWriter[Agent Fixes & Completes PRD]:::agent
         PRDWriter --> G0
     end
-    
-    GateA -- "APPROVE" --> G2[Step 2: Compile Contract]
 
-    subgraph Stage2 [Stage 2: The Implementation / Hi-Fi Ralph Loop]
-        G2 --> Build[Implementor Agent: Builds HTML/CSS]:::agent
+    GateA -- "APPROVE" --> W0[W0: Plan Declaration Gate]
+
+    subgraph Stage2 ["Stage 2: Hi-Fi Implementation Ralph Loop (RFT)"]
+        W0 --> Build["BUILD: Implementor Agent (W1→W2)"]:::agent
         Build --> UI[Rendered UI / Playwright Arena]
-        UI --> Eval[Evaluator Agent: Automated QA & Scoring]:::agent
-        Eval --> Score{Score >= 95 & Zero P0?}
-        
-        Score -- "NO\n(Provides Prioritized Fix Queue)" --> Build
+        UI --> Eval["AUDIT: Evaluator Agent (g3→g8)\n100-pt DoD Scoring Engine"]:::score
+        Eval --> Score{"Score >= 95\n& Zero P0?"}
+
+        Score -- "NO\n(Prioritized Fix Queue)" --> Build
     end
-    
+
     Score -- "YES" --> AutoQA[Task 3: Verify 100% PRD Coverage]
-    
+
     AutoQA -- "Missing UI States Discovered" --> PRDWriter
-    
+
     AutoQA -- "100% Covered" --> GateB{Gate B: Final Human Approval}:::gate
-    GateB -- "REQUEST_FIX" --> Eval
+    GateB -- "REQUEST_FIX" --> Build
     GateB -- "APPROVE" --> Merge[Merge & Deploy]
-    
+
     class Stage1,Stage2 stage;
 ```
 
@@ -1300,6 +1311,38 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
            ANTIGRAVITY TASK-BASED ARCHITECTURE v2 (QA-HARDENED, EXPLICIT LOOP BOUNDARIES)
 =================================================================================================
 
+   3-LAYER PYRAMID NAVIGATION:
+   ┌─────────────────────────────────────────────────────────────────────────┐
+   │          /\       LAYER 1: ROOT METHODOLOGY   ◄── YOU ARE HERE        │
+   │         /  \      THIS FILE: spike-ds-ralph-loop-agent.md            │
+   │        /    \     "WHY & WHAT" — Theory, DoD, RFT, 3-Tier Eval       │
+   │       /──────\                                                        │
+   │      /        \   LAYER 2: ORCHESTRATION → Read these to EXECUTE      │
+   │     / Workflows\  Main: gsafe-uiux-ralph-loop-antigravity.md          │
+   │    /            \ ├── gsafe-uiux-ralph-loop-stage1.md                 │
+   │   /──────────────\ └── gsafe-uiux-ralph-loop-stage2.md                │
+   │  /    SKILLS      \  LAYER 3: EXECUTOR → Read these for HOW          │
+   │ / Gatecheck + Impl  \ design-system-gatecheck/ & agenticse-ds/       │
+   │/──────────────────────\                                               │
+   │                                                                       │
+   │  >> AGENT DIRECTIVE:                                                  │
+   │  >> This file is the SOURCE OF TRUTH for the methodology.             │
+   │  >> If you need to EXECUTE the pipeline → go to Layer 2 workflows.    │
+   │  >> If you need to BUILD/AUDIT code → go to Layer 3 skill rules.      │
+   │  >> The diagrams below define WHAT the pipeline does, not HOW.        │
+   └─────────────────────────────────────────────────────────────────────────┘
+
+  3-LAYER PYRAMID CONTEXT:
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │  Layer 1: THIS FILE (Spike) — Root Methodology ("Why & What")         │
+  │  Layer 2: .agents/workflows/                                           │
+  │           ├── gsafe-uiux-ralph-loop-antigravity.md (Main Activator)    │
+  │           ├── gsafe-uiux-ralph-loop-stage1.md (Stage 1 sub-workflow)   │
+  │           └── gsafe-uiux-ralph-loop-stage2.md (Stage 2 sub-workflow)   │
+  │  Layer 3: skills/design-system-gatecheck/ (Evaluator)                  │
+  │           skills/agenticse-design-system/ (Implementor)                │
+  └─────────────────────────────────────────────────────────────────────────┘
+
                              [ 👤 Human Product Owner ]
                                        | (Triggers execution / Provides PRD)
                                        v
@@ -1308,6 +1351,7 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |  Role: Self-orchestrates by breaking the pipeline into explicit `Task Boundaries`,           |
 |        context-switching between Evaluator Skill and Implementor Skill.                      |
 |  Scorecard Schema: v1.1  |  RFT Dataset: docs/rft-dataset/{prd_id}/                         |
+|  Workflow Entry: .agents/workflows/gsafe-uiux-ralph-loop-antigravity.md                      |
 +-----------------------------------------------------------------------------------------------+
            |
            | (Switches to Evaluator Skill: design-system-gatecheck)
@@ -1320,30 +1364,75 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 +-----------------------------------------------------------------------------------------------+
            |
            v
-+-----------------------------------------------------------------------------------------------+
-| 📌 TASK 1: INTAKE & PLAN  (design-system-gatecheck — Steps 0→2 + Gate A)                   |
+┌═══════════════════════════════════════════════════════════════════════════════════════════════┐
+║ 🔁 STAGE 1: LOW-FI CONTRACT RALPH LOOP                                                       ║
+║ CROSS-REF → .agents/workflows/gsafe-uiux-ralph-loop-stage1.md (Layer 2 executable workflow)  ║
+║ Skill: design-system-gatecheck (Evaluator) — Steps 0→2 + Scoring + Gate A                   ║
++===============================================================================================+
 |                                                                                               |
 |  Step 0: g0-intake-normalize → Parses PRD, normalizes fields, extracts beads-id             |
 |           ↳ Surfaces PRD_DS_CONFLICT list before any code starts                    |
-|  Step 1: g1-contract-generation → ASCII wireframes + JSON Storyboards (mandatory)           |
-|           ↳ storyboard_trajectories[] REQUIRED — Gate A auto-rejects if absent      |
-|  Step 2: g2-contract-compile → layout-rules.json + assertion-checklist.md                  |
+|           ↳ PRD Completeness Sub-Loop (fills gaps before contract gen)              |
+|                                                                                               |
+|  ┌─ TASK 1A: GENERATE  (g1-contract-generation + g2-contract-compile) ────────────────────┐  |
+|  | g1: ASCII wireframes + JSON Storyboard Trajectories + Component Map + Conflict Report  |  |
+|  |     ↳ storyboard_trajectories[] REQUIRED — Gate A auto-rejects if absent               |  |
+|  | g2: Compile → layout-rules.json + assertion-checklist.md                               |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↓                                                                                   |
+|  ┌─ TASK 1B: EVALUATE  (Contract Quality Scoring Engine) ─────────────────────────────────┐  |
+|  |   CONTRACT QUALITY SCORE (0-100):                                                      |  |
+|  |   ┌──────────────────────────────────────────────────────────────┐                      |  |
+|  |   | Pillar                    | Weight | Checks                 |                      |  |
+|  |   |---------------------------|--------|------------------------|                      |  |
+|  |   | PRD Coverage              |   25%  | screen/state/journey → |                      |  |
+|  |   |                           |        | wireframe + storyboard |                      |  |
+|  |   | Component Traceability    |   25%  | ASCII block → ds-id    |                      |  |
+|  |   | Storyboard Completeness   |   20%  | journey coverage +     |                      |  |
+|  |   |                           |        | error recovery paths   |                      |  |
+|  |   | Layout Compilability      |   15%  | layout-rules.json      |                      |  |
+|  |   |                           |        | parses, 0 AMBIGUOUS    |                      |  |
+|  |   | Conflict Resolution       |   15%  | PRD_DS_CONFLICT items  |                      |  |
+|  |   |                           |        | detected & surfaced    |                      |  |
+|  |   └──────────────────────────────────────────────────────────────┘                      |  |
+|  |   - Rollout ID emitted per iteration                                                   |  |
+|  |   - Pillar Delta Report per iteration                                                  |  |
+|  |   - Cross-iteration regression check (iteration ≥ 2)                          |  |
+|  |   - Attribution: evaluator_contract | prd_gap | unknown                                |  |
+|  |   - All graded rollouts → stored in docs/rft-dataset/{prd_id}/stage1/                  |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↓                                                                                   |
+|  ┌─ ADAPTIVE CONVERGENCE DECISION ────────────────────────────────────────────────────────┐  |
+|  | Score ≥ 90 AND 0 AMBIGUOUS_RULE → GATE_A_READY → proceed to Gate A                    |  |
+|  | Score improves ≥ 5 pts         → +1 retry allowed (max cap: 4)         |  |
+|  | Score plateau ≤ 1 pt for 2x    → LOOP_STALLED → escalate to Gate A (with warning)     |  |
+|  | score[N] < score[N-1]           → REGRESSION → restore N-1 artifacts         |  |
+|  | wall_clock > 15min             → TIMEOUT → escalate to Gate A         |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↑___________(Self-corrects: sends Prioritized Fix Queue back to GENERATE)__________|  |
 |                                                                                               |
 |  🚧 GATE A: Human UX Concept Approval (BlockedOnUser: true)                                 |
 |     ✅ Criteria checked:                                                                     |
+|     - Contract Quality Score ≥ 90 (or escalated with warning)                       |
 |     - Storyboard trajectories present                                               |
 |     - PRD_DS_CONFLICT resolved                                                      |
-|     - Meta-Evaluation: axe-core + layout-rules.json parse verified                 |
+|     - Meta-Evaluation: layout-rules.json parse verified                             |
 |     - Reasoning quality baseline noted for Tier 2 comparison                       |
 |     - Attribution Protocol declared                                                 |
-|     - Contract Quality Score emitted                                                |
 |  → Emits: test plan, coverage matrix, storyboard JSON, layout-rules.json                    |
-+-----------------------------------------------------------------------------------------------+
+|                                                                                               |
+|  Rejection Loops:                                                                            |
+|  - REJECT_FIX_PRD → return to Step 0 (PRD Completeness Sub-Loop)                            |
+|  - REJECT_FIX_CONTRACT → return to TASK 1A (re-generate contract)                           |
++===============================================================================================+
            |
            | (Human Approves Gate A)
            v
+┌═══════════════════════════════════════════════════════════════════════════════════════════════┐
+║ 📌 STAGE 2: IMPLEMENTATION ↔ EVALUATION                                                      ║
+║ CROSS-REF → .agents/workflows/gsafe-uiux-ralph-loop-stage2.md (Layer 2 executable workflow)  ║
+║ Skills: agenticse-design-system (Implementor) + design-system-gatecheck (Evaluator)          ║
 +===============================================================================================+
-| 🔁 TASK 2: THE RALPH LOOP  (Implementor ↔ Evaluator — Adaptive, Bounded)                   |
 |                                                                                               |
 |  ┌─ W0 PLAN DECLARATION GATE — MANDATORY BEFORE ANY CODE ─────────────────────┐   |
 |  | Implementor emits plan-declaration.json: {components, build_sequence, risks,          |   |
@@ -1352,14 +1441,14 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |  | If PLAN_REJECTED → Implementor revises plan BEFORE any HTML/CSS is written           |   |
 |  └───────────────────────────────────────────────────────────────────────────────────────┘   |
 |                                                                                               |
-|  ┌─ Sub-Task 2A: BUILD  (agenticse-design-system — W1→W2) ───────────────────────────────┐  |
+|  ┌─ TASK 2A: BUILD  (agenticse-design-system — W1→W2) ───────────────────────────────────┐  |
 |  | W1: Read layout-rules.json, resolve PRD_DS_CONFLICT resolutions, plan build sequence  |  |
 |  | W2: Write HTML/CSS/Tokens strictly following DS token system                          |  |
 |  | Self-Verification: CSS lint → Playwright preview → pre-submission log        |  |
 |  |   → All 3 signals = +5 bonus pts in DoD score                                         |  |
 |  └────────────────────────────────────────────────────────────────────────────────────────┘  |
 |           ↓                                                                                   |
-|  ┌─ Sub-Task 2B: AUDIT  (design-system-gatecheck — Steps 3→8) ──────────────────────────┐  |
+|  ┌─ TASK 2B: AUDIT  (design-system-gatecheck — Steps 3→8) ──────────────────────────────┐  |
 |  | Step 3 (g3): Deterministic env setup (locked fonts, mock data, disabled animations)   |  |
 |  | Step 4 (g4): Tier 1 DOM Conformance → if FAIL_P0, SKIP steps 5-7           |  |
 |  | Step 5 (g5): Tier 2 Visual Diff → if FAIL_P0, SKIP step 6           |  |
@@ -1392,47 +1481,40 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |  | All graded rollouts → stored in docs/rft-dataset/{prd_id}/         |  |
 |  └────────────────────────────────────────────────────────────────────────────────────────┘  |
 |           ↑_______________(Self-corrects: sends Prioritized Fix Queue back to W3)____________|  |
+|                                                                                               |
+|  ┌─ TASK 3: AGILE REFINE  (PRD-DS Sync Phase) ──────────────────────────────────────────┐  |
+|  | Agent compares final UI code against original PRD                                      |  |
+|  | PRD Journey Coverage Matrix: for each user journey, checks:                           |  |
+|  |   (1) storyboard exists, (2) was executed, (3) did it pass → prd-coverage-matrix.csv  |  |
+|  |   Any NOT_COVERED journey = BLOCKS Gate B approval                            |  |
+|  | Generates latest-ui-handover.md with text_output_match_score                |  |
+|  | Generates missing states list and PRD refinement recommendations                       |  |
+|  | Computes Task Success Rate: TSR = converged_runs / total_runs                |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↓                                                                                   |
+|  ┌─ TASK 4: GATE B & HANDOFF ────────────────────────────────────────────────────────────┐  |
+|  | 🚧 GATE B: Structured Human Scorecard (BlockedOnUser: true)                 |  |
+|  |    ┌────────────────────────────────────────────────┐                                  |  |
+|  |    | Criteria               | Min |                  |                                  |  |
+|  |    |------------------------|-----|                  |                                  |  |
+|  |    | Visual brand fit       | ≥ 3 |  /5              |                                  |  |
+|  |    | Copy clarity           | ≥ 3 |  /5              |                                  |  |
+|  |    | Interaction intuitive  | ≥3.5|  /5              |                                  |  |
+|  |    | Safety/edge cases      | ≥ 4 |  /5              |                                  |  |
+|  |    | Production readiness   | ≥3.5|  /5              |                                  |  |
+|  |    | Minimum average: 3.5/5 to approve                |                                  |  |
+|  |    └────────────────────────────────────────────────┘                                  |  |
+|  | - Pillar Delta convergence curves shown to human reviewer                              |  |
+|  | - TOOL_FAILURE events disclosed                                                 |  |
+|  | - NOT_COVERED PRD journeys disclosed                                            |  |
+|  | - Autonomy score shown                                                          |  |
+|  | → Decisions: APPROVE | REQUEST_FIX | APPROVE_WITH_BASELINE_UPDATE                      |  |
+|  | → Result logged to docs/design/reports/feature-x-approval-log.md                       |  |
+|  |                                                                                        |  |
+|  | On APPROVE: merge proceeds → CI pipeline (.github/workflows/ralph-loop-ci.yml)|  |
+|  | On REQUEST_FIX: returns to Task 2A (BUILD) within Stage 2 loop                        |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
 +===============================================================================================+
-           |
-           | (Switches to Sync/Agile Skill)
-           v
-+-----------------------------------------------------------------------------------------------+
-| 📌 TASK 3: AGILE REFINE  (PRD-DS Sync Phase)                                                |
-|  - Agent compares final UI code against original PRD                                         |
-|  - PRD Journey Coverage Matrix: for each user journey, checks:                              |
-|    (1) storyboard exists, (2) was executed, (3) did it pass → prd-coverage-matrix.csv       |
-|    Any NOT_COVERED journey = BLOCKS Gate B approval               |
-|  - Generates latest-ui-handover.md with text_output_match_score               |
-|  - Generates missing states list and PRD refinement recommendations                          |
-|  - Computes Task Success Rate: TSR = converged_runs / total_runs               |
-+-----------------------------------------------------------------------------------------------+
-           |
-           | (Handoff to Human)
-           v
-+-----------------------------------------------------------------------------------------------+
-| 📌 TASK 4: GATE B & HANDOFF  (design-system-gatecheck — gate-b-result-approval)            |
-|                                                                                               |
-|  🚧 GATE B: Structured Human Scorecard (replaces binary approve/reject)          |
-|     ┌────────────────────────────────────────────────┐                                       |
-|     | Criteria               | Min |                  |                                       |
-|     |------------------------|-----|                  |                                       |
-|     | Visual brand fit       | ≥ 3 |  /5              |                                       |
-|     | Copy clarity           | ≥ 3 |  /5              |                                       |
-|     | Interaction intuitive  | ≥3.5|  /5              |                                       |
-|     | Safety/edge cases      | ≥ 4 |  /5              |                                       |
-|     | Production readiness   | ≥3.5|  /5              |                                       |
-|     | Minimum average: 3.5/5 to approve                |                                       |
-|     └────────────────────────────────────────────────┘                                       |
-|  - Pillar Delta convergence curves shown to human reviewer                                   |
-|  - TOOL_FAILURE events disclosed                                                    |
-|  - NOT_COVERED PRD journeys disclosed                                               |
-|  - Autonomy score shown                                                             |
-|  → Decisions: APPROVE | REQUEST_FIX | APPROVE_WITH_BASELINE_UPDATE                          |
-|  → Result logged to docs/design/reports/feature-x-approval-log.md                           |
-|                                                                                               |
-|  On APPROVE: merge proceeds → CI pipeline (.github/workflows/ralph-loop-ci.yml)   |
-|  On REQUEST_FIX: returns to Task 2 from Step 4 onward                                       |
-+-----------------------------------------------------------------------------------------------+
 
   ┌── CI INTEGRATION (Continuous Guard) ─────────────────────────────────────────────────┐
   | File: .github/workflows/ralph-loop-ci.yml                 |

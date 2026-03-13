@@ -12,7 +12,29 @@ metadata:
 > **Role:** The Implementor Agent
 > **Reference:** `spike-design-system-ralph-loop-agent.md`
 
-## 3-Layer Agent Comprehension Pyramid for this Skill
+## Ecosystem Position (3-Layer Agent Comprehension Pyramid)
+
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        /\       LAYER 1: ROOT METHODOLOGY                       │
+│       /  \      spike-design-system-ralph-loop-agent.md          │
+│      /    \     "WHY & WHAT" — Theory, DoD, RFT, 3-Tier Eval    │
+│     /──────\                                                     │
+│    /        \   LAYER 2: ORCHESTRATION                           │
+│   /Workflows \  Main: gsafe-uiux-ralph-loop-antigravity.md       │
+│  /────────────\  Stage 2: gsafe-uiux-ralph-loop-stage2.md         │
+│ / SKILLS      \  LAYER 3: EXECUTOR   ◄── YOU ARE HERE            │
+│/ THIS FILE     \ agenticse-design-system/ (Implementor)          │
+│────────────────\ design-system-gatecheck/ (Peer: Evaluator)     │
+│                                                                   │
+│  >> AGENT DIRECTIVE:                                              │
+│  >> You are at LAYER 3. This skill tells you HOW to build UI.     │
+│  >> Stage 2 workflow tells you WHEN this skill is triggered.       │
+│  >> Do NOT read the spike unless modifying this skill's rules.    │
+└───────────────────────────────────────────────────────────────────────┘
+```
+
+## Skill-Internal Comprehension Pyramid
 
 To execute this skill efficiently and without hallucinating, read it top-down:
 
@@ -53,7 +75,7 @@ IF TASK IS: Ready Merge  → [ Branch: W4 Handoff ]
 
 This skill enables you to architect, build, and maintain enterprise-grade Design Systems using the **HTML-as-Design-Tool** workflow for both **Web / Desktop** and **2D Mobile Applications** (iOS/Android paradigms). It guarantees coherence via rigorous Component tracking, Composite Layout standards, and exhaustive State Matrix coverage, governed by an Element-Level Versioning protocol.
 
-**Agent Comprehension Directive:** You are operating at Layer 3 (The Details). You must navigate the Layer 2 ASCII Map above to determine *which exact* `.md` rule file to read. Do not read all rules at once. You are strictly bound by the constraints established by the Evaluator Agent in Layer 2 (e.g., ASCII wireframes, layout rules).
+**Agent Comprehension Directive:** You are operating at Layer 3 (The Details). You must navigate the Skill-Internal Pyramid's ASCII Map above to determine *which exact* `.md` rule file to read. Do not read all rules at once. You are strictly bound by the constraints established by the Evaluator Agent via Stage 2 workflow (Layer 2) and the contract artifacts from Stage 1 (e.g., ASCII wireframes, layout-rules.json, storyboards.json).
 
 ## When to Apply
 
