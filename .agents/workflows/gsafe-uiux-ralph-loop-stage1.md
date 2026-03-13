@@ -154,26 +154,32 @@ Mode: EXECUTION
 
 1. **Generate `contract.yaml`** — Feature name, beads_id, routes, required components (with `data-ds-id`), viewports, visual diff policy, accessibility level, state transitions
 
-2. **Generate ASCII Wireframes** — One diagram per screen × state. Every block MUST map to a real `data-ds-id` component
+2. **Generate ASCII Wireframes (GAP-41/42)** — One **detailed** diagram per screen × state (default, loading, error, empty minimum). Every block MUST map to a real `data-ds-id` component. Wireframes MUST include:
+   - ≥3 nesting levels for screens with >3 components
+   - Column ratio annotations (`[60%]` / `[40%]`), padding markers (`(16px)`)
+   - Internal structure: column headers, button labels, placeholder text — no stub blocks
+   - Per-state structural variations (skeleton for loading, error banner for error, empty illustration for empty)
 
-3. **Generate Mermaid Flow Diagram** — State/navigation flow as `stateDiagram-v2`
+3. **Generate ASCII User Flow Diagrams (GAP-44)** — ⚠️ MANDATORY. One flow per major user journey. Each box shows miniature wireframe contents with labeled transition arrows (`──[trigger]──►`) and return paths.
 
-4. **Generate JSON Storyboard Trajectories** — ⚠️ MANDATORY. Gate A auto-rejects if absent.
+4. **Generate Mermaid Flow Diagram** — State/navigation flow as `stateDiagram-v2`
+
+5. **Generate JSON Storyboard Trajectories** — ⚠️ MANDATORY. Gate A auto-rejects if absent.
    - ≥ 1 trajectory per user journey in the PRD
    - Each trajectory: step number, state, action, target (`ds:comp:*`), reasoning checkpoint
    - Include recovery tests for error states
 
-5. **Generate Component Map** — Maps ASCII block names → `data-ds-id` selectors
+6. **Generate Component Map** — Maps ASCII block names → `data-ds-id` selectors
 
-6. **Run PRD ↔ DS Conflict Detection** — Compare PRD style directives against `design-tokens.json`
+7. **Run PRD ↔ DS Conflict Detection** — Compare PRD style directives against `design-tokens.json`
 
 **Actions (g2 — Contract Compile):**
 
-7. **Compile to `layout-rules.json`** — position, visibility, overlap, responsive, state_transition rules
+8. **Compile to `layout-rules.json`** — position, visibility, overlap, responsive, state_transition rules
 
-8. **Generate Assertion Checklist** — Human-readable markdown checklist
+9. **Generate Assertion Checklist** — Human-readable markdown checklist
 
-9. **Ambiguity Detection** — Flag `AMBIGUOUS_RULE` for unmapped ASCII blocks
+10. **Ambiguity Detection** — Flag `AMBIGUOUS_RULE` for unmapped ASCII blocks
 
 **Outputs:**
 
@@ -181,6 +187,7 @@ Mode: EXECUTION
 |----------|------|
 | Contract YAML | `docs/design/contracts/feature-x.contract.yaml` |
 | ASCII Wireframes | `docs/design/contracts/feature-x.ascii.md` |
+| ASCII User Flows | `docs/design/contracts/feature-x.user-flows.ascii.md` |
 | Flow Diagram | `docs/design/contracts/feature-x.flow.mmd` |
 | JSON Storyboards | `docs/design/contracts/feature-x.storyboards.json` |
 | Component Map | `docs/design/contracts/feature-x.component-map.json` |
@@ -200,15 +207,25 @@ TaskName: "Stage 1 — EVALUATE: Contract Quality Score"
 Mode: VERIFICATION
 ```
 
-**Contract Quality Score (0–100):**
+**Contract Quality Score (0–100) — 6-Pillar Model (GAP-43):**
 
 | Pillar | Weight | Checks |
 |--------|--------|--------|
-| **PRD Coverage** | 25% | Every screen + state + journey in PRD → matching wireframe + storyboard |
-| **Component Traceability** | 25% | Every ASCII block → `data-ds-id` in `component-map.json` |
-| **Storyboard Completeness** | 20% | Every user journey has ≥1 trajectory; error recovery paths present |
+| **PRD Coverage** | 20% | Every screen + state + journey in PRD → matching wireframe + storyboard |
+| **Component Traceability** | 20% | Every ASCII block → `data-ds-id` in `component-map.json` |
+| **Storyboard Completeness** | 15% | Every user journey has ≥1 trajectory; error recovery paths present |
 | **Layout Compilability** | 15% | `layout-rules.json` parses cleanly; zero `AMBIGUOUS_RULE` flags |
 | **Conflict Resolution** | 15% | All `PRD_DS_CONFLICT` items detected and surfaced for Gate A |
+| **Wireframe & Flow Articulation** | **15%** | **NEW (GAP-41–45)** — Diagram depth + User Flow quality. See checks below |
+
+**Wireframe & Flow Articulation Checks (15 pts):**
+- (5 pts) **Nesting depth:** Wireframes with >3 components show ≥3 nesting levels (page→section→component→sub-element)
+- (3 pts) **Annotation completeness:** Column ratio markers (`[60%]`/`[40%]`), padding annotations (`(16px)`) present
+- (3 pts) **State variation:** Per-state wireframe variations exist (default, loading, error, empty) — not just one view
+- (2 pts) **ASCII User Flow:** ≥1 ASCII flow diagram per major user journey with labeled transition arrows and return paths
+- (2 pts) **No stub blocks:** Complex components (tables, forms, card grids) show internal structure, not just a label
+
+> **DIAGRAM_TOO_SHALLOW flag:** If Wireframe & Flow Articulation pillar < 60% (< 9 pts), emit `DIAGRAM_TOO_SHALLOW` in the Prioritized Fix Queue. The agent MUST specifically re-generate more detailed wireframes — not just add missing components.
 
 **Scoring Mechanics (mirroring Stage 2 DoD):**
 - Gradient penalty: missing_items × (weight / total_items_expected)
@@ -216,9 +233,9 @@ Mode: VERIFICATION
 
 **Additional signals emitted:**
 - `rollout_id: rl-stage1-YYYY-MM-DD-NNN` (per iteration)
-- `pillar_deltas`: score delta per pillar vs previous iteration
+- `pillar_deltas`: score delta per pillar vs previous iteration (now 6 pillars)
 - Cross-iteration regression check (iteration ≥ 2)
-- Attribution: `evaluator_contract` | `prd_gap` | `unknown`
+- Attribution: `evaluator_contract` | `prd_gap` | `diagram_shallow` | `unknown`
 - All graded rollouts → `docs/rft-dataset/{prd_id}/stage1/`
 
 **Exit condition:** Score computed. Proceed to Convergence Decision.
@@ -233,11 +250,13 @@ Mode: VERIFICATION
 | Score improves ≥ 5 pts | → +1 retry allowed (max cap: 4) |
 | Score plateau ≤ 1 pt for 2 consecutive | → `LOOP_STALLED` → escalate to Gate A with warning |
 | score[N] < score[N-1] | → `REGRESSION` → restore N-1 artifacts, send regression delta |
+| Wireframe & Flow Articulation < 60% | → `DIAGRAM_TOO_SHALLOW` → agent must detail wireframes (GAP-45) |
 | wall_clock > 15min | → `TIMEOUT` → freeze best artifacts, escalate to Gate A |
 
 **On CONTINUE:** Send Prioritized Fix Queue back to TASK 1A (GENERATE):
 - Which pillar scored lowest
 - Specific missing wireframes, storyboards, or unmapped components
+- **If `DIAGRAM_TOO_SHALLOW`:** Explicitly instruct agent to add nesting levels, annotations, placeholder text, and per-state variations to ASCII diagrams — not just add new artifacts
 - Agent re-generates ONLY the flagged artifacts (not from scratch)
 
 **On GATE_A_READY / STALL / TIMEOUT:** Proceed to Gate A.

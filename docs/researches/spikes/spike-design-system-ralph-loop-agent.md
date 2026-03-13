@@ -1636,3 +1636,54 @@ Deduct 5 pts per unplanned human interruption. This distinguishes genuine agent 
 ### Stepwise Progress Display
 
 > The `pillar_deltas` field in the scorecard already provides Pillar-by-Pillar score movement per iteration. Consumers of the scorecard should visualize this as convergence curves (e.g., chart in Gate B review tool) to detect over-fitting to one Pillar while degrading another.
+
+---
+
+## 8. ASCII Diagram Quality & User Flow Articulation (GAP-41 — GAP-45)
+
+<!-- beads-id: bd-spike-ds-ralph-loop-ascii-quality -->
+
+### Session 2 (2026-03-13) — Root Cause Analysis: Oversimplified ASCII Diagrams
+
+**Hypothesis:** Ralph Loop Stage 1 produces ASCII wireframes and user flows that are too simple and brief, providing little value to the human reviewer at Gate A. By identifying and fixing the structural root causes in the methodology and scoring engine, we can force agents to produce detailed, spatially articulate diagrams that accurately communicate layout intent.
+
+**Findings — 5 Root Causes:**
+
+| GAP ID | Root Cause | Location | Impact |
+|--------|-----------|----------|--------|
+| GAP-41 | **Minimal example = minimal output.** `g1-contract-generation.md` §1.2 provides only a 6-line box diagram as the reference. Agents mimic examples — a simple example produces simple output. | `g1-contract-generation.md` §1.2 | Agents have no reference bar for what "detailed" means |
+| GAP-42 | **No detail-level requirements.** The rule says "produce a text-based layout diagram" but never specifies: padding annotations, width ratios, nested sub-components, placeholder text, or interaction hints. | `g1-contract-generation.md` §1.2 | Agent satisfies the rule with minimum viable output |
+| GAP-43 | **No scoring pillar for diagram detail quality.** The Stage 1 Contract Quality Score (5-Pillar) checks *coverage* and *traceability* but never rates *how detailed* or *how spatially articulate* the ASCII diagrams are. An agent can score 100/100 with a 6-line box diagram if all components are listed. | Stage 1 TASK 1B (EVALUATE) | Zero gradient signal to encourage diagram richness |
+| GAP-44 | **User Flow = Mermaid only.** The g1 rule §1.3 produces Mermaid `stateDiagram-v2`. There is no requirement for ASCII-based user flow diagrams showing the spatial relationship *between screens* during navigation. | `g1-contract-generation.md` §1.3 | Human cannot see screen-to-screen spatial context |
+| GAP-45 | **No inner refinement loop for diagram quality.** The GENERATE→EVALUATE loop evaluates contract completeness, not diagram richness. Even when the loop iterates, it adds missing storyboards/components — it never asks "is this wireframe detailed enough?" | Stage 1 Convergence | Diagrams never improve across iterations |
+
+**Key Insight:** Agents optimize for scored dimensions. Since only coverage/traceability/compilability are scored, the agent produces the minimum viable diagram and scores perfectly. **The fix must add a scoring pillar that mechanically evaluates diagram depth.**
+
+**Recommendations:**
+
+1. **Update `g1-contract-generation.md` §1.2** — Replace the minimal example with a rich ~30-line reference ASCII wireframe that demonstrates:
+   - Nested sub-components (e.g., table with column headers, button groups inside panels)
+   - Column ratio annotations (e.g., `[60%]` / `[40%]`)
+   - Padding markers and spacing lines
+   - Placeholder text content (not just block names)
+   - Per-state variation requirement (default, loading, error, empty)
+
+2. **Add §1.2b — ASCII User Flow Diagrams (MANDATORY)** — Require ASCII diagrams showing screen-to-screen navigation with labeled transition arrows. Mermaid alone is insufficient because it shows state transitions abstractly without spatial screen layout context.
+
+3. **Add 6th Scoring Pillar to Stage 1 Contract Quality Score** — "Wireframe & Flow Articulation" (15%) that mechanically evaluates:
+   - ASCII wireframe depth: ≥3 nesting levels for screens with >3 components
+   - Padding/ratio annotations present
+   - Per-state wireframe variations exist (not just one "default" view)
+   - ASCII User Flow diagrams present with labeled transitions
+   - No "stub" blocks (blocks with only a name and no internal structure for complex components)
+
+4. **Add `DIAGRAM_TOO_SHALLOW` convergence flag** — When Wireframe & Flow Articulation pillar < 60%, emit this flag in the Prioritized Fix Queue so the agent specifically re-generates more detailed wireframes on the next iteration.
+
+**Open Items:**
+
+- Determine optimal weight redistribution for the 6-pillar model (proposed: 20/20/15/15/15/15)
+- Define "stub block" detection mechanically (e.g., ASCII block contains only a name label with no sub-elements)
+
+### Decision
+
+Accepted. Proceed to update `g1-contract-generation.md`, `gsafe-uiux-ralph-loop-stage1.md`, and the scoring pillar documentation.
