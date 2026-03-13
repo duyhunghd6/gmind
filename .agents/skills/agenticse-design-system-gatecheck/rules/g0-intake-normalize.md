@@ -47,7 +47,14 @@ If any **required** field is missing, generate a `PRD_GAP_LIST`:
 ```
 
 **Stage 1: The PRD / Low-Fi Ralph Loop**
-If `PRD_GAP_LIST` is generated, before proceeding further, dispatch a PRD Writer Agent to iteratively resolve the gap list and amend the PRD. The loop runs (Evaluator flags missing info -> Writer amends PRD) until the Evaluator yields a completely empty `PRD_GAP_LIST`. No silent assumptions or LLM inventions are allowed; data must be resolved in the PRD artifact first.
+If `PRD_GAP_LIST` is generated, before proceeding to Step 1, the agent **MUST** independently resolve the gaps. 
+- You act as the **PRD Writer Agent**.
+- Draft reasonable, logical defaults for the missing information (e.g., standard state matrices, explicit WCAG AA targets, responsive breakpoints, testable acceptance criteria).
+- Synthesize these additions directly into the original PRD markdown file (`docs/PRDs/...`).
+- Add the `<!-- beads-id: br-... -->` tags for the new sections if required (see `.agents/workflows/arch-review-docs-add-beads.md`).
+- Run this Evaluator → Writer loop until the `PRD_GAP_LIST` is completely empty.
+
+> ⚠️ **AGENT DIRECTIVE:** Do NOT halt and ask the human to manually type out state matrices or standard acceptance criteria. You are an Agentic SE system; you propose the structure, the human approves the contract at Gate A.
 
 ## Output
 
@@ -58,8 +65,9 @@ If `PRD_GAP_LIST` is generated, before proceeding further, dispatch a PRD Writer
 
 ## Switching Rules
 
-- **If PRD has critical gaps** → Trigger **Stage 1: The PRD / Low-Fi Ralph Loop**. Do not proceed to Step 1 until the loop successfully empties the gap list. If the PRD is irresolute / requires human logic: halt pipeline at `NEEDS_PRD_CLARIFICATION`.
-- **If PRD is complete** → Proceed to Step 1: Contract Generation.
+- **If PRD has gaps** → Trigger **Stage 1: The PRD / Low-Fi Ralph Loop** internally. You must auto-amend the PRD with generated content (states, criteria, breakpoints) and re-evaluate Step 0 until the gap list is empty. Do NOT proceed to Step 1.
+- **If PRD is irresolute on core business logic** (e.g., missing API endpoints, missing pricing tiers) → Only then halt pipeline at `NEEDS_PRD_CLARIFICATION`. Do not halt for UI/UX structural omissions.
+- **If PRD is structurally complete** → Proceed to Step 1: Contract Generation.
 
 ## Next Step
 

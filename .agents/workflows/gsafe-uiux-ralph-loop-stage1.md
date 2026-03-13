@@ -126,9 +126,11 @@ Mode: EXECUTION
 
 3. **If gaps found** → Enter PRD Completeness Sub-Loop:
    - Generate `docs/PRDs/feature-x.gap-list.md`
-   - Iteratively resolve gaps by amending the PRD (NO LLM inventions)
-   - Loop until `PRD_GAP_LIST` is empty
-   - If a gap requires human logic → `notify_user` with `BlockedOnUser: true`
+   - **Agent Directive:** Do NOT halt the pipeline. You must act as the **PRD Writer Agent**.
+   - Proactively draft reasonable, logical defaults for the missing information (standard state matrices, explicit WCAG AA targets, responsive breakpoints, testable acceptance criteria).
+   - Write these additions directly into the original PRD markdown file (`docs/PRDs/feature-x.md`).
+   - Re-evaluate Step 0 until the `PRD_GAP_LIST` is empty.
+   - *Only halt if core business logic (e.g., pricing, APIs) is missing.*
 
 4. **If complete** → Emit `docs/PRDs/feature-x.normalized.json`
 
