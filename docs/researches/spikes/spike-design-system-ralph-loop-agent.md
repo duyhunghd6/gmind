@@ -659,7 +659,9 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 
 ## 2) Artifact Standardization
 
-## 2.1 Proposed Directory Structure
+## 2.1 Proposed Directory Structure (GAP-46 — Subdirectory Convention)
+
+Detailed ASCII wireframes and user flows produce large files (500+ lines per feature). To keep files manageable (<400 lines per file), artifacts are organized into **subdirectories per feature** with individual files per screen/state/viewport.
 
 ```text
 /docs
@@ -667,11 +669,29 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
     feature-x.md
   /design
     /contracts
-      feature-x.contract.yaml
-      feature-x.layout-rules.json
-      feature-x.flow.mmd
-      feature-x.ascii.md
-      feature-x.component-map.json
+      /feature-x/                            ← Feature contract directory
+        README.md                            ← Index: links all artifacts, describes structure
+        contract.yaml                        ← Contract YAML
+        component-map.json                   ← ASCII block → data-ds-id mapping
+        flow.mmd                             ← Mermaid state/navigation diagram
+        storyboards.json                     ← JSON storyboard trajectories
+        layout-rules.json                    ← Compiled layout rules
+        prd-ds-conflicts.md                  ← PRD ↔ DS conflict report
+        /wireframes/                         ← ASCII wireframe diagrams (split by screen×state×viewport)
+          {screen}--{state}--{viewport}.ascii.md
+          dashboard--default--desktop.ascii.md
+          dashboard--default--tablet.ascii.md
+          dashboard--default--mobile.ascii.md
+          dashboard--loading--desktop.ascii.md
+          dashboard--error--desktop.ascii.md
+          dashboard--empty--desktop.ascii.md
+          side-panel--node-detail--desktop.ascii.md
+          drawer--section-drilldown--desktop.ascii.md
+        /user-flows/                         ← ASCII user flow diagrams (split by journey)
+          {journey-name}.ascii.md
+          j1-coverage-drilldown.ascii.md
+          j2-gap-to-task-creation.ascii.md
+          j3-rte-approval-review.ascii.md
     /test-plans
       feature-x.plan.md
       feature-x.assertion-checklist.md
@@ -704,6 +724,19 @@ PRD -> Contract Generator -> UI Contract (YAML/JSON + ASCII + Mermaid)
 /.github/workflows
   uiux-gate.yml
 ```
+
+### Naming Convention Rules
+
+| Segment | Format | Examples |
+|---------|--------|----------|
+| **Feature dir** | `{prd-id}-{increment}` or `{feature-name}` (kebab-case) | `prd04-inc1`, `trade-dashboard` |
+| **Wireframe file** | `{screen}--{state}--{viewport}.ascii.md` | `dashboard--default--desktop.ascii.md` |
+| **User flow file** | `j{N}-{journey-name}.ascii.md` | `j1-coverage-drilldown.ascii.md` |
+| **Separator** | Double dash `--` between segments | Avoids collision with kebab-case names |
+| **Viewport** | `desktop`, `tablet`, `mobile` | Matches contract viewports |
+| **State** | `default`, `loading`, `error`, `empty`, or custom | Matches state_transitions in contract |
+
+> **Agent discretion:** The agent may group multiple viewports for a simple state into one file (e.g., `dashboard--loading--all.ascii.md`) IF the total is under 200 lines. The agent may also add overlay/panel wireframes as separate files (e.g., `side-panel--node-detail--desktop.ascii.md`).
 
 ## 2.2 Mandatory Component Identifiers
 

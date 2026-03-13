@@ -259,16 +259,23 @@ Before emitting the contract, run a conflict scan:
 
 **Gate A MUST surface this list.** Human decides resolution before Implementor starts. No silent resolutions allowed.
 
-## Output
+## Output (GAP-46 — Subdirectory Convention)
 
-| Artifact         | Path                                                    |
-| ---------------- | ------------------------------------------------------- |
-| Contract YAML    | `docs/design/contracts/feature-x.contract.yaml`         |
-| ASCII diagrams   | `docs/design/contracts/feature-x.ascii.md`              |
-| Flow diagram     | `docs/design/contracts/feature-x.flow.mmd`              |
-| JSON Storyboard  | `docs/design/contracts/feature-x.storyboards.json`      |
-| Component map    | `docs/design/contracts/feature-x.component-map.json`    |
-| Conflict report  | `docs/design/contracts/feature-x.prd-ds-conflicts.md`   |
+Detailed ASCII wireframes and user flows are split into individual files under a **feature contract directory** to keep each file under 400 lines.
+
+| Artifact | Path |
+| --- | --- |
+| **Feature directory** | `docs/design/contracts/{feature-x}/` |
+| README (index) | `docs/design/contracts/{feature-x}/README.md` |
+| Contract YAML | `docs/design/contracts/{feature-x}/contract.yaml` |
+| ASCII wireframes | `docs/design/contracts/{feature-x}/wireframes/{screen}--{state}--{viewport}.ascii.md` |
+| ASCII user flows | `docs/design/contracts/{feature-x}/user-flows/j{N}-{journey-name}.ascii.md` |
+| Flow diagram | `docs/design/contracts/{feature-x}/flow.mmd` |
+| JSON Storyboard | `docs/design/contracts/{feature-x}/storyboards.json` |
+| Component map | `docs/design/contracts/{feature-x}/component-map.json` |
+| Conflict report | `docs/design/contracts/{feature-x}/prd-ds-conflicts.md` |
+
+> **Naming Convention:** Screen, state, and viewport segments use double-dash `--` separator. Journey files prefixed with `j{N}-`. See spike doc §2.1 for full naming rules.
 
 ### Contract Quality Score Template (GAP-19)
 

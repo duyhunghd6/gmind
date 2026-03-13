@@ -181,18 +181,22 @@ Mode: EXECUTION
 
 10. **Ambiguity Detection** — Flag `AMBIGUOUS_RULE` for unmapped ASCII blocks
 
-**Outputs:**
+**Outputs (GAP-46 — Subdirectory Convention):**
+
+All contract artifacts are organized under `docs/design/contracts/{feature-x}/`. ASCII wireframes and user flows are split into individual files to keep each under 400 lines.
 
 | Artifact | Path |
 |----------|------|
-| Contract YAML | `docs/design/contracts/feature-x.contract.yaml` |
-| ASCII Wireframes | `docs/design/contracts/feature-x.ascii.md` |
-| ASCII User Flows | `docs/design/contracts/feature-x.user-flows.ascii.md` |
-| Flow Diagram | `docs/design/contracts/feature-x.flow.mmd` |
-| JSON Storyboards | `docs/design/contracts/feature-x.storyboards.json` |
-| Component Map | `docs/design/contracts/feature-x.component-map.json` |
-| Conflict Report | `docs/design/contracts/feature-x.prd-ds-conflicts.md` |
-| Layout Rules | `docs/design/contracts/feature-x.layout-rules.json` |
+| Feature directory | `docs/design/contracts/{feature-x}/` |
+| README (index) | `docs/design/contracts/{feature-x}/README.md` |
+| Contract YAML | `docs/design/contracts/{feature-x}/contract.yaml` |
+| ASCII Wireframes | `docs/design/contracts/{feature-x}/wireframes/{screen}--{state}--{viewport}.ascii.md` |
+| ASCII User Flows | `docs/design/contracts/{feature-x}/user-flows/j{N}-{journey-name}.ascii.md` |
+| Flow Diagram | `docs/design/contracts/{feature-x}/flow.mmd` |
+| JSON Storyboards | `docs/design/contracts/{feature-x}/storyboards.json` |
+| Component Map | `docs/design/contracts/{feature-x}/component-map.json` |
+| Conflict Report | `docs/design/contracts/{feature-x}/prd-ds-conflicts.md` |
+| Layout Rules | `docs/design/contracts/{feature-x}/layout-rules.json` |
 | Assertion Checklist | `docs/design/test-plans/feature-x.assertion-checklist.md` |
 
 **Exit condition:** All artifacts generated. Proceed to TASK 1B.
