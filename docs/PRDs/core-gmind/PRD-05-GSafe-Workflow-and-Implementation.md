@@ -17,6 +17,15 @@ sections:
 
 <!-- beads-id: br-prd05 -->
 
+> **3-LAYER PYRAMID CONTEXT — Layer 2 (Branch / Orchestration)**
+> - **Vị trí:** Layer 2 — Workflow orchestration ("When & Who") cho toàn bộ GSAFe process
+> - **Layer 1 (Map):** [PRD-00: Vision & Architecture](./PRD-00-Vision-and-Architecture.md) — Kiến trúc tổng thể, role mapping (2H + 18A)
+> - **Layer 2 (Peers):** [PRD-03: CLI & Agent](./PRD-03-CLI-and-Agent-Execution.md) — CLI commands sử dụng trong workflow | [PRD-02: Tracking](./PRD-02-Universal-Tracking-and-RTM.md) — Beads ID & RTM truy vết
+> - **Layer 3 (Impl):** [PRD-01: Storage](./PRD-01-Storage-and-Graph-Engine.md) — Step 6b data layer | [PRD-04: Web UI](./PRD-04-WebUI-and-PM-Workspace.md) — Step 6a UI/UX impl
+> - **UI/UX Methodology:** Step 6a sử dụng [Ralph Loop](../../researches/spikes/spike-design-system-ralph-loop-agent.md) — Contract-driven UI pipeline
+>
+> **>> AGENT DIRECTIVE:** Đây là workflow orchestration doc. Nếu cần EXECUTE specific step → branch down: PRD-01 (Storage), PRD-04 (UI). Nếu cần tool specs → PRD-03. Nếu cần big picture → PRD-00.
+
 _Tài liệu này mang tính lưỡng dụng: Vừa là Hướng dẫn từng bước (Step-by-step Guide) cho người dùng/Agents, vừa là Đặc tả Yêu cầu (PRD) định hướng cho việc phát triển các tính năng hỗ trợ quy trình GSAFe 6.0 trên nền tảng Gmind._
 
 ---

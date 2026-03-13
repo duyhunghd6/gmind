@@ -26,6 +26,13 @@ sections:
 
 <!-- beads-id: br-prd02 -->
 
+> **3-LAYER PYRAMID CONTEXT — Layer 2 (Branch / Orchestration)**
+> - **Vị trí:** Layer 2 — Orchestration logic cho Tracking & Traceability
+> - **Layer 1 (Map):** [PRD-00: Vision & Architecture](./PRD-00-Vision-and-Architecture.md) — Kiến trúc tổng thể & role mapping
+> - **Layer 3 (Implementation):** [PRD-01: Storage](./PRD-01-Storage-and-Graph-Engine.md) — FrankenSQLite schema & Zvec indexing | [PRD-04: Web UI](./PRD-04-WebUI-and-PM-Workspace.md) — RTM Dashboard & Coverage Heatmap UI
+>
+> **>> AGENT DIRECTIVE:** Đây là tài liệu orchestration (Layer 2) cho hệ thống tracking. Nếu IMPLEMENTING storage mechanics → go to PRD-01. Nếu IMPLEMENTING UI views cho tracking → go to PRD-04. Nếu cần architecture overview → go up to PRD-00.
+
 ## 1. Universal Tracking Strategy (Chiến lược Định danh Duy nhất)
 
 <!-- beads-id: br-prd02-s1 -->

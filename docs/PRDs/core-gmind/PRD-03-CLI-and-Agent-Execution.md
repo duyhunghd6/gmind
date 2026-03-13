@@ -20,6 +20,14 @@ sections:
 
 <!-- beads-id: br-prd03 -->
 
+> **3-LAYER PYRAMID CONTEXT — Layer 2 (Branch / Orchestration)**
+> - **Vị trí:** Layer 2 — CLI & Agent execution orchestration
+> - **Layer 1 (Map):** [PRD-00: Vision & Architecture](./PRD-00-Vision-and-Architecture.md) — Kiến trúc tổng thể, role mapping, escalation ladder
+> - **Layer 2 (Peers):** [PRD-02: Tracking](./PRD-02-Universal-Tracking-and-RTM.md) — Beads ID & RTM logic | [PRD-05: GSAFe](./PRD-05-GSafe-Workflow-and-Implementation.md) — Workflow process sử dụng CLI
+> - **Layer 3 (Data):** [PRD-01: Storage](./PRD-01-Storage-and-Graph-Engine.md) — Data model mà CLI queries | [PRD-04: Web UI](./PRD-04-WebUI-and-PM-Workspace.md) — UI consumer của `gmind serve` API
+>
+> **>> AGENT DIRECTIVE:** Đây là primary spec nếu bạn IMPLEMENTING gmind CLI binary. Nếu cần data model details → go to PRD-01. Nếu IMPLEMENTING UI → go to PRD-04. Nếu cần architecture overview → go up to PRD-00.
+
 ## 1. Công cụ gmind CLI (The Context API Gateway)
 
 <!-- beads-id: br-prd03-s1 -->

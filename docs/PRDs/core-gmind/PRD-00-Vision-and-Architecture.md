@@ -2,6 +2,9 @@
 beads-id: br-prd00
 title: "PRD 00: Tầm nhìn & Kiến trúc Tổng thể (Vision & Architecture)"
 sections:
+  - anchor: "0-prd-ecosystem-navigation"
+    title: "PRD Ecosystem Navigation (3-Layer Agent Comprehension Pyramid)"
+    beads-id: br-prd00-s0
   - anchor: "1-boi-canh-van-de"
     title: "Bối cảnh & Vấn đề"
     beads-id: br-prd00-s1
@@ -19,6 +22,98 @@ sections:
 # PRD 00: Tầm nhìn & Kiến trúc Tổng thể (Vision & Architecture)
 
 <!-- beads-id: br-prd00 -->
+
+## 0. PRD Ecosystem Navigation (3-Layer Agent Comprehension Pyramid)
+
+<!-- beads-id: br-prd00-s0 -->
+
+> ✅ **Thêm mới (2026-03-13):** Áp dụng phương pháp 3-Layer Agent Comprehension Pyramid (từ [spike-design-system-ralph-loop-agent.md](../../researches/spikes/spike-design-system-ralph-loop-agent.md)) cho toàn bộ PRD ecosystem. Giảm thiểu token consumption và ngăn hallucination bằng cách hướng dẫn Agent đọc đúng tài liệu, đúng thời điểm.
+
+```text
+====================================================================
+           THE 3-LAYER PRD COMPREHENSION PYRAMID
+====================================================================
+
+          /\               [ LAYER 1: THE SKELETON ]
+         /  \              PRD-00 (THIS FILE): Vision & Architecture
+        /    \             Function: The Map. Global context only.
+       /      \            Agent reads this FIRST.
+      /────────\
+
+     /          \          [ LAYER 2: THE BRANCHES ]
+    /            \         PRD-02 (Tracking/RTM), PRD-03 (CLI/Agent),
+   /              \        PRD-05 (GSAFe Workflow)
+  /                \       Function: Orchestration & Logic.
+ /──────────────────\      Agent picks the branch for its role.
+
+/                    \     [ LAYER 3: THE DETAILS ]
+/                      \   PRD-01 (Storage Engine), PRD-04 (Web UI)
+/────────────────────────\  Function: Implementation specs.
+                            Read ONLY when executing.
+====================================================================
+```
+
+### Agent Navigation Map
+
+```text
+====================================================================
+                 CORE-GMIND PRD ECOSYSTEM
+====================================================================
+
+  [ LAYER 1: ROOT — "Why & What" ]
+  PRD-00: docs/PRDs/core-gmind/PRD-00-Vision-and-Architecture.md
+  - System architecture, role mapping, escalation ladder
+  - READ FIRST to understand the full landscape
+                               │
+          ┌────────────────────┼────────────────────┐
+          ▼                    ▼                    ▼
+  [ LAYER 2: BRANCHES — "When & Who" ]
+  PRD-02:                PRD-03:                PRD-05:
+  Tracking & RTM         CLI & Agent Execution  GSAFe Workflow
+  - Beads ID strategy    - gmind CLI commands   - Step-by-step process
+  - RTM 3-tier model     - Agent workflow       - Agent handoff rules
+  - Dependency links     - CI/CD verification   - CE→CI→Release flow
+          │                    │                    │
+          ▼                    ▼                    ▼
+  [ LAYER 3: DETAILS — "How" ]
+  PRD-01:                               PRD-04:
+  Storage & Graph Engine                Web UI & PM Workspace
+  - FrankenSQLite schema                - PM Custom Fields UI
+  - Zvec indexing pipeline              - SAFe Board Views
+  - Knowledge Graph query               - RTM Dashboard 4-panel
+  - Sync & GC strategies                - Approval Gates UI
+====================================================================
+```
+
+### Agent Directives — Role-Based Context Branching
+
+> **>> AGENT DIRECTIVE:** Đọc bảng dưới đây để xác định tài liệu cần đọc tiếp theo dựa trên vai trò hiện tại của bạn. **KHÔNG đọc tất cả PRDs** — chỉ đọc Layer phù hợp.
+
+| Vai trò hiện tại của Agent | Layer | PRD cần đọc | Mục đích |
+|---|---|---|---|
+| **Implementing Storage/Data** | 3 | [PRD-01](./PRD-01-Storage-and-Graph-Engine.md) | Schema, indexing, graph query |
+| **Implementing Web UI** | 3 | [PRD-04](./PRD-04-WebUI-and-PM-Workspace.md) | UI specs, state matrix, acceptance criteria |
+| **Orchestrating Agent Workflow** | 2 | [PRD-03](./PRD-03-CLI-and-Agent-Execution.md) + [PRD-05](./PRD-05-GSafe-Workflow-and-Implementation.md) | CLI commands, agent skills, GSAFe process |
+| **Designing Tracking/Traceability** | 2 | [PRD-02](./PRD-02-Universal-Tracking-and-RTM.md) | Beads IDs, RTM, dependency links |
+| **UI/UX Design System (Ralph Loop)** | 2→3 | [PRD-04](./PRD-04-WebUI-and-PM-Workspace.md) + [Spike Ralph Loop](../../researches/spikes/spike-design-system-ralph-loop-agent.md) | Contract-driven UI pipeline |
+| **Architecture Review / Planning** | 1 | THIS FILE (PRD-00) | Global context, role mapping |
+
+### Generative Flow — Tạo mới PRD sections
+
+Khi tạo hoặc mở rộng PRD, tuân thủ flow:
+
+1. **PRD-00 (Layer 1)** xác nhận section mới thuộc subsystem nào
+2. **Layer 2 PRD** (02/03/05) định nghĩa orchestration logic và traceability
+3. **Layer 3 PRD** (01/04) chứa implementation spec chi tiết
+4. Mọi section mới **PHẢI** có `<!-- beads-id -->` theo [workflow /arch-review-docs-add-beads](../../../.agents/workflows/arch-review-docs-add-beads.md)
+
+### QA Flow — Xác minh Implementation khớp PRD
+
+Khi verify implementation, kiểm tra ngược:
+
+1. **Layer 3 → Layer 2:** Implementation (code) có match orchestration spec không?
+2. **Layer 2 → Layer 1:** Orchestration logic có align với architecture vision không?
+3. **RTM Coverage:** Chạy `gmind coverage full` để check PRD → Plan → Task coverage
 
 ## 1. Bối cảnh & Vấn đề (Problem Statement)
 

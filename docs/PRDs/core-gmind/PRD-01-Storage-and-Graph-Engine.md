@@ -17,6 +17,14 @@ sections:
 
 <!-- beads-id: br-prd01 -->
 
+> **3-LAYER PYRAMID CONTEXT — Layer 3 (Detail / Implementation)**
+> - **Vị trí:** Layer 3 — Implementation spec cho Storage & Data subsystem
+> - **Layer 1 (Map):** [PRD-00: Vision & Architecture](./PRD-00-Vision-and-Architecture.md) — Đọc trước để hiểu kiến trúc tổng thể
+> - **Layer 2 (Orchestration):** [PRD-02: Tracking & RTM](./PRD-02-Universal-Tracking-and-RTM.md) — Beads ID strategy & traceability | [PRD-03: CLI](./PRD-03-CLI-and-Agent-Execution.md) — CLI commands gọi vào storage
+> - **Downstream:** [PRD-04: Web UI](./PRD-04-WebUI-and-PM-Workspace.md) consumes data từ storage layer qua Go REST API
+>
+> **>> AGENT DIRECTIVE:** Bạn đang ở Layer 3 (Detail). Nếu cần orchestration context → đọc PRD-02/PRD-03. Nếu cần architecture overview → đọc PRD-00. **KHÔNG** đọc PRD-04 trừ khi bạn cần hiểu UI consumer.
+
 ## 1. Lớp Lưu trữ (Storage Layer): Kiến trúc Hybrid SSOT
 
 <!-- beads-id: br-prd01-s1 -->
