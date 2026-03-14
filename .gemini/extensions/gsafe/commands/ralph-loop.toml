@@ -1,0 +1,30 @@
+description = "Start the SAFe 6.0 Agentic UI/UX Convergence Pipeline (Ralph Loop)"
+prompt = """
+Execute the Ralph Loop UI/UX Pipeline for: {{args}}
+
+Preconditions:
+1. Ensure a PRD markdown file exists at the path specified above.
+2. Ensure `design-system-gatecheck` and `agenticse-design-system` skills are available.
+
+Current spikes context:
+!{ls docs/researches/spikes/ 2>/dev/null || echo "No spikes directory found"}
+
+Methodology reference:
+@{docs/researches/spikes/spike-design-system-ralph-loop-agent.md}
+
+Workflow:
+1. **Stage 1: PRD -> Low-Fi Contract -> Gate A**
+   - Intake and normalize PRD.
+   - Generate Contract (ASCII wireframes, storyboards, layout rules).
+   - Evaluate Contract Quality (Score >= 90).
+   - Seek Human Gate A Approval.
+
+2. **Stage 2: Implementation <-> Evaluation -> Gate B**
+   - Declare Build Plan (W0).
+   - Build (W1-W2) and Audit (g3-g8).
+   - Iterate until Score >= 95 with zero P0 issues.
+   - Agile Refine (PRD journey coverage, handover doc).
+   - Seek Human Gate B Approval.
+
+Read the orchestration workflow at `.agents/workflows/gsafe-uiux-ralph-loop-antigravity.md` for detailed step-by-step guidance.
+"""
