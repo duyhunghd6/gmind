@@ -1,0 +1,19 @@
+# GSAFe 6.0 Continuous Exploration (Research)
+
+Execute the SAFe 6.0 Phase 1: Continuous Exploration workflow.
+
+**Topic / Context:** $ARGUMENTS
+
+## Steps
+
+1. Scan `docs/researches/spikes/` for existing context. Read all previous spikes.
+2. Identify current CE Activity:
+   - No artifacts? → Activity A: Hypothesize (Create Epic Hypothesis)
+   - Epic only? → Activity B: Collaborate & Research (Create Spikes)
+   - Research done? → Activity C: Architect (Draft Architecture.md)
+   - Arch done? → Activity D: Synthesize (Draft Vision/PRDs)
+3. Perform the identified Activity. If research is needed, use `bd create` for a spike and create a report in `docs/researches/spikes/spike-{topic}.md`.
+4. Synthesize results into PRDs and Vision docs.
+5. Present the CE Status and Definition of Done checklist to the user for approval.
+
+**DO NOT write implementation code during this phase.**
