@@ -1720,3 +1720,64 @@ Deduct 5 pts per unplanned human interruption. This distinguishes genuine agent 
 ### Decision
 
 Accepted. Proceed to update `g1-contract-generation.md`, `gsafe-uiux-ralph-loop-stage1.md`, and the scoring pillar documentation.
+
+### Session 3 (2026-03-13) — Root Cause Analysis: Agent Loop Automation Failures
+
+<!-- beads-id: bd-spike-ds-ralph-loop-agent-loop-auto -->
+
+**Hypothesis:** The Ralph Loop claims autonomous GENERATE→EVALUATE→CONVERGE loops and automated UI diff auditing. In practice, running the pipeline end-to-end on `prd04-inc1-rtm-dashboard` exposed 3 critical automation failures that forced the human into repeated manual intervention. By identifying and fixing these gaps, we can achieve genuine automation.
+
+**Evidence:** RTM Dashboard run produced 7 Stage 1 RFT rollouts (`rl-stage1-2026-03-13-005` through `011`). All scored 100/100. Human had to reject multiple times via `REJECT_FIX_CONTRACT` across separate conversation turns. After Gate A approval, HTML was generated but no UI diff was ever executed. The "Fixing Contract States" conversation (`36a1b4ce`) required multiple rejection cycles.
+
+**Findings — 3 Root Causes:**
+
+| GAP ID | Root Cause | Location | Impact |
+|--------|-----------|----------|--------|
+| GAP-50 | **Gate A rejection is not a loop.** The workflow says `notify_user` then waits, but when the human responds `REJECT_FIX_CONTRACT`, the agent treats it as a new request. There is no state machine protocol for parsing the human's gate response and auto-routing back into the correct loop branch (g0 for PRD fix, g1 for contract fix). Each rejection requires a fresh conversation context reload. | `gsafe-uiux-ralph-loop-stage1.md` §Gate A (L270–313) | Every rejection = 1 full conversation restart. 3 rejections = 3 wasted context loads. The "loop" is "human re-triggers workflow manually." |
+| GAP-51 | **No Browser Render Gate between BUILD and AUDIT.** The Stage 2 workflow instructs the agent to "read gatecheck rules" but never specifies triggering `browser_subagent` to open the generated HTML, render it, and capture a screenshot. Without a rendered page, Steps g5 (Visual Diff) and g6 (Flow Navigation) are physically impossible to execute — yet the agent proceeds to score them anyway. | `gsafe-uiux-ralph-loop-stage2.md` §Sub-Task 2B (L168–203) | The entire 100-pt DoD Scoring Engine in Stage 2 is theoretical. The human receives raw HTML with zero visual quality signal. |
+| GAP-52 | **Self-scoring inflation — agent grades its own homework.** The Stage 1 Contract Quality Scoring Engine has no external validation tool calls. The same LLM that generated the contract also evaluates it. All 7 rollouts scored 100/100 with `GATE_A_READY` status. Pillar deltas show single-step jumps like `component_traceability: "+20"` — proving instant self-awarded full marks. The spike §3 mandates "All scoring criteria must be mechanical assertions" but the workflow never enforces tool-based checks. | Stage 1 TASK 1B (EVALUATE), `rl-stage1-*.json` files | RFT training data is poisoned — all rollouts are false-positive `GATE_A_READY` at 100/100. The convergence loop never genuinely iterated. |
+
+**Key Insight:** The architecture on paper is sophisticated (100-pt scoring, adaptive convergence, regression guards), but the execution layer has zero tool-enforcement. The agent satisfies the workflow by **writing a JSON scorecard with perfect scores** rather than **running tools to mechanically verify** each pillar. This is structurally identical to GAP-43 (agents optimize for scored dimensions) but at a higher level: the agent optimizes for *producing a scorecard* rather than *running the checks*.
+
+**Recommendations:**
+
+1. **GAP-50 — Gate A Response Parser Protocol.** Add a mandatory "Gate A Response Routing" section to `gsafe-uiux-ralph-loop-stage1.md`:
+   - After `notify_user` returns, the agent MUST parse the human's response for keywords: `APPROVE`, `REJECT_FIX_CONTRACT`, `REJECT_FIX_PRD`
+   - On `REJECT_FIX_CONTRACT`: agent auto-routes to TASK 1A (GENERATE) **within the same conversation**, re-reading ONLY the specific artifact that needs fixing — NOT the full spike/workflow pyramid
+   - On `REJECT_FIX_PRD`: agent auto-routes to Step 0 (PRD gap sub-loop)
+   - On `APPROVE`: agent proceeds to Stage 2
+   - The agent MUST use `task_boundary` to re-enter task mode after parsing the response — this is the "state machine resume" mechanism
+
+2. **GAP-51 — Browser Render Gate (Mandatory Step between BUILD and AUDIT).** Add a new step to `gsafe-uiux-ralph-loop-stage2.md`:
+   - After Sub-Task 2A (BUILD) completes, BEFORE Sub-Task 2B (AUDIT) begins:
+   - Agent MUST call `browser_subagent` to open the generated HTML file
+   - Agent MUST capture a screenshot and save it to `docs/design/reports/{feature}-render-iter-{N}.webp`
+   - If no screenshot artifact exists when AUDIT begins, g5 (Visual Diff) scores `SKIPPED_NO_RENDER` (0 pts) and g6 (Flow Navigation) is skipped
+   - This is the "Arena Link" from GAP-51 of Session 1 — now concretely defined
+
+3. **GAP-52 — Tool-Verified Scoring (Replaces Self-Grading).** Update `g8-scoring-policy.md` and Stage 1 EVALUATE:
+   - Each pillar MUST have at least one mechanical tool call (`grep_search`, `view_file`, JSON schema parse, `browser_subagent` screenshot)
+   - The scorecard JSON gains a `tool_evidence[]` array — each entry: `{pillar, tool_name, tool_args, result_summary}`
+   - If `tool_evidence` is empty for any pillar, that pillar is **auto-capped at 50%** regardless of LLM assessment
+   - Stage 1 specific tool checks:
+     - **PRD Coverage:** `grep_search` for each PRD screen/state → verify matching wireframe file exists
+     - **Component Traceability:** `view_file` on `component-map.json` → cross-ref each entry against ASCII wireframe content
+     - **Layout Compilability:** JSON parse validation of `layout-rules.json` (catch syntax errors, missing fields)
+     - **Storyboard Completeness:** Count trajectories in `storyboards.json` vs user journeys listed in PRD
+   - Stage 2 specific tool checks:
+     - **Contract Conformance:** `grep_search` for each `data-ds-id` in HTML vs `contract.yaml` required list
+     - **Visual Diff:** `browser_subagent` screenshot comparison (requires Browser Render Gate from GAP-51)
+     - **A11y:** Run mechanical checks on the rendered HTML (axe-core or manual DOM inspection)
+
+**Open Items:**
+
+- Define the exact JSON schema for `tool_evidence[]` array in scorecard v1.2
+- Determine if `browser_subagent` screenshot comparison should be pixel-diff or LLM-visual-judge
+- Establish the "50% cap" penalty curve: should it be flat 50% or gradient based on how many tool calls were attempted?
+
+### Decision
+
+Accepted. Proceed to update:
+- `gsafe-uiux-ralph-loop-stage1.md` (Gate A Response Parser)
+- `gsafe-uiux-ralph-loop-stage2.md` (Browser Render Gate)
+- `g8-scoring-policy.md` (Tool-Verified Scoring + tool_evidence[])

@@ -139,6 +139,16 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 - Gateway xác thực quyền truy cập, kiểm soát rate-limit, và đảm bảo tính toàn vẹn dữ liệu.
 - **Không cho phép UI read/write trực tiếp vào FrankenSQLite/Zvec.**
 
+### 2.2. Offline & Rehydration State (Interactions & Transitions)
+
+- **Offline State:**
+  - **Transition:** Khi hệ thống phát hiện mất kết nối (thông qua ping hoặc failed request), UI ngay lập tức chuyển hiệu ứng fade-in một banner màu vàng "Offline Mode" ở trên cùng màn hình.
+  - **Interaction:** Chuyển sang chế độ read-only cho hầu hết các biểu đồ (dựa trên IndexedDB/cached data). Các thao tác ghi quan trọng (VD: Update status, Assign) không bị block hoàn toàn mà thay vào đó hiển thị biểu tượng "Pending/Clock" bên cạnh, và được lưu vào hàng đợi local (Local Queue). Nút Submit đổi thành "Save Offline".
+- **Rehydration State:**
+  - **Transition:** Khi có kết nối mạng trở lại (WebSocket reconnected hoặc successful health check), banner "Offline Mode" chuyển màu xanh và đổi text thành "Syncing...".
+  - **Interaction:** Hệ thống xử lý ngầm (background sync) để đẩy hàng đợi local lên Go REST API. Các icon "Pending/Clock" tại các thẻ task chuyển thành "spinner" và sau đó biến mất khi xác nhận server thành công.
+  - **Conflict Resolution:** Nếu có xung đột dữ liệu (VD: người khác đã sửa task trong lúc offline), UI hiển thị Modal "Sync Conflict" yêu cầu User chọn "Keep Mine" hoặc "Use Server Version".
+
 ## 3. Các Giao diện Quản trị (SAFe & Board Views)
 
 <!-- beads-id: br-prd04-s3 -->
@@ -148,6 +158,25 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 - **Team View:** Bảng Kanban riêng rẽ cho từng Feature Team (VD: `Platform`, `Connectors`, `Quant`).
 - **PI Planning Interactive UI:** Không gian tương tác cho lễ PI Planning. Bao gồm **Strategic Sandbox** (kéo thả rủi ro/bài toán để tính Capacity), **Business Value Scoring**, **ROAM Board** để xử lý rủi ro, và phím bấm **[Confidence Vote]** bắt buộc từ Human trước khi khởi chạy Sprint.
 
+### 3.1. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Hiển thị các bảng Kanban/Portfolio với dữ liệu đầy đủ. |
+| **Loading** | Hiển thị skeleton loaders cho các thẻ công việc và bảng điều khiển. |
+| **Empty** | Hiển thị "Chưa có dự án/task" kèm nút CTA để tạo mới. |
+| **Error** | Hiển thị thông báo "Không thể tải dữ liệu Board" kèm nút "Thử lại". |
+
+**Breakpoints (Responsive):**
+- **Desktop (≥ 1024px):** Hiển thị đầy đủ các cột Kanban ngang (Kanban Board) và PI Planning Sandbox.
+- **Tablet (768px - 1023px):** Thu hẹp các cột Kanban, cho phép trượt ngang (horizontal scroll).
+- **Mobile (< 768px):** Hiển thị dạng List view dọc thay vì Kanban ngang, các thẻ công việc xếp chồng lên nhau.
+
+### 3.2. User Journeys
+
+- **Journey 1 (Board Navigation):** User truy cập `/board` -> Chọn ART View -> Kéo thả (Drag & Drop) một task card từ 'Todo' sang 'In Progress' -> Cập nhật trạng thái thành công.
+- **Journey 2 (PI Planning Vote):** User mở thẻ PI Planning -> Xem danh sách rủi ro (ROAM) -> Click nút [Confidence Vote] -> Xác nhận lựa chọn -> Ghi nhận kết quả vote.
+
 ## 4. Cổng Phê duyệt Cấp 3 (Level 3 Approval Gates) & Không gian Phê duyệt
 
 <!-- beads-id: br-prd04-s4 -->
@@ -156,6 +185,24 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 1.  **Chuyển Phase (Phase Boundaries):** Từ Planning (Continuous Exploration) sang Execution (Continuous Integration), hoặc qua Release.
 2.  **The Ultimate Approval Panel:** Khi Agent đệ trình PR hoặc Task, Web UI gọp chung 5 luồng dữ liệu vào một màn hình duy nhất để Human xem xét: `Test Result (Từ Zvec QA Log)` + `Code Diff (FastCode/Git)` + `Beads ID (br-xxx)` + `PRD Requirements liên kết` + `GitHub PR & CI Status (từ gh CLI)`.
+
+### 4.1. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Hiển thị Panel phê duyệt với 5 luồng dữ liệu (Test, Code Diff, Beads ID, PRD, GitHub PR). |
+| **Loading** | Skeleton loaders trong quá trình aggregate dữ liệu từ nhiều nguồn. |
+| **Empty** | "Không có yêu cầu phê duyệt nào đang chờ". |
+| **Error** | "Lỗi kết nối đến dịch vụ CI/CD hoặc GitHub" với tùy chọn "Bỏ qua & Phê duyệt thủ công" (nếu có quyền Admin). |
+
+**Breakpoints (Responsive):**
+- **Desktop (≥ 1024px):** Split-view: Bên trái là luồng dữ liệu (Diff, Test logs), bên phải là PRD context và nút Phê duyệt.
+- **Tablet (768px - 1023px) & Mobile (< 768px):** Stack dọc: PRD context ở trên, tiếp đến là luồng dữ liệu, và nút Phê duyệt cố định ở bottom-bar.
+
+### 4.2. User Journeys
+
+- **Journey 1 (Review & Approve):** User mở The Ultimate Approval Panel -> Cuộn qua Code Diff và Test Results -> Kiểm tra PRD Coverage -> Click [Approve] -> Điền comment xác nhận -> Hệ thống tự động merge nhánh và close task.
+- **Journey 2 (Review & Reject):** User mở Panel -> Phát hiện Test Failed (màu đỏ) -> Click [Reject] -> Hệ thống yêu cầu điền lý do -> Push feedback về Task/PR tương ứng.
 
 ## 5. Đồ thị Tài liệu & Lịch sử HITL (Human-in-the-Loop Document Graph)
 
@@ -168,6 +215,20 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 - **Coverage Heatmap:** Dashboard hiển thị mức độ cover của từng PRD section: bao nhiêu PRD sections có Plan elements? Bao nhiêu Plan elements đã decompose thành Tasks? Highlight các gaps (sections chưa covered) bằng màu đỏ. Dữ liệu từ `gmind coverage full`.
 - **Impact Analysis View:** Khi Human sửa/cập nhật một PRD section, hiển thị cascading impact: Plan elements nào bị ảnh hưởng → Tasks nào cần review/pause/rework → Commits nào liên quan. Dữ liệu từ `gmind impact <prd-section-id>`.
 
+### 5.1. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Cây đồ thị render toàn bộ node và edge (PRD, Plan, Task, Commit) rõ ràng và tương tác được. |
+| **Loading** | Hiển thị skeleton và vòng xoay (spinner) ở trung tâm biểu đồ trong khi truy vấn dữ liệu từ git/CLI. |
+| **Empty** | "Chưa có liên kết tài liệu hoặc biểu đồ trống" kèm theo lời khuyên "Bắt đầu link PRD với Tasks". |
+| **Error** | "Lỗi truy xuất đồ thị từ gmind" với nút "Tải lại đồ thị". |
+
+**Breakpoints (Responsive):**
+- **Desktop (≥ 1024px):** Hiển thị Đồ thị ở vùng trung tâm lớn, Side Panel chứa chi tiết node ở bên phải, Panel điều hướng/tùy chọn (Zoom/Filter) ở góc màn hình.
+- **Tablet (768px - 1023px):** Side Panel hiển thị dưới dạng bottom sheet hoặc overlay nhẹ để tiết kiệm diện tích biểu đồ.
+- **Mobile (< 768px):** Không khuyến khích dùng đồ thị phức tạp. Thay thế bằng danh sách Tree-view thu gọn (collapsible list) hoặc đồ thị đơn giản hỗ trợ pinch-to-zoom và pan (vuốt, thu phóng).
+
 ## 6. RTM Dashboard — 4-Panel Requirements Visibility
 
 <!-- beads-id: br-prd04-s6 -->
@@ -175,6 +236,12 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 > ✅ **Nghiên cứu đã được chấp nhận (2026-03-02 → 2026-03-13):** Nội dung từ [spike-webui-rtm-dashboard.md](../../researches/spikes/spike-webui-rtm-dashboard.md) đã được merge vào PRD làm yêu cầu chính thức.
 
 ### 6.1. Dashboard Layout — 4 Panels
+
+**Route:** `/` (Dashboard chính)
+
+**Global Components:**
+- **Top Navigation:** Chứa Logo, các links điều hướng (Dashboard, Tasks, Reports), và User Avatar.
+- **KPI Cards Row:** Hiển thị list 3 thẻ chỉ số tổng quan đặt phía trên các panels (Coverage %, Tasks Done, Gaps Found).
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -221,7 +288,7 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 | ------------- | ------------------------------------------------------------------ |
 | Data source   | `gmind coverage --json`                                            |
 | Visualization | Horizontal bars, color-coded (green=90%+, yellow=60-89%, red=<60%) |
-| Interaction   | Click PRD → expand sections, click section → show linked tasks     |
+| Interaction   | Click PRD → expand sections (click lại để collapse), click section → show linked tasks ở side panel (side panel đóng bằng nút X hoặc click outside) |
 | Refresh       | Auto-refresh every 60s hoặc manual                                 |
 
 **Panel 2: Task Progress**
@@ -250,7 +317,7 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 | Data source   | `gmind gaps --json`                                    |
 | Visualization | List view with severity icons                          |
 | Gap types     | Missing plan, missing tasks, blocked tasks, no tests   |
-| Interaction   | Click gap → navigate to source, action button "Create" |
+| Interaction   | Click gap → navigate to source, action button "Create" (Mở modal "Create Plan") |
 
 ### 6.3. API Layer — REST Endpoints (`gmind serve`)
 
@@ -329,6 +396,31 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 └──────────────────────────────────────────────────────────────┘
 ```
 
+### 6.6. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Hiển thị đầy đủ 4 panels với data thực tế. |
+| **Loading** | Hiển thị skeleton loaders cho các panels. Graph hiển thị spinner. |
+| **Empty** | Khi không có dữ liệu, hiển thị illustration "Chưa có dữ liệu theo dõi" kèm nút "Hướng dẫn". |
+| **Error** | Hiển thị banner lỗi "Không thể kết nối đến gmind serve" kèm nút "Thử lại". |
+
+**Breakpoints (Responsive):**
+- **Desktop (≥ 1024px):** Layout hiển thị 2x2 grid (4 panels).
+- **Tablet (768px - 1023px):** Stack 2 grid dọc (2x1 hoăc 1x1 tuỳ kích thước).
+- **Mobile (< 768px):** Từng panel xếp dọc (1 cột), graph cho phép pan/zoom bằng touch.
+
+### 6.7. Khả năng Tiếp cận (Accessibility)
+- **Tiêu chuẩn:** Tuân thủ WCAG AA.
+- **Bắt buộc:** Hỗ trợ điều hướng bằng bàn phím (keyboard navigation) cho toàn bộ 4 panels.
+- **Focus:** Cần hiển thị rõ focus outline cho các yếu tố tương tác.
+
+### 6.8. User Journeys
+
+- **Journey 1 (Coverage Drilling):** Người dùng mở RTM Dashboard -> Xem Panel 1 (Coverage Heatmap) -> Nhấp vào PRD có coverage thấp (ví dụ: đỏ) -> Mở rộng để xem các section bên trong -> Nhấp vào một section -> Side panel hiện ra danh sách các task liên kết chưa hoàn thành.
+- **Journey 2 (Gap Resolution):** Người dùng xem Panel 4 (Gap Analysis) -> Phát hiện cảnh báo "Missing plan" -> Nhấp vào nút "Create" -> Modal "Create Plan" bật lên -> Điền thông tin plan và lưu -> Dashboard tự động tải lại và gap biến mất.
+- **Journey 3 (Impact Traceability):** Người dùng tương tác với Panel 3 (Knowledge Graph) -> Chọn một node PRD -> Xem chi tiết ở side panel -> Kéo thả các node liên kết để phân tích luồng ảnh hưởng (Impact) từ PRD sang Code và Test.
+
 ## 7. RTE Approval — UI Integration
 
 <!-- beads-id: br-prd04-s7 -->
@@ -345,6 +437,25 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
   - Constraints list
   - Approved by + timestamp (`rte_approved_by`, `rte_approved_at`)
 - **Impact Indicator:** Nếu RTE decision ảnh hưởng PRD scope → highlight PRD section liên quan trên Coverage Heatmap
+
+### 7.1. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Hiển thị Conversation thread và Execution Context block rõ ràng. |
+| **Loading** | Skeleton UI cho các tin nhắn trong thread. |
+| **Empty** | "Chưa có thảo luận RTE nào cho Task này." |
+| **Error** | "Không thể tải lịch sử thảo luận RTE." |
+
+**Breakpoints:**
+- **Desktop/Tablet:** Discussion Thread hiển thị dưới dạng Side Panel mở rộng từ bên phải (Right Drawer) khi click vào Task.
+- **Mobile:** Side Panel sẽ phủ toàn màn hình (Full-screen overlay) có nút "Close" ở góc trên.
+
+### 7.2. User Journeys
+
+- **Journey 1 (Review Escalated Risk):** PM/RTE nhận thông báo rủi ro qua hệ thống -> Truy cập Task board -> Thấy badge `RTE:ESCALATED` màu đỏ trên một thẻ -> Nhấp vào thẻ -> Right Drawer mở ra hiển thị "Discussion Thread View" giữa Agent và hệ thống -> RTE đọc bối cảnh.
+- **Journey 2 (Approve Escalation):** Sau khi đọc "Discussion Thread View" -> RTE nhập phương án giải quyết vào ô thảo luận -> Nhấn nút [Approve Resolution] -> Cột `rte_status` chuyển thành 'approved' -> "Execution Context block" xuất hiện với Decision text và thông tin người phê duyệt -> Heatmap coverage được highlight (nếu có ảnh hưởng).
+- **Journey 3 (Reject Escalation):** RTE đọc luồng thảo luận và thấy rủi ro không hợp lệ -> RTE nhập lý do từ chối -> Nhấn nút [Reject] -> Task được đẩy lại cho Agent kèm theo hướng dẫn xử lý tiếp theo.
 
 ## 8. Acceptance Criteria (Tiêu chí Nghiệm thu)
 
