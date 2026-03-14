@@ -47,6 +47,31 @@ Apply the strict 100-point weighted matrix. This score acts as the **Continuous 
 
 > **GAP-05 — Tool-Call Budget Calibration:** The default budget `<= 4 tool calls` is a starting hypothesis only. It MUST be recalibrated after every 10 real Ralph Loop runs by computing the P75 of observed tool-call distributions. Document the current empirical budget in `docs/eval-dataset/budget-calibration.md`. Until calibration data exists, use `<= 8` as the interim conservative budget.
 
+### 8.2a Tool-Verified Scoring Mandate (GAP-52)
+
+> **Problem solved:** Previously, the agent self-scored all pillars without running any tool calls, resulting in inflated 100/100 scorecards. This mandate ensures at least 1 tool-based mechanical check per pillar.
+
+**RULE: Each pillar MUST have at least one mechanical tool call producing evidence.** If the pillar's `tool_evidence` entry is empty, that pillar is **auto-capped at 50%** of its maximum score.
+
+| Pillar | Required Tool Check | Tool | What to Verify |
+|--------|-------------------|------|----------------|
+| **1** Contract Conformance | `grep_search` for each `data-ds-id` in HTML vs `contract.yaml` required list | `grep_search` | Count matches: found/expected |
+| **2** Visual & Token Fidelity | Compare Browser Render Gate screenshot against contract wireframes | `browser_subagent` | Screenshot exists, visual comparison done |
+| **3** Accessibility | DOM inspection for focus order, ARIA landmarks, contrast | `browser_subagent` DOM query | At minimum: heading hierarchy, landmark count |
+| **4** Flow & State Integrity | Navigate between states in rendered browser, verify transitions | `browser_subagent` | Set each `data-state`, verify content changes |
+| **5** Efficiency & Anti-Hacking | Count tool calls in trajectory, verify genuine creation | Conversation trace | Tool call count vs budget |
+
+**For Stage 1 (Contract Quality Scoring), the required tool checks are:**
+
+| Pillar | Required Tool Check | Tool |
+|--------|-------------------|------|
+| PRD Coverage | Verify each PRD screen/state has matching wireframe file | `find_by_name` in `wireframes/` |
+| Component Traceability | Cross-ref `component-map.json` entries against ASCII wireframe content | `view_file` + `grep_search` |
+| Storyboard Completeness | Count trajectories in `storyboards.json` vs PRD user journeys | `view_file` on both |
+| Layout Compilability | Validate `layout-rules.json` is valid JSON, required keys present | `view_file` + parse check |
+| Conflict Resolution | Verify `prd-ds-conflicts.md` exists and lists resolution status | `view_file` |
+| Wireframe Articulation | Count nesting levels, annotation markers in wireframes | `view_file` |
+
 > **GAP-08 — Self-Verification Bonus Rule (+5 pts):** Award full +5 bonus if the Implementor conversation trace contains all three signals: (1) a CSS/lint check command, (2) an explicit Playwright preview or screenshot before handoff, (3) a pre-submission log entry. Award +2 partial if only 2 of 3 are present. Award 0 if none.
 
 **Final score** = Σ (earned points per pillar) + self-verification bonus (max 5) / 105
@@ -95,13 +120,15 @@ Create a unified HTML report with:
 | Iter snapshot | `docs/design/reports/feature-x-scorecard-iter-{N}.json` |
 | PR comment  | Auto-generated summary for PR                    |
 
-**Scorecard JSON Schema (v1.1) for Agent Consumption:**
+**Scorecard JSON Schema (v1.2 — with `tool_evidence[]`):**
 
 > **GAP-06 — Rollout ID Rule:** Every scorecard emission MUST include a `rollout_id` UUID and `iteration` number. All tool calls during that iteration must be tagged with this ID. This enables full trajectory reconstruction for RFT dataset assembly.
 
+> **GAP-52 — Tool Evidence Rule:** Every scorecard emission MUST include a `tool_evidence[]` array. Each entry records a mechanical check the agent ran. Pillars with empty tool evidence are auto-capped at 50%.
+
 ```json
 {
-  "scorecard_schema_version": "1.1",
+  "scorecard_schema_version": "1.2",
   "rollout_id": "rl-2026-03-12-001",
   "iteration": 2,
   "total_score": 88,
@@ -130,6 +157,29 @@ Create a unified HTML report with:
     "budget_exceeded": false,
     "wall_clock_ms": 42000
   },
+  "tool_evidence": [
+    {
+      "pillar": "1_contract",
+      "tool": "grep_search",
+      "args": {"Query": "data-ds-id", "SearchPath": "index.html"},
+      "result": "found 14 matches, expected 12 from contract — 2 extra unlisted",
+      "score_impact": "full"
+    },
+    {
+      "pillar": "2_visual",
+      "tool": "browser_subagent",
+      "args": {"Task": "capture screenshot of default state"},
+      "result": "screenshot saved to reports/render-default-iter-2.webp",
+      "score_impact": "full"
+    },
+    {
+      "pillar": "3_a11y",
+      "tool": "browser_subagent",
+      "args": {"Task": "check heading hierarchy and ARIA landmarks"},
+      "result": "1 h1 found, 3 landmarks, missing nav landmark",
+      "score_impact": "partial — missing nav landmark = -5pts"
+    }
+  ],
   "p0_fixes": [
     "REGRESSION: [Crit 1.1] Critical component ds:comp:top-nav-001 now missing — was passing in iter-1."
   ],
