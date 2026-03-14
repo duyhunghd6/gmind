@@ -173,13 +173,15 @@ Mode: EXECUTION
 
 7. **Run PRD ↔ DS Conflict Detection** — Compare PRD style directives against `design-tokens.json`
 
+8. **Generate README.md (Index)** — Create `docs/design/contracts/{feature-x}/README.md` linking all artifacts in the feature directory with brief descriptions. This serves as the human-readable entry point for the contract.
+
 **Actions (g2 — Contract Compile):**
 
-8. **Compile to `layout-rules.json`** — position, visibility, overlap, responsive, state_transition rules
+9. **Compile to `layout-rules.json`** — position, visibility, overlap, responsive, state_transition rules
 
-9. **Generate Assertion Checklist** — Human-readable markdown checklist
+10. **Generate Assertion Checklist** — Human-readable markdown checklist
 
-10. **Ambiguity Detection** — Flag `AMBIGUOUS_RULE` for unmapped ASCII blocks
+11. **Ambiguity Detection** — Flag `AMBIGUOUS_RULE` for unmapped ASCII blocks
 
 **Outputs (GAP-46 — Subdirectory Convention):**
 
@@ -294,10 +296,12 @@ Mode: VERIFICATION
    ```
    BlockedOnUser: true
    PathsToReview: [
-     "docs/design/contracts/feature-x.contract.yaml",
-     "docs/design/contracts/feature-x.ascii.md",
-     "docs/design/contracts/feature-x.storyboards.json",
-     "docs/design/contracts/feature-x.layout-rules.json",
+     "docs/design/contracts/{feature-x}/README.md",
+     "docs/design/contracts/{feature-x}/contract.yaml",
+     "docs/design/contracts/{feature-x}/wireframes/",
+     "docs/design/contracts/{feature-x}/user-flows/",
+     "docs/design/contracts/{feature-x}/storyboards.json",
+     "docs/design/contracts/{feature-x}/layout-rules.json",
      "docs/design/test-plans/feature-x.plan.md",
      "docs/design/test-plans/feature-x.assertion-checklist.md"
    ]
@@ -311,6 +315,82 @@ Mode: VERIFICATION
 | 🔄 **REJECT_FIX_CONTRACT** | Wireframes/storyboards need changes | → **Return to TASK 1A (GENERATE).** Re-enter the scoring loop. |
 | 🔄 **REJECT_FIX_PRD** | PRD is incomplete or wrong | → **Return to Step 0.** Re-enter PRD Completeness Sub-Loop. |
 
+### Gate A Response Parser Protocol (GAP-50)
+
+> **Problem solved:** Previously, Gate A rejection forced the human to re-trigger the entire workflow in a new conversation. This protocol ensures the agent auto-routes after receiving the human's Gate response.
+
+**After `notify_user` returns from Gate A, the agent MUST:**
+
+1. **Parse the human's response** for one of three keywords:
+   - `APPROVE` (or any affirmative like "approved", "LGTM", "looks good")
+   - `REJECT_FIX_CONTRACT` (or "fix contract", "fix wireframe", "fix storyboard", "fix layout")
+   - `REJECT_FIX_PRD` (or "fix PRD", "PRD incomplete", "missing requirements")
+
+2. **Auto-route based on parsed keyword:**
+
+   ```text
+   Human response parsed → APPROVE
+     → call task_boundary(TaskName: "Ralph Loop — Stage 2: Hi-Fi Implementation", Mode: EXECUTION)
+     → Proceed to gsafe-uiux-ralph-loop-stage2.md
+
+   Human response parsed → REJECT_FIX_CONTRACT
+     → call task_boundary(TaskName: "Stage 1 — GENERATE: Contract & Layout Rules", Mode: EXECUTION)
+     → Re-read ONLY the specific contract artifacts that the human flagged
+     → Do NOT re-read the spike document or the full workflow pyramid
+     → Re-run PRD ↔ DS Conflict Detection (g1 Step 7) — rejection may expose new conflicts
+     → Re-enter TASK 1A (GENERATE) → TASK 1B (EVALUATE) → Convergence → Gate A
+
+   Human response parsed → REJECT_FIX_PRD
+     → call task_boundary(TaskName: "Stage 1 — PRD Intake & Normalization", Mode: EXECUTION)
+     → Re-enter Step 0 (PRD Completeness Sub-Loop)
+     → Then flow through TASK 1A → TASK 1B → Convergence → Gate A
+   ```
+
+3. **Context preservation:** The agent MUST extract the human's specific feedback (e.g., "add missing side panel transitions") and pass it as the fix instruction — do NOT regenerate from scratch.
+
+4. **Anti-pattern: DO NOT** re-read `spike-design-system-ralph-loop-agent.md` on rejection loops. The agent already has Layer 1 context from the initial run. Re-reading wastes tokens and resets context.
+
+### Tool-Verified Scoring Mandate (GAP-52) — Stage 1 EVALUATE
+
+> **Problem solved:** Previously, the agent self-scored all pillars without running any tool calls, resulting in inflated 100/100 scores. This mandate ensures at least 1 tool-based mechanical check per pillar.
+
+**TASK 1B (EVALUATE) MUST run these tool checks before scoring:**
+
+| Pillar | Required Tool Check | Tool | Cap if Skipped |
+|--------|-------------------|------|----------------|
+| PRD Coverage | Verify each PRD screen/state has a matching wireframe file | `find_by_name` in `wireframes/` dir | 50% (10 pts max) |
+| Component Traceability | `view_file` on `component-map.json`, cross-ref each `data-ds-id` against ASCII content | `view_file` + `grep_search` | 50% (10 pts max) |
+| Storyboard Completeness | Count trajectories in `storyboards.json` vs user journeys in PRD | `view_file` on both files | 50% (7.5 pts max) |
+| Layout Compilability | Validate `layout-rules.json` is valid JSON and contains required keys | `view_file` + parse check | 50% (7.5 pts max) |
+| Conflict Resolution | Verify `prd-ds-conflicts.md` exists and lists resolution status | `view_file` | 50% (7.5 pts max) |
+| Wireframe Articulation | `view_file` on wireframes, count nesting levels and annotation markers | `view_file` | 50% (7.5 pts max) |
+
+**Scorecard v1.2 addition — `tool_evidence[]`:**
+
+```json
+{
+  "scorecard_schema_version": "1.2",
+  "tool_evidence": [
+    {
+      "pillar": "prd_coverage",
+      "tool": "find_by_name",
+      "args": {"SearchDirectory": "wireframes/", "Pattern": "*.ascii.md"},
+      "result": "found 6 files, expected 6 from PRD",
+      "score_impact": "full"
+    },
+    {
+      "pillar": "component_traceability",
+      "tool": "grep_search",
+      "args": {"Query": "data-ds-id", "SearchPath": "wireframes/"},
+      "result": "12/12 component IDs found",
+      "score_impact": "full"
+    }
+  ]
+}
+```
+
+> **Rule:** If `tool_evidence` is empty for any pillar, that pillar score is **auto-capped at 50%** of its weight. The agent CANNOT override this cap by providing a reasoning justification alone.
+
 ---
 
 ## Post-Approval: Stage 1 Complete
@@ -319,12 +399,16 @@ When Gate A returns **APPROVE**, Stage 1 is complete. The following artifacts ar
 
 ```text
 Emitted Artifacts (Immutable Input for Ralph Loop 2):
-├── docs/design/contracts/feature-x.contract.yaml
-├── docs/design/contracts/feature-x.ascii.md
-├── docs/design/contracts/feature-x.flow.mmd
-├── docs/design/contracts/feature-x.storyboards.json
-├── docs/design/contracts/feature-x.component-map.json
-├── docs/design/contracts/feature-x.layout-rules.json
+├── docs/design/contracts/{feature-x}/
+│   ├── README.md
+│   ├── contract.yaml
+│   ├── wireframes/{screen}--{state}--{viewport}.ascii.md
+│   ├── user-flows/j{N}-{journey-name}.ascii.md
+│   ├── flow.mmd
+│   ├── storyboards.json
+│   ├── component-map.json
+│   ├── prd-ds-conflicts.md
+│   └── layout-rules.json
 ├── docs/design/test-plans/feature-x.plan.md
 ├── docs/design/test-plans/feature-x.assertion-checklist.md
 └── docs/design/test-plans/feature-x.coverage-matrix.csv

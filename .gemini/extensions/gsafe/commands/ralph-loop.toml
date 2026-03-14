@@ -1,30 +1,137 @@
-description = "Start the SAFe 6.0 Agentic UI/UX Convergence Pipeline (Ralph Loop)"
+description = "Run the Ralph Loop UI/UX Convergence Pipeline — orchestrates SubAgent spawn loops for Stage 1 and Stage 2"
 prompt = """
-Execute the Ralph Loop UI/UX Pipeline for: {{args}}
+# Ralph Loop Master Orchestration Protocol
 
-Preconditions:
-1. Ensure a PRD markdown file exists at the path specified above.
-2. Ensure `design-system-gatecheck` and `agenticse-design-system` skills are available.
+You are the Master Orchestrator for the Ralph Loop UI/UX pipeline.
+Your job is to SPAWN SubAgents in a loop until convergence, then present results to the human at gates.
 
-Current spikes context:
-!{ls docs/researches/spikes/ 2>/dev/null || echo "No spikes directory found"}
+**Target PRD:** {{args}}
 
-Methodology reference:
-@{docs/researches/spikes/spike-design-system-ralph-loop-agent.md}
+## Preconditions Check
 
-Workflow:
-1. **Stage 1: PRD -> Low-Fi Contract -> Gate A**
-   - Intake and normalize PRD.
-   - Generate Contract (ASCII wireframes, storyboards, layout rules).
-   - Evaluate Contract Quality (Score >= 90).
-   - Seek Human Gate A Approval.
+Before starting, verify:
+1. The PRD file exists at the path above
+2. The `design-system-gatecheck` skill is available
+3. The `agenticse-design-system` skill is available
 
-2. **Stage 2: Implementation <-> Evaluation -> Gate B**
-   - Declare Build Plan (W0).
-   - Build (W1-W2) and Audit (g3-g8).
-   - Iterate until Score >= 95 with zero P0 issues.
-   - Agile Refine (PRD journey coverage, handover doc).
-   - Seek Human Gate B Approval.
+Extract the `feature_name` from the PRD filename (e.g., `PRD-04-WebUI.md` → `webui`).
 
-Read the orchestration workflow at `.agents/workflows/gsafe-uiux-ralph-loop-antigravity.md` for detailed step-by-step guidance.
+---
+
+## STAGE 1: Contract Generation Ralph Loop
+
+Execute this convergence loop:
+
+```
+iter = 1
+max_retries = 4
+prev_score = 0
+prev_scorecard = null
+
+WHILE iter <= max_retries:
+  1. SPAWN ralph_stage1_evaluator with this prompt:
+     "Run Stage 1 iteration {iter} for:
+      prd_path: {prd_path}
+      feature_name: {feature_name}
+      iteration: {iter}
+      previous_scorecard: {prev_scorecard as JSON or 'null'}
+      fix_queue: {fix_queue from prev_scorecard or '[]'}"
+
+  2. READ the SubAgent's returned JSON scorecard
+
+  3. CONVERGENCE DECISION:
+     - IF score >= 90 AND convergence_status == "GATE_A_READY":
+       → BREAK, proceed to Gate A
+     - IF score < prev_score (REGRESSION):
+       → BREAK, proceed to Gate A with REGRESSION warning
+     - IF (score - prev_score) < 5 AND iter >= 2 (PLATEAU):
+       → BREAK, proceed to Gate A with STALL warning
+     - ELSE:
+       → prev_score = score, prev_scorecard = scorecard, iter += 1, CONTINUE loop
+
+  4. LOG: "Stage 1 iteration {iter}: score={score} (delta=+{score-prev_score})"
+```
+
+### 🚧 GATE A: Human UX Concept Approval
+
+Present the contract artifacts to the human for review. List ALL files under:
+- `docs/design/contracts/{feature_name}/`
+- `docs/design/test-plans/{feature_name}.*`
+
+Include the latest scorecard summary (total score, pillar breakdown, any warnings).
+
+Ask the human: "APPROVE, REJECT_FIX_CONTRACT, or REJECT_FIX_PRD?"
+
+**Decision routing:**
+- **APPROVE** → Proceed to Stage 2
+- **REJECT_FIX_CONTRACT** → Reset iter=1, extract human's specific feedback, re-enter Stage 1 loop
+- **REJECT_FIX_PRD** → SPAWN prd_writer_agent to fix the PRD, then re-enter Stage 1 loop from iter=1
+
+---
+
+## STAGE 2: Implementation Ralph Loop
+
+Execute this convergence loop:
+
+```
+iter = 1
+max_retries = 6
+prev_score = 0
+prev_scorecard = null
+
+WHILE iter <= max_retries:
+  1. SPAWN ralph_stage2_builder with this prompt:
+     "Run Stage 2 iteration {iter} for:
+      feature_name: {feature_name}
+      contract_path: docs/design/contracts/{feature_name}/
+      iteration: {iter}
+      previous_scorecard: {prev_scorecard as JSON or 'null'}
+      fix_queue: {fix_queue from prev_scorecard or '[]'}"
+
+  2. READ the SubAgent's returned JSON scorecard
+
+  3. CONVERGENCE DECISION:
+     - IF score >= 95 AND p0_count == 0 AND convergence_status == "GATE_B_READY":
+       → BREAK, proceed to Gate B
+     - IF score < prev_score (REGRESSION):
+       → LOG "REGRESSION_DETECTED: restoring snapshot-iter-{iter-1}"
+       → Set fix_queue to only the regression delta, CONTINUE loop
+     - IF (score - prev_score) < 5 AND iter >= 2 (PLATEAU):
+       → BREAK, proceed to Gate B with STALL warning
+     - ELSE:
+       → prev_score = score, prev_scorecard = scorecard, iter += 1, CONTINUE loop
+
+  4. LOG: "Stage 2 iteration {iter}: score={score}, P0={p0_count} (delta=+{score-prev_score})"
+```
+
+### 🚧 GATE B: Final Human Approval
+
+Present to the human:
+- Latest scorecard (total score, pillar breakdown, P0/P1/P2 counts)
+- Convergence history (score progression across iterations)
+- Files under `docs/design/screens/{feature_name}/`
+- Any STALL or REGRESSION warnings
+
+Ask the human for a structured scorecard:
+| Criteria | Scale (1-5) | Minimum |
+|----------|-------------|---------|
+| Visual brand fit | 1-5 | ≥ 3 |
+| Copy clarity | 1-5 | ≥ 3 |
+| Interaction intuitiveness | 1-5 | ≥ 3.5 |
+| Safety / edge cases | 1-5 | ≥ 4 |
+| Production readiness | 1-5 | ≥ 3.5 |
+
+**Decision routing:**
+- **APPROVE** → Pipeline complete! Log approval to `docs/design/reports/{feature_name}-approval-log.md`
+- **REQUEST_FIX** → Extract human's feedback, add to fix_queue, re-enter Stage 2 loop
+
+---
+
+## Summary Logging
+
+After pipeline completion, write a summary to `docs/design/reports/{feature_name}-pipeline-summary.md`:
+- Total Stage 1 iterations and final score
+- Total Stage 2 iterations and final score
+- Gate A and Gate B decisions
+- Total wall-clock time estimate
 """

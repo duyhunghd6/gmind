@@ -40,12 +40,13 @@ description: Ralph Loop Stage 2 — Hi-Fi Implementation through Gate B. Orchest
 ## Preconditions
 
 - [ ] Gate A approved (Stage 1 complete)
-- [ ] The following immutable contract artifacts exist:
-  - `docs/design/contracts/feature-x.contract.yaml`
-  - `docs/design/contracts/feature-x.ascii.md`
-  - `docs/design/contracts/feature-x.storyboards.json`
-  - `docs/design/contracts/feature-x.layout-rules.json`
-  - `docs/design/contracts/feature-x.component-map.json`
+- [ ] The following immutable contract artifacts exist (using GAP-46 subdirectory convention):
+  - `docs/design/contracts/{feature-x}/contract.yaml`
+  - `docs/design/contracts/{feature-x}/wireframes/` (ASCII wireframe files)
+  - `docs/design/contracts/{feature-x}/user-flows/` (ASCII user flow files)
+  - `docs/design/contracts/{feature-x}/storyboards.json`
+  - `docs/design/contracts/{feature-x}/layout-rules.json`
+  - `docs/design/contracts/{feature-x}/component-map.json`
   - `docs/design/test-plans/feature-x.assertion-checklist.md`
   - `docs/design/test-plans/feature-x.coverage-matrix.csv`
 
@@ -119,7 +120,7 @@ Mode: EXECUTION
    {
      "rollout_id": "rl-YYYY-MM-DD-NNN",
      "prd_beads_id": "br-xxx",
-     "contract_version": "feature-x.contract.yaml",
+     "contract_path": "docs/design/contracts/{feature-x}/contract.yaml",
      "build_sequence": [
        { "step": 1, "component": "ds:comp:top-nav-001", "type": "structural" },
        { "step": 2, "component": "ds:comp:kpi-cards-001", "type": "data-display" }
@@ -161,7 +162,44 @@ Mode: EXECUTION
    - Rendered page opened in Playwright preview
    - Pre-submission checklist logged
 
-**Exit condition:** UI built and self-verified. Proceed to AUDIT.
+**Exit condition:** UI built and self-verified. Proceed to Browser Render Gate.
+
+---
+
+### Browser Render Gate (GAP-51) — Mandatory Before AUDIT
+
+> **Problem solved:** Previously, the AUDIT step scored Visual Diff and Flow Navigation without ever rendering the HTML in a browser. This gate ensures a real browser render + screenshot exists before any scoring begins.
+
+**`task_boundary` call:**
+```
+TaskName: "Stage 2 — Browser Render Gate"
+Mode: EXECUTION
+```
+
+**Actions:**
+
+1. **Open HTML in browser** via Antigravity's `browser_subagent` tool:
+   - Use `browser_subagent` to navigate to the generated HTML file (e.g., `file:///path/to/docs/design/screens/{feature}/index.html`)
+   - This is Antigravity's built-in browser control tool — NOT the Gemini CLI SubAgent of the same name
+   - Wait for full render (all CSS applied, no pending animations)
+
+2. **Capture screenshots** for each state defined in `contract.yaml`:
+   - Default state → `docs/design/reports/{feature}/screenshots/default-iter-{N}.webp`
+   - Loading state → set `data-state="loading"` and capture
+   - Error state → set `data-state="error"` and capture
+   - Empty state → set `data-state="empty"` and capture
+
+3. **Viewport matrix** (if contract defines multiple viewports):
+   - Resize browser to each viewport (mobile 390px, tablet 768px, desktop 1440px)
+   - Capture screenshot per viewport × state combination
+
+4. **Save all screenshots** to `docs/design/reports/{feature}/screenshots/`
+
+**Gate Enforcement:**
+- If NO screenshot artifacts exist after this step → Sub-Task 2B (AUDIT) g5 (Visual Diff) scores `SKIPPED_NO_RENDER` (0 pts)
+- If screenshots exist but fewer than expected → g5 scores proportionally (e.g., 3/4 states captured = 75% of visual diff score)
+
+**Exit condition:** At least 1 screenshot artifact exists. Proceed to AUDIT.
 
 ---
 
@@ -190,17 +228,30 @@ Mode: VERIFICATION
 | g5 | `g5-visual-diff` | Tier 2: Screenshot comparison across viewport×theme×state matrix | FAIL_P0 → SKIP g6 |
 | g6 | `g6-flow-navigation` | Tier 2: Storyboard trajectory execution, dead-end detection | — |
 | g7 | `g7-a11y-contrast` | Tier 1: axe-core/pa11y WCAG AA audit | SKIPPED_TOOL_ERROR if axe fails |
-| g8 | `g8-scoring-policy` | 100-pt DoD scoring engine — 6 pillars + anti-hacking + safety | Emits scorecard v1.1 |
+| g8 | `g8-scoring-policy` | 100-pt DoD scoring engine — 6 pillars + anti-hacking + safety | Emits scorecard v1.2 |
 
-**Scorecard output includes:**
+**Tool-Verified Scoring Mandate (GAP-52):**
+
+> **Rule:** Each pillar MUST have at least 1 mechanical tool call producing evidence. If `tool_evidence[]` is empty for a pillar, that pillar is **auto-capped at 50%**.
+
+| Pillar | Required Tool Check | Tool |
+|--------|-------------------|------|
+| Contract Conformance | `grep_search` for each `data-ds-id` in HTML vs `contract.yaml` required list | `grep_search` |
+| Visual & Token Fidelity | Compare Browser Render Gate screenshot against contract wireframes | `browser_subagent` screenshot (from Render Gate) |
+| Accessibility | DOM inspection for focus order, ARIA landmarks, contrast check | `browser_subagent` DOM query |
+| Flow & State Integrity | Navigate between states in rendered browser, verify transitions work | `browser_subagent` state toggle |
+| Efficiency & Anti-Hacking | Count tool calls in trajectory, verify genuine creation | Conversation trace analysis |
+
+**Scorecard output includes (v1.2):**
 - `total_score` (0-100), `p0_violations`, gradient penalty
 - Prioritized `p0_fixes → p1_fixes → p2_fixes` queue
 - `pillar_deltas` per iteration, `rollout_id`, `reasoning_trace_score`
 - `component_attribution` (implementor | evaluator_env | unknown)
 - `autonomy_score`, `wall_clock_ms`, `total_tokens`
+- **`tool_evidence[]`** — array of `{pillar, tool_name, tool_args, result_summary, score_impact}` (NEW in v1.2)
 - Graceful degradation: `TOOL_FAILURE` events logged (not crashed)
 
-**Exit condition:** Scorecard emitted. Proceed to Convergence Decision.
+**Exit condition:** Scorecard emitted with `tool_evidence[]` populated. Proceed to Convergence Decision.
 
 ---
 
@@ -215,6 +266,13 @@ Mode: VERIFICATION
 | wall_clock > 30min (std) / 60min (complex) | → `LOOP_TIMEOUT` → freeze best snapshot, escalate to Gate B |
 
 **On CONTINUE:** Send Prioritized Fix Queue back to Sub-Task 2A (BUILD). Implementor reads `skills/agenticse-design-system/rules/w3-refine-align.md` for fix application.
+
+**Snapshot/Restore Protocol (for REGRESSION_DETECTED):**
+
+1. **After each BUILD iteration**, the agent saves the current HTML/CSS output to `docs/design/screens/{feature}/snapshot-iter-{N}/`
+2. **On `REGRESSION_DETECTED`:** the agent copies `snapshot-iter-{N-1}/` back to the working directory and sends ONLY the regression delta (score[N-1] scorecard minus score[N] scorecard) to the Implementor
+3. The Implementor then applies targeted fixes to the restored snapshot — it does NOT re-build from scratch
+4. The snapshot directory also serves as the RFT training data input (each iteration is a separate rollout)
 
 **On GATE_B_READY / STALL / TIMEOUT:** Proceed to Task 3.
 
@@ -238,7 +296,18 @@ Mode: VERIFICATION
 4. Generate missing states list and PRD refinement recommendations
 5. Compute **Task Success Rate:** `TSR = converged_runs / total_runs`
 
-**If missing UI states discovered** → route back to PRD Writer (Stage 1, Step 0).
+**Cross-Stage Route — Missing UI States:**
+
+If Task 3 discovers missing UI states that cannot be addressed by the Implementor alone (e.g., entirely missing user journeys, states not defined in the PRD's state matrix):
+
+1. The agent emits `MISSING_PRD_STATES` with a list of the gaps
+2. The agent calls `task_boundary(TaskName: "Stage 1 — PRD Intake & Normalization", Mode: EXECUTION)`
+3. The agent re-enters Stage 1 Step 0 (PRD Completeness Sub-Loop) to update the PRD
+4. After PRD update, the agent re-enters Stage 1 TASK 1A to regenerate affected contract artifacts
+5. Modified contract artifacts flow back into Stage 2 BUILD for the affected components only
+6. **This is a partial re-run** — the agent does NOT restart the full pipeline from scratch
+
+> **Anti-pattern:** Do NOT use this route for minor HTML/CSS fixes. Only use when the PRD itself is missing requirements that block implementation.
 
 **Exit condition:** Coverage matrix complete. Proceed to Gate B.
 

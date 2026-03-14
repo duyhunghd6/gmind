@@ -19,13 +19,25 @@ This extension implements GSAFe 6.0 (Agentic Software Engineering) workflows in 
 
 - Use `/init` to start a new GSAFe project structure.
 - Use `/research` to start a Continuous Exploration research spike.
-- Use `/ralph-loop` to run the full UI/UX Ralph Loop pipeline.
+- Use `/ralph-loop <prd-path>` to run the full UI/UX Ralph Loop pipeline.
 - Use `/satisfy-matrix` to generate a Requirements Traceability Matrix.
 - Use `/aiworkflows-ingest` to ingest AI Workflows into the showcase website.
 
+## Ralph Loop Architecture (SubAgent Spawn-Loop)
+
+The `/ralph-loop` command makes YOU (the main model) the Master Orchestrator:
+
+1. **Stage 1 Loop:** You spawn `ralph_stage1_evaluator` N times. Each spawn runs one contract iteration and returns a JSON scorecard. You collect scores and check convergence (≥90). Then you present Gate A to the human.
+2. **Stage 2 Loop:** You spawn `ralph_stage2_builder` N times. Each spawn runs one build+audit iteration and returns a JSON scorecard. You check convergence (≥95, zero P0). Then you present Gate B to the human.
+
+**SubAgents get fresh context per spawn.** Inter-iteration state travels via:
+- Disk artifacts (contract files, HTML, scorecards) that persist between spawns
+- Previous scorecard JSON passed in the SubAgent invocation prompt
+
 ## Available SubAgents
 
-- `antigravity_orchestrator` — Ralph Loop pipeline planner (reads PRD → outputs structured plan).
+- `ralph_stage1_evaluator` — Stage 1: one-iteration contract generator + 6-pillar scorer.
+- `ralph_stage2_builder` — Stage 2: one-iteration HTML/CSS builder + 100-pt DoD auditor.
 - `browser_subagent` — Headless browser rendering and screenshot capture.
 - `gsafe_manager` — SAFe lifecycle status checker and coordinator.
 - `prd_writer_agent` — PRD gap-filling and conflict resolution.

@@ -116,11 +116,12 @@ description: SAFe 6.0 Agentic UI/UX Convergence Pipeline — Main activator for 
 
 Before activating the Ralph Loop with RFT training, establish baseline performance:
 
-1. Run the Implementor (`agenticse-design-system`) on 5–10 PRDs **without** the Evaluator feedback loop
-2. Record base scores at `docs/eval-dataset/baseline-scores.json`
-3. Only activate RFT training collection **after** baseline is documented
+1. **Skip check:** Read `docs/eval-dataset/baseline-scores.json`. If it exists and contains ≥5 scored PRDs, skip Task 0 entirely.
+2. If no baseline exists: Run the Implementor (`agenticse-design-system`) on 5–10 PRDs **without** the Evaluator feedback loop
+3. Record base scores at `docs/eval-dataset/baseline-scores.json`
+4. Only activate RFT training collection **after** baseline is documented
 
-> Skip this task if baseline has already been recorded.
+> Skip this task if `docs/eval-dataset/baseline-scores.json` already exists with sufficient entries.
 
 ---
 
@@ -167,6 +168,19 @@ Stage 2 takes Gate A's immutable contract and:
 
 **On APPROVE** → merge & deploy.
 **On REQUEST_FIX** → returns to the BUILD step within the Ralph Loop.
+**On Task 3 MISSING_PRD_STATES** → reverse route back to Stage 1 Step 0 (PRD Completeness Sub-Loop). See Stage 2 Task 3 for detailed protocol.
+
+---
+
+## Post-Merge: CI Integration
+
+After Gate B approval and merge:
+
+1. The CI pipeline (`.github/workflows/ralph-loop-ci.yml`) triggers automatically on merge to the target branch
+2. CI runs the deterministic environment (g3) setup and conformance checks (g4) as regression guards
+3. Scorecard artifact is uploaded as a build artifact for audit trail
+4. RFT training data at `docs/rft-dataset/{prd_id}/` is committed alongside the implementation
+5. Baseline governance (`g9-baseline-governance.md`) executes if the approval included `APPROVE_WITH_BASELINE_UPDATE`
 
 ---
 
@@ -175,6 +189,7 @@ Stage 2 takes Gate A's immutable contract and:
 The full pipeline is complete when:
 - [ ] Gate A approved (Low-Fi UX contract stable)
 - [ ] Gate B approved (Hi-Fi implementation passes 95/100 DoD with zero P0)
-- [ ] PRD Journey Coverage Matrix shows 100% coverage
+- [ ] PRD Journey Coverage Matrix shows 100% journey coverage (all defined user journeys tested)
+- [ ] Task Success Rate (TSR) ≥ 80% (converged runs / total runs across the pipeline)
 - [ ] Approval log recorded at `docs/design/reports/feature-x-approval-log.md`
 - [ ] If eval dataset task: run-log updated at `docs/eval-dataset/run-log.md`
