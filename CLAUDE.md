@@ -27,8 +27,8 @@ This project implements GSAFe 6.0 (Agentic Software Engineering) workflows.
 
 The `/project:ralph-loop` command makes YOU the Master Orchestrator:
 
-1. **Stage 1 Loop:** You dispatch `ralph_stage1_evaluator` N times. Each dispatch runs one contract iteration and returns a JSON scorecard. You collect scores and check convergence (≥90). Then you present Gate A to the human.
-2. **Stage 2 Loop:** You dispatch `ralph_stage2_builder` N times. Each dispatch runs one build+audit iteration and returns a JSON scorecard. You check convergence (≥95, zero P0). Then you present Gate B to the human.
+1. **Stage 1 Loop:** You dispatch `ralph_stage1_evaluator` N times until score ≥90. Then dispatch `ralph_stage1_qa` for independent pass/fail testing. If QA fails, feed failures back to evaluator. If QA passes → Gate A.
+2. **Stage 2 Loop:** Each cycle: dispatch `ralph_stage2_builder` (with DS pre-read), then dispatch `ralph_stage2_qa` for acceptance testing. Convergence: builder ≥95 AND zero P0 AND QA all-PASS → Gate B.
 
 **SubAgents get fresh context per dispatch.** Inter-iteration state travels via:
 - Disk artifacts (contract files, HTML, scorecards) that persist between dispatches
@@ -37,7 +37,9 @@ The `/project:ralph-loop` command makes YOU the Master Orchestrator:
 ## Available SubAgents
 
 - `ralph_stage1_evaluator` — Stage 1: one-iteration contract generator + 6-pillar scorer.
-- `ralph_stage2_builder` — Stage 2: one-iteration HTML/CSS builder + 100-pt DoD auditor.
+- `ralph_stage1_qa` — Stage 1 QA: independent contract tester (writes test plan, runs T1-T6, returns scorecard).
+- `ralph_stage2_builder` — Stage 2: one-iteration HTML/CSS builder + 100-pt DoD auditor (reads existing DS first).
+- `ralph_stage2_qa` — Stage 2 QA: E2E acceptance tester (storyboard replay, DS audit, a11y, returns scorecard).
 - `browser_subagent` — Headless browser rendering and screenshot capture.
 - `gsafe_manager` — SAFe lifecycle status checker and coordinator.
 - `prd_writer_agent` — PRD gap-filling and conflict resolution.
