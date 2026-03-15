@@ -1781,3 +1781,326 @@ Accepted. Proceed to update:
 - `gsafe-uiux-ralph-loop-stage1.md` (Gate A Response Parser)
 - `gsafe-uiux-ralph-loop-stage2.md` (Browser Render Gate)
 - `g8-scoring-policy.md` (Tool-Verified Scoring + tool_evidence[])
+
+### Session 4 (2026-03-15) — QA SubAgents: Independent Testing Layer & Design System Compliance
+
+<!-- beads-id: bd-spike-ds-ralph-loop-qa-subagents -->
+
+**Hypothesis:** GAP-52 (self-scoring inflation) cannot be fixed by adding `tool_evidence` alone — the same LLM that builds also evaluates. Even with grep-based tool checks, the builder-evaluator is grading its own homework. We need **independent QA SubAgents** that ONLY test (never build), plus enforced Design System compliance before Stage 2 builds.
+
+**Evidence:** Stage 2 live run on `prd04-webui` (agent.log, 2026-03-15):
+- Builder scored itself 92 → 93 → 96 using grep counts (`grep -c data-ds-id`, `grep -c aria-`)
+- `browser_subagent` was never dispatched — zero visual verification
+- Gate B was auto-approved without human input (self-scored 5/5 on all criteria)
+- CSS was generated from scratch — ignored existing `@gmind/design-system` tokens
+
+**Findings — 3 New Gaps:**
+
+| GAP ID | Root Cause | Impact |
+|--------|-----------|--------|
+| GAP-53 | **Stage 1 has no independent testing.** The evaluator generates contracts AND scores them. There is no validation that ASCII wireframes are structurally sound (complete box edges, correct nesting, valid flows). | Contract artifacts pass Gate A with structural defects |
+| GAP-54 | **Stage 2 builder ignores existing Design System.** The builder generates CSS from scratch instead of importing tokens from `packages/design-system/`. This produces standalone mockups disconnected from the production website. | HTML mockups cannot be integrated into the real app |
+| GAP-55 | **Stage 2 has no acceptance testing.** The 100-pt DoD is scored via text matching (grep). No storyboard replay, no user flow walkthrough, no state matrix verification against real HTML structure. | High scores with broken interactions |
+
+#### Architecture Change: QA SubAgents as Independent Testing Layer
+
+The solution splits **BUILD** from **TEST** using dedicated QA SubAgents:
+
+```text
+====================================================================================================
+                    BEFORE vs AFTER: The Testing Gap
+====================================================================================================
+
+  BEFORE (Current — Self-Scoring):
+
+    ┌─────────────────────────────────────┐
+    │ ralph_stage1_evaluator              │
+    │                                     │
+    │   GENERATE ──► SELF-SCORE ──► JSON  │  ← Same agent does both
+    │   (writes)     (grep counts)        │
+    └─────────────────────────────────────┘
+
+    ┌─────────────────────────────────────┐
+    │ ralph_stage2_builder                │
+    │                                     │
+    │   BUILD ──► SELF-AUDIT ──► JSON     │  ← Same agent does both
+    │   (writes)  (grep counts)           │
+    └─────────────────────────────────────┘
+
+
+  AFTER (Proposed — Independent QA):
+
+    ┌───────────────────────┐     ┌───────────────────────┐
+    │ ralph_stage1_evaluator│     │   ralph_stage1_qa     │
+    │                       │     │   (READ-ONLY)         │
+    │ GENERATE ──► SCORE    │────►│                       │
+    │ (writes contracts)    │     │ TEST wireframes       │
+    │                       │     │ TEST user flows       │
+    │                       │     │ TEST storyboards      │
+    │                       │     │ ──► PASS/FAIL report  │
+    └───────────────────────┘     └───────────────────────┘
+                                           │
+                                   FAIL? ──► fix_queue back to evaluator
+                                   PASS? ──► Gate A
+
+    ┌───────────────────────┐     ┌───────────────────────┐
+    │ ralph_stage2_builder  │     │   ralph_stage2_qa     │
+    │                       │     │   (READ-ONLY)         │
+    │ READ DS tokens first  │────►│                       │
+    │ BUILD HTML/CSS        │     │ TEST storyboard replay│
+    │ ──► builder scorecard │     │ TEST DS token usage   │
+    │                       │     │ TEST a11y structure   │
+    │                       │     │ TEST user flow paths  │
+    │                       │     │ ──► PASS/FAIL report  │
+    └───────────────────────┘     └───────────────────────┘
+                                           │
+                                   FAIL? ──► P0 items to builder fix_queue
+                                   PASS? ──► Gate B
+====================================================================================================
+```
+
+#### Stage 1: Evaluator → QA → Gate A (Detailed Flow)
+
+```text
+====================================================================================================
+              STAGE 1 FULL LOOP WITH QA SUBAGENT
+====================================================================================================
+
+  Orchestrator          ralph_stage1_evaluator      ralph_stage1_qa
+  ───────────           ──────────────────────      ───────────────
+       │                         │                         │
+       │  SPAWN (iter=1)         │                         │
+       ├────────────────────────►│                         │
+       │                         │ 1. Read PRD             │
+       │                         │ 2. Generate contracts   │
+       │                         │ 3. Self-score (6-pillar)│
+       │                         │ 4. Output scorecard JSON│
+       │◄────────────────────────┤                         │
+       │                         │                         │
+       │  score ≥ 90?            │                         │
+       │  YES ─────────────────────────────────────────────│
+       │                         │                         │
+       │  SPAWN QA               │                         │
+       ├───────────────────────────────────────────────────►│
+       │                         │                         │ READ-ONLY:
+       │                         │                         │ T1: Wireframe Structure
+       │                         │                         │   - Parse ┌─┐│└─┘ nesting
+       │                         │                         │   - Verify ≥3 depth levels
+       │                         │                         │   - Check no broken box edges
+       │                         │                         │
+       │                         │                         │ T2: Screen × State Matrix
+       │                         │                         │   - Cross-check filenames vs PRD
+       │                         │                         │   - Every screen: default/load/err/empty
+       │                         │                         │
+       │                         │                         │ T3: Component Mapping
+       │                         │                         │   - Load component-map.json
+       │                         │                         │   - Grep each key in wireframes
+       │                         │                         │
+       │                         │                         │ T4: User Flow Continuity
+       │                         │                         │   - Read user-flows/*.ascii.md
+       │                         │                         │   - Verify node→arrow→node chains
+       │                         │                         │   - No dangling arrows
+       │                         │                         │
+       │                         │                         │ T5: Storyboard Schema
+       │                         │                         │   - Parse storyboards.json
+       │                         │                         │   - Validate ≥2 steps per trajectory
+       │                         │                         │
+       │                         │                         │ T6: Layout Rules
+       │                         │                         │   - Parse layout-rules.json
+       │                         │                         │   - Cross-check breakpoints
+       │                         │                         │
+       │                         │                         │ Output: PASS/FAIL per test
+       │◄─────────────────────────────────────────────────┤
+       │                         │                         │
+       │  Any FAIL?              │                         │
+       │  YES → inject as P0     │                         │
+       │  in fix_queue           │                         │
+       ├────────────────────────►│ (re-enter evaluator     │
+       │                         │  loop with fix_queue)   │
+       │                         │                         │
+       │  All PASS?              │                         │
+       │  ──► Gate A (Human)     │                         │
+       │                         │                         │
+====================================================================================================
+```
+
+#### Stage 2: DS Compliance → Builder → QA → Gate B (Detailed Flow)
+
+```text
+====================================================================================================
+              STAGE 2 FULL LOOP WITH DS COMPLIANCE + QA SUBAGENT
+====================================================================================================
+
+  Orchestrator          ralph_stage2_builder         ralph_stage2_qa
+  ───────────           ────────────────────         ───────────────
+       │                         │                         │
+       │  SPAWN (iter=1)         │                         │
+       ├────────────────────────►│                         │
+       │                         │                         │
+       │                         │ PRE-BUILD: DS Compliance│
+       │                         │ ─────────────────────── │
+       │                         │ 1. Read packages/       │
+       │                         │    design-system/       │
+       │                         │    index.css            │
+       │                         │ 2. Read tokens/         │
+       │                         │    (color, spacing,     │
+       │                         │     typography)         │
+       │                         │ 3. Read components/     │
+       │                         │    (existing patterns)  │
+       │                         │ 4. Read registry.json   │
+       │                         │ 5. Read globals.css     │
+       │                         │    (theme overrides,    │
+       │                         │     font stack)         │
+       │                         │                         │
+       │                         │ BUILD Phase:            │
+       │                         │ ─────────────────────── │
+       │                         │ 1. Generate HTML with   │
+       │                         │    data-ds-id attrs     │
+       │                         │ 2. Generate CSS using   │
+       │                         │    DS tokens ONLY       │
+       │                         │    (var(--bg), etc.)    │
+       │                         │ 3. Import DS font stack │
+       │                         │    "DM Sans"            │
+       │                         │ 4. Self-audit scorecard │
+       │                         │                         │
+       │                         │ Output: scorecard JSON  │
+       │◄────────────────────────┤                         │
+       │                         │                         │
+       │  SPAWN QA (every iter)  │                         │
+       ├───────────────────────────────────────────────────►│
+       │                         │                         │ READ-ONLY:
+       │                         │                         │
+       │                         │                         │ T1: Storyboard Replay (E2E)
+       │                         │                         │   - Read storyboards.json
+       │                         │                         │   - For each trajectory step:
+       │                         │                         │     • Verify target element exists
+       │                         │                         │       by data-ds-id in HTML
+       │                         │                         │     • Verify data-state attr
+       │                         │                         │       matches expected state
+       │                         │                         │     • Verify transition path
+       │                         │                         │       (step N target → step N+1)
+       │                         │                         │   - Result: PASS if all steps
+       │                         │                         │     have matching DOM elements
+       │                         │                         │
+       │                         │                         │ T2: User Flow Walkthrough
+       │                         │                         │   - Read user-flows/*.ascii.md
+       │                         │                         │   - Each flow node → check HTML
+       │                         │                         │     has component with data-ds-id
+       │                         │                         │   - Each transition → verify
+       │                         │                         │     both source + target exist
+       │                         │                         │
+       │                         │                         │ T3: State Matrix Test
+       │                         │                         │   - For each screen in contract:
+       │                         │                         │     • data-state="default" exists?
+       │                         │                         │     • data-state="loading" exists?
+       │                         │                         │     • data-state="error" exists?
+       │                         │                         │     • data-state="empty" exists?
+       │                         │                         │
+       │                         │                         │ T4: DS Token Audit
+       │                         │                         │   - Read packages/design-system/
+       │                         │                         │     tokens/ → extract token names
+       │                         │                         │   - Grep built CSS for each token
+       │                         │                         │   - Flag any hardcoded hex/rgb
+       │                         │                         │     that has a DS equivalent
+       │                         │                         │   - PASS: ≥80% DS tokens used,
+       │                         │                         │     zero conflicting customs
+       │                         │                         │
+       │                         │                         │ T5: A11y Structural Test
+       │                         │                         │   - ≥1 <main>, ≤1 <h1>
+       │                         │                         │   - Heading hierarchy (no skip)
+       │                         │                         │   - All <img> have alt
+       │                         │                         │   - Interactive → aria-label
+       │                         │                         │   - ≥1 aria-live region
+       │                         │                         │
+       │                         │                         │ T6: Component Completeness
+       │                         │                         │   - Load component-map.json
+       │                         │                         │   - Every entry → grep HTML
+       │                         │                         │     for matching data-ds-id
+       │                         │                         │   - PASS: 100% coverage
+       │                         │                         │
+       │                         │                         │ Output: PASS/FAIL per test
+       │◄─────────────────────────────────────────────────┤
+       │                         │                         │
+       │  MERGE: builder score + QA results               │
+       │  ──────────────────────────────────               │
+       │  • Builder score ≥ 95?                            │
+       │  • QA all PASS?                                   │
+       │                                                   │
+       │  If any QA FAIL → inject as P0 in fix_queue      │
+       │  ──► re-SPAWN builder with fix_queue              │
+       │                                                   │
+       │  If builder ≥ 95 AND QA all PASS                  │
+       │  ──► Gate B (Human approval)                      │
+       │                                                   │
+====================================================================================================
+```
+
+#### Updated Mermaid: Ralph Loop Architecture v2 (with QA SubAgents)
+
+```mermaid
+graph TD
+    classDef stage fill:#f8f9fa,stroke:#ced4da,stroke-width:2px,stroke-dasharray: 5 5;
+    classDef gate fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
+    classDef agent fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
+    classDef qa fill:#d3f9d8,stroke:#2b8a3e,stroke-width:2px;
+    classDef score fill:#fff3bf,stroke:#e67700,stroke-width:2px;
+
+    RawPRD[Raw PRD Text] --> G0[Step 0: Intake & Validate]
+
+    subgraph Stage1 ["Stage 1: Low-Fi Contract Ralph Loop"]
+        G0 --> Gen["GENERATE: Evaluator Agent\n(ASCII wireframes + storyboards + layout-rules)"]:::agent
+        Gen --> S1Eval["SELF-SCORE: 6-Pillar Engine\n(tool-verified)"]:::score
+        S1Eval --> S1Conv{"Score >= 90?"}
+
+        S1Conv -- "NO\n(fix_queue)" --> Gen
+        S1Conv -- "YES" --> S1QA["QA: ralph_stage1_qa\n(READ-ONLY independent tester)"]:::qa
+
+        S1QA --> S1QACheck{"All Tests\nPASS?"}
+        S1QACheck -- "FAIL\n(inject as P0)" --> Gen
+        S1QACheck -- "PASS" --> GateA{Gate A: Human Approval}:::gate
+
+        GateA -- "REJECT_FIX_CONTRACT" --> Gen
+        GateA -- "REJECT_FIX_PRD" --> PRDWriter[PRD Writer Agent]:::agent
+        PRDWriter --> G0
+    end
+
+    GateA -- "APPROVE" --> DSRead[Read Design System Tokens]
+
+    subgraph Stage2 ["Stage 2: Hi-Fi Implementation Ralph Loop"]
+        DSRead --> Build["BUILD: Builder Agent\n(HTML/CSS using DS tokens)"]:::agent
+        Build --> S2Score["SELF-SCORE: 100-pt DoD\n(tool-verified)"]:::score
+        S2Score --> S2QA["QA: ralph_stage2_qa\n(READ-ONLY acceptance tester)"]:::qa
+
+        S2QA --> S2QACheck{"Builder >= 95\nAND QA all PASS\nAND Zero P0?"}
+
+        S2QACheck -- "FAIL\n(merge fix_queues)" --> Build
+    end
+
+    S2QACheck -- "YES" --> GateB{Gate B: Human Approval}:::gate
+    GateB -- "REQUEST_FIX" --> Build
+    GateB -- "APPROVE" --> Merge[Merge & Deploy]
+
+    class Stage1,Stage2 stage;
+```
+
+#### Key Design Principles for QA SubAgents
+
+1. **READ-ONLY enforcement**: QA SubAgents have `tools: Read, Grep, Glob, Bash` — NO `Write` or `Edit`. They can inspect but never modify build artifacts.
+
+2. **PASS/FAIL not scores**: QA SubAgents output binary test results per test suite, not numeric scores. This eliminates score inflation — a test either passes or fails.
+
+3. **Independent context**: QA SubAgents have fresh context and no memory of the builder's reasoning. They see ONLY the artifacts on disk + the contract.
+
+4. **DS compliance is a pre-build step**: The builder reads the existing Design System (`packages/design-system/`) BEFORE generating CSS. This is a mandatory step, not a post-hoc check.
+
+5. **QA runs AFTER every builder iteration**: Not just at convergence. This catches regressions early.
+
+**Open Items:**
+
+- Should `ralph_stage2_qa` also dispatch `browser_subagent` for visual rendering, or is DOM-level testing sufficient for Phase 1?
+- Define the exact PASS threshold for T4 (DS Token Audit) — proposed ≥80% of DS tokens used
+- Should QA SubAgents have `memory: project` to track patterns across features?
+
+### Decision
+
+Pending human review of the ASCII diagrams above.
