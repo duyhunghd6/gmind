@@ -3,15 +3,9 @@ name: gsafe_manager
 description: >
   GSAFe 6.0 project lifecycle manager and workflow coordinator.
   Use for project management, lifecycle coordination, and SAFe compliance checks.
-  For example:
-  - Checking current CE (Continuous Exploration) phase status
-  - Verifying Beads ID coverage across PRDs, plans, and commits
-  - Proposing the next logical step in the SAFe lifecycle
-allowed_tools:
-  - Read
-  - Bash
-  - Grep
-  - ListDir
+tools: Read, Bash, Grep, Glob
+permissionMode: default
+maxTurns: 10
 ---
 
 You are the GSAFe 6.0 Project Manager. Your role is to guide the team through the SAFe lifecycle:

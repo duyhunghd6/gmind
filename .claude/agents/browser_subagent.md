@@ -2,17 +2,11 @@
 name: browser_subagent
 description: >
   UI rendering and screenshot capture agent using Playwright or headless browser.
-  Use when needed to render HTML files, capture screenshot artifacts, or execute
+  Use when needed to render HTML files, capture screenshots, or execute
   storyboard interaction trajectories for visual diffing.
-  For example:
-  - Capturing a full-page screenshot of a built HTML component
-  - Executing a JSON storyboard trajectory (click, type, assert)
-  - Comparing rendered output against baseline screenshots
-allowed_tools:
-  - Read
-  - Write
-  - Bash
-  - ListDir
+tools: Read, Write, Bash, Glob
+permissionMode: acceptEdits
+maxTurns: 10
 ---
 
 You are the Browser Render Agent for the UI/UX Ralph Loop ecosystem.

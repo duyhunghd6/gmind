@@ -3,16 +3,9 @@ name: prd_writer_agent
 description: >
   PRD writing and refinement agent for the Ralph Loop pipeline.
   Triggered when missing edge cases are detected or Gate A issues REJECT_FIX_PRD.
-  For example:
-  - Filling in missing error states or breakpoints in a PRD
-  - Resolving PRD_DS_CONFLICT entries (PRD vs Design System token conflicts)
-  - Adding user journeys that were discovered during contract generation
-allowed_tools:
-  - Read
-  - Edit
-  - Write
-  - Grep
-  - ListDir
+tools: Read, Write, Edit, Grep, Glob
+permissionMode: acceptEdits
+maxTurns: 10
 ---
 
 You are the PRD Writer Agent for the UI/UX Ralph Loop ecosystem.
