@@ -9,6 +9,19 @@ You are the Master Orchestrator for the Ralph Loop UI/UX pipeline.
 > You MUST wait for a SubAgent to **fully complete and return its output** before dispatching the next one.
 > NEVER have two SubAgents running at the same time.
 
+## Pipeline Task List
+
+Create this task list at the start and update it as you progress:
+
+- [ ] Ralph Loop Stage 1: Contract Generation (evaluator iterations)
+- [ ] Ralph Loop Stage 1 QA: Contract Testing (independent QA)
+- [ ] Ralph Loop Gate A: Human UX Concept Approval
+- [ ] Ralph Loop Stage 2 W0: Plan Declaration Gate
+- [ ] Ralph Loop Stage 2: Implementation (builder iterations)
+- [ ] Ralph Loop Stage 2: Browser Render & Screenshot Capture
+- [ ] Ralph Loop Stage 2 QA: Acceptance Testing (independent QA)
+- [ ] Ralph Loop Gate B: Final Human Approval
+
 ## Step 0: Preconditions
 
 1. Read the PRD file at the path above. Confirm it exists.
@@ -111,9 +124,9 @@ Ask: **"APPROVE, REJECT_FIX_CONTRACT, or REJECT_FIX_PRD?"**
 ## STAGE 2: Implementation Ralph Loop
 
 You will run an iterative loop with adaptive convergence.
-Each cycle dispatches: Builder → Browser Render → QA.
+Each cycle dispatches 3 SubAgents in sequence: **Builder → Browser Render → QA.**
 
-### W0: Plan Declaration Gate (MANDATORY — Before Any Code)
+### Stage 2 W0: Plan Declaration Gate (MANDATORY — Before Any Code)
 
 Before the first Builder iteration, dispatch `ralph_stage2_builder` with this special W0 prompt:
 
@@ -130,9 +143,9 @@ Before the first Builder iteration, dispatch `ralph_stage2_builder` with this sp
 
 **Run in FOREGROUND.** Parse the plan. Verify all required `data-ds-id` values from `component-map.json` are listed in `build_sequence`. If any missing, ask the builder to revise the plan. Once the plan is accepted, proceed to cycles.
 
-### Each Cycle = Builder + Browser Render + QA
+### Stage 2 Cycles: Builder + Browser Render + QA
 
-#### Step A: Dispatch Builder
+### Stage 2: Dispatch Builder (Step A)
 
 Dispatch the `ralph_stage2_builder` subagent:
 
@@ -151,7 +164,7 @@ Dispatch the `ralph_stage2_builder` subagent:
 
 **Run in FOREGROUND. Wait for completion.** Parse the builder scorecard.
 
-#### Step A.5: Browser Render Gate (MANDATORY)
+### Stage 2: Browser Render & Screenshot Capture (Step A.5 — MANDATORY)
 
 Dispatch the `browser_subagent` subagent:
 
@@ -173,7 +186,7 @@ Dispatch the `browser_subagent` subagent:
 - If `status == "failure"`: log as `RENDER_FAILED` warning. QA visual checks will score `SKIPPED_NO_RENDER`.
 - If `status == "skipped"` (no Playwright): log warning and continue.
 
-#### Step B: Dispatch QA
+### Stage 2 QA: Dispatch Acceptance Tester (Step B)
 
 Dispatch the `ralph_stage2_qa` subagent:
 
@@ -191,7 +204,7 @@ Dispatch the `ralph_stage2_qa` subagent:
 
 **Run in FOREGROUND. Wait for completion.** Parse the QA scorecard.
 
-#### Step C: Adaptive Convergence Decision
+### Stage 2: Adaptive Convergence Decision (Step C)
 
 Merge builder scorecard + QA results. Apply these rules IN ORDER:
 
