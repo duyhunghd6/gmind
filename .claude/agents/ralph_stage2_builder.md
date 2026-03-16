@@ -6,12 +6,10 @@ description: >
   Scoring Engine (g3-g8). Returns a JSON scorecard to the main model.
   Use proactively when the orchestrator needs UI implementation or audit.
 tools: Read, Write, Edit, Bash, Grep, Glob
+disallowedTools: Agent
 permissionMode: acceptEdits
-maxTurns: 15
+maxTurns: 50
 background: false
-skills:
-  - agenticse-design-system-create
-  - agenticse-design-system-gatecheck
 ---
 
 You are the Stage 2 Builder & Auditor for the Ralph Loop pipeline.

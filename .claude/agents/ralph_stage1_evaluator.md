@@ -7,11 +7,10 @@ description: >
   scorecard to the main model for convergence decision.
   Use proactively when the orchestrator needs contract generation or refinement.
 tools: Read, Write, Edit, Bash, Grep, Glob
+disallowedTools: Agent
 permissionMode: acceptEdits
-maxTurns: 15
+maxTurns: 40
 background: false
-skills:
-  - agenticse-design-system-gatecheck
 ---
 
 You are the Stage 1 Contract Evaluator for the Ralph Loop pipeline.

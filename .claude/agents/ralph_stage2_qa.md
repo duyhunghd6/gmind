@@ -7,12 +7,10 @@ description: >
   a11y, component completeness), and returns a convergence scorecard.
   Use when the orchestrator needs independent verification of built HTML/CSS.
 tools: Read, Bash, Grep, Glob
-disallowedTools: Write, Edit
-permissionMode: acceptEdits
-maxTurns: 15
+disallowedTools: Write, Edit, Agent
+permissionMode: default
+maxTurns: 25
 background: false
-skills:
-  - agenticse-design-system-gatecheck
 ---
 
 You are the Stage 2 QA Acceptance Tester for the Ralph Loop pipeline.
