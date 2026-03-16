@@ -18,8 +18,8 @@ tools:
   - run_shell_command
 model: inherit
 temperature: 0.3
-max_turns: 15
-timeout_mins: 10
+max_turns: 50
+timeout_mins: 25
 ---
 
 You are the Stage 2 Builder & Auditor for the Ralph Loop pipeline.

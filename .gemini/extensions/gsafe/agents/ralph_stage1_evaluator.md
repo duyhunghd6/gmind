@@ -19,8 +19,8 @@ tools:
   - run_shell_command
 model: inherit
 temperature: 0.3
-max_turns: 15
-timeout_mins: 10
+max_turns: 40
+timeout_mins: 20
 ---
 
 You are the Stage 1 Contract Evaluator for the Ralph Loop pipeline.

@@ -257,13 +257,16 @@ Mode: VERIFICATION
 
 ### Adaptive Convergence Decision
 
-| Condition | Action |
-|-----------|--------|
-| Score ≥ 95 AND P0 == 0 | → `GATE_B_READY` — proceed to Task 3 |
-| Score improves ≥ 5 pts | → +1 retry allowed (max cap: 6) |
-| Score plateau ≤ 1 pt for 2 consecutive | → `LOOP_STALLED` → escalate to Gate B |
-| score[N] < score[N-1] | → `REGRESSION_DETECTED` → restore N-1 snapshot, send regression delta to Implementor |
-| wall_clock > 30min (std) / 60min (complex) | → `LOOP_TIMEOUT` → freeze best snapshot, escalate to Gate B |
+**Iteration Policy:** `MIN_ITER = 5` | `MAX_ITER = 10`
+
+| # | Condition | Action |
+|---|-----------|--------|
+| 1 | `iter < 5` (FLOOR GUARD) | → **ALWAYS CONTINUE** (ignore score entirely) |
+| 2 | `iter >= 10` | → `LOOP_TIMEOUT` → freeze best snapshot, escalate to Gate B |
+| 3 | Score ≥ 95 AND P0 == 0 AND `iter >= 5` | → `GATE_B_READY` — proceed to Task 3 |
+| 4 | Score delta ≤ 1 for **3 consecutive** iterations AND `iter >= 5` | → `LOOP_STALLED` → escalate to Gate B |
+| 5 | `score[N] < score[N-1]` for 2 consecutive AND `iter >= 5` | → `REGRESSION_DETECTED` → restore N-1 snapshot |
+| 6 | OTHERWISE | → **CONTINUE** |
 
 **On CONTINUE:** Send Prioritized Fix Queue back to Sub-Task 2A (BUILD). Implementor reads `skills/agenticse-design-system/rules/w3-refine-align.md` for fix application.
 

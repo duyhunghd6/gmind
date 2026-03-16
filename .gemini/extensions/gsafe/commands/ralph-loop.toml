@@ -40,8 +40,11 @@ Execute this sequential spawn loop:
 
 ```
 iter = 1
+MIN_ITER = 5
 MAX_ITER = 10
 prev_score = 0
+prev_prev_delta = 999
+prev_delta = 999
 prev_scorecard = null
 score_history = []
 
@@ -70,14 +73,16 @@ LOOP:
   │ Step 4: ANALYZE and DECIDE                                  │
   │   LOG: "Stage 1 iter {iter}: score={score} (Δ={delta})"    │
   │                                                             │
+  │   IF iter < MIN_ITER:                                       │
+  │     → ALWAYS CONTINUE (ignore score — floor guard)          │
   │   IF score >= 90 AND convergence_status == "GATE_A_READY":  │
-  │     → EXIT LOOP → proceed to Gate A                         │
+  │     → EXIT LOOP → proceed to Stage 1 QA                    │
   │   IF iter >= MAX_ITER:                                      │
-  │     → EXIT LOOP → proceed to Gate A with TIMEOUT warning    │
-  │   IF score < prev_score (REGRESSION):                       │
-  │     → EXIT LOOP → proceed to Gate A with REGRESSION warning │
-  │   IF (score - prev_score) < 3 AND iter >= 3 (PLATEAU):     │
-  │     → EXIT LOOP → proceed to Gate A with STALL warning      │
+  │     → EXIT LOOP → proceed to Stage 1 QA with TIMEOUT warn  │
+  │   IF score < prev_score for 2 consecutive (REGRESSION):     │
+  │     → EXIT LOOP → proceed to Stage 1 QA with REGRESS warn  │
+  │   IF abs(delta) <= 1 for 3 consecutive (PLATEAU):           │
+  │     → EXIT LOOP → proceed to Stage 1 QA with STALL warn    │
   │   ELSE:                                                     │
   │     → prev_score = score                                    │
   │     → prev_scorecard = scorecard                            │
@@ -85,6 +90,14 @@ LOOP:
   │     → GO TO Step 1 (spawn NEW SubAgent)                     │
   └─────────────────────────────────────────────────────────────┘
 ```
+
+### Stage 1 QA: Independent Testing
+
+After the evaluator loop exits, SPAWN `ralph_stage1_qa`:
+- Pass: feature_name, contract_path, prd_path, evaluator_score
+- Wait for QA to return JSON scorecard
+- If `QA_PASS` → proceed to Gate A
+- If `QA_FAIL` → Feed fix_queue back into evaluator (1 fix iteration), then re-run QA (max 2 retries)
 
 ### 🚧 GATE A: Human UX Concept Approval
 
@@ -113,8 +126,11 @@ Execute this sequential spawn loop (SAME pattern as Stage 1):
 
 ```
 iter = 1
+MIN_ITER = 5
 MAX_ITER = 10
 prev_score = 0
+prev_prev_delta = 999
+prev_delta = 999
 prev_scorecard = null
 score_history = []
 
@@ -143,16 +159,18 @@ LOOP:
   │ Step 4: ANALYZE and DECIDE                                  │
   │   LOG: "Stage 2 iter {iter}: score={score}, P0={p0_count}"  │
   │                                                             │
+  │   IF iter < MIN_ITER:                                       │
+  │     → ALWAYS CONTINUE (ignore score — floor guard)          │
   │   IF score >= 95 AND p0_count == 0:                         │
-  │     → EXIT LOOP → proceed to Gate B                         │
+  │     → EXIT LOOP → proceed to Stage 2 QA                    │
   │   IF iter >= MAX_ITER:                                      │
-  │     → EXIT LOOP → proceed to Gate B with TIMEOUT warning    │
-  │   IF score < prev_score (REGRESSION):                       │
+  │     → EXIT LOOP → proceed to Stage 2 QA with TIMEOUT warn  │
+  │   IF score < prev_score for 2 consecutive (REGRESSION):     │
   │     → LOG "REGRESSION: using snapshot-iter-{iter-1}"        │
   │     → Set fix_queue to regression delta only                │
   │     → prev_scorecard = scorecard, iter += 1, CONTINUE       │
-  │   IF (score - prev_score) < 3 AND iter >= 3 (PLATEAU):     │
-  │     → EXIT LOOP → proceed to Gate B with STALL warning      │
+  │   IF abs(delta) <= 1 for 3 consecutive (PLATEAU):           │
+  │     → EXIT LOOP → proceed to Stage 2 QA with STALL warn    │
   │   ELSE:                                                     │
   │     → prev_score = score                                    │
   │     → prev_scorecard = scorecard                            │
@@ -160,6 +178,14 @@ LOOP:
   │     → GO TO Step 1 (spawn NEW SubAgent)                     │
   └─────────────────────────────────────────────────────────────┘
 ```
+
+### Stage 2 QA: Acceptance Testing
+
+After the builder loop exits, SPAWN `ralph_stage2_qa`:
+- Pass: feature_name, contract_path, screens_path, iteration, builder_score, ds_path
+- Wait for QA to return JSON scorecard
+- If `QA_PASS` → proceed to Gate B
+- If `QA_FAIL` → Feed fix_queue back into builder (1 fix iteration), then re-run QA (max 2 retries)
 
 ### 🚧 GATE B: Final Human Approval
 

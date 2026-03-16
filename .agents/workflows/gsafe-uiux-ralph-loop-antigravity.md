@@ -141,7 +141,7 @@ Stage 1 processes the raw PRD through an **internal Ralph Loop** (same RFT metho
 - **TASK 1B — EVALUATE:** Contract Quality Scoring Engine (5-pillar, 0–100 scale)
   - PRD Coverage (25%) | Traceability (25%) | Storyboard (20%) | Compilability (15%) | Conflict Resolution (15%)
 - **Convergence Decision:** Score ≥ 90 with zero AMBIGUOUS_RULE → proceed to Gate A; otherwise self-improve via Prioritized Fix Queue
-- **Adaptive Policy:** +1 retry on ≥5pt improvement (max 4); LOOP_STALLED on plateau; REGRESSION restores N-1; TIMEOUT at 15min
+- **Iteration Policy:** MIN_ITER=5 (floor guard — no convergence before iter 5), MAX_ITER=10 (hard ceiling); LOOP_STALLED on 3-consecutive plateau; REGRESSION restores N-1
 - **🚧 Gate A:** Human UX concept approval (`BlockedOnUser: true`)
 
 **On APPROVE** → proceed to Stage 2.

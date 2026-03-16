@@ -250,14 +250,17 @@ Mode: VERIFICATION
 
 ### Adaptive Convergence Decision
 
-| Condition | Action |
-|-----------|--------|
-| Score ≥ 90 AND zero `AMBIGUOUS_RULE` | → `GATE_A_READY` — proceed to Gate A |
-| Score improves ≥ 5 pts | → +1 retry allowed (max cap: 4) |
-| Score plateau ≤ 1 pt for 2 consecutive | → `LOOP_STALLED` → escalate to Gate A with warning |
-| score[N] < score[N-1] | → `REGRESSION` → restore N-1 artifacts, send regression delta |
-| Wireframe & Flow Articulation < 60% | → `DIAGRAM_TOO_SHALLOW` → agent must detail wireframes (GAP-45) |
-| wall_clock > 15min | → `TIMEOUT` → freeze best artifacts, escalate to Gate A |
+**Iteration Policy:** `MIN_ITER = 5` | `MAX_ITER = 10`
+
+| # | Condition | Action |
+|---|-----------|--------|
+| 1 | `iter < 5` (FLOOR GUARD) | → **ALWAYS CONTINUE** (ignore score entirely) |
+| 2 | `iter >= 10` | → `TIMEOUT` → freeze best artifacts, escalate to Gate A |
+| 3 | Score ≥ 90 AND zero `AMBIGUOUS_RULE` AND `iter >= 5` | → `GATE_A_READY` — proceed to Gate A |
+| 4 | Score delta ≤ 1 for **3 consecutive** iterations AND `iter >= 5` | → `LOOP_STALLED` → escalate to Gate A with warning |
+| 5 | `score[N] < score[N-1]` for 2 consecutive AND `iter >= 5` | → `REGRESSION` → restore N-1 artifacts, send regression delta |
+| 6 | Wireframe & Flow Articulation < 60% | → `DIAGRAM_TOO_SHALLOW` → agent must detail wireframes (GAP-45) |
+| 7 | OTHERWISE | → **CONTINUE** |
 
 **On CONTINUE:** Send Prioritized Fix Queue back to TASK 1A (GENERATE):
 - Which pillar scored lowest
