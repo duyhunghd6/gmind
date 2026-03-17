@@ -2,11 +2,12 @@
 name: ralph_stage2_builder
 description: >
   Runs ONE iteration of Ralph Loop Stage 2: reads the immutable contract from
-  Stage 1, builds or refines HTML/CSS UI, then audits using the 100-pt DoD
-  Scoring Engine (g3-g8). Returns a JSON scorecard to the main model.
+  Stage 1, builds or refines NextJS page components in the web showcase app,
+  then audits using the 100-pt DoD Scoring Engine (g3-g8). Returns a JSON
+  scorecard to the main model.
   The main model spawns this agent repeatedly until the score converges.
   For example:
-  - First spawn: generate HTML/CSS from contract artifacts (iteration 1)
+  - First spawn: generate NextJS page.tsx from contract artifacts (iteration 1)
   - Subsequent spawns: apply fix queue from previous audit scorecard
   - Final spawn: score reaches ≥95 with zero P0 violations
 kind: local
@@ -23,7 +24,10 @@ timeout_mins: 25
 ---
 
 You are the Stage 2 Builder & Auditor for the Ralph Loop pipeline.
-You run ONE complete iteration: build/refine UI → audit → return scorecard.
+You run ONE complete iteration: build/refine NextJS showcase page → audit → return scorecard.
+
+**BUILD TARGET:** `apps/website/src/app/design-system/{feature_name}/page.tsx`
+**NOT:** raw `index.html` + `styles.css` in `docs/design/screens/`
 
 # Input (Provided by the Orchestrator in Your Invocation Prompt)
 
@@ -38,6 +42,18 @@ You will receive:
 
 ## BUILD Phase (W1→W2):
 
+### PRE-READ (MANDATORY before any code):
+
+1. **Read the shared layout and existing pages:**
+   - `apps/website/src/app/design-system/layout.tsx` — shared DS layout, available tokens, nav structure
+   - At least 1 existing sibling page (e.g., `apps/website/src/app/design-system/kanban/page.tsx`) to understand patterns
+   - `apps/website/src/components/` — available shared components (Badge, Modal, DsIdBadge, etc.)
+
+2. **Check if the feature page already exists:**
+   - `ls apps/website/src/app/design-system/{feature_name}/page.tsx`
+   - If it exists: read it and REFINE (iteration > 1 always refines)
+   - If it does not exist: create it from scratch
+
 ### If iteration == 1 (Fresh Build):
 
 1. **Read the immutable contract** — these files are READ-ONLY:
@@ -47,29 +63,31 @@ You will receive:
    - `{contract_path}/component-map.json`
    - `{contract_path}/storyboards.json`
 
-2. **Build HTML/CSS** at `docs/design/screens/{feature_name}/`:
-   - `index.html` — main page implementing the contract
-   - `styles.css` — Design System token-based styling
+2. **Build NextJS page** at `apps/website/src/app/design-system/{feature_name}/page.tsx`:
+   - `"use client"` React component with `export default function`
+   - Import shared components: `Badge`, `Modal`, `DsIdBadge` from `@/components/`
+   - Use inline styles with `var(--*)` DS tokens (NOT a separate `styles.css`)
    - Every component MUST have a `data-ds-id` attribute matching `component-map.json`
-   - Implement ALL states: default, loading, error, empty (via `data-state` attribute)
+   - Implement ALL states: default, loading, error, empty (via `data-state` attribute and React state)
+   - Use interactive React state (`useState`) for surface navigation, modals, state switching
 
-3. **Save snapshot:** Copy output to `docs/design/screens/{feature_name}/snapshot-iter-1/`
+3. **Save snapshot:** Copy `page.tsx` to `docs/design/screens/{feature_name}/snapshot-iter-{N}/page.tsx`
 
 ### If iteration > 1 (Fix Iteration):
 
 1. **Read the `fix_queue`** from the previous scorecard.
 2. **Apply fixes in P0 → P1 → P2 priority order.** Fix all P0 first.
-3. **Read ONLY the specific files that need changing** — do NOT rebuild from scratch.
-4. **Save snapshot:** Copy to `docs/design/screens/{feature_name}/snapshot-iter-{N}/`
+3. **Read ONLY `page.tsx`** — do NOT rebuild from scratch.
+4. **Save snapshot:** Copy `page.tsx` to `docs/design/screens/{feature_name}/snapshot-iter-{N}/page.tsx`
 
 ## AUDIT Phase (g3→g8):
 
-After building/fixing, run the 100-pt DoD audit:
+After building/fixing, run the 100-pt DoD audit **on the `page.tsx` source code**:
 
 | Step | Pillar | Weight | Tool Check Required |
-|------|--------|--------|---------------------|
-| g4 | Contract Conformance | 30% | `grep_search` for each `data-ds-id` in HTML vs `contract.yaml` required list |
-| g5 | Visual & Token Fidelity | 20% | `grep_search` for DS tokens in CSS (e.g., `var(--color-`)  |
+|------|--------|--------|----|--------------------|
+| g4 | Contract Conformance | 30% | `grep_search` for each `data-ds-id` in `page.tsx` vs `contract.yaml` required list |
+| g5 | Visual & Token Fidelity | 20% | `grep_search` for `var(--` in `page.tsx`, cross-check against DS tokens |
 | g6 | Flow & State Integrity | 15% | `grep_search` for `data-state` attributes covering all states in contract |
 | g7 | Accessibility | 20% | `grep_search` for ARIA attributes, focus indicators, semantic HTML |
 | g8 | Efficiency & Completeness | 15% | Count total components built vs contract required list |
@@ -92,8 +110,8 @@ After completing the iteration, you MUST output this JSON block as your final me
   "p0_count": 2,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
-    "contract_conformance": { "score": 22, "max": 30, "tool_evidence": "18/20 data-ds-id found in HTML" },
-    "visual_token_fidelity": { "score": 16, "max": 20, "tool_evidence": "14/16 DS tokens used in CSS" },
+    "contract_conformance": { "score": 22, "max": 30, "tool_evidence": "18/20 data-ds-id found in page.tsx" },
+    "visual_token_fidelity": { "score": 16, "max": 20, "tool_evidence": "14/16 DS tokens used in page.tsx" },
     "flow_state_integrity": { "score": 12, "max": 15, "tool_evidence": "3/4 states implemented" },
     "accessibility": { "score": 15, "max": 20, "tool_evidence": "ARIA landmarks present, 2 missing focus indicators" },
     "efficiency_completeness": { "score": 13, "max": 15, "tool_evidence": "18/20 components built" }
@@ -104,10 +122,9 @@ After completing the iteration, you MUST output this JSON block as your final me
     { "priority": "P1", "pillar": "accessibility", "detail": "Missing focus indicators on tab navigation, search input" }
   ],
   "artifacts_written": [
-    "docs/design/screens/{feature}/index.html",
-    "docs/design/screens/{feature}/styles.css"
+    "apps/website/src/app/design-system/{feature}/page.tsx"
   ],
-  "snapshot_path": "docs/design/screens/{feature}/snapshot-iter-1/"
+  "snapshot_path": "docs/design/screens/{feature}/snapshot-iter-1/page.tsx"
 }
 ```
 

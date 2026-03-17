@@ -142,12 +142,13 @@ LOOP:
   │   "Run Stage 2 iteration {iter} for:                        │
   │    feature_name: {feature_name}                             │
   │    contract_path: docs/design/contracts/{feature_name}/     │
+   │    page_path: apps/website/src/app/design-system/{feature_name}/page.tsx │
   │    iteration: {iter}                                        │
   │    previous_scorecard: {prev_scorecard as JSON or 'null'}   │
   │    fix_queue: {fix_queue from prev_scorecard or '[]'}"      │
   │                                                             │
   │ Step 2: WAIT for SubAgent to FINISH                         │
-  │   The SubAgent will build/refine HTML/CSS, run 100-pt DoD   │
+  │   The SubAgent will build/refine NextJS page.tsx, run 100-pt DoD   │
   │   audit, and return a JSON scorecard.                       │
   │   Do NOT proceed until the SubAgent has returned.           │
   │                                                             │
@@ -182,7 +183,7 @@ LOOP:
 ### Stage 2 QA: Acceptance Testing
 
 After the builder loop exits, SPAWN `ralph_stage2_qa`:
-- Pass: feature_name, contract_path, screens_path, iteration, builder_score, ds_path
+- Pass: feature_name, contract_path, page_path (apps/website/src/app/design-system/{feature_name}/page.tsx), live_url (http://localhost:9993/design-system/{feature_name}), iteration, builder_score, ds_path
 - Wait for QA to return JSON scorecard
 - If `QA_PASS` → proceed to Gate B
 - If `QA_FAIL` → Feed fix_queue back into builder (1 fix iteration), then re-run QA (max 2 retries)
@@ -192,7 +193,7 @@ After the builder loop exits, SPAWN `ralph_stage2_qa`:
 Present to the human:
 - Score progression: score_history (show all iterations for both stages)
 - Latest scorecard (total, pillars, P0/P1/P2)
-- Files under `docs/design/screens/{feature_name}/`
+- Files: `apps/website/src/app/design-system/{feature_name}/page.tsx`
 - Any TIMEOUT/REGRESSION/STALL warnings
 
 Ask for structured scorecard:
