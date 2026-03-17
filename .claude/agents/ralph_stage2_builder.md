@@ -180,6 +180,35 @@ After building/fixing, run the 100-pt DoD audit **on the `page.tsx` source code*
   2. Pre-submission checklist logged
   3. All states previewed in turn
 
+### ANTI-INFLATION RULES (MANDATORY — apply AFTER tool checks):
+
+1. **Token fidelity hard-cap:** If ANY `var(--xxx)` in page.tsx is NOT in the DS_MANIFEST → fidelity pillar capped at 10/20
+2. **Hardcoded color hard-cap:** If ANY `#hex`, `rgb()`, `rgba()` found in inline styles (excluding comments) → fidelity pillar capped at 15/20
+3. **Storyboard coverage hard-cap:** Count `data-ds-id` in page.tsx vs storyboard targets. If < 80% match → contract conformance capped at 20/30
+4. **Iteration 1 score ceiling:** First iteration score MUST be ≤ 90 (no perfect score on first build)
+
+### COMMON HALLUCINATED TOKENS (DO NOT USE — these are NOT in the DS):
+
+| ❌ Hallucinated | ✅ Real DS Token |
+|----------------|-----------------|
+| `--bg-surface` | `--surface` or `--bg` |
+| `--text-primary` | `--text` |
+| `--text-secondary` | `--text-dim` |
+| `--border-subtle` | `--border` |
+| `--accent-primary` | `--accent-cyan` |
+| `--color-*` (any) | DS uses `--accent-cyan`, `--accent-teal`, etc. |
+| `--text-on-accent` | `--text` (with appropriate context) |
+| `--bg-card` | `--surface` |
+| `--shadow-sm/md/lg` | `--shadow-card` or `--shadow-hero` |
+
+### PRE-AUDIT VALIDATION (run BEFORE scoring — MANDATORY):
+
+```
+grep -cP '\-\-(bg-surface|text-primary|text-secondary|border-subtle|accent-primary|color-|text-on-accent|bg-card)' page.tsx
+```
+
+If count > 0 → you MUST fix these tokens BEFORE scoring. Each hallucinated token remaining = P1 violation.
+
 # Your Output (MANDATORY FORMAT)
 
 After completing the iteration, you MUST output this JSON block as your **final message** and then **STOP IMMEDIATELY**. Do NOT continue with any further work after outputting this JSON:

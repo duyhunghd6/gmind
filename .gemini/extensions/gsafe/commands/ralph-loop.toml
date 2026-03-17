@@ -124,6 +124,16 @@ Ask: "APPROVE, REJECT_FIX_CONTRACT, or REJECT_FIX_PRD?"
 
 Execute this sequential spawn loop (SAME pattern as Stage 1):
 
+### Step W0: Plan Declaration (MANDATORY before iteration 1)
+
+Before spawning the first builder iteration, YOU (the orchestrator) must:
+1. Read `docs/design/contracts/{feature_name}/contract.yaml` to extract required screens/components
+2. Read `packages/design-system/tokens/colors.css` to extract REAL DS token names
+3. Declare in your log: which screens will be built, which DS tokens will be used, estimated component count
+4. Pass REAL DS token names into the builder's invocation prompt as DS_MANIFEST
+
+This prevents the builder from hallucinating tokens or expanding scope beyond the contract.
+
 ```
 iter = 1
 MIN_ITER = 5
@@ -160,6 +170,11 @@ LOOP:
   │ Step 4: ANALYZE and DECIDE                                  │
   │   LOG: "Stage 2 iter {iter}: score={score}, P0={p0_count}"  │
   │                                                             │
+  │   SCORE SANITY CHECK:                                       │
+  │   IF prev_qa_status == "QA_FAIL" AND score == 100:           │
+  │     → LOG "Builder claims 100 but prev QA failed. Cap 95."  │
+  │     → score = min(score, 95)                                │
+  │                                                             │
   │   IF iter < MIN_ITER:                                       │
   │     → ALWAYS CONTINUE (ignore score — floor guard)          │
   │   IF score >= 95 AND p0_count == 0:                         │
@@ -185,8 +200,20 @@ LOOP:
 After the builder loop exits, SPAWN `ralph_stage2_qa`:
 - Pass: feature_name, contract_path, page_path (apps/website/src/app/design-system/{feature_name}/page.tsx), live_url (http://localhost:9993/design-system/{feature_name}), iteration, builder_score, ds_path
 - Wait for QA to return JSON scorecard
-- If `QA_PASS` → proceed to Gate B
-- If `QA_FAIL` → Feed fix_queue back into builder (1 fix iteration), then re-run QA (max 2 retries)
+
+QA retry logic (max 2 retries):
+```
+qa_retry_count = 0
+QA_LOOP:
+  SPAWN ralph_stage2_qa
+  IF QA_PASS → proceed to Gate B
+  IF QA_FAIL AND qa_retry_count < 2:
+    → Feed fix_queue back into builder (1 fix iteration)
+    → qa_retry_count += 1
+    → GO TO QA_LOOP
+  IF QA_FAIL AND qa_retry_count >= 2:
+    → EXIT → Gate B with QA_TIMEOUT warning
+```
 
 ### 🚧 GATE B: Final Human Approval
 
@@ -208,6 +235,8 @@ Ask for structured scorecard:
 **Routing:**
 - **APPROVE** → Pipeline complete! Log to `docs/design/reports/{feature_name}-approval-log.md`
 - **REQUEST_FIX** → Add human feedback to fix_queue, re-enter Stage 2 loop
+
+**IMPORTANT:** You MUST present each criterion with its score BEFORE asking for APPROVE/REQUEST_FIX. Do NOT skip the structured scorecard.
 
 ---
 

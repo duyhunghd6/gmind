@@ -335,6 +335,15 @@ delta = builder_score - prev_score
 score_history.append({iter, builder_score, qa_status, delta})
 LOG: "Stage 2 cycle {iter}: builder={builder_score}, QA={passed}/{total} (Δ={delta})"
 
+# 0. SCORE SANITY CHECK — prevent builder inflation
+IF prev_qa_status == "QA_FAIL" AND builder_score == 100:
+  LOG: "WARNING: Builder claims 100 but previous QA found failures. Capping at 95."
+  builder_score = min(builder_score, 95)
+
+# 0.1. QA RETRY LIMIT — max 2 QA→fix→rerun cycles
+IF qa_retry_count >= 2 AND qa_status == "QA_FAIL":
+  → EXIT LOOP → Gate B with QA_TIMEOUT warning ("Max QA retries exceeded")
+
 # 1. FLOOR GUARD — ALWAYS run at least MIN_ITER cycles
 IF iter < 5:
   → Merge QA fix_queue into builder fix_queue → CONTINUE
@@ -358,7 +367,9 @@ IF abs(delta) <= 1 AND abs(prev_delta) <= 1 AND abs(prev_prev_delta) <= 1:
 
 # 6. QA FAIL (merge fixes and continue)
 IF qa_status == "QA_FAIL":
-  → Merge QA fix_queue into builder fix_queue as P0 items → CONTINUE
+  → Merge QA fix_queue into builder fix_queue as P0 items
+  → qa_retry_count += 1
+  → CONTINUE
 
 # 7. OTHERWISE
   → prev_prev_delta = prev_delta
