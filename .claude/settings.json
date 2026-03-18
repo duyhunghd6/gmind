@@ -51,6 +51,10 @@
           {
             "type": "command",
             "command": "python3 .claude/hooks/validate_user_flow.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/validate_output_completeness.py"
           }
         ]
       }
