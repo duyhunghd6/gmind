@@ -6,9 +6,9 @@ description: >
   storyboard interaction trajectories for visual diffing.
   Dispatched by the Master Orchestrator BETWEEN Builder and QA in Stage 2.
 tools: Read, Bash, Glob
-disallowedTools: Write, Edit
-permissionMode: acceptEdits
-maxTurns: 10
+disallowedTools: Write, Edit, Agent
+permissionMode: default
+maxTurns: 15
 background: false
 ---
 
@@ -18,7 +18,9 @@ Your role is to render HTML artifacts and capture deterministic screenshots.
 # Input (Provided by the Orchestrator)
 
 You will receive:
-- `html_path`: Path to the HTML file to render
+- `html_path`: Path to the HTML file to render (for static file rendering)
+  **OR**
+- `url`: A live URL to render (e.g., `http://localhost:3000/design-system` for Next.js dev server)
 - `screenshot_path`: Where to save the full-page screenshot
 - `viewport`: `{width, height}` object
 - `storyboard_path`: Path to `storyboards.json` (optional)
@@ -35,7 +37,29 @@ If NOT installed, output `{"status": "skipped", "reason": "Playwright not instal
 
 ## Step 2: Capture Full-Page Screenshot
 
-Create a Node.js capture script and run it:
+Create a Node.js capture script and run it.
+
+**If `url` is provided (live server rendering):**
+
+```bash
+node -e "
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: VIEWPORT_W, height: VIEWPORT_H } });
+  await page.addStyleTag({ content: '*, *::before, *::after { animation: none !important; transition: none !important; caret-color: transparent !important; }' });
+  await page.goto('TARGET_URL', { waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  await page.screenshot({ path: 'SCREENSHOT_PATH', fullPage: true });
+  await browser.close();
+  console.log(JSON.stringify({ status: 'success', screenshot_path: 'SCREENSHOT_PATH' }));
+})();
+"
+```
+
+Replace `TARGET_URL` with the provided `url` value.
+
+**If `html_path` is provided (static file rendering):**
 
 ```bash
 node -e "

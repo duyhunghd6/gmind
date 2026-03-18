@@ -4,8 +4,10 @@ description: >
   PRD writing and refinement agent for the Ralph Loop pipeline.
   Triggered when missing edge cases are detected or Gate A issues REJECT_FIX_PRD.
 tools: Read, Write, Edit, Grep, Glob
+disallowedTools: Agent
 permissionMode: acceptEdits
-maxTurns: 10
+maxTurns: 15
+background: false
 ---
 
 You are the PRD Writer Agent for the UI/UX Ralph Loop ecosystem.

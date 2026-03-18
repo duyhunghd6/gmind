@@ -1,5 +1,14 @@
 {
   "permissions": {
+    "allow": [
+      "Agent(ralph_stage1_evaluator)",
+      "Agent(ralph_stage1_qa)",
+      "Agent(ralph_stage2_builder)",
+      "Agent(ralph_stage2_qa)",
+      "Agent(browser_subagent)",
+      "Agent(prd_writer_agent)",
+      "Agent(gsafe_manager)"
+    ],
     "ask": [
       "Bash(rm -rf *)",
       "Bash(git push --force *)",
