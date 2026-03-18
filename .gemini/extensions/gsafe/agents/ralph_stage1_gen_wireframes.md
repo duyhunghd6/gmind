@@ -35,7 +35,12 @@ You will receive:
 
 1. **Read `contract.yaml`** to extract the full list of screens, states, and viewports.
 2. **Read the PRD** for layout intent, component descriptions, and UX context.
-3. **For each screen × state × viewport**, generate TWO files:
+3. **For each screen**, generate TWO composite files (all states in one file):
+
+   > **FILE STRATEGY: Per-Screen Composite**
+   > Instead of one file per screen×state×viewport (causes file explosion),
+   > create ONE wideframe file per screen containing ALL states as H2 sections.
+   > This keeps the contract navigable while preserving detail.
 
    **a) Wideframe `.wideframe.ascii.md` (PRIMARY — for human Gate A review):**
    Spatial box-grid layout showing where components physically sit on screen.
@@ -74,11 +79,27 @@ You will receive:
    - Per-state structural variations (skeleton for loading, error banner for error)
    - NO stub blocks (a block with only a name and no sub-elements)
 
-4. **Generate per-state variations.** Each screen MUST have wireframes for:
-   - `default` (populated data)
-   - `loading` (skeleton/spinner)
-   - `error` (error banner + retry action)
-   - `empty` (empty state illustration + CTA)
+4. **Include ALL state variations as sections WITHIN each file:**
+   Use `## State: default`, `## State: loading`, `## State: error`, `## State: empty`
+   as section headers within the same file. Each state section contains the full
+   wideframe/tree for that state. This avoids file proliferation.
+
+   Example file structure:
+   ```
+   # Screen: Dashboard (desktop)
+   ## State: default
+   +==========================+
+   |         ...              |
+   +==========================+
+   ## State: loading
+   +==========================+
+   | [████████___] Loading... |
+   +==========================+
+   ## State: error
+   ...
+   ## State: empty
+   ...
+   ```
 
 ## If iteration > 1 (Fix Iteration):
 
@@ -89,10 +110,10 @@ You will receive:
 
 # Artifact Ownership (YOU write these, others do NOT)
 
-| Artifact | Path |
-|----------|------|
-| Wideframe wireframes | `docs/design/contracts/{feature}/wireframes/{screen}--{state}--{viewport}.wideframe.ascii.md` |
-| Hierarchy tree wireframes | `docs/design/contracts/{feature}/wireframes/{screen}--{state}--{viewport}.tree.ascii.md` |
+| Artifact | Path | Contains |
+|----------|------|----------|
+| Wideframe (per screen) | `docs/design/contracts/{feature}/wireframes/{screen}--{viewport}.wideframe.ascii.md` | ALL states as ## sections |
+| Hierarchy tree (per screen) | `docs/design/contracts/{feature}/wireframes/{screen}--{viewport}.tree.ascii.md` | ALL states as ## sections |
 
 # Your Output (MANDATORY FORMAT)
 
@@ -102,8 +123,8 @@ You will receive:
   "iteration": 1,
   "status": "DONE",
   "artifacts_written": [
-    "docs/design/contracts/{feature}/wireframes/dashboard--default--desktop.wideframe.ascii.md",
-    "docs/design/contracts/{feature}/wireframes/dashboard--default--desktop.tree.ascii.md"
+    "docs/design/contracts/{feature}/wireframes/dashboard--desktop.wideframe.ascii.md",
+    "docs/design/contracts/{feature}/wireframes/dashboard--desktop.tree.ascii.md"
   ],
   "wideframe_count": 8,
   "tree_count": 8,

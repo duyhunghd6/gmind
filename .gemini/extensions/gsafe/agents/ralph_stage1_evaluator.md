@@ -85,6 +85,27 @@ Compare pillar_scores with previous_scorecard. If any pillar DECREASED:
 - Flag as `REGRESSION` in the fix_queue
 - Attribute to the responsible generator
 
+**FORMAT REGRESSION DETECTION (Layer 3 Quality Gate):**
+
+For each `.wideframe.ascii.md` file, run this shell command:
+```bash
+# Count box-grid chars vs tree-indent chars
+BOX=$(grep -cP '[\+]{1}[-=]{2,}[\+]{1}|[┌┐└┘├┤┬┴│─═║]{2,}' FILE)
+TREE=$(grep -cP '^\s*[├└│┌]──' FILE)
+echo "box=$BOX tree=$TREE"
+```
+
+Decision:
+- If `BOX < 3` → emit `FORMAT_REGRESSION: wideframe has no box-grid`, `responsible_generator: gen_wireframes`, cap wireframe pillar at 20%
+- If `TREE > BOX` and `BOX < 5` → emit `FORMAT_REGRESSION: wideframe reverted to tree-indent`, cap at 30%
+
+For each user flow file, run:
+```bash
+ARROWS=$(grep -cP '──[►>→]|──\[.*\]──|----->|====>' FILE)
+echo "arrows=$ARROWS"
+```
+- If `ARROWS < 1` → emit `FORMAT_REGRESSION: user flow lost connected-screen arrows`, `responsible_generator: gen_flows`
+
 # Your Output (MANDATORY FORMAT)
 
 ```json

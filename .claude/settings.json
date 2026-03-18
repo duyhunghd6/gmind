@@ -2,8 +2,14 @@
   "permissions": {
     "allow": [
       "Agent(ralph_stage1_evaluator)",
+      "Agent(ralph_stage1_gen_contracts)",
+      "Agent(ralph_stage1_gen_wireframes)",
+      "Agent(ralph_stage1_gen_flows)",
       "Agent(ralph_stage1_qa)",
       "Agent(ralph_stage2_builder)",
+      "Agent(ralph_stage2_build_layout)",
+      "Agent(ralph_stage2_build_components)",
+      "Agent(ralph_stage2_build_states)",
       "Agent(ralph_stage2_qa)",
       "Agent(browser_subagent)",
       "Agent(prd_writer_agent)",
@@ -28,5 +34,38 @@
       "Read(~/.ssh/**)",
       "Read(~/.aws/**)"
     ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/validate_wideframe.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/validate_ds_tokens.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/validate_user_flow.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/validate_states.py"
+          }
+        ]
+      }
+    ]
   }
 }
+
