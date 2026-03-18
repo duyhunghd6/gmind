@@ -61,10 +61,15 @@ Create this task list at the start and update it as you progress:
 5. Check if Design System exists: `ls packages/design-system/ 2>/dev/null`. Store as `ds_path`.
 6. **Discover DS showcase URL:** If `ds_path` exists, check if the Next.js dev server is running:
    ```bash
-   curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/design-system 2>/dev/null
+   curl -s -o /dev/null -w "%{http_code}" http://localhost:9993/design-system 2>/dev/null
    ```
-   - If HTTP 200: store `ds_dev_url = "http://localhost:3000/design-system"`
-   - If not running: try `cd apps/website && npm run dev &` then recheck. Store URL or set `ds_dev_url = "none"`
+   - If HTTP 200: store `ds_dev_url = "http://localhost:9993/design-system"`
+   - If not running: **force-kill any stale process on port 9993 first**, then start the dev server:
+     ```bash
+     lsof -ti:9993 | xargs kill -9 2>/dev/null || true
+     cd apps/website && npm run dev &
+     ```
+     Wait ~5s, recheck with curl. Store URL or set `ds_dev_url = "none"`
 
 If any precondition fails, tell the user and stop.
 

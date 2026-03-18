@@ -20,7 +20,7 @@ Your role is to render HTML artifacts and capture deterministic screenshots.
 You will receive:
 - `html_path`: Path to the HTML file to render (for static file rendering)
   **OR**
-- `url`: A live URL to render (e.g., `http://localhost:3000/design-system` for Next.js dev server)
+- `url`: A live URL to render (e.g., `http://localhost:9993/design-system` for Next.js dev server)
 - `screenshot_path`: Where to save the full-page screenshot
 - `viewport`: `{width, height}` object
 - `storyboard_path`: Path to `storyboards.json` (optional)

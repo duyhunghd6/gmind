@@ -32,7 +32,7 @@ You will receive:
 - `ds_path`: Path to Design System (e.g., `packages/design-system/`) or "none"
 - `screenshot_path`: Path to browser screenshot of the BUILT UI from render gate, or "none"
 - `ds_baseline_screenshot_path`: Path to browser screenshot of the LIVE DS showcase from Step A.6, or "none"
-- `ds_dev_url`: Live URL of the DS showcase (e.g., `http://localhost:3000/design-system`), or "none"
+- `ds_dev_url`: Live URL of the DS showcase (e.g., `http://localhost:9993/design-system`), or "none"
 - `ds_manifest`: Structured Design System manifest from the orchestrator (contains exact token names, component classes, layout classes)
 
 # What You Do
