@@ -486,7 +486,7 @@ _Testing the full multi-step task end-to-end to evaluate reasoning and capabilit
   - **Wireframe Geometry Validation:** Does the `layout-rules.json` confirm that the Sidebar is strictly left of the Main Content with zero pixel overlap?
   - **Storyboard Trajectory Validation:** A storyboard is a sequence of states. The Gatecheck agent must test the "trajectory": `Default State` → (Click Button) → `Loading State` → (API Mock Return) → `Populated State`.
   - Did the screen transition smoothly without breaking the layout?
-  - **Visual Diff via Browser Agent:** A headless browser (Playwright) renders the built UI and the **live DS showcase** (Next.js endpoint at `localhost:3000/design-system`). Computed styles (background, font-family, border-radius, card/button patterns) are extracted from both and compared. Mismatches between the built UI and the live DS are flagged as P1 violations.
+  - **Visual Diff via Browser Agent:** A headless browser (Playwright) renders the built UI and the **live DS showcase** (Next.js endpoint at `localhost:9993/design-system`). Computed styles (background, font-family, border-radius, card/button patterns) are extracted from both and compared. Mismatches between the built UI and the live DS are flagged as P1 violations.
 - **Metrics:**
   - **Trajectory Average Score:** How accurately did the sequence of DOM states match the prescribed Storyboard?
   - **Response Match Score (Visual Diff):** How closely do the captured screen layouts match the baseline wireframes (e.g., threshold > 0.95)?
@@ -1516,7 +1516,7 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |  └────────────────────────────────────────────────────────────────────────────────────────┘  |
 |           ↓                                                                                   |
 |  ┌─ DS BASELINE: Live Showcase Screenshot (browser_subagent) ────────────────────────────┐  |
-|  | Navigates to live DS showcase: http://localhost:3000/design-system (Next.js dev)       |  |
+|  | Navigates to live DS showcase: http://localhost:9993/design-system (Next.js dev)       |  |
 |  | Captures baseline screenshot of the live Design System with real tokens/components     |  |
 |  | Both screenshots passed to QA for visual diff comparison                              |  |
 |  └────────────────────────────────────────────────────────────────────────────────────────┘  |
@@ -1546,7 +1546,7 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |           ↓                                                                                   |
 |  ┌─ QA VISUAL DIFF: Built UI vs Live DS (ralph_stage2_qa — T7) ──────────────────────────┐  |
 |  | Extracts computed styles from built UI via Playwright (bg, font, card, button)         |  |
-|  | Extracts computed styles from live DS showcase (localhost:3000/design-system)           |  |
+|  | Extracts computed styles from live DS showcase (localhost:9993/design-system)           |  |
 |  | Compares: background colors, font-family, card/button styling, border-radius           |  |
 |  | Mismatches = P1 violations with specific fix instructions                              |  |
 |  | Falls back to SKIPPED if dev server unavailable                                        |  |

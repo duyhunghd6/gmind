@@ -28,7 +28,10 @@ You will receive:
    → verify `build_layout` is DONE before starting.
 2. **Read your agent memory** at `.agents/agent-org/memories/build_components.md`
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
-4. **After completing your work**, update the task board:
+4. **Load skills** — read and apply rules from:
+   - `.claude/skills/soft-skill/SKILL.md` — premium component architecture, Double-Bezel nested cards (§4), haptic micro-aesthetics, motion choreography
+   - `.claude/skills/taste-skill/SKILL.md` — AI TELLS forbidden patterns (§7), creative arsenal (§8), data & form patterns, content rules
+5. **After completing your work**, update the task board:
    - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
    - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
      `{"ts": "{now}", "agent": "build_components", "event": "DONE", "iteration": {iter}}`

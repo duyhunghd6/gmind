@@ -28,7 +28,10 @@ You will receive:
 1. **Read task board** at `docs/design/pipeline-state/{feature_name}/task-board.json`
 2. **Read your agent memory** at `.agents/agent-org/memories/build_layout.md`
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
-4. **After completing your work**, update the task board:
+4. **Load skills** — read and apply rules from:
+   - `.claude/skills/taste-skill/SKILL.md` — bias correction rules, parametric design dials, layout diversification
+   - `.claude/skills/redesign-skill/SKILL.md` — layout audit (§Layout), typography rules (§Typography), color/surface rules (§Color and Surfaces)
+5. **After completing your work**, update the task board:
    - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
    - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
      `{"ts": "{now}", "agent": "build_layout", "event": "DONE", "iteration": {iter}}`

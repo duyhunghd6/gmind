@@ -28,7 +28,10 @@ You will receive:
    → verify `build_layout` AND `build_components` are DONE.
 2. **Read your agent memory** at `.agents/agent-org/memories/build_states.md`
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
-4. **After completing your work**, update the task board:
+4. **Load skills** — read and apply rules from:
+   - `.claude/skills/redesign-skill/SKILL.md` — interactivity & states audit (§Interactivity and States), strategic omissions (§Strategic Omissions), upgrade techniques (§Upgrade Techniques)
+   - `.claude/skills/output-skill/SKILL.md` — full-output enforcement, banned output patterns, PAUSED protocol for long outputs
+5. **After completing your work**, update the task board:
    - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
    - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
      `{"ts": "{now}", "agent": "build_states", "event": "DONE", "iteration": {iter}}`

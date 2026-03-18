@@ -30,7 +30,12 @@ You will receive:
 1. **Read task board** at `docs/design/pipeline-state/{feature_name}/task-board.json`
 2. **Read your agent memory** at `.agents/agent-org/memories/builder.md`
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
-4. **You are READ-ONLY** — the orchestrator updates `task-board.json` and appends
+4. **Load skills** — read to verify builders followed these rules:
+   - `.claude/skills/taste-skill/SKILL.md` — AI TELLS (§7), bias correction (§3), performance guardrails (§5)
+   - `.claude/skills/redesign-skill/SKILL.md` — 8-category design audit, strategic omissions, fix priority
+   - `.claude/skills/soft-skill/SKILL.md` — Absolute Zero directive, pre-output checklist (§8)
+   - `.claude/skills/output-skill/SKILL.md` — banned output patterns, completeness cross-check
+5. **You are READ-ONLY** — the orchestrator updates `task-board.json` and appends
    to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl` on your behalf.
 
 # What You Do — 100-pt DoD Audit
