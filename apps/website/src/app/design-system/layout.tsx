@@ -117,6 +117,18 @@ const menu: Category[] = [
         ],
       },
       {
+        href: "/design-system/webui-pm-workspace",
+        label: "PM Workspace",
+        icon: "🧭",
+        subs: [
+          { href: "/design-system/webui-pm-workspace#surface-dashboard", label: "Dashboard" },
+          { href: "/design-system/webui-pm-workspace#surface-board", label: "Board" },
+          { href: "/design-system/webui-pm-workspace#surface-pi-planning", label: "PI Planning" },
+          { href: "/design-system/webui-pm-workspace#surface-approval", label: "Approval" },
+          { href: "/design-system/webui-pm-workspace#surface-graph", label: "Graph" },
+        ],
+      },
+      {
         href: "/design-system/timeline",
         label: "Timeline",
         icon: "📅",
