@@ -2420,3 +2420,384 @@ Layer 2 (Communication) is partially implemented (file-based, no direct messagin
 Layer 3 (Memory & Learning) is designed but not yet implemented.
 Level 3+ of the maturity model requires Claude Code Agent Teams (experimental).
 
+### Session 6 (2026-03-18) — Agent Organization Memory Architecture
+
+<!-- beads-id: bd-spike-ralph-session6-agent-org-memory -->
+
+**Trigger:** Session 5 introduced the 4-Layer Agent Organization Model but left Layer 3 (Memory & Learning) as "designed but not implemented." The fundamental question: **how should SubAgents share task lists, logs, and memories to function as a seamless Agent Organization — not just parallel workers?**
+
+**Research question:** What is the concrete memory architecture that enables self-learning, self-improvement, and seamless coordination across SubAgents?
+
+#### GAP-64: The Memory Problem — Why "No Memory" Kills the Organization
+
+**Current state (broken):** Each SubAgent spawn is a **tabula rasa**:
+
+```text
+Pipeline Run 1 (feature: dashboard):
+  gen_wireframes iter 1 → scores 45 → learns nothing
+  gen_wireframes iter 2 → scores 62 → learns nothing
+  gen_wireframes iter 3 → scores 91 → learns nothing ← KNOWLEDGE LOST
+
+Pipeline Run 2 (feature: settings):
+  gen_wireframes iter 1 → scores 40 ← SAME MISTAKES AS RUN 1
+```
+
+Without memory, the agent makes the **same mistakes on every new feature**. The organization can't improve because each agent starts from zero. This is like a company where every employee gets amnesia every Monday.
+
+**What the user identified:** SubAgents need to share:
+1. **Task lists** — who's doing what, what's done, what's blocked
+2. **Logs** — what happened chronologically (for post-mortem & learning)
+3. **Agent memories** — patterns learned from past runs (for self-improvement)
+
+#### GAP-65: The 4-Tier Memory Architecture
+
+The solution maps directly to how human organizations manage knowledge:
+
+```text
+====================================================================================================
+                    4-TIER AGENT ORGANIZATION MEMORY
+====================================================================================================
+
+  Tier 4: ORGANIZATION MEMORY    ← Shared across ALL agents, ALL features
+           Scope: infinite (persists forever)
+           ┌────────────────────────────────────────────────────────────┐
+           │  org-memory.md:       Team-level patterns & anti-patterns  │
+           │  baselines.json:      Expected first-iter scores           │
+           │  routing-rules.json:  Which agent combos work best         │
+           │  human-feedback.jsonl: Accumulated Gate A/B themes         │
+           └────────────────────────────────────────────────────────────┘
+
+  Tier 3: AGENT MEMORY           ← Per-agent, persists across features
+           Scope: lifetime of agent type
+           ┌────────────────────────────────────────────────────────────┐
+           │  {agent}/MEMORY.md:   "I always forget --text-dim"         │
+           │  {agent}/wins.jsonl:  Patterns that consistently pass      │
+           │  {agent}/fails.jsonl: Patterns that consistently fail      │
+           └────────────────────────────────────────────────────────────┘
+
+  Tier 2: PIPELINE MEMORY        ← Shared within one feature's pipeline run
+           Scope: one pipeline execution (all iterations)
+           ┌────────────────────────────────────────────────────────────┐
+           │  task-board.json:     Live task status for all SubAgents    │
+           │  pipeline-log.jsonl:  Chronological event stream            │
+           │  scorecards/:        Scorecard history per iteration       │
+           │  snapshots/:         File snapshots for regression compare │
+           └────────────────────────────────────────────────────────────┘
+
+  Tier 1: INVOCATION MEMORY      ← Single SubAgent invocation
+           Scope: one spawn (disappears after the agent finishes)
+           ┌────────────────────────────────────────────────────────────┐
+           │  Prompt injection:    fix_queue, golden examples           │
+           │  tool_evidence[]:     Scores from current evaluation       │
+           │  Agent's own context: LLM conversation state (volatile)    │
+           └────────────────────────────────────────────────────────────┘
+
+====================================================================================================
+```
+
+#### GAP-66: Tier 2 — Pipeline Memory (The Shared Task Board)
+
+**This is the most impactful tier to implement first.** It enables SubAgents to see each other's work without relying on the orchestrator to pass everything.
+
+**File structure:**
+
+```text
+docs/design/pipeline-state/{feature_name}/
+├── task-board.json         ← WHO is doing WHAT, status of each task
+├── pipeline-log.jsonl      ← Append-only event stream
+├── scorecards/
+│   ├── stage1-iter-1.json  ← Stage 1 scorer output
+│   ├── stage1-iter-2.json
+│   └── stage2-iter-1.json
+└── snapshots/
+    ├── iter-1/             ← Full file snapshot at end of iter 1
+    └── iter-2/
+```
+
+**`task-board.json` — The Shared State:**
+
+```json
+{
+  "feature": "webui-pm-workspace",
+  "pipeline_start": "2026-03-18T20:00:00Z",
+  "current_stage": 1,
+  "current_iteration": 3,
+  "agents": {
+    "gen_contracts": {
+      "status": "DONE",
+      "last_run_iter": 1,
+      "artifacts": ["contract.yaml", "storyboards.json", "layout-rules.json"],
+      "last_score_attribution": "PASS"
+    },
+    "gen_wireframes": {
+      "status": "RUNNING",
+      "last_run_iter": 3,
+      "artifacts": ["dashboard--desktop.wideframe.ascii.md"],
+      "last_score_attribution": "FIX_REQUIRED",
+      "fix_reason": "DIAGRAM_TOO_SHALLOW for settings screen"
+    },
+    "gen_flows": {
+      "status": "DONE",
+      "last_run_iter": 2,
+      "artifacts": ["j1-main-journey.ascii.md", "component-map.json"],
+      "last_score_attribution": "PASS"
+    },
+    "evaluator": {
+      "status": "WAITING",
+      "last_run_iter": 2,
+      "last_score": 78
+    }
+  },
+  "score_history": [45, 78],
+  "convergence_trend": "IMPROVING"
+}
+```
+
+**READ/WRITE contract for task-board.json:**
+
+| Agent | Can READ? | Can WRITE? | What it writes |
+|-------|-----------|------------|----------------|
+| Orchestrator | ✅ | ✅ | Everything (creates, updates status) |
+| gen_contracts | ✅ | ✅ own entry | `status`, `artifacts` |
+| gen_wireframes | ✅ | ✅ own entry | `status`, `artifacts` |
+| gen_flows | ✅ | ✅ own entry | `status`, `artifacts` |
+| evaluator (scorer) | ✅ | ✅ own + attributions | `last_score_attribution`, `fix_reason` |
+| QA agents | ✅ | ✅ own entry | `status`, test results |
+| Human (Gate A/B) | ✅ | ❌ | (reads for informed decisions) |
+
+**Why this helps:** When `gen_wireframes` is re-spawned on iter 3, it reads the task board and knows:
+- `gen_contracts` passed on iter 1 → contract.yaml is stable, trust it
+- `gen_flows` was fixed on iter 2 → component-map.json may have changed, re-read it
+- Its own last failure was "DIAGRAM_TOO_SHALLOW" → focus on depth, not format
+
+**`pipeline-log.jsonl` — The Event Stream:**
+
+```jsonl
+{"ts": "2026-03-18T20:00:01Z", "agent": "orchestrator", "event": "PIPELINE_START", "feature": "webui-pm-workspace", "prd": "PRD-04"}
+{"ts": "2026-03-18T20:00:05Z", "agent": "gen_contracts", "event": "SPAWN", "iteration": 1}
+{"ts": "2026-03-18T20:02:30Z", "agent": "gen_contracts", "event": "DONE", "artifacts": 3, "duration_s": 145}
+{"ts": "2026-03-18T20:02:35Z", "agent": "gen_wireframes", "event": "SPAWN", "iteration": 1}
+{"ts": "2026-03-18T20:05:10Z", "agent": "gen_wireframes", "event": "DONE", "artifacts": 4, "duration_s": 155}
+{"ts": "2026-03-18T20:08:00Z", "agent": "evaluator", "event": "SCORED", "score": 45, "fix_count": 5}
+{"ts": "2026-03-18T20:08:05Z", "agent": "gen_wireframes", "event": "RE_SPAWN", "iteration": 2, "reason": "DIAGRAM_TOO_SHALLOW"}
+{"ts": "2026-03-18T20:15:00Z", "agent": "evaluator", "event": "SCORED", "score": 78, "fix_count": 2}
+{"ts": "2026-03-18T20:20:00Z", "agent": "evaluator", "event": "SCORED", "score": 93, "fix_count": 0}
+{"ts": "2026-03-18T20:20:05Z", "agent": "orchestrator", "event": "GATE_A_READY", "total_iters": 3, "total_time_m": 20}
+```
+
+**Why this helps:** The pipeline log enables post-mortem analysis. After 10 features, you can ask:
+- "Which agent takes the longest?"
+- "How many iterations does `gen_wireframes` typically need?"
+- "What's the most common P0 fix?"
+
+#### GAP-67: Tier 3 — Agent Memory (Per-Agent Learning)
+
+Each agent maintains a **MEMORY.md** that persists across pipeline runs. This is the mechanism for **self-improvement**.
+
+**File structure:**
+
+```text
+.agents/agent-org/memories/
+├── gen_contracts.md
+├── gen_wireframes.md
+├── gen_flows.md
+├── evaluator.md
+├── build_layout.md
+├── build_components.md
+├── build_states.md
+└── builder.md
+```
+
+**Example: `gen_wireframes/MEMORY.md`:**
+
+```markdown
+# Agent Memory: gen_wireframes
+Last updated: 2026-03-18 (after feature: webui-pm-workspace)
+
+## Patterns That Consistently PASS
+- Structured heading hierarchy with `## State:` sections
+- Box-grid with width annotations `[60%]` / `[40%]`
+- Including placeholder text inside boxes (not just block names)
+- ≥3 nesting levels for complex screens
+
+## Patterns That Consistently FAIL
+- Tree-indent format in .wideframe.ascii.md → FORMAT_REGRESSION
+- Stub blocks (block with only a name, no sub-elements) → always flagged P1
+- Missing mobile viewport wireframes → scorer deducts 30%
+- Forgetting empty/error state variations → always flagged P0
+
+## Human Feedback Themes (from Gate A rejections)
+- "wireframes are too abstract" (2 occurrences)
+- "sidebar panel proportions don't match design system" (1 occurrence)
+
+## Score Trajectory Across Features
+- dashboard: iter1=45, final=93 (3 iterations)
+- settings: iter1=52, final=91 (2 iterations)
+- docs-viewer: iter1=68, final=95 (2 iterations, improving!)
+```
+
+**How this works in practice:**
+
+```text
+  Orchestrator spawns gen_wireframes:
+
+  "Generate wireframes for feature: task-detail.
+   ...
+   YOUR AGENT MEMORY (read carefully — these are YOUR learned patterns):
+   {contents of .agents/agent-org/memories/gen_wireframes.md}
+
+   Apply your learned patterns. Avoid your known failure modes."
+```
+
+The orchestrator **reads the agent's MEMORY.md and injects it** into the spawn prompt. This is cheap (one extra read_file) and gives the agent context about its own history.
+
+**Update cycle:** After every pipeline run, the orchestrator appends to MEMORY.md:
+1. New patterns from this run's scorecards (pass/fail patterns)
+2. New human feedback themes from Gate decisions
+3. Updated score trajectory
+
+#### GAP-68: Tier 4 — Organization Memory (Team-Level Meta-Learning)
+
+This is the highest tier — patterns that emerge across ALL agents, ALL features.
+
+**File: `.agents/agent-org/org-memory.md`:**
+
+```markdown
+# Organization Memory: Ralph Loop Agent Team
+Last updated: 2026-03-18 (after 3 features)
+
+## Cross-Agent Correlations
+- When gen_wireframes fails a11y → build_states will also fail a11y (correlation: 0.85)
+  → Action: If wireframe has a11y issues, pre-warn build_states in its prompt
+- When gen_contracts produces >5 states per screen → gen_wireframes takes 2+ extra iterations
+  → Action: For complex contracts, increase gen_wireframes max_turns to 25
+
+## Team Performance Baselines (after 3 features)
+- Stage 1 median first-iter score: 52 (improving: was 45 after 1 feature)
+- Stage 1 median iterations to converge: 2.5
+- Stage 2 median first-iter score: 58
+- Stage 2 median iterations to converge: 3
+- Average total pipeline time: 45 minutes
+
+## Routing Intelligence
+- gen_wireframes is the bottleneck (2.5× more re-spawns than other generators)
+  → Consider splitting into gen_wireframes_spatial + gen_wireframes_states
+- evaluator consistently scores layout_compilability at 100% after iter 1
+  → This pillar may be too easy, consider raising the bar
+
+## Anti-Patterns (organization-wide)
+- DO NOT let scorer feedback say "needs more detail" without specifying WHERE
+- DO NOT re-spawn all 3 generators when only 1 failed (cost: 3× per iteration)
+- DO NOT skip snapshot creation before re-spawn (prevents regression detection)
+```
+
+**File: `.agents/agent-org/baselines.json`:**
+
+```json
+{
+  "updated": "2026-03-18",
+  "features_processed": 3,
+  "stage1": {
+    "first_iter_score_p25": 42,
+    "first_iter_score_median": 52,
+    "first_iter_score_p75": 65,
+    "iterations_to_converge_median": 2.5,
+    "most_common_p0": "WIDEFRAME_MISSING"
+  },
+  "stage2": {
+    "first_iter_score_p25": 50,
+    "first_iter_score_median": 58,
+    "first_iter_score_p75": 72,
+    "iterations_to_converge_median": 3,
+    "most_common_p0": "DS_TOKEN_HALLUCINATED"
+  },
+  "total_pipeline_time_minutes_median": 45
+}
+```
+
+**How Tier 4 enables self-improvement:**
+
+If a new feature's iter-1 Stage 1 score is **below the P25 baseline** (42), it means the agent is performing worse than its historical bottom 25%. The orchestrator flags this as `BASELINE_REGRESSION` and investigates — maybe the PRD is unusually complex, or maybe a recent MEMORY.md update introduced a bad pattern.
+
+#### GAP-69: The Complete Information Flow — How All 4 Tiers Work Together
+
+```text
+                                                  ┌──────────────┐
+                                                  │ Tier 4: Org  │
+                                                  │ org-memory.md│
+                                                  │ baselines.json│
+                                                  └──────┬───────┘
+                                                         │ (read at pipeline start)
+                                                         ▼
+  ┌─────────────────────────────────────────────────────────────────────────────────────┐
+  │ ORCHESTRATOR                                                                        │
+  │                                                                                     │
+  │  1. Read org-memory.md → know team baselines and routing rules                      │
+  │  2. Read {agent}/MEMORY.md → inject per-agent patterns into spawn prompt            │
+  │  3. Create task-board.json → initialize shared state                                │
+  │  4. After each agent: update task-board + append to pipeline-log.jsonl               │
+  │  5. After scorer: update attributions, decide re-spawn                              │
+  │  6. After Gate: append human feedback to pipeline-log                               │
+  │  7. After GATE_B_APPROVE: update all MEMORY.md files + org-memory.md + baselines    │
+  │                                                                                     │
+  └──────────────┬───────────────────────────────────┬──────────────────────────────────┘
+                 │ (write to Tier 2)                  │ (update Tier 3 & 4)
+                 ▼                                    ▼
+  ┌────────────────────────┐              ┌────────────────────────┐
+  │ Tier 2: Pipeline State │              │ Tier 3: Agent Memory   │
+  │ task-board.json        │              │ gen_wireframes/MEMORY.md│
+  │ pipeline-log.jsonl     │              │ (injected into prompt) │
+  │ scorecards/            │              └────────────────────────┘
+  │ snapshots/             │
+  └────────────────────────┘
+       ↑ (each agent reads task board)
+       │
+  ┌────┴───────────────────────────────────────────┐
+  │ SubAgents (gen_contracts, gen_wireframes, etc.) │
+  │                                                 │
+  │  On spawn:                                      │
+  │    1. Read task-board.json → see team state      │
+  │    2. Read own MEMORY.md → recall past learnings │
+  │    3. Read artifacts on disk → see others' work  │
+  │    4. Execute assigned task                      │
+  │    5. Update own entry in task-board.json         │
+  │    6. Append to pipeline-log.jsonl               │
+  └─────────────────────────────────────────────────┘
+```
+
+#### GAP-70: Implementation Roadmap
+
+**Phase 1 — Tier 2 (Pipeline Memory):** `[HIGH PRIORITY — implement next]`
+- Create `task-board.json` schema and orchestrator read/write logic
+- Create `pipeline-log.jsonl` append logic in orchestrator
+- Add task-board read to each SubAgent's prompt injection
+- **Cost:** ~2 additional `read_file` per SubAgent spawn, 1 `write_file` per completion
+
+**Phase 2 — Tier 3 (Agent Memory):** `[MEDIUM PRIORITY — after 5+ features]`
+- Create `.agents/agent-org/memories/` directory with MEMORY.md per agent
+- Add MEMORY.md read/inject to orchestrator spawn logic
+- Add MEMORY.md update logic after Gate B approval
+- **Cost:** 1 additional `read_file` per spawn, 1 `write_file` at pipeline end
+
+**Phase 3 — Tier 4 (Organization Memory):** `[LOWER PRIORITY — after 10+ features]`
+- Create `.agents/agent-org/org-memory.md` and `baselines.json`
+- Add org-memory read at pipeline start
+- Add correlation analysis after each pipeline completion
+- Add BASELINE_REGRESSION detection
+- **Cost:** 2 additional `read_file` at start, statistical analysis at end
+
+### Decision
+
+**Research output (Session 6): 4-Tier Agent Organization Memory Architecture**
+
+| Tier | Scope | Key Files | Status |
+|------|-------|-----------|--------|
+| **1. Invocation** | Single spawn | Prompt injection (fix_queue, golden examples) | ✅ Implemented |
+| **2. Pipeline** | One feature run | `task-board.json`, `pipeline-log.jsonl`, scorecards/ | ❌ Design complete |
+| **3. Agent** | Per-agent lifetime | `{agent}/MEMORY.md`, wins.jsonl, fails.jsonl | ❌ Design complete |
+| **4. Organization** | All agents, all features | `org-memory.md`, `baselines.json`, routing-rules | ❌ Design complete |
+
+**Key insight:** Tier 2 (task board) gives the highest ROI — it enables agents to see each other's state without orchestrator relay. Tier 3 (agent memory) gives self-improvement. Tier 4 (org memory) gives meta-learning. Implement in this order.
+
+The read/write contract (who can read/write what) is critical for preventing conflicts. Generators can only write their own task-board entry; the scorer writes attributions; the orchestrator is the only entity that updates org-level memory.
+

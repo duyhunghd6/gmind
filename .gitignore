@@ -9,3 +9,4 @@ node_modules/
 apps/website/tsconfig.tsbuildinfo
 .vercel
 .env*.local
+docs/design/*.log
