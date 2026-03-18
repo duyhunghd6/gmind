@@ -8,19 +8,37 @@ You are the Master Orchestrator for the Ralph Loop UI/UX pipeline.
 
 These are the EXACT agent names you MUST use when dispatching. If any agent is NOT FOUND, STOP immediately and report the error — **NEVER fall back to inline execution.**
 
-| Agent Name | Role | Stage |
-|------------|------|-------|
-| `ralph_stage1_evaluator` | Contract generation & self-evaluation | Stage 1 |
-| `ralph_stage1_qa` | Independent contract QA testing | Stage 1 |
-| `ralph_stage2_builder` | HTML/CSS implementation & self-audit | Stage 2 |
-| `ralph_stage2_qa` | Independent acceptance testing | Stage 2 |
-| `browser_subagent` | Headless browser render & screenshot | Stage 2 |
-| `prd_writer_agent` | PRD gap-filling on REJECT_FIX_PRD | Both |
+### Stage 1: Contract Generation (3 generators + 1 scorer + 1 QA)
+
+| Agent Name | Role | Mode |
+|------------|------|------|
+| `ralph_stage1_gen_contracts` | Generates contract.yaml, storyboards, layout-rules | Foreground |
+| `ralph_stage1_gen_wireframes` | Generates per-screen ASCII wideframes + hierarchy trees | **Background** |
+| `ralph_stage1_gen_flows` | Generates user flows, component map, Mermaid diagram | **Background** |
+| `ralph_stage1_evaluator` | READ-ONLY scorer (6-pillar scoring, no generation) | Foreground |
+| `ralph_stage1_qa` | Independent contract QA testing | Foreground |
+
+### Stage 2: Hi-Fi Build (3 builders + 1 auditor + 1 QA + 1 browser)
+
+| Agent Name | Role | Mode |
+|------------|------|------|
+| `ralph_stage2_build_layout` | Creates page.tsx skeleton with layout + DS tokens | Foreground |
+| `ralph_stage2_build_components` | Fills components, data, interactions | Foreground |
+| `ralph_stage2_build_states` | Adds states (loading/error/empty), a11y, animation | Foreground |
+| `ralph_stage2_builder` | READ-ONLY auditor (100-pt DoD scoring, no building) | Foreground |
+| `ralph_stage2_qa` | Independent acceptance testing | Foreground |
+| `browser_subagent` | Headless browser render & screenshot | Foreground |
+
+### Utility Agents
+
+| Agent Name | Role | Mode |
+|------------|------|------|
+| `prd_writer_agent` | PRD gap-filling on REJECT_FIX_PRD | Foreground |
 
 > **CRITICAL RULES:**
-> 1. Run each SubAgent in the **FOREGROUND** (NOT background).
-> 2. **WAIT** for a SubAgent to **fully complete** before dispatching the next.
-> 3. NEVER have two SubAgents running at the same time.
+> 1. Generators/Builders run in **FOREGROUND** unless marked Background.
+> 2. Background agents (gen_wireframes, gen_flows) run in **PARALLEL** — spawn both, then poll task-board.json.
+> 3. NEVER run the scorer/auditor until ALL generators/builders are complete.
 > 4. If an agent dispatch returns an error, STOP and report — do NOT continue.
 
 ## Iteration Policy (BOTH STAGES)
@@ -43,11 +61,13 @@ MAX_ITER = 10     ← Hard ceiling — exit with TIMEOUT after 10 iterations
 
 Create this task list at the start and update it as you progress:
 
-- [ ] Stage 1: Contract Generation (min 5, max 10 iterations)
-- [ ] Stage 1 QA: Contract Testing (independent QA)
+- [ ] Stage 1: Run contract generation (gen_contracts → gen_wireframes ‖ gen_flows)
+- [ ] Stage 1: Run contract scoring (evaluator)
+- [ ] Stage 1: Run contract QA (independent testing)
 - [ ] Gate A: Human UX Concept Approval
 - [ ] Stage 2 W0: Plan Declaration Gate
-- [ ] Stage 2: Implementation (min 5, max 10 iterations)
+- [ ] Stage 2: Run implementation (build_layout → build_components → build_states)
+- [ ] Stage 2: Run implementation audit (auditor)
 - [ ] Stage 2: Browser Render & Screenshot Capture
 - [ ] Stage 2 QA: Acceptance Testing (independent QA)
 - [ ] Gate B: Final Human Approval
@@ -70,6 +90,11 @@ Create this task list at the start and update it as you progress:
      cd apps/website && npm run dev &
      ```
      Wait ~5s, recheck with curl. Store URL or set `ds_dev_url = "none"`
+7. **Initialize pipeline state:**
+   ```bash
+   mkdir -p docs/design/pipeline-state/{feature_name}
+   ```
+   Create `task-board.json` with all 10 agents as entries, status "PENDING".
 
 If any precondition fails, tell the user and stop.
 
@@ -122,19 +147,79 @@ prev_delta = 999
 score_history = []
 ```
 
-For each iteration, dispatch `ralph_stage1_evaluator` with this EXACT prompt:
+### Each Iteration: 3-Phase Generation + Scoring
 
-> Run Stage 1 iteration {iter} for feature "{feature_name}".
+#### Phase 1: Contract Generation (foreground, WAIT)
+
+Dispatch `ralph_stage1_gen_contracts`:
+
+> Generate contracts for feature "{feature_name}".
 >
-> prd_path: {absolute path to PRD}
 > feature_name: {feature_name}
+> prd_path: {absolute path to PRD}
 > iteration: {iter}
-> previous_scorecard: {paste FULL JSON scorecard from last iteration, or 'null'}
-> fix_queue: {paste fix_queue array from last scorecard, or '[]'}
+> fix_queue: {contract-specific fixes from last scorecard, or '[]'}
 >
-> Read the PRD, generate/refine ALL contract artifacts under docs/design/contracts/{feature_name}/, then evaluate with the 6-pillar scoring engine. Output ONLY the JSON scorecard as your final message.
+> Generate contract.yaml, storyboards.json, layout-rules.json, and assertion-checklist under docs/design/contracts/{feature_name}/. Output ONLY the JSON completion report.
 
-**Run in FOREGROUND. Wait until fully complete.** Parse the JSON scorecard.
+**Run in FOREGROUND. WAIT for completion.** Parse JSON output.
+
+#### Phase 2: Wireframes + Flows (PARALLEL background)
+
+Dispatch `ralph_stage1_gen_wireframes` (background):
+
+> Generate wireframes for feature "{feature_name}".
+>
+> feature_name: {feature_name}
+> contract_path: docs/design/contracts/{feature_name}/
+> prd_path: {absolute path to PRD}
+> iteration: {iter}
+> fix_queue: {wireframe-specific fixes from last scorecard, or '[]'}
+>
+> Generate per-screen composite ASCII wideframes and hierarchy trees. Output ONLY the JSON completion report.
+
+**DO NOT WAIT** (runs in background).
+
+Dispatch `ralph_stage1_gen_flows` (background):
+
+> Generate flows for feature "{feature_name}".
+>
+> feature_name: {feature_name}
+> contract_path: docs/design/contracts/{feature_name}/
+> prd_path: {absolute path to PRD}
+> iteration: {iter}
+> fix_queue: {flow-specific fixes from last scorecard, or '[]'}
+>
+> Generate connected-screen user flows, component map, Mermaid diagram, and PRD-DS conflict report. Output ONLY the JSON completion report.
+
+**DO NOT WAIT** (runs in background).
+
+**POLL** until both background agents complete:
+```
+POLL LOOP:
+  READ docs/design/pipeline-state/{feature_name}/task-board.json
+  IF gen_wireframes.status == "DONE" AND gen_flows.status == "DONE":
+    BREAK
+  ELSE:
+    WAIT 10 seconds
+    CONTINUE
+```
+
+#### Phase 3: Scoring (foreground, WAIT)
+
+Dispatch `ralph_stage1_evaluator`:
+
+> Score contracts for feature "{feature_name}".
+>
+> feature_name: {feature_name}
+> contract_path: docs/design/contracts/{feature_name}/
+> prd_path: {absolute path to PRD}
+> iteration: {iter}
+> previous_scorecard: {previous scorecard JSON or 'null'}
+>
+> Evaluate ALL contract artifacts using the 6-pillar scoring engine. Output ONLY the JSON scorecard as your final message.
+
+**Run in FOREGROUND. WAIT for completion.** Parse the JSON scorecard.
 
 ### After Each Iteration: Convergence Check
 
@@ -171,6 +256,21 @@ IF abs(delta) <= 1 AND abs(prev_delta) <= 1 AND abs(prev_prev_delta) <= 1:
   → CONTINUE (spawn next iteration)
 ```
 
+### Fix Iterations (iter > 1): Selective Re-spawn
+
+On fix iterations, read `fix_queue` from the scorecard. Each fix has a `responsible_generator` attribution:
+
+```
+FOR EACH unique generator in fix_queue[].responsible_generator:
+  EXTRACT fixes specific to this generator
+  SPAWN that generator with its specific fix_queue
+  (gen_wireframes and gen_flows can still run in PARALLEL)
+
+THEN SPAWN evaluator to re-score
+```
+
+**DO NOT re-spawn generators that had zero issues.** This saves ~2× cost per fix iteration.
+
 ### Stage 1 QA: Independent Testing
 
 After the evaluator loop exits, dispatch `ralph_stage1_qa`:
@@ -188,7 +288,7 @@ After the evaluator loop exits, dispatch `ralph_stage1_qa`:
 
 **QA Convergence Check:**
 - **`QA_PASS`:** All tests passed → proceed to Gate A.
-- **`QA_FAIL`:** Extract `fix_queue`, feed back into evaluator loop as P0 items. Re-run evaluator (1 fix iteration, not subject to MIN_ITER), then re-run QA. Max 2 QA retry cycles.
+- **`QA_FAIL`:** Extract `fix_queue`, feed back into iteration loop with responsible_generator attribution. Re-run only failing generators (1 fix iteration), then re-run evaluator, then re-run QA. Max 2 QA retry cycles.
 
 ### 🚧 GATE A: Human UX Concept Approval
 
@@ -214,7 +314,7 @@ Ask: **"APPROVE, REJECT_FIX_CONTRACT, or REJECT_FIX_PRD?"**
 
 ### Stage 2 W0: Plan Declaration Gate (MANDATORY — Before Any Code)
 
-Dispatch `ralph_stage2_builder` with this W0 prompt:
+Dispatch `ralph_stage2_builder` (auditor) with this W0 prompt:
 
 > Run W0 Plan Declaration for feature "{feature_name}".
 >
@@ -230,7 +330,7 @@ Dispatch `ralph_stage2_builder` with this W0 prompt:
 > {"components": [...], "build_sequence": [...], "ds_tokens_planned": [...], "ds_components_reused": [...], "risks": [...], "tool_budget_estimate": N}
 > Do NOT write any HTML/CSS. ONLY output the plan JSON.
 
-**Run in FOREGROUND.** Parse the plan. Verify all `data-ds-id` values from `component-map.json` are in `build_sequence`. If missing, ask builder to revise.
+**Run in FOREGROUND.** Parse the plan. Verify all `data-ds-id` values from `component-map.json` are in `build_sequence`. If missing, ask to revise.
 
 ### Stage 2 Iteration Loop
 
@@ -243,30 +343,71 @@ prev_delta = 999
 score_history = []
 ```
 
-Each cycle dispatches 3 SubAgents in sequence: **Builder → Browser Render → QA.**
+Each cycle dispatches: **3 Builders (sequential) → Auditor → Browser Render → QA.**
 
-### Step A: Dispatch Builder
+### Step A: Dispatch 3 Builders (Sequential — same page.tsx)
 
-Dispatch `ralph_stage2_builder`:
+#### A.1: Layout Builder (foreground, WAIT)
 
-> Run Stage 2 iteration {iter} for feature "{feature_name}".
+Dispatch `ralph_stage2_build_layout`:
+
+> Build layout for feature "{feature_name}", iteration {iter}.
 >
 > feature_name: {feature_name}
 > contract_path: docs/design/contracts/{feature_name}/
-> page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
+> iteration: {iter}
+> fix_queue: {layout-specific fixes or '[]'}
+> ds_manifest: {DS_MANIFEST}
+>
+> Create the page.tsx skeleton with semantic HTML, DS tokens, and layout grid. Output JSON completion report.
+
+**Run in FOREGROUND. WAIT for completion.**
+
+#### A.2: Component Builder (foreground, WAIT)
+
+Dispatch `ralph_stage2_build_components`:
+
+> Build components for feature "{feature_name}", iteration {iter}.
+>
+> feature_name: {feature_name}
+> contract_path: docs/design/contracts/{feature_name}/
+> iteration: {iter}
+> fix_queue: {component-specific fixes or '[]'}
+>
+> Fill page.tsx with component internals, data, interactions. Output JSON completion report.
+
+**Run in FOREGROUND. WAIT for completion.**
+
+#### A.3: States Builder (foreground, WAIT)
+
+Dispatch `ralph_stage2_build_states`:
+
+> Build states for feature "{feature_name}", iteration {iter}.
+>
+> feature_name: {feature_name}
+> contract_path: docs/design/contracts/{feature_name}/
+> iteration: {iter}
+> fix_queue: {state/a11y-specific fixes or '[]'}
+>
+> Add all 4 data-state variations, a11y, animations, and polish. Output JSON completion report.
+
+**Run in FOREGROUND. WAIT for completion.**
+
+### Step A.4: Dispatch Auditor (READ-ONLY scoring)
+
+Dispatch `ralph_stage2_builder` (auditor):
+
+> Audit build for feature "{feature_name}", iteration {iter}.
+>
+> feature_name: {feature_name}
+> contract_path: docs/design/contracts/{feature_name}/
 > iteration: {iter}
 > previous_scorecard: {previous scorecard JSON or 'null'}
-> fix_queue: {merged fix_queue from builder + QA, or '[]'}
+> ds_manifest: {DS_MANIFEST}
 >
-> **DESIGN SYSTEM MANIFEST (MANDATORY — use these exact tokens):**
-> {paste DS_MANIFEST here}
->
-> FIRST: Read the Design System at "{ds_path}" and the shared layout at apps/website/src/app/design-system/layout.tsx.
-> THEN: Build/fix NextJS page at apps/website/src/app/design-system/{feature_name}/page.tsx using ONLY DS tokens.
-> THEN: Self-audit with the 100-pt DoD scoring engine.
-> Output ONLY the JSON scorecard as your final message.
+> Score the built page.tsx using the 100-pt DoD scoring engine. Output ONLY the JSON scorecard.
 
-**Run in FOREGROUND. Wait for completion.**
+**Run in FOREGROUND. WAIT for completion.** Parse the JSON scorecard.
 
 ### Step A.5: Browser Render & Screenshot (MANDATORY)
 
@@ -318,7 +459,7 @@ Dispatch `ralph_stage2_qa`:
 > page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
 > live_url: http://localhost:9993/design-system/{feature_name}
 > iteration: {iter}
-> builder_score: {builder score from Step A}
+> builder_score: {auditor score from Step A.4}
 > ds_path: {ds_path}
 > screenshot_path: {screenshot_path from Step A.5, or 'none'}
 > ds_baseline_screenshot_path: {ds_baseline_screenshot_path from Step A.6, or 'none'}
@@ -333,16 +474,16 @@ Dispatch `ralph_stage2_qa`:
 
 ### Step C: Convergence Decision
 
-Merge builder scorecard + QA results. Apply convergence rules:
+Merge auditor scorecard + QA results. Apply convergence rules:
 
 ```
 delta = builder_score - prev_score
 score_history.append({iter, builder_score, qa_status, delta})
-LOG: "Stage 2 cycle {iter}: builder={builder_score}, QA={passed}/{total} (Δ={delta})"
+LOG: "Stage 2 cycle {iter}: auditor={builder_score}, QA={passed}/{total} (Δ={delta})"
 
-# 0. SCORE SANITY CHECK — prevent builder inflation
+# 0. SCORE SANITY CHECK — prevent auditor inflation
 IF prev_qa_status == "QA_FAIL" AND builder_score == 100:
-  LOG: "WARNING: Builder claims 100 but previous QA found failures. Capping at 95."
+  LOG: "WARNING: Auditor claims 100 but previous QA found failures. Capping at 95."
   builder_score = min(builder_score, 95)
 
 # 0.1. QA RETRY LIMIT — max 2 QA→fix→rerun cycles
@@ -384,10 +525,24 @@ IF qa_status == "QA_FAIL":
   → CONTINUE
 ```
 
+### Fix Iterations (iter > 1): Selective Re-spawn
+
+On fix iterations, read `fix_queue` from the auditor. Each fix has `responsible_builder`:
+
+```
+FOR EACH unique builder in fix_queue[].responsible_builder:
+  EXTRACT fixes specific to this builder
+  SPAWN that builder with its specific fix_queue
+
+THEN SPAWN auditor to re-score
+```
+
+**DO NOT re-spawn builders that had zero issues.** Example: if only `build_states` has P0 issues, spawn only `build_states`, not all 3.
+
 ### 🚧 GATE B: Final Human Approval
 
 Present to the human:
-1. Latest builder scorecard (total, pillars, P0/P1/P2)
+1. Latest auditor scorecard (total, pillars, P0/P1/P2)
 2. Latest QA test results (PASS/FAIL per suite with evidence)
 3. Score progression across ALL cycles (should be ≥5 data points)
 4. Browser screenshots (if available)
@@ -407,7 +562,7 @@ Ask for structured ratings:
 **YOU MUST WAIT FOR THE HUMAN TO RESPOND. DO NOT self-score. Present deliverables and STOP.**
 
 - **APPROVE** → Log to `docs/design/reports/{feature_name}-approval-log.md`. Done!
-- **REQUEST_FIX** → Take feedback, add to fix_queue, re-enter Stage 2 loop
+- **REQUEST_FIX** → Take feedback, add to fix_queue with responsible_builder, re-enter Stage 2 loop
 
 ---
 
