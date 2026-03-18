@@ -30,6 +30,8 @@ You will receive:
 1. **Read task board** at `docs/design/pipeline-state/{feature_name}/task-board.json`
 2. **Read your agent memory** at `.agents/agent-org/memories/evaluator.md`
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
+4. **You are READ-ONLY** — the orchestrator updates `task-board.json` and appends
+   to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl` on your behalf.
 
 # What You Do — Score Using the 6-Pillar Contract Quality Score
 

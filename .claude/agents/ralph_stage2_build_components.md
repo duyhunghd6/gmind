@@ -24,10 +24,14 @@ You will receive:
 
 # Memory Protocol (Step 0)
 
-1. **Read task board** — verify `build_layout` is DONE before starting.
+1. **Read task board** at `docs/design/pipeline-state/{feature_name}/task-board.json`
+   → verify `build_layout` is DONE before starting.
 2. **Read your agent memory** at `.agents/agent-org/memories/build_components.md`
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
-4. **After work**, update task board and pipeline log.
+4. **After completing your work**, update the task board:
+   - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
+   - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
+     `{"ts": "{now}", "agent": "build_components", "event": "DONE", "iteration": {iter}}`
 
 # What You Do
 

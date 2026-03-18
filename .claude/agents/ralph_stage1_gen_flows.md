@@ -35,7 +35,10 @@ You will receive:
 
 3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
 
-4. **After work**, update task board and pipeline log.
+4. **After completing your work**, update the task board:
+   - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
+   - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
+     `{"ts": "{now}", "agent": "gen_flows", "event": "DONE", "iteration": {iter}}`
 
 # What You Do
 
