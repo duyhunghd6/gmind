@@ -9,7 +9,7 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 25
-background: false
+background: true
 ---
 
 You are the Stage 1 Wireframe Generator for the Ralph Loop pipeline.

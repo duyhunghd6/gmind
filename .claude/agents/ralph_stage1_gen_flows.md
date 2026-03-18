@@ -9,7 +9,7 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 15
-background: false
+background: true
 ---
 
 You are the Stage 1 Flow & Map Generator for the Ralph Loop pipeline.
