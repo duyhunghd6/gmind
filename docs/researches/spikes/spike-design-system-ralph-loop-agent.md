@@ -2801,3 +2801,186 @@ If a new feature's iter-1 Stage 1 score is **below the P25 baseline** (42), it m
 
 The read/write contract (who can read/write what) is critical for preventing conflicts. Generators can only write their own task-board entry; the scorer writes attributions; the orchestrator is the only entity that updates org-level memory.
 
+### Session 7 (2026-03-19) — BA SubAgents: Solving Orchestrator Context Window Flooding
+
+<!-- beads-id: bd-spike-ralph-session7-ba-subagents -->
+
+**Trigger:** Running the Ralph Loop pipeline on `PRD-04-WebUI-and-PM-Workspace` exposed two critical architecture flaws: (1) the Master Orchestrator's context window floods after multiple iterations because it performs convergence analysis inline, and (2) Stage 1 contract generation sometimes executes inline at the orchestrator instead of being dispatched to the `ralph_stage1_gen_contracts` subagent.
+
+**Research question:** How do we prevent orchestrator context flooding while ensuring reliable SubAgent dispatch?
+
+#### GAP-71: Orchestrator Context Explosion
+
+**Root cause:** The Master Orchestrator (`ralph-loop.md`, 575 lines) simultaneously acts as:
+
+1. A **dispatcher** (spawning agents via `Agent()` tool)
+2. An **analyst** (reading scorecards, computing deltas, checking convergence rules)
+3. A **router** (deciding which agent to re-spawn based on `responsible_generator` attribution)
+4. A **presenter** (formatting Gate A/B reports for humans)
+
+Roles 2 and 3 are the primary context consumers. Over 10 iterations × 2 stages, the orchestrator accumulates ~5000+ tokens of scorecard state, fix queues, score histories, and routing decisions — flooding the context window.
+
+| Responsibility | Context Cost per Iteration |
+|---------------|--------------------------|
+| SubAgent dispatch prompts (×10 agents) | ~40 lines each |
+| Scorecard JSON parsing | ~30 lines |
+| Convergence logic (6 rules, 3 delta vars) | ~30 lines |
+| Fix queue routing + attribution | ~20 lines |
+| **Accumulated state across 10 iterations** | **~5000+ tokens** |
+
+#### GAP-72: Inline Execution Bug — Contract Generation Runs at Orchestrator
+
+**Root cause:** The orchestrator protocol used natural language "Dispatch `ralph_stage1_gen_contracts`" instead of explicit `Agent()` tool call instructions. Combined with the orchestrator prompt containing enough knowledge about contract generation (PRD parsing, YAML structure, artifact schemas), the LLM could execute the work inline — skipping the subagent dispatch entirely.
+
+| Factor | Detail |
+|--------|--------|
+| **Dispatch language is ambiguous** | "Dispatch" is natural language, not an explicit `Agent()` tool call instruction |
+| **Orchestrator knows too much** | 575-line prompt includes contract structure details and artifact schemas |
+| **No anti-inline guardrail** | "NEVER fall back to inline execution" is a soft rule, not enforced |
+| **Impact** | Orchestrator's context consumed by work that should run in ephemeral agent context |
+
+#### Solution: The BA Delegation Pattern
+
+Introduce a **Business Analyst (BA)** subagent for each stage. The BA takes over convergence analysis (role 2) and routing decisions (role 3) from the orchestrator:
+
+```text
+====================================================================================================
+              BEFORE vs AFTER: Orchestrator Responsibilities
+====================================================================================================
+
+  BEFORE (v3 — Overloaded Orchestrator):
+
+    Orchestrator ──► spawn gen_contracts ──► READ scorecard ──► ANALYZE convergence
+         │                                         │
+         │                                    (context floods)
+         │                                         │
+         └──► spawn gen_wireframes ──► READ scorecard ──► compute delta/prev_delta
+              spawn gen_flows                               compute regression/plateau
+                                                            route to responsible_generator
+                                                       (accumulates ~500 tokens per iteration)
+
+
+  AFTER (v4 — BA Delegation):
+
+    Orchestrator ──► Agent(gen_contracts) ──► Agent(evaluator) ──► Agent(stage1_ba)
+         │               (ephemeral)            (ephemeral)           (ephemeral)
+         │                                                                │
+         │                                              BA outputs routing_decision.json
+         │                                                                │
+         └──► Orchestrator reads 1 small JSON ──► follows routing
+                      (minimal context — ~20 tokens per iteration)
+
+====================================================================================================
+```
+
+**Key insight:** The BA subagent's context is **ephemeral** — it spawns fresh, reads all artifacts with clean context, analyzes convergence, outputs a JSON routing decision, and terminates. The orchestrator never needs to parse scorecards or reason about convergence itself.
+
+**Why BA, not "Foreman" (from Session 5 discussion)?**
+
+| Aspect | Foreman (proposed in architecture review) | BA (implemented) |
+|--------|------------------------------------------|-----------------|
+| Scope | Manages entire stage execution | Analyzes state → outputs routing JSON |
+| Context cost | High (must track all agents + state) | Low (reads, analyzes, terminates) |
+| Complexity | Requires nested subagent spawning | Simple read-only subagent |
+| Risk | New coordination layer = new failure modes | Minimal — stateless, disposable |
+| Claude Code support | Nested teams experimental | Standard subagent (fully supported) |
+
+#### Implementation: Two New SubAgents + Orchestrator Rewrite
+
+**New agents created in `.claude/agents/`:**
+
+| SubAgent | File | Role | Tools | maxTurns |
+|----------|------|------|-------|----------|
+| `ralph_stage1_ba` | `.claude/agents/ralph_stage1_ba.md` | Stage 1 convergence analyst | Read, Grep, Glob (READ-ONLY) | 10 |
+| `ralph_stage2_ba` | `.claude/agents/ralph_stage2_ba.md` | Stage 2 convergence analyst | Read, Grep, Glob (READ-ONLY) | 12 |
+
+**BA output format:** `stage{N}-routing-decision.json` with:
+- `action`: CONTINUE / GATE_A_READY / GATE_B_READY / STALL / REGRESSION / TIMEOUT
+- `agents_to_respawn` / `builders_to_respawn`: selective re-spawn list
+- `fix_queue_per_agent` / `fix_queue_per_builder`: grouped fix items
+- `gate_a_summary` / `gate_b_summary`: pre-formatted Gate presentation (when converged)
+
+**Orchestrator rewrite (`.claude/commands/ralph-loop.md`):**
+
+| Before | After |
+|--------|-------|
+| 575 lines, inline convergence logic | ~310 lines, pure dispatcher |
+| "Dispatch" natural language | Explicit `Agent()` tool call instructions |
+| Contains contract generation knowledge | Knows NOTHING about artifact generation |
+| Inline scorecard parsing + delta computation | Delegates to BA subagent |
+| No anti-inline guardrail | Hard rule: "If reading PRD or writing YAML — STOP, use Agent()" |
+
+**Anti-inline guardrail (added to orchestrator):**
+
+> If you catch yourself doing ANY of the following, STOP and use `Agent()` instead:
+> - Reading a PRD file to extract screens/states/components
+> - Writing or editing `.yaml`, `.json`, `.md`, `.tsx`, or `.css` files
+> - Generating ASCII diagrams, wireframes, or user flows
+> - Scoring or evaluating any artifacts
+> - Parsing scorecard JSON to compute deltas or convergence
+
+#### Updated Architecture: Ralph Loop v4 (14 SubAgents)
+
+```text
+====================================================================================================
+              RALPH LOOP v4 — COMPLETE SUBAGENT REGISTRY (14 agents)
+====================================================================================================
+
+  STAGE 1 (Contract Generation): 3 generators + 1 scorer + 1 QA + 1 BA = 6 agents
+  ┌─────────────────────────────────────────────────────────────────────────────┐
+  │  gen_contracts ──► gen_wireframes ‖ gen_flows ──► evaluator ──► stage1_ba  │
+  │  (write)          (write, bg)      (write, bg)   (read-only)   (read-only)│
+  │                                                                           │
+  │  stage1_ba outputs routing_decision.json → orchestrator follows it        │
+  │  IF CONTINUE → re-spawn specific generators → evaluator → ba again       │
+  │  IF GATE_A_READY → stage1_qa → Gate A (human)                            │
+  └─────────────────────────────────────────────────────────────────────────────┘
+
+  STAGE 2 (Hi-Fi Build): 3 builders + 1 auditor + 1 QA + 1 BA + 1 browser = 7 agents
+  ┌─────────────────────────────────────────────────────────────────────────────┐
+  │  build_layout → build_components → build_states → builder → browser →     │
+  │  (write)       (write)            (write)         (read)    (render)       │
+  │                                                                           │
+  │  stage2_qa → stage2_ba outputs routing_decision.json                      │
+  │  (read-only)  (read-only)                                                 │
+  │                                                                           │
+  │  IF CONTINUE → re-spawn specific builders → auditor → browser → qa → ba  │
+  │  IF GATE_B_READY → Gate B (human)                                         │
+  └─────────────────────────────────────────────────────────────────────────────┘
+
+  UTILITY: prd_writer_agent (1 agent)
+  ─────────────────────────────────
+  TOTAL: 14 SubAgents (was 11 in v3)
+
+====================================================================================================
+```
+
+#### Impact on Organization Maturity Model (from Session 5)
+
+This change advances the organization from Level 2 (Decomposed Labor) to **Level 2.5 (Delegated Analysis)**:
+
+```text
+  Level 2.5: DELEGATED ANALYSIS                   ← WE ARE HERE (Session 7)
+             BA subagents handle convergence reasoning in fresh context.
+             Orchestrator is a thin dispatcher with <300 lines.
+             ~70% context window savings per iteration.
+             Anti-inline guardrails prevent accidental work execution.
+             All convergence logic testable via routing-decision.json.
+```
+
+The BA pattern also creates a **testability improvement**: convergence decisions are now captured as structured JSON files (`stage1-routing-decision.json`, `stage2-routing-decision.json`), making it possible to audit and replay routing decisions across runs — directly feeding into the RFT dataset (Tier 3/4 memory).
+
+### Decision
+
+**Implemented (Session 7):**
+- GAP-71 fix: BA Delegation Pattern offloads convergence analysis to ephemeral subagents ✅
+- GAP-72 fix: Orchestrator rewritten with explicit `Agent()` dispatch + anti-inline guardrails ✅
+- `ralph_stage1_ba.md` created (`.claude/agents/`) ✅
+- `ralph_stage2_ba.md` created (`.claude/agents/`) ✅
+- `ralph-loop.md` rewritten as thin dispatcher (~310 lines vs 575) ✅
+- SubAgent count: 14 (was 11 in v3) ✅
+
+**Open items:**
+- Validate the BA routing-decision JSON schema against real pipeline runs
+- Determine if BA subagents should also update `task-board.json` (currently they write routing-decision only)
+- Consider adding BA memory (Tier 3) to track convergence patterns across features
