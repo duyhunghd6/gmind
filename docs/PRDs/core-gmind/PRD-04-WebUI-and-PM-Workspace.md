@@ -23,9 +23,27 @@ sections:
   - anchor: "7-rte-approval-ui"
     title: "RTE Approval — UI Integration"
     beads-id: br-prd04-s7
-  - anchor: "8-acceptance-criteria"
-    title: "Tiêu chí Nghiệm thu"
+  - anchor: "8-navigation-route-map"
+    title: "Điều hướng & Bản đồ Route"
     beads-id: br-prd04-s8
+  - anchor: "9-document-viewer"
+    title: "Trình xem Tài liệu (Document Viewer)"
+    beads-id: br-prd04-s9
+  - anchor: "10-beads-trace-explorer"
+    title: "Beads Trace Explorer — Khám phá Đồ thị Toàn trang"
+    beads-id: br-prd04-s10
+  - anchor: "11-task-detail-view"
+    title: "Chi tiết Task (Task Detail View)"
+    beads-id: br-prd04-s11
+  - anchor: "12-search-filter-ui"
+    title: "Tìm kiếm & Lọc (Search & Filter)"
+    beads-id: br-prd04-s12
+  - anchor: "13-task-list-view"
+    title: "Danh sách Task (Task List View)"
+    beads-id: br-prd04-s13
+  - anchor: "14-acceptance-criteria"
+    title: "Tiêu chí Nghiệm thu"
+    beads-id: br-prd04-s14
 ---
 
 # PRD 04: Giao diện PM & Quản lý Không gian làm việc (Web UI & PM Workspace)
@@ -208,6 +226,41 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 <!-- beads-id: br-prd04-s5 -->
 
+> Phần này mô tả **panel nhúng** (embedded widget) trong các trang khác (Dashboard §6 Panel 3, Task Detail §11 tab Graph). Để xem đặc tả **trang đồ thị toàn trang** (full-page explorer), xem §10 Beads Trace Explorer.
+
+### 5.0. Layout Tổng quan — Document Graph Widget
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  Document Graph Widget (Nhúng trong RTM Dashboard Panel 3   │
+│  hoặc Task Detail → Tab Graph)                               │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────────────────┐  ┌──────────────────────────────┐  │
+│  │  Graph Canvas         │  │  Side Panel (Chi tiết Node)  │  │
+│  │                       │  │                              │  │
+│  │  [D3.js force-        │  │  Tiêu đề: <Node Title>       │  │
+│  │   directed graph]     │  │  Loại: PRD / Plan / Task /   │  │
+│  │                       │  │    Commit / PR / Chat        │  │
+│  │   ● PRD section       │  │  Status: ● Done / In Prog    │  │
+│  │   ◆ Plan element     │  │  ─────────────────────        │  │
+│  │   ■ Task/Issue       │  │  [Chi tiết theo loại node:]   │  │
+│  │   ○ Commit            │  │                              │  │
+│  │   ▲ Chat/Meeting      │  │  • PRD: section text excerpt │  │
+│  │   ⬡ PR/CI            │  │  • Task: assignee, priority  │  │
+│  │                       │  │  • Commit: message, author   │  │
+│  │  Zoom/Pan controls    │  │  • PR: CI status, reviewers  │  │
+│  │  Filter: [Type ▼]     │  │  • Chat: last message preview│  │
+│  │                       │  │                              │  │
+│  │  [Open Full Page ↗]   │  │  [Mở chi tiết ↗] (link to   │  │
+│  │                       │  │   §10 Trace Explorer)        │  │
+│  └──────────────────────┘  └──────────────────────────────┘  │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### 5.1. Các tính năng chính
+
 - **Document Tree & Commit Lineage:** Hiển thị trực quan lịch sử thay đổi của một tài liệu dưới dạng cây đồ thị liên kết trực tiếp tới từng `git commit` (qua `Beads-ID:` Git Trailer) và thuộc tính `beads ID`. Truy vấn local: `git log --grep='Beads-ID: br-xxx'`.
 - **Knowledge Context Linking:** Trỏ ngược từ Yêu cầu (Requirement) sang các Tài liệu tham chiếu (Research references) đã được AI dùng làm Context, giúp con người dễ dàng bổ sung thêm tham chiếu để điều chỉnh Spec.
 - **GitHub Enrichment:** Mỗi Beads task hiển thị linked PRs (`gh pr list --search "br-xxx"`), CI status (`gh run list`), và commit history (`git log --grep`). Tất cả query trực tiếp từ local git + `gh` CLI.
@@ -215,7 +268,19 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 - **Coverage Heatmap:** Dashboard hiển thị mức độ cover của từng PRD section: bao nhiêu PRD sections có Plan elements? Bao nhiêu Plan elements đã decompose thành Tasks? Highlight các gaps (sections chưa covered) bằng màu đỏ. Dữ liệu từ `gmind coverage full`.
 - **Impact Analysis View:** Khi Human sửa/cập nhật một PRD section, hiển thị cascading impact: Plan elements nào bị ảnh hưởng → Tasks nào cần review/pause/rework → Commits nào liên quan. Dữ liệu từ `gmind impact <prd-section-id>`.
 
-### 5.1. State Matrix & Breakpoints
+### 5.2. Side Panel — Nội dung theo Loại Node
+
+| Loại Node | Trường hiển thị trong Side Panel |
+| --- | --- |
+| **PRD Section** | Tiêu đề section, Beads ID, nội dung excerpt (200 chars), coverage %, danh sách Plan elements liên kết |
+| **Plan Element** | Tiêu đề, Beads ID, `satisfies:` PRD links, status, danh sách Tasks liên kết |
+| **Task/Issue** | Title, status badge, priority, assignee, QA status, `implements:` Plan link |
+| **Commit** | Message, author, date, files changed count, link to PR (nếu có) |
+| **PR** | Title, status (open/merged/closed), CI status (✅/❌), reviewer list |
+| **Chat/Meeting** | Last message preview (100 chars), participant count, timestamp |
+| **RTE Approval** | Risk description, decision text, approved by, constraints list |
+
+### 5.3. State Matrix & Breakpoints
 
 | State | Mô tả |
 | --- | --- |
@@ -457,9 +522,483 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 - **Journey 2 (Approve Escalation):** Sau khi đọc "Discussion Thread View" -> RTE nhập phương án giải quyết vào ô thảo luận -> Nhấn nút [Approve Resolution] -> Cột `rte_status` chuyển thành 'approved' -> "Execution Context block" xuất hiện với Decision text và thông tin người phê duyệt -> Heatmap coverage được highlight (nếu có ảnh hưởng).
 - **Journey 3 (Reject Escalation):** RTE đọc luồng thảo luận và thấy rủi ro không hợp lệ -> RTE nhập lý do từ chối -> Nhấn nút [Reject] -> Task được đẩy lại cho Agent kèm theo hướng dẫn xử lý tiếp theo.
 
-## 8. Acceptance Criteria (Tiêu chí Nghiệm thu)
+## 8. Điều hướng & Bản đồ Route (Navigation & Route Map)
 
 <!-- beads-id: br-prd04-s8 -->
+
+> **Data source:** Tất cả routes phục vụ bởi `gmind serve` (PRD-03). Frontend là SPA (Single Page Application) với client-side routing, embed qua `embed.FS`.
+
+### 8.1. Bảng Route Map
+
+| Route | Trang | Mô tả | Data Source API |
+| --- | --- | --- | --- |
+| `/` | Dashboard (RTM) | 4-panel RTM Dashboard (§6) | `GET /api/coverage`, `/api/tasks`, `/api/trace`, `/api/gaps` |
+| `/board` | SAFe Board | Kanban views: Portfolio / ART / Team (§3) | `GET /api/tasks?view=board&level=<level>` |
+| `/tasks` | Task List | Bảng danh sách task, filter, sort (§13) | `GET /api/tasks?format=list` |
+| `/tasks/:id` | Task Detail | Chi tiết 1 task: tabs Detail/Activity/Graph/Code (§11) | `GET /api/tasks/:id`, `GET /api/trace/:id` |
+| `/trace/:id` | Beads Trace Explorer | Đồ thị toàn trang Beads ID → linked entities (§10) | `GET /api/trace/:id?depth=full` |
+| `/docs` | Document Viewer | Duyệt & đọc tài liệu từ Zvec (§9) | `GET /api/docs`, `GET /api/docs/:source_type` |
+| `/approval` | Approval Gates | Level 3 Approval + RTE Approval (§4, §7) | `GET /api/tasks?status=pending-approval` |
+| `/search` | Search Results | Kết quả tìm kiếm toàn hệ thống (§12) | `GET /api/search?q=<query>` |
+
+### 8.2. Layout Tổng quan — Global Shell
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│  Header Bar                                                      │
+│  ┌────────┐  ┌───────────────────────────────────────┐  ┌─────┐ │
+│  │ ☰ Logo │  │ 🔍 Global Search Bar...               │  │ 🔔  │ │
+│  └────────┘  └───────────────────────────────────────┘  └─────┘ │
+├──────────┬───────────────────────────────────────────────────────┤
+│ Sidebar  │  Main Content Area                                    │
+│          │                                                       │
+│ 📊 Dash  │  (Nội dung thay đổi theo route hiện tại)              │
+│ 📋 Board │                                                       │
+│ 📝 Tasks │   Ví dụ: RTM Dashboard / Kanban / Task Detail /       │
+│ 🔗 Trace │          Document Viewer / Search Results              │
+│ 📄 Docs  │                                                       │
+│ ✅ Appvl │                                                       │
+│          │                                                       │
+│──────────│                                                       │
+│ ⬤ Online │                                                       │
+│ (Status) │                                                       │
+├──────────┴───────────────────────────────────────────────────────┤
+│  Footer: gmind v<version> | FrankenSQLite sync status | Uptime  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### 8.3. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Sidebar mở rộng với icon + labels, main content render theo route. |
+| **Offline** | Header hiển thị banner vàng "Đang offline — chế độ chỉ đọc". Sidebar vẫn hoạt động. Write operations bị disable (xám). |
+| **Loading** | Skeleton UI cho main content. Sidebar vẫn interactive. |
+
+**Breakpoints:**
+- **Desktop (≥ 1280px):** Sidebar mở rộng (240px) với icon + text labels.
+- **Tablet (768px - 1279px):** Sidebar thu gọn chỉ icon (60px). Hover để xem tooltip.
+- **Mobile (< 768px):** Sidebar ẩn hoàn toàn. Hamburger menu (☰) ở header để mở overlay sidebar.
+
+### 8.4. User Journeys
+
+- **Journey 1 (Navigate to Task):** User mở `gmind serve` → Thấy Dashboard 4-panel → Click "Tasks" trên sidebar → Thấy Task List (§13) → Click vào 1 task → Thấy Task Detail (§11).
+- **Journey 2 (Explore Trace):** User ở Task Detail → Click tab "Graph" → Thấy mini graph widget (§5) → Click "Open Full Page ↗" → Redirect sang `/trace/:id` Beads Trace Explorer (§10).
+- **Journey 3 (Quick Search):** User nhập query vào Global Search Bar → Redirect sang `/search?q=<query>` → Xem kết quả grouped by type (§12).
+
+## 9. Trình xem Tài liệu (Document Viewer)
+
+<!-- beads-id: br-prd04-s9 -->
+
+> **Data source:** Zvec Universal Unstructured Data Indexer (PRD-01 §1) index 9 loại dữ liệu: Docs (*.md), Chat sessions, Meeting notes, Git commits, Git diff summaries, PR descriptions, CI/CD logs, RTE approvals, Agent decision logs.
+>
+> **Lưu ý:** Đây là Document Viewer cho **Core WebUI** (`gmind serve`) — khác với Doc Viewer trên Showcase Website (`apps/website`). Core WebUI Viewer hiển thị dữ liệu dự án thực từ Zvec, Showcase Website chỉ là bản trình diễn tĩnh.
+
+### 9.1. Layout — Document Viewer
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│  Route: /docs                                                    │
+├──────────┬───────────────────────────────────────────────────────┤
+│ Doc Tree │  Document Content                                     │
+│ (Sidebar)│                                                       │
+│          │  ┌─────────────────────────────────────────────────┐  │
+│ Filter:  │  │  Breadcrumb: Docs > PRDs > PRD-04              │  │
+│ [Type ▼] │  ├─────────────────────────────────────────────────┤  │
+│          │  │                                                 │  │
+│ ▼ Docs   │  │  # PRD 04: WebUI & PM Workspace                │  │
+│   PRD-00 │  │                                                 │  │
+│   PRD-01 │  │  Rendered Markdown Content...                   │  │
+│   PRD-04 │  │                                                 │  │
+│   spike-…│  │  Inline Beads IDs auto-detected:                │  │
+│ ▼ Chats  │  │  br-prd04-s1 ← clickable → /trace/br-prd04-s1 │  │
+│   sess-1 │  │                                                 │  │
+│   sess-2 │  │  Coverage indicator: 78% ██████░░ (from RTM)    │  │
+│ ▼ Commits│  │                                                 │  │
+│   a1b2c3 │  │                                                 │  │
+│ ▼ RTE    │  │  [Open in Trace Explorer ↗] [Copy Beads ID]     │  │
+│          │  └─────────────────────────────────────────────────┘  │
+└──────────┴───────────────────────────────────────────────────────┘
+```
+
+### 9.2. Chức năng chính
+
+| Chức năng | Mô tả | API |
+| --- | --- | --- |
+| **Browse by Type** | Sidebar hiển thị tree view nhóm theo `source_type` (Docs, Chats, Commits, PRs, CI, RTE, Agent traces) | `GET /api/docs?group=source_type` |
+| **Rendered Content** | Markdown files render thành HTML. Non-markdown (commits, logs) hiển thị format monospace | Client-side rendering |
+| **Beads ID Auto-link** | Tự động scan nội dung tìm pattern `br-xxx`, `bd-xxx` → render thành clickable links sang `/trace/:id` | Client-side regex |
+| **Coverage Indicator** | Nếu document là PRD, hiển thị coverage % từ RTM data | `GET /api/coverage?prd=<beads-id>` |
+| **Date Filter** | Filter documents theo time range (last 7 days, 30 days, all) | Query params `?since=<date>` |
+| **Search within Doc** | Ctrl+F style search highlight trong document content | Client-side |
+
+### 9.3. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Doc tree loaded, first doc auto-selected and rendered. |
+| **Loading** | Skeleton cho doc tree + spinner cho content panel. |
+| **Empty** | "Chưa có tài liệu nào được index. Chạy `gmind reindex` để bắt đầu." |
+| **Error** | "Không thể tải tài liệu từ Zvec" với nút "Thử lại". |
+
+**Breakpoints:**
+- **Desktop (≥ 1024px):** 2-column layout (doc tree 280px + content area).
+- **Tablet (768px - 1023px):** Doc tree thu gọn thành dropdown selector ở top.
+- **Mobile (< 768px):** Full-width content chỉ. "Back to list" button để quay lại danh sách.
+
+### 9.4. User Journeys
+
+- **Journey 1 (Browse PRDs):** User click "Docs" trên sidebar → Thấy doc tree grouped by type → Expand "Docs" → Click "PRD-04" → Content panel render PRD markdown → User thấy `br-prd04-s5` auto-highlighted → Click `br-prd04-s5` → Redirect sang `/trace/br-prd04-s5`.
+- **Journey 2 (Review Chat Session):** User expand "Chats" trong doc tree → Click session → Thấy chat thread rendered trong content panel → Beads IDs trong chat messages auto-linked → Click một beads ID → Mở Trace Explorer (§10).
+
+## 10. Beads Trace Explorer — Khám phá Đồ thị Toàn trang
+
+<!-- beads-id: br-prd04-s10 -->
+
+> **Data source:** `gmind trace <id> --depth=full --json` — Graph Assembler query-time build từ 5 data sources song song (PRD-01 §2 Knowledge Graph, spike-beads-knowledge-graph). Graph KHÔNG lưu riêng — build tại thời điểm truy vấn, luôn fresh. Latency: ~50ms local-only, ~750ms với GitHub.
+
+### 10.1. Layout — Beads Trace Explorer Full Page
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│  Route: /trace/:id                                               │
+├──────────────────────────────────────────────────────────────────┤
+│  Toolbar                                                         │
+│  ┌────────────────────────────────────────────────┐  ┌────────┐ │
+│  │ Root: br-prd04-s5 "Đồ thị Tài liệu & HITL"   │  │ Depth: │ │
+│  │ [Change Root ▼]                                │  │ [2 ▼]  │ │
+│  └────────────────────────────────────────────────┘  └────────┘ │
+│  Filter: [PRD ☑] [Plan ☑] [Task ☑] [Commit ☐] [Chat ☐] [PR ☑] │
+├──────────────────────────────────────────┬───────────────────────┤
+│  Graph Canvas (D3.js Force-Directed)     │  Detail Panel          │
+│                                          │                       │
+│         ●───satisfies──→◆              │  ▎ br-prd04-s5         │
+│         PRD-04-s5        Plan-01        │  ▎ Loại: PRD Section   │
+│              │                ↓         │  ▎ Status: Active      │
+│         context-from   implements       │  ▎─────────────────── │
+│              ↓               ↓          │  ▎ Coverage: 78%       │
+│         ▲ Chat-23      ■ Task bd-x1y2  │  ▎ Plans: 3 linked     │
+│                              │          │  ▎ Tasks: 12 total     │
+│                       committed-for     │  ▎ Gaps: 2 uncovered   │
+│                              ↓          │  ▎─────────────────── │
+│                         ○ Commit a1b2   │  ▎ Content Excerpt:    │
+│                              │          │  ▎ "Hiển thị trực     │
+│                           pr-for        │  ▎  quan lịch sử..."  │
+│                              ↓          │  ▎                     │
+│                         ⬡ PR #42 ✅     │  ▎ [Open Doc ↗]        │
+│                                          │  ▎ [View Impact ↗]    │
+│  ┌────────┐ ┌────────┐ ┌──────────────┐ │                       │
+│  │ Zoom + │ │ Zoom - │ │ Fit to View  │ │  ─── Connected Nodes ─│
+│  └────────┘ └────────┘ └──────────────┘ │  br-plan-01 ◆ Active  │
+│                                          │  bd-x1y2 ■ Done       │
+│  Legend:                                 │  chat-23 ▲ 2026-03-01 │
+│  ● PRD  ◆ Plan  ■ Task  ○ Commit        │  PR #42 ⬡ Merged ✅   │
+│  ▲ Chat  ⬡ PR/CI  ★ RTE Approval       │                       │
+├──────────────────────────────────────────┴───────────────────────┤
+│  Footer: 12 nodes | 15 edges | Query time: 48ms | Last refresh  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### 10.2. 10 Node Types & 12 Edge Types
+
+**Node Types** (từ spike-beads-knowledge-graph §B):
+
+| Icon | Loại | Source | Màu |
+| --- | --- | --- | --- |
+| ● | PRD Section | YAML front matter | 🔴 Đỏ |
+| ◆ | Plan Element | Plan document | 🔵 Xanh dương |
+| ■ | Task/Issue | FrankenSQLite | 🟢 Xanh lá |
+| ○ | Commit | Git local | ⚪ Xám |
+| ▲ | Chat/Meeting | Zvec | 🟡 Vàng |
+| ⬡ | PR | GitHub `gh` CLI | 🟣 Tím |
+| ★ | RTE Approval | Zvec + FrankenSQLite | 🟠 Cam |
+| ◇ | CI Run | GitHub `gh` CLI | ⚪ Xám nhạt |
+| ▢ | Code File | FastCode | 🔵 Xanh nhạt |
+| ◎ | Agent Trace | Zvec | 🟤 Nâu |
+
+**Edge Types** (từ spike-beads-knowledge-graph §C):
+
+| Edge | Chiều | Ví dụ |
+| --- | --- | --- |
+| `satisfies` | Plan → PRD | Plan-01 satisfies PRD-04-s5 |
+| `implements` | Task → Plan | Task bd-x1y2 implements Plan-01 |
+| `committed-for` | Commit → Task | Commit a1b2 committed-for bd-x1y2 |
+| `discussed-in` | Chat → Task | Chat-23 discussed-in bd-x1y2 |
+| `approved-by` | RTE → Task | RTE approval approved-by bd-x1y2 |
+| `code-touches` | Code → Task | button.go code-touches bd-x1y2 |
+| `pr-for` | PR → Task | PR #42 pr-for bd-x1y2 |
+| `blocks` | Task → Task | Task A blocks Task B |
+| `parent-child` | Epic → Task | Epic parent-child Feature |
+| `discovered-in` | Risk → Task | Risk discovered-in bd-x1y2 |
+| `context-from` | Ref → PRD | Research context-from PRD section |
+| `tested-by` | CI → PR | CI run tested-by PR #42 |
+
+### 10.3. Tương tác
+
+| Hành động | Kết quả |
+| --- | --- |
+| **Click node** | Side panel hiển thị chi tiết node (theo bảng §5.2) |
+| **Double-click node** | Navigate sang trang tương ứng: Task → `/tasks/:id`, PRD/Doc → `/docs`, PR → external GitHub link |
+| **Drag node** | Di chuyển node trong graph canvas. Các edge tự cập nhật. |
+| **Zoom/Pan** | Mouse wheel zoom, click-drag pan trên canvas. Touch: pinch-to-zoom. |
+| **Filter toolbar** | Toggle node types on/off. Graph re-render chỉ hiển thị types đã chọn. |
+| **Depth selector** | Thay đổi depth (1-5). Depth=1 chỉ hiện direct connections. Depth=full hiện toàn bộ. |
+| **Right-click node** | Context menu: Copy Beads ID, Open in new tab, Show Impact Analysis |
+
+### 10.4. State Matrix & Breakpoints
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Graph render với root node highlighted, edges animated trên hover. |
+| **Loading** | Skeleton graph layout + spinner "Đang truy vấn 5 data sources..." |
+| **Empty** | "Không tìm thấy liên kết nào cho Beads ID này." + gợi ý kiểm tra ID. |
+| **Error** | "Lỗi truy vấn graph từ gmind trace" + nút "Thử lại". |
+| **Partial** | Nếu GitHub query timeout (>2s): hiển thị local data trước, badge "⏳ Đang tải GitHub data..." |
+
+**Breakpoints:**
+- **Desktop (≥ 1280px):** Graph canvas 70% + Detail Panel 30%.
+- **Tablet (768px - 1279px):** Detail Panel chuyển thành bottom sheet (slide-up 50% height).
+- **Mobile (< 768px):** Graph full-width với simplified layout (tree view thay force-directed). Detail Panel là full-screen overlay khi click node.
+
+### 10.5. User Journeys
+
+- **Journey 1 (Trace from Task):** User ở Task Detail → Click tab Graph → Thấy mini graph → Click "Open Full Page ↗" → Trang `/trace/bd-x1y2` load → Graph hiển thị: Task → Plan → PRD (upstream) + Task → Commits → PRs → CI (downstream) → User click PRD node → Side panel hiển thị PRD section excerpt + coverage % → User double-click → Redirect sang `/docs` với PRD đó.
+- **Journey 2 (Impact Analysis):** User nhập PRD section ID vào thanh "Change Root" → Graph hiển thị tất cả Plan elements, Tasks, Commits bị ảnh hưởng → User thấy 2 tasks đang "in-progress" sẽ bị impact → User click task → Side panel hiển thị assignee → User quyết định pause task.
+
+## 11. Chi tiết Task (Task Detail View)
+
+<!-- beads-id: br-prd04-s11 -->
+
+> **Data source:** `GET /api/tasks/:id` (FrankenSQLite first-class SQL columns — §1) + `GET /api/trace/:id` (Graph Assembler — PRD-01 §2). Edits ghi qua `PUT /api/tasks/:id`.
+
+### 11.1. Layout — Task Detail Page
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│  Route: /tasks/:id                                               │
+│  ┌───────────────────────────────────────────────────────────┐   │
+│  │ ← Back to Tasks   |  bd-x1y2  |  Status: [In Progress ▼] │   │
+│  │ Title: "Change button icon"                    Priority: P1│   │
+│  │ Assignee: [Dev Agent 01 ▼]    QA: [pending ▼]             │   │
+│  └───────────────────────────────────────────────────────────┘   │
+│  ┌── Tabs ──────────────────────────────────────────────────┐   │
+│  │ [Detail] │ [Activity] │ [Graph] │ [Code]                  │   │
+│  ├───────────────────────────────────────────────────────────┤   │
+│  │                                                           │   │
+│  │  (Nội dung tab thay đổi theo tab đang chọn)               │   │
+│  │                                                           │   │
+│  │  Tab Detail:                                               │   │
+│  │  ┌──────────────────────────────────────────────────────┐ │   │
+│  │  │ Description (Markdown editable):                     │ │   │
+│  │  │ "Thay đổi icon nút bấm admin panel theo Material..."│ │   │
+│  │  │                                                      │ │   │
+│  │  │ Dependencies:                                        │ │   │
+│  │  │ ├── implements: br-plan-42 "Redesign admin icons"    │ │   │
+│  │  │ └── satisfies:  br-prd01-s4.2 "Giao diện Quản trị"  │ │   │
+│  │  │                                                      │ │   │
+│  │  │ Labels: [ui] [admin] [icon]    Escalation: None      │ │   │
+│  │  └──────────────────────────────────────────────────────┘ │   │
+│  └───────────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### 11.2. Nội dung 4 Tabs
+
+| Tab | Nội dung | Data Source |
+| --- | --- | --- |
+| **Detail** | Markdown description (editable), dependency links (implements/satisfies — clickable sang §10), labels, escalation level, created/updated timestamps | `GET /api/tasks/:id` |
+| **Activity** | Timeline dọc: status changes → commits → PR updates → RTE discussions → comments. Mỗi entry có icon + timestamp + actor name | `GET /api/tasks/:id/activity` (new) |
+| **Graph** | Mini Document Graph widget (§5) scoped cho task này. Hiển thị upstream (Plan → PRD) + downstream (Commits → PRs → CI) | `GET /api/trace/:id?depth=2` |
+| **Code** | Danh sách code files touched: filename, last commit, lines changed. Grouped by directory | `GET /api/trace/:id` → filter `code-touches` edges |
+
+### 11.3. Editable Fields & Validation
+
+| Field | Type | Validation |
+| --- | --- | --- |
+| `status` | Dropdown | `open`, `in-progress`, `blocked`, `done`, `closed` |
+| `assignee` | Dropdown | Danh sách từ `GET /api/agents` |
+| `priority` | Dropdown | `P0`, `P1`, `P2`, `P3` |
+| `qa_status` | Dropdown | `pending`, `testing`, `passed`, `failed` |
+| `description` | Textarea (Markdown) | Max 10,000 chars |
+| `labels` | Tag input | Free-text, comma-separated |
+
+> **Write API:** Mỗi field edit gọi `PUT /api/tasks/:id` với payload `{ "field": "value" }`. Optimistic UI update + rollback nếu API lỗi.
+
+### 11.4. State Matrix
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Task data loaded, all fields editable, tabs interactive. |
+| **Loading** | Skeleton cho header fields + tabs content. |
+| **Not Found** | "Task không tồn tại hoặc đã bị xóa. Beads ID: `<id>`" + link về Tasks list. |
+| **Offline** | Tất cả fields read-only. Banner "Đang offline — không thể chỉnh sửa." Edits queued locally. |
+| **Saving** | Field đang save hiển thị spinner nhỏ bên cạnh. Disable field cho tới khi API respond. |
+
+**Breakpoints:**
+- **Desktop:** Full layout như wireframe.
+- **Tablet:** Tabs chuyển thành scrollable horizontal tabs.
+- **Mobile:** Header fields stack vertically. Tabs thành accordion (expand/collapse).
+
+### 11.5. User Journeys
+
+- **Journey 1 (Edit Task):** User click task từ Task List → Trang load → User click dropdown "Status" → Chọn "Done" → Spinner hiện → API call → Status badge update → Activity tab tự thêm entry mới "Status changed to Done".
+- **Journey 2 (Trace Dependencies):** User ở tab Detail → Thấy "implements: br-plan-42" → Click link → Redirect sang `/trace/br-plan-42` Trace Explorer → Thấy full graph context.
+
+## 12. Tìm kiếm & Lọc (Search & Filter)
+
+<!-- beads-id: br-prd04-s12 -->
+
+> **Data source:** 3 search backends: Zvec (semantic/full-text cho docs), FrankenSQLite (structured cho tasks), FastCode (code intelligence). Tất cả qua `GET /api/search?q=<query>&type=<type>` (new endpoint) → backend gọi `gmind search <query> --json`.
+
+### 12.1. Global Search Bar (trong Header — §8.2)
+
+- Luôn hiển thị trên mọi trang (phần của Global Shell).
+- Placeholder text: "Tìm tasks, tài liệu, commits, code... (Ctrl+K)"
+- Keyboard shortcut: `Ctrl+K` hoặc `/` để focus.
+- **Instant suggestions** (debounce 300ms): Top 5 kết quả preview dưới search bar (dropdown).
+
+### 12.2. Trang Search Results (`/search`)
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│  Route: /search?q=<query>                                        │
+├──────────────────────────────────────────────────────────────────┤
+│  Search: [icon change                                 ] [🔍]    │
+│  Results: 23 found (12 Tasks, 5 Docs, 3 Commits, 2 PRs, 1 Chat)│
+│  ┌── Filter Sidebar ──┐  ┌── Results ────────────────────────┐  │
+│  │                     │  │                                   │  │
+│  │ Type:               │  │ ▼ Tasks (12)                      │  │
+│  │ ☑ Tasks (12)       │  │ ┌─────────────────────────────┐   │  │
+│  │ ☑ Docs (5)         │  │ │ ■ bd-x1y2 "Change button    │   │  │
+│  │ ☑ Commits (3)      │  │ │   icon" — Status: In Prog   │   │  │
+│  │ ☑ PRs (2)          │  │ │   ...matched: "icon change" │   │  │
+│  │ ☐ CI Logs (0)      │  │ └─────────────────────────────┘   │  │
+│  │                     │  │ ┌─────────────────────────────┐   │  │
+│  │ Date:               │  │ │ ■ bd-c3d4 "Migrate legacy  │   │  │
+│  │ ○ All time          │  │ │   icons" — Status: Open     │   │  │
+│  │ ● Last 30 days      │  │ └─────────────────────────────┘   │  │
+│  │ ○ Last 7 days       │  │                                   │  │
+│  │                     │  │ ▼ Docs (5)                        │  │
+│  │ Status (Tasks):     │  │ ┌─────────────────────────────┐   │  │
+│  │ ☑ Open             │  │ │ 📄 PRD-04 §1 "PM Custom     │   │  │
+│  │ ☑ In Progress      │  │ │   Fields" — ...icon asset... │   │  │
+│  │ ☐ Done             │  │ └─────────────────────────────┘   │  │
+│  │ ☐ Closed           │  │                                   │  │
+│  └─────────────────────┘  └───────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### 12.3. Kết quả theo Type
+
+| Type | Hiển thị | Click Action |
+| --- | --- | --- |
+| **Task** | Icon ■ + Beads ID + Title + Status badge + snippet | → `/tasks/:id` |
+| **Doc** | Icon 📄 + File name + Section title + snippet | → `/docs` với doc đó |
+| **Commit** | Icon ○ + Hash (7 chars) + Message + Author + Date | → `/trace/:beads-id` |
+| **PR** | Icon ⬡ + PR number + Title + Status (open/merged) | → External GitHub link |
+| **Chat/Meeting** | Icon ▲ + Session ID + Last message preview | → `/docs` với chat đó |
+| **RTE Approval** | Icon ★ + Task ID + Decision text excerpt | → `/tasks/:id` tab Activity |
+
+### 12.4. State Matrix
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Results grouped, filter sidebar interactive, snippet highlights. |
+| **Loading** | Skeleton cards + "Đang tìm kiếm trong 3 backends..." |
+| **Empty** | "Không tìm thấy kết quả cho `<query>`." + gợi ý: "Thử từ khóa khác hoặc bỏ bớt filter." |
+| **Error** | "Lỗi kết nối Zvec/FrankenSQLite" + nút "Thử lại". |
+
+**Breakpoints:**
+- **Desktop:** 2-column (filter 240px + results).
+- **Tablet:** Filter thu gọn thành expandable panel ở top.
+- **Mobile:** Filter ẩn, nút "Filter ▼" toggle dropdown. Results full-width.
+
+## 13. Danh sách Task (Task List View)
+
+<!-- beads-id: br-prd04-s13 -->
+
+> **Data source:** `GET /api/tasks?format=list` (FrankenSQLite — PRD-01 §1). Bổ sung cho SAFe Board Views (§3) — Board = Kanban (visual), List = Table (data-dense, bulk ops).
+
+### 13.1. Layout — Task List Table
+
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│  Route: /tasks                                                   │
+├──────────────────────────────────────────────────────────────────┤
+│  ┌── Toggle ────┐  ┌── Filters ──────────────────────┐  ┌─────┐│
+│  │ [Board] [List]│  │ Status: [All ▼] Assignee: [▼]  │  │ CSV ││
+│  └───────────────┘  │ Priority: [▼]  PRD: [▼]        │  │ ↓   ││
+│                     └────────────────────────────────┘  └─────┘│
+├──────────────────────────────────────────────────────────────────┤
+│ ☐ │ ID       │ Title              │ Status │ Pri │ Assignee │ QA│
+│───┼──────────┼────────────────────┼────────┼─────┼──────────┼───│
+│ ☐ │ bd-x1y2  │ Change button icon │ ● Prog │ P1  │ DevBot01 │ ⏳│
+│ ☐ │ bd-c3d4  │ Migrate legacy ... │ ○ Open │ P2  │ —        │ — │
+│ ☑ │ bd-e5f6  │ Add test coverage  │ ✅ Done │ P1  │ QABot    │ ✅│
+│ ☐ │ bd-g7h8  │ Update docs        │ ○ Open │ P3  │ —        │ — │
+│   │          │                    │        │     │          │   │
+│───┼──────────┼────────────────────┼────────┼─────┼──────────┼───│
+│   │          │ 1-50 of 147 tasks  │        │ [< Prev] [Next >] │
+└──────────────────────────────────────────────────────────────────┘
+│  Bulk Actions (khi ≥1 task selected):                            │
+│  [Assign To ▼] [Change Status ▼] [Change Priority ▼] [Delete]  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### 13.2. Chức năng
+
+| Chức năng | Mô tả |
+| --- | --- |
+| **Sort** | Click header column → sort ascending/descending (toggle). Default: updated_at DESC. |
+| **Filter** | Dropdowns cho Status, Priority, Assignee, PRD link, QA status. Combine = AND logic. |
+| **Pagination** | 50 tasks/page. Prev/Next buttons. |
+| **Bulk Select** | Checkbox column. Header checkbox = select all visible. |
+| **Bulk Assign** | Chọn ≥1 task → dropdown "Assign To" → select agent → `PUT /api/tasks/bulk` |
+| **Bulk Status** | Chọn ≥1 task → dropdown "Change Status" → select status → bulk update |
+| **CSV Export** | Download CSV hiện tại (filtered/sorted) |
+| **Board/List Toggle** | Switch giữa Kanban view (§3) và Table view. Cùng data, khác presentation. |
+| **Row Click** | Click row → navigate sang `/tasks/:id` (§11) |
+
+### 13.3. State Matrix
+
+| State | Mô tả |
+| --- | --- |
+| **Default** | Table loaded, sortable, filterable, pagination active. |
+| **Loading** | Skeleton rows (10 rows placeholder). |
+| **Empty** | "Không có task nào." (nếu no filter) hoặc "Không tìm thấy task phù hợp filter." (nếu có filter). |
+| **Error** | "Không thể tải danh sách task từ FrankenSQLite." + nút "Thử lại". |
+| **Bulk Action Processing** | Disabled controls + spinner trên bulk action bar. Optimistic update cho các rows selected. |
+
+**Breakpoints:**
+- **Desktop:** Full table với tất cả columns.
+- **Tablet:** Ẩn columns ít quan trọng (QA status, PRD link). Hiển thị trong expandable row detail.
+- **Mobile:** Chuyển từ table sang card list (mỗi task = 1 card: Title + Status + Assignee). Tap card → expand chi tiết.
+
+### 13.4. User Journeys
+
+- **Journey 1 (Bulk Assign):** User mở `/tasks` → Filter "Status: Open" → Select 5 tasks → Dropdown "Assign To" → Chọn "DevBot01" → Confirm → API bulk update → 5 rows update assignee column.
+- **Journey 2 (Export Report):** User filter "Priority: P0" + "Status: not Done" → Click CSV button → Download file `tasks-p0-open-2026-03-17.csv` → Chia sẻ với PMO.
+
+## 14. Acceptance Criteria (Tiêu chí Nghiệm thu)
+
+## 14A. Contract Defaults & Clarifications for Ralph Loop Stage 1
+
+<!-- beads-id: br-prd04-s14a -->
+
+> Phần này bổ sung các giả định thiết kế mức hợp đồng để phục vụ Ralph Loop Stage 1. Đây là các mặc định hợp lý khi PRD chưa mô tả đủ chi tiết cho wireframe/test contract.
+
+- **Canonical viewports:** Desktop `1440px`, Tablet `1024px`, Mobile `390px`.
+- **Canonical interaction states dùng để dựng contract:** `default`, `loading`, `empty`, `error`, `offline`, `partial`, `saving`, `not-found`. Mỗi màn hình chỉ bắt buộc áp dụng các state phù hợp với ngữ cảnh đã mô tả ở các mục trước.
+- **Design-system selector convention:** Mọi khối UI có thể kiểm thử phải ánh xạ sang `data-ds-id` ổn định theo mẫu `feature.region.element`.
+- **Shell consistency rule:** Tất cả routes kế thừa Global Shell (§8.2) gồm header, điều hướng chính, vùng trạng thái kết nối, và footer; các trang toàn màn hình vẫn giữ khả năng quay lại shell.
+- **Modal/drawer defaults:** Trên mobile, drawer/phần phụ chuyển thành full-screen overlay; trên tablet là bottom sheet hoặc condensed drawer; trên desktop là side panel cố định nếu PRD không nêu khác.
+- **Empty-state CTA rule:** Mọi state `empty` phải có ít nhất 1 CTA khả thi (`create`, `retry`, `clear filters`, hoặc `reindex`).
+- **Error-state recovery rule:** Mọi state `error` phải có thông điệp nguyên nhân ngắn + hành động phục hồi trực tiếp.
+- **Accessibility defaults:** Focus order theo thứ tự đọc, mọi vùng tương tác chính đều có tên truy cập được, và màu sắc trạng thái phải có nhãn văn bản đi kèm.
+- **Annotation rule cho wireframe:** Mỗi wireframe contract phải ghi rõ data source, hành vi responsive, và điều kiện state transition ở phần annotations.
+
+
+<!-- beads-id: br-prd04-s14 -->
 
 - **AC1 (Data Source):** Web UI tuyệt đối không gọi Read/Write trực tiếp vào DB, chỉ thông qua Go REST API.
 - **AC2 (Real-time):** Thao tác assignee/status cập nhật lên UI trong vòng dưới 5 giây (qua polling events table).
@@ -469,3 +1008,9 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 - **AC6 (Graph Interaction):** Click node trên Knowledge Graph phải mở side panel chi tiết; drag-to-rearrange hoạt động mượt.
 - **AC7 (RTE Approval):** Escalation badge, discussion thread view, và approval context display phải hoạt động đúng theo `rte_status` trong FrankenSQLite.
 - **AC8 (Single Binary):** Toàn bộ frontend phải embed được qua `embed.FS` — distribution là single Go binary.
+- **AC9 (Navigation):** Tất cả routes trong Route Map (§8) phải navigate được; sidebar highlight active route; breadcrumb cập nhật chính xác.
+- **AC10 (Document Viewer):** Document Viewer phải render markdown từ Zvec; auto-detect và link Beads IDs; filter theo source_type hoạt động.
+- **AC11 (Trace Explorer):** Beads Trace Explorer phải hiển thị ≥ 6 node types; click node mở side panel; double-click navigate đúng; filter toolbar hoạt động; graph render < 2 giây cho ≤ 50 nodes.
+- **AC12 (Task Detail):** Task Detail phải hiển thị 4 tabs; editable fields phải save qua API; Activity timeline phải cập nhật real-time; dependency links clickable sang Trace Explorer.
+- **AC13 (Search):** Global search bar phải có instant suggestions (< 500ms); search results phải grouped by type; filter sidebar phải hoạt động; Ctrl+K shortcut focus vào search bar.
+- **AC14 (Task List):** Task List phải support sort/filter/pagination; bulk select + bulk actions (assign, status change) phải hoạt động; CSV export phải tải file; Board/List toggle phải seamless.

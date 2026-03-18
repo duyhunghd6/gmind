@@ -154,13 +154,45 @@ Mode: EXECUTION
 
 1. **Generate `contract.yaml`** — Feature name, beads_id, routes, required components (with `data-ds-id`), viewports, visual diff policy, accessibility level, state transitions
 
-2. **Generate ASCII Wireframes (GAP-41/42)** — One **detailed** diagram per screen × state (default, loading, error, empty minimum). Every block MUST map to a real `data-ds-id` component. Wireframes MUST include:
+2. **Generate Dual-Format ASCII Wireframes (GAP-41/42)** — For each screen × state, produce **TWO** files:
+
+   **a) Wideframe `.wideframe.ascii.md` (PRIMARY — for human Gate A review):**
+   Spatial box-grid layout showing where components physically sit on screen. Must show side-by-side columns, stacked rows, relative proportions. Example:
+   ```text
+   +==================================+
+   | [Logo]   [Search____]       [☰]  |
+   +==================================+
+   | NAV  | +------+ +------+         |
+   | Home | | KPI  | | KPI  |         |
+   | Docs | | 142  | | 89%  |         |
+   |      | +------+ +------+         |
+   |      | +-------------------+     |
+   |      | | Chart Area    📈  |     |
+   |      | +-------------------+     |
+   +------+---------------------------+
+   ```
+
+   **b) Hierarchy Tree `.tree.ascii.md` (SECONDARY — for agent UI Diff):**
+   Component hierarchy using `┌ │ ├ └` tree-indent with `data-ds-id` annotations. Used for automated traceability and UI Diff checks. Must include:
    - ≥3 nesting levels for screens with >3 components
    - Column ratio annotations (`[60%]` / `[40%]`), padding markers (`(16px)`)
    - Internal structure: column headers, button labels, placeholder text — no stub blocks
    - Per-state structural variations (skeleton for loading, error banner for error, empty illustration for empty)
 
-3. **Generate ASCII User Flow Diagrams (GAP-44)** — ⚠️ MANDATORY. One flow per major user journey. Each box shows miniature wireframe contents with labeled transition arrows (`──[trigger]──►`) and return paths.
+3. **Generate Connected-Screen ASCII User Flow Diagrams (GAP-44)** — ⚠️ MANDATORY. One flow per major user journey. Each flow shows **multiple wideframe screens linked by labeled arrows**:
+   ```text
+   +================+       +================+
+   | Dashboard      | click | Detail View    |
+   | +----+ +----+  |------>| Title: PRD-04  |
+   | |KPI | |KPI |  |       | § Summary      |
+   | +----+ +----+  |       |   [Approve]    |
+   +================+       +================+
+           │ ◄──────[back]────── │
+   ```
+   - Each box = miniature wireframe contents (NOT abstract state names)
+   - Arrows labeled with `──[trigger action]──►`
+   - Return paths (back nav, close, breadcrumb) MUST be shown
+   - Decision points and error-recovery paths MUST be included
 
 4. **Generate Mermaid Flow Diagram** — State/navigation flow as `stateDiagram-v2`
 
@@ -192,8 +224,9 @@ All contract artifacts are organized under `docs/design/contracts/{feature-x}/`.
 | Feature directory | `docs/design/contracts/{feature-x}/` |
 | README (index) | `docs/design/contracts/{feature-x}/README.md` |
 | Contract YAML | `docs/design/contracts/{feature-x}/contract.yaml` |
-| ASCII Wireframes | `docs/design/contracts/{feature-x}/wireframes/{screen}--{state}--{viewport}.ascii.md` |
-| ASCII User Flows | `docs/design/contracts/{feature-x}/user-flows/j{N}-{journey-name}.ascii.md` |
+| ASCII Wideframes (PRIMARY) | `docs/design/contracts/{feature-x}/wireframes/{screen}--{state}--{viewport}.wideframe.ascii.md` |
+| ASCII Hierarchy Trees (SECONDARY) | `docs/design/contracts/{feature-x}/wireframes/{screen}--{state}--{viewport}.tree.ascii.md` |
+| ASCII User Flows (connected) | `docs/design/contracts/{feature-x}/user-flows/j{N}-{journey-name}.ascii.md` |
 | Flow Diagram | `docs/design/contracts/{feature-x}/flow.mmd` |
 | JSON Storyboards | `docs/design/contracts/{feature-x}/storyboards.json` |
 | Component Map | `docs/design/contracts/{feature-x}/component-map.json` |
@@ -222,13 +255,13 @@ Mode: VERIFICATION
 | **Storyboard Completeness** | 15% | Every user journey has ≥1 trajectory; error recovery paths present |
 | **Layout Compilability** | 15% | `layout-rules.json` parses cleanly; zero `AMBIGUOUS_RULE` flags |
 | **Conflict Resolution** | 15% | All `PRD_DS_CONFLICT` items detected and surfaced for Gate A |
-| **Wireframe & Flow Articulation** | **15%** | **NEW (GAP-41–45)** — Diagram depth + User Flow quality. See checks below |
+| **Wireframe & Flow Articulation** | **15%** | **NEW (GAP-41–45)** — Dual-format diagram + Connected user flows. See checks below |
 
 **Wireframe & Flow Articulation Checks (15 pts):**
-- (5 pts) **Nesting depth:** Wireframes with >3 components show ≥3 nesting levels (page→section→component→sub-element)
-- (3 pts) **Annotation completeness:** Column ratio markers (`[60%]`/`[40%]`), padding annotations (`(16px)`) present
-- (3 pts) **State variation:** Per-state wireframe variations exist (default, loading, error, empty) — not just one view
-- (2 pts) **ASCII User Flow:** ≥1 ASCII flow diagram per major user journey with labeled transition arrows and return paths
+- (5 pts) **Wideframe spatial format:** `.wideframe.ascii.md` files use box-grid layout (`+---+`, `┌──┬──┐`) with spatially-positioned elements (side-by-side columns, stacked rows). NOT tree-indent. If only `.tree.ascii.md` files exist → `WIDEFRAME_MISSING` flag, score 0/5
+- (3 pts) **Hierarchy tree present:** `.tree.ascii.md` files exist with ≥3 nesting levels and `data-ds-id` annotations
+- (3 pts) **State variation:** Per-state wideframe variations exist (default, loading, error, empty) — not just one view
+- (2 pts) **Connected user flows:** User-flow files show multiple linked screen boxes with `──[trigger]──►` arrows and return paths. NOT linear `[A] → [B]` chains. If linear → `FLOW_NOT_CONNECTED` flag, score 0/2
 - (2 pts) **No stub blocks:** Complex components (tables, forms, card grids) show internal structure, not just a label
 
 > **DIAGRAM_TOO_SHALLOW flag:** If Wireframe & Flow Articulation pillar < 60% (< 9 pts), emit `DIAGRAM_TOO_SHALLOW` in the Prioritized Fix Queue. The agent MUST specifically re-generate more detailed wireframes — not just add missing components.
