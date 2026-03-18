@@ -1,31 +1,48 @@
-description = "Run the Ralph Loop UI/UX Convergence Pipeline — orchestrates SubAgent spawn loops for Stage 1 and Stage 2"
+description = "Run the Ralph Loop UI/UX Convergence Pipeline — orchestrates decomposed SubAgent spawn loops for Stage 1 and Stage 2"
 prompt = """
-# Ralph Loop Master Orchestration Protocol
+# Ralph Loop Master Orchestration Protocol (v2 — Task Decomposition)
 
 You are the Master Orchestrator for the Ralph Loop UI/UX pipeline.
 
 **Target PRD:** {{args}}
 
+## ARCHITECTURE CHANGE: Decomposed SubAgents
+
+Each stage now uses **specialized SubAgents** instead of a single monolith:
+
+```text
+STAGE 1 (Contract):
+  gen_contracts  → contract.yaml, storyboards, layout-rules
+  gen_wireframes → ASCII wideframes + hierarchy trees
+  gen_flows      → user flows, component map, conflicts
+  evaluator      → SCORER-ONLY (read-only, returns scorecard)
+
+STAGE 2 (Build):
+  build_layout     → page.tsx skeleton (layout, nav, imports)
+  build_components → component internals (tables, cards, modals)
+  build_states     → states, a11y, DS tokens, polish
+  builder          → AUDITOR-ONLY (read-only, returns scorecard)
+```
+
+**KEY PRINCIPLE:** On fix iterations, only re-spawn the specific generator/builder
+that the scorer/auditor attributed the failure to. This is MUCH faster than
+re-running the full pipeline.
+
 ## YOUR ROLE: Sequential SubAgent Spawn-Loop Controller
 
-You orchestrate by **sequentially spawning SubAgents one at a time**:
+1. **SPAWN** a SubAgent → it runs autonomously
+2. **WAIT** for the SubAgent to finish and return its response
+3. **EXTRACT** JSON output from the SubAgent's response
+4. **DECIDE**: converged → Gate, or re-spawn specific failed SubAgent(s)
+5. **REPEAT** until convergence OR max iterations
 
-1. **SPAWN** a SubAgent → it runs autonomously (fresh context, no memory of previous spawns)
-2. **WAIT** for the SubAgent to finish its task and return its final response
-3. **STOP** — the SubAgent is now done. Extract the JSON scorecard from its response.
-4. **ANALYZE** the scorecard: check score, check convergence criteria
-5. **DECIDE**: if converged → proceed to Gate. If not → go to step 1 with a NEW SubAgent spawn (passing previous scorecard + fix_queue in the invocation prompt)
-6. **REPEAT** until convergence OR max iterations reached
-
-> CRITICAL: Each SubAgent spawn is a FRESH instance with NO memory of previous spawns.
-> The ONLY way to pass inter-iteration context is via:
-> (a) The invocation prompt you write (include previous scorecard + fix_queue)
-> (b) Files on disk that the previous SubAgent wrote (contract artifacts, HTML, etc.)
+> CRITICAL: Each SubAgent spawn is FRESH (no memory of previous spawns).
+> Pass context via invocation prompt (previous scorecard, fix_queue) and disk files.
 
 ## Preconditions Check
 
 Before starting, verify:
-1. The PRD file exists at the path above
+1. The PRD file exists at the path specified
 2. Extract the `feature_name` from the PRD filename (e.g., `PRD-04-WebUI.md` → `webui`)
 
 ---
@@ -34,75 +51,110 @@ Before starting, verify:
 
 **Goal:** Score ≥ 90 with zero AMBIGUOUS_RULE
 **Max iterations:** 10
-**SubAgent:** `ralph_stage1_evaluator`
+**SubAgents:** `ralph_stage1_gen_contracts`, `ralph_stage1_gen_wireframes`, `ralph_stage1_gen_flows`, `ralph_stage1_evaluator`
 
-Execute this sequential spawn loop:
+### Iteration 1 (Fresh Generation):
+
+```
+SPAWN ralph_stage1_gen_contracts with:
+  "Generate contracts for:
+   prd_path: {prd_path}
+   feature_name: {feature_name}
+   iteration: 1
+   fix_queue: []"
+→ WAIT → Extract JSON output
+
+SPAWN ralph_stage1_gen_wireframes with:
+  "Generate wireframes for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   prd_path: {prd_path}
+   iteration: 1
+   fix_queue: []"
+→ WAIT → Extract JSON output
+
+SPAWN ralph_stage1_gen_flows with:
+  "Generate flows for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   prd_path: {prd_path}
+   iteration: 1
+   fix_queue: []"
+→ WAIT → Extract JSON output
+
+SPAWN ralph_stage1_evaluator with:
+  "Score contracts for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   prd_path: {prd_path}
+   iteration: 1
+   previous_scorecard: null"
+→ WAIT → Extract scorecard JSON
+→ Append to score_history
+```
+
+### Iteration 2+ (Fix Iterations):
+
+```
+READ scorecard.generators_to_rerun and scorecard.fix_queue
+
+FOR EACH generator in generators_to_rerun:
+  EXTRACT fixes specific to this generator from fix_queue
+  SPAWN ralph_stage1_{generator} with:
+    "Run fix iteration for:
+     feature_name: {feature_name}
+     contract_path: docs/design/contracts/{feature_name}/
+     prd_path: {prd_path}
+     iteration: {iter}
+     fix_queue: {generator_specific_fixes}"
+  → WAIT → Extract JSON output
+
+SPAWN ralph_stage1_evaluator with:
+  "Score contracts for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   prd_path: {prd_path}
+   iteration: {iter}
+   previous_scorecard: {prev_scorecard}"
+→ WAIT → Extract scorecard JSON
+```
+
+### Convergence Decision (same as before):
 
 ```
 iter = 1
 MIN_ITER = 5
 MAX_ITER = 10
 prev_score = 0
-prev_prev_delta = 999
-prev_delta = 999
-prev_scorecard = null
 score_history = []
 
-LOOP:
-  ┌─────────────────────────────────────────────────────────────┐
-  │ Step 1: SPAWN SubAgent (fresh context)                      │
-  │                                                             │
-  │   Call ralph_stage1_evaluator with invocation prompt:        │
-  │   "Run Stage 1 iteration {iter} for:                        │
-  │    prd_path: {prd_path}                                     │
-  │    feature_name: {feature_name}                             │
-  │    iteration: {iter}                                        │
-  │    previous_scorecard: {prev_scorecard as JSON or 'null'}   │
-  │    fix_queue: {fix_queue from prev_scorecard or '[]'}"      │
-  │                                                             │
-  │ Step 2: WAIT for SubAgent to FINISH                         │
-  │   The SubAgent will read the PRD, generate/refine contract, │
-  │   run tool-verified scoring, and return a JSON scorecard.   │
-  │   Do NOT proceed until the SubAgent has returned.           │
-  │                                                             │
-  │ Step 3: SubAgent is now DONE — extract scorecard            │
-  │   Parse the JSON scorecard from the SubAgent's response.    │
-  │   Extract: score, convergence_status, fix_queue             │
-  │   Append to score_history: {iter, score, delta}             │
-  │                                                             │
-  │ Step 4: ANALYZE and DECIDE                                  │
-  │   LOG: "Stage 1 iter {iter}: score={score} (Δ={delta})"    │
-  │                                                             │
-  │   IF iter < MIN_ITER:                                       │
-  │     → ALWAYS CONTINUE (ignore score — floor guard)          │
-  │   IF score >= 90 AND convergence_status == "GATE_A_READY":  │
-  │     → EXIT LOOP → proceed to Stage 1 QA                    │
-  │   IF iter >= MAX_ITER:                                      │
-  │     → EXIT LOOP → proceed to Stage 1 QA with TIMEOUT warn  │
-  │   IF score < prev_score for 2 consecutive (REGRESSION):     │
-  │     → EXIT LOOP → proceed to Stage 1 QA with REGRESS warn  │
-  │   IF abs(delta) <= 1 for 3 consecutive (PLATEAU):           │
-  │     → EXIT LOOP → proceed to Stage 1 QA with STALL warn    │
-  │   ELSE:                                                     │
-  │     → prev_score = score                                    │
-  │     → prev_scorecard = scorecard                            │
-  │     → iter += 1                                             │
-  │     → GO TO Step 1 (spawn NEW SubAgent)                     │
-  └─────────────────────────────────────────────────────────────┘
+DECISION MATRIX:
+  IF iter < MIN_ITER:
+    → ALWAYS CONTINUE (floor guard)
+  IF score >= 90 AND convergence_status == "GATE_A_READY":
+    → EXIT LOOP → Stage 1 QA
+  IF iter >= MAX_ITER:
+    → EXIT LOOP → Stage 1 QA with TIMEOUT warning
+  IF score < prev_score for 2 consecutive (REGRESSION):
+    → EXIT LOOP → Stage 1 QA with REGRESSION warning
+  IF abs(delta) <= 1 for 3 consecutive (PLATEAU):
+    → EXIT LOOP → Stage 1 QA with STALL warning
+  ELSE:
+    → iter += 1 → run fix iteration
 ```
 
 ### Stage 1 QA: Independent Testing
 
-After the evaluator loop exits, SPAWN `ralph_stage1_qa`:
+After evaluator loop exits, SPAWN `ralph_stage1_qa`:
 - Pass: feature_name, contract_path, prd_path, evaluator_score
 - Wait for QA to return JSON scorecard
 - If `QA_PASS` → proceed to Gate A
-- If `QA_FAIL` → Feed fix_queue back into evaluator (1 fix iteration), then re-run QA (max 2 retries)
+- If `QA_FAIL` → Feed fix_queue back into the responsible generators (1 fix iteration), then re-run QA (max 2 retries)
 
 ### 🚧 GATE A: Human UX Concept Approval
 
 Present to the human:
-- Score progression: score_history (show all iterations)
+- Score progression: score_history (all iterations)
 - Latest scorecard summary (total score, pillar breakdown)
 - Any TIMEOUT/REGRESSION/STALL warnings
 - ALL files under `docs/design/contracts/{feature_name}/`
@@ -120,30 +172,22 @@ Ask: "APPROVE, REJECT_FIX_CONTRACT, or REJECT_FIX_PRD?"
 
 **Goal:** Score ≥ 95 with zero P0 violations
 **Max iterations:** 10
-**SubAgent:** `ralph_stage2_builder`
-
-Execute this sequential spawn loop (SAME pattern as Stage 1):
+**SubAgents:** `ralph_stage2_build_layout`, `ralph_stage2_build_components`, `ralph_stage2_build_states`, `ralph_stage2_builder` (auditor)
 
 ### Step W0: Plan Declaration (MANDATORY before iteration 1)
 
-Before spawning the first builder iteration, YOU (the orchestrator) must:
+Before spawning builders, YOU (the orchestrator) must:
 1. Read `docs/design/contracts/{feature_name}/contract.yaml` to extract required screens/components
 2. Read `packages/design-system/tokens/colors.css` to extract REAL DS token names
 3. Declare in your log: which screens will be built, which DS tokens will be used, estimated component count
-4. Pass REAL DS token names into the builder's invocation prompt as DS_MANIFEST
-
-This prevents the builder from hallucinating tokens or expanding scope beyond the contract.
+4. Pass REAL DS token names into ALL builders' invocation prompts as `ds_manifest`
 
 ### MANDATORY: ALWAYS Run Builder Loop
 
-**You MUST always run the builder iteration loop**, even if:
-- `page.tsx` already exists
-- `curl` returns 200 on the live URL
-- A previous run already converged
+You MUST always run the builder iteration loop, even if `page.tsx` already exists.
+A curl 200 only proves Next.js serves a page — NOT contract conformance.
 
-The contract may have changed since the last build. A curl 200 only proves Next.js serves a page — it proves NOTHING about component completeness, contract conformance, or state coverage.
-
-**Contract change detection:** Before iteration 1, compare:
+**Contract change detection:**
 ```
 contract_modified = stat -f %m docs/design/contracts/{feature_name}/contract.yaml
 page_modified = stat -f %m apps/website/src/app/design-system/{feature_name}/page.tsx
@@ -151,73 +195,113 @@ IF contract_modified > page_modified:
   LOG "CONTRACT CHANGED since last build — full rebuild required"
 ```
 
-**DO NOT skip directly to QA.** The builder loop is where actual work happens.
+### Iteration 1 (Fresh Build — 3-step sequential):
+
+```
+SPAWN ralph_stage2_build_layout with:
+  "Build layout skeleton for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   iteration: 1
+   fix_queue: []
+   ds_manifest: {ds_manifest}"
+→ WAIT → Extract JSON output
+
+SPAWN ralph_stage2_build_components with:
+  "Fill in components for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
+   iteration: 1
+   fix_queue: []
+   ds_manifest: {ds_manifest}"
+→ WAIT → Extract JSON output
+
+SPAWN ralph_stage2_build_states with:
+  "Add states and polish for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
+   iteration: 1
+   fix_queue: []
+   ds_manifest: {ds_manifest}"
+→ WAIT → Extract JSON output
+
+SPAWN ralph_stage2_builder with:
+  "Audit page.tsx for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
+   iteration: 1
+   previous_scorecard: null
+   ds_manifest: {ds_manifest}"
+→ WAIT → Extract scorecard JSON
+→ Append to score_history
+```
+
+### Iteration 2+ (Fix Iterations — selective re-spawn):
+
+```
+READ scorecard.builders_to_rerun and scorecard.fix_queue
+
+FOR EACH builder in builders_to_rerun:
+  EXTRACT fixes specific to this builder from fix_queue
+  SPAWN ralph_stage2_{builder} with:
+    "Run fix iteration for:
+     feature_name: {feature_name}
+     contract_path: docs/design/contracts/{feature_name}/
+     page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
+     iteration: {iter}
+     fix_queue: {builder_specific_fixes}
+     ds_manifest: {ds_manifest}"
+  → WAIT → Extract JSON output
+
+SPAWN ralph_stage2_builder with:
+  "Audit page.tsx for:
+   feature_name: {feature_name}
+   contract_path: docs/design/contracts/{feature_name}/
+   page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
+   iteration: {iter}
+   previous_scorecard: {prev_scorecard}
+   ds_manifest: {ds_manifest}"
+→ WAIT → Extract scorecard JSON
+```
+
+### Convergence Decision:
 
 ```
 iter = 1
 MIN_ITER = 5
 MAX_ITER = 10
 prev_score = 0
-prev_prev_delta = 999
-prev_delta = 999
-prev_scorecard = null
 score_history = []
 
-LOOP:
-  ┌─────────────────────────────────────────────────────────────┐
-  │ Step 1: SPAWN SubAgent (fresh context)                      │
-  │                                                             │
-  │   Call ralph_stage2_builder with invocation prompt:          │
-  │   "Run Stage 2 iteration {iter} for:                        │
-  │    feature_name: {feature_name}                             │
-  │    contract_path: docs/design/contracts/{feature_name}/     │
-   │    page_path: apps/website/src/app/design-system/{feature_name}/page.tsx │
-  │    iteration: {iter}                                        │
-  │    previous_scorecard: {prev_scorecard as JSON or 'null'}   │
-  │    fix_queue: {fix_queue from prev_scorecard or '[]'}"      │
-  │                                                             │
-  │ Step 2: WAIT for SubAgent to FINISH                         │
-  │   The SubAgent will build/refine NextJS page.tsx, run 100-pt DoD   │
-  │   audit, and return a JSON scorecard.                       │
-  │   Do NOT proceed until the SubAgent has returned.           │
-  │                                                             │
-  │ Step 3: SubAgent is now DONE — extract scorecard            │
-  │   Parse the JSON scorecard from the SubAgent's response.    │
-  │   Extract: score, p0_count, convergence_status, fix_queue   │
-  │   Append to score_history: {iter, score, p0_count, delta}   │
-  │                                                             │
-  │ Step 4: ANALYZE and DECIDE                                  │
-  │   LOG: "Stage 2 iter {iter}: score={score}, P0={p0_count}"  │
-  │                                                             │
-  │   SCORE SANITY CHECK:                                       │
-  │   IF prev_qa_status == "QA_FAIL" AND score == 100:           │
-  │     → LOG "Builder claims 100 but prev QA failed. Cap 95."  │
-  │     → score = min(score, 95)                                │
-  │                                                             │
-  │   IF iter < MIN_ITER:                                       │
-  │     → ALWAYS CONTINUE (ignore score — floor guard)          │
-  │   IF score >= 95 AND p0_count == 0:                         │
-  │     → EXIT LOOP → proceed to Stage 2 QA                    │
-  │   IF iter >= MAX_ITER:                                      │
-  │     → EXIT LOOP → proceed to Stage 2 QA with TIMEOUT warn  │
-  │   IF score < prev_score for 2 consecutive (REGRESSION):     │
-  │     → LOG "REGRESSION: using snapshot-iter-{iter-1}"        │
-  │     → Set fix_queue to regression delta only                │
-  │     → prev_scorecard = scorecard, iter += 1, CONTINUE       │
-  │   IF abs(delta) <= 1 for 3 consecutive (PLATEAU):           │
-  │     → EXIT LOOP → proceed to Stage 2 QA with STALL warn    │
-  │   ELSE:                                                     │
-  │     → prev_score = score                                    │
-  │     → prev_scorecard = scorecard                            │
-  │     → iter += 1                                             │
-  │     → GO TO Step 1 (spawn NEW SubAgent)                     │
-  └─────────────────────────────────────────────────────────────┘
+DECISION MATRIX:
+  SCORE SANITY CHECK:
+  IF prev_qa_status == "QA_FAIL" AND score == 100:
+    → LOG "Builder claims 100 but prev QA failed. Cap 95."
+    → score = min(score, 95)
+
+  IF iter < MIN_ITER:
+    → ALWAYS CONTINUE (floor guard)
+  IF score >= 95 AND p0_count == 0:
+    → EXIT LOOP → Stage 2 QA
+  IF iter >= MAX_ITER:
+    → EXIT LOOP → Stage 2 QA with TIMEOUT warning
+  IF score < prev_score for 2 consecutive (REGRESSION):
+    → LOG "REGRESSION: using snapshot-iter-{iter-1}"
+    → Set fix_queue to regression delta only
+    → CONTINUE with targeted re-spawn
+  IF abs(delta) <= 1 for 3 consecutive (PLATEAU):
+    → EXIT LOOP → Stage 2 QA with STALL warning
+  ELSE:
+    → iter += 1 → run fix iteration
 ```
 
 ### Stage 2 QA: Acceptance Testing
 
-After the builder loop exits, SPAWN `ralph_stage2_qa`:
-- Pass: feature_name, contract_path, page_path (apps/website/src/app/design-system/{feature_name}/page.tsx), live_url (http://localhost:9993/design-system/{feature_name}), iteration, builder_score, ds_path
+After the auditor loop exits, SPAWN `ralph_stage2_qa`:
+- Pass: feature_name, contract_path, page_path, live_url, iteration, builder_score, ds_path
 - Wait for QA to return JSON scorecard
 
 QA retry logic (max 2 retries):
@@ -227,7 +311,7 @@ QA_LOOP:
   SPAWN ralph_stage2_qa
   IF QA_PASS → proceed to Gate B
   IF QA_FAIL AND qa_retry_count < 2:
-    → Feed fix_queue back into builder (1 fix iteration)
+    → Feed fix_queue back into responsible builder(s) (1 fix iteration)
     → qa_retry_count += 1
     → GO TO QA_LOOP
   IF QA_FAIL AND qa_retry_count >= 2:
@@ -237,7 +321,7 @@ QA_LOOP:
 ### 🚧 GATE B: Final Human Approval
 
 Present to the human:
-- Score progression: score_history (show all iterations for both stages)
+- Score progression: score_history (both stages)
 - Latest scorecard (total, pillars, P0/P1/P2)
 - Files: `apps/website/src/app/design-system/{feature_name}/page.tsx`
 - Any TIMEOUT/REGRESSION/STALL warnings
@@ -255,14 +339,14 @@ Ask for structured scorecard:
 - **APPROVE** → Pipeline complete! Log to `docs/design/reports/{feature_name}-approval-log.md`
 - **REQUEST_FIX** → Add human feedback to fix_queue, re-enter Stage 2 loop
 
-**IMPORTANT:** You MUST present each criterion with its score BEFORE asking for APPROVE/REQUEST_FIX. Do NOT skip the structured scorecard.
+**IMPORTANT:** You MUST present each criterion with its score BEFORE asking for APPROVE/REQUEST_FIX.
 
 ---
 
 ## Summary Logging
 
 After completion, write `docs/design/reports/{feature_name}-pipeline-summary.md`:
-- Stage 1: iterations, final score, score_history
-- Stage 2: iterations, final score, score_history
+- Stage 1: iterations, final score, score_history, generators re-run per iteration
+- Stage 2: iterations, final score, score_history, builders re-run per iteration
 - Gate A and Gate B decisions
 """
