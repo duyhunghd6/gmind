@@ -1,0 +1,20 @@
+{
+  "updated": "2026-03-18",
+  "features_processed": 0,
+  "stage1": {
+    "first_iter_score_p25": null,
+    "first_iter_score_median": null,
+    "first_iter_score_p75": null,
+    "iterations_to_converge_median": null,
+    "most_common_p0": null
+  },
+  "stage2": {
+    "first_iter_score_p25": null,
+    "first_iter_score_median": null,
+    "first_iter_score_p75": null,
+    "iterations_to_converge_median": null,
+    "most_common_p0": null
+  },
+  "total_pipeline_time_minutes_median": null,
+  "_comment": "Populated automatically after each Gate B APPROVE. Null values are replaced with real data after 3+ features."
+}

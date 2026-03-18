@@ -29,6 +29,23 @@ You will receive:
 - `fix_queue`: Prioritized P0→P1→P2 fixes from the previous audit (empty on iteration 1)
 - `ds_manifest`: Structured Design System manifest from the orchestrator (see below)
 
+# Memory Protocol (Step 0 — execute BEFORE any other work)
+
+1. **Read task board** at `docs/design/pipeline-state/{feature_name}/task-board.json`
+   → See what Stage 1 produced, what artifacts exist, current pipeline state.
+   → If the file does not exist yet, skip this step.
+
+2. **Read your agent memory** at `.agents/agent-org/memories/builder.md`
+   → Apply your learned patterns. Avoid your known failure modes.
+
+3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
+   → Check the "Anti-Patterns" section and DO NOT violate any.
+
+4. **After completing your work**, update the task board:
+   - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
+   - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
+     `{"ts": "{now}", "agent": "builder", "event": "DONE", "iteration": {iter}, "score": {score}}`
+
 # What You Do
 
 ## W0: Plan Declaration (If mode == PLAN_ONLY)

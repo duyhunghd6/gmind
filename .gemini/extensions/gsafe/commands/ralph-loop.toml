@@ -47,6 +47,82 @@ Before starting, verify:
 
 ---
 
+## MEMORY INITIALIZATION (4-Tier Agent Organization Memory)
+
+Before spawning any SubAgent, read and prepare the organization's shared state:
+
+### Step M1: Read Organization Memory (Tier 4)
+
+```
+READ .agents/agent-org/org-memory.md → extract anti-patterns and routing intelligence
+READ .agents/agent-org/baselines.json → extract expected first-iter scores
+
+IF baselines.features_processed >= 3:
+  Store expected_s1_median = baselines.stage1.first_iter_score_median
+  → Use for BASELINE_REGRESSION detection after Stage 1 iter 1
+```
+
+### Step M2: Initialize Pipeline State (Tier 2)
+
+```
+CREATE docs/design/pipeline-state/{feature_name}/task-board.json:
+{
+  "feature": "{feature_name}",
+  "pipeline_start": "{ISO timestamp}",
+  "current_stage": 1,
+  "current_iteration": 0,
+  "agents": {
+    "gen_contracts":  { "status": "PENDING", "last_run_iter": 0, "artifacts": [] },
+    "gen_wireframes": { "status": "PENDING", "last_run_iter": 0, "artifacts": [] },
+    "gen_flows":      { "status": "PENDING", "last_run_iter": 0, "artifacts": [] },
+    "evaluator":      { "status": "PENDING", "last_run_iter": 0 },
+    "build_layout":     { "status": "PENDING", "last_run_iter": 0 },
+    "build_components": { "status": "PENDING", "last_run_iter": 0 },
+    "build_states":     { "status": "PENDING", "last_run_iter": 0 },
+    "builder":          { "status": "PENDING", "last_run_iter": 0 }
+  },
+  "score_history": [],
+  "convergence_trend": "NOT_STARTED"
+}
+
+APPEND to docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl:
+{"ts": "{now}", "agent": "orchestrator", "event": "PIPELINE_START", "feature": "{feature_name}", "prd": "{prd_path}"}
+```
+
+### Step M3: Read Agent Memories (Tier 3 — inject into every spawn)
+
+```
+FOR EACH agent in [gen_contracts, gen_wireframes, gen_flows, evaluator,
+                    build_layout, build_components, build_states, builder]:
+  READ .agents/agent-org/memories/{agent}.md → store as agent_memory[agent]
+```
+
+### SPAWN PROTOCOL (applies to ALL SubAgent spawns below):
+
+Every SubAgent spawn MUST include these additional context blocks:
+
+```
+"... (normal invocation prompt) ...
+
+SHARED TASK BOARD (read this to understand team state):
+{contents of task-board.json}
+
+YOUR AGENT MEMORY (learned patterns from past runs — apply these):
+{contents of agent_memory[this_agent]}
+
+ORGANIZATION ANTI-PATTERNS (DO NOT violate these):
+{contents of org-memory.md anti-patterns section}"
+```
+
+After EACH SubAgent completes:
+```
+UPDATE task-board.json → set this agent's status to "DONE", update artifacts list
+APPEND to pipeline-log.jsonl:
+  {"ts": "{now}", "agent": "{agent_name}", "event": "DONE", "iteration": {iter}, "duration_s": {elapsed}}
+```
+
+---
+
 ## STAGE 1: Contract Generation Ralph Loop
 
 **Goal:** Score ≥ 90 with zero AMBIGUOUS_RULE
@@ -93,20 +169,48 @@ SPAWN ralph_stage1_evaluator with:
 → Append to score_history
 ```
 
-### Iteration 2+ (Fix Iterations):
+### Iteration 2+ (Fix Iterations — with Golden Example Injection):
 
 ```
 READ scorecard.generators_to_rerun and scorecard.fix_queue
 
+## GOLDEN EXAMPLE INJECTION (Layer 2 Quality Gate):
+## For each generator to re-run, read its PASSING artifacts from previous iteration
+## and embed them in the prompt to prevent format regression.
+
 FOR EACH generator in generators_to_rerun:
   EXTRACT fixes specific to this generator from fix_queue
+
+  ## --- GOLDEN EXAMPLE PREP ---
+  golden_examples = ""
+  IF generator == "gen_wireframes":
+    # Find a wideframe file that PASSED (not in the fix_queue)
+    LIST files in docs/design/contracts/{feature_name}/wireframes/*.wideframe.ascii.md
+    FOR EACH file NOT mentioned in fix_queue:
+      golden_examples += "GOLDEN EXAMPLE (format anchor — DO NOT change format):\n"
+      golden_examples += READ file contents (first 40 lines)
+      BREAK  # One example is enough
+  IF generator == "gen_flows":
+    LIST files in docs/design/contracts/{feature_name}/user-flows/*.ascii.md
+    FOR EACH file NOT mentioned in fix_queue:
+      golden_examples += "GOLDEN EXAMPLE (format anchor — DO NOT change format):\n"
+      golden_examples += READ file contents (first 40 lines)
+      BREAK
+  IF generator == "gen_contracts":
+    golden_examples += "GOLDEN EXAMPLE (format anchor):\n"
+    golden_examples += READ first 30 lines of contract.yaml
+
   SPAWN ralph_stage1_{generator} with:
     "Run fix iteration for:
      feature_name: {feature_name}
      contract_path: docs/design/contracts/{feature_name}/
      prd_path: {prd_path}
      iteration: {iter}
-     fix_queue: {generator_specific_fixes}"
+     fix_queue: {generator_specific_fixes}
+
+     {golden_examples}
+     CRITICAL: Your output MUST match the same format as the golden example above.
+     Do NOT switch from box-grid wideframe to tree-indent hierarchy."
   → WAIT → Extract JSON output
 
 SPAWN ralph_stage1_evaluator with:
@@ -239,10 +343,16 @@ SPAWN ralph_stage2_builder with:
 → Append to score_history
 ```
 
-### Iteration 2+ (Fix Iterations — selective re-spawn):
+### Iteration 2+ (Fix Iterations — selective re-spawn with Golden Examples):
 
 ```
 READ scorecard.builders_to_rerun and scorecard.fix_queue
+
+## GOLDEN EXAMPLE INJECTION (Layer 2 Quality Gate):
+## Read current page.tsx snapshot as format anchor.
+## Each builder receives the current state so it maintains consistency.
+
+golden_page = READ apps/website/src/app/design-system/{feature_name}/page.tsx (first 50 lines)
 
 FOR EACH builder in builders_to_rerun:
   EXTRACT fixes specific to this builder from fix_queue
@@ -253,7 +363,11 @@ FOR EACH builder in builders_to_rerun:
      page_path: apps/website/src/app/design-system/{feature_name}/page.tsx
      iteration: {iter}
      fix_queue: {builder_specific_fixes}
-     ds_manifest: {ds_manifest}"
+     ds_manifest: {ds_manifest}
+
+     GOLDEN EXAMPLE (current page.tsx structure — preserve this format):
+     {golden_page}
+     CRITICAL: Fix ONLY the items in fix_queue. Preserve all other code structure."
   → WAIT → Extract JSON output
 
 SPAWN ralph_stage2_builder with:
@@ -349,4 +463,72 @@ After completion, write `docs/design/reports/{feature_name}-pipeline-summary.md`
 - Stage 1: iterations, final score, score_history, generators re-run per iteration
 - Stage 2: iterations, final score, score_history, builders re-run per iteration
 - Gate A and Gate B decisions
+
+---
+
+## POST-PIPELINE MEMORY UPDATE (runs after Gate B APPROVE)
+
+### Step P1: Update Pipeline Log (Tier 2)
+
+```
+APPEND to pipeline-log.jsonl:
+  {"ts": "{now}", "agent": "orchestrator", "event": "PIPELINE_COMPLETE",
+   "total_s1_iters": {s1_iters}, "total_s2_iters": {s2_iters},
+   "final_s1_score": {s1_final}, "final_s2_score": {s2_final},
+   "gate_a_result": "APPROVE", "gate_b_result": "APPROVE",
+   "human_feedback_s1": "{gate_a_feedback}", "human_feedback_s2": "{gate_b_feedback}"}
+```
+
+### Step P2: Update Agent Memories (Tier 3)
+
+For EACH agent that was re-spawned (had fix iterations):
+
+```
+READ current .agents/agent-org/memories/{agent}.md
+ANALYZE the fix_queue items that were attributed to this agent:
+  - Extract PASS patterns → append to "Patterns That Consistently PASS"
+  - Extract FAIL patterns → append to "Patterns That Consistently FAIL"
+  - Extract human Gate A/B feedback → append to "Human Feedback Themes"
+  - Add score trajectory → append "{feature}: iter1={s1}, final={final} ({iters} iters)"
+WRITE updated .agents/agent-org/memories/{agent}.md
+```
+
+### Step P3: Update Organization Memory (Tier 4)
+
+```
+READ current .agents/agent-org/org-memory.md
+READ current .agents/agent-org/baselines.json
+
+IF baselines.features_processed >= 2:
+  # Look for cross-agent correlations
+  IF gen_wireframes failed a11y AND build_states later failed a11y:
+    → Add correlation to org-memory.md Cross-Agent Correlations
+  IF gen_contracts had >5 states AND gen_wireframes needed >2 extra iters:
+    → Add correlation to org-memory.md
+
+# Update baselines
+INCREMENT baselines.features_processed
+ADD this run's iter-1 scores to the percentile arrays
+RECALCULATE P25, median, P75
+UPDATE most_common_p0 across all features
+WRITE updated baselines.json
+
+# Update org-memory performance section
+IF convergence_trend was "IMPROVING" for 3+ features:
+  → Add observation to Routing Intelligence
+IF an agent was never re-spawned across 3+ features:
+  → Note in Routing Intelligence that its pillar may be too easy
+
+WRITE updated .agents/agent-org/org-memory.md
+```
+
+### Step P4: Finalize Task Board (Tier 2)
+
+```
+UPDATE task-board.json:
+  Set all agent statuses to "PIPELINE_COMPLETE"
+  Set convergence_trend to "CONVERGED"
+  Add "pipeline_end": "{ISO timestamp}"
+```
 """
+

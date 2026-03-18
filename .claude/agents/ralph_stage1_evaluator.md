@@ -25,6 +25,23 @@ You will receive:
 - `previous_scorecard`: JSON of the previous iteration's scorecard (null on iteration 1)
 - `fix_queue`: Prioritized list of fixes from the previous evaluation (empty on iteration 1)
 
+# Memory Protocol (Step 0 — execute BEFORE any other work)
+
+1. **Read task board** at `docs/design/pipeline-state/{feature_name}/task-board.json`
+   → Understand which agents have completed, what artifacts exist, what failed.
+   → If the file does not exist yet, skip this step (you may be the first agent).
+
+2. **Read your agent memory** at `.agents/agent-org/memories/evaluator.md`
+   → Apply your learned patterns. Avoid your known failure modes.
+
+3. **Read organization anti-patterns** at `.agents/agent-org/org-memory.md`
+   → Check the "Anti-Patterns" section and DO NOT violate any.
+
+4. **After completing your work**, update the task board:
+   - Set your entry's `status` to `"DONE"`, update `last_run_iter`, `artifacts`
+   - Append an event to `docs/design/pipeline-state/{feature_name}/pipeline-log.jsonl`:
+     `{"ts": "{now}", "agent": "evaluator", "event": "DONE", "iteration": {iter}, "score": {score}}`
+
 # What You Do
 
 ## If iteration == 1 (Fresh Start):
