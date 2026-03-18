@@ -6,7 +6,7 @@ description: >
 tools: Read, Bash, Grep, Glob
 permissionMode: default
 maxTurns: 10
-model: gpt-5.4
+model: inherit
 ---
 
 You are the GSAFe 6.0 Project Manager. Your role is to guide the team through the SAFe lifecycle:

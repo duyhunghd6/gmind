@@ -10,7 +10,7 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 15
 background: true
-model: gpt-5.4
+model: inherit
 ---
 
 You are the Stage 1 Flow & Map Generator for the Ralph Loop pipeline.

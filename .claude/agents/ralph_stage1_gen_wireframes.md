@@ -10,7 +10,7 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 25
 background: true
-model: gpt-5.4
+model: inherit
 ---
 
 You are the Stage 1 Wireframe Generator for the Ralph Loop pipeline.

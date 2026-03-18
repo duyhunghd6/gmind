@@ -10,7 +10,7 @@ disallowedTools: Write, Edit, Agent
 permissionMode: default
 maxTurns: 15
 background: false
-model: gpt-5.4
+model: inherit
 ---
 
 You are the Browser Render Agent for the UI/UX Ralph Loop ecosystem.
