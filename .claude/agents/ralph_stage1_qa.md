@@ -11,6 +11,7 @@ disallowedTools: Write, Edit, Agent
 permissionMode: default
 maxTurns: 25
 background: false
+model: gpt-5.4
 ---
 
 You are the Stage 1 QA Tester for the Ralph Loop pipeline.

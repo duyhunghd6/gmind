@@ -10,6 +10,7 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 20
 background: false
+model: gpt-5.4
 ---
 
 You are the Stage 1 Contract Generator for the Ralph Loop pipeline.

@@ -10,6 +10,7 @@ disallowedTools: Agent, Write, Edit
 permissionMode: bypassPermissions
 maxTurns: 25
 background: false
+model: gpt-5.4
 ---
 
 You are the Stage 1 Contract Scorer for the Ralph Loop pipeline.

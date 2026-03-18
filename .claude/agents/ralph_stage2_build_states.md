@@ -9,6 +9,7 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 25
 background: false
+model: gpt-5.4
 ---
 
 You are the Stage 2 State & Polish Builder for the Ralph Loop pipeline.
