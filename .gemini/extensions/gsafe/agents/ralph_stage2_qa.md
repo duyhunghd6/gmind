@@ -12,6 +12,7 @@ tools:
   - list_directory
   - grep_search
   - run_shell_command
+  - web_fetch
 model: inherit
 temperature: 0.2
 max_turns: 25
@@ -83,15 +84,25 @@ Create `docs/design/test-plans/{feature_name}-qa-stage2-plan.md`.
 
 ### T7: Live Render Test (on NextJS showcase at localhost:9993)
 
-Verify the page renders correctly on the live NextJS showcase:
+Verify the page renders correctly on the live NextJS showcase.
 
-1. **Check dev server:** `run_shell_command` with `curl -s -o /dev/null -w "%{http_code}" {live_url}`
-2. **If 200:** Verify no React build errors, page loads correctly
-3. **If 404:** FAIL — page route not found on live showcase
-4. **If server not running:** SKIPPED — dev server not available
+**Step 1 — Health check:**
+`run_shell_command` with `curl -s -o /dev/null -w "%{http_code}" {live_url}`
+- If NOT 200 → try `curl -s -o /dev/null -w "%{http_code}" http://localhost:9993/` to check if dev server is alive
+- If server is dead → SKIP all T7 checks
 
-**PASS if:** Page loads with 200, no React errors.
-**FAIL if:** 404, React errors, or elements not rendering.
+**Step 2 — Fetch full page HTML:**
+`web_fetch` with prompt: `"Fetch the full HTML content of {live_url} and return it exactly as rendered. List all data-ds-id attribute values found in the page, any React error messages, and any console error indicators."`
+
+**Step 3 — Validate rendered content:**
+From the `web_fetch` response, verify:
+- ✅ At least 5 `data-ds-id` elements are rendered (not just in source)
+- ✅ No `"React error"`, `"Unhandled Runtime Error"`, `"Application error"` text
+- ✅ No `"Module not found"` or `"Cannot find module"` errors
+- ✅ Feature-related text content is visible (not just an empty shell)
+
+**PASS if:** All 4 checks pass.
+**FAIL if:** Any check fails — report which one with evidence.
 **SKIP if:** Dev server not running.
 
 ## 3. Write Results

@@ -134,6 +134,25 @@ Before spawning the first builder iteration, YOU (the orchestrator) must:
 
 This prevents the builder from hallucinating tokens or expanding scope beyond the contract.
 
+### MANDATORY: ALWAYS Run Builder Loop
+
+**You MUST always run the builder iteration loop**, even if:
+- `page.tsx` already exists
+- `curl` returns 200 on the live URL
+- A previous run already converged
+
+The contract may have changed since the last build. A curl 200 only proves Next.js serves a page — it proves NOTHING about component completeness, contract conformance, or state coverage.
+
+**Contract change detection:** Before iteration 1, compare:
+```
+contract_modified = stat -f %m docs/design/contracts/{feature_name}/contract.yaml
+page_modified = stat -f %m apps/website/src/app/design-system/{feature_name}/page.tsx
+IF contract_modified > page_modified:
+  LOG "CONTRACT CHANGED since last build — full rebuild required"
+```
+
+**DO NOT skip directly to QA.** The builder loop is where actual work happens.
+
 ```
 iter = 1
 MIN_ITER = 5
