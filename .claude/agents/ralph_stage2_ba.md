@@ -6,8 +6,8 @@ description: >
   history, then outputs a routing-decision JSON telling the orchestrator what to do
   next: CONTINUE (which builders to re-spawn), GATE_B_READY, STALL, REGRESSION,
   or TIMEOUT. The orchestrator MUST dispatch this agent after every audit cycle.
-tools: Read, Grep, Glob
-disallowedTools: Write, Edit, Agent, Bash
+tools: Read, Write, Grep, Glob
+disallowedTools: Agent, Bash
 permissionMode: plan
 maxTurns: 12
 background: false

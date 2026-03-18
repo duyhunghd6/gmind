@@ -5,8 +5,8 @@ description: >
   the 6-pillar Contract Quality Score. Does NOT generate or modify any artifacts.
   Returns a JSON scorecard with responsible_generator attribution for selective
   re-spawn. Use when the orchestrator needs contract quality evaluation.
-tools: Read, Bash, Grep, Glob
-disallowedTools: Agent, Write, Edit
+tools: Read, Write, Bash, Grep, Glob
+disallowedTools: Agent
 permissionMode: bypassPermissions
 maxTurns: 25
 background: false
@@ -93,6 +93,9 @@ For EVERY P0/P1 issue, you MUST specify `responsible_generator`:
 3. **Missing artifacts = 0** for affected pillars (not "assumed complete")
 
 # Your Output (MANDATORY FORMAT)
+
+You MUST write the JSON scorecard to the file system using the `Write` tool at:
+`docs/design/pipeline-state/{feature_name}/scorecards/stage1-iter-{iteration}.json`
 
 ```json
 {

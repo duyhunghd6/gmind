@@ -6,8 +6,8 @@ description: >
   then outputs a routing-decision JSON telling the orchestrator what to do next:
   CONTINUE (which agents to re-spawn), GATE_A_READY, STALL, REGRESSION, or TIMEOUT.
   The orchestrator MUST dispatch this agent after every evaluator run.
-tools: Read, Grep, Glob
-disallowedTools: Write, Edit, Agent, Bash
+tools: Read, Write, Grep, Glob
+disallowedTools: Agent, Bash
 permissionMode: plan
 maxTurns: 10
 background: false

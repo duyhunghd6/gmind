@@ -57,7 +57,7 @@ These are the EXACT agent names for `Agent()` tool calls. If any agent is NOT FO
 > 1. You MUST use `Agent(agent_name)` tool calls. NEVER execute agent work yourself.
 > 2. Background agents (gen_wireframes, gen_flows) run in PARALLEL — spawn both, then poll.
 > 3. NEVER run the scorer/auditor until ALL generators/builders are complete.
-> 4. If an agent dispatch returns an error, STOP and report — do NOT continue.
+> 4. **AUTO-RECOVERY:** If an agent fails or if a required file (e.g., generated scorecard or JSON) is missing, DO NOT STOP. Instead, immediately re-dispatch a subagent to fix the missing element (e.g., re-run the evaluator with explicit instruction to write the file), then retry the loop.
 > 5. After every scorer/auditor run, ALWAYS dispatch the BA agent for routing.
 
 ---

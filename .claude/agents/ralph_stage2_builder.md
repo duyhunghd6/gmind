@@ -5,8 +5,8 @@ description: >
   DoD Scoring Engine (g3-g8). Does NOT write or modify any code.
   Returns a JSON scorecard with responsible_builder attribution for selective
   re-spawn. Use when the orchestrator needs build quality evaluation.
-tools: Read, Bash, Grep, Glob
-disallowedTools: Agent, Write, Edit
+tools: Read, Write, Bash, Grep, Glob
+disallowedTools: Agent
 permissionMode: bypassPermissions
 maxTurns: 25
 background: false
@@ -100,6 +100,9 @@ For EVERY P0/P1 issue, specify `responsible_builder`:
 - State/a11y/animation issues → `build_states`
 
 # Your Output (MANDATORY FORMAT)
+
+You MUST write the JSON scorecard to the file system using the `Write` tool at:
+`docs/design/pipeline-state/{feature_name}/scorecards/stage2-iter-{iteration}.json`
 
 ```json
 {
