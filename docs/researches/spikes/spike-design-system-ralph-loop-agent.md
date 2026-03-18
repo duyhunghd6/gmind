@@ -207,9 +207,11 @@ graph TD
 
     subgraph Stage2 ["Stage 2: Hi-Fi Implementation Ralph Loop (RFT)"]
         W0 --> Build["BUILD: Implementor Agent (W1→W2)"]:::agent
-        Build --> UI[Rendered UI / Playwright Arena]
-        UI --> Eval["AUDIT: Evaluator Agent (g3→g8)\n100-pt DoD Scoring Engine"]:::score
-        Eval --> Score{"Score >= 95\n& Zero P0?"}
+        Build --> BrowserRender["RENDER: Browser Agent\nCapture Built UI Screenshot"]:::agent
+        BrowserRender --> DSBaseline["DS BASELINE: Browser Agent\nCapture Live DS Showcase"]:::agent
+        DSBaseline --> Eval["AUDIT: Evaluator Agent (g3→g8)\n100-pt DoD Scoring Engine"]:::score
+        Eval --> QADiff["QA: Visual Diff\nBuilt UI vs Live DS"]:::score
+        QADiff --> Score{"Score >= 95\n& Zero P0?"}
 
         Score -- "NO\n(Prioritized Fix Queue)" --> Build
     end
@@ -228,7 +230,7 @@ graph TD
 ### Loop Mechanics & RFT Alignment:
 
 1. **Stage 1: The PRD / Low-Fi Ralph Loop (Gate A Iterations):** The Evaluator agent repeatedly tries to convert abstract, text-only PRD requirements into visual ASCII layouts and interaction storyboards. If the human reviewer spots missing logic or bad UX flows at Gate A, they reject the PRD. A PRD Writer agent is dispatched to complete the document, forcing the UI/UX conceptual design to explicitly stabilize *before* any code is written.
-2. **Stage 2: The Implementation / Hi-Fi Ralph Loop (Gate B Iterations):** The Implementor builds the UI, interweaving reasoning with tool calls. The Evaluator captures the rendered UI, structure, and accessibility, executing the 12-step Gatecheck pipeline.
+2. **Stage 2: The Implementation / Hi-Fi Ralph Loop (Gate B Iterations):** The Implementor builds the UI, interweaving reasoning with tool calls. A **Browser Render Agent** captures deterministic screenshots of both the built UI and the **live Design System showcase** (Next.js dev server at `/design-system`). The Evaluator then performs the 12-step Gatecheck pipeline, and a **QA Visual Diff** step compares computed styles (background colors, font families, card/button patterns) between the built UI and the live DS to enforce visual consistency.
 3. **Continuous Reward Formulation:** The Evaluator calculates the DoD Score (0-100), effectively serving as an unhackable, continuous reward function.
 4. **Iteration/Budget Penalty:** If the score fails the threshold, feedback is sent. To prevent long-tail tool call loops (e.g. >15 tool calls), the system enforces a strict tool-budget penalty.
 
@@ -484,9 +486,11 @@ _Testing the full multi-step task end-to-end to evaluate reasoning and capabilit
   - **Wireframe Geometry Validation:** Does the `layout-rules.json` confirm that the Sidebar is strictly left of the Main Content with zero pixel overlap?
   - **Storyboard Trajectory Validation:** A storyboard is a sequence of states. The Gatecheck agent must test the "trajectory": `Default State` → (Click Button) → `Loading State` → (API Mock Return) → `Populated State`.
   - Did the screen transition smoothly without breaking the layout?
+  - **Visual Diff via Browser Agent:** A headless browser (Playwright) renders the built UI and the **live DS showcase** (Next.js endpoint at `localhost:3000/design-system`). Computed styles (background, font-family, border-radius, card/button patterns) are extracted from both and compared. Mismatches between the built UI and the live DS are flagged as P1 violations.
 - **Metrics:**
   - **Trajectory Average Score:** How accurately did the sequence of DOM states match the prescribed Storyboard?
   - **Response Match Score (Visual Diff):** How closely do the captured screen layouts match the baseline wireframes (e.g., threshold > 0.95)?
+  - **DS Visual Consistency Score:** Percentage of computed style properties matching the live DS showcase.
 
 ### Tier 3: End-to-End Human Review (Quality Gate)
 
@@ -799,16 +803,21 @@ Detailed ASCII wireframes and user flows produce large files (500+ lines per fea
    - viewports,
    - visual diff policy,
    - accessibility policy.
-2. Generate ASCII diagram for each screen/state.
-3. Generate Mermaid flow/state diagram.
-4. Map each ASCII block -> real component ID (`component_map`).
+2. Generate **dual-format ASCII diagrams** for each screen/state:
+   - **Wideframe (PRIMARY):** Spatial box-grid layout showing where UI elements physically sit on screen — side-by-side columns, stacked rows, relative sizes. File pattern: `{screen}--{state}--{viewport}.wideframe.ascii.md`. This is the **main artifact** for human-in-the-loop Gate A review.
+   - **Hierarchy Tree (SECONDARY):** Component hierarchy using `┌ │ ├ └` tree-indent characters with `data-ds-id` annotations. File pattern: `{screen}--{state}--{viewport}.tree.ascii.md`. Used by agents for automated UI Diff checks and component traceability.
+3. Generate **connected-screen ASCII user-flow diagrams:** Multiple wideframe screens linked by labeled arrows (`──[trigger]──►`) showing navigation paths, back-navigation, and decision points. NOT linear `[A] → [B]` chains.
+4. Generate Mermaid flow/state diagram (abstract state transitions, complements ASCII flows).
+5. Map each ASCII block -> real component ID (`component_map`).
 
 ### Output
 
-- `docs/design/contracts/feature-x.contract.yaml`
-- `docs/design/contracts/feature-x.ascii.md`
-- `docs/design/contracts/feature-x.flow.mmd`
-- `docs/design/contracts/feature-x.component-map.json`
+- `docs/design/contracts/feature-x/contract.yaml`
+- `docs/design/contracts/feature-x/wireframes/{screen}--{state}--{viewport}.wideframe.ascii.md`
+- `docs/design/contracts/feature-x/wireframes/{screen}--{state}--{viewport}.tree.ascii.md`
+- `docs/design/contracts/feature-x/user-flows/j{N}-{journey-name}.ascii.md`
+- `docs/design/contracts/feature-x/flow.mmd`
+- `docs/design/contracts/feature-x/component-map.json`
 
 ### Switching
 
@@ -1134,7 +1143,9 @@ components:
       selector: "[data-ds-id='ds:comp:primary-cta-001']"
       critical: true
 
-ascii:
+# Wideframe (PRIMARY) — spatial layout for human Gate A review
+# File: wireframes/dashboard--default--desktop.wideframe.ascii.md
+ascii_wideframe:
   - screen: dashboard_default
     diagram: |
       +----------------------+
@@ -1144,6 +1155,20 @@ ascii:
       +----------+-----------+
       | Chart    | Table     |
       +----------+-----------+
+
+# Hierarchy Tree (SECONDARY) — for agent UI Diff & traceability
+# File: wireframes/dashboard--default--desktop.tree.ascii.md
+ascii_hierarchy:
+  - screen: dashboard_default
+    diagram: |
+      ┌─ Global Shell [data-ds-id="shell.root"]
+      │  ├─ Top Nav [data-ds-id="top-nav-001"]
+      │  ├─ Body
+      │  │  ├─ KPI Cards [data-ds-id="kpi-cards-001"]
+      │  │  ├─ Chart [data-ds-id="chart-001"]
+      │  │  └─ Table [data-ds-id="table-001"]
+      │  └─ Footer
+      └─
 
 layout_rules:
   - type: above
@@ -1477,14 +1502,32 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |  ┌─ TASK 2A: BUILD  (agenticse-design-system — W1→W2) ───────────────────────────────────┐  |
 |  | W1: Read layout-rules.json, resolve PRD_DS_CONFLICT resolutions, plan build sequence  |  |
 |  | W2: Write HTML/CSS/Tokens strictly following DS token system                          |  |
+|  |     ↳ DS_MANIFEST injected: exact token names, component classes, layout classes      |  |
+|  |     ↳ Must use existing DS tokens (--bg, --accent-cyan, --font-body, etc.)            |  |
+|  |     ↳ Must reuse existing DS component classes (.ve-card, .btn-primary, .navbar)      |  |
 |  | Self-Verification: CSS lint → Playwright preview → pre-submission log        |  |
 |  |   → All 3 signals = +5 bonus pts in DoD score                                         |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↓                                                                                   |
+|  ┌─ BROWSER RENDER: Built UI Screenshot (browser_subagent) ──────────────────────────────┐  |
+|  | Playwright renders built HTML at docs/design/screens/{feature}/index.html              |  |
+|  | Captures deterministic screenshot (animations disabled, fonts locked)                  |  |
+|  | Executes storyboard trajectories and captures post-interaction screenshots             |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↓                                                                                   |
+|  ┌─ DS BASELINE: Live Showcase Screenshot (browser_subagent) ────────────────────────────┐  |
+|  | Navigates to live DS showcase: http://localhost:3000/design-system (Next.js dev)       |  |
+|  | Captures baseline screenshot of the live Design System with real tokens/components     |  |
+|  | Both screenshots passed to QA for visual diff comparison                              |  |
 |  └────────────────────────────────────────────────────────────────────────────────────────┘  |
 |           ↓                                                                                   |
 |  ┌─ TASK 2B: AUDIT  (design-system-gatecheck — Steps 3→8) ──────────────────────────────┐  |
 |  | Step 3 (g3): Deterministic env setup (locked fonts, mock data, disabled animations)   |  |
 |  | Step 4 (g4): Tier 1 DOM Conformance → if FAIL_P0, SKIP steps 5-7           |  |
 |  | Step 5 (g5): Tier 2 Visual Diff → if FAIL_P0, SKIP step 6           |  |
+|  |   ↳ Cross-checks ALL var(--xxx) in CSS against DS_MANIFEST token list                 |  |
+|  |   ↳ Flags hardcoded hex/rgb values that have DS token equivalents                     |  |
+|  |   ↳ Flags invented tokens NOT in the DS manifest                                     |  |
 |  | Step 6 (g6): Tier 2 Flow Navigation & Dynamic State Tests          |  |
 |  | Step 7 (g7): Tier 1 A11y & Contrast → SKIPPED_TOOL_ERROR if axe fails       |  |
 |  | Step 8 (g8): Scoring Engine                                                            |  |
@@ -1499,6 +1542,14 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 |  |   - Reasonability trace score (1-5) emitted         |  |
 |  |   - Autonomy score: human_interruptions tracked         |  |
 |  |   - Graceful degradation: TOOL_FAILURE events logged, not crashed         |  |
+|  └────────────────────────────────────────────────────────────────────────────────────────┘  |
+|           ↓                                                                                   |
+|  ┌─ QA VISUAL DIFF: Built UI vs Live DS (ralph_stage2_qa — T7) ──────────────────────────┐  |
+|  | Extracts computed styles from built UI via Playwright (bg, font, card, button)         |  |
+|  | Extracts computed styles from live DS showcase (localhost:3000/design-system)           |  |
+|  | Compares: background colors, font-family, card/button styling, border-radius           |  |
+|  | Mismatches = P1 violations with specific fix instructions                              |  |
+|  | Falls back to SKIPPED if dev server unavailable                                        |  |
 |  └────────────────────────────────────────────────────────────────────────────────────────┘  |
 |           ↓                                                                                   |
 |  [Scorecard v1.1 emitted: prioritized p0_fixes → p1_fixes → p2_fixes]           |
@@ -1576,6 +1627,9 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 | No SLA | `LOOP_TIMEOUT` at 30min std / 60min complex → escalate to Gate B |
 | No official benchmark | 20-PRD Eval Dataset (5 trivial / 10 standard / 5 complex) |
 | No TSR metric | TSR = converged_runs / total_runs; target ≥ 80% |
+| No visual diff against live DS | Browser Agent renders both built UI AND live DS showcase; QA T7 compares computed styles |
+| Builder guesses DS tokens | DS_MANIFEST injected: exact token names, component/layout classes from registry.json |
+| Static `file://` rendering only | Browser Agent supports URL-based rendering (Next.js dev server at `/design-system`) |
 
 ### Key Mechanics for Antigravity Agent (Unchanged Principles)
 
@@ -2035,7 +2089,7 @@ The solution splits **BUILD** from **TEST** using dedicated QA SubAgents:
 ====================================================================================================
 ```
 
-#### Updated Mermaid: Ralph Loop Architecture v2 (with QA SubAgents)
+#### Updated Mermaid: Ralph Loop Architecture v3 (Decomposed 3+1 SubAgents — Session 5)
 
 ```mermaid
 graph TD
@@ -2047,37 +2101,47 @@ graph TD
 
     RawPRD[Raw PRD Text] --> G0[Step 0: Intake & Validate]
 
-    subgraph Stage1 ["Stage 1: Low-Fi Contract Ralph Loop"]
-        G0 --> Gen["GENERATE: Evaluator Agent\n(ASCII wireframes + storyboards + layout-rules)"]:::agent
-        Gen --> S1Eval["SELF-SCORE: 6-Pillar Engine\n(tool-verified)"]:::score
+    subgraph Stage1 ["Stage 1: Low-Fi Contract — Decomposed 3+1 Agents"]
+        G0 --> GenC["gen_contracts\n(contract.yaml + storyboards + layout-rules)"]:::agent
+        GenC --> GenW["gen_wireframes\n(ASCII wideframes + hierarchy trees)"]:::agent
+        GenW --> GenF["gen_flows\n(user flows + component map + conflicts)"]:::agent
+        GenF --> S1Eval["evaluator — SCORER-ONLY\n(6-Pillar Engine, read-only)"]:::score
         S1Eval --> S1Conv{"Score >= 90?"}
 
-        S1Conv -- "NO\n(fix_queue)" --> Gen
+        S1Conv -- "NO (selective re-spawn)" --> S1Route{"Which generator\nfailed?"}
+        S1Route -- "gen_contracts" --> GenC
+        S1Route -- "gen_wireframes" --> GenW
+        S1Route -- "gen_flows" --> GenF
         S1Conv -- "YES" --> S1QA["QA: ralph_stage1_qa\n(READ-ONLY independent tester)"]:::qa
 
         S1QA --> S1QACheck{"All Tests\nPASS?"}
-        S1QACheck -- "FAIL\n(inject as P0)" --> Gen
+        S1QACheck -- "FAIL (route to generator)" --> S1Route
         S1QACheck -- "PASS" --> GateA{Gate A: Human Approval}:::gate
 
-        GateA -- "REJECT_FIX_CONTRACT" --> Gen
+        GateA -- "REJECT_FIX_CONTRACT" --> S1Route
         GateA -- "REJECT_FIX_PRD" --> PRDWriter[PRD Writer Agent]:::agent
         PRDWriter --> G0
     end
 
-    GateA -- "APPROVE" --> DSRead[Read Design System Tokens]
+    GateA -- "APPROVE" --> DSRead[W0: Read DS Tokens + Plan Declaration]
 
-    subgraph Stage2 ["Stage 2: Hi-Fi Implementation Ralph Loop"]
-        DSRead --> Build["BUILD: Builder Agent\n(HTML/CSS using DS tokens)"]:::agent
-        Build --> S2Score["SELF-SCORE: 100-pt DoD\n(tool-verified)"]:::score
-        S2Score --> S2QA["QA: ralph_stage2_qa\n(READ-ONLY acceptance tester)"]:::qa
+    subgraph Stage2 ["Stage 2: Hi-Fi Implementation — Decomposed 3+1 Agents"]
+        DSRead --> BldL["build_layout\n(page.tsx skeleton + nav)"]:::agent
+        BldL --> BldC["build_components\n(tables + cards + modals)"]:::agent
+        BldC --> BldS["build_states\n(states + a11y + DS tokens)"]:::agent
+        BldS --> S2Audit["builder — AUDITOR-ONLY\n(100-pt DoD, read-only)"]:::score
+        S2Audit --> S2QA["QA: ralph_stage2_qa\n(READ-ONLY acceptance tester)"]:::qa
 
-        S2QA --> S2QACheck{"Builder >= 95\nAND QA all PASS\nAND Zero P0?"}
+        S2QA --> S2QACheck{"Auditor >= 95\nAND QA PASS\nAND Zero P0?"}
 
-        S2QACheck -- "FAIL\n(merge fix_queues)" --> Build
+        S2QACheck -- "FAIL (selective re-spawn)" --> S2Route{"Which builder\nfailed?"}
+        S2Route -- "build_layout" --> BldL
+        S2Route -- "build_components" --> BldC
+        S2Route -- "build_states" --> BldS
     end
 
     S2QACheck -- "YES" --> GateB{Gate B: Human Approval}:::gate
-    GateB -- "REQUEST_FIX" --> Build
+    GateB -- "REQUEST_FIX" --> S2Route
     GateB -- "APPROVE" --> Merge[Merge & Deploy]
 
     class Stage1,Stage2 stage;
@@ -2104,3 +2168,255 @@ graph TD
 ### Decision
 
 Pending human review of the ASCII diagrams above.
+
+### Session 5 (2026-03-18) — Task Decomposition & the Agent Organization Model
+
+<!-- beads-id: bd-spike-ralph-session5-agent-org -->
+
+**Trigger:** Architecture review revealed that monolithic SubAgents (`ralph_stage1_evaluator` = 40 max_turns, `ralph_stage2_builder` = 50 max_turns) exceeded the practical complexity budget of current LLMs. Self-scoring inflation persisted because generators and scorers shared the same agent context.
+
+**Research question:** How do we decompose monolithic SubAgents, and — more fundamentally — what turns a collection of parallel agents into a **self-learning, self-improving, well-managed Agent Organization**?
+
+#### GAP-60: Monolithic SubAgent Complexity Exceeds LLM Capability
+
+**Root cause:** The `ralph_stage1_evaluator` was a 40-turn agent responsible for:  
+(a) reading the PRD, (b) generating contract.yaml, (c) generating wireframes, (d) generating storyboards, (e) generating flows, (f) generating component map, (g) generating conflict report, AND (h) scoring all of the above.
+
+This is **8 distinct sub-tasks** in a single agent context. LLM quality degrades after ~20 meaningful tool calls. The evaluator routinely scored itself 100/100 (GAP-52) not because it was dishonest, but because it couldn't track the full scoring rubric across 40+ turns.
+
+**Decision: The 3+1 Task Decomposition Pattern**
+
+Split each monolithic SubAgent into **3 specialized generators/builders** + **1 read-only scorer/auditor**:
+
+```text
+BEFORE (v2):                              AFTER (v3):
+┌──────────────────────┐                 ┌────────────┐ ┌────────────┐ ┌──────────┐
+│ ralph_stage1_evaluator│                 │gen_contracts│ │gen_wireframes│ │gen_flows │
+│ GENERATE + SCORE      │       →         │(20 turns)  │ │(20 turns)    │ │(15 turns)│
+│ (40 turns, 20 min)    │                 └─────┬──────┘ └──────┬───────┘ └────┬─────┘
+└──────────────────────┘                        └───────────────┴──────────────┘
+                                                              │
+                                                    ┌─────────▼──────────┐
+                                                    │evaluator (SCORER)  │
+                                                    │READ-ONLY, 15 turns │
+                                                    └────────────────────┘
+
+BEFORE (v2):                              AFTER (v3):
+┌──────────────────────┐                 ┌────────────┐ ┌───────────────┐ ┌────────────┐
+│ ralph_stage2_builder  │                 │build_layout │ │build_components│ │build_states│
+│ BUILD + AUDIT         │       →         │(20 turns)  │ │(25 turns)      │ │(20 turns)  │
+│ (50 turns, 25 min)    │                 └─────┬──────┘ └──────┬─────────┘ └─────┬──────┘
+└──────────────────────┘                        └───────────────┴──────────────────┘
+                                                              │
+                                                    ┌─────────▼──────────┐
+                                                    │builder (AUDITOR)   │
+                                                    │READ-ONLY, 20 turns │
+                                                    └────────────────────┘
+```
+
+**Key Design Principle: Separation of Concerns = Separation of Contexts**
+
+- Generators/builders can ONLY `write_file`. They produce artifacts.
+- Scorers/auditors can ONLY `read_file`. They evaluate artifacts.
+- This is **architecturally enforced** via the `tools:` allowlist in YAML frontmatter — not just a "rule" that the LLM might ignore.
+
+**Selective Re-Spawn:** The scorer/auditor outputs a `responsible_generator` / `responsible_builder` tag per fix item. On fix iterations, the orchestrator re-spawns ONLY the failed specialist, skipping the other 2. This reduces per-iteration cost by ~60%.
+
+**Implementation files:**
+
+| SubAgent | File | Role | max_turns | timeout |
+|----------|------|------|-----------|---------|
+| `ralph_stage1_gen_contracts` | `.gemini/extensions/gsafe/agents/ralph_stage1_gen_contracts.md` | contract.yaml, storyboards, layout-rules | 20 | 10 min |
+| `ralph_stage1_gen_wireframes` | `.gemini/extensions/gsafe/agents/ralph_stage1_gen_wireframes.md` | Dual-format ASCII wireframes | 20 | 10 min |
+| `ralph_stage1_gen_flows` | `.gemini/extensions/gsafe/agents/ralph_stage1_gen_flows.md` | User flows, component map, conflicts | 15 | 8 min |
+| `ralph_stage1_evaluator` | `.gemini/extensions/gsafe/agents/ralph_stage1_evaluator.md` | SCORER-ONLY (refactored) | 15 | 8 min |
+| `ralph_stage2_build_layout` | `.gemini/extensions/gsafe/agents/ralph_stage2_build_layout.md` | Page skeleton, layout, nav | 20 | 10 min |
+| `ralph_stage2_build_components` | `.gemini/extensions/gsafe/agents/ralph_stage2_build_components.md` | Component internals | 25 | 12 min |
+| `ralph_stage2_build_states` | `.gemini/extensions/gsafe/agents/ralph_stage2_build_states.md` | State handling, a11y, DS compliance | 20 | 10 min |
+| `ralph_stage2_builder` | `.gemini/extensions/gsafe/agents/ralph_stage2_builder.md` | AUDITOR-ONLY (refactored) | 20 | 10 min |
+
+#### GAP-61: From Parallelism to Agent Organization — The 4-Layer Model
+
+**Core insight:** Task decomposition gives us agents that can run faster individually. But "3 fast agents" is not an organization. An **Agent Organization** requires four capabilities layered on top of decomposition:
+
+```text
+====================================================================================================
+              THE 4-LAYER AGENT ORGANIZATION MODEL
+====================================================================================================
+
+  Layer 4: GOVERNANCE          ← WHO decides, WHO escalates, WHO approves?
+           ┌──────────────────────────────────────────────────────────────┐
+           │  Orchestrator:    convergence policy, max_iter, floor guard  │
+           │  Human Gates:     Gate A / Gate B (non-negotiable breakpoints) │
+           │  Safety Rails:    tool allowlists, anti-hacking checks      │
+           └──────────────────────────────────────────────────────────────┘
+
+  Layer 3: MEMORY & LEARNING   ← HOW do agents get smarter over time?
+           ┌──────────────────────────────────────────────────────────────┐
+           │  Short-term:  scorecard JSON passed between iterations       │
+           │  Medium-term: snapshot history (iter N-1 restore on regress) │
+           │  Long-term:   RFT dataset (docs/rft-dataset/{prd_id}/)      │
+           │  Cross-run:   agent memory files (MEMORY.md per SubAgent)    │
+           └──────────────────────────────────────────────────────────────┘
+
+  Layer 2: COMMUNICATION       ← HOW do agents share context?
+           ┌──────────────────────────────────────────────────────────────┐
+           │  Artifacts on disk:  contract/, wireframes/, page.tsx       │
+           │  Scorecard JSON:    structured inter-agent messages          │
+           │  fix_queue:         prioritized work orders (P0→P1→P2)      │
+           │  responsible_*:     attribution tags for selective routing    │
+           └──────────────────────────────────────────────────────────────┘
+
+  Layer 1: DIVISION OF LABOR   ← WHAT does each agent do?
+           ┌──────────────────────────────────────────────────────────────┐
+           │  Generators: produce artifacts (write-only)                  │
+           │  Scorers: evaluate artifacts (read-only)                     │
+           │  QA agents: independent testing (read-only)                  │
+           │  Orchestrator: dispatch, route, converge                     │
+           └──────────────────────────────────────────────────────────────┘
+
+====================================================================================================
+```
+
+**Layer 1: Division of Labor (✅ Implemented — Session 5)**
+
+This is what the 3+1 decomposition achieves. Each agent has:
+- A clear **single responsibility** (generate wireframes, NOT score them)
+- A **tool contract** enforced by YAML frontmatter (read-only vs write-only)
+- A **structured output format** (mandatory JSON) for inter-agent communication
+
+**Layer 2: Communication (✅ Partially Implemented)**
+
+Agents communicate via two channels:
+1. **Disk artifacts** — contract.yaml, wireframes, page.tsx. Each generator writes; the next reader consumes.
+2. **Scorecard JSON** — The scorer/auditor produces a structured scorecard with `fix_queue` and `responsible_generator/builder` tags. The orchestrator routes fixes to the right agent.
+
+What's **missing**: No direct agent-to-agent messaging. If `gen_wireframes` discovers a contract.yaml inconsistency, it can't notify `gen_contracts` — it can only note it in its output for the scorer to catch. In true Agent Teams (Claude Code with `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`), agents CAN message each other.
+
+**Layer 3: Memory & Self-Learning (⚠️ Partially Designed, Not Yet Implemented)**
+
+This is where parallelism becomes **self-improvement**. Three memory horizons:
+
+| Horizon | Mechanism | Status |
+|---------|-----------|--------|
+| **Short-term** (within pipeline) | Scorecard JSON + fix_queue passed via invocation prompt | ✅ Works |
+| **Medium-term** (across iterations) | Snapshot history at `docs/design/screens/{feature}/snapshot-iter-{N}/` | ✅ Works |
+| **Long-term** (across features) | RFT dataset at `docs/rft-dataset/{prd_id}/` | ❌ Not collected |
+| **Cross-run** (agent memory) | `MEMORY.md` per SubAgent (Claude Code `memory: project` scope) | ❌ Not enabled |
+
+**How Self-Learning Works (the RFT loop):**
+
+```text
+  Feature A                 Feature B                 Feature C
+  ─────────                 ─────────                 ─────────
+  iter 1: score 45          iter 1: score 52          iter 1: score 68
+  iter 5: score 78          iter 3: score 81          iter 2: score 85
+  iter 8: score 94          iter 5: score 93          iter 3: score 95
+  ───────┐                  ───────┐                  ───────┐
+         ▼                         ▼                         ▼
+  ┌──────────────────────────────────────────────────────────────┐
+  │  RFT Dataset: docs/rft-dataset/                              │
+  │  ┌─────────────────────────────────────────────────────────┐ │
+  │  │ {prd_id}/stage1/rollout-001.json — score 45, fixes [..] │ │
+  │  │ {prd_id}/stage1/rollout-005.json — score 94, fixes []   │ │
+  │  │ {prd_id}/stage2/rollout-001.json — score 52, fixes [..] │ │
+  │  └─────────────────────────────────────────────────────────┘ │
+  │                          │                                    │
+  │                          ▼                                    │
+  │  RLHF/RFT Signal: Compare rollout-001 vs rollout-005.        │
+  │  The agent learns which fix_queue items led to score gains.   │
+  │  Over N features, the agent's first-iteration score improves. │
+  └──────────────────────────────────────────────────────────────┘
+         │
+         ▼ (Future: Fine-tuned model deployed as new SubAgent base)
+```
+
+The key insight: Every scorecard is a **training signal**. The `tool_evidence[]` array (GAP-52) provides grounded, verifiable scores — not self-reported ones. Over many features, this creates a dataset where:
+- **Positive examples:** fix actions that improved scores
+- **Negative examples:** fix actions that caused regressions (REGRESSION_DETECTED)
+- **Gate decisions:** human APPROVE/REJECT as ultimate reward labels
+
+**Layer 4: Governance (✅ Implemented via Orchestrator)**
+
+Governance = who makes decisions. In the Ralph Loop:
+
+| Decision | Who Decides | Mechanism |
+|----------|-------------|-----------|
+| "Should we keep iterating?" | Orchestrator | Adaptive convergence policy (MIN_ITER, PLATEAU, REGRESSION) |
+| "Which agent needs to re-run?" | Scorer/Auditor | `responsible_generator/builder` attribution |
+| "Is this contract good enough for humans?" | Orchestrator | Score ≥ 90 + zero AMBIGUOUS_RULE threshold |
+| "Ship or iterate more?" | Human | Gate A / Gate B (non-negotiable) |
+| "Is the agent cheating?" | QA SubAgent | Tool-verified PASS/FAIL, anti-inflation rules |
+
+**Governance is what makes an org "well-managed" vs "chaotic."** Without it, 3 fast agents produce 3 conflicting outputs. The orchestrator's convergence policy acts as a **manager**: it reads scorecards, decides who needs coaching (fix_queue), and escalates to the human when the team stalls.
+
+#### GAP-62: The Agent Organization Maturity Model (Roadmap)
+
+How do we evolve from where we are (Level 2) to a fully autonomous Agent Organization (Level 5)?
+
+```text
+  Level 5: AUTONOMOUS ORGANIZATION             ← Vision (2027+)
+           Agents select their own team composition per feature.
+           New specialized SubAgents are auto-created based on patterns.
+           Human gates become sampling-based audits, not 100% review.
+
+  Level 4: SELF-IMPROVING ORGANIZATION          ← Next milestone
+           RFT dataset is actively collected after every pipeline run.
+           Cross-run MEMORY.md tracks patterns (e.g., "forms always fail a11y").
+           First-iteration scores improve measurably across 10+ features.
+           Human intervention rate drops below 20% at Gate A/B.
+
+  Level 3: COMMUNICATING ORGANIZATION           ← Requires Agent Teams
+           Agents can message each other directly (not just via disk files).
+           gen_wireframes notifies gen_contracts of inconsistencies.
+           QA agent can request specific re-renders from browser_subagent.
+           Shared task board visible to all agents (Claude Code Agent Teams).
+
+  Level 2: DECOMPOSED LABOR                     ← WE ARE HERE (Session 5)
+           3+1 pattern: specialized generators + read-only scorer.
+           Selective re-spawn on fix iterations.
+           Structured scorecards with attribution tags.
+           No cross-agent messaging. No persistent memory.
+
+  Level 1: MONOLITHIC                           ← Where we started
+           Single agent does everything: generate + score in one session.
+           Self-scoring inflation. 40+ turn complexity overload.
+```
+
+#### GAP-63: Concrete Next Steps for Level 3 & 4
+
+**Level 3 enablers (communication):**
+
+1. **Enable Claude Code Agent Teams** (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`) for true parallel execution. The 3 generators/builders can run simultaneously in separate tmux panes, communicating via shared task list.
+
+2. **Add inter-agent conflict resolution:** When `gen_wireframes` finds contract.yaml doesn't list a component visible in the PRD, it writes a `wireframe-notes.json` that the scorer flags as a P1 for `gen_contracts`.
+
+3. **Shared artifact manifest:** After each generator completes, append its output list to `docs/design/contracts/{feature}/.manifest.json`. The scorer reads this manifest to confirm all expected artifacts exist before scoring.
+
+**Level 4 enablers (self-improvement):**
+
+1. **RFT dataset collection** — After every Gate B approval, write the full rollout history to `docs/rft-dataset/{prd_id}/`. Include: all scorecards, all fix_queues, all QA results, Gate A/B decisions with human feedback text.
+
+2. **Agent MEMORY.md** — Enable `memory: project` for all SubAgents. Each agent maintains a `MEMORY.md` tracking:
+   - Common first-iteration failures (e.g., "always forgets `--text-dim` token")
+   - Patterns that consistently pass (e.g., "structured heading hierarchy")
+   - Human feedback themes from Gate rejections
+
+3. **Baseline regression tracking** — After 10+ features, maintain `docs/eval-dataset/baseline-scores.json`. If a new pipeline run's iter-1 score is lower than the 10-feature P25 → log as BASELINE_REGRESSION and investigate.
+
+4. **RLHF from Gate responses** — Parse human Gate A/B responses to extract specific positive/negative signals. A `REJECT_FIX_CONTRACT` with "wireframes are too abstract" teaches the system about wireframe quality expectations.
+
+### Decision
+
+**Implemented (Session 5):**
+- 3+1 task decomposition for both Stage 1 and Stage 2 ✅
+- Selective re-spawn via `responsible_generator/builder` attribution ✅
+- Updated orchestrator `ralph-loop.toml` ✅
+- Updated Mermaid diagram to v3 ✅
+
+**Research output: The 4-Layer Agent Organization Model**
+Layer 1 (Division of Labor) and Layer 4 (Governance) are implemented.
+Layer 2 (Communication) is partially implemented (file-based, no direct messaging).
+Layer 3 (Memory & Learning) is designed but not yet implemented.
+Level 3+ of the maturity model requires Claude Code Agent Teams (experimental).
+
