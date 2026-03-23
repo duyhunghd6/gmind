@@ -1,0 +1,213 @@
+{
+  "feature": "prd-04-webui-and-pm-workspace",
+  "version": 1,
+  "viewports": {
+    "desktop": { "min": 1024, "canonical": 1440 },
+    "tablet": { "min": 768, "max": 1023, "canonical": 1024 },
+    "mobile": { "max": 767, "canonical": 390 }
+  },
+  "global_shell": {
+    "desktop": {
+      "columns": "240px minmax(0, 1fr)",
+      "regions": ["header", "sidebar", "main", "footer"],
+      "max_width": "none"
+    },
+    "tablet": {
+      "columns": "60px minmax(0, 1fr)",
+      "regions": ["header", "icon-rail", "main", "footer"],
+      "max_width": "none"
+    },
+    "mobile": {
+      "columns": "1fr",
+      "regions": ["header", "main", "footer", "overlay-nav"],
+      "max_width": "100vw"
+    },
+    "rules": [
+      "Header remains visible on every route and contains the global search field.",
+      "Connection status stays discoverable at every breakpoint.",
+      "Sidebar converts to overlay navigation on mobile instead of shrinking below tap-target size.",
+      "Footer remains below main content and never overlaps fixed action bars."
+    ]
+  },
+  "screens": {
+    "dashboard": {
+      "desktop": {
+        "grid": "repeat(2, minmax(0, 1fr))",
+        "rows": ["auto", "minmax(280px, 1fr)", "minmax(280px, 1fr)"],
+        "max_width": "none"
+      },
+      "tablet": {
+        "grid": "1fr 1fr",
+        "rows": ["auto", "auto", "auto"],
+        "max_width": "100%"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "rows": ["auto"],
+        "max_width": "100%"
+      },
+      "placement": [
+        "KPI row spans full width above the four panels.",
+        "Coverage and progress occupy the first content row on desktop.",
+        "Graph and gap analysis occupy the second content row on desktop.",
+        "Gap create side panel opens from the right on desktop and tablet, and becomes a full-screen overlay on mobile."
+      ]
+    },
+    "board": {
+      "desktop": {
+        "grid": "minmax(0, 1fr)",
+        "kanban_columns": "repeat(auto-fit, minmax(280px, 1fr))",
+        "drawer_width": "420px"
+      },
+      "tablet": {
+        "grid": "minmax(0, 1fr)",
+        "kanban_columns": "repeat(4, minmax(240px, 240px))",
+        "scroll": "horizontal"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "card_stack": true,
+        "drawer": "full-screen overlay"
+      },
+      "placement": [
+        "Board view switcher anchors the top-left of the content region.",
+        "PI Planning sandbox sits above ROAM and confidence vote when active.",
+        "Escalation drawer opens from the right on desktop and tablet, full-screen on mobile.",
+        "Sticky vote or approval actions align to the bottom edge on tablet and mobile."
+      ]
+    },
+    "approval_gates": {
+      "desktop": {
+        "grid": "minmax(420px, 1.2fr) minmax(360px, 0.8fr)",
+        "max_width": "1600px"
+      },
+      "tablet": {
+        "grid": "1fr",
+        "sections": ["queue", "aggregate evidence", "context", "action bar"]
+      },
+      "mobile": {
+        "grid": "1fr",
+        "sticky_bottom_bar": true
+      },
+      "placement": [
+        "Approval queue appears before detailed evidence.",
+        "Aggregate evidence keeps the five evidence streams in a consistent vertical order on narrow screens.",
+        "Approve and Reject remain visible without hiding evidence context.",
+        "Manual override stays visually separated from primary approve action."
+      ]
+    },
+    "document_viewer": {
+      "desktop": {
+        "grid": "280px minmax(0, 1fr)",
+        "max_width": "none"
+      },
+      "tablet": {
+        "grid": "1fr",
+        "doc_selector": "top dropdown"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "navigation": "drill-in list with back button"
+      },
+      "placement": [
+        "Doc tree remains fixed on desktop while content scrolls independently.",
+        "Breadcrumb sits above the content body and below document-level actions.",
+        "Coverage indicator stays near the top of the content panel for PRD documents.",
+        "Open in Trace Explorer action remains adjacent to detected beads links on all breakpoints."
+      ]
+    },
+    "trace_explorer": {
+      "desktop": {
+        "grid": "minmax(0, 7fr) minmax(320px, 3fr)",
+        "canvas_min_height": "640px"
+      },
+      "tablet": {
+        "grid": "1fr",
+        "detail_panel": "bottom sheet 50vh"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "graph_mode": "simplified tree",
+        "detail_panel": "full-screen overlay"
+      },
+      "placement": [
+        "Toolbar occupies the full width above the graph canvas.",
+        "Legend remains anchored below or within the canvas without obscuring nodes.",
+        "Node detail panel preserves enough space for coverage, linked entities, and actions.",
+        "Footer metrics appear below the graph region and remain visible after zoom interactions."
+      ]
+    },
+    "task_detail": {
+      "desktop": {
+        "grid": "1fr",
+        "header_card": "full width",
+        "tab_content_min_height": "480px"
+      },
+      "tablet": {
+        "grid": "1fr",
+        "tabs": "horizontal scroll"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "tabs": "accordion",
+        "header_fields": "vertical stack"
+      },
+      "placement": [
+        "Back link and task identity anchor the header before editable fields.",
+        "Editable fields form a compact summary row on desktop and stack on smaller viewports.",
+        "RTE context block appears beneath core summary data whenever rte_status is approved or escalated.",
+        "Graph tab keeps a clear Open Full Page action aligned with the mini graph widget."
+      ]
+    },
+    "search_results": {
+      "desktop": {
+        "grid": "240px minmax(0, 1fr)",
+        "max_width": "1440px"
+      },
+      "tablet": {
+        "grid": "1fr",
+        "filter_panel": "collapsible top section"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "filter_panel": "toggle drawer"
+      },
+      "placement": [
+        "Search bar spans the content width above counts and grouped results.",
+        "Filter panel precedes result groups in DOM order for keyboard users.",
+        "Grouped results maintain type headings even when only one group is present.",
+        "Snippet highlights must not shift line-height enough to break scanability."
+      ]
+    },
+    "task_list": {
+      "desktop": {
+        "grid": "1fr",
+        "table_columns": ["select", "id", "title", "status", "priority", "assignee", "qa"],
+        "bulk_bar": "below table"
+      },
+      "tablet": {
+        "grid": "1fr",
+        "reduced_columns": ["select", "id", "title", "status", "priority", "assignee"],
+        "row_detail": "expandable"
+      },
+      "mobile": {
+        "grid": "1fr",
+        "presentation": "card list",
+        "bulk_bar": "sticky bottom when rows selected"
+      },
+      "placement": [
+        "Board/List toggle and filters remain above the table or list presentation.",
+        "CSV export stays aligned with filters but separated from destructive or bulk actions.",
+        "Pagination remains below the current result set and above the bulk action bar.",
+        "Selected row count is always visible whenever the bulk action bar is present."
+      ]
+    }
+  },
+  "shared_rules": [
+    "Use skeleton loaders that mimic the final layout instead of circular spinners for loading-dominant surfaces.",
+    "Do not rely on color alone for severity, status, or approval outcomes.",
+    "All drawers and overlays convert to bottom-sheet or full-screen patterns on narrower breakpoints.",
+    "Primary actions stay within thumb reach on mobile when the screen requires completion steps.",
+    "Scrollable regions need clear ownership: one primary scroll container per route at mobile sizes."
+  ]
+}

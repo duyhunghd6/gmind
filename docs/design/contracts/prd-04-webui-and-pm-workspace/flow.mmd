@@ -1,0 +1,123 @@
+stateDiagram-v2
+  [*] --> ShellDefault
+  ShellDefault --> Dashboard: route /
+  ShellDefault --> Board: route /board
+  ShellDefault --> TaskList: route /tasks
+  ShellDefault --> TaskDetail: route /tasks/:id
+  ShellDefault --> TraceExplorer: route /trace/:id
+  ShellDefault --> DocumentViewer: route /docs
+  ShellDefault --> ApprovalGates: route /approval
+  ShellDefault --> SearchResults: route /search
+
+  state Dashboard {
+    [*] --> default
+    default --> loading: initial fetch
+    loading --> default: data loaded
+    default --> empty: no coverage data
+    default --> error: API failure
+    error --> loading: retry
+    empty --> default: empty CTA
+    default --> DashboardSidePanel: click_low_coverage_prd
+    default --> CreatePlanSidePanel: click_gap_create
+    default --> DashboardGraphSidePanel: click_graph_node
+    CreatePlanSidePanel --> default: save plan / close panel
+  }
+
+  state Board {
+    [*] --> default
+    default --> loading: drag_card_todo_to_in_progress
+    loading --> default: board_status_updated
+    default --> empty: no tasks
+    default --> error: API failure
+    error --> loading: retry
+    default --> RTEDrawer: click_escalated_task
+    default --> VoteConfirmation: click_confidence_vote
+    default --> TaskList: click_board_list_toggle
+    RTEDrawer --> default: close drawer
+    VoteConfirmation --> default: confirm vote
+  }
+
+  state TaskList {
+    [*] --> default
+    default --> loading: initial fetch
+    loading --> default: rows loaded
+    default --> bulk_processing: submit_bulk_assign
+    bulk_processing --> default: bulk complete
+    default --> empty: no matching tasks
+    default --> error: API failure
+    error --> loading: retry
+    default --> TaskDetail: click_row
+    default --> Board: click_board_toggle
+  }
+
+  state TaskDetail {
+    [*] --> default
+    default --> loading: fetch task
+    loading --> default: task loaded
+    default --> saving: change_status
+    saving --> default: save success
+    default --> offline: network lost
+    offline --> saving: reconnect and sync
+    default --> not_found: missing id
+    default --> error: API failure
+    error --> loading: retry
+    not_found --> TaskList: back-link
+    default --> TraceExplorer: click_dependency_link
+    default --> TraceExplorer: click_graph_open_full_page
+  }
+
+  state DocumentViewer {
+    [*] --> default
+    default --> loading: fetch docs
+    loading --> default: docs loaded
+    default --> empty: no indexed docs
+    empty --> default: empty CTA
+    default --> error: API failure
+    error --> loading: retry
+    default --> default: select_doc_tree_item
+    default --> TraceExplorer: click_beads_autolink
+  }
+
+  state TraceExplorer {
+    [*] --> default
+    default --> loading: fetch graph
+    loading --> default: graph loaded
+    default --> partial: GitHub enrichment pending
+    partial --> default: enrichment complete
+    default --> empty: no linked entities
+    default --> error: query failure
+    error --> loading: retry
+    default --> default: click_node
+    default --> default: change_depth
+    default --> TaskDetail: double_click_task_node
+    default --> DocumentViewer: double_click_doc_node
+  }
+
+  state ApprovalGates {
+    [*] --> default
+    default --> loading: fetch queue
+    loading --> default: queue loaded
+    default --> empty: no approvals pending
+    default --> error: aggregate fetch failure
+    default --> offline: network lost
+    offline --> default: reconnect
+    default --> ApprovalCommentRequired: click_approve
+    default --> ApprovalRejectionRequired: click_reject
+    ApprovalCommentRequired --> default: submit_approval_comment
+    ApprovalRejectionRequired --> default: submit_rejection_comment
+  }
+
+  state SearchResults {
+    [*] --> default
+    default --> loading: submit_header_search
+    loading --> default: results loaded
+    default --> empty: no matches
+    empty --> loading: retry with broader query
+    default --> error: backend failure
+    error --> loading: retry
+    default --> TaskDetail: select_result_task
+    default --> DocumentViewer: select_result_doc
+  }
+
+  ShellDefault --> ShellOffline: connection lost
+  ShellOffline --> ShellDefault: reconnect

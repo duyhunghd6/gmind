@@ -1,0 +1,104 @@
+{
+  "feature_name": "prd-04-webui-and-pm-workspace",
+  "prd_path": "/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md",
+  "agents": {
+    "ralph_stage1_evaluator": {
+      "status": "PENDING"
+    },
+    "ralph_stage1_qa": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_builder": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_qa": {
+      "status": "PENDING"
+    },
+    "browser_subagent": {
+      "status": "PENDING"
+    },
+    "gsafe_manager": {
+      "status": "PENDING"
+    },
+    "prd_writer_agent": {
+      "status": "PENDING"
+    },
+    "gen_contracts": {
+      "status": "DONE",
+      "last_run_iter": 10,
+      "artifacts": [
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/storyboards.json",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/layout-rules.json",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/README.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/prd-04-webui-and-pm-workspace.assertion-checklist.md"
+      ]
+    },
+    "gen_wireframes": {
+      "status": "DONE",
+      "last_run_iter": 10,
+      "artifacts": [
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/approval_gates--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/approval_gates--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/approval_gates--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/board--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/board--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/board--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/dashboard--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/dashboard--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/dashboard--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/document_viewer--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/document_viewer--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/document_viewer--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/search_results--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/search_results--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/search_results--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_list--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_list--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_list--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/trace_explorer--desktop.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/trace_explorer--mobile.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/trace_explorer--tablet.wideframe.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/approval_gates--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/approval_gates--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/approval_gates--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/board--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/board--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/board--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/dashboard--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/dashboard--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/dashboard--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/document_viewer--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/document_viewer--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/document_viewer--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/search_results--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/search_results--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/search_results--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_list--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_list--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_list--tablet.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/trace_explorer--desktop.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/trace_explorer--mobile.tree.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/trace_explorer--tablet.tree.ascii.md"
+      ]
+    },
+    "gen_flows": {
+      "status": "DONE",
+      "last_run_iter": 10,
+      "artifacts": [
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/component-map.json",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/flow.mmd",
+        "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/prd-ds-conflicts.md"
+      ]
+    }
+  }
+}

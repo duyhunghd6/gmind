@@ -1,0 +1,64 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 1,
+  "score": 75,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "prd_coverage": {
+      "score": 18,
+      "max": 20,
+      "tool_evidence": "ls found 24 wideframes covering 8 core screens across desktop/tablet/mobile; PRD grep confirms dashboard, board, task_list, task_detail, trace_explorer, document_viewer, approval_gates, and search_results are all required"
+    },
+    "component_traceability": {
+      "score": 4,
+      "max": 20,
+      "tool_evidence": "grep found 0 data-ds-id occurrences across wireframes, while component-map.json enumerates 21 mapped flow blocks"
+    },
+    "storyboard_completeness": {
+      "score": 11,
+      "max": 15,
+      "tool_evidence": "storyboards.json contains 16 trajectories versus 21 PRD journey entries"
+    },
+    "layout_compilability": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "layout-rules.json is valid JSON and defines global shell plus screen rules for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list across desktop/tablet/mobile"
+    },
+    "conflict_resolution": {
+      "score": 12,
+      "max": 15,
+      "tool_evidence": "prd-ds-conflicts.md lists 3 conflicts with resolution direction for each, but modal handling remains partly exception-based rather than fully normalized"
+    },
+    "wireframe_articulation": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "24 wideframes passed box-grid format checks (every file box>tree); sampled wireframes include multiple states and dense annotations, with avg 47.21 annotation markers per wideframe and connected flows showing 15-18 arrows each"
+    }
+  },
+  "format_checks": {
+    "wideframe_regression": false,
+    "flow_connected": true
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "pillar": "component_traceability",
+      "responsible_generator": "gen_wireframes",
+      "detail": "Add explicit data-ds-id tags to wireframe elements; current grep result is 0 matches across all wideframes, so component-map selectors cannot be traced back to rendered contract surfaces"
+    },
+    {
+      "priority": "P1",
+      "pillar": "storyboard_completeness",
+      "responsible_generator": "gen_contracts",
+      "detail": "Cover the 5 missing PRD journeys; PRD grep shows 21 Journey entries while storyboards.json defines only 16 trajectories"
+    },
+    {
+      "priority": "P1",
+      "pillar": "conflict_resolution",
+      "responsible_generator": "gen_flows",
+      "detail": "Resolve the dashboard Create Plan interaction definitively; conflict report still leaves modal behavior as an evaluator exception instead of a normalized contract decision"
+    }
+  ],
+  "baseline_regression": false,
+  "issues": []
+}

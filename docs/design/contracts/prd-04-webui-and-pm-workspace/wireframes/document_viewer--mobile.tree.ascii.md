@@ -1,0 +1,43 @@
+# Screen: Document Viewer (mobile)
+## State: default
+├── shell.header [data-ds-id="workspace.shell.header"]
+├── docs.filter.source-type [data-ds-id="docs.filter.source-type"]
+│   ├── mobile-type-selector
+│   └── mobile-date-filter
+├── docs.tree.nav [data-ds-id="docs.tree.nav"]
+│   ├── back-to-list-action
+│   └── doc-selector-trigger
+├── docs.content.breadcrumb [data-ds-id="docs.content.breadcrumb"]
+├── docs.content.body [data-ds-id="docs.content.body"]
+│   ├── document-title
+│   ├── rendered-content
+│   └── metadata-strip
+├── docs.content.beads-links [data-ds-id="docs.content.beads-links"]
+│   ├── linked-id: br-prd04-s5
+│   └── linked-id: br-prd04-s10
+├── docs.content.coverage-indicator [data-ds-id="docs.content.coverage-indicator"]
+├── docs.action.open-trace [data-ds-id="docs.action.open-trace"]
+└── shell.footer [data-ds-id="workspace.shell.footer"]
+## State: loading
+├── shell.header [data-ds-id="workspace.shell.header"]
+├── docs.state.loading-skeleton
+│   ├── selector-skeleton
+│   └── content-skeleton
+└── shell.footer [data-ds-id="workspace.shell.footer"]
+## State: error
+├── shell.header [data-ds-id="workspace.shell.header"]
+├── docs.state.error
+│   ├── error-banner
+│   ├── retry-action
+│   └── reindex-action
+├── docs.state.retry
+└── shell.footer [data-ds-id="workspace.shell.footer"]
+## State: empty
+├── shell.header [data-ds-id="workspace.shell.header"]
+├── docs.state.empty
+│   ├── empty-message
+│   └── indexing-hint
+├── docs.state.empty-cta
+│   ├── run-reindex-action
+│   └── setup-guide-action
+└── shell.footer [data-ds-id="workspace.shell.footer"]

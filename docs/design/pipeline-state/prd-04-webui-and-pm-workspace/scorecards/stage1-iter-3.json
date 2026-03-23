@@ -1,0 +1,54 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 3,
+  "score": 88,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "ls found 24 wideframes covering 8 route screens across desktop/tablet/mobile, and PRD route/screen evidence names the same 8 required screens: dashboard, board, approval, document viewer, trace explorer, task detail, search results, and task list"
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "grep found 597 data-ds-id occurrences across 48 wireframe files; component-map.json iteration 3 maps 3 user-flow files with 21 unique blocks and 38 unique selectors, including shared shell, dashboard, docs, trace, task detail, and approval surfaces"
+    },
+    "storyboard_completeness": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "storyboards.json is valid and contains 21 trajectories; PRD journey evidence spans dashboard, board, approval, docs, trace, task detail, search, task list, and navigation flows with matching route coverage"
+    },
+    "layout_compilability": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "layout-rules.json parsed successfully and defines desktop/tablet/mobile viewports, global shell rules, shared responsive rules, and complete screen rules for all 8 required screens"
+    },
+    "conflict_resolution": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "prd-ds-conflicts.md documents 2 active conflicts and provides explicit resolution direction for both, plus a normalized create-plan interaction decision; sampled wireframes now use skeletons and pending-bar save language instead of spinner-first wording"
+    },
+    "wireframe_articulation": {
+      "score": 3,
+      "max": 15,
+      "tool_evidence": "sampled wideframes and tree wireframes show multi-level nesting, selector annotations, and state coverage, but the mandatory mechanical flow check still returned arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max"
+    }
+  },
+  "format_checks": {
+    "wideframe_regression": false,
+    "flow_connected": false
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "pillar": "wireframe_articulation",
+      "responsible_generator": "gen_flows",
+      "detail": "Repair user-flow ASCII formatting so the mandatory arrow-count check detects connected transitions; all three files still returned arrows=0 in the required mechanical check"
+    }
+  ],
+  "baseline_regression": false,
+  "issues": [
+    "FLOW_NOT_CONNECTED"
+  ]
+}

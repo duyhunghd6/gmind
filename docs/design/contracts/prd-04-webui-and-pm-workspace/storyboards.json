@@ -1,0 +1,800 @@
+[
+  {
+    "storyboard_id": "ds:flow:dashboard-coverage-drilldown",
+    "prd_journey_ref": "br-prd04-s6",
+    "persona": "Lan Anh Pham, PMO lead",
+    "copy": {
+      "headline": "Coverage watch for release planning",
+      "supporting_text": "PRD-03 Data API still shows uncovered sections before Friday sign-off."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "dashboard:default",
+        "action": "open_workspace_home_and_review_kpi_row",
+        "target": "ds:dashboard.kpi.row",
+        "reasoning_checkpoint": "Confirm the dashboard loads with KPI, coverage, progress, graph, and gap panels visible."
+      },
+      {
+        "step": 2,
+        "state": "dashboard:default",
+        "action": "select_low_coverage_prd_bar_labeled_47_2_percent",
+        "target": "ds:dashboard.panel.coverage",
+        "reasoning_checkpoint": "Coverage drill-down should stay in the dashboard context rather than hard-navigating away."
+      },
+      {
+        "step": 3,
+        "state": "dashboard:default",
+        "action": "expand_section_br_prd04_s6_and_inspect_linked_task_panel",
+        "target": "ds:dashboard.panel.coverage",
+        "reasoning_checkpoint": "The selected requirement should expose linked task context inline."
+      },
+      {
+        "step": 4,
+        "state": "dashboard:default",
+        "action": "open_related_gap_item_with_severity_high",
+        "target": "ds:dashboard.panel.gaps",
+        "reasoning_checkpoint": "Gap analysis should remain actionable from the same route."
+      },
+      {
+        "step": 5,
+        "state": "dashboard:default",
+        "action": "choose_create_plan_and_save_api_coverage_reconciliation_for_task_lineage",
+        "target": "ds:dashboard.surface.create-plan",
+        "reasoning_checkpoint": "Create Plan must use the normalized side-panel or mobile full-screen overlay pattern, not a modal."
+      },
+      {
+        "step": 6,
+        "state": "dashboard:default",
+        "assertion": "refreshed gap panel shows the new plan linked to the originating gap after save"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:dashboard-gap-error-retry",
+    "prd_journey_ref": "br-prd04-s14",
+    "persona": "Minh Duc Tran, delivery manager",
+    "copy": {
+      "headline": "Recover from dashboard data outage",
+      "supporting_text": "Gap analysis must remain actionable even when the backend stalls."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "dashboard:error",
+        "action": "load_dashboard_during_temporary_api_failure",
+        "target": "ds:dashboard.state.error",
+        "reasoning_checkpoint": "The route should surface a specific error state instead of a blank page."
+      },
+      {
+        "step": 2,
+        "state": "dashboard:error",
+        "action": "press_retry_after_reading_cannot_connect_to_gmind_serve",
+        "target": "ds:dashboard.state.retry",
+        "reasoning_checkpoint": "Retry should be directly available from the route-level error banner."
+      },
+      {
+        "step": 3,
+        "state": "dashboard:loading",
+        "assertion": "panel aligned loading skeletons appear while coverage, progress, graph, and gaps data rehydrate"
+      },
+      {
+        "step": 4,
+        "state": "dashboard:default",
+        "assertion": "dashboard returns to the populated state with all four panels restored"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:board-drag-status-update",
+    "prd_journey_ref": "br-prd04-s3",
+    "persona": "Quynh Le, release train engineer",
+    "copy": {
+      "headline": "Move a task across the ART board",
+      "supporting_text": "The board should confirm work is advancing without leaving the Kanban context."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "board:default",
+        "action": "switch_to_art_view",
+        "target": "ds:board.header.view-switcher",
+        "reasoning_checkpoint": "The chosen board level should be explicit before drag-and-drop begins."
+      },
+      {
+        "step": 2,
+        "state": "board:default",
+        "action": "drag_card_bd_m8k2_from_todo_to_in_progress",
+        "target": "ds:board.card.task",
+        "reasoning_checkpoint": "Dragging a card should preserve the user in board context instead of navigating away."
+      },
+      {
+        "step": 3,
+        "state": "board:loading",
+        "assertion": "column or card level saving feedback appears while the REST update is in flight"
+      },
+      {
+        "step": 4,
+        "state": "board:default",
+        "assertion": "card bd-m8k2 now appears in In Progress with assignee Hoang Vu"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:board-rte-escalation-approve",
+    "prd_journey_ref": "br-prd04-s7",
+    "persona": "Quynh Le, release train engineer",
+    "copy": {
+      "headline": "Resolve an escalated task from the board",
+      "supporting_text": "An agent reported a blocked dependency chain on the analytics exporter."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "board:default",
+        "action": "open_task_card_marked_rte_escalated",
+        "target": "ds:board.card.task",
+        "reasoning_checkpoint": "Escalated tasks should reveal RTE context in a drawer or full-screen overlay depending on breakpoint."
+      },
+      {
+        "step": 2,
+        "state": "board:rte_drawer",
+        "action": "review_discussion_thread_and_risk_summary",
+        "target": "ds:board.rte.drawer",
+        "reasoning_checkpoint": "The RTE must see evidence before making a decision."
+      },
+      {
+        "step": 3,
+        "state": "board:rte_drawer",
+        "action": "enter_decision_pause_exporter_refactor_until_the_schema_freeze_lands",
+        "target": "ds:board.rte.drawer",
+        "reasoning_checkpoint": "Decision text should remain attached to the escalation context."
+      },
+      {
+        "step": 4,
+        "state": "board:default",
+        "action": "approve_resolution_and_publish_execution_context",
+        "target": "ds:board.rte.drawer",
+        "reasoning_checkpoint": "Publishing the resolution should close the drawer and update the board card state."
+      },
+      {
+        "step": 5,
+        "state": "board:default",
+        "assertion": "the escalated card returns to the board with updated execution context visible"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:board-confidence-vote",
+    "prd_journey_ref": "br-prd04-s3",
+    "persona": "Bao Ngoc Truong, product director",
+    "copy": {
+      "headline": "Record PI confidence before kickoff",
+      "supporting_text": "Human confirmation is required before sprint launch."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "board:default",
+        "action": "open_pi_planning_workspace",
+        "target": "ds:board.pi.sandbox",
+        "reasoning_checkpoint": "Confidence voting should happen in the PI planning context, not in a detached modal."
+      },
+      {
+        "step": 2,
+        "state": "board:default",
+        "action": "review_roam_risks_and_capacity_notes",
+        "target": "ds:board.pi.roam",
+        "reasoning_checkpoint": "The vote should be informed by risk and capacity evidence."
+      },
+      {
+        "step": 3,
+        "state": "board:default",
+        "action": "choose_confidence_vote_level_4_and_confirm_readiness",
+        "target": "ds:board.pi.confidence-vote",
+        "reasoning_checkpoint": "Voting must produce explicit confirmation feedback in context."
+      },
+      {
+        "step": 4,
+        "state": "board:default",
+        "assertion": "the confidence panel reflects the submitted level 4 vote"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:approval-approve-flow",
+    "prd_journey_ref": "br-prd04-s4",
+    "persona": "Nhi Vo, engineering manager",
+    "copy": {
+      "headline": "Approve a delivery gate after evidence review",
+      "supporting_text": "The final panel combines tests, diff, traceability, and CI status in one place."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "approval_gates:default",
+        "action": "open_oldest_pending_approval_request",
+        "target": "ds:approval.queue.list",
+        "reasoning_checkpoint": "The queue should lead directly into aggregate evidence and approval context."
+      },
+      {
+        "step": 2,
+        "state": "approval_gates:default",
+        "action": "review_test_logs_code_diff_prd_links_and_github_checks",
+        "target": "ds:approval.panel.aggregate",
+        "reasoning_checkpoint": "Approval must be grounded in the consolidated evidence stream."
+      },
+      {
+        "step": 3,
+        "state": "approval_gates:default",
+        "action": "press_approve_and_add_note_coverage_aligns_with_the_release_readiness_checklist",
+        "target": "ds:approval.action.approve",
+        "reasoning_checkpoint": "Approval should require a visible comment path before the item leaves the queue."
+      },
+      {
+        "step": 4,
+        "state": "approval_gates:default",
+        "assertion": "the request leaves the queue and the linked work item is marked complete"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:approval-reject-error-path",
+    "prd_journey_ref": "br-prd04-s4",
+    "persona": "Nhi Vo, engineering manager",
+    "copy": {
+      "headline": "Reject a request with failed tests",
+      "supporting_text": "Approval must stop when the CI evidence contradicts the submitted claim."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "approval_gates:default",
+        "action": "open_pending_request_that_shows_failed_integration_tests",
+        "target": "ds:approval.queue.list",
+        "reasoning_checkpoint": "The queue item should expose failed evidence clearly before any decision is made."
+      },
+      {
+        "step": 2,
+        "state": "approval_gates:default",
+        "action": "press_reject_after_confirming_red_test_log_panel",
+        "target": "ds:approval.action.reject",
+        "reasoning_checkpoint": "Reject must remain available without hiding the evidence context."
+      },
+      {
+        "step": 3,
+        "state": "approval_gates:default",
+        "action": "enter_reason_retry_after_restoring_coverage_for_the_document_parser",
+        "target": "ds:approval.form.comment",
+        "reasoning_checkpoint": "Rejection feedback should be explicit enough for downstream recovery."
+      },
+      {
+        "step": 4,
+        "state": "approval_gates:default",
+        "assertion": "feedback is pushed back to the linked task and PR after rejection"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:docs-browse-prd-to-trace",
+    "prd_journey_ref": "br-prd04-s9",
+    "persona": "Tuan Kiet Nguyen, solution architect",
+    "copy": {
+      "headline": "Traverse from a PRD section to graph context",
+      "supporting_text": "The viewer should bridge prose requirements and implementation evidence."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "document_viewer:default",
+        "action": "expand_docs_and_select_prd_04_from_tree",
+        "target": "ds:docs.tree.nav",
+        "reasoning_checkpoint": "Document navigation should preserve document structure and current selection."
+      },
+      {
+        "step": 2,
+        "state": "document_viewer:default",
+        "action": "locate_beads_link_br_prd04_s5_in_rendered_markdown",
+        "target": "ds:docs.content.beads-links",
+        "reasoning_checkpoint": "Beads links must be discoverable within the content body."
+      },
+      {
+        "step": 3,
+        "state": "document_viewer:default",
+        "action": "open_beads_link_from_content_body",
+        "target": "ds:docs.action.open-trace",
+        "reasoning_checkpoint": "The trace route should receive the selected Beads ID as context."
+      },
+      {
+        "step": 4,
+        "state": "trace_explorer:default",
+        "assertion": "the node detail panel shows linked plans and tasks for br-prd04-s5"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:docs-empty-state",
+    "prd_journey_ref": "br-prd04-s9",
+    "persona": "Thu Ha Bui, documentation steward",
+    "copy": {
+      "headline": "Recover from an unindexed document library",
+      "supporting_text": "Users need a direct next step when Zvec has not ingested content yet."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "document_viewer:empty",
+        "action": "open_docs_before_any_project_sources_are_indexed",
+        "target": "ds:docs.state.empty",
+        "reasoning_checkpoint": "The empty state should explain why content is absent."
+      },
+      {
+        "step": 2,
+        "state": "document_viewer:empty",
+        "action": "read_instruction_to_run_gmind_reindex_and_use_reindex_cta",
+        "target": "ds:docs.state.empty-cta",
+        "reasoning_checkpoint": "Recovery must be actionable from the empty state itself."
+      },
+      {
+        "step": 3,
+        "state": "document_viewer:default",
+        "assertion": "document navigation and content return after the reindex recovery path completes"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:trace-impact-analysis-partial",
+    "prd_journey_ref": "br-prd04-s10",
+    "persona": "Tuan Kiet Nguyen, solution architect",
+    "copy": {
+      "headline": "Inspect partial graph data while GitHub enrichment is still loading",
+      "supporting_text": "Local task lineage should appear first instead of blocking the entire page."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "trace_explorer:partial",
+        "action": "open_trace_root_br_prd04_s5_with_full_depth",
+        "target": "ds:trace.toolbar.root",
+        "reasoning_checkpoint": "The route should prioritize local graph rendering before remote enrichment finishes."
+      },
+      {
+        "step": 2,
+        "state": "trace_explorer:partial",
+        "assertion": "local nodes are visible while a loading_github_data badge remains present"
+      },
+      {
+        "step": 3,
+        "state": "trace_explorer:partial",
+        "action": "click_task_node_to_inspect_upstream_plan_and_downstream_commit_details",
+        "target": "ds:trace.canvas.graph",
+        "reasoning_checkpoint": "Partial state must still support node inspection and analysis."
+      },
+      {
+        "step": 4,
+        "state": "trace_explorer:default",
+        "action": "increase_depth_from_2_to_full_after_enrichment_completes",
+        "target": "ds:trace.toolbar.root",
+        "reasoning_checkpoint": "Depth changes should remain route-local and update the graph in place."
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:task-detail-edit-and-activity",
+    "prd_journey_ref": "br-prd04-s11",
+    "persona": "Diep Mai Tran, feature lead",
+    "copy": {
+      "headline": "Edit a task and confirm the audit trail updates",
+      "supporting_text": "Optimistic field saves should remain visible and accountable."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "task_detail:default",
+        "action": "open_task_bd_x1y2_from_list",
+        "target": "ds:task-detail.header.summary",
+        "reasoning_checkpoint": "Task detail should expose identity, editable fields, and tab structure immediately."
+      },
+      {
+        "step": 2,
+        "state": "task_detail:default",
+        "action": "change_status_from_in_progress_to_done",
+        "target": "ds:task-detail.field.status",
+        "reasoning_checkpoint": "Field-level changes should trigger saving feedback without losing surrounding context."
+      },
+      {
+        "step": 3,
+        "state": "task_detail:saving",
+        "assertion": "field local saving feedback appears while the write request is in flight"
+      },
+      {
+        "step": 4,
+        "state": "task_detail:default",
+        "action": "open_activity_tab",
+        "target": "ds:task-detail.tab.activity",
+        "reasoning_checkpoint": "Audit history should be reachable without a full page reload."
+      },
+      {
+        "step": 5,
+        "state": "task_detail:default",
+        "assertion": "activity includes the event status changed to done"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:task-detail-offline-conflict",
+    "prd_journey_ref": "br-prd04-s11",
+    "persona": "Diep Mai Tran, feature lead",
+    "copy": {
+      "headline": "Queue an edit offline and resolve sync conflict later",
+      "supporting_text": "Read-only analytics remain visible while writes are deferred locally."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "task_detail:offline",
+        "action": "lose_network_connection_while_editing_task_description",
+        "target": "ds:task-detail.state.offline",
+        "reasoning_checkpoint": "Offline state must preserve navigation and show that writes are deferred."
+      },
+      {
+        "step": 2,
+        "state": "task_detail:offline",
+        "action": "save_update_offline_and_note_pending_clock_indicator",
+        "target": "ds:task-detail.state.read-only",
+        "reasoning_checkpoint": "The interface should clarify that the edit is queued rather than fully committed."
+      },
+      {
+        "step": 3,
+        "state": "task_detail:saving",
+        "action": "reconnect_and_open_sync_conflict_dialog",
+        "target": "ds:task-detail.state.saving",
+        "reasoning_checkpoint": "Sync recovery should surface once connectivity returns."
+      },
+      {
+        "step": 4,
+        "state": "task_detail:default",
+        "action": "choose_use_server_version_after_comparing_both_copies",
+        "target": "ds:task-detail.field.status",
+        "reasoning_checkpoint": "Conflict resolution should return the user to a stable task detail state."
+      },
+      {
+        "step": 5,
+        "state": "task_detail:default",
+        "assertion": "the task remains readable and the conflict banner is dismissed after reconciliation"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:search-global-to-task",
+    "prd_journey_ref": "br-prd04-s12",
+    "persona": "Huy Phan, QA coordinator",
+    "copy": {
+      "headline": "Jump from global search to a task record",
+      "supporting_text": "Instant suggestions should shorten the path to active defects."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "search_results:loading",
+        "action": "press_ctrl_k_and_type_icon_change",
+        "target": "ds:workspace.shell.search",
+        "reasoning_checkpoint": "Global search shortcuts should focus the shared shell search field when allowed."
+      },
+      {
+        "step": 2,
+        "state": "search_results:loading",
+        "assertion": "the page indicates task doc commit and PR sources are being queried"
+      },
+      {
+        "step": 3,
+        "state": "search_results:default",
+        "action": "select_task_result_bd_x1y2_change_button_icon",
+        "target": "ds:search.results.card",
+        "reasoning_checkpoint": "Selecting a task result should navigate directly to task detail."
+      },
+      {
+        "step": 4,
+        "state": "task_detail:default",
+        "assertion": "task detail opens for bd-x1y2 with owner, status, trace links, and activity"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:search-empty-filter-reset",
+    "prd_journey_ref": "br-prd04-s12",
+    "persona": "Huy Phan, QA coordinator",
+    "copy": {
+      "headline": "Recover from an over-filtered search",
+      "supporting_text": "Users should know whether the issue is the query or the filter scope."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "search_results:empty",
+        "action": "apply_docs_only_and_last_7_days_to_a_narrow_query",
+        "target": "ds:search.filter.panel",
+        "reasoning_checkpoint": "The interface should distinguish empty results caused by restrictive filters."
+      },
+      {
+        "step": 2,
+        "state": "search_results:empty",
+        "action": "choose_clear_filters_and_retry_with_the_broader_term_approval",
+        "target": "ds:search.state.empty-suggestions",
+        "reasoning_checkpoint": "Recovery guidance should remain visible within the empty state."
+      },
+      {
+        "step": 3,
+        "state": "search_results:default",
+        "assertion": "grouped results repopulate after filters are cleared"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:task-list-bulk-assign",
+    "prd_journey_ref": "br-prd04-s13",
+    "persona": "Lan Anh Pham, PMO lead",
+    "copy": {
+      "headline": "Assign a batch of open tasks",
+      "supporting_text": "Bulk actions keep staffing changes from becoming repetitive table work."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "task_list:default",
+        "action": "filter_list_to_status_open",
+        "target": "ds:task-list.filter.row",
+        "reasoning_checkpoint": "Filtering should update the current result set without changing routes."
+      },
+      {
+        "step": 2,
+        "state": "task_list:default",
+        "action": "select_five_rows_from_current_page",
+        "target": "ds:task-list.table.main",
+        "reasoning_checkpoint": "Bulk actions should remain hidden until rows are actually selected."
+      },
+      {
+        "step": 3,
+        "state": "task_list:default",
+        "action": "choose_assign_to_and_select_devbot01",
+        "target": "ds:task-list.bulk.actions",
+        "reasoning_checkpoint": "The bulk action bar should expose assignee choices only when active."
+      },
+      {
+        "step": 4,
+        "state": "task_list:bulk-processing",
+        "assertion": "bulk controls disable and progress feedback appears while assignees update"
+      },
+      {
+        "step": 5,
+        "state": "task_list:default",
+        "assertion": "selected rows show DevBot01 after the bulk operation completes"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:task-list-export-report",
+    "prd_journey_ref": "br-prd04-s13",
+    "persona": "Minh Duc Tran, delivery manager",
+    "copy": {
+      "headline": "Export a filtered delivery report",
+      "supporting_text": "PMO reporting depends on the current filter context, not a generic dump."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "task_list:default",
+        "action": "filter_priority_p0_and_status_not_done",
+        "target": "ds:task-list.filter.row",
+        "reasoning_checkpoint": "Exports should inherit the current filter scope."
+      },
+      {
+        "step": 2,
+        "state": "task_list:default",
+        "action": "export_csv_for_current_filtered_set",
+        "target": "ds:task-list.action.csv-export",
+        "reasoning_checkpoint": "CSV export must remain separate from destructive or bulk actions."
+      },
+      {
+        "step": 3,
+        "state": "task_list:default",
+        "assertion": "the downloaded file name reflects active filters and the current date"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:dashboard-impact-traceability",
+    "prd_journey_ref": "br-prd04-s6",
+    "persona": "Tuan Kiet Nguyen, solution architect",
+    "copy": {
+      "headline": "Trace downstream impact from the RTM graph",
+      "supporting_text": "Requirement changes should expose affected plans, tasks, commits, and tests without leaving the analysis flow."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "dashboard:default",
+        "action": "open_panel_3_knowledge_graph_and_select_node_br_prd04_s5",
+        "target": "ds:dashboard.panel.graph",
+        "reasoning_checkpoint": "Graph interactions should surface contextual detail without immediately leaving the dashboard."
+      },
+      {
+        "step": 2,
+        "state": "dashboard:default",
+        "assertion": "a side panel shows linked plan task commit and CI evidence for the selected node"
+      },
+      {
+        "step": 3,
+        "state": "dashboard:default",
+        "action": "drag_connected_nodes_to_compare_impact_path",
+        "target": "ds:dashboard.panel.graph",
+        "reasoning_checkpoint": "The dashboard graph should support exploratory comparison before deeper navigation."
+      },
+      {
+        "step": 4,
+        "state": "dashboard:default",
+        "action": "open_full_trace_view_for_deeper_dependency_review",
+        "target": "ds:dashboard.panel.graph",
+        "reasoning_checkpoint": "Deep analysis should route into the dedicated trace explorer."
+      },
+      {
+        "step": 5,
+        "state": "trace_explorer:default",
+        "assertion": "trace explorer opens with the selected requirement in focus"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:board-rte-escalation-reject",
+    "prd_journey_ref": "br-prd04-s7",
+    "persona": "Quynh Le, release train engineer",
+    "copy": {
+      "headline": "Reject an invalid escalation from the board drawer",
+      "supporting_text": "The RTE must be able to return unsupported risk claims with explicit guidance for the agent."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "board:default",
+        "action": "open_task_card_with_badge_rte_escalated",
+        "target": "ds:board.card.task",
+        "reasoning_checkpoint": "Escalation review begins from the board card itself."
+      },
+      {
+        "step": 2,
+        "state": "board:rte_drawer",
+        "action": "confirm_the_escalation_lacks_evidence",
+        "target": "ds:board.rte.drawer",
+        "reasoning_checkpoint": "The drawer should present enough thread context to justify rejection."
+      },
+      {
+        "step": 3,
+        "state": "board:rte_drawer",
+        "action": "enter_reason_missing_dependency_proof_for_the_schema_migration_block",
+        "target": "ds:board.rte.drawer",
+        "reasoning_checkpoint": "Reject guidance should be explicit and reusable by the agent receiving it."
+      },
+      {
+        "step": 4,
+        "state": "board:default",
+        "action": "press_reject_and_return_task_to_agent_with_next_step_guidance",
+        "target": "ds:board.rte.drawer",
+        "reasoning_checkpoint": "Rejection should close the overlay and restore the updated board state."
+      },
+      {
+        "step": 5,
+        "state": "board:default",
+        "assertion": "the card returns to normal board context with rejection guidance recorded"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:navigation-dashboard-to-task-detail",
+    "prd_journey_ref": "br-prd04-s8",
+    "persona": "Lan Anh Pham, PMO lead",
+    "copy": {
+      "headline": "Navigate from the workspace home to an individual task",
+      "supporting_text": "Primary navigation should move from summary metrics to the actionable task record in a short path."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "dashboard:default",
+        "action": "choose_tasks_from_sidebar",
+        "target": "ds:workspace.shell.sidebar",
+        "reasoning_checkpoint": "Global navigation should keep route changes predictable across modules."
+      },
+      {
+        "step": 2,
+        "state": "task_list:default",
+        "action": "select_task_bd_x1y2_change_button_icon_from_table",
+        "target": "ds:task-list.table.row",
+        "reasoning_checkpoint": "Task row selection should navigate to the matching detail route."
+      },
+      {
+        "step": 3,
+        "state": "task_detail:default",
+        "assertion": "detail view loads owner status trace links and activity history"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:docs-review-chat-session",
+    "prd_journey_ref": "br-prd04-s9",
+    "persona": "Thu Ha Bui, documentation steward",
+    "copy": {
+      "headline": "Inspect a saved chat session and follow a linked beads reference",
+      "supporting_text": "Historical discussions should remain explorable so implementation context is not lost after handoff."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "document_viewer:default",
+        "action": "open_chat_session_parser_rollout_review_from_tree",
+        "target": "ds:docs.tree.nav",
+        "reasoning_checkpoint": "Chat transcripts should be browsable within the same document hierarchy as PRDs and plans."
+      },
+      {
+        "step": 2,
+        "state": "document_viewer:default",
+        "action": "locate_linked_beads_reference_br_prd04_s10_in_chat_transcript",
+        "target": "ds:docs.content.beads-links",
+        "reasoning_checkpoint": "Cross-linked beads references should remain discoverable in saved conversations."
+      },
+      {
+        "step": 3,
+        "state": "document_viewer:default",
+        "action": "select_linked_beads_reference_inside_chat_transcript",
+        "target": "ds:docs.action.open-trace",
+        "reasoning_checkpoint": "Following the link should move into graph analysis with the selected node preloaded."
+      },
+      {
+        "step": 4,
+        "state": "trace_explorer:default",
+        "assertion": "the graph opens on the referenced requirement and its downstream tasks"
+      }
+    ]
+  },
+  {
+    "storyboard_id": "ds:flow:task-detail-trace-dependencies",
+    "prd_journey_ref": "br-prd04-s11",
+    "persona": "Diep Mai Tran, feature lead",
+    "copy": {
+      "headline": "Open dependency trace from a task detail record",
+      "supporting_text": "Task owners need to verify upstream plans and downstream delivery evidence before changing execution."
+    },
+    "trajectory_plan": [
+      {
+        "step": 1,
+        "state": "task_detail:default",
+        "action": "open_graph_tab_and_review_mini_dependency_widget",
+        "target": "ds:task-detail.tab.graph",
+        "reasoning_checkpoint": "Dependency insight should be available from the task detail record before full-page navigation."
+      },
+      {
+        "step": 2,
+        "state": "task_detail:default",
+        "action": "select_implements_br_plan_42_from_dependency_list",
+        "target": "ds:task-detail.tab.graph",
+        "reasoning_checkpoint": "Selecting a dependency should navigate into the trace explorer with the right root."
+      },
+      {
+        "step": 3,
+        "state": "trace_explorer:default",
+        "assertion": "the graph shows task to plan to PRD upstream and task to PR to CI downstream"
+      },
+      {
+        "step": 4,
+        "state": "trace_explorer:default",
+        "action": "double_click_the_prd_node_to_return_to_document_context",
+        "target": "ds:trace.canvas.graph",
+        "reasoning_checkpoint": "Document nodes should remain navigable back into the document viewer."
+      },
+      {
+        "step": 5,
+        "state": "document_viewer:default",
+        "assertion": "the linked document opens with matching beads context visible"
+      }
+    ]
+  }
+]

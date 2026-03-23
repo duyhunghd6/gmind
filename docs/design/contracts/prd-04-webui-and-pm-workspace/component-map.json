@@ -1,0 +1,194 @@
+{
+  "feature": "prd-04-webui-and-pm-workspace",
+  "generated_by": "gen_flows",
+  "iteration": 3,
+  "flow_files": [
+    {
+      "file": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md",
+      "journey": "dashboard-gap-resolution",
+      "blocks": {
+        "Dashboard Home": [
+          "workspace.shell.header",
+          "workspace.shell.search",
+          "workspace.shell.sidebar",
+          "workspace.shell.connection-status",
+          "workspace.shell.footer",
+          "dashboard.kpi.row",
+          "dashboard.panel.coverage",
+          "dashboard.panel.progress",
+          "dashboard.panel.graph",
+          "dashboard.panel.gaps"
+        ],
+        "Coverage Drill-down": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "dashboard.panel.coverage",
+          "dashboard.panel.gaps"
+        ],
+        "Task Detail": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "task-detail.header.summary",
+          "task-detail.field.status",
+          "task-detail.tab.detail",
+          "task-detail.tab.activity",
+          "task-detail.tab.graph",
+          "task-detail.rte.context"
+        ],
+        "Trace Explorer": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "trace.toolbar.root",
+          "trace.canvas.graph",
+          "trace.canvas.legend",
+          "trace.panel.node-detail",
+          "trace.panel.connected-nodes",
+          "trace.action.impact"
+        ],
+        "Create Plan Side Panel": [
+          "workspace.shell.header",
+          "dashboard.panel.gaps",
+          "dashboard.modal.create-plan"
+        ],
+        "Create Plan Validation": [
+          "workspace.shell.header",
+          "dashboard.modal.create-plan"
+        ],
+        "Dashboard Reloaded": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "dashboard.kpi.row",
+          "dashboard.panel.gaps"
+        ],
+        "Dashboard Error": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "dashboard.state.error",
+          "dashboard.state.retry"
+        ]
+      }
+    },
+    {
+      "file": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md",
+      "journey": "docs-empty-to-trace",
+      "blocks": {
+        "Workspace Shell": [
+          "workspace.shell.header",
+          "workspace.shell.search",
+          "workspace.shell.notifications",
+          "workspace.shell.sidebar",
+          "workspace.shell.connection-status",
+          "workspace.shell.footer"
+        ],
+        "Docs Empty State": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "docs.state.empty",
+          "docs.state.empty-cta"
+        ],
+        "Document Viewer": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "workspace.shell.footer",
+          "docs.tree.nav",
+          "docs.filter.source-type",
+          "docs.content.breadcrumb",
+          "docs.content.body",
+          "docs.content.beads-links",
+          "docs.content.coverage-indicator",
+          "docs.action.open-trace"
+        ],
+        "Trace Explorer Partial": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "trace.toolbar.root",
+          "trace.canvas.graph",
+          "trace.canvas.legend",
+          "trace.panel.node-detail",
+          "trace.panel.connected-nodes",
+          "trace.action.impact",
+          "trace.state.partial",
+          "trace.state.partial-badge"
+        ],
+        "Task Detail": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "task-detail.header.summary",
+          "task-detail.tab.detail",
+          "task-detail.tab.activity",
+          "task-detail.tab.graph",
+          "task-detail.tab.code"
+        ],
+        "Docs Error State": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "docs.state.error",
+          "docs.state.retry",
+          "docs.action.open-trace"
+        ]
+      }
+    },
+    {
+      "file": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md",
+      "journey": "approval-comment-and-recovery",
+      "blocks": {
+        "Task Detail": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "task-detail.header.summary",
+          "task-detail.tab.activity",
+          "task-detail.rte.context"
+        ],
+        "Approval Gates Queue": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "workspace.shell.connection-status",
+          "approval.queue.list",
+          "approval.panel.aggregate",
+          "approval.panel.context",
+          "approval.form.comment",
+          "approval.action.approve",
+          "approval.action.reject",
+          "approval.action.manual-override"
+        ],
+        "Approval Comment Required": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "approval.panel.aggregate",
+          "approval.form.comment",
+          "approval.action.approve"
+        ],
+        "Validation Error": [
+          "workspace.shell.header",
+          "approval.form.comment",
+          "approval.action.approve"
+        ],
+        "Approval Success": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "approval.queue.list",
+          "approval.panel.context"
+        ],
+        "Task Detail Refreshed": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "task-detail.header.summary",
+          "task-detail.tab.activity",
+          "task-detail.rte.context"
+        ],
+        "Approval Error State": [
+          "workspace.shell.header",
+          "workspace.shell.sidebar",
+          "approval.state.error",
+          "approval.action.manual-override"
+        ]
+      }
+    }
+  ],
+  "unique_block_count": 21,
+  "unique_selector_count": 38,
+  "notes": [
+    "Expanded mapping coverage includes shared shell surfaces, secondary action regions, and selector-rich detail panels across all journeys.",
+    "Every ASCII screen title used in the flow set maps to one or more contract selectors, including recovery and validation screens."
+  ]
+}

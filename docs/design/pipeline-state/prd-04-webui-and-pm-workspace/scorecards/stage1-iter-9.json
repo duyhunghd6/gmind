@@ -1,0 +1,66 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 9,
+  "score": 76,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "PRD route-map and journey sections name dashboard, board, approval, document viewer, trace explorer, task detail, search results, and task list; wireframes directory contains 24 wideframe files covering these 8 route screens across desktop/tablet/mobile."
+    },
+    "component_traceability": {
+      "score": 9,
+      "max": 20,
+      "tool_evidence": "Mandatory wireframe grep found 0 data-ds-id occurrences across 0 wideframe files, while component-map.json still defines 21 unique flow blocks and 38 unique selectors; selector inventory exists, but trace annotations are not mechanically embedded in the wireframes."
+    },
+    "storyboard_completeness": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "storyboards.json is valid and contains 21 trajectories spanning dashboard, board, approval, docs, trace, task detail, search, task list, navigation, offline, empty, error, and recovery journeys referenced by the PRD."
+    },
+    "layout_compilability": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "layout-rules.json parsed successfully and defines desktop/tablet/mobile viewports, global shell rules, shared responsive constraints, and per-screen placement for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list."
+    },
+    "conflict_resolution": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "prd-ds-conflicts.md documents 2 active conflicts and gives explicit resolution direction for each, plus a normalized create-plan interaction decision; only legacy selector naming debt remains around dashboard.modal.create-plan."
+    },
+    "wireframe_articulation": {
+      "score": 3,
+      "max": 15,
+      "tool_evidence": "Sampled dashboard, task_detail, and approval_gates wideframes show multi-region layouts, explicit selectors, and state variants, and all 3 user-flow files now visually contain edge lines; however, the mandatory mechanical flow check still returned arrows=0 for all 3 ASCII flows, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max."
+    }
+  },
+  "format_checks": {
+    "wideframe_regression": false,
+    "flow_connected": false
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "pillar": "wireframe_articulation",
+      "responsible_generator": "gen_flows",
+      "detail": "Repair all three user-flow ASCII files so the mandated arrow-count regex detects connected transitions; /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md, /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md, and /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md still returned arrows=0 under the mandatory check."
+    },
+    {
+      "priority": "P1",
+      "pillar": "component_traceability",
+      "responsible_generator": "gen_wireframes",
+      "detail": "Embed machine-detectable component trace annotations in the wideframe files; the mandated grep for data-ds-id across /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/*.wideframe.ascii.md returned 0 matches even though component-map.json defines 38 selectors."
+    },
+    {
+      "priority": "P1",
+      "pillar": "conflict_resolution",
+      "responsible_generator": "gen_contracts",
+      "detail": "Normalize the remaining create-plan selector naming debt in contract artifacts; the conflict report says the interaction is now a side panel/full-screen overlay, but references still use the legacy selector name dashboard.modal.create-plan."
+    }
+  ],
+  "baseline_regression": false,
+  "issues": [
+    "FLOW_NOT_CONNECTED"
+  ]
+}

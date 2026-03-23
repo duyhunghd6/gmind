@@ -1,0 +1,678 @@
+feature:
+  name: prd-04-webui-and-pm-workspace
+  title: Web UI & PM Workspace
+  prd: /Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md
+  iteration: 10
+  source_beads_id: br-prd04
+  contract_defaults:
+    canonical_viewports:
+      desktop: 1440
+      tablet: 1024
+      mobile: 390
+    required_core_states:
+      - default
+      - loading
+      - error
+      - empty
+    optional_states:
+      - offline
+      - partial
+      - saving
+      - not-found
+      - bulk-processing
+    shell_consistency: true
+    api_only_data_access: true
+viewports:
+  desktop:
+    min_width: 1024
+    canonical_width: 1440
+  tablet:
+    min_width: 768
+    max_width: 1023
+    canonical_width: 1024
+  mobile:
+    max_width: 767
+    canonical_width: 390
+shell:
+  route: global
+  inherits_to:
+    - dashboard
+    - board
+    - task_list
+    - task_detail
+    - trace_explorer
+    - document_viewer
+    - approval_gates
+    - search_results
+  components:
+    - id: header
+      data_ds_id: workspace.shell.header
+    - id: global_search
+      data_ds_id: workspace.shell.search
+    - id: notifications
+      data_ds_id: workspace.shell.notifications
+    - id: primary_sidebar
+      data_ds_id: workspace.shell.sidebar
+    - id: connection_status
+      data_ds_id: workspace.shell.connection-status
+    - id: footer
+      data_ds_id: workspace.shell.footer
+  states:
+    default:
+      description: Header, sidebar, status rail, and footer are visible and route-aware.
+    loading:
+      description: Main content skeleton appears while shell remains interactive.
+    error:
+      description: Route-level error banner appears with direct recovery action.
+    empty:
+      description: Empty route hosts CTA relevant to current module.
+    offline:
+      description: Yellow offline banner changes shell to mixed read-only mode with queued write affordances.
+routes:
+  - path: /
+    screen: dashboard
+    title: RTM Dashboard
+    api:
+      - GET /api/coverage
+      - GET /api/tasks
+      - GET /api/trace
+      - GET /api/gaps
+  - path: /board
+    screen: board
+    title: SAFe Board
+    api:
+      - GET /api/tasks?view=board&level=<level>
+  - path: /tasks
+    screen: task_list
+    title: Task List
+    api:
+      - GET /api/tasks?format=list
+      - PUT /api/tasks/bulk
+  - path: /tasks/:id
+    screen: task_detail
+    title: Task Detail
+    api:
+      - GET /api/tasks/:id
+      - PUT /api/tasks/:id
+      - GET /api/tasks/:id/activity
+      - GET /api/trace/:id
+  - path: /trace/:id
+    screen: trace_explorer
+    title: Beads Trace Explorer
+    api:
+      - GET /api/trace/:id?depth=full
+  - path: /docs
+    screen: document_viewer
+    title: Document Viewer
+    api:
+      - GET /api/docs
+      - GET /api/docs/:source_type
+      - GET /api/coverage?prd=<beads-id>
+  - path: /approval
+    screen: approval_gates
+    title: Approval Gates
+    api:
+      - GET /api/tasks?status=pending-approval
+  - path: /search
+    screen: search_results
+    title: Search Results
+    api:
+      - GET /api/search?q=<query>&type=<type>
+selectors:
+  convention: feature.region.element
+  examples:
+    - workspace.shell.header
+    - dashboard.panel.coverage
+    - board.column.todo
+    - approval.panel.aggregate
+    - docs.tree.node
+    - trace.canvas.graph
+    - task-detail.tab.graph
+    - search.results.group
+    - task-list.table.row
+screens:
+  - id: dashboard
+    beads_ids:
+      - br-prd04-s6
+      - br-prd04-s14
+    route: /
+    title: RTM Dashboard
+    summary: Four-panel dashboard for coverage, task progress, embedded graph, and gap analysis.
+    layout:
+      desktop: 2x2 grid with KPI row above panels
+      tablet: stacked two-up panels
+      mobile: single-column panel stack
+    components:
+      - id: kpi_row
+        data_ds_id: dashboard.kpi.row
+        data: coverage_percent, tasks_done_count, gaps_found_count
+      - id: coverage_panel
+        data_ds_id: dashboard.panel.coverage
+        data: prd_coverage_summary, section_coverage_breakdown
+      - id: progress_panel
+        data_ds_id: dashboard.panel.progress
+        data: task_status_counts, timeline_summary
+      - id: graph_panel
+        data_ds_id: dashboard.panel.graph
+        data: trace_root_id, nodes, edges
+      - id: gap_panel
+        data_ds_id: dashboard.panel.gaps
+        data: gap_items, severity, source_link
+      - id: gap_create_plan_surface
+        data_ds_id: dashboard.surface.create-plan
+        data: source_gap_id, plan_title, plan_notes
+    states:
+      default:
+        required_elements:
+          - dashboard.kpi.row
+          - dashboard.panel.coverage
+          - dashboard.panel.progress
+          - dashboard.panel.graph
+          - dashboard.panel.gaps
+      loading:
+        required_elements:
+          - dashboard.state.loading-skeleton
+      empty:
+        required_elements:
+          - dashboard.state.empty
+          - dashboard.state.empty-cta
+      error:
+        required_elements:
+          - dashboard.state.error
+          - dashboard.state.retry
+    transitions:
+      - action: click_low_coverage_prd
+        target: dashboard_side_panel
+      - action: click_gap_create
+        target: dashboard.surface.create-plan
+      - action: click_graph_node
+        target: dashboard_graph_side_panel
+  - id: board
+    beads_ids:
+      - br-prd04-s3
+      - br-prd04-s7
+      - br-prd04-s14
+    route: /board
+    title: SAFe Board Views
+    summary: Portfolio, ART, Team, and PI Planning boards with RTE escalation overlays.
+    layout:
+      desktop: full-width kanban columns with PI planning workspace and right drawer for RTE context
+      tablet: compact columns with horizontal scroll and bottom-aligned vote actions
+      mobile: stacked list cards with full-screen drawers
+    components:
+      - id: board_view_switcher
+        data_ds_id: board.header.view-switcher
+        data: active_level
+      - id: kanban_columns
+        data_ds_id: board.kanban.columns
+        data: columns, cards, WIP_counts
+      - id: task_card
+        data_ds_id: board.card.task
+        data: id, title, status, assignee, priority, rte_status
+      - id: pi_planning_sandbox
+        data_ds_id: board.pi.sandbox
+        data: capacity_items, risks, business_value_scores
+      - id: roam_board
+        data_ds_id: board.pi.roam
+        data: risk_items, roam_status
+      - id: confidence_vote_panel
+        data_ds_id: board.pi.confidence-vote
+        data: vote_options, confirmation_state
+      - id: rte_discussion_drawer
+        data_ds_id: board.rte.drawer
+        data: thread_messages, decision_text, constraints, approved_by, approved_at
+    states:
+      default:
+        required_elements:
+          - board.header.view-switcher
+          - board.kanban.columns
+      loading:
+        required_elements:
+          - board.state.loading-skeleton
+      empty:
+        required_elements:
+          - board.state.empty
+          - board.state.empty-cta
+      error:
+        required_elements:
+          - board.state.error
+          - board.state.retry
+    transitions:
+      - action: drag_card_todo_to_in_progress
+        target: board_status_updated
+      - action: click_confidence_vote
+        target: board_vote_confirmation
+      - action: click_escalated_task
+        target: board.rte.drawer
+      - action: click_board_list_toggle
+        next_route: /tasks
+  - id: approval_gates
+    beads_ids:
+      - br-prd04-s4
+      - br-prd04-s7
+      - br-prd04-s14
+    route: /approval
+    title: Approval Gates
+    summary: Human approval workspace for phase gates, aggregated evidence, and RTE-driven decisions.
+    layout:
+      desktop: split-view evidence stream left and approval context right
+      tablet: stacked sections with fixed bottom action bar
+      mobile: single-column review flow with sticky bottom approval actions
+    components:
+      - id: approval_queue
+        data_ds_id: approval.queue.list
+        data: pending_item_ids, type, status
+      - id: aggregate_panel
+        data_ds_id: approval.panel.aggregate
+        data: test_results, code_diff, beads_ids, prd_links, github_pr_status
+      - id: approval_context
+        data_ds_id: approval.panel.context
+        data: phase_boundary, coverage_status, blocker_reason
+      - id: comment_form
+        data_ds_id: approval.form.comment
+        data: comment_text
+      - id: approve_button
+        data_ds_id: approval.action.approve
+        data: item_id, enabled
+      - id: reject_button
+        data_ds_id: approval.action.reject
+        data: item_id, enabled
+      - id: manual_override
+        data_ds_id: approval.action.manual-override
+        data: admin_permission
+    states:
+      default:
+        required_elements:
+          - approval.queue.list
+          - approval.panel.aggregate
+          - approval.panel.context
+      loading:
+        required_elements:
+          - approval.state.loading-skeleton
+      empty:
+        required_elements:
+          - approval.state.empty
+      error:
+        required_elements:
+          - approval.state.error
+          - approval.action.manual-override
+      offline:
+        required_elements:
+          - approval.state.offline
+          - approval.action.disabled
+    transitions:
+      - action: click_approve
+        target: approval_comment_required
+      - action: submit_approval_comment
+        target: approval_completed
+      - action: click_reject
+        target: approval_rejection_required
+  - id: document_viewer
+    beads_ids:
+      - br-prd04-s9
+      - br-prd04-s14
+    route: /docs
+    title: Document Viewer
+    summary: Zvec-backed document browser with auto-linked Beads IDs and coverage context.
+    layout:
+      desktop: two-column doc tree and content panel
+      tablet: top selector plus content area
+      mobile: list-to-content drill-in with back button
+    components:
+      - id: doc_tree
+        data_ds_id: docs.tree.nav
+        data: grouped_sources, selected_doc_id
+      - id: source_filter
+        data_ds_id: docs.filter.source-type
+        data: source_type, date_range
+      - id: breadcrumb
+        data_ds_id: docs.content.breadcrumb
+        data: hierarchy
+      - id: content_panel
+        data_ds_id: docs.content.body
+        data: rendered_html, source_type, metadata
+      - id: beads_autolinks
+        data_ds_id: docs.content.beads-links
+        data: linked_ids
+      - id: coverage_indicator
+        data_ds_id: docs.content.coverage-indicator
+        data: coverage_percent
+      - id: open_trace_button
+        data_ds_id: docs.action.open-trace
+        data: root_beads_id
+    states:
+      default:
+        required_elements:
+          - docs.tree.nav
+          - docs.content.body
+      loading:
+        required_elements:
+          - docs.state.loading-skeleton
+      empty:
+        required_elements:
+          - docs.state.empty
+          - docs.state.empty-cta
+      error:
+        required_elements:
+          - docs.state.error
+          - docs.state.retry
+    transitions:
+      - action: select_doc_tree_item
+        target: docs.content.body
+      - action: click_beads_autolink
+        next_route: /trace/:id
+  - id: trace_explorer
+    beads_ids:
+      - br-prd04-s5
+      - br-prd04-s10
+      - br-prd04-s14
+    route: /trace/:id
+    title: Beads Trace Explorer
+    summary: Full-page graph explorer with filters, depth control, and node detail panel.
+    layout:
+      desktop: graph canvas 70 percent with right detail panel 30 percent
+      tablet: graph canvas with bottom-sheet detail panel
+      mobile: simplified tree graph with full-screen node detail overlay
+    components:
+      - id: trace_toolbar
+        data_ds_id: trace.toolbar.root
+        data: root_id, depth, node_filters
+      - id: graph_canvas
+        data_ds_id: trace.canvas.graph
+        data: nodes, edges, query_time_ms
+      - id: graph_legend
+        data_ds_id: trace.canvas.legend
+        data: visible_node_types
+      - id: node_detail_panel
+        data_ds_id: trace.panel.node-detail
+        data: node_type, excerpt, coverage, linked_entities
+      - id: connected_nodes_list
+        data_ds_id: trace.panel.connected-nodes
+        data: linked_nodes
+      - id: impact_action
+        data_ds_id: trace.action.impact
+        data: root_id
+    states:
+      default:
+        required_elements:
+          - trace.toolbar.root
+          - trace.canvas.graph
+          - trace.panel.node-detail
+      loading:
+        required_elements:
+          - trace.state.loading-skeleton
+      empty:
+        required_elements:
+          - trace.state.empty
+          - trace.state.empty-cta
+      error:
+        required_elements:
+          - trace.state.error
+          - trace.state.retry
+      partial:
+        required_elements:
+          - trace.state.partial
+          - trace.state.partial-badge
+    transitions:
+      - action: click_node
+        target: trace.panel.node-detail
+      - action: double_click_task_node
+        next_route: /tasks/:id
+      - action: double_click_doc_node
+        next_route: /docs
+      - action: change_depth
+        target: trace.canvas.graph
+  - id: task_detail
+    beads_ids:
+      - br-prd04-s5
+      - br-prd04-s7
+      - br-prd04-s11
+      - br-prd04-s14
+    route: /tasks/:id
+    title: Task Detail
+    summary: Editable task workspace with detail, activity, graph, and code tabs.
+    layout:
+      desktop: fixed header card above tabbed content
+      tablet: stacked header with horizontally scrollable tabs
+      mobile: vertical header with accordion tabs and full-screen overlays for graph/RTE panels
+    components:
+      - id: task_header
+        data_ds_id: task-detail.header.summary
+        data: id, title, status, assignee, priority, qa_status
+      - id: status_field
+        data_ds_id: task-detail.field.status
+        data: value, allowed_values
+      - id: assignee_field
+        data_ds_id: task-detail.field.assignee
+        data: value, agent_options
+      - id: priority_field
+        data_ds_id: task-detail.field.priority
+        data: value, allowed_values
+      - id: qa_field
+        data_ds_id: task-detail.field.qa-status
+        data: value, allowed_values
+      - id: detail_tab
+        data_ds_id: task-detail.tab.detail
+        data: description_md, dependencies, labels, escalation_level
+      - id: activity_tab
+        data_ds_id: task-detail.tab.activity
+        data: timeline_entries
+      - id: graph_tab
+        data_ds_id: task-detail.tab.graph
+        data: mini_graph_nodes, mini_graph_edges
+      - id: code_tab
+        data_ds_id: task-detail.tab.code
+        data: files_touched, last_commit, lines_changed
+      - id: rte_context_block
+        data_ds_id: task-detail.rte.context
+        data: rte_status, decision_text, constraints, approved_by, approved_at
+    states:
+      default:
+        required_elements:
+          - task-detail.header.summary
+          - task-detail.tab.detail
+          - task-detail.tab.activity
+          - task-detail.tab.graph
+          - task-detail.tab.code
+      loading:
+        required_elements:
+          - task-detail.state.loading-skeleton
+      empty:
+        required_elements:
+          - task-detail.state.empty
+          - task-detail.state.empty-cta
+      error:
+        required_elements:
+          - task-detail.state.error
+          - task-detail.state.retry
+      offline:
+        required_elements:
+          - task-detail.state.offline
+          - task-detail.state.read-only
+      saving:
+        required_elements:
+          - task-detail.state.saving
+      not-found:
+        required_elements:
+          - task-detail.state.not-found
+          - task-detail.state.back-link
+    transitions:
+      - action: change_status
+        target: task-detail.state.saving
+      - action: click_dependency_link
+        next_route: /trace/:id
+      - action: click_graph_open_full_page
+        next_route: /trace/:id
+  - id: search_results
+    beads_ids:
+      - br-prd04-s12
+      - br-prd04-s14
+    route: /search
+    title: Search Results
+    summary: Unified cross-source results page for tasks, docs, commits, PRs, chats, and approvals.
+    layout:
+      desktop: filter sidebar with grouped result column
+      tablet: collapsible filter panel above results
+      mobile: full-width results with toggled filter drawer
+    components:
+      - id: search_bar
+        data_ds_id: search.header.query
+        data: query, suggestion_items
+      - id: filter_panel
+        data_ds_id: search.filter.panel
+        data: type_counts, date_range, task_status_filters
+      - id: result_groups
+        data_ds_id: search.results.group
+        data: grouped_results, total_count
+      - id: result_card
+        data_ds_id: search.results.card
+        data: type, title, snippet, status, destination
+      - id: empty_suggestions
+        data_ds_id: search.state.empty-suggestions
+        data: suggested_alternative_queries
+    states:
+      default:
+        required_elements:
+          - search.header.query
+          - search.filter.panel
+          - search.results.group
+      loading:
+        required_elements:
+          - search.state.loading-skeleton
+      empty:
+        required_elements:
+          - search.state.empty
+          - search.state.empty-suggestions
+      error:
+        required_elements:
+          - search.state.error
+          - search.state.retry
+    transitions:
+      - action: submit_header_search
+        target: search.results.group
+      - action: select_result_task
+        next_route: /tasks/:id
+      - action: select_result_doc
+        next_route: /docs
+  - id: task_list
+    beads_ids:
+      - br-prd04-s13
+      - br-prd04-s14
+    route: /tasks
+    title: Task List
+    summary: Data-dense task table with filtering, sorting, bulk actions, pagination, and export.
+    layout:
+      desktop: full table with bulk action bar below
+      tablet: compressed table with expandable row details
+      mobile: card list replacing table rows
+    components:
+      - id: view_toggle
+        data_ds_id: task-list.header.view-toggle
+        data: active_view
+      - id: filters
+        data_ds_id: task-list.filter.row
+        data: status, assignee, priority, prd_link, qa_status
+      - id: csv_export
+        data_ds_id: task-list.action.csv-export
+        data: file_name
+      - id: task_table
+        data_ds_id: task-list.table.main
+        data: rows, sort_key, page, total_count
+      - id: task_row
+        data_ds_id: task-list.table.row
+        data: id, title, status, priority, assignee, qa_status
+      - id: pagination
+        data_ds_id: task-list.pagination.controls
+        data: page, page_size, total_pages
+      - id: bulk_action_bar
+        data_ds_id: task-list.bulk.actions
+        data: selected_count, assign_options, status_options, priority_options
+    states:
+      default:
+        required_elements:
+          - task-list.header.view-toggle
+          - task-list.filter.row
+          - task-list.table.main
+          - task-list.pagination.controls
+      loading:
+        required_elements:
+          - task-list.state.loading-skeleton
+      empty:
+        required_elements:
+          - task-list.state.empty
+          - task-list.state.empty-cta
+      error:
+        required_elements:
+          - task-list.state.error
+          - task-list.state.retry
+      bulk-processing:
+        required_elements:
+          - task-list.state.bulk-processing
+          - task-list.bulk.actions
+    transitions:
+      - action: click_row
+        next_route: /tasks/:id
+      - action: click_board_toggle
+        next_route: /board
+      - action: submit_bulk_assign
+        target: task-list.state.bulk-processing
+navigation:
+  global:
+    sidebar_items:
+      - label: Dashboard
+        route: /
+      - label: Board
+        route: /board
+      - label: Tasks
+        route: /tasks
+      - label: Trace
+        route: /trace/:id
+      - label: Docs
+        route: /docs
+      - label: Approval
+        route: /approval
+    behaviors:
+      desktop: expanded sidebar 240px with icon and label
+      tablet: icon-only rail 60px with tooltips
+      mobile: overlay drawer opened from header hamburger
+  transitions:
+    - from: /
+      action: sidebar_tasks
+      to: /tasks
+    - from: /tasks
+      action: row_click
+      to: /tasks/:id
+    - from: /tasks/:id
+      action: graph_open_full_page
+      to: /trace/:id
+    - from: /tasks/:id
+      action: dependency_link_click
+      to: /trace/:id
+    - from: /docs
+      action: beads_link_click
+      to: /trace/:id
+    - from: /search
+      action: task_result_click
+      to: /tasks/:id
+    - from: /board
+      action: board_list_toggle
+      to: /tasks
+    - from: /approval
+      action:related_task_open
+      to: /tasks/:id
+accessibility:
+  standard: WCAG AA
+  requirements:
+    - Keyboard navigation must reach all interactive controls in shell and all screen-local controls.
+    - Visible focus outline is required for sidebar links, search, tabs, cards, rows, filters, and graph node detail triggers.
+    - Color-only status indicators must include text labels.
+    - Drawer, modal, bottom-sheet, and overlay states must trap focus and restore focus on close.
+    - Search shortcut Ctrl+K and slash must focus the global search field when context allows.
+verification:
+  screens_in_prd_route_map: 8
+  screens_defined: 8
+  omissions: []
+  defaults_added:
+    - Added explicit empty state CTA requirement to all route screens.
+    - Added route-level error recovery action for each route screen.
+    - Added shell offline read-only behavior as shared contract state.
