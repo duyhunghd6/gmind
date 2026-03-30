@@ -2,7 +2,7 @@ feature:
   name: prd-04-webui-and-pm-workspace
   title: Web UI & PM Workspace
   prd: /Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md
-  iteration: 10
+  iteration: 1
   source_beads_id: br-prd04
   contract_defaults:
     canonical_viewports:

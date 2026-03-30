@@ -1,38 +1,38 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 4,
-  "score": 84,
+  "score": 87,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
     "prd_coverage": {
-      "score": 20,
+      "score": 19,
       "max": 20,
-      "tool_evidence": "ls found 24 wideframe files covering 8 required route screens across desktop/tablet/mobile; PRD route-map and screen sections name dashboard, board, approval, document viewer, trace explorer, task detail, search results, and task list."
+      "tool_evidence": "ls found 24 wideframes covering 8 route screens across desktop/tablet/mobile, and PRD route/journey evidence confirms dashboard, board, approval, docs, trace, task detail, search, and task list are represented"
     },
     "component_traceability": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "grep found 597 data-ds-id occurrences across 48 wireframe files, and component-map.json maps 3 flow files with 21 unique blocks and 38 unique selectors spanning shell, dashboard, docs, trace, task detail, approval, and recovery states."
+      "tool_evidence": "grep found 272 data-ds-id occurrences across 24 wideframes and component-map.json iteration 4 indexes 73 selectors, including previously missing board selectors such as board.header.view-switcher, board.card.task, board.pi.sandbox, board.pi.roam, board.pi.confidence-vote, board.rte.drawer, and board.state.*"
     },
     "storyboard_completeness": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "storyboards.json is valid and contains 21 trajectories; PRD journey checks cover board, approval, dashboard, docs, trace, task detail, search, task list, and navigation flows, so the storyboard set exceeds the named PRD journey coverage."
+      "tool_evidence": "storyboards.json contains 21 storyboard trajectories, matching the 21 PRD Journey entries surfaced across sections 3, 4, 6, 7, 8, 9, 10, 11, 12, and 13"
     },
     "layout_compilability": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "layout-rules.json parsed successfully and defines desktop/tablet/mobile viewports, global shell rules, shared responsive rules, and complete screen-specific layout rules for all 8 route screens."
+      "tool_evidence": "layout-rules.json is valid JSON and defines global shell plus desktop/tablet/mobile layout rules for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list"
     },
     "conflict_resolution": {
-      "score": 11,
+      "score": 15,
       "max": 15,
-      "tool_evidence": "prd-ds-conflicts.md documents 2 active conflicts with explicit resolution direction, but wireframe grep still finds spinner-centric save/bulk language in task_detail and task_list wideframes, so the skeleton-first and non-spinner save guidance is not fully propagated."
+      "tool_evidence": "prd-ds-conflicts.md lists 2 active conflicts and each includes PRD evidence, DS evidence, and explicit resolution direction; it also records the normalized create-plan interaction decision as resolved"
     },
     "wireframe_articulation": {
       "score": 3,
       "max": 15,
-      "tool_evidence": "sampled dashboard, task_detail, and document_viewer wideframes show multi-state box layouts, selector annotations, and nested regions, but the mandatory mechanical flow check still returned arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max."
+      "tool_evidence": "sampled dashboard and board wideframes show multi-state coverage, boxed region hierarchy, trace-map annotations, nested subpanels, and explicit action labels, but mandatory flow connectivity check still reports arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20%"
     }
   },
   "format_checks": {
@@ -44,13 +44,7 @@
       "priority": "P0",
       "pillar": "wireframe_articulation",
       "responsible_generator": "gen_flows",
-      "detail": "Repair all three user-flow ASCII files so the mandatory arrow-count check detects connected transitions; j1-dashboard-gap-resolution.ascii.md, j2-docs-empty-to-trace.ascii.md, and j3-approval-comment-and-recovery.ascii.md still returned arrows=0."
-    },
-    {
-      "priority": "P1",
-      "pillar": "conflict_resolution",
-      "responsible_generator": "gen_wireframes",
-      "detail": "Remove spinner-centric save and bulk-processing language from wireframes and align to the conflict resolution guidance: task_detail--desktop/tablet wideframes still say field spinner next to Status dropdown, and task_list desktop/tablet/mobile wideframes still say selected rows/cards show spinner."
+      "detail": "Repair all 3 ASCII user flows so mechanical arrow detection passes; current format check still reports arrows=0 for j1-dashboard-gap-resolution.ascii.md, j2-docs-empty-to-trace.ascii.md, and j3-approval-comment-and-recovery.ascii.md"
     }
   ],
   "baseline_regression": false,

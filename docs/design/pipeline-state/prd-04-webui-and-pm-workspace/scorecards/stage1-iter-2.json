@@ -1,38 +1,38 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 2,
-  "score": 84,
+  "score": 78,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
     "prd_coverage": {
-      "score": 20,
-      "max": 20,
-      "tool_evidence": "ls found 24 wideframes covering 8 route screens across desktop/tablet/mobile, and PRD evidence names the same 8 required screens: dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list"
-    },
-    "component_traceability": {
       "score": 18,
       "max": 20,
-      "tool_evidence": "grep found 597 data-ds-id occurrences across 48 wireframe files; component-map.json is valid and maps 21 flow screens with 63 selector references and 18 unique blocks, with sampled wireframes showing matching selectors such as workspace.shell.header, dashboard.panel.gaps, task-detail.header.summary, and trace.canvas.graph"
+      "tool_evidence": "ls found 24 wireframes covering 8 named route screens across desktop/tablet/mobile; PRD route and journey grep confirms dashboard, board, approval, docs, trace, task detail, search, and task list are all represented"
+    },
+    "component_traceability": {
+      "score": 12,
+      "max": 20,
+      "tool_evidence": "grep found 247 data-ds-id occurrences across 24 wideframes and component-map.json now uses selector mappings with 47 unique selectors, but end-to-end traceability is still incomplete because selectors used by contract/storyboards/wireframes such as task-detail.field.status, search.results.card, task-list.action.csv-export, and task-list.table.row are not present in component-map.json selector_index"
     },
     "storyboard_completeness": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "storyboards.json is valid and contains 21 trajectories; PRD journey grep surfaces 21 journey entries across board, approval, dashboard, navigation, docs, trace, task detail, search, and task list flows"
+      "tool_evidence": "storyboards.json contains 21 storyboard trajectories, matching the 21 PRD Journey entries found by PRD grep"
     },
     "layout_compilability": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "layout-rules.json parsed successfully; it defines desktop/tablet/mobile viewports, global shell rules, and complete screen rules for 8 screens with placement guidance and shared responsive rules"
+      "tool_evidence": "layout-rules.json is valid JSON and defines global shell plus per-screen desktop/tablet/mobile rules for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list"
     },
     "conflict_resolution": {
-      "score": 13,
+      "score": 15,
       "max": 15,
-      "tool_evidence": "prd-ds-conflicts.md documents 2 active conflicts and gives a resolution direction for each, plus a normalized create-plan interaction decision; however propagation is incomplete because sampled task_detail mobile saving state still says 'spinner next to edited control' while the conflict report requires skeletons or non-spinner progress affordances"
+      "tool_evidence": "prd-ds-conflicts.md lists 2 active conflicts and each includes PRD evidence, DS evidence, and explicit resolution direction; it also records the normalized create-plan interaction decision"
     },
     "wireframe_articulation": {
       "score": 3,
       "max": 15,
-      "tool_evidence": "sampled wideframes and tree wireframes show strong nesting and annotations, but mandatory mechanical flow check returned arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max despite otherwise detailed artifacts"
+      "tool_evidence": "sampled wideframes are multi-state and annotation-rich with explicit selector trace maps, but mandatory user-flow connectivity check still reports arrows=0 for all 3 flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20%"
     }
   },
   "format_checks": {
@@ -44,23 +44,18 @@
       "priority": "P0",
       "pillar": "wireframe_articulation",
       "responsible_generator": "gen_flows",
-      "detail": "Repair user-flow ASCII formatting so the mandatory arrow-count check detects connected transitions; all three files currently returned arrows=0, which blocks Gate A even though the narrative flow content is otherwise present"
-    },
-    {
-      "priority": "P1",
-      "pillar": "conflict_resolution",
-      "responsible_generator": "gen_wireframes",
-      "detail": "Remove spinner-centric saving language from task detail wireframes and replace it with the normalized non-spinner progress affordance; /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/task_detail--mobile.wideframe.ascii.md still states '[spinner next to edited control]'"
+      "detail": "Repair all 3 ASCII user flows so mechanical arrow detection passes; current format check still reports arrows=0 for j1-dashboard-gap-resolution.ascii.md, j2-docs-empty-to-trace.ascii.md, and j3-approval-comment-and-recovery.ascii.md"
     },
     {
       "priority": "P1",
       "pillar": "component_traceability",
       "responsible_generator": "gen_flows",
-      "detail": "Expand component-map coverage beyond the current 18 unique blocks so more of the selector-rich wireframe surface is explicitly tied back to journey blocks, especially shared shell elements and secondary action regions"
+      "detail": "Expand component-map.json selector_index to include selectors already referenced in contracts and wireframes, including task-detail.field.status, task-detail.state.offline, task-detail.state.read-only, task-detail.state.saving, search.filter.panel, search.results.card, search.state.empty-suggestions, task-list.action.csv-export, and task-list.table.row"
     }
   ],
   "baseline_regression": false,
   "issues": [
-    "FLOW_NOT_CONNECTED"
+    "FLOW_NOT_CONNECTED",
+    "component-map.json is improved but still missing selector coverage required for full contract-to-wireframe traceability"
   ]
 }

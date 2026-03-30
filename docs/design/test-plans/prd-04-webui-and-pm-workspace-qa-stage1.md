@@ -3,82 +3,76 @@
 - Feature: `prd-04-webui-and-pm-workspace`
 - Contract path: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/`
 - PRD path: `/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`
-- Evaluator self-score: `85`
-- Warning flag: `TIMEOUT`
+- Evaluator self-score: 88
+- Warning flag: `STALL`
 
 ## Files to be tested
 
-- Contract manifest: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml`
-- Component map: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/component-map.json`
-- Storyboards: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/storyboards.json`
-- Layout rules: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/layout-rules.json`
-- Wireframes: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/*`
-- User flows: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/*`
-- PRD source: `/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/component-map.json`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/storyboards.json`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/layout-rules.json`
+- All wireframes in `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/wireframes/`
+- All user flows in `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/`
+- `/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`
 
 ## Test suites
 
 ### T1. Wireframe Structure Integrity
-Checks:
-- Count `┌` and `┘` in every wireframe file and verify counts match.
-- Check whether complex screens have at least 3 nesting levels.
-- Check for broken box edges and orphaned `│` / `─` without enclosing corners.
+Expected checks:
+- Every wireframe file has balanced ASCII box corners (`┌` count equals `┘` count)
+- Complex screens with more than 3 components show at least 3 nesting levels
+- No broken box edges or orphaned line characters without enclosing structure
 
 Pass criteria:
-- Every wireframe file has balanced box counts.
-- Complex screens have nesting depth >= 3.
-- No broken box-edge usage exists.
+- All wireframe files are balanced and structurally intact
+- Every complex screen satisfies minimum nesting depth
 
-### T2. Screen x State Coverage Matrix
-Checks:
-- Extract screens and state expectations from the PRD and contract.
-- Enumerate wireframe files.
-- Verify every PRD/contract screen has wireframes for `default`, `loading`, and `error`.
-- Note extra states such as `empty`, `offline`, `partial`, `saving`, `not-found`, `bulk-processing` when present.
+### T2. Screen × State Coverage Matrix
+Expected checks:
+- Extract screens and states from the PRD and route contract
+- Cross-check all screen wireframes in the contract
+- Confirm every required PRD screen has `default`, `loading`, and `error` coverage in the wireframe set
+- Note extra states such as `empty`, `hover`, or `focused` when present
 
 Pass criteria:
-- Every required screen has default + loading + error coverage.
+- Every PRD screen has wireframes covering `default`, `loading`, and `error`
 
 ### T3. Component Mapping Completeness
-Checks:
-- Read `component-map.json`.
-- For each component entry, search all wireframe files for the mapped component name / selector.
-- Identify any selectors declared in the component map that never appear in wireframes.
+Expected checks:
+- Parse `component-map.json`
+- For every mapped component identifier, verify at least one wireframe references that component name
 
 Pass criteria:
-- 100% of component-map entries appear in at least one wireframe.
+- 100% of component map entries appear in at least one wireframe
 
 ### T4. User Flow Continuity
-Checks:
-- Read all ASCII user-flow files.
-- Extract node identifiers and arrow usage.
-- Verify arrows connect existing nodes and flag dangling connectors.
-- Verify each flow contains at least one terminal state.
+Expected checks:
+- Parse all ASCII user flow diagrams
+- Extract nodes and arrows
+- Verify no dangling connections
+- Verify each flow includes at least one terminal state
 
 Pass criteria:
-- All flows are connected and contain at least one terminal node.
-- No dangling arrows remain unresolved.
+- All flows are connected and include a terminal state
 
 ### T5. Storyboard Trajectory Validation
-Checks:
-- Parse `storyboards.json` as JSON.
-- Verify root is an array of trajectories.
-- Verify each trajectory has `storyboard_id` and `trajectory_plan` with at least 2 steps.
-- Verify each step has numeric `step`, string `state`, and `action` or `assertion`.
-- Verify each `target` uses the `ds:` prefix pattern.
+Expected checks:
+- Parse `storyboards.json`
+- Confirm top-level structure is an array
+- Each trajectory contains `storyboard_id`
+- Each `trajectory_plan` has at least 2 steps
+- Each step includes `step`, `state`, and either `action` or `assertion`
+- Every `target` field uses the `ds:` prefix pattern
 
 Pass criteria:
-- JSON parses successfully and all trajectories satisfy schema expectations.
+- JSON parses and all trajectories satisfy schema and target conventions
 
 ### T6. Layout Rules Cross-Check
-Checks:
-- Parse `layout-rules.json` as JSON.
-- Cross-check viewport coverage against `contract.yaml`.
-- Cross-check breakpoint values against PRD specs: desktop >= 1024 / canonical 1440, tablet 768-1023 / canonical 1024, mobile < 768 / canonical 390.
-- Verify `contract.yaml` itself is structurally valid enough to support the viewport cross-check.
+Expected checks:
+- Parse `layout-rules.json`
+- Confirm every viewport in `contract.yaml` has matching layout rules
+- Confirm breakpoint values match the PRD or contract-declared specifications
 
 Pass criteria:
-- Layout rules parse successfully.
-- All required viewports are covered.
-- Breakpoint values match PRD specs.
-- `contract.yaml` is syntactically valid for reliable cross-checking.
+- Layout rules are valid JSON, all declared viewports are covered, and breakpoint values align with specifications

@@ -58,7 +58,8 @@
 │   ├── offline-banner
 │   ├── cached-queue-item
 │   └── read-only-copy
-├── approval.action.disabled
-│   ├── approve-disabled
-│   └── reject-disabled
+├── approval.action.approve [data-ds-id="approval.action.approve"]
+│   └── disabled-state
+├── approval.action.reject [data-ds-id="approval.action.reject"]
+│   └── disabled-state
 └── shell.footer [data-ds-id="workspace.shell.footer"]

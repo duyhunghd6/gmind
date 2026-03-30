@@ -1,38 +1,38 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 3,
-  "score": 88,
+  "score": 81,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
     "prd_coverage": {
-      "score": 20,
+      "score": 19,
       "max": 20,
-      "tool_evidence": "ls found 24 wideframes covering 8 route screens across desktop/tablet/mobile, and PRD route/screen evidence names the same 8 required screens: dashboard, board, approval, document viewer, trace explorer, task detail, search results, and task list"
+      "tool_evidence": "ls found 24 wideframes covering 8 route screens across desktop/tablet/mobile, and PRD route/journey evidence confirms dashboard, board, approval, docs, trace, task detail, search, and task list are represented"
     },
     "component_traceability": {
-      "score": 20,
+      "score": 14,
       "max": 20,
-      "tool_evidence": "grep found 597 data-ds-id occurrences across 48 wireframe files; component-map.json iteration 3 maps 3 user-flow files with 21 unique blocks and 38 unique selectors, including shared shell, dashboard, docs, trace, task detail, and approval surfaces"
+      "tool_evidence": "grep found 272 data-ds-id occurrences across 24 wideframes and component-map.json now indexes 62 selectors, but end-to-end traceability is still incomplete because board wireframe selectors such as board.header.view-switcher, board.card.task, board.pi.sandbox, board.pi.roam, board.pi.confidence-vote, board.rte.drawer, and board.state.* are absent from component-map.json selector_index"
     },
     "storyboard_completeness": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "storyboards.json is valid and contains 21 trajectories; PRD journey evidence spans dashboard, board, approval, docs, trace, task detail, search, task list, and navigation flows with matching route coverage"
+      "tool_evidence": "storyboards.json contains 21 storyboard trajectories, matching the 21 PRD Journey entries surfaced across sections 3, 4, 6, 7, 8, 9, 10, 11, 12, and 13"
     },
     "layout_compilability": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "layout-rules.json parsed successfully and defines desktop/tablet/mobile viewports, global shell rules, shared responsive rules, and complete screen rules for all 8 required screens"
+      "tool_evidence": "layout-rules.json is valid JSON and defines global shell plus desktop/tablet/mobile layout rules for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list"
     },
     "conflict_resolution": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "prd-ds-conflicts.md documents 2 active conflicts and provides explicit resolution direction for both, plus a normalized create-plan interaction decision; sampled wireframes now use skeletons and pending-bar save language instead of spinner-first wording"
+      "tool_evidence": "prd-ds-conflicts.md lists 2 active conflicts and each includes PRD evidence, DS evidence, and explicit resolution direction; it also records the normalized create-plan interaction decision as resolved"
     },
     "wireframe_articulation": {
       "score": 3,
       "max": 15,
-      "tool_evidence": "sampled wideframes and tree wireframes show multi-level nesting, selector annotations, and state coverage, but the mandatory mechanical flow check still returned arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max"
+      "tool_evidence": "sampled wideframes show strong articulation with multi-state coverage, clear trace maps, nested regions, inline labels, and action annotations, but mandatory flow connectivity check still reports arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20%"
     }
   },
   "format_checks": {
@@ -44,11 +44,18 @@
       "priority": "P0",
       "pillar": "wireframe_articulation",
       "responsible_generator": "gen_flows",
-      "detail": "Repair user-flow ASCII formatting so the mandatory arrow-count check detects connected transitions; all three files still returned arrows=0 in the required mechanical check"
+      "detail": "Repair all 3 ASCII user flows so mechanical arrow detection passes; current format check still reports arrows=0 for j1-dashboard-gap-resolution.ascii.md, j2-docs-empty-to-trace.ascii.md, and j3-approval-comment-and-recovery.ascii.md"
+    },
+    {
+      "priority": "P1",
+      "pillar": "component_traceability",
+      "responsible_generator": "gen_flows",
+      "detail": "Expand component-map.json selector_index to cover the board route selectors already used in wireframes and storyboards, including board.header.view-switcher, board.kanban.columns, board.card.task, board.pi.sandbox, board.pi.roam, board.pi.confidence-vote, board.rte.drawer, board.state.loading-skeleton, board.state.error, board.state.retry, board.state.empty, and board.state.empty-cta"
     }
   ],
   "baseline_regression": false,
   "issues": [
-    "FLOW_NOT_CONNECTED"
+    "FLOW_NOT_CONNECTED",
+    "component-map.json still omits board selector coverage required for full contract-to-wireframe traceability"
   ]
 }

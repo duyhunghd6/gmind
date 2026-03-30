@@ -1,194 +1,582 @@
 {
   "feature": "prd-04-webui-and-pm-workspace",
   "generated_by": "gen_flows",
-  "iteration": 3,
-  "flow_files": [
-    {
-      "file": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md",
-      "journey": "dashboard-gap-resolution",
-      "blocks": {
-        "Dashboard Home": [
-          "workspace.shell.header",
-          "workspace.shell.search",
-          "workspace.shell.sidebar",
-          "workspace.shell.connection-status",
-          "workspace.shell.footer",
-          "dashboard.kpi.row",
-          "dashboard.panel.coverage",
-          "dashboard.panel.progress",
-          "dashboard.panel.graph",
-          "dashboard.panel.gaps"
-        ],
-        "Coverage Drill-down": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "dashboard.panel.coverage",
-          "dashboard.panel.gaps"
-        ],
-        "Task Detail": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "task-detail.header.summary",
-          "task-detail.field.status",
-          "task-detail.tab.detail",
-          "task-detail.tab.activity",
-          "task-detail.tab.graph",
-          "task-detail.rte.context"
-        ],
-        "Trace Explorer": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "trace.toolbar.root",
-          "trace.canvas.graph",
-          "trace.canvas.legend",
-          "trace.panel.node-detail",
-          "trace.panel.connected-nodes",
-          "trace.action.impact"
-        ],
-        "Create Plan Side Panel": [
-          "workspace.shell.header",
-          "dashboard.panel.gaps",
-          "dashboard.modal.create-plan"
-        ],
-        "Create Plan Validation": [
-          "workspace.shell.header",
-          "dashboard.modal.create-plan"
-        ],
-        "Dashboard Reloaded": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "dashboard.kpi.row",
-          "dashboard.panel.gaps"
-        ],
-        "Dashboard Error": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "dashboard.state.error",
-          "dashboard.state.retry"
-        ]
-      }
-    },
-    {
-      "file": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md",
-      "journey": "docs-empty-to-trace",
-      "blocks": {
-        "Workspace Shell": [
-          "workspace.shell.header",
-          "workspace.shell.search",
-          "workspace.shell.notifications",
-          "workspace.shell.sidebar",
-          "workspace.shell.connection-status",
-          "workspace.shell.footer"
-        ],
-        "Docs Empty State": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "docs.state.empty",
-          "docs.state.empty-cta"
-        ],
-        "Document Viewer": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "workspace.shell.footer",
-          "docs.tree.nav",
-          "docs.filter.source-type",
-          "docs.content.breadcrumb",
-          "docs.content.body",
-          "docs.content.beads-links",
-          "docs.content.coverage-indicator",
-          "docs.action.open-trace"
-        ],
-        "Trace Explorer Partial": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "trace.toolbar.root",
-          "trace.canvas.graph",
-          "trace.canvas.legend",
-          "trace.panel.node-detail",
-          "trace.panel.connected-nodes",
-          "trace.action.impact",
-          "trace.state.partial",
-          "trace.state.partial-badge"
-        ],
-        "Task Detail": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "task-detail.header.summary",
-          "task-detail.tab.detail",
-          "task-detail.tab.activity",
-          "task-detail.tab.graph",
-          "task-detail.tab.code"
-        ],
-        "Docs Error State": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "docs.state.error",
-          "docs.state.retry",
-          "docs.action.open-trace"
-        ]
-      }
-    },
-    {
-      "file": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md",
-      "journey": "approval-comment-and-recovery",
-      "blocks": {
-        "Task Detail": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "task-detail.header.summary",
-          "task-detail.tab.activity",
-          "task-detail.rte.context"
-        ],
-        "Approval Gates Queue": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "workspace.shell.connection-status",
-          "approval.queue.list",
-          "approval.panel.aggregate",
-          "approval.panel.context",
-          "approval.form.comment",
-          "approval.action.approve",
-          "approval.action.reject",
-          "approval.action.manual-override"
-        ],
-        "Approval Comment Required": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "approval.panel.aggregate",
-          "approval.form.comment",
-          "approval.action.approve"
-        ],
-        "Validation Error": [
-          "workspace.shell.header",
-          "approval.form.comment",
-          "approval.action.approve"
-        ],
-        "Approval Success": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "approval.queue.list",
-          "approval.panel.context"
-        ],
-        "Task Detail Refreshed": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "task-detail.header.summary",
-          "task-detail.tab.activity",
-          "task-detail.rte.context"
-        ],
-        "Approval Error State": [
-          "workspace.shell.header",
-          "workspace.shell.sidebar",
-          "approval.state.error",
-          "approval.action.manual-override"
-        ]
-      }
-    }
-  ],
-  "unique_block_count": 21,
-  "unique_selector_count": 38,
-  "notes": [
-    "Expanded mapping coverage includes shared shell surfaces, secondary action regions, and selector-rich detail panels across all journeys.",
-    "Every ASCII screen title used in the flow set maps to one or more contract selectors, including recovery and validation screens."
-  ]
+  "iteration": 6,
+  "mapping_type": "ascii-block-to-data-ds-id",
+  "screen_blocks": {
+    "Dashboard Home": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.sidebar",
+      "dashboard.kpi.row",
+      "dashboard.panel.coverage",
+      "dashboard.panel.progress",
+      "dashboard.panel.graph",
+      "dashboard.panel.gaps"
+    ],
+    "Coverage Drill-down": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "dashboard.panel.coverage",
+      "dashboard.panel.gaps"
+    ],
+    "Create Plan Side Panel": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "dashboard.surface.create-plan"
+    ],
+    "Create Plan Validation": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "dashboard.surface.create-plan"
+    ],
+    "Dashboard Reloaded": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "dashboard.kpi.row",
+      "dashboard.panel.gaps"
+    ],
+    "Dashboard Error": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "dashboard.state.error",
+      "dashboard.state.retry"
+    ],
+    "Task List": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "task-list.filter.row",
+      "task-list.action.csv-export",
+      "task-list.table.main",
+      "task-list.table.row",
+      "task-list.pagination.controls",
+      "task-list.bulk.actions"
+    ],
+    "Task Detail": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "task-detail.header.summary",
+      "task-detail.field.status",
+      "task-detail.tab.detail",
+      "task-detail.tab.activity",
+      "task-detail.tab.graph",
+      "task-detail.tab.code",
+      "task-detail.rte.context"
+    ],
+    "Task Detail Refreshed": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "task-detail.header.summary",
+      "task-detail.tab.activity",
+      "task-detail.rte.context"
+    ],
+    "Trace Explorer": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "trace.toolbar.root",
+      "trace.canvas.graph",
+      "trace.canvas.legend",
+      "trace.panel.node-detail",
+      "trace.panel.connected-nodes",
+      "trace.action.impact"
+    ],
+    "Workspace Shell": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.notifications",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "workspace.shell.footer"
+    ],
+    "Docs Empty State": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "docs.state.empty",
+      "docs.state.empty-cta"
+    ],
+    "Document Viewer": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "workspace.shell.footer",
+      "docs.tree.nav",
+      "docs.filter.source-type",
+      "docs.content.breadcrumb",
+      "docs.content.body",
+      "docs.content.beads-links",
+      "docs.content.coverage-indicator",
+      "docs.action.open-trace"
+    ],
+    "Trace Explorer Partial": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "trace.toolbar.root",
+      "trace.canvas.graph",
+      "trace.canvas.legend",
+      "trace.panel.node-detail",
+      "trace.panel.connected-nodes",
+      "trace.action.impact",
+      "trace.state.partial",
+      "trace.state.partial-badge"
+    ],
+    "Docs Error State": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "docs.state.error",
+      "docs.state.retry",
+      "docs.action.open-trace"
+    ],
+    "Terminal: Cached Doc Opened": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "docs.content.body"
+    ],
+    "Approval Gates Queue": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "approval.queue.list",
+      "approval.panel.aggregate",
+      "approval.panel.context",
+      "approval.form.comment",
+      "approval.action.approve",
+      "approval.action.reject",
+      "approval.action.manual-override"
+    ],
+    "Approval Comment Required": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "approval.panel.aggregate",
+      "approval.form.comment",
+      "approval.action.approve"
+    ],
+    "Validation Error": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "approval.form.comment",
+      "approval.action.approve"
+    ],
+    "Approval Success": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "approval.queue.list",
+      "approval.panel.context"
+    ],
+    "Approval Error State": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "approval.state.error",
+      "approval.action.manual-override"
+    ],
+    "Terminal: Support Escalation": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "dashboard.state.error"
+    ],
+    "Terminal: Support Requested": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "approval.state.error"
+    ],
+    "Terminal: Override Logged": [
+      "workspace.shell.header",
+      "workspace.shell.sidebar",
+      "approval.action.manual-override"
+    ],
+    "Search Results": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.notifications",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "workspace.shell.footer",
+      "search.header.query",
+      "search.filter.panel",
+      "search.results.group",
+      "search.results.card",
+      "search.state.loading-skeleton",
+      "search.state.error",
+      "search.state.retry",
+      "search.state.empty",
+      "search.state.empty-suggestions"
+    ],
+    "Board Default": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.notifications",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "workspace.shell.footer",
+      "board.header.view-switcher",
+      "board.kanban.columns",
+      "board.card.task",
+      "board.pi.sandbox",
+      "board.pi.roam",
+      "board.pi.confidence-vote",
+      "board.rte.drawer"
+    ],
+    "Board Loading": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.notifications",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "workspace.shell.footer",
+      "board.state.loading-skeleton"
+    ],
+    "Board Error": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.notifications",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "workspace.shell.footer",
+      "board.state.error",
+      "board.state.retry"
+    ],
+    "Board Empty": [
+      "workspace.shell.header",
+      "workspace.shell.search",
+      "workspace.shell.notifications",
+      "workspace.shell.sidebar",
+      "workspace.shell.connection-status",
+      "workspace.shell.footer",
+      "board.state.empty",
+      "board.state.empty-cta"
+    ]
+  },
+  "selector_index": {
+    "approval.action.approve": [
+      "Approval Gates Queue",
+      "Approval Comment Required",
+      "Validation Error"
+    ],
+    "approval.action.manual-override": [
+      "Approval Gates Queue",
+      "Approval Error State",
+      "Terminal: Override Logged"
+    ],
+    "approval.action.reject": [
+      "Approval Gates Queue"
+    ],
+    "approval.form.comment": [
+      "Approval Gates Queue",
+      "Approval Comment Required",
+      "Validation Error"
+    ],
+    "approval.panel.aggregate": [
+      "Approval Gates Queue",
+      "Approval Comment Required"
+    ],
+    "approval.panel.context": [
+      "Approval Gates Queue",
+      "Approval Success"
+    ],
+    "approval.queue.list": [
+      "Approval Gates Queue",
+      "Approval Success"
+    ],
+    "approval.state.error": [
+      "Approval Error State",
+      "Terminal: Support Requested"
+    ],
+    "board.card.task": [
+      "Board Default"
+    ],
+    "board.header.view-switcher": [
+      "Board Default"
+    ],
+    "board.kanban.columns": [
+      "Board Default"
+    ],
+    "board.pi.confidence-vote": [
+      "Board Default"
+    ],
+    "board.pi.roam": [
+      "Board Default"
+    ],
+    "board.pi.sandbox": [
+      "Board Default"
+    ],
+    "board.rte.drawer": [
+      "Board Default"
+    ],
+    "board.state.empty": [
+      "Board Empty"
+    ],
+    "board.state.empty-cta": [
+      "Board Empty"
+    ],
+    "board.state.error": [
+      "Board Error"
+    ],
+    "board.state.loading-skeleton": [
+      "Board Loading"
+    ],
+    "board.state.retry": [
+      "Board Error"
+    ],
+    "dashboard.kpi.row": [
+      "Dashboard Home",
+      "Dashboard Reloaded"
+    ],
+    "dashboard.panel.coverage": [
+      "Dashboard Home",
+      "Coverage Drill-down"
+    ],
+    "dashboard.panel.gaps": [
+      "Dashboard Home",
+      "Coverage Drill-down",
+      "Dashboard Reloaded"
+    ],
+    "dashboard.panel.graph": [
+      "Dashboard Home"
+    ],
+    "dashboard.panel.progress": [
+      "Dashboard Home"
+    ],
+    "dashboard.state.error": [
+      "Dashboard Error",
+      "Terminal: Support Escalation"
+    ],
+    "dashboard.state.retry": [
+      "Dashboard Error"
+    ],
+    "dashboard.surface.create-plan": [
+      "Create Plan Side Panel",
+      "Create Plan Validation"
+    ],
+    "docs.action.open-trace": [
+      "Document Viewer",
+      "Docs Error State"
+    ],
+    "docs.content.beads-links": [
+      "Document Viewer"
+    ],
+    "docs.content.body": [
+      "Document Viewer",
+      "Terminal: Cached Doc Opened"
+    ],
+    "docs.content.breadcrumb": [
+      "Document Viewer"
+    ],
+    "docs.content.coverage-indicator": [
+      "Document Viewer"
+    ],
+    "docs.filter.source-type": [
+      "Document Viewer"
+    ],
+    "docs.state.empty": [
+      "Docs Empty State"
+    ],
+    "docs.state.empty-cta": [
+      "Docs Empty State"
+    ],
+    "docs.state.error": [
+      "Docs Error State"
+    ],
+    "docs.state.retry": [
+      "Docs Error State"
+    ],
+    "docs.tree.nav": [
+      "Document Viewer"
+    ],
+    "search.filter.panel": [
+      "Search Results"
+    ],
+    "search.header.query": [
+      "Search Results"
+    ],
+    "search.results.card": [
+      "Search Results"
+    ],
+    "search.results.group": [
+      "Search Results"
+    ],
+    "search.state.empty": [
+      "Search Results"
+    ],
+    "search.state.empty-suggestions": [
+      "Search Results"
+    ],
+    "search.state.error": [
+      "Search Results"
+    ],
+    "search.state.loading-skeleton": [
+      "Search Results"
+    ],
+    "search.state.retry": [
+      "Search Results"
+    ],
+    "task-detail.field.status": [
+      "Task Detail"
+    ],
+    "task-detail.header.summary": [
+      "Task Detail",
+      "Task Detail Refreshed"
+    ],
+    "task-detail.rte.context": [
+      "Task Detail",
+      "Task Detail Refreshed"
+    ],
+    "task-detail.tab.activity": [
+      "Task Detail",
+      "Task Detail Refreshed"
+    ],
+    "task-detail.tab.code": [
+      "Task Detail"
+    ],
+    "task-detail.tab.detail": [
+      "Task Detail"
+    ],
+    "task-detail.tab.graph": [
+      "Task Detail"
+    ],
+    "task-list.action.csv-export": [
+      "Task List"
+    ],
+    "task-list.bulk.actions": [
+      "Task List"
+    ],
+    "task-list.filter.row": [
+      "Task List"
+    ],
+    "task-list.pagination.controls": [
+      "Task List"
+    ],
+    "task-list.table.main": [
+      "Task List"
+    ],
+    "task-list.table.row": [
+      "Task List"
+    ],
+    "trace.action.impact": [
+      "Trace Explorer",
+      "Trace Explorer Partial"
+    ],
+    "trace.canvas.graph": [
+      "Trace Explorer",
+      "Trace Explorer Partial"
+    ],
+    "trace.canvas.legend": [
+      "Trace Explorer",
+      "Trace Explorer Partial"
+    ],
+    "trace.panel.connected-nodes": [
+      "Trace Explorer",
+      "Trace Explorer Partial"
+    ],
+    "trace.panel.node-detail": [
+      "Trace Explorer",
+      "Trace Explorer Partial"
+    ],
+    "trace.state.partial": [
+      "Trace Explorer Partial"
+    ],
+    "trace.state.partial-badge": [
+      "Trace Explorer Partial"
+    ],
+    "trace.toolbar.root": [
+      "Trace Explorer",
+      "Trace Explorer Partial"
+    ],
+    "workspace.shell.connection-status": [
+      "Workspace Shell",
+      "Approval Gates Queue",
+      "Search Results",
+      "Board Default",
+      "Board Loading",
+      "Board Error",
+      "Board Empty"
+    ],
+    "workspace.shell.footer": [
+      "Workspace Shell",
+      "Document Viewer",
+      "Search Results",
+      "Board Default",
+      "Board Loading",
+      "Board Error",
+      "Board Empty"
+    ],
+    "workspace.shell.header": [
+      "Dashboard Home",
+      "Coverage Drill-down",
+      "Create Plan Side Panel",
+      "Create Plan Validation",
+      "Dashboard Reloaded",
+      "Dashboard Error",
+      "Task List",
+      "Task Detail",
+      "Task Detail Refreshed",
+      "Trace Explorer",
+      "Workspace Shell",
+      "Docs Empty State",
+      "Document Viewer",
+      "Trace Explorer Partial",
+      "Docs Error State",
+      "Terminal: Cached Doc Opened",
+      "Approval Gates Queue",
+      "Approval Comment Required",
+      "Validation Error",
+      "Approval Success",
+      "Approval Error State",
+      "Terminal: Support Escalation",
+      "Terminal: Support Requested",
+      "Terminal: Override Logged",
+      "Search Results",
+      "Board Default",
+      "Board Loading",
+      "Board Error",
+      "Board Empty"
+    ],
+    "workspace.shell.notifications": [
+      "Workspace Shell",
+      "Search Results",
+      "Board Default",
+      "Board Loading",
+      "Board Error",
+      "Board Empty"
+    ],
+    "workspace.shell.search": [
+      "Dashboard Home",
+      "Workspace Shell",
+      "Search Results",
+      "Board Default",
+      "Board Loading",
+      "Board Error",
+      "Board Empty"
+    ],
+    "workspace.shell.sidebar": [
+      "Dashboard Home",
+      "Coverage Drill-down",
+      "Create Plan Side Panel",
+      "Create Plan Validation",
+      "Dashboard Reloaded",
+      "Dashboard Error",
+      "Task List",
+      "Task Detail",
+      "Task Detail Refreshed",
+      "Trace Explorer",
+      "Workspace Shell",
+      "Docs Empty State",
+      "Document Viewer",
+      "Trace Explorer Partial",
+      "Docs Error State",
+      "Terminal: Cached Doc Opened",
+      "Approval Gates Queue",
+      "Approval Comment Required",
+      "Validation Error",
+      "Approval Success",
+      "Approval Error State",
+      "Terminal: Support Escalation",
+      "Terminal: Support Requested",
+      "Terminal: Override Logged",
+      "Search Results",
+      "Board Default",
+      "Board Loading",
+      "Board Error",
+      "Board Empty"
+    ]
+  },
+  "unique_block_count": 29,
+  "unique_selector_count": 82
 }

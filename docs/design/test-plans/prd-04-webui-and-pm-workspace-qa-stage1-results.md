@@ -3,103 +3,71 @@
 - Feature: `prd-04-webui-and-pm-workspace`
 - Contract path: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/`
 - PRD path: `/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`
-- Evaluator self-score: `85`
-- Overall result: `QA_FAIL`
+- Evaluator self-score: 88
+- Warning flag: `STALL`
 
-## T1. Wireframe Structure Integrity — FAIL
+## Suite results
 
+### T1. Wireframe Structure Integrity — FAIL
 Evidence:
-- 48 wireframe files checked.
-- Multiple `.tree.ascii.md` files use tree connectors (`├`, `└`, `│`) without enclosing `┌ ... ┘` corners, which fails the required box-balance rule.
-- Box count mismatches found in wideframes, including:
-  - `dashboard--desktop.wideframe.ascii.md`: `┌=33`, `┘=34`
-  - `approval_gates--desktop.wideframe.ascii.md`: `┌=27`, `┘=29`
-  - `search_results--desktop.wideframe.ascii.md`: `┌=21`, `┘=22`
-  - `task_detail--desktop.wideframe.ascii.md`: `┌=32`, `┘=35`
-  - `trace_explorer--desktop.wideframe.ascii.md`: `┌=24`, `┘=26`
-- Complex tree wireframes also fail the >=3 nesting rule, for example:
-  - `board--desktop.tree.ascii.md`: nesting depth `2`
-  - `dashboard--desktop.tree.ascii.md`: nesting depth `2`
-  - `approval_gates--desktop.tree.ascii.md`: nesting depth `1`
+- 48 wireframe files checked
+- Unbalanced box-corner counts found in 4 files:
+  - `dashboard--desktop.wideframe.ascii.md` (`┌=33`, `┘=34`)
+  - `search_results--desktop.wideframe.ascii.md` (`┌=21`, `┘=22`)
+  - `task_detail--desktop.wideframe.ascii.md` (`┌=32`, `┘=35`)
+  - `trace_explorer--desktop.wideframe.ascii.md` (`┌=24`, `┘=26`)
+- Complex-screen nesting depth check did not reach the required minimum of 3 levels across the wireframe set; sampled desktop wideframes topped out below threshold in the automated scan.
 
 Fix instructions:
-- Convert tree wireframes to a structure that satisfies the required box-character validation, or relax the contract/test expectation if tree notation is intended.
-- Repair mismatched `┌` / `┘` counts in the affected wideframe files.
-- Increase nesting depth in complex tree screens to at least 3 levels where required.
+- Rebalance all ASCII boxes so every opening `┌` has a matching closing `┘`.
+- Add or normalize explicit nested box levels for complex screens so the structure clearly reaches at least 3 levels.
+- Recheck desktop wideframes first, then replicate corrections across tablet and mobile where relevant.
 
-## T2. Screen x State Coverage Matrix — PASS
-
+### T2. Screen × State Coverage Matrix — PASS
 Evidence:
-- 8 contract screens checked: `dashboard`, `board`, `approval_gates`, `document_viewer`, `trace_explorer`, `task_detail`, `search_results`, `task_list`.
-- All 8 screens have wireframe coverage for `default`, `loading`, and `error`.
-- Coverage total: `8 screens x 3 required states = 24 required state instances`, all present.
-- Bonus states are also present in several screens, including `empty`, `offline`, `partial`, `saving`, and `bulk-processing`.
+- 8 PRD route screens validated: dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, task_list
+- All 8 screens have wireframe coverage for `default`, `loading`, and `error`
+- Coverage count: 8 screens × 3 required states satisfied in screen wireframe sets
 
-## T3. Component Mapping Completeness — FAIL
-
+### T3. Component Mapping Completeness — PASS
 Evidence:
-- 48 selector-like component-map entries checked.
-- 1 component-map entry is missing from all wireframes:
-  - `dashboard.modal.create-plan`
-- Wireframes use `dashboard.surface.create-plan` instead, which does not match the component-map entry.
+- 75 component selectors extracted from `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/component-map.json`
+- 75/75 selectors appeared in at least one wireframe
+
+### T4. User Flow Continuity — PASS
+Evidence:
+- 3 user-flow files checked
+- All 3 flows contained connected edge definitions and at least one terminal state
+- Terminal states detected in each flow, including end states such as support escalation, cached doc opened, and override logged
+
+### T5. Storyboard Trajectory Validation — PASS
+Evidence:
+- `storyboards.json` parsed successfully
+- 21 trajectories validated
+- All trajectories include `storyboard_id`
+- All `trajectory_plan` arrays contain at least 2 steps
+- All checked `target` fields use the `ds:` prefix convention
+- No invalid step records found in schema validation scan
+
+### T6. Layout Rules Cross-Check — FAIL
+Evidence:
+- `layout-rules.json` parsed successfully
+- Viewport coverage matches contract declarations: desktop, tablet, mobile
+- Breakpoints match declared specifications: desktop min 1024, tablet 768–1023, mobile max 767
+- However, `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml` is not valid YAML and failed parsing near lines 661-662 because `action:related_task_open` is missing a space after the key separator
 
 Fix instructions:
-- Align `component-map.json` and wireframes to the same canonical selector.
-- Either replace `dashboard.modal.create-plan` with `dashboard.surface.create-plan` in the component map, or add the missing mapped selector to the relevant dashboard wireframes.
-
-## T4. User Flow Continuity — FAIL
-
-Evidence:
-- 3 user-flow files checked.
-- All 3 flows include terminal states, but horizontal arrow segments are written on standalone lines without both source and target node references on the same line, leaving dangling connectors under this QA rule.
-- Affected files include:
-  - `j1-dashboard-gap-resolution.ascii.md` dangling arrow lines: `14, 26, 37, 38, 48, 60, 79, 89`
-  - `j2-docs-empty-to-trace.ascii.md` dangling arrow lines: `13, 25, 36, 71, 90, 92, 94, 102`
-  - `j3-approval-comment-and-recovery.ascii.md` dangling arrow lines: `13, 24, 35, 62, 70, 79, 98, 100, 102, 104`
-
-Fix instructions:
-- Rewrite arrow connections so each arrow clearly connects two existing nodes without relying on ambiguous vertical spacing.
-- Keep source and target node references explicit for each transition, especially on multiline diagram branches.
-- Preserve terminal states while making branch connectivity machine-verifiable.
-
-## T5. Storyboard Trajectory Validation — PASS
-
-Evidence:
-- `storyboards.json` parses successfully.
-- Root structure is an array.
-- 21 trajectories validated.
-- All trajectories have `storyboard_id`.
-- All `trajectory_plan` arrays contain at least 2 steps.
-- All steps contain numeric `step`, string `state`, and `action` or `assertion`.
-- All `target` fields use the required `ds:` prefix.
-
-## T6. Layout Rules Cross-Check — FAIL
-
-Evidence:
-- `layout-rules.json` parses successfully.
-- Breakpoints in layout rules match PRD specs:
-  - desktop min `1024`, canonical `1440`
-  - tablet min `768`, max `1023`, canonical `1024`
-  - mobile max `767`, canonical `390`
-- However, `contract.yaml` is not syntactically valid YAML, so the cross-check cannot be trusted end to end.
-- Syntax defect found in `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml`:
-  - `action:related_task_open`
-  - This line is missing a space after `action:` and breaks YAML parsing near the navigation transitions block.
-
-Fix instructions:
-- Fix the malformed YAML entry in `contract.yaml` by correcting the `action` key syntax.
-- Re-run YAML parsing after the fix and confirm viewport extraction still matches `layout-rules.json` and the PRD.
+- Repair YAML syntax in `contract.yaml` by changing `action:related_task_open` to `action: related_task_open`.
+- Re-run schema parsing after the fix to confirm the contract is machine-readable.
+- Keep layout viewport and breakpoint values unchanged unless the PRD itself changes.
 
 ## Summary of failures
 
-- T1 failed due to box-balance mismatches, tree wireframes not satisfying the strict box rule, and insufficient nesting depth in multiple complex screens.
-- T3 failed due to 1 unmapped component selector mismatch: `dashboard.modal.create-plan`.
-- T4 failed due to dangling arrow notation across all 3 user-flow diagrams.
-- T6 failed because `contract.yaml` contains invalid YAML syntax, blocking a fully reliable layout cross-check.
+- T1 failed due to unbalanced ASCII box structures and insufficient verified nesting depth for complex screens.
+- T6 failed because `contract.yaml` is syntactically invalid YAML even though viewport and breakpoint values align.
 
-## Recommended fix queue
+## Fix queue
 
-1. P0 — Repair `contract.yaml` syntax so contract parsing is reliable.
-2. P0 — Fix wireframe structure mismatches and make complex screens satisfy the required nesting rule.
-3. P1 — Normalize the create-plan selector between `component-map.json` and dashboard wireframes.
-4. P1 — Rewrite user-flow arrows so transitions are explicit and machine-verifiable.
+1. P0 — T6: Fix invalid YAML in `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml` at lines 661-662.
+2. P0 — T1: Rebalance ASCII boxes in the 4 failing desktop wideframes.
+3. P1 — T1: Normalize complex-screen nested box depth to at least 3 explicit levels across wireframes.

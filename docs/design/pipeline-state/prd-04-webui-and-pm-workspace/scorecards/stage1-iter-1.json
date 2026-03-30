@@ -1,64 +1,67 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 1,
-  "score": 75,
+  "score": 74,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
     "prd_coverage": {
       "score": 18,
       "max": 20,
-      "tool_evidence": "ls found 24 wideframes covering 8 core screens across desktop/tablet/mobile; PRD grep confirms dashboard, board, task_list, task_detail, trace_explorer, document_viewer, approval_gates, and search_results are all required"
+      "tool_evidence": "ls found 24 wireframes for 8 named route screens across desktop/tablet/mobile; PRD grep confirms required screens for dashboard, board, approval, docs, trace, task detail, search, and task list"
     },
     "component_traceability": {
-      "score": 4,
+      "score": 8,
       "max": 20,
-      "tool_evidence": "grep found 0 data-ds-id occurrences across wireframes, while component-map.json enumerates 21 mapped flow blocks"
+      "tool_evidence": "grep found 247 data-ds-id occurrences across 24 wideframes, but component-map.json is not a selector-to-component map and instead contains flow_files/blocks metadata, so traceability cannot be verified end-to-end"
     },
     "storyboard_completeness": {
-      "score": 11,
+      "score": 15,
       "max": 15,
-      "tool_evidence": "storyboards.json contains 16 trajectories versus 21 PRD journey entries"
+      "tool_evidence": "storyboards.json contains 21 storyboard trajectories, matching the 21 PRD Journey entries found by PRD grep"
     },
     "layout_compilability": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "layout-rules.json is valid JSON and defines global shell plus screen rules for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list across desktop/tablet/mobile"
+      "tool_evidence": "layout-rules.json is valid JSON and defines global shell plus per-screen desktop/tablet/mobile rules for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list"
     },
     "conflict_resolution": {
-      "score": 12,
-      "max": 15,
-      "tool_evidence": "prd-ds-conflicts.md lists 3 conflicts with resolution direction for each, but modal handling remains partly exception-based rather than fully normalized"
-    },
-    "wireframe_articulation": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "24 wideframes passed box-grid format checks (every file box>tree); sampled wireframes include multiple states and dense annotations, with avg 47.21 annotation markers per wideframe and connected flows showing 15-18 arrows each"
+      "tool_evidence": "prd-ds-conflicts.md lists 2 active conflicts and each includes PRD evidence, DS evidence, and explicit resolution direction; it also records 1 normalized create-plan decision"
+    },
+    "wireframe_articulation": {
+      "score": 3,
+      "max": 15,
+      "tool_evidence": "sampled wideframes are annotation-rich and multi-state, but mandatory flow connectivity check returned arrows=0 for all 3 user-flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20%"
     }
   },
   "format_checks": {
     "wideframe_regression": false,
-    "flow_connected": true
+    "flow_connected": false
   },
   "fix_queue": [
     {
       "priority": "P0",
+      "pillar": "wireframe_articulation",
+      "responsible_generator": "gen_flows",
+      "detail": "Repair all 3 ASCII user flows so mechanical arrow detection passes; current format check reports arrows=0 for j1-dashboard-gap-resolution.ascii.md, j2-docs-empty-to-trace.ascii.md, and j3-approval-comment-and-recovery.ascii.md"
+    },
+    {
+      "priority": "P0",
+      "pillar": "component_traceability",
+      "responsible_generator": "gen_flows",
+      "detail": "Replace the current component-map.json payload with an actual component traceability map; the file currently contains flow_files and blocks metadata instead of selector/component mappings"
+    },
+    {
+      "priority": "P1",
       "pillar": "component_traceability",
       "responsible_generator": "gen_wireframes",
-      "detail": "Add explicit data-ds-id tags to wireframe elements; current grep result is 0 matches across all wideframes, so component-map selectors cannot be traced back to rendered contract surfaces"
-    },
-    {
-      "priority": "P1",
-      "pillar": "storyboard_completeness",
-      "responsible_generator": "gen_contracts",
-      "detail": "Cover the 5 missing PRD journeys; PRD grep shows 21 Journey entries while storyboards.json defines only 16 trajectories"
-    },
-    {
-      "priority": "P1",
-      "pillar": "conflict_resolution",
-      "responsible_generator": "gen_flows",
-      "detail": "Resolve the dashboard Create Plan interaction definitively; conflict report still leaves modal behavior as an evaluator exception instead of a normalized contract decision"
+      "detail": "Keep wireframe selector tags aligned with the repaired component map; sampled wideframes include data-ds-id markers, but end-to-end verification is blocked until component-map.json uses the expected mapping schema"
     }
   ],
   "baseline_regression": false,
-  "issues": []
+  "issues": [
+    "FLOW_NOT_CONNECTED",
+    "component-map.json schema does not support selector-to-component verification"
+  ]
 }
