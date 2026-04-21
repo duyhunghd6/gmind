@@ -2,16 +2,16 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"github.com/spf13/cobra"
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/rtm"
+	"github.com/spf13/cobra"
+	"os"
 )
 
 var coverageCmd = &cobra.Command{
-	Use:   "coverage [prd|plan|full]",
-	Short: "Generate Requirements Traceability Matrix coverage report",
+	Use:       "coverage [prd|plan|full]",
+	Short:     "Generate Requirements Traceability Matrix coverage report",
 	ValidArgs: []string{"prd", "plan", "full"},
-	Args:  cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),
+	Args:      cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),
 	Run: func(cmd *cobra.Command, args []string) {
 		mode := args[0]
 		sm := &rtm.SyncManager{}

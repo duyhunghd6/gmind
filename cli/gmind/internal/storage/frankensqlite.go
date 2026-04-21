@@ -28,7 +28,7 @@ type Issue struct {
 func NewSQLiteDB(dsn string) (*SQLiteDB, error) {
 	// Use URI for better control
 	uri := fmt.Sprintf("file:%s?mode=ro&cache=shared", dsn)
-	
+
 	// Open without Connect (Connect pings, which might fail if malformed)
 	db, err := sqlx.Open("sqlite3", uri)
 	if err != nil {

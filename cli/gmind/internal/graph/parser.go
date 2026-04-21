@@ -80,7 +80,7 @@ func (p *Parser) ParseFile(path string) ([]*Node, error) {
 	match := reYAML.FindStringSubmatch(fullContent)
 	if len(match) > 1 {
 		yamlContent := match[1]
-		
+
 		// Try PRD format
 		var prd PRDFrontMatter
 		if err := yaml.Unmarshal([]byte(yamlContent), &prd); err == nil && prd.BeadsID != "" && len(prd.Sections) > 0 {

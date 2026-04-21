@@ -1,9 +1,9 @@
 ---
 beads-id: br-plan-01
-title: "Plan: Setup Storage Layer"
+title: 'Plan: Setup Storage Layer'
 satisfies:
-  - br-prd02-s1
-status: in-progress
+    - br-prd02-s1
+status: closed
 ---
 
 # Plan: Setup Storage Layer

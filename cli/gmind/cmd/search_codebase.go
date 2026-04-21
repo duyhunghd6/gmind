@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/fastcode"
+	"github.com/spf13/cobra"
 )
 
 var searchCodebaseCmd = &cobra.Command{

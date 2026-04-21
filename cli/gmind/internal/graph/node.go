@@ -3,9 +3,9 @@ package graph
 type NodeType string
 
 const (
-	NodePRD  NodeType = "PRD"
-	NodePlan NodeType = "Plan"
-	NodeTask NodeType = "Task"
+	NodePRD    NodeType = "PRD"
+	NodePlan   NodeType = "Plan"
+	NodeTask   NodeType = "Task"
 	NodeCommit NodeType = "Commit"
 )
 

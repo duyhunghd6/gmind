@@ -2,8 +2,8 @@ package graph
 
 import (
 	"fmt"
-	"github.com/duyhunghd6/gmind/cli/gmind/internal/storage"
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/external"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/storage"
 )
 
 // Assembler dynamically builds the graph matrix.

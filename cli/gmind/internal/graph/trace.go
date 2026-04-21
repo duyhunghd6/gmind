@@ -5,98 +5,62 @@ import (
 	"strings"
 )
 
+type TraceNode struct {
+	ID       string      `json:"id"`
+	Title    string      `json:"title"`
+	Type     string      `json:"type"`
+	Status   string      `json:"status"`
+	Children []TraceNode `json:"children,omitempty"`
+	Parents  []TraceNode `json:"parents,omitempty"`
+}
+
+func (a *Assembler) TraceData(beadsID string, reverse bool, includeGitHub bool) (*TraceNode, error) {
+	nodeMap, err := a.BuildGraph(includeGitHub)
+	if err != nil {
+		return nil, err
+	}
+
+	startNode, ok := nodeMap[beadsID]
+	if !ok {
+		return nil, fmt.Errorf("node %s not found in graph", beadsID)
+	}
+
+	visited := make(map[string]bool)
+	return a.convertToTraceNode(startNode, reverse, visited), nil
+}
+
+func (a *Assembler) convertToTraceNode(n *Node, reverse bool, visited map[string]bool) TraceNode {
+	tn := TraceNode{
+		ID:     n.ID,
+		Title:  n.Title,
+		Type:   string(n.Type),
+		Status: n.Status,
+	}
+
+	if visited[n.ID] {
+		return tn
+	}
+	visited[n.ID] = true
+
+	if reverse {
+		for _, p := range n.Parents {
+			tn.Parents = append(tn.Parents, a.convertToTraceNode(p, reverse, visited))
+		}
+	} else {
+		for _, c := range n.Children {
+			tn.Children = append(tn.Children, a.convertToTraceNode(c, reverse, visited))
+		}
+	}
+
+	return tn
+}
+
 // Trace 3-tier linkage
 func (a *Assembler) Trace(beadsID string, reverse bool, includeGitHub bool) (string, error) {
-	// 1. Parse all documents
-	docNodes, err := a.Parser.ParseAll()
+	// 1. Build Graph
+	nodeMap, err := a.BuildGraph(includeGitHub)
 	if err != nil {
-		return "", fmt.Errorf("failed to parse documents: %w", err)
-	}
-
-	// 2. Get all tasks from Beads
-	issues, err := a.Sqlite.GetAllIssues()
-	if err != nil {
-		return "", fmt.Errorf("failed to get issues: %w", err)
-	}
-
-	// 3. Build Node Map and link Doc nodes
-	nodeMap := make(map[string]*Node)
-	for _, n := range docNodes {
-		nodeMap[n.ID] = n
-	}
-
-	for _, n := range docNodes {
-		for _, targetID := range n.RawSatisfies {
-			if target, ok := nodeMap[targetID]; ok {
-				n.Parents = append(n.Parents, target)
-				target.Children = append(target.Children, n)
-			}
-		}
-	}
-
-	for _, iss := range issues {
-		node := &Node{
-			ID:     iss.ID,
-			Title:  iss.Title,
-			Type:   NodeTask,
-			Status: iss.Status,
-		}
-		nodeMap[iss.ID] = node
-
-		// Link Task to Plan/PRD via labels
-		for _, label := range iss.Labels {
-			if strings.HasPrefix(label, "implements:") {
-				targetID := strings.TrimPrefix(label, "implements:")
-				if target, ok := nodeMap[targetID]; ok {
-					node.Parents = append(node.Parents, target)
-					target.Children = append(target.Children, node)
-				}
-			} else if strings.HasPrefix(label, "satisfies:") {
-				targetID := strings.TrimPrefix(label, "satisfies:")
-				if target, ok := nodeMap[targetID]; ok {
-					node.Parents = append(node.Parents, target)
-					target.Children = append(target.Children, node)
-				}
-			}
-		}
-	}
-
-	// 4. Link Commits and PRs for all nodes if requested
-	if includeGitHub && a.GitHub != nil {
-		for id, node := range nodeMap {
-			// Commits
-			commits, err := a.GitHub.GetCommitsByBeadsID(".", id)
-			if err == nil && commits != "" {
-				lines := strings.Split(commits, "\n")
-				for _, line := range lines {
-					if strings.HasPrefix(line, "commit ") {
-						hash := strings.TrimPrefix(line, "commit ")
-						commitID := hash[:7]
-						commitNode := &Node{
-							ID:   commitID,
-							Type: NodeCommit,
-						}
-						// Avoid duplicates
-						node.Children = append(node.Children, commitNode)
-						commitNode.Parents = append(commitNode.Parents, node)
-					}
-				}
-			}
-
-			// PRs
-			prs, err := a.GitHub.GetPRsByBeadsID(".", id)
-			if err == nil && prs != "" && prs != "[]\n" {
-				// PRs come as JSON
-				// Simplified: just add a note or parse basic info
-				// For now, let's just add a generic "PR" node if it's not empty
-				prNode := &Node{
-					ID:    "PRs",
-					Title: "Linked Pull Requests",
-					Type:  NodePlan, // Or a new type
-				}
-				node.Children = append(node.Children, prNode)
-			}
-		}
+		return "", err
 	}
 
 	// 5. Trace logic

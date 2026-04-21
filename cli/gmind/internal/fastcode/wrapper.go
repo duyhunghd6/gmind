@@ -59,7 +59,7 @@ func RunFastCodeSearch(query string, forceReindex bool, jsonOutput bool, debug b
 	queryCmd := exec.Command("fastcode", args...)
 	queryCmd.Stdout = os.Stdout
 	queryCmd.Stderr = os.Stderr
-	
+
 	err = queryCmd.Run()
 	if err != nil {
 		return fmt.Errorf("fastcode query failed: %w", err)

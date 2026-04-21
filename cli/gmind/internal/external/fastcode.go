@@ -26,7 +26,7 @@ func (fc *FastCode) Index(repoPath string, force bool) error {
 		args = append(args, "--force")
 	}
 	cmd := exec.Command(fc.BinaryPath, args...)
-	
+
 	// Delegate output
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
