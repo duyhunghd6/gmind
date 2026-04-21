@@ -33,8 +33,22 @@ func (a *Assembler) GetContext(beadsID string, depth int) (string, error) {
 	if a.Sqlite != nil {
 		issue, err := a.Sqlite.GetIssueDetails(beadsID)
 		if err == nil && issue != nil {
-			out += fmt.Sprintf("## Issue: %s\nTitle: %s\nStatus: %s\nPriority: %d\nDescription: %s\n\n",
+			out += fmt.Sprintf("## Issue: %s\nTitle: %s\nStatus: %s\nPriority: %d\nDescription: %s\n",
 				issue.ID, issue.Title, issue.Status, issue.Priority, issue.Description)
+
+			if issue.RTEStatus != "" {
+				out += fmt.Sprintf("RTE Status: %s\n", issue.RTEStatus)
+				if issue.RTERisk != "" {
+					out += fmt.Sprintf("RTE Risk: %s\n", issue.RTERisk)
+				}
+				if issue.RTEResolution != "" {
+					out += fmt.Sprintf("RTE Resolution: %s\n", issue.RTEResolution)
+				}
+				if issue.RTEApprovedBy != "" {
+					out += fmt.Sprintf("RTE Approved By: %s at %s\n", issue.RTEApprovedBy, issue.RTEApprovedAt)
+				}
+			}
+			out += "\n"
 		}
 	}
 

@@ -19,4 +19,7 @@ type Node struct {
 	RawSatisfies []string `json:"-"`
 	Children     []*Node  `json:"children,omitempty"`
 	Parents      []*Node  `json:"parents,omitempty"`
+	RTEStatus    string   `json:"rte_status,omitempty"`
+	RTERisk      string   `json:"rte_risk,omitempty"`
+	RTEResolution string   `json:"rte_resolution,omitempty"`
 }

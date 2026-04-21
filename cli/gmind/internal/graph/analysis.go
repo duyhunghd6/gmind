@@ -35,10 +35,13 @@ func (a *Assembler) BuildGraph(includeGitHub bool) (map[string]*Node, error) {
 
 	for _, iss := range issues {
 		node := &Node{
-			ID:     iss.ID,
-			Title:  iss.Title,
-			Type:   NodeTask,
-			Status: iss.Status,
+			ID:            iss.ID,
+			Title:         iss.Title,
+			Type:          NodeTask,
+			Status:        iss.Status,
+			RTEStatus:     iss.RTEStatus,
+			RTERisk:       iss.RTERisk,
+			RTEResolution: iss.RTEResolution,
 		}
 		nodeMap[iss.ID] = node
 

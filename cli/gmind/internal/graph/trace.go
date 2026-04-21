@@ -84,6 +84,10 @@ func (a *Assembler) renderTree(sb *strings.Builder, n *Node, level int, reverse 
 	}
 	sb.WriteString(fmt.Sprintf("%s%s %s: %s%s\n", indent, getIcon(n.Type), n.Type, n.ID, status))
 
+	if n.RTEStatus != "" {
+		sb.WriteString(fmt.Sprintf("%s  [RTE:%s] %s\n", indent, strings.ToUpper(n.RTEStatus), n.RTEResolution))
+	}
+
 	if reverse {
 		for _, p := range n.Parents {
 			a.renderTree(sb, p, level+1, reverse)
