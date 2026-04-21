@@ -33,3 +33,8 @@ Act as the QA / Reviewer Agent.
 
 ## Step 5: Version Control
 Ask Human in the loop to commit the changes to git (commit only, do not push).
+- **CRITICAL**: Suggest a highly detailed commit message for the human that can be used for future debugging. It MUST include:
+  - What was done in detail.
+  - The Beads ID and any related Universal IDs.
+  - Architecture decisions made during implementation.
+  - Any bugs encountered and the solution decisions.
