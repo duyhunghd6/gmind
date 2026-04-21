@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/fastcode"
 )
 
 var searchCodebaseCmd = &cobra.Command{
@@ -14,9 +15,12 @@ var searchCodebaseCmd = &cobra.Command{
 		query := args[0]
 		forceReindex, _ := cmd.Flags().GetBool("force-reindex")
 		jsonOutput, _ := cmd.Flags().GetBool("json")
+		debug, _ := cmd.Flags().GetBool("debug")
 
-		fmt.Printf("Searching codebase for: %s (forceReindex: %v, json: %v)\n", query, forceReindex, jsonOutput)
-		// TODO: Call internal/fastcode wrapper
+		err := fastcode.RunFastCodeSearch(query, forceReindex, jsonOutput, debug)
+		if err != nil {
+			fmt.Fprintf(cmd.ErrOrStderr(), "Error: %v\n", err)
+		}
 	},
 }
 
