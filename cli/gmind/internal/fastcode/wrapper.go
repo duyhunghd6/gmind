@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 // RunFastCodeSearch orchestrates the fastcode execution for the given query.
@@ -16,7 +17,11 @@ func RunFastCodeSearch(query string, forceReindex bool, jsonOutput bool, debug b
 
 	// 2. Check if cache exists or if forced reindex is requested
 	// Naive cache check based on spike: ~/.fastcode/cache/
-	cacheDir := os.ExpandEnv("$HOME/.fastcode/cache")
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return fmt.Errorf("failed to get user home directory: %w", err)
+	}
+	cacheDir := filepath.Join(homeDir, ".fastcode", "cache")
 	cacheExists := false
 	if _, err := os.Stat(cacheDir); err == nil {
 		cacheExists = true
