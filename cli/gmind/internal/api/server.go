@@ -21,7 +21,7 @@ func StartServer(port int) error {
 	mux := http.NewServeMux()
 
 	dbPath := filepath.Join(".beads", "beads.db")
-	sqlite, err := storage.NewSQLiteDB(dbPath)
+	sqlite, err := storage.NewSQLiteDB(dbPath, true)
 	if err != nil {
 		return fmt.Errorf("failed to open database: %w", err)
 	}

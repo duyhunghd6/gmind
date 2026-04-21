@@ -16,7 +16,7 @@ var impactCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		id := args[0]
 
-		sqlite, err := storage.NewSQLiteDB(".beads/beads.db")
+		sqlite, err := storage.NewSQLiteDB("", true)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
 			os.Exit(1)

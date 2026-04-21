@@ -21,7 +21,7 @@ var contextCmd = &cobra.Command{
 		jsonOutput, _ := cmd.Flags().GetBool("json")
 
 		// Initialize dependencies
-		sqlite, err := storage.NewSQLiteDB(".beads/beads.db")
+		sqlite, err := storage.NewSQLiteDB("", true)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
 			os.Exit(1)

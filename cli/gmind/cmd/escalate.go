@@ -2,6 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/storage"
+	"os"
+	"os/exec"
+
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +16,49 @@ var escalateCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		id := args[0]
 		risk, _ := cmd.Flags().GetString("risk")
-		fmt.Printf("Escalating %s. Risk: %s\n", id, risk)
+
+		// 1. Initialize SQLite in RW mode
+		sqlite, err := storage.NewSQLiteDB("", false)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
+			os.Exit(1)
+		}
+		defer sqlite.Close()
+
+		// 2. Ensure schema has RTE columns
+		if err := sqlite.InitSchema(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error initializing schema: %v\n", err)
+			os.Exit(1)
+		}
+
+		// 3. Verify issue exists
+		issue, err := sqlite.GetIssueDetails(id)
+		if err != nil || issue == nil {
+			fmt.Fprintf(os.Stderr, "Issue %s not found: %v\n", id, err)
+			os.Exit(1)
+		}
+
+		// 4. Update via 'bd' CLI (status and label)
+		fmt.Printf("Updating issue %s status to blocked and adding rte:escalated label...\n", id)
+		out, err := exec.Command("bd", "update", id, "--status", "blocked", "--add-label", "rte:escalated", "--json").CombinedOutput()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error updating via 'bd' CLI: %v\nOutput: %s\n", err, string(out))
+			os.Exit(1)
+		}
+
+		// 5. Update FrankenSQLite RTE metadata
+		fmt.Printf("Recording escalation metadata for %s...\n", id)
+		err = sqlite.UpdateIssueRTE(id, "escalated", risk, "", "", "")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error updating RTE metadata: %v\n", err)
+			os.Exit(1)
+		}
+
+		// 6. Notify via MCP Agent Mail (Simulation)
+		fmt.Printf("NOTIFY: Sending escalation alert to RTE Team for %s via MCP Agent Mail...\n", id)
+		fmt.Printf("RISK: %s\n", risk)
+
+		fmt.Printf("Escalated %s to RTE Team. Status: awaiting review.\n", id)
 	},
 }
 

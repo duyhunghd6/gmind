@@ -16,14 +16,19 @@ type SQLiteDB struct {
 }
 
 type Issue struct {
-	ID          string   `db:"id" json:"id"`
-	Title       string   `db:"title" json:"title"`
-	Description string   `db:"description" json:"description"`
-	Status      string   `db:"status" json:"status"`
-	Priority    int      `db:"priority" json:"priority"`
-	Type        string   `db:"issue_type" json:"issue_type"`
-	Assignee    string   `db:"assignee" json:"assignee"`
-	Labels      []string `json:"labels"`
+	ID            string   `db:"id" json:"id"`
+	Title         string   `db:"title" json:"title"`
+	Description   string   `db:"description" json:"description"`
+	Status        string   `db:"status" json:"status"`
+	Priority      int      `db:"priority" json:"priority"`
+	Type          string   `db:"issue_type" json:"issue_type"`
+	Assignee      string   `db:"assignee" json:"assignee"`
+	Labels        []string `json:"labels"`
+	RTEStatus     string   `db:"rte_status" json:"rte_status"`
+	RTERisk       string   `db:"rte_risk" json:"rte_risk"`
+	RTEResolution string   `db:"rte_resolution" json:"rte_resolution"`
+	RTEApprovedAt string   `db:"rte_approved_at" json:"rte_approved_at"`
+	RTEApprovedBy string   `db:"rte_approved_by" json:"rte_approved_by"`
 }
 
 // FindDBPath searches for .beads/beads.db starting from current directory up to root.
@@ -50,7 +55,7 @@ func FindDBPath() (string, error) {
 }
 
 // NewSQLiteDB initializes connection to FrankenSQLite DB.
-func NewSQLiteDB(dsn string) (*SQLiteDB, error) {
+func NewSQLiteDB(dsn string, readOnly bool) (*SQLiteDB, error) {
 	if dsn == "" {
 		discovered, err := FindDBPath()
 		if err != nil {
@@ -59,8 +64,13 @@ func NewSQLiteDB(dsn string) (*SQLiteDB, error) {
 		dsn = discovered
 	}
 
+	mode := "rw"
+	if readOnly {
+		mode = "ro"
+	}
+
 	// Use URI for better control
-	uri := fmt.Sprintf("file:%s?mode=ro&cache=shared", dsn)
+	uri := fmt.Sprintf("file:%s?mode=%s&cache=shared", dsn, mode)
 
 	// Open without Connect (Connect pings, which might fail if malformed)
 	db, err := sqlx.Open("sqlite3", uri)
@@ -69,6 +79,35 @@ func NewSQLiteDB(dsn string) (*SQLiteDB, error) {
 	}
 
 	return &SQLiteDB{db}, nil
+}
+
+// InitSchema ensures the necessary RTE columns exist in the issues table.
+func (db *SQLiteDB) InitSchema() error {
+	columns := []string{
+		"ALTER TABLE issues ADD COLUMN rte_status TEXT",
+		"ALTER TABLE issues ADD COLUMN rte_risk TEXT",
+		"ALTER TABLE issues ADD COLUMN rte_resolution TEXT",
+		"ALTER TABLE issues ADD COLUMN rte_approved_at TEXT",
+		"ALTER TABLE issues ADD COLUMN rte_approved_by TEXT",
+	}
+
+	for _, col := range columns {
+		_, _ = db.Exec(col) // Ignore errors (columns might exist)
+	}
+	return nil
+}
+
+// UpdateIssueRTE updates the RTE fields of an issue.
+func (db *SQLiteDB) UpdateIssueRTE(id string, status, risk, resolution, approvedBy, approvedAt string) error {
+	query := `UPDATE issues SET 
+		rte_status = ?, 
+		rte_risk = ?, 
+		rte_resolution = ?, 
+		rte_approved_by = ?, 
+		rte_approved_at = ? 
+		WHERE id = ?`
+	_, err := db.Exec(query, status, risk, resolution, approvedBy, approvedAt, id)
+	return err
 }
 
 // GetIssueState retrieves the state of an issue given its beads ID.
@@ -91,7 +130,13 @@ func (db *SQLiteDB) GetIssueState(beadsID string) (string, error) {
 func (db *SQLiteDB) GetIssueDetails(beadsID string) (*Issue, error) {
 	// Try SQL first
 	var issue Issue
-	query := "SELECT id, title, description, status, priority, issue_type, assignee FROM issues WHERE id = ?"
+	query := "SELECT id, title, description, status, priority, issue_type, assignee, " +
+		"COALESCE(rte_status, '') as rte_status, " +
+		"COALESCE(rte_risk, '') as rte_risk, " +
+		"COALESCE(rte_resolution, '') as rte_resolution, " +
+		"COALESCE(rte_approved_at, '') as rte_approved_at, " +
+		"COALESCE(rte_approved_by, '') as rte_approved_by " +
+		"FROM issues WHERE id = ?"
 	err := db.Get(&issue, query, beadsID)
 	if err == nil {
 		return &issue, nil
@@ -118,7 +163,13 @@ func (db *SQLiteDB) GetIssueDetails(beadsID string) (*Issue, error) {
 // GetAllIssues retrieves all issues from the database.
 func (db *SQLiteDB) GetAllIssues() ([]Issue, error) {
 	var issues []Issue
-	query := "SELECT id, title, description, status, priority, issue_type, assignee FROM issues"
+	query := "SELECT id, title, description, status, priority, issue_type, assignee, " +
+		"COALESCE(rte_status, '') as rte_status, " +
+		"COALESCE(rte_risk, '') as rte_risk, " +
+		"COALESCE(rte_resolution, '') as rte_resolution, " +
+		"COALESCE(rte_approved_at, '') as rte_approved_at, " +
+		"COALESCE(rte_approved_by, '') as rte_approved_by " +
+		"FROM issues"
 	err := db.Select(&issues, query)
 	if err == nil {
 		return issues, nil
