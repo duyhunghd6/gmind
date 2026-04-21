@@ -15,7 +15,28 @@ import (
 
 // SyncManager bidirectional sync
 type SyncManager struct {
-	// Requires db connection
+	RootDir string
+}
+
+func FindRootDir() (string, error) {
+	curr, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	for {
+		path := filepath.Join(curr, ".beads")
+		if _, err := os.Stat(path); err == nil {
+			return curr, nil
+		}
+
+		parent := filepath.Dir(curr)
+		if parent == curr {
+			break
+		}
+		curr = parent
+	}
+	return os.Getwd() // Fallback
 }
 
 func (s *SyncManager) SyncAll() error {
@@ -30,7 +51,7 @@ type bdIssue struct {
 }
 
 func fetchIssues() ([]bdIssue, error) {
-	cmd := exec.Command("bd", "list", "--json")
+	cmd := exec.Command("bd", "list", "--all", "--json")
 	out, err := cmd.Output()
 	if err != nil {
 		return nil, fmt.Errorf("bd list error: %w", err)
@@ -88,6 +109,9 @@ type CoverageReport struct {
 }
 
 func (s *SyncManager) GetCoverageData(mode string) (*CoverageReport, error) {
+	if s.RootDir == "" {
+		s.RootDir, _ = FindRootDir()
+	}
 	var dirs []string
 	switch mode {
 	case "prd":
@@ -102,7 +126,7 @@ func (s *SyncManager) GetCoverageData(mode string) (*CoverageReport, error) {
 
 	var allTargets []string
 	for _, d := range dirs {
-		ids, err := extractTargetIDs(filepath.Join(".", d))
+		ids, err := extractTargetIDs(filepath.Join(s.RootDir, d))
 		if err == nil {
 			allTargets = append(allTargets, ids...)
 		}
@@ -165,6 +189,9 @@ func (s *SyncManager) GetCoverageData(mode string) (*CoverageReport, error) {
 }
 
 func (s *SyncManager) CalculateCoverage(mode string) (string, error) {
+	if s.RootDir == "" {
+		s.RootDir, _ = FindRootDir()
+	}
 	var dirs []string
 	switch mode {
 	case "prd":
@@ -179,7 +206,7 @@ func (s *SyncManager) CalculateCoverage(mode string) (string, error) {
 
 	var allTargets []string
 	for _, d := range dirs {
-		ids, err := extractTargetIDs(filepath.Join(".", d))
+		ids, err := extractTargetIDs(filepath.Join(s.RootDir, d))
 		if err == nil {
 			allTargets = append(allTargets, ids...)
 		}
