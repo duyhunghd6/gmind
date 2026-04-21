@@ -18,50 +18,60 @@ func (db *SQLiteDB) IndexMarkdownDocs(zvec *ZvecDB, force bool) error {
 	fmt.Printf("Indexing %s (Last: %s, Force: %v)...\n", sourceType, lastIndexed, force)
 
 	count := 0
-	err := filepath.Walk("docs", func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return nil
-		}
-		if info.IsDir() || filepath.Ext(path) != ".md" {
-			return nil
+	directories := []string{"docs", "meetings"}
+
+	for _, dir := range directories {
+		// Only walk if the directory exists
+		if _, err := os.Stat(dir); os.IsNotExist(err) {
+			continue
 		}
 
-		// Incremental: check mod time
-		if !force && lastIndexed != "" {
-			lastTime, err := time.Parse(time.RFC3339, lastIndexed)
-			if err == nil && info.ModTime().Before(lastTime) {
+		err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
 				return nil
 			}
-		}
+			if info.IsDir() || filepath.Ext(path) != ".md" {
+				return nil
+			}
 
-		content, err := os.ReadFile(path)
-		if err != nil {
+			// Incremental: check mod time
+			if !force && lastIndexed != "" {
+				lastTime, err := time.Parse(time.RFC3339, lastIndexed)
+				if err == nil && info.ModTime().Before(lastTime) {
+					return nil
+				}
+			}
+
+			content, err := os.ReadFile(path)
+			if err != nil {
+				return nil
+			}
+
+			// Adaptive chunking: 2000 chars per chunk (~512 tokens), 250 chars overlap
+			chunks := splitContentWithOverlap(string(content), 2000, 250)
+			for i, c := range chunks {
+				chunkID := GenerateChunkID(path, c)
+				beadsIDs := DetectBeadsIDs(c)
+
+				zvec.UpsertChunk(ZvecSearchResult{
+					ChunkID:    chunkID,
+					SourceType: sourceType,
+					SourceRef:  fmt.Sprintf("file:%s:chunk-%d", path, i),
+					BeadsIDs:   beadsIDs,
+					Content:    c,
+					Timestamp:  info.ModTime().Format(time.RFC3339),
+				})
+				count++
+			}
 			return nil
+		})
+		if err != nil {
+			fmt.Printf("Error walking %s: %v\n", dir, err)
 		}
-
-		// Adaptive chunking: 2000 chars per chunk (~512 tokens), 250 chars overlap
-		chunks := splitContentWithOverlap(string(content), 2000, 250)
-		for i, c := range chunks {
-			chunkID := GenerateChunkID(path, c)
-			beadsIDs := DetectBeadsIDs(c)
-
-			zvec.UpsertChunk(ZvecSearchResult{
-				ChunkID:    chunkID,
-				SourceType: sourceType,
-				SourceRef:  fmt.Sprintf("file:%s:chunk-%d", path, i),
-				BeadsIDs:   beadsIDs,
-				Content:    c,
-				Timestamp:  info.ModTime().Format(time.RFC3339),
-			})
-			count++
-		}
-		return nil
-	})
-
-	if err == nil {
-		db.UpdateWatermark(sourceType, time.Now().Format(time.RFC3339), count)
 	}
-	return err
+
+	db.UpdateWatermark(sourceType, time.Now().Format(time.RFC3339), count)
+	return nil
 }
 
 // IndexGitCommits indexes new git commits since last watermark.
@@ -552,4 +562,17 @@ func splitContentWithOverlap(content string, size int, overlap int) []string {
 		}
 	}
 	return chunks
+}
+
+func splitContent(content string, size int) []string {
+	return splitContentWithOverlap(content, size, 0)
+}
+
+func contains(slice []string, val string) bool {
+	for _, item := range slice {
+		if item == val {
+			return true
+		}
+	}
+	return false
 }

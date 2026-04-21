@@ -57,9 +57,27 @@ var reindexCmd = &cobra.Command{
 			}
 		}
 
+		if source == "" || source == "ci-log" {
+			if err := sqlite.IndexCILogs(zvec, force); err != nil {
+				indexErrors = append(indexErrors, fmt.Errorf("ci-log error: %w", err))
+			}
+		}
+
+		if source == "" || source == "agent-trace" {
+			if err := sqlite.IndexAgentTraces(zvec, force); err != nil {
+				indexErrors = append(indexErrors, fmt.Errorf("agent-trace error: %w", err))
+			}
+		}
+
 		if source == "" || source == "pipeline-log" {
 			if err := sqlite.IndexPipelineLogs(zvec, force); err != nil {
 				indexErrors = append(indexErrors, fmt.Errorf("pipeline-log error: %w", err))
+			}
+		}
+
+		if source == "" || source == "rte-approval" {
+			if err := sqlite.IndexRTEApprovals(zvec, force); err != nil {
+				indexErrors = append(indexErrors, fmt.Errorf("rte-approval error: %w", err))
 			}
 		}
 
@@ -76,7 +94,7 @@ var reindexCmd = &cobra.Command{
 }
 
 func init() {
-	reindexCmd.Flags().String("source", "", "Specific source to reindex (git-commit, markdown-doc, git-pr, pipeline-log)")
+	reindexCmd.Flags().String("source", "", "Specific source to reindex (git-commit, markdown-doc, git-pr, ci-log, agent-trace, pipeline-log, rte-approval)")
 	reindexCmd.Flags().Bool("force", false, "Force full reindex ignoring watermarks")
 	rootCmd.AddCommand(reindexCmd)
 }
