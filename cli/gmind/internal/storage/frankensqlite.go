@@ -21,6 +21,7 @@ type Issue struct {
 	Priority    int      `db:"priority" json:"priority"`
 	Type        string   `db:"issue_type" json:"issue_type"`
 	Assignee    string   `db:"assignee" json:"assignee"`
+	Labels      []string `json:"labels"`
 }
 
 // NewSQLiteDB initializes connection to FrankenSQLite DB.
@@ -79,4 +80,26 @@ func (db *SQLiteDB) GetIssueDetails(beadsID string) (*Issue, error) {
 	}
 
 	return nil, nil
+}
+
+// GetAllIssues retrieves all issues from the database.
+func (db *SQLiteDB) GetAllIssues() ([]Issue, error) {
+	var issues []Issue
+	query := "SELECT beads_id, title, description, status, priority, issue_type, assignee FROM issues"
+	err := db.Select(&issues, query)
+	if err == nil {
+		return issues, nil
+	}
+
+	// Fallback to 'bd' CLI
+	out, err := exec.Command("bd", "list", "--all", "--json").Output()
+	if err != nil {
+		return nil, fmt.Errorf("both SQL and 'bd' CLI failed: %w", err)
+	}
+
+	if err := json.Unmarshal(out, &issues); err != nil {
+		return nil, fmt.Errorf("failed to parse 'bd list' output: %w", err)
+	}
+
+	return issues, nil
 }

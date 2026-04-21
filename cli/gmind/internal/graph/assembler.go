@@ -12,6 +12,7 @@ type Assembler struct {
 	Zvec     *storage.ZvecDB
 	FastCode *external.FastCode
 	GitHub   *external.GitHub
+	Parser   *Parser
 }
 
 func NewAssembler(sql *storage.SQLiteDB, zv *storage.ZvecDB, fc *external.FastCode, gh *external.GitHub) *Assembler {
@@ -20,6 +21,7 @@ func NewAssembler(sql *storage.SQLiteDB, zv *storage.ZvecDB, fc *external.FastCo
 		Zvec:     zv,
 		FastCode: fc,
 		GitHub:   gh,
+		Parser:   NewParser("docs"),
 	}
 }
 
@@ -59,10 +61,4 @@ func (a *Assembler) GetContext(beadsID string, depth int) (string, error) {
 	}
 
 	return out, nil
-}
-
-// Trace 3-tier linkage
-func (a *Assembler) Trace(beadsID string, reverse bool, includeGitHub bool) (string, error) {
-	// 5-source dynamic graph assembly stub
-	return fmt.Sprintf("Graph trace generated for: %s", beadsID), nil
 }

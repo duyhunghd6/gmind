@@ -2,6 +2,11 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/external"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/graph"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/storage"
 	"github.com/spf13/cobra"
 )
 
@@ -13,9 +18,36 @@ var traceCmd = &cobra.Command{
 		id := args[0]
 		reverse, _ := cmd.Flags().GetBool("reverse")
 		useGithub, _ := cmd.Flags().GetBool("include-github")
-		
-		fmt.Printf("Tracing connections for: %s (Reverse: %v, GitHub: %v)\n", id, reverse, useGithub)
-		// TODO: Delegate to internal/graph
+		// jsonOutput, _ := cmd.Flags().GetBool("json")
+
+		// Initialize dependencies
+		sqlite, err := storage.NewSQLiteDB(".beads/beads.db")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
+			os.Exit(1)
+		}
+		defer sqlite.Close()
+
+		github, _ := external.NewGitHub()
+
+		// Create assembler
+		assembler := graph.NewAssembler(sqlite, nil, nil, github)
+
+		// Trace
+		result, err := assembler.Trace(id, reverse, useGithub)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error tracing: %v\n", err)
+			os.Exit(1)
+		}
+
+		jsonOutput, _ := cmd.Flags().GetBool("json")
+		if jsonOutput {
+			// Basic JSON output of the result string for now
+			// In a real implementation, we might want to return the actual Node structure
+			fmt.Printf("{\"beads_id\": \"%s\", \"trace\": %q}\n", id, result)
+		} else {
+			fmt.Println(result)
+		}
 	},
 }
 
