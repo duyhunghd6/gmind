@@ -35,7 +35,7 @@ var approveCmd = &cobra.Command{
 
 		// 3. Update via 'bd' CLI (status and labels)
 		fmt.Printf("Updating issue %s status to in_progress and updating labels...\n", id)
-		out, err := exec.Command("bd", "update", id, "--status", "in_progress", "--remove-label", "rte:escalated", "--add-label", "rte:approved", "--json").CombinedOutput()
+		out, err := exec.Command("bd", "update", id, "--status", "in_progress", "--remove-label", "rte:escalated", "--remove-label", "rte:rejected", "--add-label", "rte:approved", "--json").CombinedOutput()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating via 'bd' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)

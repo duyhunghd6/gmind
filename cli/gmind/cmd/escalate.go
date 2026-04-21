@@ -40,7 +40,7 @@ var escalateCmd = &cobra.Command{
 
 		// 4. Update via 'bd' CLI (status and label)
 		fmt.Printf("Updating issue %s status to blocked and adding rte:escalated label...\n", id)
-		out, err := exec.Command("bd", "update", id, "--status", "blocked", "--add-label", "rte:escalated", "--json").CombinedOutput()
+		out, err := exec.Command("bd", "update", id, "--status", "blocked", "--remove-label", "rte:approved", "--remove-label", "rte:rejected", "--add-label", "rte:escalated", "--json").CombinedOutput()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating via 'bd' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
@@ -54,9 +54,20 @@ var escalateCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		// 6. Notify via MCP Agent Mail (Simulation)
+		// 6. Gather evidence via gmind trace
+		fmt.Printf("Gathering evidence for %s...\n", id)
+		cmdTrace := exec.Command(os.Args[0], "trace", id)
+		traceOut, errTrace := cmdTrace.CombinedOutput()
+		if errTrace != nil {
+			fmt.Fprintf(os.Stderr, "Warning: Failed to gather trace evidence: %v\n", errTrace)
+		}
+
+		// 7. Notify via MCP Agent Mail (Simulation)
 		fmt.Printf("NOTIFY: Sending escalation alert to RTE Team for %s via MCP Agent Mail...\n", id)
 		fmt.Printf("RISK: %s\n", risk)
+		if len(traceOut) > 0 {
+			fmt.Printf("EVIDENCE:\n%s\n", string(traceOut))
+		}
 
 		fmt.Printf("Escalated %s to RTE Team. Status: awaiting review.\n", id)
 	},

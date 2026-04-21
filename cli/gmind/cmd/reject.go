@@ -34,7 +34,7 @@ var rejectCmd = &cobra.Command{
 
 		// 3. Update via 'bd' CLI (status and labels)
 		fmt.Printf("Updating issue %s status to open and updating labels...\n", id)
-		out, err := exec.Command("bd", "update", id, "--status", "open", "--remove-label", "rte:escalated", "--add-label", "rte:rejected", "--json").CombinedOutput()
+		out, err := exec.Command("bd", "update", id, "--status", "open", "--remove-label", "rte:escalated", "--remove-label", "rte:approved", "--add-label", "rte:rejected", "--json").CombinedOutput()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating via 'bd' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
