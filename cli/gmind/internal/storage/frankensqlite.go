@@ -63,6 +63,15 @@ func FindDBPath(name string) (string, error) {
 	return "", fmt.Errorf(".beads/%s not found in any parent directory", name)
 }
 
+// FindRootDir returns the absolute path to the project root (parent of .beads).
+func FindRootDir() (string, error) {
+	dbPath, err := FindDBPath("beads.db")
+	if err != nil {
+		return "", err
+	}
+	return filepath.Dir(filepath.Dir(dbPath)), nil
+}
+
 // NewSQLiteDB initializes connection to FrankenSQLite DB.
 func NewSQLiteDB(dsn string, readOnly bool) (*SQLiteDB, error) {
 	if dsn == "" {
@@ -113,15 +122,51 @@ func (db *SQLiteDB) Close() error {
 
 // InitSchema ensures the necessary RTE columns exist in the gmind.db.
 func (db *SQLiteDB) InitSchema() error {
-	query := `CREATE TABLE IF NOT EXISTS rte_metadata (
-		id TEXT PRIMARY KEY,
-		status TEXT,
-		risk TEXT,
-		resolution TEXT,
-		approved_at TEXT,
-		approved_by TEXT
-	);`
-	_, err := db.GmindDB.Exec(query)
+	queries := []string{
+		`CREATE TABLE IF NOT EXISTS rte_metadata (
+			id TEXT PRIMARY KEY,
+			status TEXT,
+			risk TEXT,
+			resolution TEXT,
+			approved_at TEXT,
+			approved_by TEXT
+		);`,
+		`CREATE TABLE IF NOT EXISTS index_watermarks (
+			source_type TEXT PRIMARY KEY,
+			last_indexed TEXT,
+			chunk_count INTEGER
+		);`,
+	}
+	for _, q := range queries {
+		if _, err := db.GmindDB.Exec(q); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// GetWatermark retrieves the last indexed value for a source type.
+func (db *SQLiteDB) GetWatermark(sourceType string) (string, int, error) {
+	var watermark struct {
+		LastIndexed string `db:"last_indexed"`
+		ChunkCount  int    `db:"chunk_count"`
+	}
+	query := "SELECT last_indexed, chunk_count FROM index_watermarks WHERE source_type = ?"
+	err := db.GmindDB.Get(&watermark, query, sourceType)
+	if err != nil {
+		return "", 0, nil // Return empty if not found
+	}
+	return watermark.LastIndexed, watermark.ChunkCount, nil
+}
+
+// UpdateWatermark updates the last indexed value for a source type.
+func (db *SQLiteDB) UpdateWatermark(sourceType, lastIndexed string, chunkCount int) error {
+	query := `INSERT INTO index_watermarks (source_type, last_indexed, chunk_count)
+		VALUES (?, ?, ?)
+		ON CONFLICT(source_type) DO UPDATE SET
+		last_indexed = excluded.last_indexed,
+		chunk_count = excluded.chunk_count;`
+	_, err := db.GmindDB.Exec(query, sourceType, lastIndexed, chunkCount)
 	return err
 }
 

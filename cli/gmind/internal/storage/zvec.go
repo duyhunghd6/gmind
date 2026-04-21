@@ -1,6 +1,11 @@
 package storage
 
-import "fmt"
+import (
+	"crypto/sha256"
+	"fmt"
+	"regexp"
+	"strings"
+)
 
 type ZvecSearchResult struct {
 	ChunkID    string   `json:"chunk_id"`
@@ -10,6 +15,7 @@ type ZvecSearchResult struct {
 	Content    string   `json:"content"`
 	Score      float64  `json:"score"`
 	Timestamp  string   `json:"timestamp"`
+	Author     string   `json:"author"`
 }
 
 type ZvecDB struct {
@@ -60,4 +66,36 @@ func (z *ZvecDB) SearchByBeadsID(id string) ([]ZvecSearchResult, error) {
 			Timestamp:  "2026-04-21T08:00:00Z",
 		},
 	}, nil
+}
+
+// UpsertChunk adds or updates a chunk in the vector database.
+func (z *ZvecDB) UpsertChunk(chunk ZvecSearchResult) error {
+	// Stub: In a real implementation, this would call Zvec C++ Upsert
+	fmt.Printf("Upserting chunk to Zvec: [%s] %s (Beads: %v)\n", chunk.SourceType, chunk.SourceRef, chunk.BeadsIDs)
+	return nil
+}
+
+// DetectBeadsIDs scans text for br-xxx and bd-xxx patterns.
+func DetectBeadsIDs(text string) []string {
+	// Patterns: br-xxx, bd-xxx, and handle potential trailing punctuation
+	re := regexp.MustCompile(`\b(br-[a-zA-Z0-9.-]+|bd-[a-zA-Z0-9]+)\b`)
+	matches := re.FindAllString(text, -1)
+
+	// Deduplicate and clean
+	unique := make(map[string]bool)
+	var result []string
+	for _, m := range matches {
+		m = strings.TrimRight(m, ".,;:")
+		if !unique[m] {
+			unique[m] = true
+			result = append(result, m)
+		}
+	}
+	return result
+}
+
+// GenerateChunkID creates a unique ID for a chunk based on its content and source.
+func GenerateChunkID(sourceRef, content string) string {
+	hash := sha256.Sum256([]byte(sourceRef + content))
+	return fmt.Sprintf("zvec-%x", hash[:8])
 }
