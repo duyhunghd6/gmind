@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"github.com/spf13/cobra"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/rtm"
 )
 
 var coverageCmd = &cobra.Command{
@@ -12,8 +14,13 @@ var coverageCmd = &cobra.Command{
 	Args:  cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),
 	Run: func(cmd *cobra.Command, args []string) {
 		mode := args[0]
-		fmt.Printf("Generating %s coverage report\n", mode)
-		// TODO: Call internal/rtm/coverage
+		sm := &rtm.SyncManager{}
+		out, err := sm.CalculateCoverage(mode)
+		if err != nil {
+			fmt.Println("Error:", err)
+			os.Exit(1)
+		}
+		fmt.Println(out)
 	},
 }
 
