@@ -1,43 +1,143 @@
 # Screen: Document Viewer (mobile)
 ## State: default
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── docs.filter.source-type [data-ds-id="docs.filter.source-type"]
-│   ├── mobile-type-selector
-│   └── mobile-date-filter
-├── docs.tree.nav [data-ds-id="docs.tree.nav"]
-│   ├── back-to-list-action
-│   └── doc-selector-trigger
-├── docs.content.breadcrumb [data-ds-id="docs.content.breadcrumb"]
-├── docs.content.body [data-ds-id="docs.content.body"]
-│   ├── document-title
-│   ├── rendered-content
-│   └── metadata-strip
-├── docs.content.beads-links [data-ds-id="docs.content.beads-links"]
-│   ├── linked-id: br-prd04-s5
-│   └── linked-id: br-prd04-s10
-├── docs.content.coverage-indicator [data-ds-id="docs.content.coverage-indicator"]
-├── docs.action.open-trace [data-ds-id="docs.action.open-trace"]
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="docs.tree.nav"] | [data-ds-id="docs.filter.source-type"] | [data-ds-id="docs.content.breadcrumb"] | [data-ds-id="docs.content.body"] | [data-ds-id="docs.content.beads-links"] | [data-ds-id="docs.content.coverage-indicator"] | [data-ds-id="docs.action.open-trace"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: Document Viewer
+    │   ├── section: Navigation controls
+    │   │   ├── Document tree [data-ds-id="docs.tree.nav"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Source filter [data-ds-id="docs.filter.source-type"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   ├── section: Document context
+    │   │   ├── Breadcrumb [data-ds-id="docs.content.breadcrumb"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Coverage indicator [data-ds-id="docs.content.coverage-indicator"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── section: Document reading surface
+    │       ├── Content panel [data-ds-id="docs.content.body"]
+    │       │   ├── slot-a
+    │       │   └── slot-b
+    │       ├── Beads autolinks [data-ds-id="docs.content.beads-links"]
+    │       │   ├── slot-a
+    │       │   └── slot-b
+    │       └── Open trace action [data-ds-id="docs.action.open-trace"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note
 ## State: loading
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── docs.state.loading-skeleton
-│   ├── selector-skeleton
-│   └── content-skeleton
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="docs.tree.nav"] | [data-ds-id="docs.filter.source-type"] | [data-ds-id="docs.content.breadcrumb"] | [data-ds-id="docs.content.body"] | [data-ds-id="docs.content.beads-links"] | [data-ds-id="docs.content.coverage-indicator"] | [data-ds-id="docs.action.open-trace"] | [selector="docs.state.loading-skeleton"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: Document Viewer
+    │   ├── state-surface: loading
+    │   │   └── Loading skeleton [selector="docs.state.loading-skeleton"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── persistent-context
+    │       └── Document tree [data-ds-id="docs.tree.nav"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note
 ## State: error
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── docs.state.error
-│   ├── error-banner
-│   ├── retry-action
-│   └── reindex-action
-├── docs.state.retry
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="docs.tree.nav"] | [data-ds-id="docs.filter.source-type"] | [data-ds-id="docs.content.breadcrumb"] | [data-ds-id="docs.content.body"] | [data-ds-id="docs.content.beads-links"] | [data-ds-id="docs.content.coverage-indicator"] | [data-ds-id="docs.action.open-trace"] | [selector="docs.state.error"] | [selector="docs.state.retry"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: Document Viewer
+    │   ├── state-surface: error
+    │   │   ├── Error banner [selector="docs.state.error"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Retry actions [selector="docs.state.retry"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── persistent-context
+    │       └── Document tree [data-ds-id="docs.tree.nav"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note
 ## State: empty
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── docs.state.empty
-│   ├── empty-message
-│   └── indexing-hint
-├── docs.state.empty-cta
-│   ├── run-reindex-action
-│   └── setup-guide-action
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="docs.tree.nav"] | [data-ds-id="docs.filter.source-type"] | [data-ds-id="docs.content.breadcrumb"] | [data-ds-id="docs.content.body"] | [data-ds-id="docs.content.beads-links"] | [data-ds-id="docs.content.coverage-indicator"] | [data-ds-id="docs.action.open-trace"] | [selector="docs.state.empty"] | [selector="docs.state.empty-cta"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: Document Viewer
+    │   ├── state-surface: empty
+    │   │   ├── Empty docs view [selector="docs.state.empty"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Empty CTA [selector="docs.state.empty-cta"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── persistent-context
+    │       └── Document tree [data-ds-id="docs.tree.nav"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note

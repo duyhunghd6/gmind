@@ -1,115 +1,281 @@
 # Screen: Beads Trace Explorer (mobile)
 ## State: default
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; trace.toolbar.root; trace.canvas.graph; trace.canvas.legend; trace.panel.node-detail; trace.panel.connected-nodes; trace.action.impact
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="trace.toolbar.root"] [data-ds-id="trace.canvas.graph"] [data-ds-id="trace.canvas.legend"] [data-ds-id="trace.panel.node-detail"] [data-ds-id="trace.panel.connected-nodes"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="trace.action.impact"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐ [100%]
-│ [☰] [Logo] [Search________] [Bell]           │
-├══════════════════════════════════════════════┤
-│ [Root: br-prd04-s5 ▼] [Depth 2 ▼]            │
-│ [PRD][Plan][Task][PR]                        │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ Simplified Graph / Tree View             │ │
-│ │ br-prd04-s5                              │ │
-│ │ ├ Plan-01                                │ │
-│ │ │ └ Task-bd-x1                           │ │
-│ │ │   └ Commit-a1b2                        │ │
-│ │ │     └ PR-48                            │ │
-│ │ └ Chat-23                                │ │
-│ │ [Pinch zoom] [Open overlay]              │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────────────────────────────────────┐ │
-│ │ Full-screen Detail Overlay trigger       │ │
-│ │ Coverage 78% | linked nodes 12           │ │
-│ │ [Open Doc] [Impact]                      │ │
-│ └──────────────────────────────────────────┘ │
-│ [Footer: 12 nodes | 48ms]                   │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="trace.toolbar.root"] | [data-ds-id="trace.canvas.graph"] | [data-ds-id="trace.canvas.legend"] | [data-ds-id="trace.panel.node-detail"] | [data-ds-id="trace.panel.connected-nodes"] | [data-ds-id="trace.action.impact"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Beads Trace Explorer | Focus help | Shortcut Ctrl+K               |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=default | viewport=mobile                             |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Beads Trace Explorer   |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Trace controls                                                        |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Trace toolbar [trace.toolbar.root]                          |    |    |   |
+|   |  |  |Detail: root id + depth selector                                       |    |    |   |
+|   |  |  |Detail: type filters + query time                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Graph legend [trace.canvas.legend]                          |    |    |   |
+|   |  |  |Detail: node type keys                                                 |    |    |   |
+|   |  |  |Detail: visible filter summary                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Graph exploration                                                     |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Graph canvas [trace.canvas.graph]                           |    |    |   |
+|   |  |  |Detail: nodes + edges                                                  |    |    |   |
+|   |  |  |Detail: pan zoom + node focus ring                                     |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Node inspection                                                       |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Node detail panel [trace.panel.node-detail]                 |    |    |   |
+|   |  |  |Detail: excerpt + coverage                                             |    |    |   |
+|   |  |  |Detail: linked entities + breadcrumbs                                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Connected nodes list [trace.panel.connected-nodes]          |    |    |   |
+|   |  |  |Detail: upstream/downstream groups                                     |    |    |   |
+|   |  |  |Detail: jump links + counts                                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Impact action [trace.action.impact]                         |    |    |   |
+|   |  |  |Detail: open impact summary                                            |    |    |   |
+|   |  |  |Detail: create follow-up task CTA                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: loading
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; trace.state.loading-skeleton
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="trace.state.loading-skeleton"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search________] [Bell]           │
-├══════════════════════════════════════════════┤
-│ [Root: br-prd04-s5 ▼]                        │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ █████ graph skeleton ███████████████████ │ │
-│ │ █████ querying sources █████████████████ │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="trace.toolbar.root"] | [data-ds-id="trace.canvas.graph"] | [data-ds-id="trace.canvas.legend"] | [data-ds-id="trace.panel.node-detail"] | [data-ds-id="trace.panel.connected-nodes"] | [data-ds-id="trace.action.impact"] | [selector="trace.state.loading-skeleton"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Beads Trace Explorer | Focus help | Shortcut Ctrl+K               |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=loading | viewport=mobile                             |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Beads Trace Explorer   |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: loading                                                         |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Loading skeleton [trace.state.loading-skeleton]             |    |    |   |
+|   |  |  |Detail: toolbar skeleton                                               |    |    |   |
+|   |  |  |Detail: canvas shimmer + panel placeholders                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Trace toolbar [trace.toolbar.root]                          |    |    |   |
+|   |  |  |Detail: root id + depth selector                                       |    |    |   |
+|   |  |  |Detail: type filters + query time                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: error
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; trace.state.error; trace.state.retry
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="trace.state.error"] [data-ds-id="trace.state.retry"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search: retry________] [Bell]    │
-├══════════════════════════════════════════════┤
-│ [Error: Trace query failed]                  │
-│ [Retry] [Change root] [Open docs]            │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ No graph data loaded                      │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="trace.toolbar.root"] | [data-ds-id="trace.canvas.graph"] | [data-ds-id="trace.canvas.legend"] | [data-ds-id="trace.panel.node-detail"] | [data-ds-id="trace.panel.connected-nodes"] | [data-ds-id="trace.action.impact"] | [selector="trace.state.error"] | [selector="trace.state.retry"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Beads Trace Explorer | Focus help | Shortcut Ctrl+K               |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=error | viewport=mobile                               |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Beads Trace Explorer   |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: error                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Error banner [trace.state.error]                            |    |    |   |
+|   |  |  |Detail: trace query failed                                             |    |    |   |
+|   |  |  |Detail: graph service timed out                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Retry actions [trace.state.retry]                           |    |    |   |
+|   |  |  |Detail: retry same root                                                |    |    |   |
+|   |  |  |Detail: reduce depth and reload                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Trace toolbar [trace.toolbar.root]                          |    |    |   |
+|   |  |  |Detail: root id + depth selector                                       |    |    |   |
+|   |  |  |Detail: type filters + query time                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: empty
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; trace.state.empty; trace.state.empty-cta
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="trace.state.empty"] [data-ds-id="trace.state.empty-cta"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search: id__________] [Bell]     │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ No linked entities for this root          │ │
-│ │ [Change root] [Clear filters]             │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="trace.toolbar.root"] | [data-ds-id="trace.canvas.graph"] | [data-ds-id="trace.canvas.legend"] | [data-ds-id="trace.panel.node-detail"] | [data-ds-id="trace.panel.connected-nodes"] | [data-ds-id="trace.action.impact"] | [selector="trace.state.empty"] | [selector="trace.state.empty-cta"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Beads Trace Explorer | Focus help | Shortcut Ctrl+K               |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=empty | viewport=mobile                               |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Beads Trace Explorer   |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: empty                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty graph [trace.state.empty]                             |    |    |   |
+|   |  |  |Detail: root has no linked entities                                    |    |    |   |
+|   |  |  |Detail: canvas stays available for filters                             |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty CTA [trace.state.empty-cta]                           |    |    |   |
+|   |  |  |Detail: choose another root                                            |    |    |   |
+|   |  |  |Detail: open docs for source context                                   |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Trace toolbar [trace.toolbar.root]                          |    |    |   |
+|   |  |  |Detail: root id + depth selector                                       |    |    |   |
+|   |  |  |Detail: type filters + query time                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: partial
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; trace.state.partial; trace.state.partial-badge
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="trace.state.partial"] [data-ds-id="trace.state.partial-badge"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search: github________] [Bell]   │
-├══════════════════════════════════════════════┤
-│ [Partial: local graph ready]                 │
-│ [GitHub data loading...] [Retry]             │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ Tree view live, PR badges pending         │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="trace.toolbar.root"] | [data-ds-id="trace.canvas.graph"] | [data-ds-id="trace.canvas.legend"] | [data-ds-id="trace.panel.node-detail"] | [data-ds-id="trace.panel.connected-nodes"] | [data-ds-id="trace.action.impact"] | [selector="trace.state.partial"] | [selector="trace.state.partial-badge"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Beads Trace Explorer | Focus help | Shortcut Ctrl+K               |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=partial | viewport=mobile                             |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Beads Trace Explorer   |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: partial                                                         |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Partial data banner [trace.state.partial]                   |    |    |   |
+|   |  |  |Detail: some edge types hidden                                         |    |    |   |
+|   |  |  |Detail: graph still interactive                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Partial badge [trace.state.partial-badge]                   |    |    |   |
+|   |  |  |Detail: showing cached nodes                                           |    |    |   |
+|   |  |  |Detail: refresh for complete trace                                     |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Trace toolbar [trace.toolbar.root]                          |    |    |   |
+|   |  |  |Detail: root id + depth selector                                       |    |    |   |
+|   |  |  |Detail: type filters + query time                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+

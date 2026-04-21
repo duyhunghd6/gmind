@@ -7,53 +7,53 @@ Compared against:
 - `/Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/contract.yaml`
 
 ## Summary
-Detected 2 active conflicts where PRD presentation guidance still needs normalization to current design-system and organization rules.
-Route structure, back navigation, error recovery, empty-state CTAs, shell continuity, and responsive drawer behavior are aligned with the current contract.
+No active PRD ↔ DS conflicts remain for Stage 1 flow artifacts.
+The current flows normalize PRD intent into contract-safe patterns for loading, semantic status styling, and create-plan surfaces.
 
-## Conflicts
+## Final normalized decisions
 
-### 1) Spinner-first loading language conflicts with skeleton-first DS guidance
+### 1) Loading states use skeleton-first layouts instead of spinner-first blockers
 - PRD evidence:
-  - Dashboard §6 says graph loading shows a spinner.
-  - Document Viewer §9 says content loading uses a spinner.
-  - Trace Explorer §10 says spinner appears while querying 5 data sources.
-  - Task Detail §11 says saving state shows a small spinner.
+  - Dashboard §6.6 mentions graph spinner language during loading.
+  - Document Viewer §9.3 mentions spinner language in the content panel.
+  - Trace Explorer §10.4 mentions a spinner during graph queries.
+  - Task Detail §11.4 mentions a small spinner during save.
 - DS / org evidence:
   - Organization memory says: "DO NOT use circular spinners for loading — use skeleton loaders matching layout".
-  - Contract already encodes `*.state.loading-skeleton` across route screens.
-- Resolution direction:
-  - Use layout-matching skeletons for page and panel loading.
-  - Keep save progress as inline status text or another tokenized progress affordance instead of spinner-centric behavior.
+  - Contract encodes loading skeleton states for every route screen.
+  - Contract encodes `task-detail.state.saving` as a dedicated save state.
+- Final decision:
+  - Page, panel, tree, graph, and table loads use layout-matching skeletons.
+  - Save progress is represented by a saving state with disabled affordances; any spinner is subordinate, not primary.
+- Outcome:
+  - Resolved. Not an active conflict.
 
-### 2) Hardcoded semantic color language conflicts with tokenized styling
+### 2) Semantic colors are tokenized and paired with text labels
 - PRD evidence:
-  - Coverage heatmap specifies green/yellow/red thresholds.
-  - Graph legend specifies named colors and explicit shape-color pairings.
-  - Board, search, and approval descriptions reference red badges and direct color semantics.
+  - Dashboard §6.2 and §6.5 describe direct red, yellow, green, blue, and gray visual semantics.
+  - Trace Explorer §10.2 assigns explicit colors to node types.
 - DS / org evidence:
   - Organization memory says: "DO NOT hardcode hex colors — always use `var(--*)` DS tokens".
   - Accessibility rules require color-only indicators to include text labels.
-- Resolution direction:
-  - Replace direct color prescriptions with semantic tokens such as success, warning, danger, and info plus visible text labels.
-  - Preserve threshold meaning without binding flows or implementation to raw color instructions.
+- Final decision:
+  - Coverage, approval, trace, and task states map to tokenized semantic roles plus text labels, badges, and icon/shape cues.
+- Outcome:
+  - Resolved. Not an active conflict.
 
-## Normalized decisions
-
-### Dashboard create-plan interaction
+### 3) Create-plan interaction uses responsive panel or overlay behavior instead of a desktop modal
 - PRD evidence:
-  - Dashboard §6 Journey 2 requires a create-plan modal.
+  - Dashboard §6.2 and §6.8 describe a create-plan modal.
 - DS / org evidence:
   - Organization memory says: "DO NOT use modals for simple actions — prefer inline editing or slide-over panels".
-- Normalized decision used in flow artifacts:
-  - Desktop/tablet: right-side create-plan panel.
-  - Mobile: full-screen create-plan overlay.
-  - Focus trap and focus restore stay required for overlay states.
-- Result:
-  - This is treated as resolved presentation normalization, not an active blocker.
-  - Contract selector `dashboard.surface.create-plan` is consistent with this normalized behavior.
+  - Contract defaults specify side panel on desktop and full-screen overlay on mobile for auxiliary surfaces.
+- Final decision:
+  - Desktop and tablet use a create-plan side panel.
+  - Mobile uses a full-screen overlay with focus trap and focus restore.
+- Outcome:
+  - Resolved. Not an active conflict.
 
 ## No-conflict notes
-- Breadcrumbs and explicit back navigation are present across detail and sub-pages.
-- Empty-state CTA flows and error recovery paths are represented for dashboard, docs, and approval journeys.
-- Offline/read-only behavior in shell and task detail remains aligned with PRD and contract defaults.
-- API-only data access is consistent between PRD requirements and the contract.
+- Back navigation and breadcrumb recovery are present across detail and sub-pages.
+- Empty-state CTA flows are present for dashboard, docs, approvals, and task-based recovery.
+- Error recovery paths include retry, return-home, queue return, cache fallback, and support escalation.
+- Route behavior remains API-only and consistent with the contract.

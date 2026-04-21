@@ -1,6 +1,8 @@
 # Assertion Checklist — prd-04-webui-and-pm-workspace
 
 ## Layout
+- [ ] L0. The authoritative breakpoint table is desktop >=1024px, tablet 768-1023px, and mobile <768px, while canonical review widths remain 1440px, 1024px, and 390px.
+- [ ] L0a. A desktop-wide sub-band starts at 1280px for shell expansion and trace layouts that explicitly require wider space.
 - [ ] L1. The global shell shows header, primary navigation, connection status, and footer on every route.
 - [ ] L2. The dashboard renders a KPI row above a four-panel workspace.
 - [ ] L3. The dashboard uses a 2x2 panel grid on desktop, a stacked two-up layout on tablet, and a single-column stack on mobile.

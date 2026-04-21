@@ -1,177 +1,165 @@
-a-->b
-b-->c
-c-->d
-d-->e
-e=>f
-f=>g
-
-# Journey 3 — Approval gate review, required-comment validation, and recovery
-
-task_detail----->approval_queue
-approval_queue----->approval_comment_required
-approval_comment_required=====>validation_error
-validation_error----->approval_comment_required
-approval_comment_required----->approval_success
-approval_error_state----->approval_queue
+# Journey 3 - Approval gate review, required-comment validation, and recovery
 
 ```text
-+==============================+       +==============================+
-| Task Detail                  | open  | Approval Gates Queue         |
-| Header: bd-x1y2 Done         |------>| Queue list: 4 pending items  |
-| RTE context visible          |       | Aggregate panel + context    |
-| [Open Approval] [Back]       |       | [Approve] [Reject]           |
-| Activity log + owner chips   |       | Manual override shown        |
-+==============================+       +==============================+
-task_detail --> approval_queue
-open approval gate
++========================+       +========================+
+| Task Detail            |       | Approval Gates Queue   |
+| Back to Tasks          |       | Breadcrumb Approval    |
+| bd-x1y2 needs approval |       | Pending approvals list |
+| Activity shows gate    |       | Aggregate evidence     |
+| Open approval          |       | Approve Reject Back    |
++========================+       +========================+
+Task Detail ──[open approval]──► Approval Gates Queue
 
-+==============================+       +==============================+
-| Approval Gates Queue         | back  | Task Detail                  |
-| Queue list: 4 pending items  |<------| Header: bd-x1y2 Done         |
-| Aggregate panel + context    |       | RTE context visible          |
-| [Approve] [Reject]           |       | [Open Approval] [Back]       |
-| Manual override shown        |       | Activity log + owner chips   |
-+==============================+       +==============================+
-approval_queue => task_detail
-Back to task
++========================+       +========================+
+| Approval Gates Queue   |       | Task Detail            |
+| Breadcrumb Approval    |       | Back to Tasks          |
+| Pending approvals list |       | bd-x1y2 needs approval |
+| Aggregate evidence     |       | Activity shows gate    |
+| Approve Reject Back    |       | Open approval          |
++========================+       +========================+
+Approval Gates Queue ──[back]──► Task Detail
 
-+==============================+       +==============================+
-| Approval Gates Queue         | press | Approval Comment Required    |
-| Evidence stream reviewed     |------>| Evidence pinned              |
-| Queue item remains selected  |       | Comment: [             ]     |
-| [Approve] [Reject]           |       | [Submit] [Cancel]            |
-| Manual override still shown  |       | Merge preview still visible  |
-+==============================+       +==============================+
-approval_queue --> approval_comment_required
-press Approve
++========================+       +========================+
+| Approval Gates Queue   |       | Approval Comment Reqd  |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Pending approvals list |       | Approval comment       |
+| Aggregate evidence     |       | Textarea required      |
+| Approve Reject Back    |       | Submit Cancel          |
++========================+       +========================+
+Approval Gates Queue ──[click approve]──► Approval Comment Reqd
 
-+==============================+       +==============================+
-| Approval Comment Required    | back  | Approval Gates Queue         |
-| Evidence pinned              |<------| Queue list still selected    |
-| Comment: [             ]     |       | Aggregate panel + context    |
-| [Submit] [Cancel]            |       | [Approve] [Reject]           |
-| Merge preview still visible  |       | Manual override shown        |
-+==============================+       +==============================+
-approval_comment_required --> approval_queue
-Cancel
++========================+       +========================+
+| Approval Comment Reqd  |       | Validation Error       |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Approval comment       |       | Comment required       |
+| Textarea required      |       | Field highlighted      |
+| Submit Cancel          |       | Fix comment Retry      |
++========================+       +========================+
+Approval Comment Reqd ──[submit empty comment]──► Validation Error
 
-+==============================+       +==============================+
-| Approval Comment Required    | save  | Validation Error             |
-| Empty textarea submitted     |------>| Message: Comment required    |
-| Evidence stays in context    |       | Focus returned to textarea   |
-| [Submit] [Cancel]            |       | [Fix comment] [Cancel]       |
-| Merge preview still visible  |       | Evidence stays in context    |
-+==============================+       +==============================+
-approval_comment_required => validation_error
-submit empty comment
++========================+       +========================+
+| Validation Error       |       | Approval Comment Reqd  |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Comment required       |       | Approval comment       |
+| Field highlighted      |       | Textarea required      |
+| Fix comment Retry      |       | Submit Cancel          |
++========================+       +========================+
+Validation Error ──[fix comment]──► Approval Comment Reqd
 
-+==============================+       +==============================+
-| Validation Error             | fix   | Approval Comment Required    |
-| Message: Comment required    |------>| Comment: Ready to merge      |
-| Focus returned to textarea   |       | Evidence + PRD links checked |
-| [Fix comment] [Cancel]       |       | [Submit] [Cancel]            |
-| Evidence stays in context    |       | Merge preview still visible  |
-+==============================+       +==============================+
-validation_error --> approval_comment_required
-Fix comment
++========================+       +========================+
+| Approval Comment Reqd  |       | Approval Gates Queue   |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Approval comment       |       | Pending approvals list |
+| Textarea required      |       | Aggregate evidence     |
+| Submit Cancel          |       | Approve Reject Back    |
++========================+       +========================+
+Approval Comment Reqd ──[cancel]──► Approval Gates Queue
 
-+==============================+       +==============================+
-| Validation Error             | back  | Approval Gates Queue         |
-| Message: Comment required    |------>| Queue item remains selected  |
-| Focus returned to textarea   |       | Aggregate panel + context    |
-| [Fix comment] [Cancel]       |       | [Approve] [Reject]           |
-| Evidence stays in context    |       | Manual override shown        |
-+==============================+       +==============================+
-validation_error --> approval_queue
-Cancel
++========================+       +========================+
+| Approval Comment Reqd  |       | Approval Comment Draft |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Approval comment       |       | Comment filled         |
+| Textarea required      |       | Ready to approve       |
+| Submit Cancel          |       | Submit Return          |
++========================+       +========================+
+Approval Comment Reqd ──[type comment]──► Approval Comment Draft
 
-+==============================+       +==============================+
-| Approval Comment Required    | save  | Approval Success             |
-| Comment: Ready to merge      |------>| Toast: Gate approved         |
-| Evidence + PRD links checked |       | Queue count 4 -> 3           |
-| [Submit]                     |       | [Open task] [Stay in queue]  |
-| Merge preview still visible  |       | Merge and close confirmed    |
-+==============================+       +==============================+
-approval_comment_required --> approval_success
-submit valid comment
++========================+       +========================+
+| Approval Comment Draft |       | Approval Success       |
+| Breadcrumb Approval    |       | Approval saved         |
+| Comment filled         |       | Queue count reduced    |
+| Ready to approve       |       | Merge requested        |
+| Submit Return          |       | Open task Queue        |
++========================+       +========================+
+Approval Comment Draft ──[submit approval]──► Approval Success
 
-+==============================+       +==============================+
-| Approval Success             | queue | Approval Gates Queue         |
-| Queue item completed         |------>| Remaining queue still shown  |
-| Merge/close action finished  |       | Aggregate panel + context    |
-| [Open task] [Stay in queue]  |       | [Approve] [Reject]           |
-| Toast still visible briefly  |       | Pending items now total 3    |
-+==============================+       +==============================+
-approval_success => approval_queue
-Stay in queue
++========================+       +========================+
+| Approval Comment Draft |       | Approval Comment Reqd  |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Comment filled         |       | Approval comment       |
+| Ready to approve       |       | Textarea required      |
+| Submit Return          |       | Submit Cancel          |
++========================+       +========================+
+Approval Comment Draft ──[return]──► Approval Comment Reqd
 
-+==============================+       +==============================+
-| Approval Success             | open  | Task Detail Refreshed        |
-| Queue item completed         |------>| Activity: approval comment   |
-| Merge/close action finished  |       | Status badge: Complete       |
-| [Open task] [Stay in queue]  |       | Linked evidence preserved    |
-| Toast still visible briefly  |       | [Back to Approval]           |
-+==============================+       +==============================+
-approval_success --> task_detail_refreshed
-Open task
++========================+       +========================+
+| Approval Success       |       | Task Detail Refreshed  |
+| Approval saved         |       | Back to Tasks          |
+| Queue count reduced    |       | bd-x1y2 approved       |
+| Merge requested        |       | Activity updated       |
+| Open task Queue        |       | Open approvals         |
++========================+       +========================+
+Approval Success ──[open task]──► Task Detail Refreshed
 
-+==============================+       +==============================+
-| Task Detail Refreshed        | back  | Approval Gates Queue         |
-| Activity: approval comment   |<------| Queue list: 3 pending items  |
-| Status badge: Complete       |       | Aggregate panel + context    |
-| Linked evidence preserved    |       | [Approve] [Reject]           |
-| [Back to Approval]           |       | Manual override shown        |
-+==============================+       +==============================+
-task_detail_refreshed --> approval_queue
-Back to Approval
++========================+       +========================+
+| Task Detail Refreshed  |       | Approval Gates Queue   |
+| Back to Tasks          |       | Breadcrumb Approval    |
+| bd-x1y2 approved       |       | Pending approvals list |
+| Activity updated       |       | Aggregate evidence     |
+| Open approvals         |       | Approve Reject Back    |
++========================+       +========================+
+Task Detail Refreshed ──[open approvals]──► Approval Gates Queue
 
-+==============================+       +==============================+
-| Approval Gates Queue         | fail  | Approval Error State         |
-| Queue item selected          |------>| CI/CD or GitHub unavailable  |
-| Aggregate panel timed out    |       | [Retry] [Open task]          |
-| [Approve] disabled           |       | [Manual Override] [Support]  |
-| Queue count still visible    |       | Queue context preserved      |
-+==============================+       +==============================+
-approval_queue => approval_error_state
-evidence fetch fails
++========================+       +========================+
+| Task Detail Refreshed  |       | Approval Complete      |
+| Back to Tasks          |       | Review session closed  |
+| bd-x1y2 approved       |       | Audit trail preserved  |
+| Activity updated       |       | Next approver notified |
+| Open approvals         |       | End state recorded     |
++========================+       +========================+
+Task Detail Refreshed ──[close review]──► Approval Complete
 
-+==============================+       +==============================+
-| Approval Error State         | retry | Approval Gates Queue         |
-| Reviewer chooses retry path  |------>| Evidence stream restored     |
-| Queue context preserved      |       | Queue item remains selected  |
-| [Retry] [Open task]          |       | [Approve] [Reject]           |
-| [Manual Override] [Support]  |       | Manual override shown        |
-+==============================+       +==============================+
-approval_error_state --> approval_queue
-Retry
++========================+       +========================+
+| Approval Gates Queue   |       | Approval Error State   |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Pending approvals list |       | Approval failed        |
+| Aggregate evidence     |       | CI service unavailable |
+| Approve Reject Back    |       | Retry Override Help    |
++========================+       +========================+
+Approval Gates Queue ──[service failure]──► Approval Error State
 
-+==============================+       +==============================+
-| Approval Error State         | open  | Task Detail                  |
-| Reviewer chooses fallback    |------>| Safe fallback to task view   |
-| Queue context preserved      |       | User can leave review flow   |
-| [Retry] [Open task]          |       | [Open Approval] [Back]       |
-| [Manual Override] [Support]  |       | Activity log + owner chips   |
-+==============================+       +==============================+
-approval_error_state --> task_detail
-Open task
++========================+       +========================+
+| Approval Error State   |       | Approval Gates Queue   |
+| Breadcrumb Approval    |       | Breadcrumb Approval    |
+| Approval failed        |       | Pending approvals list |
+| CI service unavailable |       | Aggregate evidence     |
+| Retry Override Help    |       | Approve Reject Back    |
++========================+       +========================+
+Approval Error State ──[retry]──► Approval Gates Queue
 
-+==============================+       +==============================+
-| Approval Error State         | admin | Terminal: Override Logged    |
-| Admin permission confirmed   |------>| Override reason captured     |
-| Evidence service unavailable |       | Audit trail updated          |
-| [Manual Override]            |       | Return to queue later        |
-| Queue context preserved      |       | Admin actor recorded         |
-+==============================+       +==============================+
-approval_error_state => override_logged
-Manual Override
++========================+       +========================+
+| Approval Error State   |       | Override Logged        |
+| Breadcrumb Approval    |       | Manual override saved  |
+| Approval failed        |       | Admin audit entry      |
+| CI service unavailable |       | Queue item resolved    |
+| Retry Override Help    |       | Back to queue Open task|
++========================+       +========================+
+Approval Error State ──[override]──► Override Logged
 
-+==============================+       +==============================+
-| Approval Error State         | help  | Terminal: Support Requested  |
-| Automated evidence blocked   |------>| Incident handed to admin     |
-| Reviewer cannot continue     |       | Review paused safely         |
-| [Support]                    |       | Return via queue later       |
-| Queue context preserved      |       | Evidence outage recorded     |
-+==============================+       +==============================+
-approval_error_state --> support_requested
-Contact support
++========================+       +========================+
+| Override Logged        |       | Approval Gates Queue   |
+| Manual override saved  |       | Breadcrumb Approval    |
+| Admin audit entry      |       | Pending approvals list |
+| Queue item resolved    |       | Aggregate evidence     |
+| Back to queue Open task|       | Approve Reject Back    |
++========================+       +========================+
+Override Logged ──[back]──► Approval Gates Queue
+
++========================+       +========================+
+| Approval Error State   |       | Support Requested      |
+| Breadcrumb Approval    |       | Support ticket created |
+| Approval failed        |       | Ticket SUP-204         |
+| CI service unavailable |       | Approval paused        |
+| Retry Override Help    |       | Back to queue Open task|
++========================+       +========================+
+Approval Error State ──[request support]──► Support Requested
+
++========================+       +========================+
+| Support Requested      |       | Approval Gates Queue   |
+| Support ticket created |       | Breadcrumb Approval    |
+| Ticket SUP-204         |       | Pending approvals list |
+| Approval paused        |       | Aggregate evidence     |
+| Back to queue Open task|       | Approve Reject Back    |
++========================+       +========================+
+Support Requested ──[back]──► Approval Gates Queue
 ```

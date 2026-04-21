@@ -1,0 +1,54 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 10,
+  "score": 88,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "ls found 24 wideframe files across 8 route screens and 3 breakpoints, and PRD route-map plus journey sections cover dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list."
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "grep found 229 data-ds-id occurrences across 20 wideframe files, and component-map.json validates with 29 screen blocks and 82 unique selectors spanning shell, dashboard, board, approval, docs, trace, task detail, search, and task list surfaces."
+    },
+    "storyboard_completeness": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "storyboards.json is valid and contains 21 storyboard trajectories tied to PRD journey refs across sections 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, and 14, including recovery and partial-state paths."
+    },
+    "layout_compilability": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "layout-rules.json is valid JSON and defines desktop/tablet/mobile viewports, global shell rules, 8 route screen layouts, and 5 shared responsive rules."
+    },
+    "conflict_resolution": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "prd-ds-conflicts.md lists 2 active conflicts and each includes PRD evidence, DS/org evidence, and explicit resolution direction; the create-plan interaction is recorded as a normalized resolved decision rather than an active blocker."
+    },
+    "wireframe_articulation": {
+      "score": 3,
+      "max": 15,
+      "tool_evidence": "sampled dashboard, task_detail, and document_viewer wideframes show boxed multi-region layouts, explicit selector traces, multiple UI states, and nested panels or accordions, but the mandatory mechanical flow check still returned arrows=0 for all 3 ASCII flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max."
+    }
+  },
+  "format_checks": {
+    "wideframe_regression": false,
+    "flow_connected": false
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "pillar": "wireframe_articulation",
+      "responsible_generator": "gen_flows",
+      "detail": "Repair all 3 ASCII user flows so the mandatory arrow-count regex detects connected transitions; /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md, /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md, and /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md all returned arrows=0 under the mandated check."
+    }
+  ],
+  "baseline_regression": false,
+  "issues": [
+    "FLOW_NOT_CONNECTED"
+  ]
+}

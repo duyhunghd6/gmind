@@ -1,130 +1,228 @@
 # Screen: RTM Dashboard (desktop)
 ## State: default
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; dashboard.kpi.row; dashboard.panel.coverage; dashboard.panel.progress; dashboard.panel.graph; dashboard.panel.gaps; dashboard.surface.create-plan
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="dashboard.kpi.row"] [data-ds-id="dashboard.panel.coverage"] [data-ds-id="dashboard.panel.progress"] [data-ds-id="dashboard.panel.graph"] [data-ds-id="dashboard.panel.gaps"] [data-ds-id="dashboard.surface.create-plan"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐ [100%]
-│ [Logo] [Global Search: PRD, task, trace____________] [Bell] [Ava]  │ ← header
-├══════════════┬═══════════════════════════════════════════════════════┤ [18%|82%]
-│ Dashboard    │ [Online] [Breadcrumb: Dashboard] [Range: 30d ▼]      │
-│ Board        ├───────────────────────────────────────────────────────┤
-│ Tasks        │ ┌──────────────┬──────────────┬──────────────┐ [100%] │
-│ Trace        │ │ Coverage 78% │ Done 104     │ Gaps 7       │        │
-│ Docs         │ │ 12 PRDs live │ In Prog 22   │ P0:2 P1:5    │        │
-│ Approval     │ │ 184 links     │ Blocked 9    │ Plans due 3  │        │
-│──────────────│ └──────────────┴──────────────┴──────────────┘        │
-│ Status: Live │ ┌───────────────────────────┬───────────────────────┐ │ [50%|50%]
-│ Sync <5s     │ │ Coverage Panel            │ Progress Panel        │ │
-│ Footer meta  │ │ ┌───────────────────────┐ │ ┌───────────────────┐ │ │
-│              │ │ │ PRD-00  ████████ 92% │ │ │ Done     104 71% │ │ │
-│              │ │ │ PRD-02  ██████░░ 76% │ │ │ In Prog   22 15% │ │ │
-│              │ │ │ PRD-04  █████░░░ 61% │ │ │ Blocked    9  6% │ │ │
-│              │ │ ├───────────────────────┤ │ ├───────────────────┤ │ │
-│              │ │ │ Section Drilldown     │ │ │ Timeline Summary  │ │ │
-│              │ │ │ s6  ███████░ 88%      │ │ │ W1 14  W2 19 W3 8 │ │ │
-│              │ │ │ s10 ████░░░░ 54%      │ │ │ [Filter status ▼] │ │ │
-│              │ │ │ [Open linked tasks]   │ │ │ [Export summary]  │ │ │
-│              │ │ └───────────────────────┘ │ └───────────────────┘ │ │
-│              │ ├───────────────────────────┼───────────────────────┤ │
-│              │ │ Graph Panel               │ Gap Panel             │ │
-│              │ │ ┌───────────────────────┐ │ ┌───────────────────┐ │ │
-│              │ │ │ Node Filter: All ▼    │ │ │ Gap 1 PRD-03 s2   │ │ │
-│              │ │ │  ●PRD──◆Plan──■Task   │ │ │ no linked plan    │ │ │
-│              │ │ │   ╲        ╲  ○PR     │ │ │ Gap 2 bd-k91      │ │ │
-│              │ │ │ [Node detail sidepeek]│ │ │ tests stale 11d   │ │ │
-│              │ │ │ [Open full trace]     │ │ │ [Create Plan]     │ │ │
-│              │ │ └───────────────────────┘ │ │ [Route to source] │ │ │
-│              │ │                           │ └───────────────────┘ │ │
-│              │ └───────────────────────────┴───────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: RTM Dashboard | Focus help | Shortcut Ctrl+K                      |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=default | viewport=desktop                            |    |   |
+|   |  |Layout intent: preserved shell with route workspace for RTM Dashboard          |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Executive overview                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: KPI row [dashboard.kpi.row]                                 |    |    |   |
+|   |  |  |Detail: coverage 84.2%                                                 |    |    |   |
+|   |  |  |Detail: tasks done 143 | gaps 7 | roots 28                             |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Coverage and progress                                                 |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Coverage panel [dashboard.panel.coverage]                   |    |    |   |
+|   |  |  |Detail: PRD heatmap                                                    |    |    |   |
+|   |  |  |Detail: section drill-down + low-coverage rows                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Progress panel [dashboard.panel.progress]                   |    |    |   |
+|   |  |  |Detail: status totals + burnup                                         |    |    |   |
+|   |  |  |Detail: timeline chips + due window                                    |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Trace and gap action                                                  |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Graph panel [dashboard.panel.graph]                         |    |    |   |
+|   |  |  |Detail: trace mini-canvas                                              |    |    |   |
+|   |  |  |Detail: legend PRD | Plan | Task | PR                                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Gap panel [dashboard.panel.gaps]                            |    |    |   |
+|   |  |  |Detail: severity table + source links                                  |    |    |   |
+|   |  |  |Detail: create-plan entry points                                       |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Create-plan surface [dashboard.surface.create-plan]         |    |    |   |
+|   |  |  |Detail: gap title + owner + notes                                      |    |    |   |
+|   |  |  |Detail: save CTA + cancel CTA                                          |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: loading
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; dashboard.state.loading-skeleton
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="dashboard.state.loading-skeleton"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search____________________________] [Bell] [Ava]     │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Nav live     │ [Dashboard] [Loading latest coverage]                │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌──────────────┬──────────────┬──────────────┐        │
-│              │ │ ████████████ │ ████████████ │ ████████████ │        │
-│              │ └──────────────┴──────────────┴──────────────┘        │
-│              │ ┌───────────────────────────┬───────────────────────┐ │
-│              │ │ ┌───────────────────────┐ │ ┌───────────────────┐ │ │
-│              │ │ │ ████████████████████  │ │ │ ████████████████  │ │ │
-│              │ │ │ ████████░░░░░░░░░░░░  │ │ │ ████████░░░░░░░░  │ │ │
-│              │ │ └───────────────────────┘ │ └───────────────────┘ │ │
-│              │ │ ┌───────────────────────┐ │ ┌───────────────────┐ │ │
-│              │ │ │ █████ graph skeleton  │ │ │ ████████████████  │ │ │
-│              │ │ │ ████████████████████  │ │ │ ███████░░░░░░░░░  │ │ │
-│              │ │ └───────────────────────┘ │ └───────────────────┘ │ │
-│              │ └───────────────────────────┴───────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"] | [selector="dashboard.state.loading-skeleton"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: RTM Dashboard | Focus help | Shortcut Ctrl+K                      |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=loading | viewport=desktop                            |    |   |
+|   |  |Layout intent: preserved shell with route workspace for RTM Dashboard          |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: loading                                                         |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Loading skeleton [dashboard.state.loading-skeleton]         |    |    |   |
+|   |  |  |Detail: KPI skeleton tiles                                             |    |    |   |
+|   |  |  |Detail: panel skeleton rows + graph placeholders                       |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: KPI row [dashboard.kpi.row]                                 |    |    |   |
+|   |  |  |Detail: coverage 84.2%                                                 |    |    |   |
+|   |  |  |Detail: tasks done 143 | gaps 7 | roots 28                             |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: error
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; dashboard.state.error; dashboard.state.retry; dashboard.panel.coverage; dashboard.panel.progress
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="dashboard.panel.coverage"] [data-ds-id="dashboard.panel.progress"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="dashboard.state.error"] [data-ds-id="dashboard.state.retry"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: dashboard retry____________] [Bell] [Ava]    │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Sidebar live │ [Error Banner: Cannot reach /api/coverage] [Retry]   │
-│              │ [dashboard.state.retry] [Open docs] [Use cached]     │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌───────────────────────────┬───────────────────────┐ │
-│              │ │ Cached Coverage Snapshot  │ │ Recovery Checklist   │ │
-│              │ │ ┌───────────────────────┐ │ │ 1. Retry dashboard  │ │ │
-│              │ │ │ PRD-04 61% 12m ago    │ │ │ 2. Check API health │ │ │
-│              │ │ │ s6 88%  s10 54%       │ │ │ 3. Open Trace view  │ │ │
-│              │ │ │ [Use cached panel]    │ │ │ [View logs]         │ │ │
-│              │ │ └───────────────────────┘ │ └────────────────────┘ │ │
-│              │ │ Cached Progress Panel      │                       │ │
-│              │ │ Done 103 | In Prog 22      │                       │ │
-│              │ └───────────────────────────┴───────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"] | [selector="dashboard.state.error"] | [selector="dashboard.state.retry"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: RTM Dashboard | Focus help | Shortcut Ctrl+K                      |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=error | viewport=desktop                              |    |   |
+|   |  |Layout intent: preserved shell with route workspace for RTM Dashboard          |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: error                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Error banner [dashboard.state.error]                        |    |    |   |
+|   |  |  |Detail: Coverage feed unavailable                                      |    |    |   |
+|   |  |  |Detail: stale data badge + recovery note                               |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Retry actions [dashboard.state.retry]                       |    |    |   |
+|   |  |  |Detail: retry dashboard                                                |    |    |   |
+|   |  |  |Detail: open logs + back to filters                                    |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: KPI row [dashboard.kpi.row]                                 |    |    |   |
+|   |  |  |Detail: coverage 84.2%                                                 |    |    |   |
+|   |  |  |Detail: tasks done 143 | gaps 7 | roots 28                             |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: empty
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; dashboard.state.empty; dashboard.state.empty-cta
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="dashboard.state.empty"] [data-ds-id="dashboard.state.empty-cta"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: setup trace______________] [Bell] [Ava]      │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Sidebar      │ [Dashboard] [No RTM data yet]                        │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌───────────────────────────────────────────────────┐ │
-│              │ │ Empty Workspace                                  │ │
-│              │ │ ┌───────────────────────────────────────────────┐ │ │
-│              │ │ │ Coverage Heatmap: waiting for first PRD       │ │ │
-│              │ │ │ Task Progress: 0 synced work items            │ │ │
-│              │ │ │ Graph Panel: no trace roots yet               │ │ │
-│              │ │ │ Gap Panel: available after import             │ │ │
-│              │ │ └───────────────────────────────────────────────┘ │ │
-│              │ │ [Import PRDs] [Run reindex] [View setup guide]   │ │
-│              │ └───────────────────────────────────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"] | [selector="dashboard.state.empty"] | [selector="dashboard.state.empty-cta"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: RTM Dashboard | Focus help | Shortcut Ctrl+K                      |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=empty | viewport=desktop                              |    |   |
+|   |  |Layout intent: preserved shell with route workspace for RTM Dashboard          |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: empty                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty workspace [dashboard.state.empty]                     |    |    |   |
+|   |  |  |Detail: no PRD links match current filter                              |    |    |   |
+|   |  |  |Detail: 0 gaps | 0 uncovered | waiting for trace root                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty CTA [dashboard.state.empty-cta]                       |    |    |   |
+|   |  |  |Detail: reset filters                                                  |    |    |   |
+|   |  |  |Detail: create first resolution plan                                   |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: KPI row [dashboard.kpi.row]                                 |    |    |   |
+|   |  |  |Detail: coverage 84.2%                                                 |    |    |   |
+|   |  |  |Detail: tasks done 143 | gaps 7 | roots 28                             |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+

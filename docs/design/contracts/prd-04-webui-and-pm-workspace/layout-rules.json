@@ -1,10 +1,31 @@
 {
   "feature": "prd-04-webui-and-pm-workspace",
   "version": 1,
+  "viewport_contract": {
+    "canonical_viewports": {
+      "desktop": 1440,
+      "tablet": 1024,
+      "mobile": 390
+    },
+    "breakpoint_policy": {
+      "desktop": {
+        "min_width": 1024,
+        "desktop_wide_min_width": 1280
+      },
+      "tablet": {
+        "min_width": 768,
+        "max_width": 1023
+      },
+      "mobile": {
+        "max_width": 767
+      },
+      "normalization_note": "Normalized viewport families follow desktop >=1024px, tablet 768-1023px, and mobile <=767px, while preserving canonical review widths of 1440px desktop, 1024px tablet, and 390px mobile from PRD section 14A."
+    }
+  },
   "viewports": {
-    "desktop": { "min": 1024, "canonical": 1440 },
-    "tablet": { "min": 768, "max": 1023, "canonical": 1024 },
-    "mobile": { "max": 767, "canonical": 390 }
+    "desktop": { "min_width": 1024, "canonical_width": 1440, "desktop_wide_min_width": 1280 },
+    "tablet": { "min_width": 768, "max_width": 1023, "canonical_width": 1024 },
+    "mobile": { "max_width": 767, "canonical_width": 390 }
   },
   "global_shell": {
     "desktop": {

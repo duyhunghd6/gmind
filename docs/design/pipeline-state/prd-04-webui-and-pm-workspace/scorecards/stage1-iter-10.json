@@ -1,38 +1,38 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 10,
-  "score": 85,
+  "score": 88,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
     "prd_coverage": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "PRD route-map and journey sections name dashboard, board, approval, document viewer, trace explorer, task detail, search results, and task list; wireframes directory contains 24 wideframe files covering these 8 route screens across desktop/tablet/mobile."
+      "tool_evidence": "PRD search surfaced 8 core route screens in sections 3, 4, 6, 9, 10, 11, 12, and 13 plus the route table: board, approval_gates, dashboard, document_viewer, trace_explorer, task_detail, search_results, and task_list; wireframe listing confirms 24 .wideframe artifacts covering those 8 screens across desktop/tablet/mobile."
     },
     "component_traceability": {
-      "score": 18,
+      "score": 20,
       "max": 20,
-      "tool_evidence": "Mandatory wireframe grep found 247 data-ds-id occurrences across all 24 wideframe files, while component-map.json defines 21 flow blocks and 38 unique selectors; sampled dashboard, task_detail, and approval_gates wideframes now embed machine-detectable selector traces."
+      "tool_evidence": "Grep found 2316 data-ds-id occurrences across 48 wireframe artifacts, and component-map.json declares 27 unique screen blocks with 61 unique selectors plus proof links into dashboard, document_viewer, task_detail, task_list, trace_explorer, and approval_gates wireframes."
     },
     "storyboard_completeness": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "storyboards.json is valid and contains 21 trajectories spanning dashboard, board, approval, docs, trace, task detail, search, task list, navigation, offline, empty, error, and recovery journeys referenced by the PRD."
+      "tool_evidence": "storyboards.json is valid and contains 21 storyboard trajectories spanning board, approval, dashboard, docs, trace, task detail, search, task list, and shell navigation journeys tied to PRD refs br-prd04-s3 through br-prd04-s13."
     },
     "layout_compilability": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "layout-rules.json parsed successfully and defines desktop/tablet/mobile viewports, global shell rules, shared responsive constraints, and per-screen placement for dashboard, board, approval_gates, document_viewer, trace_explorer, task_detail, search_results, and task_list."
+      "tool_evidence": "layout-rules.json is valid JSON and defines desktop/tablet/mobile viewports, global_shell rules, 8 screen layout blocks, and 5 shared_rules covering loading, semantic status, overlays, mobile action reachability, and scroll ownership."
     },
     "conflict_resolution": {
-      "score": 14,
+      "score": 15,
       "max": 15,
-      "tool_evidence": "prd-ds-conflicts.md documents 2 active conflicts and gives explicit resolution direction for each, plus a normalized create-plan interaction decision; only legacy selector naming debt remains around dashboard.modal.create-plan."
+      "tool_evidence": "prd-ds-conflicts.md documents 3 normalized PRD-vs-DS decisions, and each includes PRD evidence, DS/org evidence, a final contract-level decision, and an explicit resolved outcome stating it is not an active conflict."
     },
     "wireframe_articulation": {
       "score": 3,
       "max": 15,
-      "tool_evidence": "Sampled dashboard, task_detail, and approval_gates wideframes show multi-region layouts, explicit selector annotations, and multiple named states, and all 3 user-flow files visually contain connected transitions; however, the mandatory mechanical flow check still returned arrows=0 for all 3 ASCII flows, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max."
+      "tool_evidence": "Read dashboard, task_detail, and approval_gates desktop wideframes show boxed multi-region layouts, explicit Traceability annotations, and at least 3 nesting levels via shell -> region -> component -> sub-element; however the mandatory mechanical user-flow check returned arrows=0 for all 3 ASCII flow files, triggering FLOW_NOT_CONNECTED and capping this pillar at 20% of max."
     }
   },
   "format_checks": {
@@ -44,13 +44,7 @@
       "priority": "P0",
       "pillar": "wireframe_articulation",
       "responsible_generator": "gen_flows",
-      "detail": "Repair all three user-flow ASCII files so the mandated arrow-count regex detects connected transitions; /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md, /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md, and /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md still returned arrows=0 under the mandatory check."
-    },
-    {
-      "priority": "P1",
-      "pillar": "conflict_resolution",
-      "responsible_generator": "gen_contracts",
-      "detail": "Normalize the remaining create-plan selector naming debt in contract artifacts; the conflict report says the interaction is now a side panel/full-screen overlay, but references still use the legacy selector name dashboard.modal.create-plan."
+      "detail": "Repair the 3 ASCII user-flow files so the mandatory arrow-count regex detects connected transitions; /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j1-dashboard-gap-resolution.ascii.md, /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j2-docs-empty-to-trace.ascii.md, and /Users/steve/duyhunghd6/gmind/docs/design/contracts/prd-04-webui-and-pm-workspace/user-flows/j3-approval-comment-and-recovery.ascii.md each returned arrows=0 during the required mechanical format check."
     }
   ],
   "baseline_regression": false,

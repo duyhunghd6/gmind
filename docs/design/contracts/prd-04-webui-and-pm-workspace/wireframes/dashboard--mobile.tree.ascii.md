@@ -1,63 +1,140 @@
 # Screen: RTM Dashboard (mobile)
 ## State: default
-├── shell.header [data-ds-id="workspace.shell.header"]
-│   ├── mobile-menu-trigger
-│   ├── logo
-│   ├── global-search [data-ds-id="workspace.shell.search"]
-│   └── notifications [data-ds-id="workspace.shell.notifications"]
-├── shell.status-strip [data-ds-id="workspace.shell.connection-status"]
-│   ├── connection-pill
-│   ├── route-label
-│   └── refresh-hint
-├── dashboard.kpi.row [data-ds-id="dashboard.kpi.row"]
-│   ├── kpi-card: coverage_percent
-│   └── kpi-card-stack
-│       ├── kpi-card: tasks_done_count
-│       └── kpi-card: gaps_found_count
-├── dashboard.panel.coverage [data-ds-id="dashboard.panel.coverage"]
-│   ├── heatmap-summary
-│   ├── section-chip-row
-│   └── open-linked-tasks-action
-├── dashboard.panel.progress [data-ds-id="dashboard.panel.progress"]
-│   ├── status-bars
-│   └── timeline-mini-strip
-├── dashboard.panel.graph [data-ds-id="dashboard.panel.graph"]
-│   ├── graph-mini-preview
-│   ├── node-details-action
-│   └── open-trace-action
-├── dashboard.panel.gaps [data-ds-id="dashboard.panel.gaps"]
-│   ├── gap-summary-list
-│   ├── create-plan-action
-│   └── source-action
-└── shell.footer [data-ds-id="workspace.shell.footer"]
-    ├── sync-status
-    └── version
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: RTM Dashboard
+    │   ├── section: Executive overview
+    │   │   └── KPI row [data-ds-id="dashboard.kpi.row"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   ├── section: Coverage and progress
+    │   │   ├── Coverage panel [data-ds-id="dashboard.panel.coverage"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Progress panel [data-ds-id="dashboard.panel.progress"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── section: Trace and gap action
+    │       ├── Graph panel [data-ds-id="dashboard.panel.graph"]
+    │       │   ├── slot-a
+    │       │   └── slot-b
+    │       ├── Gap panel [data-ds-id="dashboard.panel.gaps"]
+    │       │   ├── slot-a
+    │       │   └── slot-b
+    │       └── Create-plan surface [data-ds-id="dashboard.surface.create-plan"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note
 ## State: loading
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── shell.status-strip [data-ds-id="workspace.shell.connection-status"]
-├── dashboard.state.loading-skeleton
-│   ├── kpi-skeleton-card
-│   ├── panel-skeleton: coverage
-│   ├── panel-skeleton: progress
-│   └── panel-skeleton: graph
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"] | [selector="dashboard.state.loading-skeleton"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: RTM Dashboard
+    │   ├── state-surface: loading
+    │   │   └── Loading skeleton [selector="dashboard.state.loading-skeleton"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── persistent-context
+    │       └── KPI row [data-ds-id="dashboard.kpi.row"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note
 ## State: error
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── dashboard.state.error
-│   ├── error-banner
-│   ├── retry-action
-│   ├── open-docs-action
-│   └── cached-snapshot-card
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"] | [selector="dashboard.state.error"] | [selector="dashboard.state.retry"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: RTM Dashboard
+    │   ├── state-surface: error
+    │   │   ├── Error banner [selector="dashboard.state.error"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Retry actions [selector="dashboard.state.retry"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── persistent-context
+    │       └── KPI row [data-ds-id="dashboard.kpi.row"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note
 ## State: empty
-├── shell.header [data-ds-id="workspace.shell.header"]
-├── shell.status-strip [data-ds-id="workspace.shell.connection-status"]
-├── dashboard.state.empty
-│   ├── empty-message
-│   ├── setup-copy
-│   └── onboarding-card
-├── dashboard.state.empty-cta
-│   ├── import-prds-action
-│   ├── run-reindex-action
-│   └── view-guide-action
-└── shell.footer [data-ds-id="workspace.shell.footer"]
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="dashboard.kpi.row"] | [data-ds-id="dashboard.panel.coverage"] | [data-ds-id="dashboard.panel.progress"] | [data-ds-id="dashboard.panel.graph"] | [data-ds-id="dashboard.panel.gaps"] | [data-ds-id="dashboard.surface.create-plan"] | [selector="dashboard.state.empty"] | [selector="dashboard.state.empty-cta"]
+root
+└── shell [workspace.root]
+    ├── header [data-ds-id="workspace.shell.header"]
+    │   ├── logo
+    │   ├── global-search [data-ds-id="workspace.shell.search"]
+    │   └── notifications [data-ds-id="workspace.shell.notifications"]
+    ├── navigation [data-ds-id="workspace.shell.sidebar"]
+    │   ├── nav-link: Dashboard
+    │   ├── nav-link: Board
+    │   ├── nav-link: Tasks
+    │   ├── nav-link: Trace
+    │   ├── nav-link: Docs
+    │   └── nav-link: Approval
+    ├── route-shell
+    │   ├── viewport: mobile
+    │   ├── route-title: RTM Dashboard
+    │   ├── state-surface: empty
+    │   │   ├── Empty workspace [selector="dashboard.state.empty"]
+    │   │   │   ├── slot-a
+    │   │   │   └── slot-b
+    │   │   └── Empty CTA [selector="dashboard.state.empty-cta"]
+    │   │       ├── slot-a
+    │   │       └── slot-b
+    │   └── persistent-context
+    │       └── KPI row [data-ds-id="dashboard.kpi.row"]
+    │           ├── slot-a
+    │           └── slot-b
+    └── footer [data-ds-id="workspace.shell.footer"]
+        ├── connection-status [data-ds-id="workspace.shell.connection-status"]
+        ├── accessibility-help
+        └── api-only-note

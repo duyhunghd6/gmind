@@ -20,7 +20,9 @@ stateDiagram-v2
     default --> DashboardSidePanel: click_low_coverage_prd
     DashboardSidePanel --> default: close side panel
     default --> CreatePlanSurface: click_gap_create
-    CreatePlanSurface --> default: save plan / close panel
+    CreatePlanSurface --> default: save plan
+    CreatePlanSurface --> CreatePlanValidation: invalid form
+    CreatePlanValidation --> CreatePlanSurface: fix fields
     default --> DashboardGraphSidePanel: click_graph_node
     DashboardGraphSidePanel --> default: close node detail
   }
@@ -46,7 +48,7 @@ stateDiagram-v2
     default --> loading: initial fetch
     loading --> default: rows loaded
     default --> empty: no matching tasks
-    empty --> default: clear filters / create
+    empty --> default: clear filters
     default --> error: API failure
     error --> loading: retry
     default --> bulk_processing: submit_bulk_assign
@@ -69,6 +71,7 @@ stateDiagram-v2
     error --> loading: retry
     default --> TraceExplorer: click_dependency_link
     default --> TraceExplorer: click_graph_open_full_page
+    default --> ApprovalGates: open_approval
   }
 
   state DocumentViewer {
@@ -76,9 +79,11 @@ stateDiagram-v2
     default --> loading: fetch docs
     loading --> default: docs loaded
     default --> empty: no indexed docs
-    empty --> default: reindex / go home
+    empty --> loading: reindex
+    empty --> Dashboard: go home
     default --> error: API failure
     error --> loading: retry
+    error --> default: open cache
     default --> default: select_doc_tree_item
     default --> TraceExplorer: click_beads_autolink
   }
@@ -104,12 +109,21 @@ stateDiagram-v2
     default --> loading: fetch queue
     loading --> default: queue loaded
     default --> empty: no approvals pending
+    empty --> TaskDetail: back to task
     default --> error: aggregate fetch failure
-    error --> default: manual override / back to queue
+    error --> default: retry
+    error --> ApprovalOverrideLogged: manual override
+    error --> ApprovalSupportRequested: request support
+    ApprovalOverrideLogged --> default: back to queue
+    ApprovalSupportRequested --> default: back to queue
     default --> offline: network lost
     offline --> default: reconnect
     default --> ApprovalCommentRequired: click_approve
-    ApprovalCommentRequired --> default: submit_approval_comment
+    ApprovalCommentRequired --> ApprovalCommentValidation: submit empty comment
+    ApprovalCommentValidation --> ApprovalCommentRequired: fix comment
+    ApprovalCommentRequired --> ApprovalCommentDraft: enter comment
+    ApprovalCommentDraft --> ApprovalCompleted: submit approval
+    ApprovalCompleted --> TaskDetail: open task
     default --> ApprovalRejectionRequired: click_reject
     ApprovalRejectionRequired --> default: submit_rejection_comment
   }

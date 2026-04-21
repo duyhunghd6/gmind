@@ -1,101 +1,213 @@
 # Screen: Search Results (mobile)
 ## State: default
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; search.header.query; search.filter.panel; search.results.group; search.results.card; search.state.empty-suggestions
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="search.header.query"] [data-ds-id="search.filter.panel"] [data-ds-id="search.results.group"] [data-ds-id="search.results.card"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="search.state.empty-suggestions"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐ [100%]
-│ [☰] [Logo] [Search________] [Bell]           │
-├══════════════════════════════════════════════┤
-│ Search [icon change________] [Go]            │
-│ Results 23 [Filter ▼]                        │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ Filter Drawer trigger                    │ │
-│ │ Type / Date / Status                     │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────────────────────────────────────┐ │
-│ │ ▼ Tasks (12)                             │ │
-│ │ bd-x1y2 Change button icon               │ │
-│ │ [Open task]                              │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────────────────────────────────────┐ │
-│ │ ▼ Docs (5)                               │ │
-│ │ PRD-04 §1 PM Fields                      │ │
-│ │ [Open doc]                               │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────────────────────────────────────┐ │
-│ │ ▼ Commits / PRs / Chats                  │ │
-│ │ grouped result cards                     │ │
-│ └──────────────────────────────────────────┘ │
-│ [Footer: search via 3 backends]             │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="search.header.query"] | [data-ds-id="search.filter.panel"] | [data-ds-id="search.results.group"] | [data-ds-id="search.results.card"] | [data-ds-id="search.state.empty-suggestions"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Search Results | Focus help | Shortcut Ctrl+K                     |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=default | viewport=mobile                             |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Search Results         |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Search controls                                                       |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Search bar [search.header.query]                            |    |    |   |
+|   |  |  |Detail: query field + suggestions                                      |    |    |   |
+|   |  |  |Detail: scope chip + submit CTA                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Filter panel [search.filter.panel]                          |    |    |   |
+|   |  |  |Detail: type counts + date range                                       |    |    |   |
+|   |  |  |Detail: task status + owner filters                                    |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Grouped results                                                       |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Result groups [search.results.group]                        |    |    |   |
+|   |  |  |Detail: tasks | docs | commits | PRs | chats                           |    |    |   |
+|   |  |  |Detail: group headers + counts                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Result card [search.results.card]                           |    |    |   |
+|   |  |  |Detail: title + snippet + type badge                                   |    |    |   |
+|   |  |  |Detail: destination route + status                                     |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: loading
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; search.state.loading-skeleton
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="search.state.loading-skeleton"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search________] [Bell]           │
-├══════════════════════════════════════════════┤
-│ Results loading...                           │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ █████ filter trigger ███████████████████ │ │
-│ └──────────────────────────────────────────┘ │
-│ ┌──────────────────────────────────────────┐ │
-│ │ █████ result card ██████████████████████ │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="search.header.query"] | [data-ds-id="search.filter.panel"] | [data-ds-id="search.results.group"] | [data-ds-id="search.results.card"] | [data-ds-id="search.state.empty-suggestions"] | [selector="search.state.loading-skeleton"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Search Results | Focus help | Shortcut Ctrl+K                     |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=loading | viewport=mobile                             |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Search Results         |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: loading                                                         |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Loading skeleton [search.state.loading-skeleton]            |    |    |   |
+|   |  |  |Detail: query chip skeleton                                            |    |    |   |
+|   |  |  |Detail: result groups placeholder rows                                 |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Search bar [search.header.query]                            |    |    |   |
+|   |  |  |Detail: query field + suggestions                                      |    |    |   |
+|   |  |  |Detail: scope chip + submit CTA                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: error
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; search.state.error; search.state.retry
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="search.state.error"] [data-ds-id="search.state.retry"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search: retry________] [Bell]    │
-├══════════════════════════════════════════════┤
-│ [Error: Search unavailable]                  │
-│ [Retry] [Clear filters]                      │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ Cached task hits available               │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="search.header.query"] | [data-ds-id="search.filter.panel"] | [data-ds-id="search.results.group"] | [data-ds-id="search.results.card"] | [data-ds-id="search.state.empty-suggestions"] | [selector="search.state.error"] | [selector="search.state.retry"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Search Results | Focus help | Shortcut Ctrl+K                     |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=error | viewport=mobile                               |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Search Results         |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: error                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Error banner [search.state.error]                           |    |    |   |
+|   |  |  |Detail: search service unavailable                                     |    |    |   |
+|   |  |  |Detail: filters preserved for retry                                    |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Retry actions [search.state.retry]                          |    |    |   |
+|   |  |  |Detail: retry current query                                            |    |    |   |
+|   |  |  |Detail: clear failed filter set                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Search bar [search.header.query]                            |    |    |   |
+|   |  |  |Detail: query field + suggestions                                      |    |    |   |
+|   |  |  |Detail: scope chip + submit CTA                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: empty
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; search.state.empty; search.state.empty-suggestions
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="search.state.empty"] [data-ds-id="search.state.empty-suggestions"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════┐
-│ [☰] [Logo] [Search: none________] [Bell]     │
-├══════════════════════════════════════════════┤
-│ ┌──────────────────────────────────────────┐ │
-│ │ No results for this query                │ │
-│ │ Suggestions: icon / button / svg         │ │
-│ │ [Clear filters] [Search docs]            │ │
-│ └──────────────────────────────────────────┘ │
-└══════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="search.header.query"] | [data-ds-id="search.filter.panel"] | [data-ds-id="search.results.group"] | [data-ds-id="search.results.card"] | [data-ds-id="search.state.empty-suggestions"] | [selector="search.state.empty"] | [selector="search.state.empty-cta"]
++===============================================================================================+
+| App shell [100%] viewport 390px | nav hamburger drawer over content [100%] | header stacked m |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Search Results | Focus help | Shortcut Ctrl+K                     |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: hamburger drawer over content [100%]                        |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=empty | viewport=mobile                               |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Search Results         |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: empty                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty results [search.state.empty]                          |    |    |   |
+|   |  |  |Detail: no matches across sources                                      |    |    |   |
+|   |  |  |Detail: recent query preserved                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Suggestions [search.state.empty-suggestions]                |    |    |   |
+|   |  |  |Detail: search by beads id                                             |    |    |   |
+|   |  |  |Detail: remove narrow filters or shorten query                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Search bar [search.header.query]                            |    |    |   |
+|   |  |  |Detail: query field + suggestions                                      |    |    |   |
+|   |  |  |Detail: scope chip + submit CTA                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+

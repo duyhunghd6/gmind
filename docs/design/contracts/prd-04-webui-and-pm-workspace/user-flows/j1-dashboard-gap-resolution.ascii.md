@@ -1,197 +1,174 @@
-a-->b
-b-->c
-c-->d
-d-->e
-e=>f
-f=>g
-
-# Journey 1 — Dashboard gap resolution and task drill-down
-
-dashboard_home----->coverage_drilldown
-coverage_drilldown----->dashboard_home
-create_plan_panel=====>create_plan_validation
-task_detail=====>trace_explorer
-trace_explorer----->task_detail
-dashboard_error=====>dashboard_home
+# Journey 1 - Dashboard gap resolution and task drill-down
 
 ```text
-+==============================+       +==============================+
-| Dashboard Home               | click | Coverage Drill-down          |
-| Header: Search + alerts      |------>| Breadcrumb: Dashboard > PRD  |
-| Sidebar: Dashboard active    |       | Coverage bars by section     |
-| KPI: 47.2% / 128 / 9 gaps    |       | Gap rows + linked task chip  |
-| Gap panel: [Create Plan]     |       | [Open task bd-x1y2] [Back]   |
-+==============================+       +==============================+
-dashboard_home --> coverage_drilldown
-click coverage row
++========================+       +========================+
+| Dashboard Home         |       | Coverage Drill-down    |
+| Header Search Bell     |       | Breadcrumb Dashboard   |
+| KPI 78 142 5           |       | Coverage PRD-04 58     |
+| Coverage heatmap       |       | Section rows           |
+| Gap list Create Plan   |       | Open task Back         |
++========================+       +========================+
+Dashboard Home ──[click coverage]──► Coverage Drill-down
 
-+==============================+       +==============================+
-| Coverage Drill-down          | back  | Dashboard Home               |
-| Breadcrumb: Dashboard > PRD  |<------| Header: Search + alerts      |
-| Gap rows + linked task chip  |       | Heatmap + progress + graph   |
-| [Open task bd-x1y2] [Back]   |       | Gap panel: [Create Plan]     |
-| Section excerpt visible      |       | Sidebar: Dashboard active    |
-+==============================+       +==============================+
-coverage_drilldown --> dashboard_home
-breadcrumb Dashboard
++========================+       +========================+
+| Coverage Drill-down    |       | Dashboard Home         |
+| Breadcrumb Dashboard   |       | Header Search Bell     |
+| Coverage PRD-04 58     |       | KPI 78 142 5           |
+| Section rows           |       | Coverage heatmap       |
+| Open task Back         |       | Gap list Create Plan   |
++========================+       +========================+
+Coverage Drill-down ──[back]──► Dashboard Home
 
-+==============================+       +==============================+
-| Dashboard Home               | click | Create Plan Side Panel       |
-| Gap panel shows Missing plan |------>| Gap context pinned           |
-| Coverage summary still shown |       | Plan title: [            ]   |
-| [Create Plan] [Open task]    |       | Notes: [                 ]   |
-| Heatmap still visible        |       | [Save plan] [Close panel]    |
-+==============================+       +==============================+
-dashboard_home => create_plan_panel
-click Create Plan
++========================+       +========================+
+| Dashboard Home         |       | Create Plan Side Panel |
+| Header Search Bell     |       | Breadcrumb Dashboard   |
+| Coverage heatmap       |       | Create plan for gap    |
+| Gap list Create Plan   |       | Title input            |
+| Open gap action        |       | Assignee select Save   |
++========================+       +========================+
+Dashboard Home ──[click create plan]──► Create Plan Side Panel
 
-+==============================+       +==============================+
-| Create Plan Side Panel       | close | Dashboard Home               |
-| Gap context pinned           |<------| Gap panel still focused      |
-| Plan title: [            ]   |       | KPI row unchanged            |
-| Notes: [                 ]   |       | Heatmap + progress + graph   |
-| [Save plan] [Close panel]    |       | [Create Plan] [Open task]    |
-+==============================+       +==============================+
-create_plan_panel --> dashboard_home
-close panel or Esc
++========================+       +========================+
+| Create Plan Side Panel |       | Create Plan Validation |
+| Breadcrumb Dashboard   |       | Breadcrumb Dashboard   |
+| Title input            |       | Title required         |
+| Assignee select Save   |       | Notes exceed limit     |
+| Close panel            |       | Fix fields Retry       |
++========================+       +========================+
+Create Plan Side Panel ──[save empty form]──► Create Plan Validation
 
-+==============================+       +==============================+
-| Create Plan Side Panel       | save  | Create Plan Validation       |
-| Title left blank             |------>| Error: Plan title required   |
-| Notes draft still present    |       | Field outline + helper text  |
-| [Save plan] [Close panel]    |       | Cursor returned to title     |
-| Gap context stays pinned     |       | [Retry save] [Close panel]   |
-+==============================+       +==============================+
-create_plan_panel => create_plan_validation
-save empty title
++========================+       +========================+
+| Create Plan Validation |       | Create Plan Side Panel |
+| Breadcrumb Dashboard   |       | Breadcrumb Dashboard   |
+| Title required         |       | Title Plan 17          |
+| Notes exceed limit     |       | Assignee select Save   |
+| Fix fields Retry       |       | Close panel            |
++========================+       +========================+
+Create Plan Validation ──[fix fields]──► Create Plan Side Panel
 
-+==============================+       +==============================+
-| Create Plan Validation       | fix   | Create Plan Side Panel       |
-| Error: Plan title required   |------>| Title: Plan 15 link PRD-04   |
-| Field outline + helper text  |       | Notes: Add owner + due date  |
-| Cursor returned to title     |       | Gap context still visible    |
-| [Retry save] [Close panel]   |       | [Save plan] [Close panel]    |
-+==============================+       +==============================+
-create_plan_validation --> create_plan_panel
-fix title
++========================+       +========================+
+| Create Plan Side Panel |       | Dashboard Reloaded     |
+| Breadcrumb Dashboard   |       | Header Search Bell     |
+| Title Plan 17          |       | KPI 81 143 4           |
+| Assignee select Save   |       | Gap list updated       |
+| Close panel            |       | New plan badge         |
++========================+       +========================+
+Create Plan Side Panel ──[save valid plan]──► Dashboard Reloaded
 
-+==============================+       +==============================+
-| Create Plan Side Panel       | save  | Dashboard Reloaded           |
-| Title: Plan 15 link PRD-04   |------>| Toast: Plan created          |
-| Notes: Add owner + due date  |       | Gap count 9 -> 8             |
-| Gap context still visible    |       | New plan link in gap panel   |
-| [Save plan]                  |       | [Continue] [Open task]       |
-+==============================+       +==============================+
-create_plan_panel --> dashboard_reloaded
-save valid plan
++========================+       +========================+
+| Create Plan Side Panel |       | Dashboard Home         |
+| Breadcrumb Dashboard   |       | Header Search Bell     |
+| Title input            |       | KPI 78 142 5           |
+| Assignee select Save   |       | Coverage heatmap       |
+| Close panel            |       | Gap list Create Plan   |
++========================+       +========================+
+Create Plan Side Panel ──[close]──► Dashboard Home
 
-+==============================+       +==============================+
-| Dashboard Reloaded           | open  | Create Plan Side Panel       |
-| Toast: Plan created          |------>| Previously entered values    |
-| Gap count 9 -> 8             |       | Side panel can reopen        |
-| New plan link in gap panel   |       | Gap context pinned again     |
-| [Continue] [Open task]       |       | [Save plan] [Close panel]    |
-+==============================+       +==============================+
-dashboard_reloaded => create_plan_panel
-open gap panel
++========================+       +========================+
+| Coverage Drill-down    |       | Task Detail            |
+| Breadcrumb Dashboard   |       | Back to Tasks          |
+| Coverage PRD-04 58     |       | bd-x1y2 In Progress    |
+| Section rows           |       | Detail Activity        |
+| Open task Back         |       | Graph Code Trace       |
++========================+       +========================+
+Coverage Drill-down ──[open task]──► Task Detail
 
-+==============================+       +==============================+
-| Coverage Drill-down          | open  | Task Detail                  |
-| Section gap row selected     |------>| Header: bd-x1y2 In Progress  |
-| Linked task chip visible     |       | Tabs: Detail Activity Graph  |
-| [Open task] [Back]           |       | Dependency: br-plan-42       |
-| Source excerpt visible       |       | [Open Full Graph] [Back]     |
-+==============================+       +==============================+
-coverage_drilldown --> task_detail
-open task bd-x1y2
++========================+       +========================+
+| Task Detail            |       | Trace Explorer         |
+| Back to Tasks          |       | Breadcrumb Trace       |
+| bd-x1y2 In Progress    |       | Root br-prd04-s6       |
+| Detail Activity        |       | Graph canvas           |
+| Graph Code Trace       |       | Open Doc Back          |
++========================+       +========================+
+Task Detail ──[trace dependency]──► Trace Explorer
 
-+==============================+       +==============================+
-| Task Detail                  | back  | Coverage Drill-down          |
-| Header: bd-x1y2 In Progress  |<------| Breadcrumb preserved         |
-| Tabs: Detail Activity Graph  |       | Source section excerpt       |
-| Dependency: br-plan-42       |       | Linked tasks still visible   |
-| [Open Full Graph] [Back]     |       | [Open task] [Back]           |
-+==============================+       +==============================+
-task_detail --> coverage_drilldown
-Back to Coverage
++========================+       +========================+
+| Trace Explorer         |       | Document Viewer        |
+| Breadcrumb Trace       |       | Breadcrumb Docs PRD    |
+| Root br-prd04-s6       |       | Doc tree Content       |
+| Graph canvas           |       | br-prd04-s6 linked     |
+| Open Doc Back          |       | Open in Trace Back     |
++========================+       +========================+
+Trace Explorer ──[open doc]──► Document Viewer
 
-+==============================+       +==============================+
-| Task Detail                  | open  | Trace Explorer               |
-| Mini graph in Graph tab      |------>| Breadcrumb: Trace > bd-x1y2  |
-| Dependency and owner shown   |       | Toolbar depth + filters      |
-| [Open Full Graph] [Back]     |       | Graph canvas + node detail   |
-| RTE context block visible    |       | [Open doc] [Back to task]    |
-+==============================+       +==============================+
-task_detail => trace_explorer
-open full graph
++========================+       +========================+
+| Document Viewer        |       | Trace Explorer         |
+| Breadcrumb Docs PRD    |       | Breadcrumb Trace       |
+| Doc tree Content       |       | Root br-prd04-s6       |
+| br-prd04-s6 linked     |       | Graph canvas           |
+| Open in Trace Back     |       | Open Doc Back          |
++========================+       +========================+
+Document Viewer ──[back]──► Trace Explorer
 
-+==============================+       +==============================+
-| Trace Explorer               | back  | Task Detail                  |
-| PRD node selected            |<------| Mini graph still available   |
-| Impact list visible          |       | Header: bd-x1y2 In Progress  |
-| [Open doc] [Back to task]    |       | Tabs: Detail Activity Graph  |
-| Breadcrumb: Trace > bd-x1y2  |       | [Open Full Graph] [Back]     |
-+==============================+       +==============================+
-trace_explorer --> task_detail
-breadcrumb Task
++========================+       +========================+
+| Trace Explorer         |       | Task Detail            |
+| Breadcrumb Trace       |       | Back to Tasks          |
+| Root br-prd04-s6       |       | bd-x1y2 In Progress    |
+| Graph canvas           |       | Detail Activity        |
+| Open Doc Back          |       | Graph Code Trace       |
++========================+       +========================+
+Trace Explorer ──[back]──► Task Detail
 
-+==============================+       +==============================+
-| Trace Explorer               | open  | Coverage Drill-down          |
-| PRD node selected            |------>| Breadcrumb preserved         |
-| Impact list visible          |       | Source section excerpt       |
-| [Open doc] [Back to task]    |       | Linked tasks still visible   |
-| Upstream PRD relation shown  |       | [Open task] [Back]           |
-+==============================+       +==============================+
-trace_explorer => coverage_drilldown
-open doc source
++========================+       +========================+
+| Task Detail            |       | Coverage Drill-down    |
+| Back to Tasks          |       | Breadcrumb Dashboard   |
+| bd-x1y2 In Progress    |       | Coverage PRD-04 58     |
+| Detail Activity        |       | Section rows           |
+| Graph Code Trace       |       | Open task Back         |
++========================+       +========================+
+Task Detail ──[back]──► Coverage Drill-down
 
-+==============================+       +==============================+
-| Dashboard Home               | fail  | Dashboard Error              |
-| Header + sidebar visible     |------>| Banner: Cannot connect       |
-| Main panels waiting on data  |       | Main panels waiting on data  |
-| Gap action temporarily idle  |       | [Retry] [Go to Tasks]        |
-| Coverage API timed out       |       | [Contact support]            |
-+==============================+       +==============================+
-dashboard_home --> dashboard_error
-dashboard fetch fails
++========================+       +========================+
+| Dashboard Home         |       | Dashboard Error        |
+| Header Search Bell     |       | Header Search Bell     |
+| KPI 78 142 5           |       | Dashboard load failed  |
+| Coverage heatmap       |       | API unavailable        |
+| Gap list Create Plan   |       | Retry Open tasks Help  |
++========================+       +========================+
+Dashboard Home ──[load fails]──► Dashboard Error
 
-+==============================+       +==============================+
-| Dashboard Error              | retry | Dashboard Home               |
-| Recovery options displayed   |------>| KPI row + four panels back   |
-| [Retry] [Go to Tasks]        |       | Sidebar and search active    |
-| [Contact support]            |       | Gap actions usable again     |
-| Cause: coverage API timeout  |       | [Create Plan] [Open task]    |
-+==============================+       +==============================+
-dashboard_error => dashboard_home
-Retry succeeds
++========================+       +========================+
+| Dashboard Error        |       | Dashboard Home         |
+| Header Search Bell     |       | Header Search Bell     |
+| Dashboard load failed  |       | KPI 78 142 5           |
+| API unavailable        |       | Coverage heatmap       |
+| Retry Open tasks Help  |       | Gap list Create Plan   |
++========================+       +========================+
+Dashboard Error ──[retry]──► Dashboard Home
 
-+==============================+       +==============================+
-| Dashboard Error              | route | Task List                    |
-| Recovery options displayed   |------>| Filters + table + export     |
-| [Retry] [Go to Tasks]        |       | Row: bd-x1y2 / owner / SLA   |
-| [Contact support]            |       | [Open task] [Back]           |
-| User chooses alternate path  |       | Bulk actions hidden          |
-+==============================+       +==============================+
-dashboard_error --> task_list
-Go to Tasks
++========================+       +========================+
+| Dashboard Error        |       | Task List              |
+| Header Search Bell     |       | Breadcrumb Tasks       |
+| Dashboard load failed  |       | Filters CSV            |
+| API unavailable        |       | bd-x1y2 Open           |
+| Retry Open tasks Help  |       | Back to Dashboard      |
++========================+       +========================+
+Dashboard Error ──[open tasks]──► Task List
 
-+==============================+       +==============================+
-| Task List                    | back  | Dashboard Home               |
-| Filters + table + export     |<------| KPI row + main panels        |
-| Row: bd-x1y2 / owner / SLA   |       | User can restart from shell  |
-| [Open task] [Back]           |       | Sidebar still available      |
-| Bulk actions hidden          |       | [Open Docs] [Open Tasks]     |
-+==============================+       +==============================+
-task_list --> dashboard_home
-Back to Dashboard
++========================+       +========================+
+| Task List              |       | Dashboard Home         |
+| Breadcrumb Tasks       |       | Header Search Bell     |
+| Filters CSV            |       | KPI 78 142 5           |
+| bd-x1y2 Open           |       | Coverage heatmap       |
+| Back to Dashboard      |       | Gap list Create Plan   |
++========================+       +========================+
+Task List ──[back]──► Dashboard Home
 
-+==============================+       +==============================+
-| Dashboard Error              | help  | Terminal: Support Escalation |
-| Backend still unavailable    |------>| Incident report submitted    |
-| User chooses assisted path   |       | Await backend recovery       |
-| [Contact support]            |       | Return via sidebar later     |
-| Retry already attempted      |       | Ref id: INC-204              |
-+==============================+       +==============================+
-dashboard_error => support_escalation
-Contact support
++========================+       +========================+
+| Dashboard Error        |       | Journey End Recovery   |
+| Header Search Bell     |       | Support request sent   |
+| Dashboard load failed  |       | Incident INC-431       |
+| API unavailable        |       | Go home Exit           |
+| Retry Open tasks Help  |       | Recovery guidance      |
++========================+       +========================+
+Dashboard Error ──[contact support]──► Journey End Recovery
+
++========================+       +========================+
+| Journey End Recovery   |       | Dashboard Home         |
+| Support request sent   |       | Header Search Bell     |
+| Incident INC-431       |       | KPI 78 142 5           |
+| Go home Exit           |       | Coverage heatmap       |
+| Recovery guidance      |       | Gap list Create Plan   |
++========================+       +========================+
+Journey End Recovery ──[go home]──► Dashboard Home
 ```

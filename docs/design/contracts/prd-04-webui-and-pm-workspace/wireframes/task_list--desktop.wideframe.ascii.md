@@ -1,116 +1,286 @@
 # Screen: Task List (desktop)
 ## State: default
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; task-list.header.view-toggle; task-list.filter.row; task-list.action.csv-export; task-list.table.main; task-list.table.row; task-list.pagination.controls; task-list.bulk.actions
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.header.view-toggle"] [data-ds-id="task-list.filter.row"] [data-ds-id="task-list.table.main"] [data-ds-id="task-list.table.row"] [data-ds-id="task-list.pagination.controls"] [data-ds-id="task-list.bulk.actions"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.action.csv-export"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐ [100%]
-│ [Logo] [Global Search: task, assignee, QA_______] [Bell] [Ava]      │
-├══════════════┬═══════════════════════════════════════════════════════┤ [18%|82%]
-│ Dashboard    │ [Board] [List active] Status[All▼] Assignee[▼]       │
-│ Board        │ Priority[▼] PRD[▼] QA[▼]               [CSV Export]  │
-│ Tasks        ├───────────────────────────────────────────────────────┤
-│ Trace        │ ☐ All | ID | Title | Status | Pri | Assignee | QA    │
-│ Docs         │───────────────────────────────────────────────────────│
-│ Approval     │ ☐ | bd-x1y2 | Change button icon | Prog | P1 |Dev1|⏳│
-│──────────────│ ☐ | bd-c3d4 | Migrate legacy...  | Open | P2 | -- |--│
-│ Online       │ ☑ | bd-e5f6 | Add test coverage  | Done | P1 | QA |✅│
-│ Footer       │ ☐ | bd-g7h8 | Update docs        | Open | P3 | -- |--│
-│              │───────────────────────────────────────────────────────│
-│              │ 1-50 of 147 tasks                        [Prev][Next] │
-│              ├───────────────────────────────────────────────────────┤
-│              │ Bulk Actions (3 selected)                           │
-│              │ [Assign To ▼] [Change Status ▼] [Change Pri ▼]      │
-│              │ [Apply] [Clear selection]                           │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="task-list.header.view-toggle"] | [data-ds-id="task-list.filter.row"] | [data-ds-id="task-list.action.csv-export"] | [data-ds-id="task-list.table.main"] | [data-ds-id="task-list.table.row"] | [data-ds-id="task-list.pagination.controls"] | [data-ds-id="task-list.bulk.actions"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Task List | Focus help | Shortcut Ctrl+K                          |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=default | viewport=desktop                            |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Task List              |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: List controls                                                         |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: View toggle [task-list.header.view-toggle]                  |    |    |   |
+|   |  |  |Detail: board | list modes                                             |    |    |   |
+|   |  |  |Detail: current view and count                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Filter row [task-list.filter.row]                           |    |    |   |
+|   |  |  |Detail: status | assignee | priority | PRD                             |    |    |   |
+|   |  |  |Detail: QA status + clear all                                          |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: CSV export [task-list.action.csv-export]                    |    |    |   |
+|   |  |  |Detail: file name preview                                              |    |    |   |
+|   |  |  |Detail: export current result set                                      |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Task table                                                            |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Task table [task-list.table.main]                           |    |    |   |
+|   |  |  |Detail: sortable columns + page slice                                  |    |    |   |
+|   |  |  |Detail: sticky header + row selection                                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Task row [task-list.table.row]                              |    |    |   |
+|   |  |  |Detail: id + title + badges                                            |    |    |   |
+|   |  |  |Detail: status + priority + assignee + QA                              |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Bulk and paging                                                       |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Pagination controls [task-list.pagination.controls]         |    |    |   |
+|   |  |  |Detail: page buttons + page size                                       |    |    |   |
+|   |  |  |Detail: result totals + jump input                                     |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Bulk action bar [task-list.bulk.actions]                    |    |    |   |
+|   |  |  |Detail: assign | status | priority actions                             |    |    |   |
+|   |  |  |Detail: selected count + confirm CTA                                   |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: loading
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; task-list.state.loading-skeleton
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.state.loading-skeleton"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search____________________________] [Bell] [Ava]     │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Task list nav│ [Board] [List active] █████ filters ██████████████   │
-│              ├───────────────────────────────────────────────────────┤
-│              │ █████ header row ██████████████████████████████████  │
-│              │ █████ row skeleton ████████████████████████████████  │
-│              │ █████ row skeleton ████████████████████████████████  │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="task-list.header.view-toggle"] | [data-ds-id="task-list.filter.row"] | [data-ds-id="task-list.action.csv-export"] | [data-ds-id="task-list.table.main"] | [data-ds-id="task-list.table.row"] | [data-ds-id="task-list.pagination.controls"] | [data-ds-id="task-list.bulk.actions"] | [selector="task-list.state.loading-skeleton"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Task List | Focus help | Shortcut Ctrl+K                          |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=loading | viewport=desktop                            |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Task List              |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: loading                                                         |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Loading skeleton [task-list.state.loading-skeleton]         |    |    |   |
+|   |  |  |Detail: filter skeleton chips                                          |    |    |   |
+|   |  |  |Detail: table rows placeholder                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: View toggle [task-list.header.view-toggle]                  |    |    |   |
+|   |  |  |Detail: board | list modes                                             |    |    |   |
+|   |  |  |Detail: current view and count                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: error
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; task-list.state.error; task-list.state.retry
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.state.error"] [data-ds-id="task-list.state.retry"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: task retry____________] [Bell] [Ava]         │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Task list nav│ [Error: Cannot load task list] [Retry]               │
-│              │ [Open board] [Use cached list]                       │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌───────────────────────────────────────────────────┐ │
-│              │ │ Last synced count: 147 tasks                      │ │
-│              │ │ Filters cleared until data returns                │ │
-│              │ └───────────────────────────────────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="task-list.header.view-toggle"] | [data-ds-id="task-list.filter.row"] | [data-ds-id="task-list.action.csv-export"] | [data-ds-id="task-list.table.main"] | [data-ds-id="task-list.table.row"] | [data-ds-id="task-list.pagination.controls"] | [data-ds-id="task-list.bulk.actions"] | [selector="task-list.state.error"] | [selector="task-list.state.retry"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Task List | Focus help | Shortcut Ctrl+K                          |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=error | viewport=desktop                              |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Task List              |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: error                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Error banner [task-list.state.error]                        |    |    |   |
+|   |  |  |Detail: task list request failed                                       |    |    |   |
+|   |  |  |Detail: last used filters retained                                     |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Retry actions [task-list.state.retry]                       |    |    |   |
+|   |  |  |Detail: reload current page                                            |    |    |   |
+|   |  |  |Detail: open board view instead                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: View toggle [task-list.header.view-toggle]                  |    |    |   |
+|   |  |  |Detail: board | list modes                                             |    |    |   |
+|   |  |  |Detail: current view and count                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: empty
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; task-list.state.empty; task-list.state.empty-cta
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.state.empty"] [data-ds-id="task-list.state.empty-cta"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: create task____________] [Bell] [Ava]        │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Task list nav│ ┌───────────────────────────────────────────────────┐ │
-│              │ │ No tasks match current filters                    │ │
-│              │ │ Status=Done + Assignee=Mira                       │ │
-│              │ │ [Clear filters] [Create task]                     │ │
-│              │ └───────────────────────────────────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="task-list.header.view-toggle"] | [data-ds-id="task-list.filter.row"] | [data-ds-id="task-list.action.csv-export"] | [data-ds-id="task-list.table.main"] | [data-ds-id="task-list.table.row"] | [data-ds-id="task-list.pagination.controls"] | [data-ds-id="task-list.bulk.actions"] | [selector="task-list.state.empty"] | [selector="task-list.state.empty-cta"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Task List | Focus help | Shortcut Ctrl+K                          |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=empty | viewport=desktop                              |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Task List              |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: empty                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty list [task-list.state.empty]                          |    |    |   |
+|   |  |  |Detail: no tasks match current filters                                 |    |    |   |
+|   |  |  |Detail: table replaced by guidance panel                               |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty CTA [task-list.state.empty-cta]                       |    |    |   |
+|   |  |  |Detail: clear filters                                                  |    |    |   |
+|   |  |  |Detail: create first task                                              |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: View toggle [task-list.header.view-toggle]                  |    |    |   |
+|   |  |  |Detail: board | list modes                                             |    |    |   |
+|   |  |  |Detail: current view and count                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: bulk-processing
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; task-list.state.bulk-processing; task-list.bulk.actions
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.bulk.actions"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="task-list.state.bulk-processing"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: bulk assign____________] [Bell] [Ava]        │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Task list nav│ [Applying bulk action to 3 tasks]                    │
-│              │ [Assign To: DevBot02] controls disabled              │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌───────────────────────────────────────────────────┐ │
-│              │ │ Selected rows show pending status bar             │ │
-│              │ │ Optimistic assignee update visible                │ │
-│              │ └───────────────────────────────────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="task-list.header.view-toggle"] | [data-ds-id="task-list.filter.row"] | [data-ds-id="task-list.action.csv-export"] | [data-ds-id="task-list.table.main"] | [data-ds-id="task-list.table.row"] | [data-ds-id="task-list.pagination.controls"] | [data-ds-id="task-list.bulk.actions"] | [selector="task-list.state.bulk-processing"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: Task List | Focus help | Shortcut Ctrl+K                          |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=bulk-processing | viewport=desktop                    |    |   |
+|   |  |Layout intent: preserved shell with route workspace for Task List              |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: bulk-processing                                                 |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Bulk processing strip [task-list.state.bulk-processing]     |    |    |   |
+|   |  |  |Detail: updating selected rows                                         |    |    |   |
+|   |  |  |Detail: progress and failure count                                     |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Bulk action bar [task-list.bulk.actions]                    |    |    |   |
+|   |  |  |Detail: selected count locked                                          |    |    |   |
+|   |  |  |Detail: cancel disabled until completion                               |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: View toggle [task-list.header.view-toggle]                  |    |    |   |
+|   |  |  |Detail: board | list modes                                             |    |    |   |
+|   |  |  |Detail: current view and count                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+

@@ -14,3 +14,6 @@ Scope check:
 - Route-backed screens covered: 8
 - Shared shell contract included: yes
 - Core states per route screen: default, loading, error, empty
+- Authoritative breakpoint table: desktop >=1024px, tablet 768-1023px, mobile <768px
+- Canonical viewport widths for artifact review: desktop 1440px, tablet 1024px, mobile 390px
+- Desktop-wide sub-band: >=1280px for shell expansion and trace layouts that explicitly need the wider treatment.

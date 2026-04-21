@@ -1,177 +1,174 @@
-a-->b
-b-->c
-c-->d
-d-->e
-e=>f
-f=>g
-
-# Journey 2 — Docs empty state to populated viewer and trace exploration
-
-workspace_shell----->docs_empty_state
-docs_empty_state=====>dashboard_home
-docs_empty_state----->document_viewer
-document_viewer=====>trace_explorer_partial
-trace_explorer_partial----->task_detail
-docs_error_state----->document_viewer
+# Journey 2 - Docs empty state to populated viewer and trace exploration
 
 ```text
-+==============================+       +==============================+
-| Workspace Shell              | open  | Docs Empty State             |
-| Header + Search + Sidebar    |------>| Sidebar: Docs active         |
-| Connection: Online           |       | No indexed documents yet     |
-| Footer links visible         |       | [Run reindex] [Go Home]      |
-| Sidebar link: Docs           |       | Empty hint + support copy    |
-+==============================+       +==============================+
-workspace_shell --> docs_empty_state
-open Docs route
++========================+       +========================+
+| Workspace Shell        |       | Docs Empty State       |
+| Header Search Bell     |       | Breadcrumb Docs        |
+| Sidebar Dash Board     |       | No indexed documents   |
+| Tasks Trace Docs       |       | Run reindex to start   |
+| Status Online          |       | Reindex now Home Back  |
++========================+       +========================+
+Workspace Shell ──[open docs]──► Docs Empty State
 
-+==============================+       +==============================+
-| Docs Empty State             | home  | Dashboard Home               |
-| Sidebar: Docs active         |------>| KPI row + main panels        |
-| No indexed documents yet     |       | Sidebar still available      |
-| [Run reindex] [Go Home]      |       | User can restart from shell  |
-| Empty hint + support copy    |       | [Open Docs] [Open Tasks]     |
-+==============================+       +==============================+
-docs_empty_state => dashboard_home
-Go Home
++========================+       +========================+
+| Docs Empty State       |       | Workspace Shell        |
+| Breadcrumb Docs        |       | Header Search Bell     |
+| No indexed documents   |       | Sidebar Dash Board     |
+| Run reindex to start   |       | Tasks Trace Docs       |
+| Reindex now Home Back  |       | Status Online          |
++========================+       +========================+
+Docs Empty State ──[back]──► Workspace Shell
 
-+==============================+       +==============================+
-| Docs Empty State             | index | Document Viewer              |
-| CTA just executed            |------>| Breadcrumb: Docs > PRD-04    |
-| Awaiting first indexed doc   |       | Tree: Docs / Chats / PRs     |
-| [Run reindex]                |       | Content: PRD-04 markdown     |
-| Support copy remains visible |       | [Open Trace] [Back]          |
-+==============================+       +==============================+
-docs_empty_state --> document_viewer
-run reindex complete
++========================+       +========================+
+| Docs Empty State       |       | Dashboard Home         |
+| Breadcrumb Docs        |       | Header Search Bell     |
+| No indexed documents   |       | Sidebar Dash active    |
+| Run reindex to start   |       | KPI row 4 panels       |
+| Reindex now Home Back  |       | Docs shortcut Back     |
++========================+       +========================+
+Docs Empty State ──[go home]──► Dashboard Home
 
-+==============================+       +==============================+
-| Document Viewer              | back  | Docs Empty State             |
-| Breadcrumb: Docs > PRD-04    |<------| Sidebar: Docs active         |
-| Tree: Docs / Chats / PRs     |       | No indexed documents yet     |
-| Content: PRD-04 markdown     |       | [Run reindex] [Go Home]      |
-| [Open Trace] [Back]          |       | Empty hint + support copy    |
-+==============================+       +==============================+
-document_viewer --> docs_empty_state
-Back to Docs home
++========================+       +========================+
+| Dashboard Home         |       | Docs Empty State       |
+| Header Search Bell     |       | Breadcrumb Docs        |
+| Sidebar Dash active    |       | No indexed documents   |
+| KPI row 4 panels       |       | Run reindex to start   |
+| Docs shortcut Back     |       | Reindex now Home Back  |
++========================+       +========================+
+Dashboard Home ──[back]──► Docs Empty State
 
-+==============================+       +==============================+
-| Document Viewer              | link  | Trace Explorer Partial       |
-| PRD body rendered            |------>| Breadcrumb: Trace > br-s5    |
-| br-prd04-s5 highlighted      |       | Badge: GitHub loading        |
-| [Open Trace] [Back]          |       | Local nodes already visible  |
-| IDs + coverage chip          |       | [Retry enrich] [Back]        |
-+==============================+       +==============================+
-document_viewer => trace_explorer_partial
-click beads link
++========================+       +========================+
+| Docs Empty State       |       | Docs Loading           |
+| Breadcrumb Docs        |       | Breadcrumb Docs        |
+| No indexed documents   |       | Reindex in progress    |
+| Run reindex to start   |       | Tree skeleton          |
+| Reindex now Home Back  |       | Content skeleton       |
++========================+       +========================+
+Docs Empty State ──[reindex now]──► Docs Loading
 
-+==============================+       +==============================+
-| Trace Explorer Partial       | back  | Document Viewer              |
-| Breadcrumb: Trace > br-s5    |<------| Reopen same PRD view         |
-| Badge: GitHub loading        |       | Same PRD and beads links     |
-| Local nodes already visible  |       | Scroll + breadcrumb restored |
-| [Retry enrich] [Back]        |       | [Back to Task] [Open Trace]  |
-+==============================+       +==============================+
-trace_explorer_partial --> document_viewer
-Back to doc
++========================+       +========================+
+| Docs Loading           |       | Document Viewer        |
+| Breadcrumb Docs        |       | Breadcrumb Docs PRD    |
+| Reindex in progress    |       | Filter Type            |
+| Tree skeleton          |       | Tree PRD-04 selected   |
+| Content skeleton       |       | Open in Trace Back     |
++========================+       +========================+
+Docs Loading ──[reindex complete]──► Document Viewer
 
-+==============================+       +==============================+
-| Trace Explorer Partial       | open  | Task Detail                  |
-| Task node selected           |------>| Header: linked task summary  |
-| Partial enrichment badge     |       | Tabs: Detail Activity Graph  |
-| [Open task node] [Back]      |       | Status and owners visible    |
-| Local graph still usable     |       | [Back to Trace] [Open doc]   |
-+==============================+       +==============================+
-trace_explorer_partial --> task_detail
-open linked task node
++========================+       +========================+
+| Document Viewer        |       | Trace Explorer Partial |
+| Breadcrumb Docs PRD    |       | Breadcrumb Trace       |
+| Filter Type            |       | Root br-prd04-s5       |
+| Tree PRD-04 selected   |       | Graph canvas loaded    |
+| Open in Trace Back     |       | Open task Back         |
++========================+       +========================+
+Document Viewer ──[open trace]──► Trace Explorer Partial
 
-+==============================+       +==============================+
-| Task Detail                  | back  | Trace Explorer Partial       |
-| Header: linked task summary  |<------| Partial graph still usable   |
-| Tabs: Detail Activity Graph  |       | Recovery path preserved      |
-| Status and owners visible    |       | Local nodes already visible  |
-| [Back to Trace] [Open doc]   |       | [Back] [Retry enrich]        |
-+==============================+       +==============================+
-task_detail => trace_explorer_partial
-Back to Trace
++========================+       +========================+
+| Trace Explorer Partial |       | Task Detail            |
+| Breadcrumb Trace       |       | Back to Tasks          |
+| Root br-prd04-s5       |       | bd-x1y2 requirement    |
+| Graph canvas loaded    |       | Detail Activity        |
+| Open task Back         |       | Linked doc Back        |
++========================+       +========================+
+Trace Explorer Partial ──[open task]──► Task Detail
 
-+==============================+       +==============================+
-| Task Detail                  | open  | Document Viewer              |
-| Graph relationship reviewed  |------>| Reopened from task context   |
-| Linked requirement visible   |       | Same PRD and beads links     |
-| [Open doc] [Back to Trace]   |       | Scroll + breadcrumb restored |
-| User wants source prose      |       | [Back to Task] [Open Trace]  |
-+==============================+       +==============================+
-task_detail --> document_viewer
-Open doc
++========================+       +========================+
+| Task Detail            |       | Cached Doc Opened      |
+| Back to Tasks          |       | Breadcrumb Docs PRD    |
+| bd-x1y2 requirement    |       | Cached content banner  |
+| Detail Activity        |       | Last synced 2m ago     |
+| Linked doc Back        |       | Resume trace Exit      |
++========================+       +========================+
+Task Detail ──[open linked doc]──► Cached Doc Opened
 
-+==============================+       +==============================+
-| Document Viewer              | back  | Task Detail                  |
-| Reopened from task context   |<------| Header: linked task summary  |
-| Same PRD and beads links     |       | Tabs: Detail Activity Graph  |
-| Scroll + breadcrumb restored |       | Status and owners visible    |
-| [Back to Task] [Open Trace]  |       | [Back to Trace] [Open doc]   |
-+==============================+       +==============================+
-document_viewer --> task_detail
-Back to Task
++========================+       +========================+
+| Cached Doc Opened      |       | Trace Explorer Partial |
+| Breadcrumb Docs PRD    |       | Breadcrumb Trace       |
+| Cached content banner  |       | Root br-prd04-s5       |
+| Last synced 2m ago     |       | Graph canvas loaded    |
+| Resume trace Exit      |       | Open task Back         |
++========================+       +========================+
+Cached Doc Opened ──[resume trace]──► Trace Explorer Partial
 
-+==============================+       +==============================+
-| Document Viewer              | fail  | Docs Error State             |
-| Tree and content pending     |------>| Cannot load docs from Zvec   |
-| Route remains /docs          |       | [Retry] [Go Home]            |
-| User opened a source item    |       | [Use cached doc] [Open Trace]|
-| Fetch timeout shown          |       | Route remains /docs          |
-+==============================+       +==============================+
-document_viewer => docs_error_state
-docs fetch fails
++========================+       +========================+
+| Trace Explorer Partial |       | Document Viewer        |
+| Breadcrumb Trace       |       | Breadcrumb Docs PRD    |
+| Root br-prd04-s5       |       | Filter Type            |
+| Graph canvas loaded    |       | Tree PRD-04 selected   |
+| Open task Back         |       | Open in Trace Back     |
++========================+       +========================+
+Trace Explorer Partial ──[back]──► Document Viewer
 
-+==============================+       +==============================+
-| Docs Error State             | retry | Document Viewer              |
-| Recovery options shown       |------>| Breadcrumb: Docs > PRD-04    |
-| [Retry] [Use cached doc]     |       | Content restored live        |
-| [Open Trace] [Go Home]       |       | Tree and coverage chip back  |
-| Error cites Zvec unavailable |       | [Open Trace] [Back]          |
-+==============================+       +==============================+
-docs_error_state --> document_viewer
-Retry succeeds
++========================+       +========================+
+| Document Viewer        |       | Docs Empty State       |
+| Breadcrumb Docs PRD    |       | Breadcrumb Docs        |
+| Filter Type            |       | No indexed documents   |
+| Tree PRD-04 selected   |       | Run reindex to start   |
+| Open in Trace Back     |       | Reindex now Home Back  |
++========================+       +========================+
+Document Viewer ──[breadcrumb docs]──► Docs Empty State
 
-+==============================+       +==============================+
-| Docs Error State             | trace | Trace Explorer Partial       |
-| Recovery options shown       |------>| Partial graph still usable   |
-| [Retry] [Use cached doc]     |       | Recovery path preserved      |
-| [Open Trace] [Go Home]       |       | Local nodes already visible  |
-| User chooses alternate route |       | [Back] [Retry enrich]        |
-+==============================+       +==============================+
-docs_error_state --> trace_explorer_partial
-Open Trace
++========================+       +========================+
+| Cached Doc Opened      |       | Exit Route             |
+| Breadcrumb Docs PRD    |       | Leaving Docs           |
+| Cached content banner  |       | Return to previous app |
+| Last synced 2m ago     |       | Session preserved      |
+| Resume trace Exit      |       | Go back Finish         |
++========================+       +========================+
+Cached Doc Opened ──[exit]──► Exit Route
 
-+==============================+       +==============================+
-| Docs Error State             | cache | Terminal: Cached Doc Opened  |
-| Network still unavailable    |------>| Read-only snapshot loaded    |
-| Cached snapshot available    |       | User can continue offline    |
-| [Use cached doc]             |       | Return to live docs later    |
-| Error banner stays visible   |       | Coverage chip marked stale   |
-+==============================+       +==============================+
-docs_error_state => cached_doc_opened
-Use cached doc
++========================+       +========================+
+| Exit Route             |       | Cached Doc Opened      |
+| Leaving Docs           |       | Breadcrumb Docs PRD    |
+| Return to previous app |       | Cached content banner  |
+| Session preserved      |       | Last synced 2m ago     |
+| Go back Finish         |       | Resume trace Exit      |
++========================+       +========================+
+Exit Route ──[back]──► Cached Doc Opened
 
-+==============================+       +==============================+
-| Docs Error State             | home  | Dashboard Home               |
-| Recovery options shown       |------>| KPI row + main panels        |
-| [Retry] [Use cached doc]     |       | Sidebar still available      |
-| [Open Trace] [Go Home]       |       | User can restart from shell  |
-| User leaves docs route       |       | [Open Docs] [Open Tasks]     |
-+==============================+       +==============================+
-docs_error_state --> dashboard_home
-Go Home
++========================+       +========================+
+| Exit Route             |       | Journey Complete       |
+| Leaving Docs           |       | Docs review finished   |
+| Return to previous app |       | Trace handoff saved    |
+| Session preserved      |       | Reading position kept  |
+| Go back Finish         |       | End state recorded     |
++========================+       +========================+
+Exit Route ──[finish]──► Journey Complete
 
-+==============================+       +==============================+
-| Dashboard Home               | open  | Docs Empty State             |
-| KPI row + main panels        |------>| Sidebar: Docs active         |
-| Sidebar still available      |       | No indexed documents yet     |
-| User can restart from shell  |       | [Run reindex] [Go Home]      |
-| [Open Docs] [Open Tasks]     |       | Empty hint + support copy    |
-+==============================+       +==============================+
-dashboard_home => docs_empty_state
-Docs in sidebar
++========================+       +========================+
+| Docs Loading           |       | Docs Error State       |
+| Breadcrumb Docs        |       | Breadcrumb Docs        |
+| Reindex in progress    |       | Index failed           |
+| Tree skeleton          |       | Zvec timeout           |
+| Content skeleton       |       | Retry Open cache Home  |
++========================+       +========================+
+Docs Loading ──[reindex fails]──► Docs Error State
+
++========================+       +========================+
+| Docs Error State       |       | Docs Loading           |
+| Breadcrumb Docs        |       | Breadcrumb Docs        |
+| Index failed           |       | Reindex in progress    |
+| Zvec timeout           |       | Tree skeleton          |
+| Retry Open cache Home  |       | Content skeleton       |
++========================+       +========================+
+Docs Error State ──[retry]──► Docs Loading
+
++========================+       +========================+
+| Docs Error State       |       | Cached Doc Opened      |
+| Breadcrumb Docs        |       | Breadcrumb Docs PRD    |
+| Index failed           |       | Cached content banner  |
+| Zvec timeout           |       | Last synced 2m ago     |
+| Retry Open cache Home  |       | Resume trace Exit      |
++========================+       +========================+
+Docs Error State ──[open cache]──► Cached Doc Opened
+
++========================+       +========================+
+| Docs Error State       |       | Dashboard Home         |
+| Breadcrumb Docs        |       | Header Search Bell     |
+| Index failed           |       | Sidebar Dash active    |
+| Zvec timeout           |       | KPI row 4 panels       |
+| Retry Open cache Home  |       | Docs shortcut Back     |
++========================+       +========================+
+Docs Error State ──[go home]──► Dashboard Home
 ```

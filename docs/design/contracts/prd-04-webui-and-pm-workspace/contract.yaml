@@ -9,6 +9,16 @@ feature:
       desktop: 1440
       tablet: 1024
       mobile: 390
+    breakpoint_policy:
+      authoritative_table:
+        desktop:
+          min_width: 1024
+        tablet:
+          min_width: 768
+          max_width: 1023
+        mobile:
+          max_width: 767
+      normalization_note: The PRD mixes two desktop thresholds. The contract normalizes route families to desktop >=1024px, tablet 768-1023px, and mobile <768px, while preserving a desktop-wide sub-band at >=1280px for shell expansion and trace layouts that explicitly require more room in the PRD.
     required_core_states:
       - default
       - loading
@@ -26,6 +36,7 @@ viewports:
   desktop:
     min_width: 1024
     canonical_width: 1440
+    desktop_wide_min_width: 1280
   tablet:
     min_width: 768
     max_width: 1023
@@ -658,7 +669,7 @@ navigation:
       action: board_list_toggle
       to: /tasks
     - from: /approval
-      action:related_task_open
+      action: related_task_open
       to: /tasks/:id
 accessibility:
   standard: WCAG AA

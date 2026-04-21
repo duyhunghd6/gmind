@@ -1,110 +1,233 @@
-# Screen: SAFe Board Views (desktop)
+# Screen: SAFe Board (desktop)
 ## State: default
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; board.header.view-switcher; board.kanban.columns; board.card.task; board.pi.sandbox; board.pi.roam; board.pi.confidence-vote; board.rte.drawer
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ Screen Structure Trace ──────────────────────────────────────┐ │
-│ │ [data-ds-id="board.header.view-switcher"] [data-ds-id="board.kanban.columns"] [data-ds-id="board.card.task"] [data-ds-id="board.pi.sandbox"] [data-ds-id="board.pi.roam"] [data-ds-id="board.pi.confidence-vote"] [data-ds-id="board.rte.drawer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐ [100%]
-│ [Logo] [Global Search: team, PI, risk____________] [Bell] [Ava]     │
-├══════════════┬═══════════════════════════════════════════════════════┤ [18%|82%]
-│ Dashboard    │ [Board: ART ▼] [Portfolio][ART][Team][PI] [List view]│
-│ Board        │ [Filter: PI-12] [Confidence Vote]                    │
-│ Tasks        ├───────────────────────────────────────────────────────┤
-│ Trace        │ ┌─────────────────────────────────────┬─────────────┐ │ [70%|30%]
-│ Docs         │ │ Kanban Workspace                    │ RTE Drawer  │ │
-│ Approval     │ │ ┌──────────┬──────────┬──────────┐ │ Esc bd-r44  │ │
-│──────────────│ │ │ Todo 12  │ InProg 8 │ Review 5 │ │ Thread      │ │
-│ Online       │ │ │ bd-a12   │ bd-r44   │ bd-k98   │ │ 09:14 Nhi   │ │
-│ Footer       │ │ │ Mira P1  │ Escalated│ QA wait  │ │ 09:17 Agent │ │
-│              │ │ │ [Drag]   │ [Open]   │ [Move]   │ │ Constraint 3│ │
-│              │ │ ├──────────┼──────────┼──────────┤ │ [Approve]   │ │
-│              │ │ │ Done 19  │ Risks 6  │ Parked 3 │ │ [Reject]    │ │
-│              │ │ │ merged   │ ROAM #12 │ backlog  │ │ [Open task] │ │
-│              │ │ └──────────┴──────────┴──────────┘ │             │ │
-│              │ ├─────────────────────────────────────┤             │ │
-│              │ │ PI Planning Sandbox                 │             │ │
-│              │ │ ┌─────────────────────────────────┐ │             │ │
-│              │ │ │ Capacity Team A 34/40          │ │             │ │
-│              │ │ │ Risks API lag / test debt      │ │             │ │
-│              │ │ │ BV Auth 13 | Graph 8           │ │             │ │
-│              │ │ │ [Rebalance] [Run ROAM]         │ │             │ │
-│              │ │ ├─────────────────────────────────┤ │             │ │
-│              │ │ │ Confidence Vote [1][2][3][4][5]│ │             │ │
-│              │ │ │ ROAM Resolved 4 / Owned 2      │ │             │ │
-│              │ │ └─────────────────────────────────┘ │             │ │
-│              │ └─────────────────────────────────────┴─────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="board.header.view-switcher"] | [data-ds-id="board.kanban.columns"] | [data-ds-id="board.card.task"] | [data-ds-id="board.pi.sandbox"] | [data-ds-id="board.pi.roam"] | [data-ds-id="board.pi.confidence-vote"] | [data-ds-id="board.rte.drawer"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: SAFe Board | Focus help | Shortcut Ctrl+K                         |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=default | viewport=desktop                            |    |   |
+|   |  |Layout intent: preserved shell with route workspace for SAFe Board             |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Board controls                                                        |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Board view switcher [board.header.view-switcher]            |    |    |   |
+|   |  |  |Detail: portfolio | ART | team | PI                                    |    |    |   |
+|   |  |  |Detail: board/list toggle + current cadence                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Kanban workspace                                                      |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Kanban columns [board.kanban.columns]                       |    |    |   |
+|   |  |  |Detail: todo | in-progress | review | done                             |    |    |   |
+|   |  |  |Detail: WIP counts + horizontal scroll                                 |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Task card [board.card.task]                                 |    |    |   |
+|   |  |  |Detail: title + assignee + priority                                    |    |    |   |
+|   |  |  |Detail: RTE badge + drag handle                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: PI planning and escalation                                            |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: PI planning sandbox [board.pi.sandbox]                      |    |    |   |
+|   |  |  |Detail: capacity lanes + constraints                                   |    |    |   |
+|   |  |  |Detail: business value scoring inputs                                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: ROAM board [board.pi.roam]                                  |    |    |   |
+|   |  |  |Detail: risk cards by roam status                                      |    |    |   |
+|   |  |  |Detail: owner + mitigation date                                        |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Confidence vote panel [board.pi.confidence-vote]            |    |    |   |
+|   |  |  |Detail: vote choices 1-5                                               |    |    |   |
+|   |  |  |Detail: confirmation summary + quorum note                             |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: RTE discussion drawer [board.rte.drawer]                    |    |    |   |
+|   |  |  |Detail: thread messages + decisions                                    |    |    |   |
+|   |  |  |Detail: approved-by + timestamp + constraints                          |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: loading
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; board.state.loading-skeleton
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="board.state.loading-skeleton"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search____________________________] [Bell] [Ava]     │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Board nav    │ [Board: ART ▼] [PI Planning]                         │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌─────────────────────────────────────┬─────────────┐ │
-│              │ │ ┌──────────┬──────────┬──────────┐ │ ███████████ │ │
-│              │ │ │ ████████ │ ████████ │ ████████ │ │ ███████████ │ │
-│              │ │ └──────────┴──────────┴──────────┘ │ ███████████ │ │
-│              │ │ █████████ sandbox skeleton ███████ │             │ │
-│              │ └─────────────────────────────────────┴─────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="board.header.view-switcher"] | [data-ds-id="board.kanban.columns"] | [data-ds-id="board.card.task"] | [data-ds-id="board.pi.sandbox"] | [data-ds-id="board.pi.roam"] | [data-ds-id="board.pi.confidence-vote"] | [data-ds-id="board.rte.drawer"] | [selector="board.state.loading-skeleton"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: SAFe Board | Focus help | Shortcut Ctrl+K                         |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=loading | viewport=desktop                            |    |   |
+|   |  |Layout intent: preserved shell with route workspace for SAFe Board             |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: loading                                                         |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Loading skeleton [board.state.loading-skeleton]             |    |    |   |
+|   |  |  |Detail: column skeletons                                               |    |    |   |
+|   |  |  |Detail: sandbox and vote placeholders                                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Board view switcher [board.header.view-switcher]            |    |    |   |
+|   |  |  |Detail: portfolio | ART | team | PI                                    |    |    |   |
+|   |  |  |Detail: board/list toggle + current cadence                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: error
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; board.state.error; board.state.retry
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="board.state.error"] [data-ds-id="board.state.retry"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: board retry____________] [Bell] [Ava]        │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Board nav    │ [Error: Cannot load board data] [Retry] [Use cached] │
-│              │ [Cause: /api/tasks?view=board failed]                │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌───────────────────────────────────────────────────┐ │
-│              │ │ Cached Board Snapshot                             │ │
-│              │ │ ┌───────────────────────────────────────────────┐ │ │
-│              │ │ │ Todo 11 | In Progress 7 | Review 6           │ │ │
-│              │ │ │ PI vote locked until live data returns       │ │ │
-│              │ │ │ [Open task list] [Open cached board]         │ │ │
-│              │ │ └───────────────────────────────────────────────┘ │ │
-│              │ └───────────────────────────────────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="board.header.view-switcher"] | [data-ds-id="board.kanban.columns"] | [data-ds-id="board.card.task"] | [data-ds-id="board.pi.sandbox"] | [data-ds-id="board.pi.roam"] | [data-ds-id="board.pi.confidence-vote"] | [data-ds-id="board.rte.drawer"] | [selector="board.state.error"] | [selector="board.state.retry"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: SAFe Board | Focus help | Shortcut Ctrl+K                         |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=error | viewport=desktop                              |    |   |
+|   |  |Layout intent: preserved shell with route workspace for SAFe Board             |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: error                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Error banner [board.state.error]                            |    |    |   |
+|   |  |  |Detail: cannot load board data                                         |    |    |   |
+|   |  |  |Detail: last known column counts shown                                 |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Retry actions [board.state.retry]                           |    |    |   |
+|   |  |  |Detail: reload board                                                   |    |    |   |
+|   |  |  |Detail: open escalation log                                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Board view switcher [board.header.view-switcher]            |    |    |   |
+|   |  |  |Detail: portfolio | ART | team | PI                                    |    |    |   |
+|   |  |  |Detail: board/list toggle + current cadence                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
 ## State: empty
-Selectors: workspace.shell.header; workspace.shell.search; workspace.shell.notifications; workspace.shell.sidebar; workspace.shell.connection-status; workspace.shell.footer; board.state.empty; board.state.empty-cta
-┌─ Trace Map ──────────────────────────────────────────────────────────┐
-│ ┌─ Shell Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="workspace.shell.header"] [data-ds-id="workspace.shell.search"] [data-ds-id="workspace.shell.notifications"] [data-ds-id="workspace.shell.sidebar"] [data-ds-id="workspace.shell.connection-status"] [data-ds-id="workspace.shell.footer"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│ ┌─ State Trace ─────────────────────────────────────────────────┐ │
-│ │ [data-ds-id="board.state.empty"] [data-ds-id="board.state.empty-cta"] │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└──────────────────────────────────────────────────────────────────────┘
-┌══════════════════════════════════════════════════════════════════════┐
-│ [Logo] [Global Search: create board____________] [Bell] [Ava]       │
-├══════════════┬═══════════════════════════════════════════════════════┤
-│ Board nav    │ [Board: Team ▼]                                      │
-│              ├───────────────────────────────────────────────────────┤
-│              │ ┌───────────────────────────────────────────────────┐ │
-│              │ │ Empty Board View                                  │ │
-│              │ │ No tasks or risks in this level                   │ │
-│              │ │ PI sandbox waits for imported work items          │ │
-│              │ │ [Create task] [Switch level] [Import backlog]     │ │
-│              │ └───────────────────────────────────────────────────┘ │
-└══════════════┴═══════════════════════════════════════════════════════┘
+Traceability: [data-ds-id="workspace.shell.header"] | [data-ds-id="workspace.shell.search"] | [data-ds-id="workspace.shell.notifications"] | [data-ds-id="workspace.shell.sidebar"] | [data-ds-id="workspace.shell.connection-status"] | [data-ds-id="workspace.shell.footer"] | [data-ds-id="board.header.view-switcher"] | [data-ds-id="board.kanban.columns"] | [data-ds-id="board.card.task"] | [data-ds-id="board.pi.sandbox"] | [data-ds-id="board.pi.roam"] | [data-ds-id="board.pi.confidence-vote"] | [data-ds-id="board.rte.drawer"] | [selector="board.state.empty"] | [selector="board.state.empty-cta"]
++===============================================================================================+
+| App shell [100%] viewport 1440px | nav expanded sidebar 240px [18%|82%] | header full header  |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell header [workspace.shell.header]                                          |           |
+|   |Primary row: [Logo] [workspace.shell.search] [workspace.shell.notifications]   |           |
+|   |Route title: SAFe Board | Focus help | Shortcut Ctrl+K                         |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +-------------------------------------------------------------------------------+           |
+|   |Shell navigation [workspace.shell.sidebar]                                     |           |
+|   |Nav set: [Dashboard] [Board] [Tasks] [Trace] [Docs] [Approval]                 |           |
+|   |Viewport behavior: expanded sidebar 240px [18%|82%]                            |           |
+|   +-------------------------------------------------------------------------------+           |
+|   +---------------------------------------------------------------------------------------+   |
+|   |Route shell [workspace region]                                                         |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Route workspace                                                                |    |   |
+|   |  |Route frame [100%] state=empty | viewport=desktop                              |    |   |
+|   |  |Layout intent: preserved shell with route workspace for SAFe Board             |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |State surface: empty                                                           |    |   |
+|   |  |State handling keeps shell visible and route region distinct                   |    |   |
+|   |  |Sub-grid: route-area -> state-surface -> state-component                       |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty board [board.state.empty]                             |    |    |   |
+|   |  |  |Detail: no tasks for selected level                                    |    |    |   |
+|   |  |  |Detail: column totals all zero                                         |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Empty CTA [board.state.empty-cta]                           |    |    |   |
+|   |  |  |Detail: create task from board                                         |    |    |   |
+|   |  |  |Detail: switch level or remove filter                                  |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   |  |Section: Persistent context                                                    |    |   |
+|   |  |Section span: [100%] with nested modules mechanically countable                |    |   |
+|   |  |Sub-grid: route-area -> section -> component                                   |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  |  |Component: Board view switcher [board.header.view-switcher]            |    |    |   |
+|   |  |  |Detail: portfolio | ART | team | PI                                    |    |    |   |
+|   |  |  |Detail: board/list toggle + current cadence                            |    |    |   |
+|   |  |  +-----------------------------------------------------------------------+    |    |   |
+|   |  +-------------------------------------------------------------------------------+    |   |
+|   +---------------------------------------------------------------------------------------+   |
+|   +-------------------------------------------------------------------------------+           |
+|   |Footer [workspace.shell.footer]                                                |           |
+|   |[workspace.shell.connection-status] API-only data access note                  |           |
+|   |Accessibility help | focus outline note | reconnect status                     |           |
+|   +-------------------------------------------------------------------------------+           |
++===============================================================================================+
