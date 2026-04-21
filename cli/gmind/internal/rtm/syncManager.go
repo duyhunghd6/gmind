@@ -73,6 +73,97 @@ func extractTargetIDs(dir string) ([]string, error) {
 	return results, err
 }
 
+type CoverageResult struct {
+	ID             string   `json:"id"`
+	Status         string   `json:"status"`
+	CoveringIssues []string `json:"covering_issues"`
+}
+
+type CoverageReport struct {
+	Mode           string           `json:"mode"`
+	TotalElements  int              `json:"total_elements"`
+	CoveredCount   int              `json:"covered_count"`
+	Percentage     float64          `json:"percentage"`
+	Results        []CoverageResult `json:"results"`
+}
+
+func (s *SyncManager) GetCoverageData(mode string) (*CoverageReport, error) {
+	var dirs []string
+	switch mode {
+	case "prd":
+		dirs = append(dirs, "docs/PRDs")
+	case "plan":
+		dirs = append(dirs, "docs/plans")
+	case "full":
+		dirs = append(dirs, "docs/PRDs", "docs/plans")
+	default:
+		return nil, fmt.Errorf("unknown mode: %s", mode)
+	}
+
+	var allTargets []string
+	for _, d := range dirs {
+		ids, err := extractTargetIDs(filepath.Join(".", d))
+		if err == nil {
+			allTargets = append(allTargets, ids...)
+		}
+	}
+
+	issues, err := fetchIssues()
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch issues: %w", err)
+	}
+
+	report := &CoverageReport{
+		Mode:    strings.ToUpper(mode),
+		Results: []CoverageResult{},
+	}
+
+	coveredCount := 0
+
+	for _, target := range allTargets {
+		status := "NOT COVERED"
+		var covering []string
+
+		satisfyLabel := "satisfies:" + target
+
+		for _, iss := range issues {
+			hasLabel := false
+			for _, lbl := range iss.Labels {
+				if lbl == satisfyLabel {
+					hasLabel = true
+					break
+				}
+			}
+			if hasLabel || iss.ID == target {
+				covering = append(covering, iss.ID+"("+iss.Status+")")
+				if status == "NOT COVERED" {
+					status = iss.Status
+				} else if iss.Status == "in_progress" {
+					status = "in_progress"
+				}
+			}
+		}
+
+		if len(covering) > 0 {
+			coveredCount++
+		}
+
+		report.Results = append(report.Results, CoverageResult{
+			ID:             target,
+			Status:         status,
+			CoveringIssues: covering,
+		})
+	}
+
+	report.TotalElements = len(allTargets)
+	report.CoveredCount = coveredCount
+	if len(allTargets) > 0 {
+		report.Percentage = float64(coveredCount) / float64(len(allTargets)) * 100.0
+	}
+
+	return report, nil
+}
+
 func (s *SyncManager) CalculateCoverage(mode string) (string, error) {
 	var dirs []string
 	switch mode {

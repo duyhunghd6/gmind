@@ -3,7 +3,9 @@ package storage
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -14,7 +16,7 @@ type SQLiteDB struct {
 }
 
 type Issue struct {
-	ID          string   `db:"beads_id" json:"id"`
+	ID          string   `db:"id" json:"id"`
 	Title       string   `db:"title" json:"title"`
 	Description string   `db:"description" json:"description"`
 	Status      string   `db:"status" json:"status"`
@@ -24,8 +26,39 @@ type Issue struct {
 	Labels      []string `json:"labels"`
 }
 
+// FindDBPath searches for .beads/beads.db starting from current directory up to root.
+func FindDBPath() (string, error) {
+	curr, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+
+	for {
+		path := filepath.Join(curr, ".beads", "beads.db")
+		if _, err := os.Stat(path); err == nil {
+			return path, nil
+		}
+
+		parent := filepath.Dir(curr)
+		if parent == curr {
+			break
+		}
+		curr = parent
+	}
+
+	return "", fmt.Errorf(".beads/beads.db not found in any parent directory")
+}
+
 // NewSQLiteDB initializes connection to FrankenSQLite DB.
 func NewSQLiteDB(dsn string) (*SQLiteDB, error) {
+	if dsn == "" {
+		discovered, err := FindDBPath()
+		if err != nil {
+			return nil, err
+		}
+		dsn = discovered
+	}
+
 	// Use URI for better control
 	uri := fmt.Sprintf("file:%s?mode=ro&cache=shared", dsn)
 
@@ -41,7 +74,7 @@ func NewSQLiteDB(dsn string) (*SQLiteDB, error) {
 // GetIssueState retrieves the state of an issue given its beads ID.
 func (db *SQLiteDB) GetIssueState(beadsID string) (string, error) {
 	var state string
-	query := "SELECT status FROM issues WHERE beads_id = ?"
+	query := "SELECT status FROM issues WHERE id = ?"
 	err := db.Get(&state, query, beadsID)
 	if err != nil {
 		// Fallback to 'bd' CLI
@@ -58,7 +91,7 @@ func (db *SQLiteDB) GetIssueState(beadsID string) (string, error) {
 func (db *SQLiteDB) GetIssueDetails(beadsID string) (*Issue, error) {
 	// Try SQL first
 	var issue Issue
-	query := "SELECT beads_id, title, description, status, priority, issue_type, assignee FROM issues WHERE beads_id = ?"
+	query := "SELECT id, title, description, status, priority, issue_type, assignee FROM issues WHERE id = ?"
 	err := db.Get(&issue, query, beadsID)
 	if err == nil {
 		return &issue, nil
@@ -85,7 +118,7 @@ func (db *SQLiteDB) GetIssueDetails(beadsID string) (*Issue, error) {
 // GetAllIssues retrieves all issues from the database.
 func (db *SQLiteDB) GetAllIssues() ([]Issue, error) {
 	var issues []Issue
-	query := "SELECT beads_id, title, description, status, priority, issue_type, assignee FROM issues"
+	query := "SELECT id, title, description, status, priority, issue_type, assignee FROM issues"
 	err := db.Select(&issues, query)
 	if err == nil {
 		return issues, nil

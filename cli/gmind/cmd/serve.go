@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/duyhunghd6/gmind/cli/gmind/internal/api"
 	"github.com/spf13/cobra"
 )
 
@@ -10,8 +11,9 @@ var serveCmd = &cobra.Command{
 	Short: "Start Go HTTP server for RTM Dashboard",
 	Run: func(cmd *cobra.Command, args []string) {
 		port, _ := cmd.Flags().GetInt("port")
-		fmt.Printf("Starting HTTP server on port %d\n", port)
-		// TODO: call internal/api/server
+		if err := api.StartServer(port); err != nil {
+			fmt.Printf("Error starting server: %v\n", err)
+		}
 	},
 }
 
