@@ -26,7 +26,8 @@ func (a *Assembler) TraceData(beadsID string, reverse bool, includeGitHub bool) 
 	}
 
 	visited := make(map[string]bool)
-	return a.convertToTraceNode(startNode, reverse, visited), nil
+	tn := a.convertToTraceNode(startNode, reverse, visited)
+	return &tn, nil
 }
 
 func (a *Assembler) convertToTraceNode(n *Node, reverse bool, visited map[string]bool) TraceNode {
