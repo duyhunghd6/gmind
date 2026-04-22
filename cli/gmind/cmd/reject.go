@@ -10,17 +10,17 @@ import (
 )
 
 var rejectCmd = &cobra.Command{
-	Use:   "reject [id]",
+	Use:   "reject [beads-id]",
 	Short: "Reject an Agent's proposal and require a new approach",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		id := args[0]
 		reason, _ := cmd.Flags().GetString("reason")
 
-		// 1. Initialize SQLite in RW mode
+		// 1. Initialize FrankenSQLite in RW mode
 		sqlite, err := storage.NewSQLiteDB("", false)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Error initializing FrankenSQLite: %v\n", err)
 			os.Exit(1)
 		}
 		defer sqlite.Close()
@@ -32,11 +32,11 @@ var rejectCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		// 3. Update via 'bd' CLI (status and labels)
+		// 3. Update via 'br' CLI (status and labels)
 		fmt.Printf("Updating issue %s status to open and updating labels...\n", id)
-		out, err := exec.Command("bd", "update", id, "--status", "open", "--remove-label", "rte:escalated", "--remove-label", "rte:approved", "--add-label", "rte:rejected", "--json").CombinedOutput()
+		out, err := exec.Command("br", "update", id, "--status", "open", "--remove-label", "rte:escalated", "--remove-label", "rte:approved", "--add-label", "rte:rejected", "--json").CombinedOutput()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error updating via 'bd' CLI: %v\nOutput: %s\n", err, string(out))
+			fmt.Fprintf(os.Stderr, "Error updating via 'br' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
 		}
 

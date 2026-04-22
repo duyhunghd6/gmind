@@ -10,17 +10,17 @@ import (
 )
 
 var escalateCmd = &cobra.Command{
-	Use:   "escalate [id]",
+	Use:   "escalate [beads-id]",
 	Short: "Trigger RTE discussion when an Agent detects a risk",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		id := args[0]
 		risk, _ := cmd.Flags().GetString("risk")
 
-		// 1. Initialize SQLite in RW mode
+		// 1. Initialize FrankenSQLite in RW mode
 		sqlite, err := storage.NewSQLiteDB("", false)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Error initializing FrankenSQLite: %v\n", err)
 			os.Exit(1)
 		}
 		defer sqlite.Close()
@@ -38,11 +38,11 @@ var escalateCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		// 4. Update via 'bd' CLI (status and label)
+		// 4. Update via 'br' CLI (status and label)
 		fmt.Printf("Updating issue %s status to blocked and adding rte:escalated label...\n", id)
-		out, err := exec.Command("bd", "update", id, "--status", "blocked", "--remove-label", "rte:approved", "--remove-label", "rte:rejected", "--add-label", "rte:escalated", "--json").CombinedOutput()
+		out, err := exec.Command("br", "update", id, "--status", "blocked", "--remove-label", "rte:approved", "--remove-label", "rte:rejected", "--add-label", "rte:escalated", "--json").CombinedOutput()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error updating via 'bd' CLI: %v\nOutput: %s\n", err, string(out))
+			fmt.Fprintf(os.Stderr, "Error updating via 'br' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
 		}
 

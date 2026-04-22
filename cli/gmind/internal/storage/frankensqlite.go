@@ -82,8 +82,12 @@ func NewSQLiteDB(dsn string, readOnly bool) (*SQLiteDB, error) {
 		dsn = discovered
 	}
 
-	// 1. Open Beads DB (Read-only as it's often reported as malformed for writes)
-	beadsUri := fmt.Sprintf("file:%s?mode=ro&cache=shared", dsn)
+	// 1. Open Beads DB
+	beadsMode := "ro"
+	if !readOnly {
+		beadsMode = "rw"
+	}
+	beadsUri := fmt.Sprintf("file:%s?mode=%s&cache=shared", dsn, beadsMode)
 	beadsDB, err := sqlx.Open("sqlite3", beadsUri)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open beads.db: %w", err)

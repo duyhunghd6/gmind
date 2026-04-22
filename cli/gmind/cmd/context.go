@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -34,18 +35,28 @@ var contextCmd = &cobra.Command{
 		// Create assembler
 		assembler := graph.NewAssembler(sqlite, zvec, fastcode, nil)
 
-		// Get context
-		context, err := assembler.GetContext(id, depth)
+		contextData, err := assembler.GetContextData(id, depth)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error getting context: %v\n", err)
 			os.Exit(1)
 		}
 
 		if jsonOutput {
-			fmt.Printf("{\"beads_id\": \"%s\", \"context\": %q}\n", id, context)
-		} else {
-			fmt.Println(context)
+			payload, err := json.MarshalIndent(contextData, "", "  ")
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error encoding context JSON: %v\n", err)
+				os.Exit(1)
+			}
+			fmt.Println(string(payload))
+			return
 		}
+
+		context, err := assembler.GetContext(id, depth)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error getting context: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println(context)
 	},
 }
 
