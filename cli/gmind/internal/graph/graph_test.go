@@ -183,11 +183,36 @@ func TestTraceNode_RenderTree_Reverse(t *testing.T) {
 	}
 }
 
+func TestTraceNode_RenderTree_IncludesRTEApprovalResolution(t *testing.T) {
+	taskNode := &Node{
+		ID:            "task-rte",
+		Title:         "Task",
+		Type:          NodeTask,
+		Status:        "in_progress",
+		RTEStatus:     "approved",
+		RTEResolution: "resume with execution context",
+	}
+
+	a := &Assembler{}
+	var sb strings.Builder
+	a.renderTree(&sb, taskNode, 0, false)
+	output := sb.String()
+
+	if !strings.Contains(output, "[RTE:APPROVED] resume with execution context") {
+		t.Fatalf("expected RTE approval line in output, got:\n%s", output)
+	}
+}
+
 func TestConvertToTraceNode(t *testing.T) {
 	root := &Node{
-		ID:    "root",
-		Title: "Root",
-		Type:  NodePRD,
+		ID:            "root",
+		Title:         "Root",
+		Type:          NodePRD,
+		RTEStatus:     "approved",
+		RTERisk:       "high",
+		RTEResolution: "resume here",
+		RTEApprovedBy: "RTE-Lead",
+		RTEApprovedAt: "2026-04-22T03:00:00Z",
 	}
 	child := &Node{
 		ID:    "child",
@@ -205,6 +230,12 @@ func TestConvertToTraceNode(t *testing.T) {
 	}
 	if len(tn.Children) != 1 {
 		t.Errorf("expected 1 child, got %d", len(tn.Children))
+	}
+	if tn.RTEStatus != "approved" || tn.RTEResolution != "resume here" {
+		t.Fatalf("expected RTE fields to be copied, got %+v", tn)
+	}
+	if tn.RTEApprovedBy != "RTE-Lead" || tn.RTEApprovedAt != "2026-04-22T03:00:00Z" {
+		t.Fatalf("expected approval metadata to be copied, got %+v", tn)
 	}
 }
 

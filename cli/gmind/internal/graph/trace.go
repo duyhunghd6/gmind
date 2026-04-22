@@ -6,12 +6,17 @@ import (
 )
 
 type TraceNode struct {
-	ID       string      `json:"id"`
-	Title    string      `json:"title"`
-	Type     string      `json:"type"`
-	Status   string      `json:"status"`
-	Children []TraceNode `json:"children,omitempty"`
-	Parents  []TraceNode `json:"parents,omitempty"`
+	ID            string      `json:"id"`
+	Title         string      `json:"title"`
+	Type          string      `json:"type"`
+	Status        string      `json:"status"`
+	RTEStatus     string      `json:"rte_status,omitempty"`
+	RTERisk       string      `json:"rte_risk,omitempty"`
+	RTEResolution string      `json:"rte_resolution,omitempty"`
+	RTEApprovedBy string      `json:"rte_approved_by,omitempty"`
+	RTEApprovedAt string      `json:"rte_approved_at,omitempty"`
+	Children      []TraceNode `json:"children,omitempty"`
+	Parents       []TraceNode `json:"parents,omitempty"`
 }
 
 func (a *Assembler) TraceData(beadsID string, reverse bool, includeGitHub bool) (*TraceNode, error) {
@@ -32,10 +37,15 @@ func (a *Assembler) TraceData(beadsID string, reverse bool, includeGitHub bool) 
 
 func (a *Assembler) convertToTraceNode(n *Node, reverse bool, visited map[string]bool) TraceNode {
 	tn := TraceNode{
-		ID:     n.ID,
-		Title:  n.Title,
-		Type:   string(n.Type),
-		Status: n.Status,
+		ID:            n.ID,
+		Title:         n.Title,
+		Type:          string(n.Type),
+		Status:        n.Status,
+		RTEStatus:     n.RTEStatus,
+		RTERisk:       n.RTERisk,
+		RTEResolution: n.RTEResolution,
+		RTEApprovedBy: n.RTEApprovedBy,
+		RTEApprovedAt: n.RTEApprovedAt,
 	}
 
 	if visited[n.ID] {

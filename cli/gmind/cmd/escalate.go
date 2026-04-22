@@ -9,6 +9,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	newEscalateDB = func() (*storage.SQLiteDB, error) {
+		return storage.NewSQLiteDB("", false)
+	}
+	runEscalateCommand = func(name string, args ...string) ([]byte, error) {
+		return exec.Command(name, args...).CombinedOutput()
+	}
+)
+
 var escalateCmd = &cobra.Command{
 	Use:   "escalate [beads-id]",
 	Short: "Trigger RTE discussion when an Agent detects a risk",
@@ -18,7 +27,7 @@ var escalateCmd = &cobra.Command{
 		risk, _ := cmd.Flags().GetString("risk")
 
 		// 1. Initialize FrankenSQLite in RW mode
-		sqlite, err := storage.NewSQLiteDB("", false)
+		sqlite, err := newEscalateDB()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error initializing FrankenSQLite: %v\n", err)
 			os.Exit(1)
@@ -38,9 +47,11 @@ var escalateCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		transition := newEscalationTransition(risk)
+
 		// 4. Update via 'br' CLI (status and label)
-		fmt.Printf("Updating issue %s status to blocked and adding rte:escalated label...\n", id)
-		out, err := exec.Command("br", "update", id, "--status", "blocked", "--remove-label", "rte:approved", "--remove-label", "rte:rejected", "--add-label", "rte:escalated", "--json").CombinedOutput()
+		fmt.Printf("Updating issue %s status to %s and adding %s label...\n", id, transition.issueStatus, transition.label)
+		out, err := runEscalateCommand("br", transition.brUpdateArgs(id)...)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating via 'br' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
@@ -48,7 +59,7 @@ var escalateCmd = &cobra.Command{
 
 		// 5. Update FrankenSQLite RTE metadata
 		fmt.Printf("Recording escalation metadata for %s...\n", id)
-		err = sqlite.UpdateIssueRTE(id, "escalated", risk, "", "", "")
+		err = sqlite.UpdateIssueRTE(id, "escalated", risk, transition.resolution, transition.approvedBy, transition.approvedAt)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating RTE metadata: %v\n", err)
 			os.Exit(1)
@@ -56,8 +67,7 @@ var escalateCmd = &cobra.Command{
 
 		// 6. Gather evidence via gmind trace
 		fmt.Printf("Gathering evidence for %s...\n", id)
-		cmdTrace := exec.Command(os.Args[0], "trace", id)
-		traceOut, errTrace := cmdTrace.CombinedOutput()
+		traceOut, errTrace := runEscalateCommand(os.Args[0], "trace", id)
 		if errTrace != nil {
 			fmt.Fprintf(os.Stderr, "Warning: Failed to gather trace evidence: %v\n", errTrace)
 		}

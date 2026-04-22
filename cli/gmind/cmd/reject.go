@@ -32,9 +32,11 @@ var rejectCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		transition := newRejectionTransition(reason)
+
 		// 3. Update via 'br' CLI (status and labels)
-		fmt.Printf("Updating issue %s status to open and updating labels...\n", id)
-		out, err := exec.Command("br", "update", id, "--status", "open", "--remove-label", "rte:escalated", "--remove-label", "rte:approved", "--add-label", "rte:rejected", "--json").CombinedOutput()
+		fmt.Printf("Updating issue %s status to %s and updating labels...\n", id, transition.issueStatus)
+		out, err := exec.Command("br", transition.brUpdateArgs(id)...).CombinedOutput()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating via 'br' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
@@ -42,7 +44,7 @@ var rejectCmd = &cobra.Command{
 
 		// 4. Update FrankenSQLite RTE metadata
 		fmt.Printf("Recording rejection metadata for %s...\n", id)
-		err = sqlite.UpdateIssueRTE(id, "rejected", issue.RTERisk, reason, "", "")
+		err = sqlite.UpdateIssueRTE(id, "rejected", issue.RTERisk, transition.resolution, transition.approvedBy, transition.approvedAt)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating RTE metadata: %v\n", err)
 			os.Exit(1)

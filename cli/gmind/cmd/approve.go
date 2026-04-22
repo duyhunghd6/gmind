@@ -33,9 +33,16 @@ var approveCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		now := time.Now().Format(time.RFC3339)
+		actor := os.Getenv("USER")
+		if actor == "" {
+			actor = "RTE"
+		}
+		transition := newApprovalTransition(resolution, actor, now)
+
 		// 3. Update via 'br' CLI (status and labels)
-		fmt.Printf("Updating issue %s status to in_progress and updating labels...\n", id)
-		out, err := exec.Command("br", "update", id, "--status", "in_progress", "--remove-label", "rte:escalated", "--remove-label", "rte:rejected", "--add-label", "rte:approved", "--json").CombinedOutput()
+		fmt.Printf("Updating issue %s status to %s and updating labels...\n", id, transition.issueStatus)
+		out, err := exec.Command("br", transition.brUpdateArgs(id)...).CombinedOutput()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating via 'br' CLI: %v\nOutput: %s\n", err, string(out))
 			os.Exit(1)
@@ -43,12 +50,7 @@ var approveCmd = &cobra.Command{
 
 		// 4. Update FrankenSQLite RTE metadata
 		fmt.Printf("Recording approval metadata for %s...\n", id)
-		now := time.Now().Format(time.RFC3339)
-		actor := os.Getenv("USER") // Simple actor detection
-		if actor == "" {
-			actor = "RTE"
-		}
-		err = sqlite.UpdateIssueRTE(id, "approved", issue.RTERisk, resolution, actor, now)
+		err = sqlite.UpdateIssueRTE(id, "approved", issue.RTERisk, transition.resolution, transition.approvedBy, transition.approvedAt)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error updating RTE metadata: %v\n", err)
 			os.Exit(1)

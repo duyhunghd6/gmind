@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -42,9 +43,17 @@ var traceCmd = &cobra.Command{
 
 		jsonOutput, _ := cmd.Flags().GetBool("json")
 		if jsonOutput {
-			// Basic JSON output of the result string for now
-			// In a real implementation, we might want to return the actual Node structure
-			fmt.Printf("{\"beads_id\": \"%s\", \"trace\": %q}\n", id, result)
+			data, err := assembler.TraceData(id, reverse, useGithub)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error tracing: %v\n", err)
+				os.Exit(1)
+			}
+			payload, err := json.MarshalIndent(data, "", "  ")
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error encoding trace JSON: %v\n", err)
+				os.Exit(1)
+			}
+			fmt.Println(string(payload))
 		} else {
 			fmt.Println(result)
 		}
