@@ -165,17 +165,15 @@ run_test 11 "Reindex --source=markdown-doc" \
 echo ""
 echo "--- T12-T14: RTE Approval Workflow ---"
 
-# Use existing open issue, or try to create one
+# Use existing open issue, or try to create one (with timeout to prevent hangs)
 TEST_ISSUE_ID=""
 
-# Try to find an existing open issue
-EXISTING=$(bd list --status open --json 2>/dev/null | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4 || true)
+EXISTING=$(timeout 10 bd list --status open --json 2>/dev/null | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4 || true)
 if [ -n "$EXISTING" ]; then
   TEST_ISSUE_ID="$EXISTING"
   echo "  Using existing issue: $TEST_ISSUE_ID"
 else
-  # Try creating one
-  CREATE_OUT=$(bd create "RTE Test Issue for PRD03" --priority 3 2>/dev/null || true)
+  CREATE_OUT=$(timeout 10 bd create "RTE Test Issue for PRD03" --priority 3 2>/dev/null || true)
   TEST_ISSUE_ID=$(echo "$CREATE_OUT" | grep -oE 'gmind-[a-z0-9]+' | head -1 || true)
   if [ -n "$TEST_ISSUE_ID" ]; then
     echo "  Created test issue: $TEST_ISSUE_ID"
@@ -183,8 +181,7 @@ else
 fi
 
 if [ -z "$TEST_ISSUE_ID" ]; then
-  echo "  SKIP: No test issue available for RTE workflow tests"
-  echo "  (RTE tests require 'bd' CLI with open issues)"
+  echo "  SKIP: No test issue available (bd CLI timed out or no open issues)"
 else
   # T12: Escalate
   echo ""
