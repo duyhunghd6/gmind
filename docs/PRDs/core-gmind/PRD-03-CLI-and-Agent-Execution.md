@@ -49,6 +49,7 @@ Viết bằng **Go (Golang)** theo Rule dự án, `gmind` là công cụ duy nh�
   - Truy vấn hạt nhân. Gom toàn bộ Description (từ beads_rust/FrankenSQLite), Code context (qua `gmind search-codebase` nếu cần), và Discussion History (Từ Zvec) của 1 ID cụ thể.
   - Tự động nén định dạng đầu ra (ví dụ chuẩn TOON) để giảm token context window của Agent.
   - > ✅ **Đã áp dụng theo khuyến nghị PO:** Tham số `--depth N` cho phép Agent tùy chọn mức lấy ngữ cảnh. VD: `gmind context br-123 --depth 1` chỉ lấy code rễ, bỏ qua chat logs. Mặc định `--depth 0` lấy toàn bộ.
+  - > ✅ **Yêu cầu phân tách Section Markdown (Mới):** Khi thu thập context từ các file Markdown, công cụ không chia chunk cứng theo token (vd: 512 tokens như RAG cơ bản) mà phải tự động parse và chia tách nội dung document dựa theo các **Beads ID metadata markers** (ví dụ: `<!-- beads-id: br-xxx -->`, `<!-- beads: br-xxx | satisfies: ... -->` hoặc YAML front matter). Lưu ý: Không phụ thuộc hoàn toàn vào header (`#`, `##`, `###`) vì một header có thể chứa nhiều Beads ID bên trong. Việc split phải bám sát ranh giới của các marker này để lấy chính xác và trọn vẹn nội dung thuộc về từng ID.
 - **`gmind github <subcommand> <beads-id>`:** (wrapper `git` + `gh` CLI, chạy local-first)
   - `gmind github info br-xxx` — Tổng hợp: commits + PRs + CI status cho 1 Beads task.
   - `gmind github commits br-xxx` — Exec: `git log --all --grep='Beads-ID: br-xxx'`.

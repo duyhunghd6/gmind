@@ -57,6 +57,8 @@ Chúng ta KHÔNG dùng YAML Frontmatter ở từng dòng, mà dùng **HTML Comme
 <!-- beads-id: br-plan-01 | satisfies: br-prd02-s1 -->
 ```
 
+> **Quy tắc quan trọng (Single-Line Rule):** Toàn bộ metadata HTML comment (ở dạng `<!-- beads-id: ... | satisfies: ... -->`) **BẮT BUỘC** phải nằm trên 1 dòng duy nhất. Một `beads-id` có thể `satisfies` một hoặc nhiều `beads-id` khác (ví dụ: `satisfies: br-prd01-s1, br-prd01-s2`). Cấm tuyệt đối việc sử dụng multi-line comment cho các thẻ metadata này.
+
 ---
 
 ## 3. Automation Scripts (Chiết xuất & Đồng bộ)
@@ -75,6 +77,8 @@ Script Python này duyệt qua đệ quy thư mục `docs/` để tìm toàn b�
 ```bash
 python packages/agenticse-gmind-universal-id-agentmem/scripts/extract_ids.py docs/PRDs/
 ```
+
+> **BẮT BUỘC (Verification Gate & Proactive Checking):** Bất cứ khi nào bạn **thay đổi (change), thêm mới (add new), hoặc xóa (delete)** metadata `beads-id` (universal metadata) trong các tệp tài liệu, bạn PHẢI chạy script `extract_ids.py` vào tệp (hoặc thư mục) đó để xác minh lại rằng định dạng không bị lỗi. Agent được khuyến khích chạy script này chủ động bất cứ lúc nào để linter báo chính xác số dòng (line number) bị sai format (nếu có). Nếu script báo lỗi `[LINT ERROR]`, bạn phải dựa vào dòng báo lỗi để tiến hành sửa và thử lại cho tới khi PASSED.
 
 ---
 
