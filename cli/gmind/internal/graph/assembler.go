@@ -2,6 +2,7 @@ package graph
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/external"
@@ -33,6 +34,18 @@ type ContextKnowledge struct {
 	Content    string `json:"content"`
 }
 
+type contextIssueLoader interface {
+	GetIssueDetails(beadsID string) (*storage.Issue, error)
+}
+
+type contextKnowledgeLoader interface {
+	SearchByBeadsID(id string) ([]storage.ZvecSearchResult, error)
+}
+
+type contextCodeLoader interface {
+	Query(query string, repoPath string, jsonOutput bool) (string, error)
+}
+
 func NewAssembler(sql *storage.SQLiteDB, zv *storage.ZvecDB, fc *external.FastCode, gh *external.GitHub) *Assembler {
 	return &Assembler{
 		Sqlite:   sql,
@@ -43,54 +56,92 @@ func NewAssembler(sql *storage.SQLiteDB, zv *storage.ZvecDB, fc *external.FastCo
 	}
 }
 
-func (a *Assembler) GetContextData(beadsID string, depth int) (*ContextData, error) {
+func (a *Assembler) GetContextData(beadsID string, depth int, progress func(string)) (*ContextData, error) {
+	return buildContextData(a.Sqlite, a.Zvec, a.FastCode, beadsID, depth, true, progress)
+}
+
+func buildContextData(issueLoader contextIssueLoader, knowledgeLoader contextKnowledgeLoader, codeLoader contextCodeLoader, beadsID string, depth int, fastCodeJSON bool, progress func(string)) (*ContextData, error) {
 	data := &ContextData{BeadsID: beadsID, Depth: depth}
 
-	if a.Sqlite != nil {
-		issue, err := a.Sqlite.GetIssueDetails(beadsID)
+	if issueLoader != nil {
+		if progress != nil {
+			progress("Fetching issue details from storage...")
+		}
+		issue, err := issueLoader.GetIssueDetails(beadsID)
 		if err == nil && issue != nil {
 			data.Issue = issue
 		}
+		// We deliberately ignore the error if issue is not found,
+		// as BeadsID might be a PRD section or non-issue entity.
 	}
 
-	if a.Zvec != nil {
-		results, err := a.Zvec.SearchByBeadsID(beadsID)
-		if err == nil {
-			data.RelatedKnowledge = make([]ContextKnowledge, 0, len(results))
-			for _, res := range results {
-				data.RelatedKnowledge = append(data.RelatedKnowledge, ContextKnowledge{
-					SourceType: res.SourceType,
-					SourceRef:  res.SourceRef,
-					Content:    res.Content,
-				})
+	if knowledgeLoader != nil {
+		if progress != nil {
+			progress("Searching related knowledge in Zvec...")
+		}
+		results, err := knowledgeLoader.SearchByBeadsID(beadsID)
+		if err != nil {
+			return nil, fmt.Errorf("zvec unavailable: %w", err)
+		}
+		data.RelatedKnowledge = make([]ContextKnowledge, 0, len(results))
+		for _, res := range results {
+			data.RelatedKnowledge = append(data.RelatedKnowledge, ContextKnowledge{
+				SourceType: res.SourceType,
+				SourceRef:  res.SourceRef,
+				Content:    res.Content,
+			})
+		}
+		sort.Slice(data.RelatedKnowledge, func(i, j int) bool {
+			if data.RelatedKnowledge[i].SourceType != data.RelatedKnowledge[j].SourceType {
+				return data.RelatedKnowledge[i].SourceType < data.RelatedKnowledge[j].SourceType
 			}
-		}
+			if data.RelatedKnowledge[i].SourceRef != data.RelatedKnowledge[j].SourceRef {
+				return data.RelatedKnowledge[i].SourceRef < data.RelatedKnowledge[j].SourceRef
+			}
+			return data.RelatedKnowledge[i].Content < data.RelatedKnowledge[j].Content
+		})
 	}
 
-	if a.FastCode != nil && shouldIncludeCodeContext(depth) {
-		codeCtx, err := a.FastCode.Query(beadsID, ".", true)
-		if err == nil {
-			data.CodeContext = strings.TrimSpace(codeCtx)
+	if codeLoader != nil && shouldIncludeCodeContext(depth) {
+		if progress != nil {
+			progress("Analyzing code context with FastCode...")
 		}
+		codeCtx, err := codeLoader.Query(beadsID, ".", fastCodeJSON)
+		if err != nil {
+			return nil, fmt.Errorf("fastcode unavailable: %w", err)
+		}
+		data.CodeContext = sanitizeCodeContext(strings.TrimSpace(codeCtx), fastCodeJSON)
 	}
 
 	return data, nil
 }
 
 // GetContext aggregates full context for a Beads ID.
-func (a *Assembler) GetContext(beadsID string, depth int) (string, error) {
-	data, err := a.GetContextData(beadsID, depth)
+func (a *Assembler) GetContext(beadsID string, depth int, progress func(string)) (string, error) {
+	data, err := buildContextData(a.Sqlite, a.Zvec, a.FastCode, beadsID, depth, false, progress)
 	if err != nil {
 		return "", err
 	}
-	return renderContextText(data), nil
+	return RenderContextText(data), nil
 }
 
 func shouldIncludeCodeContext(depth int) bool {
 	return depth == 0 || depth >= 1
 }
 
-func renderContextText(data *ContextData) string {
+func sanitizeCodeContext(codeCtx string, expectJSON bool) string {
+	if !expectJSON {
+		return codeCtx
+	}
+
+	start := strings.Index(codeCtx, "{")
+	if start == -1 {
+		return codeCtx
+	}
+	return strings.TrimSpace(codeCtx[start:])
+}
+
+func RenderContextText(data *ContextData) string {
 	if data == nil {
 		return ""
 	}
@@ -137,16 +188,24 @@ func renderIssueSection(issue *storage.Issue) string {
 	}
 
 	sectionTitle := "## RTE Metadata"
+	detailLabel := "Resolution"
 	if issue.RTEStatus == "approved" {
 		sectionTitle = "## RTE Approval"
 	}
+	if issue.RTEStatus == "rejected" {
+		sectionTitle = "## RTE Rejection"
+		detailLabel = "Reason"
+	}
 
 	lines = append(lines, "", sectionTitle, fmt.Sprintf("- Status: %s", issue.RTEStatus))
+	if issue.RTEStatus == "rejected" {
+		lines = append(lines, "- Guidance: A new approach is required before execution resumes")
+	}
 	if issue.RTERisk != "" {
 		lines = append(lines, fmt.Sprintf("- Risk: %s", issue.RTERisk))
 	}
 	if issue.RTEResolution != "" {
-		lines = append(lines, fmt.Sprintf("- Resolution: %s", issue.RTEResolution))
+		lines = append(lines, fmt.Sprintf("- %s: %s", detailLabel, issue.RTEResolution))
 	}
 	if issue.RTEApprovedBy != "" {
 		lines = append(lines, fmt.Sprintf("- Approved by: %s", issue.RTEApprovedBy))

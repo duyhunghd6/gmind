@@ -372,7 +372,7 @@ func TestRenderContextText_CombinesStructuredSections(t *testing.T) {
 		CodeContext: "{\"matches\":[]}",
 	}
 
-	got := renderContextText(data)
+	got := RenderContextText(data)
 
 	checks := []string{
 		"## Issue",
@@ -395,5 +395,112 @@ func TestShouldIncludeCodeContext(t *testing.T) {
 	}
 	if shouldIncludeCodeContext(-1) {
 		t.Fatal("expected negative depth to skip code context")
+	}
+}
+
+type stubIssueLoader struct {
+	issue *storage.Issue
+	err   error
+}
+
+func (s stubIssueLoader) GetIssueDetails(string) (*storage.Issue, error) {
+	return s.issue, s.err
+}
+
+type stubKnowledgeLoader struct {
+	results []storage.ZvecSearchResult
+	err     error
+}
+
+func (s stubKnowledgeLoader) SearchByBeadsID(string) ([]storage.ZvecSearchResult, error) {
+	return s.results, s.err
+}
+
+type stubCodeLoader struct {
+	result string
+	err    error
+}
+
+func (s stubCodeLoader) Query(string, string, bool) (string, error) {
+	return s.result, s.err
+}
+
+func TestBuildContextData_SortsKnowledgeDeterministically(t *testing.T) {
+	data, err := buildContextData(
+		stubIssueLoader{issue: &storage.Issue{ID: "gmind-ctx-2", Title: "Issue", Status: "open", Priority: 1}},
+		stubKnowledgeLoader{results: []storage.ZvecSearchResult{
+			{SourceType: "markdown-doc", SourceRef: "a", Content: "a"},
+			{SourceType: "chat-message", SourceRef: "b", Content: "z"},
+			{SourceType: "chat-message", SourceRef: "a", Content: "z"},
+		}},
+		stubCodeLoader{result: "{}"},
+		"gmind-ctx-2",
+		1,
+		true,
+		nil,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := []string{
+		data.RelatedKnowledge[0].SourceType + ":" + data.RelatedKnowledge[0].SourceRef,
+		data.RelatedKnowledge[1].SourceType + ":" + data.RelatedKnowledge[1].SourceRef,
+		data.RelatedKnowledge[2].SourceType + ":" + data.RelatedKnowledge[2].SourceRef,
+	}
+	want := []string{"chat-message:a", "chat-message:b", "markdown-doc:a"}
+	if strings.Join(got, ",") != strings.Join(want, ",") {
+		t.Fatalf("unexpected knowledge order: got %v want %v", got, want)
+	}
+}
+
+func TestBuildContextData_PermitsMissingIssue(t *testing.T) {
+	data, err := buildContextData(nil, nil, nil, "gmind-missing", 0, true, nil)
+	if err != nil {
+		t.Fatalf("expected missing issue to be permitted natively, got: %v", err)
+	}
+	if data == nil || data.BeadsID != "gmind-missing" {
+		t.Fatalf("expected valid context data with BeadsID assigned")
+	}
+}
+
+func TestBuildContextData_PropagatesBoundaryFailures(t *testing.T) {
+	issueLoader := stubIssueLoader{issue: &storage.Issue{ID: "gmind-ctx-2", Title: "Issue", Status: "open", Priority: 1}}
+	_, err := buildContextData(issueLoader, stubKnowledgeLoader{err: os.ErrNotExist}, nil, "gmind-ctx-2", 0, true, nil)
+	if err == nil || !strings.Contains(err.Error(), "zvec unavailable") {
+		t.Fatalf("expected zvec error, got %v", err)
+	}
+
+	_, err = buildContextData(issueLoader, stubKnowledgeLoader{}, stubCodeLoader{err: os.ErrNotExist}, "gmind-ctx-2", 0, true, nil)
+	if err == nil || !strings.Contains(err.Error(), "fastcode unavailable") {
+		t.Fatalf("expected fastcode error, got %v", err)
+	}
+}
+
+func TestBuildContextData_StripsFastCodeJSONBanner(t *testing.T) {
+	issueLoader := stubIssueLoader{issue: &storage.Issue{ID: "gmind-ctx-2", Title: "Issue", Status: "open", Priority: 1}}
+	data, err := buildContextData(
+		issueLoader,
+		stubKnowledgeLoader{},
+		stubCodeLoader{result: "[init] Starting fastcode main execution...\n{\n  \"query\": \"gmind-ctx-2\"\n}"},
+		"gmind-ctx-2",
+		0,
+		true,
+		nil,
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Contains(data.CodeContext, "[init]") {
+		t.Fatalf("expected banner to be stripped, got %q", data.CodeContext)
+	}
+	if !strings.HasPrefix(data.CodeContext, "{") {
+		t.Fatalf("expected JSON object to remain, got %q", data.CodeContext)
+	}
+}
+
+func TestSanitizeCodeContext_PreservesTextModeOutput(t *testing.T) {
+	got := sanitizeCodeContext("[init] Starting fastcode main execution...\ntext payload", false)
+	if !strings.Contains(got, "[init]") {
+		t.Fatalf("expected text mode output to remain unchanged, got %q", got)
 	}
 }

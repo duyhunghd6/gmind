@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -195,6 +196,9 @@ func (db *SQLiteDB) GetIssueDetails(beadsID string) (*Issue, error) {
 	query := "SELECT id, title, description, status, priority, issue_type, assignee FROM issues WHERE id = ?"
 	err := db.BeadsDB.Get(&issue, query, beadsID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, fmt.Errorf("issue %s not found", beadsID)
+		}
 		// Fallback to 'bd' CLI
 		out, err := exec.Command("bd", "show", beadsID, "--json").Output()
 		if err != nil {

@@ -95,11 +95,27 @@ func (a *Assembler) renderTree(sb *strings.Builder, n *Node, level int, reverse 
 	sb.WriteString(fmt.Sprintf("%s%s %s: %s%s\n", indent, getIcon(n.Type), n.Type, n.ID, status))
 
 	if n.RTEStatus != "" {
-		extra := n.RTEResolution
-		if extra == "" {
-			extra = n.RTERisk
+		if n.RTEStatus == "rejected" {
+			detail := n.RTEResolution
+			if detail == "" {
+				detail = n.RTERisk
+			}
+			if detail == "" {
+				sb.WriteString(fmt.Sprintf("%s  [RTE:REJECTED] new approach required\n", indent))
+			} else {
+				sb.WriteString(fmt.Sprintf("%s  [RTE:REJECTED] new approach required. Latest rejection reason: %s\n", indent, detail))
+			}
+		} else {
+			extra := n.RTEResolution
+			if extra == "" {
+				extra = n.RTERisk
+			}
+			if extra == "" {
+				sb.WriteString(fmt.Sprintf("%s  [RTE:%s]\n", indent, strings.ToUpper(n.RTEStatus)))
+			} else {
+				sb.WriteString(fmt.Sprintf("%s  [RTE:%s] %s\n", indent, strings.ToUpper(n.RTEStatus), extra))
+			}
 		}
-		sb.WriteString(fmt.Sprintf("%s  [RTE:%s] %s\n", indent, strings.ToUpper(n.RTEStatus), extra))
 	}
 
 	if reverse {

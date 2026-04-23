@@ -2,13 +2,22 @@ package cmd
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/external"
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/graph"
 	"github.com/duyhunghd6/gmind/cli/gmind/internal/storage"
 	"github.com/spf13/cobra"
+)
+
+var (
+	newContextDB       = func() (*storage.SQLiteDB, error) { return storage.NewSQLiteDB("", true) }
+	newContextZvec     = storage.NewZvecDB
+	newContextFastCode = external.NewFastCode
+	exitContextCommand = os.Exit
 )
 
 var contextCmd = &cobra.Command{
@@ -21,43 +30,99 @@ var contextCmd = &cobra.Command{
 		depth, _ := cmd.Flags().GetInt("depth")
 		jsonOutput, _ := cmd.Flags().GetBool("json")
 
-		// Initialize dependencies
-		sqlite, err := storage.NewSQLiteDB("", true)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
-			os.Exit(1)
-		}
-		defer sqlite.Close()
-
-		zvec, _ := storage.NewZvecDB()
-		fastcode, _ := external.NewFastCode()
-
-		// Create assembler
-		assembler := graph.NewAssembler(sqlite, zvec, fastcode, nil)
-
-		contextData, err := assembler.GetContextData(id, depth)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error getting context: %v\n", err)
-			os.Exit(1)
-		}
-
 		if jsonOutput {
+			contextData, err := loadContextData(id, depth)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Error getting context: %v\n", err)
+				exitContextCommand(1)
+				return
+			}
+
 			payload, err := json.MarshalIndent(contextData, "", "  ")
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "Error encoding context JSON: %v\n", err)
-				os.Exit(1)
+				exitContextCommand(1)
+				return
 			}
 			fmt.Println(string(payload))
 			return
 		}
 
-		context, err := assembler.GetContext(id, depth)
+		context, err := loadContextText(id, depth)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error getting context: %v\n", err)
-			os.Exit(1)
+			exitContextCommand(1)
+			return
 		}
-		fmt.Println(context)
+		if context != "" {
+			fmt.Println(context)
+		}
 	},
+}
+
+func loadContextData(id string, depth int) (*graph.ContextData, error) {
+	assembler, cleanup, err := buildContextAssembler()
+	if err != nil {
+		return nil, err
+	}
+	defer cleanup()
+
+	contextData, err := assembler.GetContextData(id, depth, nil)
+	if err != nil {
+		return nil, normalizeContextError(id, err)
+	}
+	return contextData, nil
+}
+
+func loadContextText(id string, depth int) (string, error) {
+	assembler, cleanup, err := buildContextAssembler()
+	if err != nil {
+		return "", err
+	}
+	defer cleanup()
+
+	progress := func(msg string) {
+		fmt.Fprintln(os.Stderr, msg)
+	}
+
+	context, err := assembler.GetContext(id, depth, progress)
+	if err != nil {
+		return "", normalizeContextError(id, err)
+	}
+	return strings.TrimSpace(context), nil
+}
+
+func buildContextAssembler() (*graph.Assembler, func(), error) {
+	sqlite, err := newContextDB()
+	if err != nil {
+		return nil, nil, fmt.Errorf("storage unavailable: %w", err)
+	}
+
+	cleanup := func() { sqlite.Close() }
+
+	zvec, err := newContextZvec()
+	if err != nil {
+		cleanup()
+		return nil, nil, fmt.Errorf("zvec unavailable: %w", err)
+	}
+
+	fastcode, err := newContextFastCode()
+	if err != nil {
+		cleanup()
+		return nil, nil, fmt.Errorf("fastcode unavailable: %w", err)
+	}
+
+	return graph.NewAssembler(sqlite, zvec, fastcode, nil), cleanup, nil
+}
+
+func normalizeContextError(id string, err error) error {
+	if strings.Contains(err.Error(), "not found") {
+		return fmt.Errorf("issue %s not found", id)
+	}
+	if errors.Is(err, os.ErrNotExist) {
+		return fmt.Errorf("storage unavailable: %w", err)
+	}
+	return err
 }
 
 func init() {
