@@ -47,8 +47,8 @@ func (db *SQLiteDB) IndexMarkdownDocs(zvec *ZvecDB, force bool) error {
 				return nil
 			}
 
-			// Adaptive chunking: 2000 chars per chunk (~512 tokens), 250 chars overlap
-			chunks := splitContentWithOverlap(string(content), 2000, 250)
+			// Semantic chunking: parse Markdown blocks by beads-id metadata markers
+			chunks := splitMarkdownByBeadsID(string(content))
 			for i, c := range chunks {
 				chunkID := GenerateChunkID(path, c)
 				beadsIDs := DetectBeadsIDs(c)
@@ -575,4 +575,59 @@ func contains(slice []string, val string) bool {
 		}
 	}
 	return false
+}
+
+func splitMarkdownByBeadsID(content string) []string {
+	if len(content) == 0 {
+		return nil
+	}
+
+	lines := strings.Split(content, "\n")
+	var chunks []string
+	var currentChunk strings.Builder
+
+	inYAML := false
+	yamlCount := 0
+
+	for i, line := range lines {
+		isMarker := false
+		if strings.HasPrefix(line, "---") && (i == 0 || yamlCount > 0) {
+			if yamlCount == 0 {
+				isMarker = true
+				yamlCount++
+				inYAML = true
+			} else if inYAML {
+				yamlCount++
+				inYAML = false
+			}
+		}
+
+		if !isMarker && !inYAML && strings.Contains(strings.ToLower(line), "<!--") && strings.Contains(strings.ToLower(line), "beads-id:") {
+			isMarker = true
+		}
+
+		if isMarker && currentChunk.Len() > 0 {
+			chunks = append(chunks, currentChunk.String())
+			currentChunk.Reset()
+		}
+
+		currentChunk.WriteString(line + "\n")
+	}
+
+	if currentChunk.Len() > 0 {
+		chunks = append(chunks, currentChunk.String())
+	}
+
+	var finalChunks []string
+	for _, c := range chunks {
+		if strings.TrimSpace(c) != "" {
+			if len(c) > 8000 {
+				finalChunks = append(finalChunks, splitContentWithOverlap(c, 2000, 250)...)
+			} else {
+				finalChunks = append(finalChunks, c)
+			}
+		}
+	}
+
+	return finalChunks
 }
