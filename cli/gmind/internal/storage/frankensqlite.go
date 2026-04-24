@@ -141,6 +141,16 @@ func (db *SQLiteDB) InitSchema() error {
 			last_indexed TEXT,
 			chunk_count INTEGER
 		);`,
+		`CREATE TABLE IF NOT EXISTS zvec_chunks (
+			chunk_id TEXT PRIMARY KEY,
+			source_type TEXT,
+			source_ref TEXT,
+			beads_ids TEXT,
+			content TEXT,
+			score REAL,
+			timestamp TEXT,
+			author TEXT
+		);`,
 	}
 	for _, q := range queries {
 		if _, err := db.GmindDB.Exec(q); err != nil {

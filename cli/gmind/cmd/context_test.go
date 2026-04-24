@@ -50,6 +50,12 @@ func setupContextTestDB(t *testing.T) (*storage.SQLiteDB, func()) {
 	if err := db.InitSchema(); err != nil {
 		t.Fatal(err)
 	}
+	if _, err := db.GmindDB.Exec(
+		`INSERT INTO zvec_chunks (chunk_id, source_type, source_ref, beads_ids, content, score, timestamp, author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		"zvec-mock-3", "markdown-doc", "docs/plans/PLAN-01.md", `["gmind-ctx-1"]`, "Context related to beads ID: gmind-ctx-1", 1.0, "2026-04-21T08:00:00Z", "system",
+	); err != nil {
+		t.Fatal(err)
+	}
 	if _, err := db.BeadsDB.Exec(
 		`INSERT INTO issues (id, title, description, status, priority, issue_type, assignee) VALUES (?, ?, ?, ?, ?, ?, ?)`,
 		"gmind-ctx-1", "Context issue", "desc", "blocked", 2, "task", "Hung",
@@ -110,7 +116,7 @@ func TestLoadContextDataReturnsStructuredContext(t *testing.T) {
 	}()
 
 	newContextDB = func() (*storage.SQLiteDB, error) { return db, nil }
-	newContextZvec = func() (*storage.ZvecDB, error) { return &storage.ZvecDB{}, nil }
+	newContextZvec = func(db *sqlx.DB) (*storage.ZvecDB, error) { return &storage.ZvecDB{DB: db}, nil }
 	newContextFastCode = func() (*external.FastCode, error) { return &external.FastCode{BinaryPath: "/bin/echo"}, nil }
 
 	data, err := loadContextData("gmind-ctx-1", 1)
@@ -156,7 +162,7 @@ func TestLoadContextDataReportsZvecUnavailable(t *testing.T) {
 	}()
 
 	newContextDB = func() (*storage.SQLiteDB, error) { return db, nil }
-	newContextZvec = func() (*storage.ZvecDB, error) { return nil, errors.New("index offline") }
+	newContextZvec = func(db *sqlx.DB) (*storage.ZvecDB, error) { return nil, errors.New("index offline") }
 	newContextFastCode = func() (*external.FastCode, error) { return &external.FastCode{BinaryPath: "/bin/echo"}, nil }
 
 	_, err := loadContextData("gmind-ctx-1", 0)
@@ -179,7 +185,7 @@ func TestLoadContextDataReportsFastCodeUnavailable(t *testing.T) {
 	}()
 
 	newContextDB = func() (*storage.SQLiteDB, error) { return db, nil }
-	newContextZvec = func() (*storage.ZvecDB, error) { return &storage.ZvecDB{}, nil }
+	newContextZvec = func(db *sqlx.DB) (*storage.ZvecDB, error) { return &storage.ZvecDB{DB: db}, nil }
 	newContextFastCode = func() (*external.FastCode, error) { return nil, errors.New("binary missing") }
 
 	_, err := loadContextData("gmind-ctx-1", 0)
@@ -202,7 +208,7 @@ func TestLoadContextDataPermitsMissingIssue(t *testing.T) {
 	}()
 
 	newContextDB = func() (*storage.SQLiteDB, error) { return db, nil }
-	newContextZvec = func() (*storage.ZvecDB, error) { return &storage.ZvecDB{}, nil }
+	newContextZvec = func(db *sqlx.DB) (*storage.ZvecDB, error) { return &storage.ZvecDB{DB: db}, nil }
 	newContextFastCode = func() (*external.FastCode, error) { return &external.FastCode{BinaryPath: "/bin/echo"}, nil }
 
 	data, err := loadContextData("gmind-missing", 0)
@@ -228,7 +234,7 @@ func TestLoadContextTextReturnsRenderedContext(t *testing.T) {
 	}()
 
 	newContextDB = func() (*storage.SQLiteDB, error) { return db, nil }
-	newContextZvec = func() (*storage.ZvecDB, error) { return &storage.ZvecDB{}, nil }
+	newContextZvec = func(db *sqlx.DB) (*storage.ZvecDB, error) { return &storage.ZvecDB{DB: db}, nil }
 	newContextFastCode = func() (*external.FastCode, error) { return &external.FastCode{BinaryPath: "/bin/echo"}, nil }
 
 	context, err := loadContextText("gmind-ctx-1", 1)
@@ -263,7 +269,7 @@ func TestContextCommandWritesDeterministicJSON(t *testing.T) {
 	}()
 
 	newContextDB = func() (*storage.SQLiteDB, error) { return db, nil }
-	newContextZvec = func() (*storage.ZvecDB, error) { return &storage.ZvecDB{}, nil }
+	newContextZvec = func(db *sqlx.DB) (*storage.ZvecDB, error) { return &storage.ZvecDB{DB: db}, nil }
 	newContextFastCode = func() (*external.FastCode, error) { return &external.FastCode{BinaryPath: "/bin/echo"}, nil }
 	exitContextCommand = func(code int) { t.Fatalf("unexpected exit: %d", code) }
 

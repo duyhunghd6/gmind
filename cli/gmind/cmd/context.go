@@ -100,7 +100,7 @@ func buildContextAssembler() (*graph.Assembler, func(), error) {
 
 	cleanup := func() { sqlite.Close() }
 
-	zvec, err := newContextZvec()
+	zvec, err := newContextZvec(sqlite.GmindDB)
 	if err != nil {
 		cleanup()
 		return nil, nil, fmt.Errorf("zvec unavailable: %w", err)

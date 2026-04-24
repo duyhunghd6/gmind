@@ -19,7 +19,14 @@ var searchCmd = &cobra.Command{
 		jsonOutput, _ := cmd.Flags().GetBool("json")
 		limit, _ := cmd.Flags().GetInt("limit")
 
-		zvec, err := storage.NewZvecDB()
+		sqlite, err := storage.NewSQLiteDB("", true)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error initializing SQLite: %v\n", err)
+			os.Exit(1)
+		}
+		defer sqlite.Close()
+
+		zvec, err := storage.NewZvecDB(sqlite.GmindDB)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error initializing Zvec: %v\n", err)
 			os.Exit(1)

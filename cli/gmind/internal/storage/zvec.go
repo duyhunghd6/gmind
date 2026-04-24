@@ -2,9 +2,12 @@ package storage
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/jmoiron/sqlx"
 )
 
 type ZvecSearchResult struct {
@@ -19,60 +22,133 @@ type ZvecSearchResult struct {
 }
 
 type ZvecDB struct {
-	// Add config for accessing zvec instance or wrapper logic
-	Config interface{}
+	DB *sqlx.DB
 }
 
-func NewZvecDB() (*ZvecDB, error) {
-	// To be integrated fully once the C++ boundary/API is specified
-	return &ZvecDB{}, nil
+func NewZvecDB(db *sqlx.DB) (*ZvecDB, error) {
+	return &ZvecDB{DB: db}, nil
 }
 
 func (z *ZvecDB) SemanticSearch(query string, limit int) ([]ZvecSearchResult, error) {
-	// Stub semantic search interaction
-	// In a real implementation, this would call the Zvec C++ core or a wrapper
-	return []ZvecSearchResult{
-		{
-			ChunkID:    "zvec-mock-1",
-			SourceType: "markdown-doc",
-			SourceRef:  "docs/PRDs/core-gmind/PRD-01-Overview.md",
-			BeadsIDs:   []string{"br-prd01"},
-			Content:    fmt.Sprintf("This is a mock result for: %s. It represents a doc search result.", query),
-			Score:      0.95,
-			Timestamp:  "2026-04-21T10:00:00Z",
-		},
-		{
-			ChunkID:    "zvec-mock-2",
-			SourceType: "chat-message",
-			SourceRef:  "chat:session-001:msg-10",
-			BeadsIDs:   []string{"bd-x1y2"},
-			Content:    fmt.Sprintf("Previous discussion about %s in chat history.", query),
-			Score:      0.88,
-			Timestamp:  "2026-04-21T09:30:00Z",
-		},
-	}, nil
+	// Basic keyword matching since sqlite does not perform vector searches. Wait for C++ integration for true semantics.
+	var results []ZvecSearchResult
+	// Search over text. Basic wildcard matching.
+	searchQuery := fmt.Sprintf("%%%s%%", query)
+
+	q := `SELECT chunk_id, source_type, source_ref, beads_ids, content, score, timestamp, author 
+	      FROM zvec_chunks 
+	      WHERE content LIKE ? 
+	      ORDER BY timestamp DESC 
+	      LIMIT ?`
+	
+	rows, err := z.DB.Queryx(q, searchQuery, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var r struct {
+			ChunkID    string  `db:"chunk_id"`
+			SourceType string  `db:"source_type"`
+			SourceRef  string  `db:"source_ref"`
+			BeadsIDs   string  `db:"beads_ids"`
+			Content    string  `db:"content"`
+			Score      float64 `db:"score"`
+			Timestamp  string  `db:"timestamp"`
+			Author     string  `db:"author"`
+		}
+		if err := rows.StructScan(&r); err != nil {
+			return nil, err
+		}
+
+		var beadsIDs []string
+		if r.BeadsIDs != "" {
+			json.Unmarshal([]byte(r.BeadsIDs), &beadsIDs)
+		}
+
+		results = append(results, ZvecSearchResult{
+			ChunkID:    r.ChunkID,
+			SourceType: r.SourceType,
+			SourceRef:  r.SourceRef,
+			BeadsIDs:   beadsIDs,
+			Content:    r.Content,
+			Score:      r.Score,
+			Timestamp:  r.Timestamp,
+			Author:     r.Author,
+		})
+	}
+	return results, nil
 }
 
 func (z *ZvecDB) SearchByBeadsID(id string) ([]ZvecSearchResult, error) {
-	// Stub search by beads ID
-	return []ZvecSearchResult{
-		{
-			ChunkID:    "zvec-mock-3",
-			SourceType: "markdown-doc",
-			SourceRef:  "docs/plans/PLAN-01.md",
-			BeadsIDs:   []string{id},
-			Content:    fmt.Sprintf("Context related to beads ID: %s", id),
-			Score:      1.0,
-			Timestamp:  "2026-04-21T08:00:00Z",
-		},
-	}, nil
+	var results []ZvecSearchResult
+	searchStr := fmt.Sprintf(`%%"%s"%%`, id)
+
+	q := `SELECT chunk_id, source_type, source_ref, beads_ids, content, score, timestamp, author 
+	      FROM zvec_chunks 
+	      WHERE beads_ids LIKE ? 
+	      ORDER BY timestamp DESC`
+	
+	rows, err := z.DB.Queryx(q, searchStr)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var r struct {
+			ChunkID    string  `db:"chunk_id"`
+			SourceType string  `db:"source_type"`
+			SourceRef  string  `db:"source_ref"`
+			BeadsIDs   string  `db:"beads_ids"`
+			Content    string  `db:"content"`
+			Score      float64 `db:"score"`
+			Timestamp  string  `db:"timestamp"`
+			Author     string  `db:"author"`
+		}
+		if err := rows.StructScan(&r); err != nil {
+			return nil, err
+		}
+
+		var beadsIDs []string
+		if r.BeadsIDs != "" {
+			json.Unmarshal([]byte(r.BeadsIDs), &beadsIDs)
+		}
+
+		results = append(results, ZvecSearchResult{
+			ChunkID:    r.ChunkID,
+			SourceType: r.SourceType,
+			SourceRef:  r.SourceRef,
+			BeadsIDs:   beadsIDs,
+			Content:    r.Content,
+			Score:      r.Score,
+			Timestamp:  r.Timestamp,
+			Author:     r.Author,
+		})
+	}
+	return results, nil
 }
 
 // UpsertChunk adds or updates a chunk in the vector database.
 func (z *ZvecDB) UpsertChunk(chunk ZvecSearchResult) error {
-	// Stub: In a real implementation, this would call Zvec C++ Upsert
-	fmt.Printf("Upserting chunk to Zvec: [%s] %s (Beads: %v)\n", chunk.SourceType, chunk.SourceRef, chunk.BeadsIDs)
-	return nil
+	beadsJson, _ := json.Marshal(chunk.BeadsIDs)
+	
+	q := `INSERT OR REPLACE INTO zvec_chunks 
+	      (chunk_id, source_type, source_ref, beads_ids, content, score, timestamp, author) 
+	      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+	
+	_, err := z.DB.Exec(q, 
+		chunk.ChunkID, 
+		chunk.SourceType, 
+		chunk.SourceRef, 
+		string(beadsJson), 
+		chunk.Content, 
+		chunk.Score, 
+		chunk.Timestamp, 
+		chunk.Author,
+	)
+	return err
 }
 
 // DetectBeadsIDs scans text for br-xxx and bd-xxx patterns.

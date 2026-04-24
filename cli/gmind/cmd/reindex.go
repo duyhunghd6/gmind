@@ -28,7 +28,7 @@ var reindexCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		zvec, err := storage.NewZvecDB()
+		zvec, err := storage.NewZvecDB(sqlite.GmindDB)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error initializing Zvec: %v\n", err)
 			os.Exit(1)
