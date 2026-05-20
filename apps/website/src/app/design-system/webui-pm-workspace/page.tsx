@@ -131,7 +131,7 @@ export default function WebUIPMWorkspacePage() {
 
       <div data-ds-id="rte-escalation-badge" role="status" style={{ position: "relative" }}>
         <DsIdBadge id="rte-escalation-badge" />
-        <Badge variant={globalState === "error" ? "error" : "warning"}>
+        <Badge accent={globalState === "error" ? "rose" : "amber"}>
           {globalState === "error" ? "RTE Escalation: Critical" : "RTE Escalation: Active"}
         </Badge>
       </div>
@@ -221,7 +221,7 @@ export default function WebUIPMWorkspacePage() {
                     <input type="checkbox" data-ds-id="checkbox" aria-label={`Select ${taskItem}`} />
                     <span data-ds-id="task" style={{ color: "var(--text)" }}>{taskItem}</span>
                   </div>
-                  <Badge variant="info">In Progress</Badge>
+                  <Badge accent="cyan">In Progress</Badge>
                 </div>
               ))}
             </div>
@@ -256,8 +256,8 @@ export default function WebUIPMWorkspacePage() {
             <DsIdBadge id="detail-panel" />
             <h2 style={{ color: "var(--text)" }}>Task-124: Update Authentication Flow</h2>
             <div style={{ display: "flex", gap: "var(--spacing-2)", marginTop: "var(--spacing-2)", marginBottom: "var(--spacing-4)" }}>
-              <Badge variant="warning">High Priority</Badge>
-              <Badge variant="info">In Review</Badge>
+              <Badge accent="amber">High Priority</Badge>
+              <Badge accent="cyan">In Review</Badge>
             </div>
             <div data-ds-id="panel" style={{ color: "var(--text)", background: "var(--bg)", padding: "var(--spacing-3)", borderRadius: "var(--radius-sm)" }}>
               <p>This task involves updating the OAuth 2.0 flow to support the new providers.</p>
@@ -325,7 +325,7 @@ export default function WebUIPMWorkspacePage() {
         <p>&copy; {new Date().getFullYear()} Gmind WebUI Workspace. All rights reserved.</p>
       </footer>
 
-      <Modal isOpen={showModal} onClose={closeModal} title={modalTitle}>
+      <Modal open={showModal} onClose={closeModal} title={modalTitle}>
         <div data-ds-id="modal">
             {modalContent}
             <div style={{ marginTop: "var(--spacing-4)", display: "flex", justifyContent: "flex-end" }}>

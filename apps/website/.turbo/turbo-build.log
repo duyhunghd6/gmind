@@ -3,24 +3,46 @@
 > website@0.1.0 build /Users/steve/duyhunghd6/gmind/apps/website
 > next build
 
-[1m[38;2;173;127;168m▲ Next.js 16.1.6[39m[22m (Turbopack)
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
 
-[37m[1m [22m[39m Creating an optimized production build ...
-[32m[1m✓[22m[39m Compiled successfully in 1004.8ms
-[?25l[37m[1m [22m[39m Running TypeScript  [36m.[39m[2K[1G[37m[1m [22m[39m Running TypeScript  [36m..[39m[2K[1G[37m[1m [22m[39m Running TypeScript  [36m...[39m[2K[1G[37m[1m [22m[39m Running TypeScript  [36m.[39m[2K[1G[37m[1m [22m[39m Running TypeScript  [36m..[39m[2K[1G[37m[1m [22m[39m Running TypeScript  [36m...[39m[2K[1G[37m[1m [22m[39m Running TypeScript  [36m.[39m[2K[1G[?25h[?25l[37m[1m [22m[39m Finished TypeScript in 1291.7ms  [36m.[39m[2K[1G[?25h[37m[1m [22m[39m Finished TypeScript in 1291.7ms    [32m[1m✓[22m[39m Finished TypeScript in 1291.7ms 
-[?25l[37m[1m [22m[39m Collecting page data using 11 workers  [36m.[39m[2K[1G[?25h[37m[1m [22m[39m Collecting page data using 11 workers in 189.5ms    [32m[1m✓[22m[39m Collecting page data using 11 workers in 189.5ms 
-[?25l[37m[1m [22m[39m Generating static pages using 11 workers (0/7)  [36m[    ][39m[2K[1G[?25h[32m[1m✓[22m[39m Generating static pages using 11 workers (7/7) in 193.0ms
-[?25l[37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[?25h[37m[1m [22m[39m Finalizing page optimization in 9.7ms    [32m[1m✓[22m[39m Finalizing page optimization in 9.7ms 
+  Creating an optimized production build ...
+✓ Compiled successfully in 1871.5ms
+  Finished TypeScript in 2.3s    ✓ Finished TypeScript in 2.3s 
+  Collecting page data using 11 workers in 223.2ms    ✓ Collecting page data using 11 workers in 223.2ms 
+✓ Generating static pages using 11 workers (32/32) in 185.6ms
+  Finalizing page optimization in 7.4ms    ✓ Finalizing page optimization in 7.4ms 
 
-[4mRoute (app)[24m
+Route (app)
 ┌ ○ /
 ├ ○ /_not-found
+├ ƒ /api/telegram
 ├ ○ /architecture
 ├ ○ /design-system
+├ ○ /design-system/approval
+├ ○ /design-system/beads-traversal
+├ ○ /design-system/components
+├ ○ /design-system/doc-viewer
+├ ○ /design-system/explorer
+├ ○ /design-system/git-graph
+├ ○ /design-system/kanban
+├ ○ /design-system/knowledge-graph
+├ ○ /design-system/pi-planning
+├ ○ /design-system/portfolio
+├ ○ /design-system/storyboard
+├ ● /design-system/storyboard/[id]
+│ ├ /design-system/storyboard/uc-01-pm-sprint-review
+│ ├ /design-system/storyboard/uc-02-pm-trace-approve
+│ ├ /design-system/storyboard/uc-03-dev-code-search
+│ └ [+7 more paths]
+├ ○ /design-system/terminal
+├ ○ /design-system/timeline
+├ ○ /design-system/webui-pm-workspace
 ├ ○ /prompts
 └ ○ /research
 
 
-○  (Static)  prerendered as static content
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
 
-[?25h

@@ -11,7 +11,6 @@
   - `./docs/design/`: UI/UX designs, system mockups, and interface specification logic.
   - `./docs/eval-dataset/`: Dataset collections for evaluating AI pipelines and workflows.
   - `./docs/assets/`: Static documentation files, image assets, and media.
-- Research / Spike Rules: `.agents/rules/research-rules.md` activates **only** when editing files under `docs/researches/spikes/**`. It enforces SAFe 6.0 CE rules (spike-before-code, read-prior-spikes, no implementation during CE). Outside that path, the rule is inactive.
 - Git Commit Rules: Group and split commits into logical clusters (1-3 significant changes per Beads ID: targeting 1 issue, 1 feature, 1 plan, or 1 bug). Commit messages **MUST be in English only**. Each commit message **must** include a Git Trailer with the Universal ID on the last line. Standard format:
 
   ```
