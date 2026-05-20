@@ -56,10 +56,10 @@ This pipeline implements the systematic **3-Tier Agent Testing Pyramid** to eval
 Parse PRD → extract screens, journeys, states, breakpoints, a11y requirements → validate completeness → flag gaps if any. **Blocks if PRD incomplete.**
 
 #### Step 1 — Contract Generation (`g1-contract-generation.md`)
-Generate artifacts from the normalized PRD (Contract YAML, ASCII Wireframes, Mermaid flow, and deterministic **JSON Storyboard Trajectories**).
+Generate the schema-driven `ui-contract.md` from the normalized PRD: YAML View Blueprint plus Mermaid Logic Machine, with deterministic JSON storyboard trajectories derived from that source.
 
 #### Step 2 — Contract Compile (`g2-contract-compile.md`)
-Transform contract into machine-executable `layout-rules.json` with position/overlap rules. Generate assertion checklist.
+Compile `ui-contract.md` into review diagrams, `flow.mmd`, `component-map.json`, `layout-rules.json`, preview artifacts, and the assertion checklist.
 
 #### Step 3 — Environment Setup (`g3-env-deterministic.md`)
 Lock browser/version/fonts, disable animations, mock dynamic data, seed fixtures per state.
@@ -70,14 +70,14 @@ Check component existence (`data-ds-id`), DOM hierarchy, geometry constraints, o
 #### Step 7 — A11y & Contrast (`g7-a11y-contrast.md`)
 axe-core/pa11y WCAG audit. Minimum AA Contrast checks. Focus order, landmarks, screen reader compatibility.
 
-### Tier 2: Trajectory Level Integration Tests (Wireframes & Storyboards)
+### Tier 2: Trajectory Level Integration Tests (Review Diagrams & Storyboards)
 *Testing full multi-step tasks end-to-end to evaluate reasoning and capability.*
 
 #### Step 5 — Visual Diff (`g5-visual-diff.md`)
-Capture screenshots for full viewport × theme × locale × state matrix to validate the spatial **Wireframe**. Compare with baselines using threshold masks.
+Capture screenshots for full viewport × theme × locale × state matrix to validate the rendered implementation against schema-derived review diagrams and baselines. Compare with baselines using threshold masks.
 
 #### Step 6 — Flow & Navigation (`g6-flow-navigation.md`)
-Test the **Storyboard Trajectory**: click, submit, transition via JSON states. Calculate the `Trajectory Average Score`. Detect dead-ends, loops, modal traps.
+Test the **Storyboard Trajectory** derived from the Mermaid Logic Machine: click, submit, transition via JSON states. Calculate the `Trajectory Average Score`. Detect dead-ends, loops, modal traps.
 
 #### Step 8 — Scoring (`g8-scoring-policy.md`)
 Normalize all defects → weighted scoring on the 100-Point DoD matrix. Emit the `RALPH_LOOP` continuous reward status.
@@ -86,7 +86,7 @@ Normalize all defects → weighted scoring on the 100-Point DoD matrix. Emit the
 *Involving humans in the loop as the final arbiter of UX/UI quality.*
 
 #### 🚧 Gate A — Plan Approval (`gate-a-plan-approval.md`)
-**BLOCKS pipeline.** Human reviews: contract, wireframes, storyboards, coverage matrix. Approves or sends back for revision.
+**BLOCKS pipeline.** Human reviews: `ui-contract.md`, review diagrams, storyboards, layout rules, component map, conflict report, coverage matrix, and preview output. Approves or sends back for revision.
 
 #### 🚧 Gate B — Result Approval (`gate-b-result-approval.md`)
 **BLOCKS pipeline.** Human reviews results and chooses: Approve / Request Fix / Approve + Update Baseline.
@@ -125,11 +125,17 @@ docs/
     feature-x.gap-list.md
   design/
     contracts/                  ← Steps 1-2 output
-      feature-x.contract.yaml
-      feature-x.ascii.md
-      feature-x.flow.mmd
-      feature-x.component-map.json
-      feature-x.layout-rules.json
+      feature-x/
+        ui-contract.md
+        review-diagrams.mmd
+        flow.mmd
+        storyboards.json
+        component-map.json
+        layout-rules.json
+        prd-ds-conflicts.md
+        preview/
+          index.html
+          preview-manifest.json
     test-plans/                 ← Gate A input
       feature-x.plan.md
       feature-x.coverage-matrix.csv

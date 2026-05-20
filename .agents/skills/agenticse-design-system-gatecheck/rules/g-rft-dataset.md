@@ -30,10 +30,10 @@ Each line is one event in the trajectory (JSONL format):
 
 ```json
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "rollout_id": "rl-2026-03-12-001",
   "prd_beads_id": "br-prd04-s2",
-  "contract_file": "feature-x.contract.yaml",
+  "ui_contract_file": "docs/design/contracts/feature-x/ui-contract.md",
   "total_iterations": 3,
   "final_score": 97,
   "converged": true,
@@ -56,7 +56,7 @@ Each line is one event in the trajectory (JSONL format):
 
 ## Deduplication Policy
 
-Before writing a new label, compute `SHA256(contract_yaml + final_html_output)`. If hash already exists in `docs/rft-dataset/dedup-index.json` → skip write, log `DUPLICATE_SKIPPED`.
+Before writing a new label, compute `SHA256(ui_contract_md + final_implementation_output)`. If hash already exists in `docs/rft-dataset/dedup-index.json` → skip write, log `DUPLICATE_SKIPPED`.
 
 ## Retention Policy
 

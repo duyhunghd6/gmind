@@ -6,129 +6,113 @@
 
 ## Input
 
-All test reports from Steps 4–7:
+All test reports from Steps 4–7 plus the Stage 1 contract package:
 
-| Report                                                                | Source Step |
-| --------------------------------------------------------------------- | ----------- |
-| `<e2e-testing-root>/uiux-gatecheck/reports/conformance.json`      | Step 4      |
-| `<e2e-testing-root>/uiux-gatecheck/reports/visual-summary.json`   | Step 5      |
-| `<e2e-testing-root>/uiux-gatecheck/reports/navigation-graph.json` | Step 6      |
-| `<e2e-testing-root>/uiux-gatecheck/reports/a11y.json`             | Step 7      |
-| `<e2e-testing-root>/uiux-gatecheck/reports/contrast.csv`          | Step 7      |
+| Report | Source Step |
+| --- | --- |
+| `<e2e-testing-root>/uiux-gatecheck/reports/conformance.json` | Step 4 |
+| `<e2e-testing-root>/uiux-gatecheck/reports/visual-summary.json` | Step 5 |
+| `<e2e-testing-root>/uiux-gatecheck/reports/navigation-graph.json` | Step 6 |
+| `<e2e-testing-root>/uiux-gatecheck/reports/a11y.json` | Step 7 |
+| `<e2e-testing-root>/uiux-gatecheck/reports/contrast.csv` | Step 7 |
+| `docs/design/contracts/{feature}/ui-contract.md` | Stage 1 |
+| `docs/design/contracts/{feature}/component-map.json` | Stage 1 |
+| `docs/design/contracts/{feature}/storyboards.json` | Stage 1 |
 
 ## Processing
 
 ### 8.1 Normalize Defects by Taxonomy
 
-Classify all defects into a unified taxonomy:
+| Category | Examples |
+| --- | --- |
+| Contract | Missing `data-ds-id`, wrong screen state, handler absent for Mermaid event |
+| Layout | Element ordering wrong, overflow, spacing deviation |
+| Visual | Pixel diff above threshold, wrong token, font mismatch |
+| Navigation | Dead-end, modal trap, broken back/retry path |
+| Accessibility | Missing labels, contrast failure, no focus indicator |
+| Responsive | Mobile layout broken, safe-area violation |
 
-| Category          | Examples                                               |
-| ----------------- | ------------------------------------------------------ |
-| **Layout**        | Element ordering wrong, overflow, spacing deviation    |
-| **Visual**        | Pixel diff above threshold, wrong color, font mismatch |
-| **Navigation**    | Dead-end, modal trap, broken back button               |
-| **Accessibility** | Missing labels, contrast failure, no focus indicator   |
-| **Responsive**    | Mobile layout broken, safe-area violation              |
+### 8.2 Calculate Ralph Loop DoD Score
 
-### 8.2 Calculate Ralph Loop DoD Score (Agent RFT Reward)
+Apply the strict 100-point matrix. P0 violations deduct proportionally; they do not force a binary zero score. Gate B approval remains blocked while any P0 exists.
 
-Apply the strict 100-point weighted matrix. This score acts as the **Continuous Gradient Reward** for Agent RFT.
+| Pillar | Category | Max Score | Guidelines |
+| --- | --- | ---: | --- |
+| 1 | Contract Conformance | 30 | Components, `data-ds-id`, labels, bindings, and handlers match `ui-contract.md` and `component-map.json` |
+| 2 | Visual & Token Fidelity | 20 | DS token/class use, visual diff pass, rhythm/spacing |
+| 3 | Accessibility & Contrast | 20 | WCAG, focus, ARIA, keyboard operation |
+| 4 | Flow & State Integrity | 15 | Mermaid transitions, storyboards, and state matrix are implemented |
+| 5 | Efficiency & Completeness | 10 | No stubs, no placeholder hacks, file-size and tool budget discipline |
+| 6 | Self-Verification Bonus | +5 | Lint/check run, browser preview, pre-submission checklist |
 
-> **GAP-01 — Gradient Reward Rule:** P0 violations NEVER produce a binary zero score. Apply proportional deduction: `score -= min(P0_count × 20, full_pillar_pts)`. Always emit a partial score so the model has a gradient signal to climb from. Binary hard-fails are reserved for Gate B human approval only.
+Final normalized score is capped at 100.
 
-| Pillar | Category | Max Score | Calculation Guidelines |
-| ------ | -------- | --------- | ---------------------- |
-| **1**  | Contract Conformance (Structure) | **30 pts** | 15pts (Critical Components Exist) + 5pts (Hierarchy) + 10pts (No Overlaps). Each missing critical component → `-15 pts` gradient (not zero-out). |
-| **2**  | Visual & Token Fidelity | **25 pts** | 10pts (DS Tokens use) + 10pts (Visual Diff pass) + 5pts (4px Rhythm). Each hardcoded hex → `-2 pts` (continuous). |
-| **3**  | Accessibility & Contrast | **20 pts** | 10pts (AA Contrast) + 5pts (Focus) + 5pts (ARIA). Each contrast fail on CTA → `-5 pts` gradient. |
-| **4**  | Flow & State Integrity | **15 pts** | 10pts (State Matrix rendered) + 5pts (Nav Graph valid). Missing state → `-2.5 pts` per missing state. |
-| **5**  | RFT Efficiency & Anti-Hacking | **10 pts** | 5pts (Tool-call budget) + 5pts (Genuine creation check). See budget rules below. |
-| **6**  | Self-Verification Bonus | **+5 pts bonus** | Awarded if the Implementor's trace shows: (a) CSS lint run, (b) page rendered in Playwright before handoff, (c) pre-submission checklist logged. Verify via conversation trace keywords. |
+### 8.3 Tool-Verified Scoring Mandate
 
-> **GAP-05 — Tool-Call Budget Calibration:** The default budget `<= 4 tool calls` is a starting hypothesis only. It MUST be recalibrated after every 10 real Ralph Loop runs by computing the P75 of observed tool-call distributions. Document the current empirical budget in `docs/eval-dataset/budget-calibration.md`. Until calibration data exists, use `<= 8` as the interim conservative budget.
+Each pillar must have at least one mechanical evidence check. If a pillar has no evidence, cap that pillar at 50%.
 
-### 8.2a Tool-Verified Scoring Mandate (GAP-52)
+| Pillar | Required Evidence |
+| --- | --- |
+| Contract Conformance | grep `data-ds-id` in implementation vs `component-map.json` and YAML `ds_id`s |
+| Visual & Token Fidelity | extract `var(--*)` tokens and compare to DS manifest; inspect screenshot diff |
+| Accessibility | DOM/source check for landmarks, headings, labels, focus, contrast report |
+| Flow & State Integrity | verify storyboards and Mermaid events map to handlers/states |
+| Efficiency & Completeness | scan for TODO/stub placeholders and validate file-size split |
 
-> **Problem solved:** Previously, the agent self-scored all pillars without running any tool calls, resulting in inflated 100/100 scorecards. This mandate ensures at least 1 tool-based mechanical check per pillar.
+For Stage 1 contract quality scoring, required checks are:
 
-**RULE: Each pillar MUST have at least one mechanical tool call producing evidence.** If the pillar's `tool_evidence` entry is empty, that pillar is **auto-capped at 50%** of its maximum score.
+| Pillar | Required Evidence |
+| --- | --- |
+| Container Validity | `ui-contract.md` has exactly one YAML and one Mermaid block |
+| PRD Coverage | YAML screens/routes/states trace PRD requirements |
+| Component Traceability | unique `ds_id`s and `component-map.json` parity |
+| Logic Coverage | Mermaid events cover YAML actions and recovery paths |
+| Derived Artifact Consistency | storyboards, layout rules, flow, review diagrams, and preview derive from `ui-contract.md` |
+| Conflict & Preview Readiness | conflict report actionable and preview manifest warnings resolved/assigned |
 
-| Pillar | Required Tool Check | Tool | What to Verify |
-|--------|-------------------|------|----------------|
-| **1** Contract Conformance | `grep_search` for each `data-ds-id` in HTML vs `contract.yaml` required list | `grep_search` | Count matches: found/expected |
-| **2** Visual & Token Fidelity | Compare Browser Render Gate screenshot against contract wireframes | `browser_subagent` | Screenshot exists, visual comparison done |
-| **3** Accessibility | DOM inspection for focus order, ARIA landmarks, contrast | `browser_subagent` DOM query | At minimum: heading hierarchy, landmark count |
-| **4** Flow & State Integrity | Navigate between states in rendered browser, verify transitions | `browser_subagent` | Set each `data-state`, verify content changes |
-| **5** Efficiency & Anti-Hacking | Count tool calls in trajectory, verify genuine creation | Conversation trace | Tool call count vs budget |
-
-**For Stage 1 (Contract Quality Scoring), the required tool checks are:**
-
-| Pillar | Required Tool Check | Tool |
-|--------|-------------------|------|
-| PRD Coverage | Verify each PRD screen/state has matching wireframe file | `find_by_name` in `wireframes/` |
-| Component Traceability | Cross-ref `component-map.json` entries against ASCII wireframe content | `view_file` + `grep_search` |
-| Storyboard Completeness | Count trajectories in `storyboards.json` vs PRD user journeys | `view_file` on both |
-| Layout Compilability | Validate `layout-rules.json` is valid JSON, required keys present | `view_file` + parse check |
-| Conflict Resolution | Verify `prd-ds-conflicts.md` exists and lists resolution status | `view_file` |
-| Wireframe Articulation | Count nesting levels, annotation markers in wireframes | `view_file` |
-
-> **GAP-08 — Self-Verification Bonus Rule (+5 pts):** Award full +5 bonus if the Implementor conversation trace contains all three signals: (1) a CSS/lint check command, (2) an explicit Playwright preview or screenshot before handoff, (3) a pre-submission log entry. Award +2 partial if only 2 of 3 are present. Award 0 if none.
-
-**Final score** = Σ (earned points per pillar) + self-verification bonus (max 5) / 105
-
-### 8.3 Apply Ralph Loop Convergence Threshold
-
-Cross-reference individual defects to determine if the loop should break and proceed to the human Gate B:
+### 8.4 Convergence Threshold
 
 | Condition | Action |
 | --- | --- |
-| **Score ≥ 95 AND P0 == 0** | **Convergence Reached:** Propose `GATE_B_READY` |
-| **Score < 95 OR P0 > 0** | **Loop Fails:** Propose `RALPH_LOOP_CONTINUE` with gradient feedback |
-| **P1 > 1** | **Loop Fails:** Propose `RALPH_LOOP_CONTINUE` if exceeded |
-| **score[N] < score[N-1]** | **Regression Detected:** Emit `REGRESSION_DETECTED` flag, restore N-1 snapshot, enter targeted fix mode |
+| Score ≥ 95 and P0 == 0 and QA_PASS | Propose `GATE_B_READY` |
+| Score < 95 or P0 > 0 | Propose `RALPH_LOOP_CONTINUE` with prioritized fix queue |
+| P1 > 1 | Continue unless explicitly accepted by human reviewer |
+| score[N] < score[N-1] | Emit `REGRESSION_DETECTED` and route targeted fixes |
 
-See [pass-fail-policy.md](./pass-fail-policy.md) for severity definitions.
-
-### 8.3a Cross-Iteration Regression Check (GAP-10 / GAP-24)
-
-> **GAP-10 — Memory & Context Fidelity Rule:** At every iteration ≥ 2, re-run the assertions that **passed** in the prior iteration. Any previously-passing assertion that now fails is immediately escalated to **REGRESSION / P0** regardless of its normal severity. This ensures the Implementor cannot silently revert earlier wins.
+### 8.5 Cross-Iteration Regression Check
 
 For each iteration ≥ 2:
-1. Load the prior scorecard from `docs/design/reports/feature-x-scorecard-iter-{N-1}.json`.
-2. Re-execute only the previously-passing assertion IDs.
-3. If any fail → add to `p0_fixes` with tag `REGRESSION`.
-4. Append `"regressions_detected": [...]` to current scorecard.
 
-### 8.4 Generate Summary Report
+1. Load the prior scorecard.
+2. Re-execute previously passing assertions.
+3. If any fail, add a P0 `REGRESSION` fix.
+4. Include `regressions_detected` in the scorecard.
 
-Create a unified HTML report with:
+### 8.6 Generate Summary Report
 
-- Overall score (0-100) + Convergence recommendation (`RALPH_LOOP_CONTINUE` or `GATE_B_READY`).
-- **Pillar Delta Report** (for iterations ≥ 2): `{ "pillar_deltas": { "1_contract": +5, "2_visual": -2, "3_a11y": +10 } }` — shows which pillars are improving or regressing.
-- Trajectory stats (tool calls used, efficiency budget, `rollout_id`, iteration number).
-- Category-level breakdown (Points per pillar).
-- Top defects sorted by severity.
-- Screenshot evidence (thumbnails linked to full-size diffs).
-- Inline links to all artifact files.
+Create a unified report with:
+
+- Overall score and convergence recommendation.
+- Pillar deltas for iterations ≥ 2.
+- Trajectory/tool-call stats.
+- Defects sorted by severity.
+- Screenshot evidence.
+- Links to `ui-contract.md`, `component-map.json`, `storyboards.json`, `layout-rules.json`, and implementation files.
 
 ## Output
 
-| Artifact    | Path                                             |
-| ----------- | ------------------------------------------------ |
-| UIUX report | `docs/design/reports/feature-x-uiux-report.html` |
-| Scorecard   | `docs/design/reports/feature-x-scorecard.json`   |
-| Iter snapshot | `docs/design/reports/feature-x-scorecard-iter-{N}.json` |
-| PR comment  | Auto-generated summary for PR                    |
+| Artifact | Path |
+| --- | --- |
+| UIUX report | `docs/design/reports/{feature}-uiux-report.html` |
+| Scorecard | `docs/design/reports/{feature}-scorecard.json` |
+| Iter snapshot | `docs/design/reports/{feature}-scorecard-iter-{N}.json` |
+| PR comment | Auto-generated summary for PR |
 
-**Scorecard JSON Schema (v1.2 — with `tool_evidence[]`):**
-
-> **GAP-06 — Rollout ID Rule:** Every scorecard emission MUST include a `rollout_id` UUID and `iteration` number. All tool calls during that iteration must be tagged with this ID. This enables full trajectory reconstruction for RFT dataset assembly.
-
-> **GAP-52 — Tool Evidence Rule:** Every scorecard emission MUST include a `tool_evidence[]` array. Each entry records a mechanical check the agent ran. Pillars with empty tool evidence are auto-capped at 50%.
+## Scorecard JSON Schema
 
 ```json
 {
-  "scorecard_schema_version": "1.2",
+  "scorecard_schema_version": "1.3",
   "rollout_id": "rl-2026-03-12-001",
   "iteration": 2,
   "total_score": 88,
@@ -137,73 +121,39 @@ Create a unified HTML report with:
   "p1_violations": 2,
   "regressions_detected": [],
   "pillar_scores": {
-    "1_contract": 25,
-    "2_visual": 18,
-    "3_a11y": 15,
-    "4_flow": 12,
-    "5_efficiency": 8,
-    "6_self_verification_bonus": 5
-  },
-  "pillar_deltas": {
-    "1_contract": "+5",
-    "2_visual": "-2",
-    "3_a11y": "+10",
-    "4_flow": "0",
-    "5_efficiency": "+3"
-  },
-  "trajectory_stats": {
-    "tool_calls": 7,
-    "budget_limit": 8,
-    "budget_exceeded": false,
-    "wall_clock_ms": 42000
+    "contract_conformance": 25,
+    "visual_token_fidelity": 18,
+    "accessibility_contrast": 15,
+    "flow_state_integrity": 12,
+    "efficiency_completeness": 8,
+    "self_verification_bonus": 5
   },
   "tool_evidence": [
     {
-      "pillar": "1_contract",
+      "pillar": "contract_conformance",
       "tool": "grep_search",
-      "args": {"Query": "data-ds-id", "SearchPath": "index.html"},
-      "result": "found 14 matches, expected 12 from contract — 2 extra unlisted",
+      "result": "found 14 data-ds-id values, expected 14 from component-map.json",
       "score_impact": "full"
-    },
-    {
-      "pillar": "2_visual",
-      "tool": "browser_subagent",
-      "args": {"Task": "capture screenshot of default state"},
-      "result": "screenshot saved to reports/render-default-iter-2.webp",
-      "score_impact": "full"
-    },
-    {
-      "pillar": "3_a11y",
-      "tool": "browser_subagent",
-      "args": {"Task": "check heading hierarchy and ARIA landmarks"},
-      "result": "1 h1 found, 3 landmarks, missing nav landmark",
-      "score_impact": "partial — missing nav landmark = -5pts"
     }
   ],
   "p0_fixes": [
-    "REGRESSION: [Crit 1.1] Critical component ds:comp:top-nav-001 now missing — was passing in iter-1."
-  ],
-  "p1_fixes": [
-    "Fix: [Crit 2.1] Hardcoded color '#E5E5E5' found. Use var(--ds-border-subtle)."
-  ],
-  "p2_fixes": [
-    "Improve: [Crit 2.3] Spacing at row gap deviates by 6px from 4px grid."
+    "REGRESSION: ds:comp:top-nav-001 missing; it passed in iter-1."
   ],
   "self_verification_signals": {
     "lint_run": true,
-    "playwright_preview": false,
+    "browser_preview": true,
     "pre_submission_log": true,
-    "bonus_awarded": 2
+    "bonus_awarded": 5
   }
 }
 ```
 
 ## Switching Rules
 
-- **Score ≥ 95 AND P0 == 0** → Exit loop, propose `GATE_B_READY` at Gate B. Log trajectory as **positive RFT sample**.
-- **Score < 95 OR any P0** → Output `RALPH_LOOP_CONTINUE`, send **prioritized** `p0_fixes → p1_fixes → p2_fixes` queue to Implementor. Log as **negative RFT sample** if score < 80.
-- **REGRESSION_DETECTED** → Restore N-1 snapshot, send only the regression delta to Implementor. Do **not** send full scorecard.
-- **Loop SLA exceeded** (`wall_clock_ms` > 1,800,000 ms / 30 min) → Emit `LOOP_TIMEOUT`, escalate to Gate B with best snapshot.
+- Score ≥ 95 and P0 == 0 → propose `GATE_B_READY` at Gate B.
+- Score < 95 or any P0 → output `RALPH_LOOP_CONTINUE` with prioritized fixes.
+- `REGRESSION_DETECTED` → route only regression deltas.
+- Loop SLA exceeded → emit `LOOP_TIMEOUT` and escalate with best snapshot.
 
 ## Next Step
 
