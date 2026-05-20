@@ -1,69 +1,77 @@
 # Workflow 3: Refine & Align (`design:refine`)
 
-**Goal**: Fix issues (HTML/CSS, Tokens, A11y, 3D↔2D style drift) and mandatory tracking of every visual edit via the Element Diff Protocol.
-**Important**: This workflow is NOT an infinite loop. One invoke equals one pass.
+<!-- beads-id: br-design-create-w3 -->
+
+**Goal:** Fix prioritized scorecard or QA issues without reopening the whole design. One invocation equals one pass.
 
 ## Steps
 
-### 3.0 Pre-Refine: Ingest Prioritized Scorecard Feedback (GAP-01 / GAP-34)
+### 3.0 Ingest Prioritized Feedback
 
-> Before categorizing issues, the agent MUST read the incoming scorecard JSON from the Gatecheck.
-> The scorecard now arrives with a **Prioritized Fix Queue** — do NOT reorder:
+Read the incoming Stage 2 auditor/QA scorecard. The fix queue is ordered:
 
+```text
+p0_fixes -> fix first
+p1_fixes -> fix after all P0s verify
+p2_fixes -> fix last if still requested
 ```
-p0_fixes   → Fix FIRST — structural failures, regressions
-p1_fixes   → Fix SECOND — after all p0_fixes verified
-p2_fixes   → Fix LAST — cosmetic improvements
-```
 
-1. Parse `docs/design/reports/feature-x-scorecard.json`.
-2. Log `rollout_id` and `iteration` from the scorecard header.
-3. **If `REGRESSION_DETECTED` flag is present:** only address the items in `p0_fixes` tagged `REGRESSION`. Do NOT touch other pillars — targeted fix mode only.
-4. **If normal `RALPH_LOOP_CONTINUE`:** work through `p0_fixes` completely, verify each passes, then proceed to `p1_fixes`.
-5. **Never fix `p2_fixes` before `p0_fixes` are resolved.** This is a hard rule; violating it wastes an iteration token budget.
+1. Parse the scorecard and QA result paths provided by the orchestrator.
+2. Log `rollout_id` and `iteration` when present.
+3. If `REGRESSION_DETECTED` exists, only address regression P0 items.
+4. If normal `RALPH_LOOP_CONTINUE`, complete P0 fixes before P1 fixes.
+5. Never fix P2 items before P0 items are resolved.
 
-### 3.1 Review Issue Log & Polish Fast-Track
+### 3.1 Re-Read Contract Context for the Failed Area
 
-- Categorize remaining issues: 3D Fix, 2D HTML Fix, Token Fix, A11y Fix, Style Drift, Terminology Sync, or Platform Variant creation.
-- **Auto-Polish Pipeline**: If a ticket is created via `bd create --label polish`, automatically propose the code solution (Stitch edit/token change) without full QA gate. Minor visual tweaks bypass heavy QA to increase speed (2-3x faster).
-- **Regression guard**: If `regressions_detected[]` is non-empty in the scorecard, prioritize those items above all polish work.
+For each fix, read only the relevant portions of:
 
-### 3.2 Apply Fixes & Element Diff Protocol
+- `docs/design/contracts/{feature}/ui-contract.md`
+- `docs/design/contracts/{feature}/component-map.json`
+- `docs/design/contracts/{feature}/storyboards.json`
+- `docs/design/contracts/{feature}/layout-rules.json`
+- `docs/design/contracts/{feature}/flow.mmd`
+- `docs/design/contracts/{feature}/preview/preview-manifest.json`
 
-- **MANDATORY**: any visual change to 2D screens, tokens, or A11y must follow the `element-diff-protocol.md`.
-- Extract `before.html` -> Code the change -> Extract `after.html` -> Generate `diff.html` -> Log `meta.json`.
+Do not use legacy ASCII artifacts to justify a fix.
 
-### 3.3 Pre-Submission Self-Verification Checklist (GAP-08)
+### 3.2 Apply Fixes and Element Diff Protocol
 
-> Running self-checks BEFORE handing off to Gatecheck is worth **+5 bonus points** in the DoD Score.
-> Log each check explicitly so the Evaluator can verify from the conversation trace.
+Any visual change to screens, tokens, or accessibility must follow `element-diff-protocol.md`:
 
-Run in this exact order and log each result:
-1. **CSS Lint**: Run `npx stylelint "**/*.css"` or equivalent. Log: `[SELF-CHECK] CSS lint: PASS / N violations`.
-2. **Playwright Preview**: Open the rendered page in Playwright, take a screenshot. Log: `[SELF-CHECK] Playwright preview captured: path/to/preview.png`.
-3. **Pre-Submission Log**: Emit a final checklist entry: `[SELF-CHECK] Pre-submission: token violations=0, hardcoded hex=0, P0 from prior iteration resolved=true`.
+1. Extract `before.html`.
+2. Apply the code/token/a11y change.
+3. Extract `after.html`.
+4. Generate `diff.html`.
+5. Log `meta.json`.
 
-If any check fails, fix the issue before handing off — do NOT submit a known-broken implementation.
+### 3.3 Pre-Submission Self-Verification Checklist
+
+Run and log self-checks before handing off:
+
+1. CSS/style lint or equivalent.
+2. Browser preview or screenshot when a UI route is available.
+3. Pre-submission checklist: token violations, hardcoded colors, P0 fixes resolved, contract IDs still present.
+
+If any check fails, fix it before handoff.
 
 ### 3.4 Platform Variants
 
-- If required, create platform variants directly via HTML edits.
+If required by `ui-contract.md`, create platform variants directly through focused edits.
 
-### 3.5 Cross-Codebase Terminology Sync (Route F)
+### 3.5 Cross-Codebase Terminology Sync
 
-- Use this route for global text/copy changes (e.g., renaming a core system concept). Scan all HTML, JSON, and `design-tokens.json` to propose a batch replacement.
+Use this route for global copy or terminology changes. Scan relevant HTML, JSON, TS/TSX, and token files before proposing replacements.
 
 ### 3.6 Update Showcase Hub
 
-- Update `packages/design-system/showcase/index.html` with new components, storyboards, or modified tokens.
-- Add the changes to `changes/changelog.json`.
+Update the showcase only when the fix touches shared DS components, tokens, or public examples.
+Record changes in the hub changelog when applicable.
 
 ### 3.7 Iteration Notes
 
-- Write iteration notes that explicitly link to the `diff.html` files so humans can review the exact visual changes side-by-side.
-- Include the `rollout_id` and `iteration` number at the top of the notes file.
+Write iteration notes that link to diffs, scorecard IDs, rollout ID, iteration number, and contract artifact references.
 
-### 3.8 QA & Handover
+### 3.8 QA and Handover
 
-- Spawn the QA SubAgent to verify Coherence, Token Coverage, A11y, Detachment Rate, State Coverage, and **Diff Coverage** (ensure every change has a diff).
-- Pass the `rollout_id` to the QA SubAgent so all its tool calls are tagged with the same trajectory ID.
+Return the exact files changed, self-check evidence, and any unresolved risks to the orchestrator for the next audit/QA cycle.
