@@ -82,8 +82,8 @@ Generate a commit message for:
 ````
 
 **Rules:**
-- Braces inside `!{...}` must be balanced
-- CLI prompts for confirmation before executing
+- Braces inside `!{...}` must be balanced. If your shell command contains unbalanced braces, wrap it in an external script and call the script from inside the `!{...}` block.
+- **Security Check:** The CLI performs a security check and prompts for user confirmation before executing shell commands.
 - Failed commands inject stderr + exit code into prompt
 
 ### 4. File Content Injection `@{...}`
@@ -99,8 +99,9 @@ Review {{args}} using these guidelines:
 
 **Rules:**
 
+- Content inside `@{...}` must have balanced braces.
 - Supports multimodal (images, PDFs, audio, video)
-- Directory paths traverse all files (respects `.gitignore`)
+- Directory paths traverse all files (respects `.gitignore` and `.geminiignore`)
 - Processed BEFORE `!{...}` and `{{args}}`
 - Paths are workspace-aware
 

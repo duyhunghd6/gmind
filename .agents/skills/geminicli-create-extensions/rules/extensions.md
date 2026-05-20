@@ -2,7 +2,7 @@
 
 ## What is an Extension?
 
-A packaged bundle that can contain **all** extension types: MCP servers, custom commands, hooks, agent skills, sub-agents, and context files. Extensions are installable, shareable, and version-controlled.
+A packaged bundle that can contain **all** extension types: MCP servers, custom commands, context files (`GEMINI.md`), agent skills, hooks, and custom themes. Extensions are installable, shareable, and version-controlled.
 
 ## Directory Structure
 
@@ -184,7 +184,7 @@ Archive must contain `gemini-extension.json` at root.
 2. **Separate src/ and dist/** — keep source separate from build
 3. **Bundle dependencies** — use esbuild/webpack for fewer install issues
 4. **Validate all inputs** — MCP servers run on user's machine
-5. **Use `sensitive: true`** — for API keys (stored in keychain)
+5. **Environment Variable Sanitization** — Host environment variables are **NOT** passed to extensions by default. You MUST explicitly declare needed variables in the `settings` array (use `sensitive: true` for API keys to store them in the keychain).
 6. **Follow semver** — Major (breaking), Minor (features), Patch (fixes)
 7. **Keep GEMINI.md focused** — goals + tool usage, not full docs
 8. **Never hardcode paths** — always use `${extensionPath}`

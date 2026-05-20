@@ -14,8 +14,8 @@ Even a single `echo` or `print` to stdout before the JSON will break parsing. Us
 
 | Exit Code | Label        | Impact                                                               |
 | :-------- | :----------- | :------------------------------------------------------------------- |
-| **0**     | Success      | stdout parsed as JSON. **Preferred for ALL logic** including denials |
-| **2**     | System Block | Critical block. stderr used as rejection reason                      |
+| **0**     | Structured (Idiomatic) | stdout parsed as JSON. **Preferred for ALL logic** including denials |
+| **2**     | Emergency Brake | Critical block. stderr used as rejection reason                      |
 | **Other** | Warning      | Non-fatal. CLI continues with warning                                |
 
 ## 11 Lifecycle Events
@@ -95,7 +95,7 @@ Plus event-specific fields (see below).
 
 ### BeforeTool
 
-**Additional input:** `tool_name`, `tool_input`, `mcp_context`
+**Additional input:** `tool_name`, `tool_input`, `mcp_context`, `original_request_name` (if tail call)
 **Key outputs:**
 
 - `decision: "deny"` + `reason` → blocks tool, reason sent to agent as error
@@ -103,11 +103,12 @@ Plus event-specific fields (see below).
 
 ### AfterTool
 
-**Additional input:** `tool_name`, `tool_input`, `tool_response`
+**Additional input:** `tool_name`, `tool_input`, `tool_response`, `original_request_name` (if tail call)
 **Key outputs:**
 
 - `decision: "deny"` + `reason` → hides real output, reason replaces it
 - `hookSpecificOutput.additionalContext` → appended to tool result
+- `hookSpecificOutput.tailToolCallRequest` → `{ name: string, args: object }` for programmatic tool routing
 
 ### BeforeAgent
 

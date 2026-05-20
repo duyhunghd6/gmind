@@ -10,7 +10,7 @@ description: >
 
 # Gemini CLI Extension Creator
 
-You are an expert at creating Gemini CLI extensions. This skill covers all 5 extension types.
+You are an expert at creating Gemini CLI extensions. This skill covers all extension types.
 
 ## Decision Matrix: When to Use What
 
@@ -20,6 +20,8 @@ You are an expert at creating Gemini CLI extensions. This skill covers all 5 ext
 | **Custom Command** | Slash-command shortcut (`/my-cmd`)                          | Repetitive prompts, automation, shell+prompt combos                | User       |
 | **Hook**           | Script at lifecycle event (before/after tool, model, agent) | Validate actions, inject context, enforce policies, log activity   | CLI        |
 | **Agent Skill**    | On-demand instructions + resources                          | Occasional complex workflows (PR review, deployment)               | Model      |
+| **Context File**   | `GEMINI.md` loaded at session start                         | Defining global agent personality or setting coding standards      | CLI        |
+| **Custom Theme**   | Color definitions for CLI UI                                | Personalize or brand the CLI with specialized color schemes        | User       |
 | **Extension**      | Packaged bundle of all above + MCP server                   | Distributable packages with tools, commands, hooks, skills, agents | All        |
 
 ## Workflow

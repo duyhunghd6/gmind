@@ -52,13 +52,14 @@ Instructions that guide the agent when this skill is active.
 
 ## Placement (Discovery Tiers)
 
-| Tier      | Location                                   | Precedence |
-| :-------- | :----------------------------------------- | :--------- |
-| Workspace | `.gemini/skills/<skill-name>/SKILL.md`     | Highest    |
-| User      | `~/.gemini/skills/<skill-name>/SKILL.md`   | Middle     |
-| Extension | `<extension>/skills/<skill-name>/SKILL.md` | Lowest     |
+| Tier      | Location                                                               | Precedence |
+| :-------- | :--------------------------------------------------------------------- | :--------- |
+| Workspace | `.gemini/skills/<name>/SKILL.md` (or `.agents/skills/`)                | Highest    |
+| User      | `~/.gemini/skills/<name>/SKILL.md` (or `~/.agents/skills/`)            | High       |
+| Extension | `<extension>/skills/<name>/SKILL.md`                                   | Low        |
+| Built-in  | Included with Gemini CLI (pre-approved)                                | Lowest     |
 
-Same-name skills: higher precedence overrides lower.
+> **Note**: The `.agents/skills` alias is fully supported and compatible with the standard Agent Skills ecosystem. Same-name skills: higher precedence overrides lower.
 
 ## How It Works
 
