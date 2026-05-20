@@ -11,3 +11,4 @@ apps/website/tsconfig.tsbuildinfo
 .env*.local
 docs/design/*.log
 cli/gmind/*.log
+.turbo/
