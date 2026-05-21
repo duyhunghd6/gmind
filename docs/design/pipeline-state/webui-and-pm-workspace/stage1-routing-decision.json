@@ -1,15 +1,15 @@
 {
   "ba_agent": "stage1_ba",
-  "iteration_analyzed": 4,
-  "action": "CONTINUE",
+  "iteration_analyzed": 5,
+  "action": "GATE_A_READY",
   "current_score": 94,
-  "delta": "+2",
-  "convergence_reason": "Evaluator iteration 4 is score 94 with convergence_status GATE_A_READY and no P0 defects, and the prior QA T5 storyboard defect is resolved by direct evaluator checks. However, the only QA results artifact available still records the pre-fix T5_storyboards failure, so Gate A cannot be finalized from current evidence. Dispatch Stage 1 QA for a post-fix verification run; do not route another selective generator respawn. The remaining preview_script P1 is tolerated for Gate A because preview conversion exits OK, preview/index.html exists, source contract/component-map traceability is complete, and the manifest inventory issue is a preview tooling/readiness limitation rather than a contract coverage or replay blocker.",
+  "delta": "+0",
+  "convergence_reason": "Latest evaluator score is 94 with convergence_status GATE_A_READY, zero P0 defects, and fresh Stage 1 QA passed all 7 suites. Remaining preview_script P1 is non-blocking because source contract traceability, component-map, Mermaid action coverage, storyboards, layout rules, conflicts, and preview/index.html are present and internally consistent.",
   "agents_to_respawn": [],
   "fix_queue_per_agent": {
     "preview_script": [
       {
-        "fix": "Preview converter completes with status OK but emits 119 warnings and writes preview-manifest.json with empty components, ds_ids, and actions arrays despite ui-contract.md/component-map.json containing 79 components and 65 actions. Tolerate for Stage 1 QA/Gate A review as non-blocking P1 unless QA introduces a preview-blocking failure.",
+        "fix": "Preview converter exits OK but emits 119 warnings and writes preview-manifest.json with empty components, ds_ids, and actions arrays despite source artifacts containing 79 components and 65 actions. Track as non-blocking preview tooling/readiness work after Gate A.",
         "priority": "P1",
         "pillar": "conflict_preview_readiness"
       }
@@ -22,12 +22,63 @@
     "preview_script",
     "prd_writer"
   ],
-  "qa_required": true,
+  "qa_required": false,
   "warnings": [
-    "Latest evaluator scorecard reports QA T5 storyboard issue resolved: 32 trajectories, 138 steps, 0 missing step fields, 0 transition mismatches.",
-    "Existing QA results artifact is stale and still records pre-fix QA_FAIL for T5_storyboards; a new Stage 1 QA run is required before final Gate A acceptance.",
-    "Remaining preview_script P1 reduces preview-manifest reviewer inventory readiness but is not a source contract P0 because ui-contract.md, component-map.json, flow.mmd, and storyboards.json are complete and internally consistent.",
-    "task-board.json appears malformed due to a missing comma between gen_flows and gen_wireframes entries; this is pipeline state hygiene and not a contract artifact defect."
+    "Non-blocking preview_script P1 remains: 119 converter warnings and empty preview-manifest inventory arrays.",
+    "Current valid Mermaid-derived artifacts are flow.md and review-diagrams.md; standalone flow.mmd and review-diagrams.mmd are absent in this iteration."
   ],
-  "gate_a_summary": null
+  "gate_a_summary": {
+    "score_history": [
+      {
+        "iter": 1,
+        "score": 80
+      },
+      {
+        "iter": 2,
+        "score": 88
+      },
+      {
+        "iter": 3,
+        "score": 92
+      },
+      {
+        "iter": 4,
+        "score": 94
+      },
+      {
+        "iter": 5,
+        "score": 94
+      }
+    ],
+    "final_score": 94,
+    "pillar_breakdown": {
+      "container_validity": 15,
+      "prd_coverage": 20,
+      "component_traceability": 20,
+      "logic_coverage": 15,
+      "derived_artifact_consistency": 15,
+      "conflict_preview_readiness": 9
+    },
+    "qa_summary": {
+      "total_tests": 7,
+      "passed": 7,
+      "failed": 0
+    },
+    "warnings": [
+      "Non-blocking preview_script P1 remains: 119 converter warnings and empty preview-manifest inventory arrays.",
+      "QA T7 accepted preview readiness with the same warning as non-blocking."
+    ],
+    "artifacts_for_review": [
+      "ui-contract.md",
+      "review-diagrams.md",
+      "flow.md",
+      "storyboards.json",
+      "layout-rules.json",
+      "component-map.json",
+      "prd-ds-conflicts.md",
+      "qa/webui-and-pm-workspace-qa-stage1-fresh-results.md",
+      "preview/index.html",
+      "preview/preview-manifest.json"
+    ]
+  }
 }

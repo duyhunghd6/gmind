@@ -1,12 +1,14 @@
-%% Review Diagrams: webui-and-pm-workspace
-%% Derived from docs/design/contracts/webui-and-pm-workspace/ui-contract.md plus flow.mmd and layout-rules.json
-%% Gate A human inspection bundle: inventory, hierarchy, states, actions, responsive intent.
-%% Refreshed for iteration-2 approval insufficient-evidence path and iteration-3 flow/storyboard alignment.
+# Review Diagrams: WebUI and PM Workspace
+
+<!-- beads-id: br-design-review-diagrams-webui-pm-workspace | satisfies: br-prd04-s14a -->
+
+Derived from `ui-contract.md`, `flow.md`, `storyboards.json`, and `component-map.json` for Gate A human inspection. The bundle covers screen inventory, component hierarchy, states, action/event links, responsive intent, approval/RTE focus paths, and storyboard/component target coverage.
 
 ## 1. Screen Inventory and Routes
 
 ```mermaid
 flowchart LR
+    direction LR
     Shell["global-shell\nds:webui.shell.root\nstates: default loading offline"]
     Header["Header + global search\nds:webui.shell.header"]
     Sidebar["Primary navigation\nds:webui.shell.sidebar"]
@@ -45,6 +47,7 @@ flowchart LR
 
 ```mermaid
 flowchart TB
+    direction LR
     subgraph GlobalShell["global-shell"]
         GS["app_shell\nds:webui.shell.root"]
         GHeader["header\nds:webui.shell.header"]
@@ -167,6 +170,7 @@ flowchart TB
 
 ```mermaid
 flowchart TB
+    direction LR
     Loading["loading\nlayout-matched skeletons preserve panel/table/card geometry"]
     GraphLoading["graph loading\nskeleton canvas + detail panel + progress message"]
     ApprovalLoading["approval loading\nmulti-source evidence aggregation skeletons"]
@@ -232,6 +236,7 @@ flowchart TB
 
 ```mermaid
 stateDiagram-v2
+    direction LR
     [*] --> ApprovalGates_Loading: EVENT_NAV_APPROVAL_GATES
     ApprovalGates_Loading --> ApprovalGates_Default: EVENT_API_APPROVAL_GATES_SUCCESS
     ApprovalGates_Loading --> ApprovalGates_Empty: EVENT_API_APPROVAL_GATES_EMPTY
@@ -243,7 +248,7 @@ stateDiagram-v2
         [*] --> Evidence_Readiness_Summary
         Evidence_Readiness_Summary --> Approve_Disabled: invalid_reasons present
         Approve_Disabled --> Reason_Tooltip: approve_disabled_reason = api.approval.evidence.invalid_reasons[0]
-        Evidence_Readiness_Summary --> Refresh_CTA: ds:webui.approval.refresh_evidence_button visible
+        Evidence_Readiness_Summary --> Refresh_CTA: refresh evidence button visible
         Evidence_Readiness_Summary --> Reject_Available: reject_enabled = permissions.can_reject
         Evidence_Readiness_Summary --> Admin_Override_Form: permissions.is_admin
     }
@@ -292,6 +297,7 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
+    direction LR
     [*] --> RTE_None
     RTE_None --> RTE_Escalated: rte_status = escalated
     RTE_Escalated --> RTE_Discussing: rte_status = discussing
@@ -432,4 +438,39 @@ flowchart TB
     DDocs --> TDocs --> MDocs
     DTrace --> TTrace --> MTrace
     DSearch --> TSearch --> MSearch
+```
+
+## 9. Storyboard Coverage and Component Targets
+
+```mermaid
+flowchart TB
+    Storyboards["32 storyboards\n138 replay steps"]
+    ComponentMap["component-map.json\n79 components\n65 action/event links"]
+    Screens["9 screen scopes\nglobal-shell + 8 route screens"]
+
+    Storyboards --> Happy["happy paths\ndashboard, board, approval, docs, trace, task, search"]
+    Storyboards --> Recovery["recovery paths\noffline rehydrate, permission denied, retry, empty, not-found"]
+    Storyboards --> Focus["focused Gate A checks\napproval insufficient evidence\nRTE badge drawer states"]
+
+    ComponentMap --> ReadTargets["read/navigation targets\nsearch, docs trace, task opens"]
+    ComponentMap --> WriteTargets["write targets\nboard moves/votes, bulk task edits, approval decisions"]
+    ComponentMap --> Guards["guards and disabled bindings\napproval evidence completeness\nadmin audit reason"]
+
+    Screens --> RTM["rtm-dashboard\nds:webui.dashboard.page"]
+    Screens --> Board["safe-board\nds:webui.board.page"]
+    Screens --> Tasks["task-list / task-detail\nds:webui.tasks_list.page\nds:webui.task_detail.page"]
+    Screens --> Approval["approval-gates\nds:webui.approval.page"]
+    Screens --> DocsTraceSearch["document-viewer / trace-explorer / search-results\nds:webui.docs.page\nds:webui.trace.page\nds:webui.search.page"]
+
+    Happy --> RTM
+    Happy --> Board
+    Happy --> Tasks
+    Happy --> Approval
+    Happy --> DocsTraceSearch
+    Recovery --> Screens
+    Focus --> Approval
+    Focus --> Board
+    ReadTargets --> Happy
+    WriteTargets --> Recovery
+    Guards --> Focus
 ```

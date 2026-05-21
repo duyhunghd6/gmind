@@ -1,7 +1,7 @@
 ---
 feature: webui-and-pm-workspace
 contract_stage: stage-1-schema-driven
-iteration: 1
+iteration: 3
 source_prd: docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md
 status: ready-for-flow-generator
 ---
@@ -25,7 +25,7 @@ Primary PRD traceability: `br-prd04-s1` through `br-prd04-s14`, with canonical R
 ```yaml
 metadata:
   feature: webui-and-pm-workspace
-  iteration: 1
+  iteration: 3
   source_prd:
     path: docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md
     beads_id: br-prd04

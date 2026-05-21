@@ -2,7 +2,7 @@
 
 <!-- beads-id: br-design-conflicts-webui-pm-workspace | satisfies: br-prd04-s14a -->
 
-Generated from `ui-contract.md` and `PRD-04-WebUI-and-PM-Workspace.md` during selective Stage 1 flow regeneration.
+Generated from `ui-contract.md`, `flow.md`, and `PRD-04-WebUI-and-PM-Workspace.md` during Stage 1 flow/map regeneration.
 
 ## Unresolved conflicts
 

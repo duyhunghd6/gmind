@@ -1,0 +1,211 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "tests": {
+    "T1_contract_container": {
+      "status": "PASS"
+    },
+    "T2_yaml_schema": {
+      "status": "PASS"
+    },
+    "T3_component_traceability": {
+      "status": "FAIL"
+    },
+    "T4_mermaid_logic": {
+      "status": "FAIL"
+    },
+    "T5_storyboards": {
+      "status": "FAIL"
+    },
+    "T6_layout_review_diagrams": {
+      "status": "PASS"
+    },
+    "T7_conflicts_preview": {
+      "status": "FAIL"
+    }
+  },
+  "details": {
+    "fence_counts": {
+      "yaml": 1,
+      "mermaid": 1
+    },
+    "yaml_parse_error": null,
+    "yaml": {
+      "screen_ids": [
+        "rtm-dashboard",
+        "safe-board",
+        "task-list",
+        "task-detail",
+        "approval-gates",
+        "document-viewer",
+        "trace-explorer",
+        "search-results"
+      ],
+      "screen_count": 8,
+      "ds_id_count": 63,
+      "actions_count": 0,
+      "missing_top": [],
+      "screen_errors": [],
+      "ds_missing_type_count": 0
+    },
+    "component_map": {
+      "json_error": null,
+      "yaml_ds_count": 63,
+      "component_map_ds_count": 79,
+      "missing_yaml_ds_in_map": [],
+      "missing_count": 0,
+      "duplicate_yaml_ds_ids": [],
+      "duplicate_count": 0,
+      "invalid_screen_refs": [
+        "global-shell"
+      ],
+      "invalid_screen_ref_count": 1,
+      "types_count": 144
+    },
+    "mermaid": {
+      "flow_exists": true,
+      "faithful_extraction": true,
+      "event_count": 52,
+      "action_count": 0,
+      "missing_actions": [],
+      "missing_action_count": 0,
+      "unmapped_events": [
+        "EVENT_API_APPROVAL_EVIDENCE_INSUFFICIENT",
+        "EVENT_API_APPROVAL_GATES_EMPTY",
+        "EVENT_API_APPROVAL_GATES_ERROR",
+        "EVENT_API_APPROVAL_GATES_SUCCESS",
+        "EVENT_API_BOOT_ERROR",
+        "EVENT_API_BOOT_SUCCESS",
+        "EVENT_API_DOCUMENT_VIEWER_EMPTY",
+        "EVENT_API_DOCUMENT_VIEWER_ERROR",
+        "EVENT_API_DOCUMENT_VIEWER_SUCCESS",
+        "EVENT_API_RTM_DASHBOARD_EMPTY",
+        "EVENT_API_RTM_DASHBOARD_ERROR",
+        "EVENT_API_RTM_DASHBOARD_SUCCESS",
+        "EVENT_API_SAFE_BOARD_EMPTY",
+        "EVENT_API_SAFE_BOARD_ERROR",
+        "EVENT_API_SAFE_BOARD_SUCCESS",
+        "EVENT_API_SEARCH_RESULTS_EMPTY",
+        "EVENT_API_SEARCH_RESULTS_ERROR",
+        "EVENT_API_SEARCH_RESULTS_SUCCESS",
+        "EVENT_API_TASK_DETAIL_SUCCESS",
+        "EVENT_API_TASK_LIST_EMPTY",
+        "EVENT_API_TASK_LIST_ERROR",
+        "EVENT_API_TASK_LIST_SUCCESS",
+        "EVENT_API_TASK_NOT_FOUND",
+        "EVENT_API_TRACE_EXPLORER_EMPTY",
+        "EVENT_API_TRACE_EXPLORER_ERROR",
+        "EVENT_API_TRACE_EXPLORER_SUCCESS",
+        "EVENT_API_WRITE_ERROR",
+        "EVENT_API_WRITE_SUCCESS",
+        "EVENT_CLOSE_NAVIGATION",
+        "EVENT_CLOSE_PANEL",
+        "EVENT_EVIDENCE_BECOMES_INVALID",
+        "EVENT_GITHUB_DATA_SUCCESS",
+        "EVENT_GITHUB_TIMEOUT_SHOW_LOCAL_DATA",
+        "EVENT_HEALTHCHECK_FAILED",
+        "EVENT_KEEP_MINE",
+        "EVENT_NAV_APPROVAL_GATES",
+        "EVENT_NAV_DOCUMENT_VIEWER",
+        "EVENT_NAV_RTM_DASHBOARD",
+        "EVENT_NAV_SAFE_BOARD",
+        "EVENT_NAV_SEARCH_RESULTS",
+        "EVENT_NAV_TASK_DETAIL",
+        "EVENT_NAV_TASK_LIST",
+        "EVENT_NAV_TRACE_EXPLORER",
+        "EVENT_PERMISSION_DENIED",
+        "EVENT_RECONNECT",
+        "EVENT_RECOVERY_CTA",
+        "EVENT_REQUEST_ACCESS",
+        "EVENT_RETRY",
+        "EVENT_SYNC_CONFLICT",
+        "EVENT_SYNC_SUCCESS"
+      ],
+      "unmapped_event_count": 52,
+      "path_checks": {
+        "error": true,
+        "retry": true,
+        "cancel_back": true,
+        "success": true
+      },
+      "basic_syntax_ok": true
+    },
+    "storyboards": {
+      "json_error": null,
+      "trajectory_count": 32,
+      "prd_refs_count": 0,
+      "errors": [
+        "dashboard_coverage_drill missing PRD journey reference",
+        "dashboard_gap_resolution missing PRD journey reference",
+        "dashboard_graph_impact missing PRD journey reference",
+        "board_navigation_move_task missing PRD journey reference",
+        "board_pi_vote missing PRD journey reference",
+        "rte_review_escalated_risk missing PRD journey reference",
+        "rte_approve_resolution missing PRD journey reference",
+        "rte_reject_resolution missing PRD journey reference",
+        "approval_review_approve missing PRD journey reference",
+        "approval_review_reject missing PRD journey reference",
+        "navigate_to_task missing PRD journey reference",
+        "explore_trace_from_task missing PRD journey reference",
+        "quick_search missing PRD journey reference",
+        "docs_browse_prd missing PRD journey reference",
+        "docs_review_chat_session missing PRD journey reference",
+        "trace_from_task missing PRD journey reference",
+        "trace_impact_analysis missing PRD journey reference",
+        "task_edit_status missing PRD journey reference",
+        "task_trace_dependencies missing PRD journey reference",
+        "search_submit_and_filter missing PRD journey reference",
+        "search_open_result missing PRD journey reference",
+        "tasks_bulk_assign missing PRD journey reference",
+        "tasks_export_report missing PRD journey reference",
+        "offline_queue_and_rehydrate missing PRD journey reference",
+        "approval_permission_denied missing PRD journey reference",
+        "trace_error_retry missing PRD journey reference",
+        "task_not_found_recovery missing PRD journey reference",
+        "search_empty_recovery missing PRD journey reference",
+        "board_pi_vote_api_error_recovery missing PRD journey reference",
+        "board_pi_vote_offline_queue missing PRD journey reference",
+        "approval_insufficient_evidence_refresh_or_reject missing PRD journey reference",
+        "rte_badge_open_thread missing PRD journey reference"
+      ],
+      "error_count": 32,
+      "error_recovery": true
+    },
+    "layout_review": {
+      "layout_json_error": null,
+      "yaml_viewports": [
+        "desktop",
+        "tablet",
+        "mobile"
+      ],
+      "layout_viewports": [
+        "desktop",
+        "mobile",
+        "tablet"
+      ],
+      "missing_layout_viewports": [],
+      "review_exists": true,
+      "mermaid_block_count": 10,
+      "diagram_checks": {
+        "screen_inventory": true,
+        "component_hierarchy": true,
+        "state_coverage": true,
+        "action_event_links": true
+      }
+    },
+    "conflicts_preview": {
+      "conflicts_exists": true,
+      "conflict_actionable": true,
+      "preview_index_exists": true,
+      "manifest_exists": true,
+      "manifest_json_error": null,
+      "warning_count": 238,
+      "empty_arrays": [
+        "/components",
+        "/ds_ids",
+        "/actions"
+      ],
+      "empty_array_count": 3,
+      "warnings_documented": false
+    }
+  }
+}

@@ -1,4 +1,12 @@
+# Mermaid Flow: WebUI and PM Workspace
+
+<!-- beads-id: br-design-flow-webui-pm-workspace | satisfies: br-prd04-s14a -->
+
+Extracted from the single Mermaid Logic Machine in `ui-contract.md` for quick rendering and diffing.
+
+```mermaid
 stateDiagram-v2
+    direction LR
     [*] --> Shell_Loading
     Shell_Loading --> Shell_Default: EVENT_API_BOOT_SUCCESS
     Shell_Loading --> Shell_Error: EVENT_API_BOOT_ERROR
@@ -186,3 +194,4 @@ stateDiagram-v2
     SearchResults_Default --> DocumentViewer_Loading: EVENT_search_open_doc_result
     SearchResults_Default --> TraceExplorer_Loading: EVENT_search_open_trace_result
     SearchResults_Default --> SearchResults_Default: EVENT_search_open_external_pr_result
+```

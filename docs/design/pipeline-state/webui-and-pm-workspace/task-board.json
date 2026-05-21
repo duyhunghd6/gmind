@@ -6,25 +6,25 @@
       "artifacts": [
         "docs/design/contracts/webui-and-pm-workspace/ui-contract.md"
       ],
-      "iteration": 2
+      "iteration": 3
     },
     "gen_flows": {
       "status": "DONE",
-      "iteration": 4,
+      "iteration": 5,
       "artifacts": [
         "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-        "docs/design/contracts/webui-and-pm-workspace/flow.mmd",
+        "docs/design/contracts/webui-and-pm-workspace/flow.md",
         "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
         "docs/design/contracts/webui-and-pm-workspace/component-map.json",
         "docs/design/contracts/webui-and-pm-workspace/prd-ds-conflicts.md",
         "docs/design/contracts/webui-and-pm-workspace/layout-rules.json"
       ]
-    }
+    },
     "gen_wireframes": {
       "status": "DONE",
-      "iteration": 3,
+      "iteration": 4,
       "artifacts": [
-        "docs/design/contracts/webui-and-pm-workspace/review-diagrams.mmd"
+        "docs/design/contracts/webui-and-pm-workspace/review-diagrams.md"
       ]
     }
   },
