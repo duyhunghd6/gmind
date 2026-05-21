@@ -50,7 +50,7 @@ LAYER 3: EXECUTOR
   Gate B: Human Result Approval      -> rules/gate-b-result-approval.md
 ```
 
-This skill evaluates the schema-driven Ralph Loop contract model. Stage 1 source of truth is `docs/design/contracts/{feature}/ui-contract.md`, which contains exactly one YAML View Blueprint and exactly one Mermaid Logic Machine. Review diagrams, storyboards, layout rules, component map, conflict report, and preview files are derived artifacts.
+This skill evaluates the schema-driven Ralph Loop contract model. Stage 1 source of truth is `docs/design/contracts/{feature}/ui-contract.md`, which contains exactly one YAML View Blueprint and exactly one Mermaid Logic Machine. Review diagrams, storyboards, layout rules, component map, conflict report, and preview files are derived artifacts. JSON artifacts are machine-executable evidence; evaluator prompts should consume compact failures and slices rather than monolithic JSON payloads.
 
 ## When to Apply
 
@@ -70,11 +70,12 @@ Trigger this skill when the user asks to:
 PRD
   -> ui-contract.md (YAML View Blueprint + Mermaid Logic Machine)
   -> Derived Gate A artifacts
-       review-diagrams.mmd
-       flow.mmd
+       review-diagrams.md
+       flow.md
        storyboards.json
        layout-rules.json
        component-map.json
+       context-slices/**/*.yaml
        prd-ds-conflicts.md
        preview/index.html
   -> Stage 2 implementation
@@ -103,12 +104,13 @@ PRD
 ```text
 docs/design/contracts/{feature}/
   ui-contract.md
-  review-diagrams.mmd
-  review-diagrams/*.mmd
-  flow.mmd
+  review-diagrams.md
+  review-diagrams/*.md
+  flow.md
   storyboards.json
   layout-rules.json
   component-map.json
+  context-slices/**/*.yaml
   prd-ds-conflicts.md
   preview/index.html
   preview/preview-manifest.json
@@ -140,6 +142,13 @@ Never use dynamic CSS classes as primary test selectors.
 ## How to Use
 
 For deep requirements, read only the rule file for the current pipeline step. Do not read all rules at once unless modifying the skill itself.
+
+## Context Budget Rules
+
+- Treat `ui-contract.md` as the source for LLM reasoning.
+- Run full JSON checks mechanically and summarize only counts, mismatches, failed paths, and owner routing.
+- Prefer YAML/TOON slices for any compiled artifact content that must enter an agent prompt.
+- Keep QA feedback diff-only so implementors receive the smallest actionable fix context.
 
 ## Full Compiled Document
 

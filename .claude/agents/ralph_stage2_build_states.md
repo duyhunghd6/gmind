@@ -39,11 +39,11 @@ You will receive:
 
 Read:
 - `apps/website/src/app/design-system/{feature_name}/page.tsx`
-- `{contract_path}/ui-contract.md` — declared states, actions, component tree, and responsive constraints
+- `{contract_path}/ui-contract.md` — canonical declared states, actions, component tree, and responsive constraints
 - `{contract_path}/flow.md` — state transitions and API outcomes
-- `{contract_path}/storyboards.json` — required interaction and assertion paths
-- `{contract_path}/layout-rules.json` — responsive state behavior
 - `{contract_path}/preview/preview-manifest.json` — warnings to resolve where implementation-relevant
+
+Do not load full `storyboards.json` or `layout-rules.json` into prompt context by default. Use source YAML/Mermaid for state authoring, and extract only the failing or relevant storyboard/layout rows as compact YAML/TOON notes when a machine assertion needs clarification.
 
 When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 

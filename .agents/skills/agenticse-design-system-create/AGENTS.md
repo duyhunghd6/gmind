@@ -14,11 +14,12 @@ This document is the compiled, comprehensive guide for the `agenticse-design-sys
 6. **State Completeness**: Ensure every screen maps Default, Loading, Empty, Error, Offline prior to implementation.
 7. **Composite Realism**: Web layouts must use one of the 21 enterprise configurations (e.g., LMR, Master-Detail, Holy Grail). Mobile layouts must use one of the 5 mobile primitives (Bottom Tab, Bottom Sheet, Stack, etc.).
 8. **Ralph Loop Convergence**: As the Builder/Implementor, you are subject to the 100-point QA DoD matrix from the `design-system-gatecheck` evaluator agent. You must strictly incorporate `data-ds-id` attributes and adhere exactly to the UI Contracts generated from PRDs. Use its bug reports to iterate efficiently.
+9. **Source-First Context**: `ui-contract.md` is the LLM-facing source. Compiled JSON is for machines, auditors, or small extracted slices only.
 
 ## 2. Workflows Overview
 
 - **W1 (Discover & Plan)**: Draft RFCs, explicitly separate Web vs 2D Mobile App platform targets, and generate an exhaustive Edge Case State Matrix (Default, Loading, Empty, Error, Offline).
-- **W2 (Create & Build)**: First, read the schema-driven Stage 1 package: `ui-contract.md`, `component-map.json`, `storyboards.json`, `layout-rules.json`, `flow.mmd`, review diagrams, and the preview manifest. Then, code baseline (v000) prototypes, rigidly mapping contract `ds_id` entries to physical `data-ds-id` DOM elements. Register their first versions in the Element History and publish to the Design System Showcase.
+- **W2 (Create & Build)**: First, read `ui-contract.md`, `flow.md`, review diagrams, and the preview manifest. Query `component-map.json`, `storyboards.json`, and `layout-rules.json` only for targeted slices or mechanical parity checks. Then, code baseline (v000) prototypes, rigidly mapping contract `ds_id` entries to physical `data-ds-id` DOM elements. Register their first versions in the Element History and publish to the Design System Showcase.
 - **W3 (Refine & Align)**: For every visual iteration requested, extract the changed HTML snippets into history, create `diff.html`, and document why in `meta.json`. Employs Auto-Polish Pipeline for visual tweaks and Terminology Sync for copy changes.
 - **W4 (Handoff & Release)**: Finalize `design-tokens.json` to Developer Agents, write changelogs, tag SemVer in Git.
 

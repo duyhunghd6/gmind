@@ -1,6 +1,6 @@
 ---
 name: agenticse-design-system
-description: Design System engineering utilizing schema-driven Ralph Loop contracts. Builds Web/Mobile UI implementations from ui-contract.md, component-map.json, storyboards, layout rules, preview artifacts, and DS manifests; handles components, composite layouts, state matrices, accessibility, and storyboard demos.
+description: Design System engineering utilizing schema-driven Ralph Loop contracts. Builds Web/Mobile UI implementations from ui-contract.md plus targeted component/storyboard/layout slices, preview artifacts, and DS manifests; handles components, composite layouts, state matrices, accessibility, and storyboard demos.
 license: Proprietary
 metadata:
   author: agent
@@ -10,6 +10,7 @@ metadata:
 <!-- beads-id: br-skill-agenticse-design-system -->
 
 # AgenticSE Design System Skill (V2.2 - Web & Mobile)
+
 > **Architecture Layer:** LAYER 3 (The Details / Execution Rules)  
 > **Role:** The Implementor Agent  
 > **Reference:** `spike-design-system-ralph-loop-agent.md`
@@ -44,9 +45,9 @@ IF TASK IS: Ready Merge -> Branch W4 Handoff
   Read: rules/w4-handoff-release.md
 ```
 
-This skill builds enterprise-grade UI from the Stage 1 schema-driven contract package. The implementation source artifacts are `ui-contract.md`, `component-map.json`, `storyboards.json`, `layout-rules.json`, `flow.mmd`, review diagrams, preview manifest, and DS manifest/tokens.
+This skill builds enterprise-grade UI from the Stage 1 schema-driven contract package. The LLM-facing implementation source is `ui-contract.md` with its YAML View Blueprint and Mermaid Logic Machine, plus `flow.md`, review diagrams, preview manifest, and DS manifest/tokens. `component-map.json`, `storyboards.json`, and `layout-rules.json` are compiled artifacts: use them through targeted slices or mechanical checks, not monolithic prompt context.
 
-Do not treat legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as the source of truth.
+Do not treat legacy `contract.yaml`, ASCII wireframes, ASCII user flows, or compiled JSON as the source of truth.
 
 ## When to Apply
 
@@ -95,14 +96,21 @@ ds:<type>:<name-NNN>
 | `state` | `ds:state:matrix-001` | State matrix entries |
 | `flow` | `ds:flow:explore-001` | User flow definitions |
 
-Implementation components must use `data-ds-id="ds:..."` values from `component-map.json` and YAML View Blueprint.
+Implementation components must use `data-ds-id="ds:..."` values from the YAML View Blueprint, verified by targeted `component-map.json` slices.
+
+## Context Budget Rules
+
+- Prefer YAML/Mermaid over compiled JSON when deciding what to build.
+- If a compiled artifact is needed, extract only the relevant screen/state/viewport/`ds_id` rows and restate them as compact YAML/TOON before coding.
+- Query the DS registry by component ID or token name instead of injecting the entire registry.
+- Feedback from QA/auditors should be diff-only: missing IDs, failed assertions, invalid tokens, and specific responsible builder routing.
 
 ## Key Files
 
 - Stage 1 source: `docs/design/contracts/{feature}/ui-contract.md`
-- Component map: `docs/design/contracts/{feature}/component-map.json`
-- Storyboards: `docs/design/contracts/{feature}/storyboards.json`
-- Layout rules: `docs/design/contracts/{feature}/layout-rules.json`
+- Component map slices/checks: `docs/design/contracts/{feature}/component-map.json`
+- Storyboard slices/checks: `docs/design/contracts/{feature}/storyboards.json`
+- Layout rule slices/checks: `docs/design/contracts/{feature}/layout-rules.json`
 - Preview manifest: `docs/design/contracts/{feature}/preview/preview-manifest.json`
 - Registry: `<frontend-src-dir>/data/ds-registry.ts` or project DS registry equivalent
 

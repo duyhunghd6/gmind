@@ -92,3 +92,13 @@ Example opt-in settings shape:
 ```
 
 Before enabling this hook, decide whether logs should be ignored by git, retained under `docs/rft-dataset/`, or uploaded to an external RFT pipeline.
+
+## Decision 7: Keep Compiled JSON Out of Builder Context
+
+<!-- beads-id: br-skill-ralph-loop-decisions-s7 -->
+
+Stage 2 builders should read `ui-contract.md` as source and receive only targeted slices from `storyboards.json`, `layout-rules.json`, and `component-map.json` when needed.
+
+**Why:** Compiled JSON creates context-window bloat and lost-in-the-middle failures; YAML/Mermaid is the human/LLM-facing source, while JSON is machine-executable evidence for deterministic checks.
+
+**How to apply:** Orchestrators pass source YAML/Mermaid plus compact YAML/TOON slices for the current screen/state/viewport/`ds_id`. Auditors and QA may scan full JSON mechanically, but scorecards should return diff-only evidence such as missing IDs, failed trajectories, and assertion paths.

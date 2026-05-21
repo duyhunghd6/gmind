@@ -2,8 +2,8 @@
 name: ralph_stage2_qa
 description: >
   Stage 2 QA Acceptance Tester for the Ralph Loop pipeline. Verifies page.tsx
-  source and live showcase behavior against ui-contract.md, storyboards, DS
-  manifest, preview output, and browser render artifacts.
+  source and live showcase behavior against ui-contract.md, sliced storyboard
+  evidence, DS manifest, preview output, and browser render artifacts.
 tools: Read, Bash, Grep, Glob
 disallowedTools: Write, Edit, Agent
 permissionMode: default
@@ -39,14 +39,14 @@ You will receive:
 # Phase 1: Write Test Plan
 
 Use Bash to write `docs/design/test-plans/{feature_name}-qa-stage2-iter-{iteration}.md`.
-Include test mapping from YAML screens, Mermaid transitions, storyboards, component-map entries, DS tokens, a11y checks, and live render checks.
+Include test mapping from YAML screens, Mermaid transitions, sliced storyboard/component-map evidence, DS tokens, a11y checks, and live render checks.
 
 # Phase 2: Execute Tests
 
 ## T1: Storyboard Replay
 
-Read `{contract_path}/storyboards.json`.
-For each trajectory:
+Use mechanical extraction against `{contract_path}/storyboards.json` instead of reading the whole file into context.
+For each extracted trajectory slice:
 - Verify each target `ds_id` appears in `page.tsx`.
 - Verify each declared state appears as `data-state` or an equivalent reachable state controller.
 - Verify each action has a handler, link, or form behavior matching Mermaid events.
@@ -55,7 +55,7 @@ PASS if all storyboard steps are implementable in source.
 
 ## T2: Contract Component Completeness
 
-Read `{contract_path}/ui-contract.md` and `{contract_path}/component-map.json`.
+Read `{contract_path}/ui-contract.md`; query `{contract_path}/component-map.json` with grep/Python to produce only expected/missing/extra `ds_id` lists.
 - Cross-check every component-map `ds_id` appears in `page.tsx`.
 - Cross-check screen IDs/routes and component labels/bindings from YAML.
 - Verify no legacy-only component assumptions from ASCII artifacts are used.

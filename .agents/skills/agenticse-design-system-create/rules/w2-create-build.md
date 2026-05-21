@@ -19,18 +19,18 @@ Use the project DS manifest, registry, and token CSS as the styling source. Do n
 For each feature, read these before coding:
 
 - `docs/design/contracts/{feature}/ui-contract.md`
-- `docs/design/contracts/{feature}/component-map.json`
-- `docs/design/contracts/{feature}/storyboards.json`
-- `docs/design/contracts/{feature}/layout-rules.json`
-- `docs/design/contracts/{feature}/flow.mmd`
+- `docs/design/contracts/{feature}/flow.md`
+- `docs/design/contracts/{feature}/review-diagrams.md`
 - `docs/design/contracts/{feature}/preview/preview-manifest.json`
+
+Use `component-map.json`, `storyboards.json`, and `layout-rules.json` only through targeted extraction for the current screen/state/viewport/`ds_id`, or through mechanical parity checks. Restate extracted rows as compact YAML/TOON notes before coding.
 
 Build the target page or prototype defined by the orchestrator.
 
 Rules:
 
 - Match YAML screens, routes, layout tree, labels, bindings, and actions.
-- Add `data-ds-id="ds:<type>:<name-NNN>"` for every mapped component.
+- Add `data-ds-id="ds:<type>:<name-NNN>"` for every YAML component, verified against targeted component-map slices.
 - Wire Mermaid events to handlers, links, forms, or deterministic state transitions.
 - Cover all states declared in YAML/Mermaid/storyboards.
 - Use DS tokens/classes only; avoid hardcoded hex/rgb/hsl colors.

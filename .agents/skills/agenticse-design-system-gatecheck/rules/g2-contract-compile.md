@@ -7,10 +7,10 @@
 ## Input
 
 - `docs/design/contracts/{feature}/ui-contract.md`
-- `docs/design/contracts/{feature}/flow.mmd`
+- `docs/design/contracts/{feature}/flow.md`
 - `docs/design/contracts/{feature}/component-map.json`
 - `docs/design/contracts/{feature}/storyboards.json`
-- `docs/design/contracts/{feature}/review-diagrams.mmd`
+- `docs/design/contracts/{feature}/review-diagrams.md`
 
 ## Processing
 
@@ -50,7 +50,19 @@ Transform the YAML View Blueprint and Mermaid Logic Machine into `layout-rules.j
 }
 ```
 
-### 2.3 Generate Assertion Checklist
+### 2.3 Generate Context Slices for Agents
+
+When compiled JSON grows beyond a small prompt-safe size, emit optional YAML slices under `docs/design/contracts/{feature}/context-slices/`:
+
+```text
+view-blueprints/{screen}--{state}--{viewport}.yaml
+components/{ds_id}.yaml
+storyboards/{trajectory_id}.yaml
+```
+
+Each slice must reference `source: ui-contract.md` and contain only the rows needed for one build or fix boundary. These slices are for agent context; the JSON artifacts remain the machine-executable test inputs.
+
+### 2.4 Generate Assertion Checklist
 
 Create a human-readable checklist at `docs/design/test-plans/{feature}.assertion-checklist.md`:
 
@@ -65,7 +77,7 @@ Create a human-readable checklist at `docs/design/test-plans/{feature}.assertion
 - [ ] `EVENT_REFRESH_CLICK` transitions from Default to Loading.
 ```
 
-### 2.4 Ambiguity Detection
+### 2.5 Ambiguity Detection
 
 If any rule cannot be compiled unambiguously, flag it and return to Step 1:
 
@@ -85,6 +97,7 @@ Common ambiguity causes:
 | Artifact | Path |
 | --- | --- |
 | Layout rules | `docs/design/contracts/{feature}/layout-rules.json` |
+| Context slices | `docs/design/contracts/{feature}/context-slices/**/*.yaml` |
 | Assertion checklist | `docs/design/test-plans/{feature}.assertion-checklist.md` |
 
 ## Switching Rules

@@ -73,7 +73,7 @@ PASS if behavior graph covers all required actions and journeys and required Mer
 
 ## T5: Storyboard Trajectory Validation
 
-- Read `{contract_path}/storyboards.json`.
+- Validate `{contract_path}/storyboards.json` mechanically instead of loading the full file into context.
 - Validate JSON syntax and trajectory shape.
 - Each trajectory must have stable ID, PRD journey reference, ordered steps, state/action/assertion fields, and targets using `ds:` IDs where applicable.
 - Verify at least one trajectory per PRD journey and at least one error/recovery path when relevant.
@@ -82,7 +82,7 @@ PASS if trajectories are replayable from YAML/Mermaid source.
 
 ## T6: Layout Rules and Review Diagrams
 
-- Read `{contract_path}/layout-rules.json` and validate JSON syntax.
+- Validate `{contract_path}/layout-rules.json` mechanically and summarize only invalid or drifting rules.
 - Verify viewport names match YAML `viewports[]`.
 - Read `{contract_path}/review-diagrams.md` and optional `review-diagrams/*.md`.
 - Extract fenced `mermaid` blocks from Markdown and use only those blocks as diagram sources.

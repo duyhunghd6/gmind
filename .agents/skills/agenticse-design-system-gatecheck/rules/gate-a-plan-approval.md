@@ -16,8 +16,8 @@ All artifacts from Steps 0–2:
 | --- | --- |
 | PRD | `docs/PRDs/{feature}.md` or normalized PRD output |
 | UI Contract | `docs/design/contracts/{feature}/ui-contract.md` |
-| Review diagrams | `docs/design/contracts/{feature}/review-diagrams.mmd` |
-| Flow diagram | `docs/design/contracts/{feature}/flow.mmd` |
+| Review diagrams | `docs/design/contracts/{feature}/review-diagrams.md` |
+| Flow diagram | `docs/design/contracts/{feature}/flow.md` |
 | JSON storyboards | `docs/design/contracts/{feature}/storyboards.json` |
 | Component map | `docs/design/contracts/{feature}/component-map.json` |
 | Layout rules | `docs/design/contracts/{feature}/layout-rules.json` |
@@ -70,7 +70,7 @@ Present:
 
 1. The test plan summary.
 2. `ui-contract.md`, focusing on YAML view structure and Mermaid state logic.
-3. `review-diagrams.mmd`, focusing on screen/component/state/action coverage.
+3. `review-diagrams.md`, focusing on screen/component/state/action coverage.
 4. `storyboards.json`, focusing on click paths and recovery logic.
 5. `preview/index.html`, focusing on human-checkable structure rather than final visual polish.
 6. `prd-ds-conflicts.md`, focusing on human-agreed conflict resolution.

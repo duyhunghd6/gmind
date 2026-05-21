@@ -27,13 +27,12 @@ p2_fixes -> fix last if still requested
 For each fix, read only the relevant portions of:
 
 - `docs/design/contracts/{feature}/ui-contract.md`
-- `docs/design/contracts/{feature}/component-map.json`
-- `docs/design/contracts/{feature}/storyboards.json`
-- `docs/design/contracts/{feature}/layout-rules.json`
-- `docs/design/contracts/{feature}/flow.mmd`
+- `docs/design/contracts/{feature}/flow.md`
 - `docs/design/contracts/{feature}/preview/preview-manifest.json`
 
-Do not use legacy ASCII artifacts to justify a fix.
+Query `component-map.json`, `storyboards.json`, and `layout-rules.json` only for the failed `ds_id`, trajectory, screen, state, or viewport. Convert any needed JSON rows to compact YAML/TOON notes before editing.
+
+Do not use legacy ASCII artifacts or compiled JSON as source authority to justify a fix.
 
 ### 3.2 Apply Fixes and Element Diff Protocol
 

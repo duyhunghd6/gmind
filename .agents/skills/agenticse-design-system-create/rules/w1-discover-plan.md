@@ -39,10 +39,10 @@ Evaluator validation rule: every critical `ds_id` in the YAML View Blueprint and
 Read:
 
 - `docs/design/contracts/{feature}/ui-contract.md`
-- `docs/design/contracts/{feature}/component-map.json`
-- `docs/design/contracts/{feature}/storyboards.json`
-- `docs/design/contracts/{feature}/layout-rules.json`
-- `docs/design/contracts/{feature}/flow.mmd`
+- `docs/design/contracts/{feature}/flow.md`
+- targeted slices or mechanical summaries from `component-map.json`
+- targeted slices or mechanical summaries from `storyboards.json`
+- targeted slices or mechanical summaries from `layout-rules.json`
 - `docs/design/contracts/{feature}/prd-ds-conflicts.md`
 - `docs/design/contracts/{feature}/preview/preview-manifest.json`
 

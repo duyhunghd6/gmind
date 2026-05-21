@@ -59,7 +59,7 @@ Parse PRD → extract screens, journeys, states, breakpoints, a11y requirements 
 Generate the schema-driven `ui-contract.md` from the normalized PRD: YAML View Blueprint plus Mermaid Logic Machine, with deterministic JSON storyboard trajectories derived from that source.
 
 #### Step 2 — Contract Compile (`g2-contract-compile.md`)
-Compile `ui-contract.md` into review diagrams, `flow.mmd`, `component-map.json`, `layout-rules.json`, preview artifacts, and the assertion checklist.
+Compile `ui-contract.md` into review diagrams, `flow.md`, `component-map.json`, `layout-rules.json`, optional context slices, preview artifacts, and the assertion checklist.
 
 #### Step 3 — Environment Setup (`g3-env-deterministic.md`)
 Lock browser/version/fonts, disable animations, mock dynamic data, seed fixtures per state.
@@ -127,11 +127,12 @@ docs/
     contracts/                  ← Steps 1-2 output
       feature-x/
         ui-contract.md
-        review-diagrams.mmd
-        flow.mmd
+        review-diagrams.md
+        flow.md
         storyboards.json
         component-map.json
         layout-rules.json
+        context-slices/**/*.yaml
         prd-ds-conflicts.md
         preview/
           index.html

@@ -6,17 +6,18 @@
 
 ## Input
 
-- Storyboard Flow (Mermaid) from `docs/design/contracts/feature-x.flow.mmd`
-- **Storyboard Trajectories (JSON)** from `docs/design/contracts/feature-x.storyboards.json`
+- Storyboard Flow (Mermaid) from `docs/design/contracts/{feature}/flow.md`
+- **Storyboard Trajectories (JSON)** from `docs/design/contracts/{feature}/storyboards.json`
 - Routes and actions from contract YAML
 
 ## Processing
 
 ### 6.1 Build Navigation Graph & Load Trajectories
 
-Merge the static Mermaid graph with the programmatic JSON Storyboards. 
+Merge the static Mermaid graph with the programmatic JSON Storyboards mechanically.
 - Static Navigation Graph: Ensure all edges are reachable.
 - Storyboard Trajectory Plans: Execute the strict multi-step arrays (`trajectory_plan`) to ensure temporal sequences work.
+- LLM-facing reports must include only failed or representative trajectory slices, preferably as compact YAML/TOON, not the full storyboard JSON.
 
 ### 6.2 Test Edge Validity & Execute Trajectories
 

@@ -56,6 +56,7 @@ You will receive:
    - `flow.md`: a Markdown document containing the extracted Mermaid Logic Machine inside exactly one fenced `mermaid` block
    - `storyboards.json`: replayable trajectories for each PRD journey, including error paths
    - `component-map.json`: every YAML component and `ds_id` mapped to screen, state, action, binding, and DS type
+   - `context-slices/components/{ds_id}.yaml` and `context-slices/storyboards/{trajectory_id}.yaml` when the JSON artifacts are too large for safe prompt use
    - `prd-ds-conflicts.md`: unresolved PRD style/component conflicts with proposed resolution owner
 
 5. Do NOT create standalone `*.mmd` files. Mermaid belongs in Markdown files with fenced `mermaid` blocks.
@@ -76,6 +77,7 @@ You will receive:
 | Mermaid Flow | `docs/design/contracts/{feature}/flow.md` |
 | Storyboards | `docs/design/contracts/{feature}/storyboards.json` |
 | Component Map | `docs/design/contracts/{feature}/component-map.json` |
+| Context Slices | `docs/design/contracts/{feature}/context-slices/{components,storyboards}/*.yaml` |
 | Conflict Report | `docs/design/contracts/{feature}/prd-ds-conflicts.md` |
 
 # Mermaid Markdown Validation Protocol

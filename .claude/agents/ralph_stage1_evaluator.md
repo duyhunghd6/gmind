@@ -58,15 +58,16 @@ python3 .claude/skills/ralph-ui-contract-to-ui/scripts/contract_to_ui.py \
 ```
 
 Also inspect:
+
 - `docs/design/contracts/{feature}/preview/preview-manifest.json`
-- `docs/design/contracts/{feature}/storyboards.json`
-- `docs/design/contracts/{feature}/component-map.json`
-- `docs/design/contracts/{feature}/layout-rules.json`
 - `docs/design/contracts/{feature}/flow.md`
 - `docs/design/contracts/{feature}/review-diagrams.md`
 - `docs/design/contracts/{feature}/prd-ds-conflicts.md`
 
+Validate `storyboards.json`, `component-map.json`, and `layout-rules.json` mechanically and summarize only counts, drift, invalid rows, and missing/extra IDs in the scorecard.
+
 Flag P0 when:
+
 - `ui-contract.md` is missing or has the wrong fenced block count
 - YAML cannot parse
 - Mermaid has no meaningful transitions
@@ -95,6 +96,7 @@ If `features_processed >= 3` and this iteration-1 score is below `stage1.first_i
 # Attribution
 
 For every P0/P1 issue, specify `responsible_generator`:
+
 - `gen_contracts`: metadata, YAML View Blueprint, screens, routes, states, `ds_id`s, actions
 - `gen_flows`: Mermaid Logic Machine, `flow.md`, `storyboards.json`, `component-map.json`, conflicts
 - `gen_wireframes`: `review-diagrams.md` or focused `review-diagrams/*.md`
@@ -144,6 +146,7 @@ Write the JSON scorecard to:
 ```
 
 Set `convergence_status` to:
+
 - `CONTINUE` if score < 90 or any P0 remains
 - `GATE_A_READY` if score ≥ 90 and zero P0
 

@@ -43,6 +43,7 @@ Include these artifacts:
 - `storyboards.json`
 - `layout-rules.json`
 - `component-map.json`
+- optional `context-slices/**/*.yaml` for large compiled artifacts
 - `prd-ds-conflicts.md`
 - assertion checklist
 - `preview/index.html` and `preview-manifest.json`

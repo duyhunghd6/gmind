@@ -104,11 +104,12 @@ Generate or verify these derived artifacts under `docs/design/contracts/{feature
 
 | Artifact | Purpose |
 | --- | --- |
-| `review-diagrams.mmd` | Human-readable Mermaid review diagrams for screen/component/state/action coverage |
-| `flow.mmd` | Extracted Mermaid Logic Machine |
+| `review-diagrams.md` | Human-readable Mermaid review diagrams for screen/component/state/action coverage |
+| `flow.md` | Extracted Mermaid Logic Machine in Markdown |
 | `storyboards.json` | Replayable trajectories for PRD journeys and error paths |
 | `layout-rules.json` | Machine-readable layout and responsive constraints |
 | `component-map.json` | YAML component/`ds_id` map for implementation and QA |
+| `context-slices/**/*.yaml` | Optional prompt-safe YAML slices derived from large compiled artifacts |
 | `prd-ds-conflicts.md` | PRD ↔ DS conflict list and resolution owner |
 | `preview/index.html` | Simple human-checkable UI preview |
 | `preview/preview-manifest.json` | Parsed preview summary and warnings |
@@ -130,11 +131,12 @@ Emit unresolved items in `prd-ds-conflicts.md` with a resolution owner: update t
 | Artifact | Path |
 | --- | --- |
 | UI Contract | `docs/design/contracts/{feature}/ui-contract.md` |
-| Review diagrams | `docs/design/contracts/{feature}/review-diagrams.mmd` |
-| Flow diagram | `docs/design/contracts/{feature}/flow.mmd` |
+| Review diagrams | `docs/design/contracts/{feature}/review-diagrams.md` |
+| Flow diagram | `docs/design/contracts/{feature}/flow.md` |
 | Storyboards | `docs/design/contracts/{feature}/storyboards.json` |
 | Layout rules | `docs/design/contracts/{feature}/layout-rules.json` |
 | Component map | `docs/design/contracts/{feature}/component-map.json` |
+| Context slices | `docs/design/contracts/{feature}/context-slices/**/*.yaml` |
 | Conflict report | `docs/design/contracts/{feature}/prd-ds-conflicts.md` |
 | Preview | `docs/design/contracts/{feature}/preview/index.html` |
 | Preview manifest | `docs/design/contracts/{feature}/preview/preview-manifest.json` |

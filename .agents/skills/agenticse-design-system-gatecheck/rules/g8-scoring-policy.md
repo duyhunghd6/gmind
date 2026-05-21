@@ -97,7 +97,7 @@ Create a unified report with:
 - Trajectory/tool-call stats.
 - Defects sorted by severity.
 - Screenshot evidence.
-- Links to `ui-contract.md`, `component-map.json`, `storyboards.json`, `layout-rules.json`, and implementation files.
+- Links to `ui-contract.md`, implementation files, and mechanical evidence summaries from `component-map.json`, `storyboards.json`, and `layout-rules.json`.
 
 ## Output
 

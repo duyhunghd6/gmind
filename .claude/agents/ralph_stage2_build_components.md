@@ -2,8 +2,8 @@
 name: ralph_stage2_build_components
 description: >
   Stage 2 Component Builder — fills the page.tsx skeleton with component internals,
-  data, bindings, and actions from ui-contract.md, component-map.json, Mermaid
-  logic, and storyboards. Runs AFTER build_layout.
+  data, bindings, and actions from ui-contract.md, Mermaid logic, and targeted
+  component/storyboard slices. Runs AFTER build_layout.
 tools: Read, Write, Edit, Bash, Grep, Glob
 disallowedTools: Agent
 permissionMode: acceptEdits
@@ -39,11 +39,11 @@ You will receive:
 
 Read:
 - `apps/website/src/app/design-system/{feature_name}/page.tsx`
-- `{contract_path}/ui-contract.md` — YAML component tree, `ds_id`s, bindings, labels, and actions
-- `{contract_path}/component-map.json` — component IDs, DS types, screen/state ownership, actions, and bindings
-- `{contract_path}/storyboards.json` — interaction trajectories and assertions
+- `{contract_path}/ui-contract.md` — canonical YAML component tree, `ds_id`s, bindings, labels, and actions
 - `{contract_path}/flow.md` — event/state behavior to wire into actions
 - `{contract_path}/preview/preview-manifest.json` — parser-derived cross-checks
+
+Do not load full `component-map.json` or `storyboards.json` into prompt context by default. Treat them as compiled machine artifacts; use grep/Python to extract only the `ds_id`, screen, state, or trajectory rows you are currently implementing, then restate those rows as compact YAML/TOON notes. Read the full JSON only when it is small enough to fit comfortably or when a fix explicitly requires whole-file parity.
 
 When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
@@ -51,7 +51,7 @@ Do NOT read legacy ASCII wireframes or ASCII user flows as placement sources.
 
 # Build: Add Component Internals
 
-For every component in `component-map.json` and YAML layout:
+For every component in the YAML layout, with targeted `component-map.json` slices used only for verification:
 
 1. Add the React markup or local component implementation with matching `data-ds-id`.
 2. Use the DS component or class when the DS manifest provides one.

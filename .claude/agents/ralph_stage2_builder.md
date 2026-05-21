@@ -43,12 +43,11 @@ You will receive:
 
 Audit `apps/website/src/app/design-system/{feature_name}/page.tsx` against:
 - `{contract_path}/ui-contract.md`
-- `{contract_path}/component-map.json`
-- `{contract_path}/storyboards.json`
-- `{contract_path}/layout-rules.json`
 - `{contract_path}/flow.md`
 - `{contract_path}/preview/preview-manifest.json`
 - DS manifest and token sources
+
+Use `component-map.json`, `storyboards.json`, and `layout-rules.json` through mechanical checks, not broad prompt ingestion. Run grep/Python/JQ-equivalent extraction to compute counts, mismatches, and failed rows, then include only concise diff evidence in the scorecard.
 
 When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
@@ -64,7 +63,7 @@ When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fe
 # Pre-Audit Mechanical Checks
 
 Run equivalent checks for:
-- Count `data-ds-id` in `page.tsx` and compare with `component-map.json`.
+- Count `data-ds-id` in `page.tsx` and compare with `component-map.json`, emitting only missing/extra IDs.
 - Extract `var(--*)` tokens and compare against `ds_manifest`.
 - Grep for hardcoded colors: `#[0-9a-fA-F]{3,8}`, `rgb(`, `rgba(`, `hsl(`.
 - Grep for banned placeholder patterns: `TODO`, `// ...`, `/* ... */`, `implement later`.

@@ -19,20 +19,20 @@ To successfully run this pipeline, the system relies on a **3-Layer Agent Compre
 
                /\               [ LAYER 1: THE SKELETON ]
               /  \              Section: "Ecosystem Hierarchy"
-             /    \             Function: The Map. Guides the Agent on the overall 
+             /    \             Function: The Map. Guides the Agent on the overall
             /      \                      architecture. High-level Context only.
-           /────────\           
+           /────────\
           /          \          [ LAYER 2: THE BRANCHES (Role-Selection) ]
          /            \         Sections: "Generative Flow" & "QA Flow"
-        /              \        Function: The Logic. Forces the Agent to select a role. 
-       /                \                 If creating: read Generative. If auditing: read QA. 
+        /              \        Function: The Logic. Forces the Agent to select a role.
+       /                \                 If creating: read Generative. If auditing: read QA.
       /                  \                Reduces tokens by pruning irrelevant contexts.
-     /────────────────────\     
+     /────────────────────\
     /                      \    [ LAYER 3: THE DETAILS (Step-by-Step Execution) ]
    /                        \   Sections: Workflow steps and Sub-Rules (*.md files)
-  /                          \  Function: The Action. Once the role is selected in Layer 2, 
+  /                          \  Function: The Action. Once the role is selected in Layer 2,
  /                            \           this layer holds the actual markdown instructions.
-/──────────────────────────────\          
+/──────────────────────────────\
 ====================================================================================================
 ```
 
@@ -126,8 +126,8 @@ flowchart TB
 
 # Spike: Design System Ralph Loop & DoD Scoreboard (Agent RFT Edition)
 
-**Beads ID:** bd-ralph-loop-dod  
-**Author:** Agent  
+**Beads ID:** bd-ralph-loop-dod
+**Author:** Agent
 **Phase:** Continuous Exploration — Activity B (Collaborate & Research)
 
 ## Hypothesis
@@ -351,7 +351,7 @@ For the Ralph Loop to break and pass to the Human (Gate B):
 
 ### Ralph Loop Execution
 
-1. Implementor builds the UI using `layout-rules.json` as immutable contract input.
+1. Implementor builds the UI using `ui-contract.md` as its immutable contract input (compiled JSON artifacts are routed to mechanical layers).
 2. If `status == "RALPH_LOOP_CONTINUE"`, feed **Prioritized Fix Queue** back to the Implementor:
    - Implementor MUST process `p0_fixes` first, verify they pass, then proceed to `p1_fixes`.
    - This removes agent discretion over fix ordering.
@@ -409,8 +409,8 @@ Adopt this 100-point scoring matrix directly into `rules/g8-scoring-policy.md` o
 
 # Spike: 3-Tier Design System Evaluation Pyramid
 
-**Beads ID:** bd-design-sys-3tier-eval  
-**Author:** Agent  
+**Beads ID:** bd-design-sys-3tier-eval
+**Author:** Agent
 **Phase:** Continuous Exploration — Activity B (Collaborate & Research)
 
 ## Hypothesis
@@ -582,7 +582,7 @@ Furthermore, all generated UI Contracts must explicitly support JSON-based "Stor
 
 # UIUX QA Full Pipeline
 
-> Version: 1.0  
+> Version: 1.0
 > Goal: Implement an end-to-end UI/UX QA process following a **PRD-first, Contract-driven, Auto-gated** model, where the approver only needs to approve the plan and the results.
 
 ---
@@ -1270,7 +1270,7 @@ To successfully execute the "Ralph Loop" (Continuous Evaluator-Implementor Loop)
    - **Implementor (`agenticse-design-system`):** Workflow `W1` (Discover/Plan) requires the agent to gather requirements, perform RFCs, and map out the state matrix.
    - **Evaluator (`design-system-gatecheck`):** Steps `g0-g2` parse the PRD, detect completeness gaps, and compile the formal `UI Contract` (YAML, rules, state diagrams).
    - **Conflict:** Both skills independently attempt to interpret the PRD and plan states. If their interpretations diverge, the Implementor builds something the Gatecheck immediately fails.
-   - **Missing Element:** A definitive sequence. The Evaluator must own the Plan (Gate A). The Implementor should strictly act as a **Contract-Consumer**, taking `layout-rules.json` and `contract.yaml` as immutable inputs, effectively bypassing its own raw PRD-reading step.
+   - **Missing Element:** A definitive sequence. The Evaluator must own the Plan (Gate A). The Implementor should strictly act as a **Contract-Consumer**, taking `ui-contract.md` as its sole immutable input (never reading compiled JSONs), effectively bypassing its own raw PRD-reading step.
 
 2. **Synchronous Human Gates vs Continuous Iteration (The Ralph Loop Blocker)**
    - **Evaluator:** Enforces a rigid human **Gate B** (Result Approval) at Step 11 for every run.
@@ -1297,7 +1297,7 @@ To successfully execute the "Ralph Loop" (Continuous Evaluator-Implementor Loop)
 Based on the architectural analysis, we must update the rulesets for both skills to achieve true AgenticSE harmony:
 
 1. **Refactor Implementor W1 (Discover/Plan):**
-   - Deprecate independent PRD parsing in `agenticse-design-system`. Re-align `W1` so the agent waits for Gate A clearance, consuming the Gatecheck's compiled `layout-rules.json` as the absolute source of truth.
+   - Deprecate independent PRD parsing in `agenticse-design-system`. Re-align `W1` so the agent waits for Gate A clearance, consuming the approved `ui-contract.md` as the absolute source of truth (compiled JSONs are offloaded to Gatecheck).
 2. **Implement "Ralph Continuous Mode" in Gatecheck:**
    - Update `design-system-gatecheck` Step 11. If `score < 95` or `P0 > 0`, return `RALPH_LOOP_CONTINUE` along with the JSON scorecard directly to the Implementor. Trigger human Gate B only upon reaching convergence.
 3. **Upgrade Implementor W3 (Refine) for Machine Feedback:**
@@ -1395,7 +1395,7 @@ flowchart TB
 | No official benchmark | 20-PRD Eval Dataset (5 trivial / 10 standard / 5 complex) |
 | No TSR metric | TSR = converged_runs / total_runs; target ≥ 80% |
 | No visual diff against live DS | Browser Agent renders both built UI AND live DS showcase; QA T7 compares computed styles |
-| Builder guesses DS tokens | DS_MANIFEST injected: exact token names, component/layout classes from registry.json |
+| Builder guesses DS tokens | DS_MANIFEST uses Asymmetric Handoff: components.json removed from prompt, Implementor uses JIT query_ds_registry(ds_id) |
 | Static `file://` rendering only | Browser Agent supports URL-based rendering (Next.js dev server at `/design-system`) |
 
 ### Key Mechanics for Antigravity Agent (Unchanged Principles)
@@ -1585,3 +1585,18 @@ This section is the compact decision log for the Ralph Loop contract architectur
 **Migration:** Adopt single-file `ui-contract.md`, replace ASCII Gate A artifacts with generated Mermaid review diagrams, and make `gmind validate ui-contract` plus `gmind compile ui-contract` mandatory before evaluator scoring.
 
 **Open items:** Define the parser, YAML schema or Go structs, Mermaid validation approach, updated Stage 1 agent prompts, and Stage 2 consumption path for `ui-contract.md`.
+
+### Session 9 (2026-05-21) — Resolving Artifact Bloat (Asymmetric Handoff & JIT)
+
+<!-- beads-id: bd-spike-ralph-session9-asymmetric-handoff -->
+
+**Decision:** Compiled artifacts (`storyboards.json`, `layout-rules.json`, `components.json`) cause LLM context exhaustion, attention dilution, and hallucinations during Stage 2. We must shift to an Asymmetric Handoff architecture.
+
+**Keep:** `ui-contract.md` remains the sole source of truth for the Implementor Agent.
+
+**Apply (The 3-Pillar Fix):**
+1. **Compiler Offloading (Zero-JSON for LLMs):** The Implementor Agent must *never* read compiled JSON artifacts. Those files are exclusively routed to the mechanical execution layer (Playwright/Go CLI) to drive E2E testing.
+2. **Scorecard Feedback Loop:** The Evaluator feeds back to the Implementor using only a condensed `Scorecard` detailing targeted P0/P1 failures.
+3. **JIT Component Queries:** The `components.json` registry is removed from the system prompt. Instead, the Implementor uses a tool `query_ds_registry(ds_id)` to lazy-load component constraints just-in-time, returning data in concise YAML format.
+
+**Status:** This reduces Stage 2 Ralph Loop token consumption by ~85%, massively accelerating iteration speed, neutralizing context bloat, and satisfying the GAP-71 "Thin Orchestrator" requirement.

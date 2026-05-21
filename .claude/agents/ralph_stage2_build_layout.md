@@ -2,8 +2,8 @@
 name: ralph_stage2_build_layout
 description: >
   Stage 2 Layout Builder — creates the page.tsx skeleton from ui-contract.md,
-  layout-rules.json, review diagrams, preview output, and DS tokens. Runs FIRST
-  in Stage 2.
+  review diagrams, targeted layout-rule slices, preview output, and DS tokens.
+  Runs FIRST in Stage 2.
 tools: Read, Write, Edit, Bash, Grep, Glob
 disallowedTools: Agent
 permissionMode: acceptEdits
@@ -39,12 +39,13 @@ You will receive:
 # Pre-Build: Required Context
 
 Read:
-- `{contract_path}/ui-contract.md` — YAML View Blueprint, routes, screens, layout tree, states, actions
-- `{contract_path}/layout-rules.json` — responsive constraints and viewport rules
+- `{contract_path}/ui-contract.md` — canonical YAML View Blueprint, routes, screens, layout tree, states, actions
 - `{contract_path}/review-diagrams.md` — human-reviewed structure and component hierarchy
 - `{contract_path}/preview/preview-manifest.json` — parsed components, actions, states, and warnings
 - `apps/website/src/app/design-system/layout.tsx` and at least one sibling page
 - DS manifest and token CSS sources provided by the orchestrator
+
+Do not load full compiled JSON artifacts into context for authoring. Treat `{contract_path}/layout-rules.json` as machine-executable validation output; if a responsive constraint is ambiguous in YAML/review diagrams, extract only the relevant screen/state/viewport slice and rewrite that tiny slice as YAML/TOON notes before coding.
 
 When reading Mermaid artifacts such as `review-diagrams.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
@@ -63,7 +64,7 @@ Create or update `apps/website/src/app/design-system/{feature_name}/page.tsx`:
    - space for `data-ds-id` on components owned by the component builder
 5. Use DS tokens only:
    - `var(--bg)`, `var(--surface)`, `var(--text)`, `var(--text-dim)`, `var(--border)`, spacing, radius, and motion tokens from the manifest
-6. Encode responsive layout from `layout-rules.json` and YAML viewport constraints.
+6. Encode responsive layout from YAML viewport constraints; consult a sliced `layout-rules.json` excerpt only when it clarifies a machine assertion.
 
 # Layout Quality Rules
 
