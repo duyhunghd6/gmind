@@ -47,6 +47,7 @@ Use before Stage 1 or `auto` when the feature state has not been initialized.
    - `.claude/agents/`
    - `.claude/skills/design-system-ralph-loop/scripts/contract_to_ui.py`
    - `.claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py`
+   - `.claude/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py`
    - `.agents/skills/agenticse-design-system-gatecheck/`
    - `.agents/skills/agenticse-design-system-create/`
 4. Initialize pipeline state under `docs/design/pipeline-state/{feature_name}/`.
@@ -70,7 +71,7 @@ Use to create and verify the low-fi contract package for Gate A.
 
 1. Dispatch `ralph_stage1_gen_contracts` to create or update `ui-contract.md` metadata and block-style YAML View Blueprint.
 2. Dispatch `ralph_stage1_gen_flows` to create or update the Mermaid Logic Machine and derived `flow.md`, `storyboards.json`, `component-map.json`, and `prd-ds-conflicts.md` only after the YAML fence is confirmed to be block-style YAML. Require it to run `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md` before returning `DONE`.
-3. Dispatch `ralph_stage1_gen_wireframes` to generate Mermaid review diagrams from `ui-contract.md`; no ASCII artifacts. Require it to run `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md` before returning `DONE`.
+3. Dispatch `ralph_stage1_gen_wireframes` to generate Mermaid review diagrams from `ui-contract.md`; no ASCII artifacts. Require it to run `python3 .claude/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --write` and then `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md` before returning `DONE`.
 4. Run `.claude/skills/design-system-ralph-loop/scripts/contract_to_ui.py` only as a mechanical preview check.
 5. Dispatch `ralph_stage1_evaluator` for schema-first scoring.
 6. Dispatch `ralph_stage1_ba` after every evaluator run.
@@ -113,6 +114,8 @@ Run:
 ```bash
 python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py docs/design/contracts/{feature}/flow.md docs/design/contracts/{feature}/review-diagrams.md
 ```
+
+Run `split_mermaid_subgraphs.py --write` on `review-diagrams.md` before validation when a generated review diagram contains multiple self-contained top-level `subgraph ... end` groups in one Mermaid fence.
 
 The validator extracts fenced `mermaid` blocks from Markdown, rejects standalone `.mmd` artifacts in the contract directory, runs Mermaid CLI (`mmdc`) when available, and falls back to deterministic Python checks when it is not installed.
 

@@ -55,12 +55,14 @@ You will receive:
    - Action-to-event links between YAML actions and Mermaid events
    - Responsive layout intent by viewport
 
-4. Optionally generate focused diagrams under `review-diagrams/*.md` when the feature is too large for one readable file.
+4. For action-to-event links, avoid one oversized Mermaid fence when action groups are unrelated. Generate independent action groups as separate fenced `mermaid` blocks, or run the splitter in the validation protocol to separate self-contained top-level `subgraph ... end` groups.
+
+5. Optionally generate focused diagrams under `review-diagrams/*.md` when the feature is too large for one readable file.
    Keep each diagram human-reviewable and traceable to screen IDs and `ds_id`s.
 
-5. Do NOT create standalone `*.mmd` files. Mermaid belongs in Markdown files with fenced `mermaid` blocks.
+6. Do NOT create standalone `*.mmd` files. Mermaid belongs in Markdown files with fenced `mermaid` blocks.
 
-6. Do NOT create or update `wireframes/*.ascii.md` or `user-flows/*.ascii.md`.
+7. Do NOT create or update `wireframes/*.ascii.md` or `user-flows/*.ascii.md`.
    Legacy ASCII artifacts are not Gate A sources in the schema-driven workflow.
 
 ## If iteration > 1 (Fix Iteration)
@@ -80,12 +82,13 @@ You will receive:
 
 Before reporting `DONE`:
 
-1. MUST run the reusable validator after writing Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
-2. Verify each required Markdown diagram artifact has at least one non-empty fenced `mermaid` block.
-3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
-4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
-5. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
-6. If validation fails, fix the Mermaid inside the Markdown fence and rerun validation before reporting `DONE`.
+1. MUST run the reusable splitter after writing Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --write`. It separates self-contained top-level subgraphs into individual fenced `mermaid` blocks and skips diagrams with shared top-level links.
+2. MUST run the reusable validator after splitting Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
+3. Verify each required Markdown diagram artifact has at least one non-empty fenced `mermaid` block.
+4. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+5. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
+6. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
+7. If validation fails, fix the Mermaid inside the Markdown fence and rerun validation before reporting `DONE`.
 
 # Your Output (MANDATORY FORMAT)
 
