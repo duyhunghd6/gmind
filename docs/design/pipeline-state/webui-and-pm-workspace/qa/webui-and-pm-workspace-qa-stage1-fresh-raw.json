@@ -1,0 +1,46 @@
+{
+  "qa_type": "stage1",
+  "feature_name": "webui-and-pm-workspace",
+  "total_tests": 7,
+  "passed": 7,
+  "failed": 0,
+  "convergence_status": "QA_PASS",
+  "test_results": {
+    "T1_contract_container": {
+      "status": "PASS",
+      "evidence": "ui-contract exists=True, YAML blocks=1, Mermaid blocks=1, YAML parse error=None, preview parse output exists=True"
+    },
+    "T2_yaml_schema": {
+      "status": "PASS",
+      "evidence": "metadata/viewports/screens parsed; screens=8; ds components=79; schema issues=0"
+    },
+    "T3_component_traceability": {
+      "status": "PASS",
+      "evidence": "component-map parse error=None; YAML ds_ids=79 unique=79; component-map components=79; missing mappings=0; duplicate YAML ds_ids=0; invalid map entries=0"
+    },
+    "T4_mermaid_logic": {
+      "status": "PASS",
+      "evidence": "flow exists=True; fenced events=119; flow events=119; component-map events=65; YAML actions=65; uncovered actions=0; required path keywords={'error': True, 'retry|try_again': True, 'cancel|back|dismiss|close': True, 'success|approved|complete': True}"
+    },
+    "T5_storyboards": {
+      "status": "PASS",
+      "evidence": "storyboards parse error=None; trajectories=32; steps=138; unique requirements=11; missing/invalid fields=0; transition mismatches=0; error/recovery coverage=True"
+    },
+    "T6_layout_review_diagrams": {
+      "status": "PASS",
+      "evidence": "layout parse error=None; YAML viewports=['desktop', 'mobile', 'tablet']; layout viewports=['desktop', 'mobile', 'tablet']; review-diagrams exists=True; diagram coverage={'screen inventory': True, 'component hierarchy': True, 'state coverage': True, 'action/event links': True}"
+    },
+    "T7_conflicts_preview": {
+      "status": "PASS",
+      "evidence": "conflicts file exists=True actionable/resolved text=True; preview index exists=True; manifest parse error=None; preview manifest warnings=119; empty arrays=['components', 'ds_ids', 'actions']; converter known warnings require owner: ralph_stage1_evaluator/gen_contracts"
+    }
+  },
+  "non_blocking_warnings": [
+    "preview manifest warnings=119; empty arrays=['components', 'ds_ids', 'actions']; converter known warnings require owner: ralph_stage1_evaluator/gen_contracts"
+  ],
+  "fix_queue": [],
+  "artifacts_written": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa/webui-and-pm-workspace-qa-stage1-fresh-plan.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa/webui-and-pm-workspace-qa-stage1-fresh-results.md"
+  ]
+}

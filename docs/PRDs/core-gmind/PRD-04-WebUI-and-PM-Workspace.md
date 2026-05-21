@@ -208,10 +208,11 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 | State | Mô tả |
 | --- | --- |
-| **Default** | Hiển thị Panel phê duyệt với 5 luồng dữ liệu (Test, Code Diff, Beads ID, PRD, GitHub PR). |
+| **Default** | Hiển thị Panel phê duyệt với 5 luồng evidence do Go REST API tổng hợp (Test, Code Diff, Beads ID, PRD, GitHub PR/CI). |
 | **Loading** | Skeleton loaders trong quá trình aggregate dữ liệu từ nhiều nguồn. |
+| **Insufficient Evidence** | Nếu test logs thiếu, đang lỗi, hoặc bất kỳ luồng evidence bắt buộc nào chưa có trạng thái hợp lệ, nút [Approve] bị disabled, có tooltip/lý do ngắn và CTA "Refresh evidence"; [Reject] vẫn khả dụng nếu có quyền. |
 | **Empty** | "Không có yêu cầu phê duyệt nào đang chờ". |
-| **Error** | "Lỗi kết nối đến dịch vụ CI/CD hoặc GitHub" với tùy chọn "Bỏ qua & Phê duyệt thủ công" (nếu có quyền Admin). |
+| **Error** | "Lỗi kết nối đến dịch vụ CI/CD hoặc GitHub"; [Approve] disabled trừ khi Admin chọn luồng "Bỏ qua & Phê duyệt thủ công" có audit reason. |
 
 **Breakpoints (Responsive):**
 - **Desktop (≥ 1024px):** Split-view: Bên trái là luồng dữ liệu (Diff, Test logs), bên phải là PRD context và nút Phê duyệt.
@@ -219,8 +220,9 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 ### 4.2. User Journeys
 
-- **Journey 1 (Review & Approve):** User mở The Ultimate Approval Panel -> Cuộn qua Code Diff và Test Results -> Kiểm tra PRD Coverage -> Click [Approve] -> Điền comment xác nhận -> Hệ thống tự động merge nhánh và close task.
-- **Journey 2 (Review & Reject):** User mở Panel -> Phát hiện Test Failed (màu đỏ) -> Click [Reject] -> Hệ thống yêu cầu điền lý do -> Push feedback về Task/PR tương ứng.
+- **Journey 1 (Review & Approve):** User mở The Ultimate Approval Panel -> Cuộn qua Code Diff và Test Results -> Kiểm tra PRD Coverage -> Click [Approve] khi đủ evidence -> Điền comment xác nhận -> Hệ thống tự động merge nhánh và close task.
+- **Journey 2 (Insufficient Evidence):** User mở Panel -> Thấy Test Logs hoặc GitHub PR/CI chưa đủ -> [Approve] disabled với lý do cụ thể -> Click "Refresh evidence" hoặc [Reject] để trả feedback.
+- **Journey 3 (Review & Reject):** User mở Panel -> Phát hiện Test Failed (màu đỏ) -> Click [Reject] -> Hệ thống yêu cầu điền lý do -> Push feedback về Task/PR tương ứng.
 
 ## 5. Đồ thị Tài liệu & Lịch sử HITL (Human-in-the-Loop Document Graph)
 
@@ -261,12 +263,12 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 ### 5.1. Các tính năng chính
 
-- **Document Tree & Commit Lineage:** Hiển thị trực quan lịch sử thay đổi của một tài liệu dưới dạng cây đồ thị liên kết trực tiếp tới từng `git commit` (qua `Beads-ID:` Git Trailer) và thuộc tính `beads ID`. Truy vấn local: `git log --grep='Beads-ID: br-xxx'`.
-- **Knowledge Context Linking:** Trỏ ngược từ Yêu cầu (Requirement) sang các Tài liệu tham chiếu (Research references) đã được AI dùng làm Context, giúp con người dễ dàng bổ sung thêm tham chiếu để điều chỉnh Spec.
-- **GitHub Enrichment:** Mỗi Beads task hiển thị linked PRs (`gh pr list --search "br-xxx"`), CI status (`gh run list`), và commit history (`git log --grep`). Tất cả query trực tiếp từ local git + `gh` CLI.
-- **Requirements Traceability Matrix (RTM):** Hiển thị trực quan liên kết 3 tầng **PRD Section ↔ Plan Element ↔ Task**. Mỗi PRD section có Beads ID riêng (VD: `br-prd01-s1`), Plan elements link ngược qua `satisfies:`, Tasks link ngược qua `implements:`. Cho phép truy vết xuôi (PRD → Code) và ngược (Task → PRD). Xem chi tiết: PRD-02 §3.
-- **Coverage Heatmap:** Dashboard hiển thị mức độ cover của từng PRD section: bao nhiêu PRD sections có Plan elements? Bao nhiêu Plan elements đã decompose thành Tasks? Highlight các gaps (sections chưa covered) bằng màu đỏ. Dữ liệu từ `gmind coverage full`.
-- **Impact Analysis View:** Khi Human sửa/cập nhật một PRD section, hiển thị cascading impact: Plan elements nào bị ảnh hưởng → Tasks nào cần review/pause/rework → Commits nào liên quan. Dữ liệu từ `gmind impact <prd-section-id>`.
+- **Document Tree & Commit Lineage:** Hiển thị lịch sử thay đổi của tài liệu qua `Beads-ID:` Git Trailer và thuộc tính `beads ID`; browser chỉ nhận dữ liệu đã tổng hợp từ Go REST API, backend mới được phép truy vấn local git.
+- **Knowledge Context Linking:** Trỏ ngược từ Requirement sang Research references đã được AI dùng làm Context.
+- **GitHub Enrichment:** Mỗi Beads task hiển thị linked PRs, CI status, và commit history do backend/API tổng hợp qua `gmind serve`; UI không gọi trực tiếp local git, GitHub `gh`, FastCode, CLI, FrankenSQLite, hoặc Zvec.
+- **Requirements Traceability Matrix (RTM):** Hiển thị liên kết **PRD Section ↔ Plan Element ↔ Task** qua `satisfies:` / `implements:`; cho phép truy vết xuôi và ngược. Xem PRD-02 §3.
+- **Coverage Heatmap:** Dashboard hiển thị mức độ cover của từng PRD section và highlight gaps bằng màu đỏ. Dữ liệu qua `GET /api/coverage`.
+- **Impact Analysis View:** Khi Human sửa PRD section, hiển thị cascading impact tới Plan elements, Tasks, Commits liên quan. Dữ liệu qua `GET /api/impact/:section`.
 
 ### 5.2. Side Panel — Nội dung theo Loại Node
 
@@ -285,7 +287,7 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 | State | Mô tả |
 | --- | --- |
 | **Default** | Cây đồ thị render toàn bộ node và edge (PRD, Plan, Task, Commit) rõ ràng và tương tác được. |
-| **Loading** | Hiển thị skeleton và vòng xoay (spinner) ở trung tâm biểu đồ trong khi truy vấn dữ liệu từ git/CLI. |
+| **Loading** | Hiển thị layout-matched skeleton cho graph canvas và side panel, kèm progress text ngắn như "Đang tải đồ thị..."; không dùng standalone centered spinner. |
 | **Empty** | "Chưa có liên kết tài liệu hoặc biểu đồ trống" kèm theo lời khuyên "Bắt đầu link PRD với Tasks". |
 | **Error** | "Lỗi truy xuất đồ thị từ gmind" với nút "Tải lại đồ thị". |
 
@@ -369,7 +371,7 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 | Feature       | Description                                             |
 | ------------- | ------------------------------------------------------- |
-| Data source   | `gmind trace <id> --json --depth=full`                  |
+| Data source   | `GET /api/trace/:id?depth=full`                         |
 | Visualization | Force-directed graph (D3.js)                            |
 | Node types    | PRD (blue), Plan (green), Task (yellow), Commit (gray)  |
 | Edge types    | satisfies (solid), implements (dashed), committed-for   |
@@ -466,7 +468,7 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 | State | Mô tả |
 | --- | --- |
 | **Default** | Hiển thị đầy đủ 4 panels với data thực tế. |
-| **Loading** | Hiển thị skeleton loaders cho các panels. Graph hiển thị spinner. |
+| **Loading** | Hiển thị skeleton loaders cho các panels; graph dùng layout-matched skeleton canvas + progress messaging, không dùng centered spinner-only UI. |
 | **Empty** | Khi không có dữ liệu, hiển thị illustration "Chưa có dữ liệu theo dõi" kèm nút "Hướng dẫn". |
 | **Error** | Hiển thị banner lỗi "Không thể kết nối đến gmind serve" kèm nút "Thử lại". |
 
@@ -494,8 +496,8 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** trong Document Graph (§5) và Board Views (§3):
 
-- **Escalation Badge:** Task card hiển thị badge 🔴 `RTE:ESCALATED` khi `rte_status = 'escalated'`
-- **Discussion Thread View:** Click task → expand panel hiển thị conversation thread từ Zvec (lọc theo `source_type: rte-discussion`, `beads_ids: [<task-id>]`)
+- **Escalation Badge:** Task card/list row hiển thị component `rte_escalation_badge` khi `rte_status = 'escalated'`; badge có text `RTE:ESCALATED`, variant critical, visible label (không chỉ màu), aria-label mô tả rủi ro, và click mở RTE drawer/thread. Khi `rte_status = 'discussing'` badge đổi `RTE:DISCUSSING`; khi `approved`/`rejected` badge chuyển sang trạng thái resolved và không dùng pulse critical.
+- **Discussion Thread View:** Click task → expand panel hiển thị conversation thread từ API (`GET /api/tasks/:id/activity` hoặc `GET /api/docs?source_type=rte-discussion&beads_id=<task-id>`), backend lọc Zvec theo `source_type: rte-discussion`, `beads_ids: [<task-id>]`.
 - **Approval Context Display:** Khi `rte_status = 'approved'`, hiển thị **Execution Context block** với:
   - Risk description gốc
   - Decision text (from `rte_resolution`)
@@ -655,7 +657,7 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 
 <!-- beads-id: br-prd04-s10 -->
 
-> **Data source:** `gmind trace <id> --depth=full --json` — Graph Assembler query-time build từ 5 data sources song song (PRD-01 §2 Knowledge Graph, spike-beads-knowledge-graph). Graph KHÔNG lưu riêng — build tại thời điểm truy vấn, luôn fresh. Latency: ~50ms local-only, ~750ms với GitHub.
+> **Data source:** `GET /api/trace/:id?depth=full` — Go REST API gọi Graph Assembler để build graph tại thời điểm truy vấn từ các nguồn backend (FrankenSQLite, Zvec, local git, GitHub, FastCode). Browser không truy cập trực tiếp local git, GitHub `gh`, FastCode, CLI, FrankenSQLite, hoặc Zvec. Graph KHÔNG lưu riêng — luôn fresh.
 
 ### 10.1. Layout — Beads Trace Explorer Full Page
 
@@ -708,13 +710,13 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 | ● | PRD Section | YAML front matter | 🔴 Đỏ |
 | ◆ | Plan Element | Plan document | 🔵 Xanh dương |
 | ■ | Task/Issue | FrankenSQLite | 🟢 Xanh lá |
-| ○ | Commit | Git local | ⚪ Xám |
-| ▲ | Chat/Meeting | Zvec | 🟡 Vàng |
-| ⬡ | PR | GitHub `gh` CLI | 🟣 Tím |
-| ★ | RTE Approval | Zvec + FrankenSQLite | 🟠 Cam |
-| ◇ | CI Run | GitHub `gh` CLI | ⚪ Xám nhạt |
-| ▢ | Code File | FastCode | 🔵 Xanh nhạt |
-| ◎ | Agent Trace | Zvec | 🟤 Nâu |
+| ○ | Commit | Go REST aggregation from local git | ⚪ Xám |
+| ▲ | Chat/Meeting | Go REST aggregation from Zvec | 🟡 Vàng |
+| ⬡ | PR | Go REST aggregation from GitHub | 🟣 Tím |
+| ★ | RTE Approval | Go REST aggregation from Zvec + FrankenSQLite | 🟠 Cam |
+| ◇ | CI Run | Go REST aggregation from GitHub | ⚪ Xám nhạt |
+| ▢ | Code File | Go REST aggregation from FastCode | 🔵 Xanh nhạt |
+| ◎ | Agent Trace | Go REST aggregation from Zvec | 🟤 Nâu |
 
 **Edge Types** (từ spike-beads-knowledge-graph §C):
 
@@ -750,10 +752,10 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 | State | Mô tả |
 | --- | --- |
 | **Default** | Graph render với root node highlighted, edges animated trên hover. |
-| **Loading** | Skeleton graph layout + spinner "Đang truy vấn 5 data sources..." |
+| **Loading** | Layout-matched skeleton graph canvas + detail panel skeleton, kèm progress text "Đang tải đồ thị qua API..."; không dùng standalone centered spinner. |
 | **Empty** | "Không tìm thấy liên kết nào cho Beads ID này." + gợi ý kiểm tra ID. |
 | **Error** | "Lỗi truy vấn graph từ gmind trace" + nút "Thử lại". |
-| **Partial** | Nếu GitHub query timeout (>2s): hiển thị local data trước, badge "⏳ Đang tải GitHub data..." |
+| **Partial** | Nếu backend GitHub/FastCode enrichment timeout (>2s): hiển thị dữ liệu local đã được API tổng hợp trước, badge "Đang tải enrichment..." |
 
 **Breakpoints:**
 - **Desktop (≥ 1280px):** Graph canvas 70% + Detail Panel 30%.
