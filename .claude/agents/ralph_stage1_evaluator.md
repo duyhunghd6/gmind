@@ -52,7 +52,7 @@ Run AT LEAST ONE tool command or file read per pillar. No tool evidence caps tha
 Perform equivalent checks to these:
 
 ```bash
-python3 .claude/skills/ralph-ui-contract-to-ui/scripts/contract_to_ui.py \
+python3 .claude/skills/design-system-ralph-loop/scripts/contract_to_ui.py \
   --contract docs/design/contracts/{feature}/ui-contract.md \
   --out docs/design/contracts/{feature}/preview
 ```
@@ -82,7 +82,7 @@ Flag P0 when:
 
 For `flow.md`, `review-diagrams.md`, and optional `review-diagrams/*.md`:
 
-1. Prefer the reusable validator: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+1. MUST run the reusable validator before scoring derived Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
 2. Verify every required Mermaid Markdown artifact has at least one non-empty fenced `mermaid` block; `flow.md` must have exactly one.
 3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
 4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.

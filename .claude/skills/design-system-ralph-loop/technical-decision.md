@@ -2,21 +2,21 @@
 
 <!-- beads-id: br-skill-ralph-loop-decisions -->
 
-## Decision 1: Use Claude Code Skills as Slash Command Entry Points
+## Decision 1: Use One Claude Code Skill as the Slash Command Entry Point
 
 <!-- beads-id: br-skill-ralph-loop-decisions-s1 -->
 
-Use `.claude/skills/<skill-name>/SKILL.md` for Ralph Loop commands instead of creating new `.claude/commands/*.md` files.
+Use `.claude/skills/design-system-ralph-loop/SKILL.md` as the single Ralph Loop command entry point instead of multiple Ralph Loop skill directories or new `.claude/commands/*.md` files.
 
-**Why:** Claude Code now supports project-local skills as command entry points, and the requested workflow should follow the modern skill layout.
+**Why:** Claude Code maps each skill directory to one slash command, and the requested workflow should expose one command with action arguments rather than separate command aliases.
 
-**How to apply:** Add new Ralph Loop entry points under `.claude/skills/`. Do not add new legacy command files. If an existing `.claude/commands/*` file must remain, treat it as a compatibility shim only.
+**How to apply:** Add Ralph Loop command behavior to the unified skill and branch on the first argument: `init`, `auto`, `stage1`, or `stage2`. Do not add new legacy command files. If a legacy command must remain, treat it as a compatibility shim only.
 
-## Decision 2: Keep the Master Skill as a Thin Dispatcher
+## Decision 2: Keep the Unified Skill as a Thin Dispatcher
 
 <!-- beads-id: br-skill-ralph-loop-decisions-s2 -->
 
-`ralph-loop` should orchestrate init, Stage 1, Stage 2, Gate A, and Gate B handoffs without generating contracts, scoring artifacts, or writing implementation code inline.
+`design-system-ralph-loop` should orchestrate init, Stage 1, Stage 2, Gate A, and Gate B handoffs without generating contracts, scoring artifacts, or writing implementation code inline.
 
 **Why:** Subagents get fresh context per dispatch, and Ralph Loop convergence depends on explicit disk artifacts plus scorecards passed between iterations.
 
@@ -36,11 +36,11 @@ The canonical Stage 1 contract is `docs/design/contracts/{feature}/ui-contract.m
 
 <!-- beads-id: br-skill-ralph-loop-decisions-s4 -->
 
-The converter skill should generate a simple static preview from YAML and Mermaid blocks, not production Next.js, Go codegen, or final UI implementation.
+The unified skill's preview action should generate a simple static preview from YAML and Mermaid blocks, not production Next.js, Go codegen, or final UI implementation.
 
 **Why:** The requested goal is a human-checkable bridge for Gate A, not deterministic production UI generation.
 
-**How to apply:** Keep `.claude/skills/ralph-ui-contract-to-ui/scripts/contract_to_ui.py` small and mechanical. Prefer warnings and manifest output over hidden inference. Stage 2 builders still own final UI implementation.
+**How to apply:** Keep `.claude/skills/design-system-ralph-loop/scripts/contract_to_ui.py` and `validate_mermaid_markdown.py` small and mechanical. Prefer warnings and manifest output over hidden inference. Stage 1 Mermaid generators must run the validator before returning `DONE`; Stage 2 builders still own final UI implementation.
 
 ## Decision 5: RFT Data Should Be Logged Separately From Contract Artifacts
 
@@ -56,7 +56,7 @@ RFT session traces, scorecards, and labels should live in dataset/log locations,
 
 <!-- beads-id: br-skill-ralph-loop-decisions-s6 -->
 
-The hook helper at `.claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py` is provided but not enabled automatically.
+The hook helper at `.claude/skills/design-system-ralph-loop/hooks/rft_session_logger.py` is provided but not enabled automatically.
 
 **Why:** Claude session hooks can capture prompts, tool names, file paths, and workflow metadata. That can be useful for RFT, but it can also capture sensitive data if enabled globally.
 
@@ -72,7 +72,7 @@ Example opt-in settings shape:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py"
+            "command": "python3 .claude/skills/design-system-ralph-loop/hooks/rft_session_logger.py"
           }
         ]
       }
@@ -82,7 +82,7 @@ Example opt-in settings shape:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py"
+            "command": "python3 .claude/skills/design-system-ralph-loop/hooks/rft_session_logger.py"
           }
         ]
       }

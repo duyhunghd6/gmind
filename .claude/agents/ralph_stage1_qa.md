@@ -104,7 +104,7 @@ PASS if preview artifacts exist and conflicts are actionable.
 
 # Mermaid Markdown Validation Protocol
 
-For T4 and T6, prefer the reusable validator before passing the suite: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. The validator extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+For T4 and T6, MUST run the reusable validator before passing the suite: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. The validator extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
 
 1. Required Mermaid Markdown artifacts must contain at least one non-empty fenced `mermaid` block.
 2. Each block must start with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
