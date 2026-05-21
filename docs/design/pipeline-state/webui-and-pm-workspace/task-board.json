@@ -1,32 +1,47 @@
 {
-  "feature": "webui-and-pm-workspace",
-  "tasks": {
-    "gen_contracts": {
-      "status": "DONE",
-      "artifacts": [
-        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md"
-      ],
-      "iteration": 3
+  "feature_name": "webui-and-pm-workspace",
+  "agents": {
+    "ralph_stage1_gen_contracts": {
+      "status": "PENDING"
     },
-    "gen_flows": {
-      "status": "DONE",
-      "iteration": 5,
-      "artifacts": [
-        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-        "docs/design/contracts/webui-and-pm-workspace/flow.md",
-        "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
-        "docs/design/contracts/webui-and-pm-workspace/component-map.json",
-        "docs/design/contracts/webui-and-pm-workspace/prd-ds-conflicts.md",
-        "docs/design/contracts/webui-and-pm-workspace/layout-rules.json"
-      ]
+    "ralph_stage1_gen_wireframes": {
+      "status": "PENDING"
     },
-    "gen_wireframes": {
-      "status": "DONE",
-      "iteration": 4,
-      "artifacts": [
-        "docs/design/contracts/webui-and-pm-workspace/review-diagrams.md"
-      ]
+    "ralph_stage1_gen_flows": {
+      "status": "PENDING"
+    },
+    "ralph_stage1_evaluator": {
+      "status": "PENDING"
+    },
+    "ralph_stage1_qa": {
+      "status": "PENDING"
+    },
+    "ralph_stage1_ba": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_build_layout": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_build_components": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_build_states": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_builder": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_qa": {
+      "status": "PENDING"
+    },
+    "ralph_stage2_ba": {
+      "status": "PENDING"
+    },
+    "browser_subagent": {
+      "status": "PENDING"
+    },
+    "prd_writer_agent": {
+      "status": "PENDING"
     }
-  },
-  "updated_at": "2026-05-21T00:00:00Z"
+  }
 }
