@@ -86,6 +86,7 @@ PASS if trajectories are replayable from YAML/Mermaid source.
 - Validate `{contract_path}/layout-rules.json` mechanically and summarize only invalid or drifting rules.
 - Verify viewport names match YAML `viewports[]`.
 - Read `{contract_path}/review-diagrams.md` and optional `review-diagrams/*.md`.
+- Run `split_mermaid_subgraphs.py` without `--write`; fail T6 if it reports `files_changed > 0`, because self-contained action/event subgraphs should already be separate fenced `mermaid` blocks.
 - Extract fenced `mermaid` blocks from Markdown and use only those blocks as diagram sources.
 - Verify each required review diagram Markdown artifact has at least one fenced `mermaid` block.
 - Verify diagrams include screen inventory, component hierarchy, state coverage, and action/event links.
@@ -105,6 +106,8 @@ PASS if preview artifacts exist and conflicts are actionable.
 # Mermaid Markdown Validation Protocol
 
 For T4 and T6, MUST run the reusable validator before passing the suite: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. The validator extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+
+For T6, MUST also run `python3 .claude/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --json` without `--write` before passing the suite. If `files_changed > 0`, fail T6 and route to `gen_wireframes` to split self-contained subgraphs into separate Mermaid fences.
 
 1. Required Mermaid Markdown artifacts must contain at least one non-empty fenced `mermaid` block.
 2. Each block must start with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
