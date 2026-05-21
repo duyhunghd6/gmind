@@ -40,7 +40,7 @@ Run AT LEAST ONE tool command or file read per pillar. No tool evidence caps tha
 
 | Pillar | Weight | Required Evidence |
 |--------|--------|-------------------|
-| Container Validity | 15% | `ui-contract.md` exists and has exactly one YAML fence and one Mermaid fence |
+| Container Validity | 15% | `ui-contract.md` exists and has exactly one block-style YAML fence and one Mermaid fence |
 | PRD Coverage | 20% | YAML screens/routes/states trace PRD requirements and `metadata.satisfies` IDs |
 | Component Traceability | 20% | unique `ds_id`s, DS type coverage, `component-map.json` matches YAML |
 | Logic Coverage | 15% | Mermaid states/events cover YAML actions, API outcomes, retry/error/back paths |
@@ -70,6 +70,7 @@ Flag P0 when:
 
 - `ui-contract.md` is missing or has the wrong fenced block count
 - YAML cannot parse
+- The fenced `yaml` block is JSON, minified JSON, starts with `{` or `[`, or is a one-line serialized object instead of block-style YAML
 - Mermaid has no meaningful transitions
 - A YAML `action` is absent from Mermaid events without a documented reason
 - An `EVENT_*` Mermaid event has no YAML action source

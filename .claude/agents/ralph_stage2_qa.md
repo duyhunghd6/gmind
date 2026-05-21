@@ -55,7 +55,7 @@ PASS if all storyboard steps are implementable in source.
 
 ## T2: Contract Component Completeness
 
-Read `{contract_path}/ui-contract.md`; query `{contract_path}/component-map.json` with grep/Python to produce only expected/missing/extra `ds_id` lists.
+Read `{contract_path}/ui-contract.md`; verify the fenced `yaml` block is block-style YAML, not JSON/minified JSON, not a JSON object/array literal, and not a one-line serialized object. Query `{contract_path}/component-map.json` with grep/Python to produce only expected/missing/extra `ds_id` lists.
 - Cross-check every component-map `ds_id` appears in `page.tsx`.
 - Cross-check screen IDs/routes and component labels/bindings from YAML.
 - Verify no legacy-only component assumptions from ASCII artifacts are used.

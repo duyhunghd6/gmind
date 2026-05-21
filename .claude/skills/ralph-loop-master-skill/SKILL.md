@@ -24,6 +24,8 @@ You are a thin dispatcher. Do not parse PRDs inline, generate artifacts inline, 
 
 - Canonical contract source: `docs/design/contracts/{feature}/ui-contract.md`.
 - `ui-contract.md` must contain exactly one YAML View Blueprint fenced block and exactly one Mermaid Logic Machine fenced block.
+- The YAML View Blueprint fence must use human-reviewable block-style YAML only: top-level keys such as `metadata:`, `viewports:`, and `screens:` on separate lines with indented nested fields and `-` list items.
+- JSON, minified JSON, JSON object/array literals, or one-line serialized objects inside the `yaml` fence are invalid, even when a YAML parser accepts them.
 - Generated artifacts are derived outputs: `review-diagrams.md`, `flow.md`, `storyboards.json`, `layout-rules.json`, `component-map.json`, `prd-ds-conflicts.md`, assertion checklist, and preview output.
 - LLM builders consume `ui-contract.md` first; compiled JSON is for mechanical QA/audit or targeted slices, not broad prompt injection.
 - Mermaid artifacts must be Markdown files containing fenced `mermaid` blocks; do not create standalone `*.mmd` files.

@@ -43,6 +43,8 @@ Read:
 - `{contract_path}/flow.md` — state transitions and API outcomes
 - `{contract_path}/preview/preview-manifest.json` — warnings to resolve where implementation-relevant
 
+The fenced `yaml` block in `ui-contract.md` MUST be block-style YAML. If it is JSON/minified JSON, starts with `{` or `[`, or is a one-line serialized object, stop and report a P0 contract-format issue assigned to `gen_contracts`; do not build from it.
+
 Do not load full `storyboards.json` or `layout-rules.json` into prompt context by default. Use source YAML/Mermaid for state authoring, and extract only the failing or relevant storyboard/layout rows as compact YAML/TOON notes when a machine assertion needs clarification.
 
 When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.

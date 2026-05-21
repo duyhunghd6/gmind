@@ -44,7 +44,8 @@ You will receive:
    - `{contract_path}/component-map.json`
    - `{contract_path}/prd-ds-conflicts.md`
    - `{contract_path}/preview/index.html`
-5. Use `Glob` to check `{contract_path}/**/*.mmd`. If any standalone Mermaid files exist, add a warning and route back to the responsible generator instead of Gate A.
+5. If the latest scorecard or QA results mention JSON/minified JSON inside the fenced `yaml` block, route back to `gen_contracts`; Gate A is blocked until `ui-contract.md` uses block-style YAML.
+6. Use `Glob` to check `{contract_path}/**/*.mmd`. If any standalone Mermaid files exist, add a warning and route back to the responsible generator instead of Gate A.
 
 # Step 2: Compute Convergence
 
@@ -73,7 +74,7 @@ Apply rules in order:
 
 From evaluator and QA `fix_queue`, group fixes by `responsible_generator`.
 Use these owner values:
-- `gen_contracts`: metadata, YAML View Blueprint, screens, routes, states, `ds_id`s, actions
+- `gen_contracts`: metadata, block-style YAML View Blueprint, screens, routes, states, `ds_id`s, actions
 - `gen_flows`: Mermaid Logic Machine, storyboards, component map, layout rules, conflicts
 - `gen_wireframes`: review diagrams
 - `preview_script`: preview tooling issue

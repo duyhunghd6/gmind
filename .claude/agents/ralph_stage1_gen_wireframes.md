@@ -42,6 +42,7 @@ You will receive:
 1. Read `{contract_path}/ui-contract.md` and extract:
    - YAML screens, viewports, states, component hierarchy, `ds_id`s, bindings, and actions
    - Mermaid Logic Machine states and transitions if already present
+   The fenced `yaml` block MUST be block-style YAML. If it is JSON/minified JSON, starts with `{` or `[`, or is a one-line serialized object, stop and return a P0 issue assigned to `gen_contracts`; do not generate review diagrams from it.
 
 2. Read the PRD for human-review context and terminology.
 

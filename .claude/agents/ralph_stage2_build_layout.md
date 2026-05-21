@@ -45,6 +45,8 @@ Read:
 - `apps/website/src/app/design-system/layout.tsx` and at least one sibling page
 - DS manifest and token CSS sources provided by the orchestrator
 
+The fenced `yaml` block in `ui-contract.md` MUST be block-style YAML. If it is JSON/minified JSON, starts with `{` or `[`, or is a one-line serialized object, stop and report a P0 contract-format issue assigned to `gen_contracts`; do not build from it.
+
 Do not load full compiled JSON artifacts into context for authoring. Treat `{contract_path}/layout-rules.json` as machine-executable validation output; if a responsive constraint is ambiguous in YAML/review diagrams, extract only the relevant screen/state/viewport slice and rewrite that tiny slice as YAML/TOON notes before coding.
 
 When reading Mermaid artifacts such as `review-diagrams.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.

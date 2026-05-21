@@ -26,11 +26,11 @@ Use `.claude/skills/<skill-name>/SKILL.md` for Ralph Loop commands instead of cr
 
 <!-- beads-id: br-skill-ralph-loop-decisions-s3 -->
 
-The canonical Stage 1 contract is `docs/design/contracts/{feature}/ui-contract.md`, containing exactly one YAML View Blueprint fenced block and exactly one Mermaid Logic Machine fenced block.
+The canonical Stage 1 contract is `docs/design/contracts/{feature}/ui-contract.md`, containing exactly one block-style YAML View Blueprint fenced block and exactly one Mermaid Logic Machine fenced block.
 
-**Why:** A single schema-driven contract reduces drift between separate YAML, wireframe, flow, and storyboard artifacts.
+**Why:** A single schema-driven contract reduces drift between separate YAML, wireframe, flow, and storyboard artifacts. Block-style YAML keeps the contract readable for humans and LLM agents; JSON-in-YAML creates huge one-line diffs and defeats targeted context slicing.
 
-**How to apply:** Generate `review-diagrams.md`, `flow.md`, `storyboards.json`, `layout-rules.json`, `component-map.json`, conflict reports, assertion checklists, and preview output as derived artifacts. Mermaid artifacts must be Markdown files with fenced `mermaid` blocks, not standalone `*.mmd` files. Do not treat legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as canonical.
+**How to apply:** Generate `review-diagrams.md`, `flow.md`, `storyboards.json`, `layout-rules.json`, `component-map.json`, conflict reports, assertion checklists, and preview output as derived artifacts. Mermaid artifacts must be Markdown files with fenced `mermaid` blocks, not standalone `*.mmd` files. Do not treat legacy `contract.yaml`, ASCII wireframes, ASCII user flows, or JSON serialized into a `yaml` fence as canonical.
 
 ## Decision 4: Python Preview Script Is for Human Verification Only
 

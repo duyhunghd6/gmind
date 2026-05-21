@@ -41,6 +41,7 @@ You will receive:
 
 1. Read `{contract_path}/ui-contract.md`.
    Extract the YAML View Blueprint, screens, routes, states, actions, `ds_id`s, and bindings.
+   The fenced `yaml` block MUST be block-style YAML. If it is JSON/minified JSON, starts with `{` or `[`, or is a one-line serialized object, stop and return a P0 issue assigned to `gen_contracts`; do not derive flow, storyboard, or component-map artifacts from it.
 
 2. Read the PRD for journeys, decisions, error recovery, approvals, and navigation paths.
 

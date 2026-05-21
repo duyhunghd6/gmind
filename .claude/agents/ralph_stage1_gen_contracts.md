@@ -48,6 +48,8 @@ You will receive:
    The file MUST contain:
    - Human review Markdown with a short feature summary
    - Exactly one fenced `yaml` block for the YAML View Blueprint
+   - The `yaml` fenced block MUST use block-style YAML only: top-level keys such as `metadata:`, `viewports:`, and `screens:` on separate lines with indented nested fields and `-` list items
+   - Do NOT write JSON, minified JSON, JSON object/array literals, or one-line serialized objects inside the `yaml` fence, even though JSON can be parsed as YAML
    - A placeholder fenced `mermaid` block only if no Mermaid Logic Machine exists yet
 
 3. The YAML View Blueprint MUST define:
@@ -72,6 +74,7 @@ You will receive:
 2. Fix ONLY metadata/YAML View Blueprint issues assigned to `gen_contracts`.
 3. Preserve passing Mermaid logic and derived artifact assumptions unless the fix explicitly requires a YAML action or state change.
 4. Re-check that `ui-contract.md` still has exactly one YAML block and one Mermaid block.
+5. If the existing YAML fence contains JSON-style syntax, rewrite the entire YAML block as block-style YAML before applying the assigned fix.
 
 # Content Quality Rules
 

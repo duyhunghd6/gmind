@@ -18,14 +18,20 @@ You are a dispatcher, not a generator. Use `Agent()` calls for all artifact gene
 
 ## Stage 1 Sequence
 
-1. Dispatch `ralph_stage1_gen_contracts` to create or update `ui-contract.md` metadata and YAML View Blueprint.
-2. Dispatch `ralph_stage1_gen_flows` to create or update the Mermaid Logic Machine and derived `flow.md`, `storyboards.json`, `component-map.json`, and `prd-ds-conflicts.md`.
+1. Dispatch `ralph_stage1_gen_contracts` to create or update `ui-contract.md` metadata and block-style YAML View Blueprint.
+2. Dispatch `ralph_stage1_gen_flows` to create or update the Mermaid Logic Machine and derived `flow.md`, `storyboards.json`, `component-map.json`, and `prd-ds-conflicts.md` only after the YAML fence is confirmed to be block-style YAML.
 3. Dispatch `ralph_stage1_gen_wireframes` to generate Mermaid review diagrams from `ui-contract.md`; no ASCII artifacts.
 4. Run the preview script from `.claude/skills/ralph-ui-contract-to-ui/scripts/contract_to_ui.py` only as a mechanical preview check, not as a replacement for subagent QA.
 5. Dispatch `ralph_stage1_evaluator` for schema-first scoring.
 6. Dispatch `ralph_stage1_ba` after every evaluator run.
 7. When BA returns `GATE_A_READY`, dispatch `ralph_stage1_qa`.
 8. If QA passes, present Gate A package to the user. If QA fails, route back through BA and selectively respawn responsible generators.
+
+## Contract Format Rules
+
+- The `ui-contract.md` YAML View Blueprint fence must be block-style YAML only.
+- JSON, minified JSON, JSON object/array literals, or one-line serialized objects inside the `yaml` fence are invalid and must route back to `ralph_stage1_gen_contracts` before Gate A.
+- Evaluator and QA must fail JSON-in-YAML even when a YAML parser accepts it.
 
 ## Mermaid Artifact Rules
 

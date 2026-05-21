@@ -43,6 +43,8 @@ Read:
 - `{contract_path}/flow.md` — event/state behavior to wire into actions
 - `{contract_path}/preview/preview-manifest.json` — parser-derived cross-checks
 
+The fenced `yaml` block in `ui-contract.md` MUST be block-style YAML. If it is JSON/minified JSON, starts with `{` or `[`, or is a one-line serialized object, stop and report a P0 contract-format issue assigned to `gen_contracts`; do not build from it.
+
 Do not load full `component-map.json` or `storyboards.json` into prompt context by default. Treat them as compiled machine artifacts; use grep/Python to extract only the `ds_id`, screen, state, or trajectory rows you are currently implementing, then restate those rows as compact YAML/TOON notes. Read the full JSON only when it is small enough to fit comfortably or when a fix explicitly requires whole-file parity.
 
 When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.

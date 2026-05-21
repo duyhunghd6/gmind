@@ -37,9 +37,10 @@ Include suites T1-T7, files under test, and pass criteria.
 
 - Verify `{contract_path}/ui-contract.md` exists.
 - Verify exactly one fenced YAML block and one fenced Mermaid block.
+- Verify the fenced YAML block is block-style YAML, not JSON/minified JSON, not a JSON object/array literal, and not a one-line serialized object.
 - Verify the preview script can parse the file without fatal errors.
 
-PASS if the container is parseable and block counts are exactly one each.
+PASS if the container is parseable, block counts are exactly one each, and the YAML fence is human-reviewable block-style YAML.
 
 ## T2: YAML View Blueprint Schema
 

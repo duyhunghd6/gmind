@@ -49,6 +49,7 @@ You will receive:
 
 If previous QA status was `QA_FAIL` and the current auditor score is 100, cap the effective auditor score at 95 and add a warning.
 If QA found unresolved P0 issues, do not route to Gate B even if auditor score is high.
+If auditor or QA evidence mentions JSON/minified JSON inside the fenced `yaml` block, do not route to Gate B; warn that Stage 1 must rerun `gen_contracts` to restore block-style YAML.
 
 # Step 3: Compute Convergence
 

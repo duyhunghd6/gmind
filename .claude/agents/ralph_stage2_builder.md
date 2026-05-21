@@ -49,6 +49,8 @@ Audit `apps/website/src/app/design-system/{feature_name}/page.tsx` against:
 
 Use `component-map.json`, `storyboards.json`, and `layout-rules.json` through mechanical checks, not broad prompt ingestion. Run grep/Python/JQ-equivalent extraction to compute counts, mismatches, and failed rows, then include only concise diff evidence in the scorecard.
 
+The fenced `yaml` block in `ui-contract.md` MUST be block-style YAML. If it is JSON/minified JSON, starts with `{` or `[`, or is a one-line serialized object, flag a P0 contract-format issue assigned to `build_layout` for blocking implementation and note the upstream owner as `gen_contracts`.
+
 When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
 | Pillar | Weight | Required Evidence |

@@ -25,6 +25,7 @@ Require these Stage 1 artifacts before building:
 - `preview/index.html`
 
 If any are missing, return to `/ralph-loop-stage-1` instead of guessing.
+If the `ui-contract.md` YAML fence is JSON, minified JSON, a JSON object/array literal, or a one-line serialized object, return to `/ralph-loop-stage-1` to regenerate block-style YAML before building.
 When consuming `flow.md` or `review-diagrams.md`, use only fenced `mermaid` blocks as diagram sources.
 
 ## Context Budget Protocol
