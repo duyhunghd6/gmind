@@ -25,6 +25,16 @@ The contract file must contain:
 - exactly one fenced YAML block for the View Blueprint
 - exactly one fenced Mermaid block for the Logic Machine
 
+## Mermaid Validation
+
+Run this before Gate A when validating Markdown-contained Mermaid artifacts:
+
+```bash
+python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py docs/design/contracts/{feature}/flow.md docs/design/contracts/{feature}/review-diagrams.md
+```
+
+The validator extracts fenced `mermaid` blocks from Markdown, rejects standalone `.mmd` artifacts in the contract directory, runs Mermaid CLI (`mmdc`) when available, and falls back to deterministic Python checks when it is not installed.
+
 ## Outputs
 
 - `index.html` — static human preview of screens, states, components, actions, and transitions

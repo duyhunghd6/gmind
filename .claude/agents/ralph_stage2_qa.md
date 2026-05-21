@@ -64,7 +64,8 @@ PASS if all mapped components exist and match the contract.
 
 ## T3: State Matrix
 
-Read states from YAML and Mermaid in `ui-contract.md` plus `flow.mmd`.
+Read states from YAML and Mermaid in `ui-contract.md` plus `flow.md`.
+When reading `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 For each required screen/state:
 - Grep `page.tsx` for `data-state="{state}"` or a deterministic rendered branch.
 - Verify default, loading, error, empty, success, permission, and validation states required by the contract.

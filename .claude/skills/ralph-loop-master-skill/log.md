@@ -10,7 +10,7 @@ This log captures implementation context for future agents improving the schema-
 
 <!-- beads-id: br-skill-ralph-loop-log-s1 -->
 
-- The master skill lives at `.claude/skills/ralph-loop/SKILL.md` and dispatches the full workflow.
+- The master skill lives at `.claude/skills/ralph-loop-master-skill/SKILL.md` and dispatches the full workflow.
 - Stage skills live at:
   - `.claude/skills/ralph-loop-design-init/SKILL.md`
   - `.claude/skills/ralph-loop-stage-1/SKILL.md`
@@ -28,9 +28,9 @@ This log captures implementation context for future agents improving the schema-
 - Added modern project-local Claude Code skills under `.claude/skills/` instead of adding new `.claude/commands/*.md` files.
 - Added a Python preview generator skill that converts `ui-contract.md` YAML and Mermaid blocks into a simple static UI preview for human verification.
 - Updated Stage 1 subagents to produce and validate schema-driven contracts and derived artifacts.
-- Updated Stage 2 subagents to consume `ui-contract.md`, `component-map.json`, `storyboards.json`, `layout-rules.json`, `flow.mmd`, review diagrams, and preview manifest.
+- Updated Stage 2 subagents to consume `ui-contract.md`, `component-map.json`, `storyboards.json`, `layout-rules.json`, `flow.md`, review diagrams, and preview manifest.
 - Updated AgenticSE gatecheck/create skill docs and rules to avoid stale source-of-truth language.
-- Added `.claude/skills/ralph-loop/hooks/rft_session_logger.py` as an opt-in hook helper for readable RFT session traces.
+- Added `.claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py` as an opt-in hook helper for readable RFT session traces.
 
 ## Verification Already Performed
 

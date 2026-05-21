@@ -44,7 +44,7 @@ Run AT LEAST ONE tool command or file read per pillar. No tool evidence caps tha
 | PRD Coverage | 20% | YAML screens/routes/states trace PRD requirements and `metadata.satisfies` IDs |
 | Component Traceability | 20% | unique `ds_id`s, DS type coverage, `component-map.json` matches YAML |
 | Logic Coverage | 15% | Mermaid states/events cover YAML actions, API outcomes, retry/error/back paths |
-| Derived Artifact Consistency | 15% | `flow.mmd`, `storyboards.json`, `layout-rules.json`, and `review-diagrams.mmd` derive from `ui-contract.md` without drift |
+| Derived Artifact Consistency | 15% | `flow.md`, `storyboards.json`, `layout-rules.json`, and `review-diagrams.md` derive from `ui-contract.md` without drift |
 | Conflict & Preview Readiness | 15% | `prd-ds-conflicts.md` resolves/assigns conflicts and preview script output exists with acceptable warnings |
 
 # Mechanical Checks
@@ -62,7 +62,8 @@ Also inspect:
 - `docs/design/contracts/{feature}/storyboards.json`
 - `docs/design/contracts/{feature}/component-map.json`
 - `docs/design/contracts/{feature}/layout-rules.json`
-- `docs/design/contracts/{feature}/review-diagrams.mmd`
+- `docs/design/contracts/{feature}/flow.md`
+- `docs/design/contracts/{feature}/review-diagrams.md`
 - `docs/design/contracts/{feature}/prd-ds-conflicts.md`
 
 Flag P0 when:
@@ -73,6 +74,18 @@ Flag P0 when:
 - An `EVENT_*` Mermaid event has no YAML action source
 - Duplicate `ds_id`s exist
 - Required derived artifacts are missing or invalid JSON/Mermaid
+- Standalone `*.mmd` files exist under `{contract_path}`
+
+# Mermaid Markdown Validation Protocol
+
+For `flow.md`, `review-diagrams.md`, and optional `review-diagrams/*.md`:
+
+1. Prefer the reusable validator: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+2. Verify every required Mermaid Markdown artifact has at least one non-empty fenced `mermaid` block; `flow.md` must have exactly one.
+3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2`, `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
+5. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
+6. Any unresolved Mermaid Markdown validation error caps Derived Artifact Consistency at 50% and must appear in `fix_queue`.
 
 # Baseline Regression Check
 
@@ -83,8 +96,8 @@ If `features_processed >= 3` and this iteration-1 score is below `stage1.first_i
 
 For every P0/P1 issue, specify `responsible_generator`:
 - `gen_contracts`: metadata, YAML View Blueprint, screens, routes, states, `ds_id`s, actions
-- `gen_flows`: Mermaid Logic Machine, `flow.mmd`, `storyboards.json`, `component-map.json`, conflicts
-- `gen_wireframes`: `review-diagrams.mmd` or focused `review-diagrams/*.mmd`
+- `gen_flows`: Mermaid Logic Machine, `flow.md`, `storyboards.json`, `component-map.json`, conflicts
+- `gen_wireframes`: `review-diagrams.md` or focused `review-diagrams/*.md`
 - `preview_script`: preview script failure caused by the script rather than the contract
 - `prd_writer`: PRD ambiguity or conflict that cannot be resolved safely by artifact generators
 
@@ -94,6 +107,7 @@ For every P0/P1 issue, specify `responsible_generator`:
 2. Iteration 1 score MUST be ≤ 85.
 3. Missing source artifacts score 0 for affected pillars.
 4. Do not give credit for legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as source artifacts.
+5. Do not give credit for standalone `*.mmd` files; Mermaid diagram artifacts must be Markdown files with fenced `mermaid` blocks.
 
 # Your Output (MANDATORY FORMAT)
 

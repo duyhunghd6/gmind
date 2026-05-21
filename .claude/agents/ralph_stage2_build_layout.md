@@ -41,10 +41,12 @@ You will receive:
 Read:
 - `{contract_path}/ui-contract.md` — YAML View Blueprint, routes, screens, layout tree, states, actions
 - `{contract_path}/layout-rules.json` — responsive constraints and viewport rules
-- `{contract_path}/review-diagrams.mmd` — human-reviewed structure and component hierarchy
+- `{contract_path}/review-diagrams.md` — human-reviewed structure and component hierarchy
 - `{contract_path}/preview/preview-manifest.json` — parsed components, actions, states, and warnings
 - `apps/website/src/app/design-system/layout.tsx` and at least one sibling page
 - DS manifest and token CSS sources provided by the orchestrator
+
+When reading Mermaid artifacts such as `review-diagrams.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
 Do NOT read legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as source artifacts.
 

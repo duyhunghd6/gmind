@@ -1,6 +1,6 @@
 ---
-name: ralph-loop
-description: Run the full schema-driven Ralph Loop UI/UX workflow by dispatching init, Stage 1, and Stage 2 subagents for a target PRD.
+name: ralph-loop-master-skill
+description: Internal Ralph Loop skill wrapper; use the /ralph-loop command for the runnable slash command.
 argument-hint: "<prd-path> [feature-name]"
 ---
 
@@ -24,7 +24,8 @@ You are a thin dispatcher. Do not parse PRDs inline, generate artifacts inline, 
 
 - Canonical contract source: `docs/design/contracts/{feature}/ui-contract.md`.
 - `ui-contract.md` must contain exactly one YAML View Blueprint fenced block and exactly one Mermaid Logic Machine fenced block.
-- Generated artifacts are derived outputs: `review-diagrams.mmd`, `flow.mmd`, `storyboards.json`, `layout-rules.json`, `component-map.json`, `prd-ds-conflicts.md`, assertion checklist, and preview output.
+- Generated artifacts are derived outputs: `review-diagrams.md`, `flow.md`, `storyboards.json`, `layout-rules.json`, `component-map.json`, `prd-ds-conflicts.md`, assertion checklist, and preview output.
+- Mermaid artifacts must be Markdown files containing fenced `mermaid` blocks; do not create standalone `*.mmd` files.
 - Do not create new hand-authored ASCII wireframes or ASCII user-flow artifacts.
 
 ## Required Handoff

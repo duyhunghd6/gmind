@@ -45,7 +45,8 @@ You will receive:
 
 2. Read the PRD for human-review context and terminology.
 
-3. Generate `review-diagrams.mmd` as a Mermaid review bundle for Gate A.
+3. Generate `review-diagrams.md` as a Markdown Mermaid review bundle for Gate A.
+   Use headings for review sections and place each diagram inside a fenced `mermaid` block.
    Include sections or separate Mermaid diagrams for:
    - Screen inventory and routes
    - Per-screen component hierarchy from the YAML View Blueprint
@@ -53,10 +54,12 @@ You will receive:
    - Action-to-event links between YAML actions and Mermaid events
    - Responsive layout intent by viewport
 
-4. Optionally generate focused diagrams under `review-diagrams/*.mmd` when the feature is too large for one readable file.
+4. Optionally generate focused diagrams under `review-diagrams/*.md` when the feature is too large for one readable file.
    Keep each diagram human-reviewable and traceable to screen IDs and `ds_id`s.
 
-5. Do NOT create or update `wireframes/*.ascii.md` or `user-flows/*.ascii.md`.
+5. Do NOT create standalone `*.mmd` files. Mermaid belongs in Markdown files with fenced `mermaid` blocks.
+
+6. Do NOT create or update `wireframes/*.ascii.md` or `user-flows/*.ascii.md`.
    Legacy ASCII artifacts are not Gate A sources in the schema-driven workflow.
 
 ## If iteration > 1 (Fix Iteration)
@@ -69,8 +72,19 @@ You will receive:
 
 | Artifact | Path |
 |----------|------|
-| Review diagram bundle | `docs/design/contracts/{feature}/review-diagrams.mmd` |
-| Optional focused diagrams | `docs/design/contracts/{feature}/review-diagrams/*.mmd` |
+| Review diagram bundle | `docs/design/contracts/{feature}/review-diagrams.md` |
+| Optional focused diagrams | `docs/design/contracts/{feature}/review-diagrams/*.md` |
+
+# Mermaid Markdown Validation Protocol
+
+Before reporting `DONE`:
+
+1. Prefer the reusable validator: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
+2. Verify each required Markdown diagram artifact has at least one non-empty fenced `mermaid` block.
+3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2`, `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
+5. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
+6. If validation fails, fix the Mermaid inside the Markdown fence and rerun validation before reporting `DONE`.
 
 # Your Output (MANDATORY FORMAT)
 
@@ -80,7 +94,7 @@ You will receive:
   "iteration": 1,
   "status": "DONE",
   "artifacts_written": [
-    "docs/design/contracts/{feature}/review-diagrams.mmd"
+    "docs/design/contracts/{feature}/review-diagrams.md"
   ],
   "review_diagrams_count": 5,
   "screens_diagrammed": 5,

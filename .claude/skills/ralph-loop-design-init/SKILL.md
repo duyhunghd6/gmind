@@ -24,7 +24,7 @@ Arguments: `$ARGUMENTS`
 4. Initialize pipeline state under `docs/design/pipeline-state/{feature_name}/`.
 5. Establish contract paths:
    - `docs/design/contracts/{feature_name}/ui-contract.md`
-   - `docs/design/contracts/{feature_name}/review-diagrams.mmd`
+   - `docs/design/contracts/{feature_name}/review-diagrams.md`
    - `docs/design/contracts/{feature_name}/storyboards.json`
    - `docs/design/contracts/{feature_name}/layout-rules.json`
    - `docs/design/contracts/{feature_name}/component-map.json`

@@ -30,7 +30,7 @@ The canonical Stage 1 contract is `docs/design/contracts/{feature}/ui-contract.m
 
 **Why:** A single schema-driven contract reduces drift between separate YAML, wireframe, flow, and storyboard artifacts.
 
-**How to apply:** Generate `review-diagrams.mmd`, `flow.mmd`, `storyboards.json`, `layout-rules.json`, `component-map.json`, conflict reports, assertion checklists, and preview output as derived artifacts. Do not treat legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as canonical.
+**How to apply:** Generate `review-diagrams.md`, `flow.md`, `storyboards.json`, `layout-rules.json`, `component-map.json`, conflict reports, assertion checklists, and preview output as derived artifacts. Mermaid artifacts must be Markdown files with fenced `mermaid` blocks, not standalone `*.mmd` files. Do not treat legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as canonical.
 
 ## Decision 4: Python Preview Script Is for Human Verification Only
 
@@ -56,7 +56,7 @@ RFT session traces, scorecards, and labels should live in dataset/log locations,
 
 <!-- beads-id: br-skill-ralph-loop-decisions-s6 -->
 
-The hook helper at `.claude/skills/ralph-loop/hooks/rft_session_logger.py` is provided but not enabled automatically.
+The hook helper at `.claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py` is provided but not enabled automatically.
 
 **Why:** Claude session hooks can capture prompts, tool names, file paths, and workflow metadata. That can be useful for RFT, but it can also capture sensitive data if enabled globally.
 
@@ -72,7 +72,7 @@ Example opt-in settings shape:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/skills/ralph-loop/hooks/rft_session_logger.py"
+            "command": "python3 .claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py"
           }
         ]
       }
@@ -82,7 +82,7 @@ Example opt-in settings shape:
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/skills/ralph-loop/hooks/rft_session_logger.py"
+            "command": "python3 .claude/skills/ralph-loop-master-skill/hooks/rft_session_logger.py"
           }
         ]
       }

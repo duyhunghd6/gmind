@@ -42,8 +42,10 @@ Read:
 - `{contract_path}/ui-contract.md` — YAML component tree, `ds_id`s, bindings, labels, and actions
 - `{contract_path}/component-map.json` — component IDs, DS types, screen/state ownership, actions, and bindings
 - `{contract_path}/storyboards.json` — interaction trajectories and assertions
-- `{contract_path}/flow.mmd` — event/state behavior to wire into actions
+- `{contract_path}/flow.md` — event/state behavior to wire into actions
 - `{contract_path}/preview/preview-manifest.json` — parser-derived cross-checks
+
+When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
 Do NOT read legacy ASCII wireframes or ASCII user flows as placement sources.
 

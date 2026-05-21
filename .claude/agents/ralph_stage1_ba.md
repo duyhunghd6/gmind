@@ -37,13 +37,14 @@ You will receive:
 3. Read `docs/design/pipeline-state/{feature_name}/task-board.json`.
 4. Read key artifact paths only when needed to prepare Gate A summary:
    - `{contract_path}/ui-contract.md`
-   - `{contract_path}/review-diagrams.mmd`
-   - `{contract_path}/flow.mmd`
+   - `{contract_path}/review-diagrams.md`
+   - `{contract_path}/flow.md`
    - `{contract_path}/storyboards.json`
    - `{contract_path}/layout-rules.json`
    - `{contract_path}/component-map.json`
    - `{contract_path}/prd-ds-conflicts.md`
    - `{contract_path}/preview/index.html`
+5. Use `Glob` to check `{contract_path}/**/*.mmd`. If any standalone Mermaid files exist, add a warning and route back to the responsible generator instead of Gate A.
 
 # Step 2: Compute Convergence
 
@@ -58,14 +59,15 @@ prev_prev_delta = score_history[-2].delta (or 999 if fewer than 3 iters)
 
 Apply rules in order:
 
-1. If QA has run and any QA test failed → `CONTINUE`
-2. If `iteration < 5` and score < 90 → `CONTINUE`
-3. If `iteration >= 10` → `TIMEOUT`
-4. If score ≥ 90 and evaluator status is `GATE_A_READY` and QA has not run → `GATE_A_READY`
-5. If QA has run, all QA tests passed, score ≥ 90, and zero P0 → `GATE_A_READY`
-6. If `delta < 0` and `prev_delta < 0` → `REGRESSION`
-7. If `|delta| <= 1`, `|prev_delta| <= 1`, and `|prev_prev_delta| <= 1` → `STALL`
-8. Otherwise → `CONTINUE`
+1. If standalone `*.mmd` artifacts exist under `{contract_path}` → `CONTINUE`
+2. If QA has run and any QA test failed → `CONTINUE`
+3. If `iteration < 5` and score < 90 → `CONTINUE`
+4. If `iteration >= 10` → `TIMEOUT`
+5. If score ≥ 90 and evaluator status is `GATE_A_READY` and QA has not run → `GATE_A_READY`
+6. If QA has run, all QA tests passed, score ≥ 90, and zero P0 → `GATE_A_READY`
+7. If `delta < 0` and `prev_delta < 0` → `REGRESSION`
+8. If `|delta| <= 1`, `|prev_delta| <= 1`, and `|prev_prev_delta| <= 1` → `STALL`
+9. Otherwise → `CONTINUE`
 
 # Step 3: Compute Routing
 
@@ -88,8 +90,8 @@ When action is `GATE_A_READY`, include:
 - Any non-blocking warnings
 - Gate A review artifacts:
   - `ui-contract.md`
-  - `review-diagrams.mmd` and optional `review-diagrams/*.mmd`
-  - `flow.mmd`
+  - `review-diagrams.md` and optional `review-diagrams/*.md`
+  - `flow.md`
   - `storyboards.json`
   - `layout-rules.json`
   - `component-map.json`
@@ -132,7 +134,7 @@ When `action == "GATE_A_READY"`, `gate_a_summary` contains:
   "pillar_breakdown": {"container_validity": 15, "prd_coverage": 18},
   "qa_summary": {"total_tests": 7, "passed": 7, "failed": 0},
   "warnings": [],
-  "artifacts_for_review": ["ui-contract.md", "review-diagrams.mmd", "flow.mmd", "storyboards.json", "layout-rules.json", "component-map.json", "prd-ds-conflicts.md", "preview/index.html", "preview/preview-manifest.json"]
+  "artifacts_for_review": ["ui-contract.md", "review-diagrams.md", "flow.md", "storyboards.json", "layout-rules.json", "component-map.json", "prd-ds-conflicts.md", "preview/index.html", "preview/preview-manifest.json"]
 }
 ```
 

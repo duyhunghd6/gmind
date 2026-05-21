@@ -2,7 +2,7 @@
 name: ralph_stage1_gen_flows
 description: >
   Stage 1 Flow & Map Generator — owns the Mermaid Logic Machine inside
-  ui-contract.md and derives flow.mmd, storyboards.json, component-map.json,
+  ui-contract.md and derives flow.md, storyboards.json, component-map.json,
   and prd-ds-conflicts.md. Runs AFTER gen_contracts.
 tools: Read, Write, Edit, Bash, Grep, Glob
 disallowedTools: Agent
@@ -53,12 +53,14 @@ You will receive:
    - Include API success/error outcomes, retry paths, cancel/back paths, and permission-denied paths when required.
 
 4. Generate derived artifacts from the YAML + Mermaid contract:
-   - `flow.mmd`: the extracted Mermaid Logic Machine for quick rendering and diffing
+   - `flow.md`: a Markdown document containing the extracted Mermaid Logic Machine inside exactly one fenced `mermaid` block
    - `storyboards.json`: replayable trajectories for each PRD journey, including error paths
    - `component-map.json`: every YAML component and `ds_id` mapped to screen, state, action, binding, and DS type
    - `prd-ds-conflicts.md`: unresolved PRD style/component conflicts with proposed resolution owner
 
-5. Do NOT create legacy ASCII user-flow files. Connected behavior belongs in Mermaid and storyboards.
+5. Do NOT create standalone `*.mmd` files. Mermaid belongs in Markdown files with fenced `mermaid` blocks.
+
+6. Do NOT create legacy ASCII user-flow files. Connected behavior belongs in Mermaid and storyboards.
 
 ## If iteration > 1 (Fix Iteration)
 
@@ -71,10 +73,21 @@ You will receive:
 | Artifact | Path |
 |----------|------|
 | Mermaid Logic Machine | fenced `mermaid` block inside `docs/design/contracts/{feature}/ui-contract.md` |
-| Mermaid Flow | `docs/design/contracts/{feature}/flow.mmd` |
+| Mermaid Flow | `docs/design/contracts/{feature}/flow.md` |
 | Storyboards | `docs/design/contracts/{feature}/storyboards.json` |
 | Component Map | `docs/design/contracts/{feature}/component-map.json` |
 | Conflict Report | `docs/design/contracts/{feature}/prd-ds-conflicts.md` |
+
+# Mermaid Markdown Validation Protocol
+
+Before reporting `DONE`:
+
+1. Prefer the reusable validator: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
+2. Verify `flow.md` has exactly one non-empty fenced `mermaid` block.
+3. Verify the block starts with a supported Mermaid diagram type such as `stateDiagram-v2`, `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
+5. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
+6. If validation fails, fix the Mermaid inside the Markdown fence and rerun validation before reporting `DONE`.
 
 # Your Output (MANDATORY FORMAT)
 
@@ -85,7 +98,7 @@ You will receive:
   "status": "DONE",
   "artifacts_written": [
     "docs/design/contracts/{feature}/ui-contract.md",
-    "docs/design/contracts/{feature}/flow.mmd",
+    "docs/design/contracts/{feature}/flow.md",
     "docs/design/contracts/{feature}/storyboards.json",
     "docs/design/contracts/{feature}/component-map.json",
     "docs/design/contracts/{feature}/prd-ds-conflicts.md"

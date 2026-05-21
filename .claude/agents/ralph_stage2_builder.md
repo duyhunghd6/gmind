@@ -46,9 +46,11 @@ Audit `apps/website/src/app/design-system/{feature_name}/page.tsx` against:
 - `{contract_path}/component-map.json`
 - `{contract_path}/storyboards.json`
 - `{contract_path}/layout-rules.json`
-- `{contract_path}/flow.mmd`
+- `{contract_path}/flow.md`
 - `{contract_path}/preview/preview-manifest.json`
 - DS manifest and token sources
+
+When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
 | Pillar | Weight | Required Evidence |
 |--------|--------|-------------------|

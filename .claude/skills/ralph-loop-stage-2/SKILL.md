@@ -17,13 +17,15 @@ Arguments: `$ARGUMENTS`
 Require these Stage 1 artifacts before building:
 
 - `docs/design/contracts/{feature}/ui-contract.md`
-- `review-diagrams.mmd`
+- `review-diagrams.md`
+- `flow.md`
 - `storyboards.json`
 - `layout-rules.json`
 - `component-map.json`
 - `preview/index.html`
 
 If any are missing, return to `/ralph-loop-stage-1` instead of guessing.
+When consuming `flow.md` or `review-diagrams.md`, use only fenced `mermaid` blocks as diagram sources.
 
 ## Stage 2 Sequence
 

@@ -61,13 +61,15 @@ PASS if all YAML components are mapped once and no duplicates exist.
 
 ## T4: Mermaid Logic Coverage
 
-- Extract Mermaid Logic Machine from `ui-contract.md` and read `{contract_path}/flow.mmd`.
-- Verify `flow.mmd` matches the fenced Mermaid logic or is a faithful extraction.
+- Extract Mermaid Logic Machine from `ui-contract.md` and read `{contract_path}/flow.md`.
+- Extract exactly one fenced `mermaid` block from `flow.md` and use that block as the diagram source.
+- Verify the `flow.md` Mermaid block matches the fenced Mermaid logic or is a faithful extraction.
 - Verify YAML `action` values appear as Mermaid events unless documented as non-transition actions.
 - Verify Mermaid `EVENT_*` values map back to YAML actions.
 - Verify error, retry, cancel/back, and success paths required by PRD exist.
+- Verify no standalone `*.mmd` files exist under `{contract_path}`.
 
-PASS if behavior graph covers all required actions and journeys.
+PASS if behavior graph covers all required actions and journeys and required Mermaid Markdown validates.
 
 ## T5: Storyboard Trajectory Validation
 
@@ -82,10 +84,13 @@ PASS if trajectories are replayable from YAML/Mermaid source.
 
 - Read `{contract_path}/layout-rules.json` and validate JSON syntax.
 - Verify viewport names match YAML `viewports[]`.
-- Read `{contract_path}/review-diagrams.mmd` and optional `review-diagrams/*.mmd`.
+- Read `{contract_path}/review-diagrams.md` and optional `review-diagrams/*.md`.
+- Extract fenced `mermaid` blocks from Markdown and use only those blocks as diagram sources.
+- Verify each required review diagram Markdown artifact has at least one fenced `mermaid` block.
 - Verify diagrams include screen inventory, component hierarchy, state coverage, and action/event links.
+- Verify no standalone `*.mmd` files exist under `{contract_path}`.
 
-PASS if layout and diagrams are consistent with `ui-contract.md`.
+PASS if layout and diagrams are consistent with `ui-contract.md` and required Mermaid Markdown validates.
 
 ## T7: Conflict Report and Preview Output
 
@@ -95,6 +100,16 @@ PASS if layout and diagrams are consistent with `ui-contract.md`.
 - Verify manifest warnings are either zero or documented in the QA result with owners.
 
 PASS if preview artifacts exist and conflicts are actionable.
+
+# Mermaid Markdown Validation Protocol
+
+For T4 and T6, prefer the reusable validator before passing the suite: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. The validator extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+
+1. Required Mermaid Markdown artifacts must contain at least one non-empty fenced `mermaid` block.
+2. Each block must start with a supported Mermaid diagram type such as `stateDiagram-v2`, `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+3. Markdown headings, Markdown bullets, and nested code fences inside Mermaid blocks are failures.
+4. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
+5. Report validation failures in the QA result and route them to the responsible generator.
 
 # Phase 3: Write Test Results
 

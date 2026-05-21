@@ -42,7 +42,7 @@ You will receive:
    - `{contract_path}/component-map.json`
    - `{contract_path}/storyboards.json`
    - `{contract_path}/layout-rules.json`
-   - `{contract_path}/flow.mmd`
+   - `{contract_path}/flow.md`
    - `{contract_path}/preview/preview-manifest.json`
 
 # Step 2: Score Sanity Check
@@ -97,9 +97,11 @@ When action is `GATE_B_READY`, include:
   - `component-map.json`
   - `storyboards.json`
   - `layout-rules.json`
-  - `flow.mmd`
+  - `flow.md`
   - `preview/index.html`
   - screenshots/reports from browser render
+
+When summarizing Mermaid artifacts such as `flow.md`, treat only fenced `mermaid` blocks inside Markdown as diagram sources.
 
 # Your Output (MANDATORY FORMAT)
 
@@ -140,7 +142,7 @@ When `action == "GATE_B_READY"`, `gate_b_summary` contains:
   "qa_results": {"T1": "PASS", "T2": "PASS", "T3": "PASS", "T4": "PASS", "T5": "PASS", "T6": "PASS", "T7": "PASS"},
   "warnings": [],
   "screenshot_paths": ["docs/design/reports/{feature}-render-iter-5.webp"],
-  "artifacts_for_review": ["page.tsx", "ui-contract.md", "component-map.json", "storyboards.json", "layout-rules.json", "flow.mmd", "preview/index.html"]
+  "artifacts_for_review": ["page.tsx", "ui-contract.md", "component-map.json", "storyboards.json", "layout-rules.json", "flow.md", "preview/index.html"]
 }
 ```
 

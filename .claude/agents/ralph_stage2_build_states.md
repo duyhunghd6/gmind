@@ -40,10 +40,12 @@ You will receive:
 Read:
 - `apps/website/src/app/design-system/{feature_name}/page.tsx`
 - `{contract_path}/ui-contract.md` — declared states, actions, component tree, and responsive constraints
-- `{contract_path}/flow.mmd` — state transitions and API outcomes
+- `{contract_path}/flow.md` — state transitions and API outcomes
 - `{contract_path}/storyboards.json` — required interaction and assertion paths
 - `{contract_path}/layout-rules.json` — responsive state behavior
 - `{contract_path}/preview/preview-manifest.json` — warnings to resolve where implementation-relevant
+
+When reading Mermaid artifacts such as `flow.md`, parse Markdown and use only fenced `mermaid` blocks as diagram sources.
 
 Do NOT use legacy `contract.yaml` as the state source.
 
