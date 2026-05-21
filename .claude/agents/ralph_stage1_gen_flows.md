@@ -46,7 +46,7 @@ You will receive:
 
 3. Replace or complete the single Mermaid fenced block in `ui-contract.md` with the Mermaid Logic Machine.
    Requirements:
-   - Use `stateDiagram-v2` unless the PRD requires another Mermaid diagram type for the same logic.
+   - Use `stateDiagram-v2` with `direction LR` directive (for vertical display) unless the PRD requires another Mermaid diagram type for the same logic.
    - Include initial, default, loading, empty, error, success, and recovery states where applicable.
    - Every YAML `action` must appear as a Mermaid event unless it is explicitly non-navigational and documented.
    - Mermaid `EVENT_*` events must map back to YAML component actions.
@@ -84,7 +84,7 @@ Before reporting `DONE`:
 
 1. Prefer the reusable validator: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
 2. Verify `flow.md` has exactly one non-empty fenced `mermaid` block.
-3. Verify the block starts with a supported Mermaid diagram type such as `stateDiagram-v2`, `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+3. Verify the block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
 4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
 5. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
 6. If validation fails, fix the Mermaid inside the Markdown fence and rerun validation before reporting `DONE`.

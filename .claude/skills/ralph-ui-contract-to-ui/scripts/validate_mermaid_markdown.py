@@ -43,6 +43,7 @@ SUPPORTED_DIAGRAM_TYPES = {
 }
 MERMAID_DIRECTIVE_RE = re.compile(r"^%%\{.*\}%%$")
 MARKDOWN_BULLET_RE = re.compile(r"^\s*([-*+]\s+|\d+[.)]\s+)")
+STATE_TRANSITION_LABEL_RE = re.compile(r"^\s*(?:\[\*\]|[\w.-]+)\s*-->\s*(?:\[\*\]|[\w.-]+)\s*:\s*(?P<label>.+?)\s*$")
 
 
 @dataclass
@@ -100,6 +101,23 @@ def diagram_type(line: str) -> str:
     return first.lower()
 
 
+def validate_state_diagram_labels(block: MermaidBlock) -> list[str]:
+    errors: list[str] = []
+    for offset, raw in enumerate(block.source.splitlines(), start=0):
+        match = STATE_TRANSITION_LABEL_RE.match(raw)
+        if not match:
+            continue
+        label = match.group("label")
+        if ":" in label:
+            actual_line = block.start_line + offset
+            errors.append(
+                f"block {block.index} line {actual_line} has a stateDiagram transition label containing ':'; "
+                "Mermaid parses this as invalid state syntax. Move identifiers like ds:webui.* outside "
+                "the transition label or replace ':' with safe text."
+            )
+    return errors
+
+
 def validate_heuristics(block: MermaidBlock) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -110,12 +128,18 @@ def validate_heuristics(block: MermaidBlock) -> tuple[list[str], list[str]]:
         return [f"block {block.index} at line {block.start_line} is empty"], warnings
 
     first = first_mermaid_line(source)
+    first_type = diagram_type(first) if first else ""
     if not first:
         errors.append(f"block {block.index} at line {block.start_line} has no Mermaid diagram declaration")
-    elif diagram_type(first) not in SUPPORTED_DIAGRAM_TYPES:
+    elif first_type not in SUPPORTED_DIAGRAM_TYPES:
         errors.append(
             f"block {block.index} at line {block.start_line} starts with unsupported Mermaid diagram type: {first!r}"
         )
+    elif first_type == "statediagram-v2" and "direction LR" not in source:
+        warnings.append(f"block {block.index} at line {block.start_line} uses stateDiagram-v2 but is missing 'direction LR' (recommended for vertical display)")
+
+    if first_type in {"statediagram", "statediagram-v2"}:
+        errors.extend(validate_state_diagram_labels(block))
 
     for offset, raw in enumerate(source.splitlines(), start=0):
         line = raw.strip()
@@ -191,7 +215,7 @@ def validate_with_mmdc(block: MermaidBlock, mmdc: str) -> tuple[str | None, str 
     if proc.returncode == 0:
         return None, None
     message = (proc.stderr or proc.stdout or "mmdc failed").strip().splitlines()
-    return f"block {block.index} failed Mermaid CLI validation: {message[0] if message else 'unknown error'}", None
+    return f"block {block.index} Mermaid CLI compile error: {message[0] if message else 'unknown error'}", None
 
 
 def validate_file(path: Path, fix: bool, mmdc: str | None) -> FileResult:
@@ -227,7 +251,7 @@ def validate_file(path: Path, fix: bool, mmdc: str | None) -> FileResult:
         errors, warnings = validate_heuristics(block)
         result.errors.extend(errors)
         result.warnings.extend(warnings)
-        if mmdc and not errors:
+        if mmdc:
             error, warning = validate_with_mmdc(block, mmdc)
             if error:
                 result.errors.append(error)

@@ -82,7 +82,7 @@ For `flow.md`, `review-diagrams.md`, and optional `review-diagrams/*.md`:
 
 1. Prefer the reusable validator: `python3 .claude/skills/ralph-ui-contract-to-ui/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
 2. Verify every required Mermaid Markdown artifact has at least one non-empty fenced `mermaid` block; `flow.md` must have exactly one.
-3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2`, `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
+3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
 4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.
 5. If a Mermaid parser/linter Python package is available, run it against extracted blocks from stdin or memory, not by creating `.mmd` files.
 6. Any unresolved Mermaid Markdown validation error caps Derived Artifact Consistency at 50% and must appear in `fix_queue`.
