@@ -44,8 +44,8 @@ Run AT LEAST ONE tool command or file read per pillar. No tool evidence caps tha
 | PRD Coverage | 20% | YAML screens/routes/states trace PRD requirements and `metadata.satisfies` IDs |
 | Component Traceability | 20% | unique `ds_id`s, DS type coverage, `component-map.json` matches YAML |
 | Logic Coverage | 15% | Mermaid states/events cover YAML actions, API outcomes, retry/error/back paths |
-| Derived Artifact Consistency | 15% | `flow.md`, `storyboards.json`, `layout-rules.json`, and `review-diagrams.md` derive from `ui-contract.md` without drift |
-| Conflict & Preview Readiness | 15% | `prd-ds-conflicts.md` resolves/assigns conflicts and preview script output exists with acceptable warnings |
+| Derived Artifact Consistency | 15% | `flow.md`, `storyboards.json`, `layout-rules.json`, `component-map.json`, `artifact-index.json`, `context-slices/`, and `review-diagrams.md` derive from `ui-contract.md` without drift |
+| Conflict & Preview Readiness | 15% | `prd-ds-conflicts.md` resolves/assigns conflicts, preview/review outputs exist, and large machine artifacts have human-readable summaries |
 
 # Mechanical Checks
 
@@ -57,14 +57,14 @@ python3 .claude/skills/design-system-ralph-loop/scripts/contract_to_ui.py \
   --out docs/design/contracts/{feature}/preview
 ```
 
-Also inspect:
+The preview script now generates a full SSOT visualization including Mermaid-rendered diagrams, flow walk-throughs, storyboard timelines, component hierarchy trees, layout mockups, and conflict cards. Verify the preview HTML contains all expected sections. Also inspect:
 
 - `docs/design/contracts/{feature}/preview/preview-manifest.json`
 - `docs/design/contracts/{feature}/flow.md`
 - `docs/design/contracts/{feature}/review-diagrams.md`
 - `docs/design/contracts/{feature}/prd-ds-conflicts.md`
 
-Validate `storyboards.json`, `component-map.json`, and `layout-rules.json` mechanically and summarize only counts, drift, invalid rows, and missing/extra IDs in the scorecard.
+Validate `storyboards.json`, `component-map.json`, `layout-rules.json`, `artifact-index.json`, and `context-slices/` mechanically and summarize only counts, drift, invalid rows, missing/extra IDs, missing slices, and invalid load policies in the scorecard. Do not load full large JSON artifacts into prompt context.
 
 Flag P0 when:
 
@@ -76,6 +76,8 @@ Flag P0 when:
 - An `EVENT_*` Mermaid event has no YAML action source
 - Duplicate `ds_id`s exist
 - Required derived artifacts are missing or invalid JSON/Mermaid
+- A large machine artifact lacks an `artifact-index.json` entry or targeted `context-slices/` coverage
+- A Gate A review package requires humans or LLMs to inspect raw large JSON instead of summaries, slices, or review HTML
 - Standalone `*.mmd` files exist under `{contract_path}`
 
 # Mermaid Markdown Validation Protocol

@@ -45,7 +45,7 @@ Include test mapping from YAML screens, Mermaid transitions, sliced storyboard/c
 
 ## T1: Storyboard Replay
 
-Use mechanical extraction against `{contract_path}/storyboards.json` instead of reading the whole file into context.
+Use mechanical extraction against `{contract_path}/storyboards.json` and prefer existing `{contract_path}/context-slices/storyboards/*.yaml` instead of reading the whole file into context.
 For each extracted trajectory slice:
 - Verify each target `ds_id` appears in `page.tsx`.
 - Verify each declared state appears as `data-state` or an equivalent reachable state controller.
@@ -55,7 +55,7 @@ PASS if all storyboard steps are implementable in source.
 
 ## T2: Contract Component Completeness
 
-Read `{contract_path}/ui-contract.md`; verify the fenced `yaml` block is block-style YAML, not JSON/minified JSON, not a JSON object/array literal, and not a one-line serialized object. Query `{contract_path}/component-map.json` with grep/Python to produce only expected/missing/extra `ds_id` lists.
+Read `{contract_path}/ui-contract.md`; verify the fenced `yaml` block is block-style YAML, not JSON/minified JSON, not a JSON object/array literal, and not a one-line serialized object. Query `{contract_path}/component-map.json` with grep/Python or `{contract_path}/context-slices/components/*.yaml` to produce only expected/missing/extra `ds_id` lists.
 - Cross-check every component-map `ds_id` appears in `page.tsx`.
 - Cross-check screen IDs/routes and component labels/bindings from YAML.
 - Verify no legacy-only component assumptions from ASCII artifacts are used.
@@ -96,8 +96,9 @@ PASS if all structural a11y checks pass.
 
 ## T6: Preview and Browser Artifact Consistency
 
-Read `{contract_path}/preview/preview-manifest.json` and `screenshot_path` if provided.
+Read `{contract_path}/artifact-index.json`, preview summary/slices, and `screenshot_path` if provided; query `{contract_path}/preview/preview-manifest.json` mechanically only for warning counts and specific IDs. The preview HTML (`{contract_path}/preview/index.html`) now includes full SSOT visualization: Mermaid-rendered diagrams, flow walk-throughs, storyboard timelines, component hierarchy trees, layout mockups, conflict cards, and coverage matrices.
 - Verify preview manifest warnings do not correspond to unresolved implementation gaps.
+- Verify the preview HTML includes all 9 navigation tabs (Overview, Screens, Flow, Storyboards, Components, Layout, Diagrams, Conflicts, Coverage).
 - Compare screenshot/browser-render metadata against expected screens/components where available.
 - If no screenshot path is provided, mark this test WARN unless the orchestrator explicitly skipped browser rendering.
 
