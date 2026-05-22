@@ -39,17 +39,19 @@ sections:
 
 Website Gmind Showcase gồm **5 trang cấp 1** (top-level pages) được liên kết bởi thanh điều hướng chính (Navbar) và 1 liên kết ngoài.
 
-```
-┌───────────────────────────────────────────────────────────────────────────┐
-│                       NAVBAR (Điều hướng Toàn cục)                        │
-│  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌───────────┐    │
-│  │ Trang chủ │ │ Kiến trúc │ │  Prompt   │ │ Nghiên cứu│ │  Design   │    │
-│  │     /     │ │/architectu│ │ Palettes  │ │ /research │ │  System   │    │
-│  │           │ │  re       │ │ /prompts  │ │           │ │ /design-  │    │
-│  │           │ │           │ │           │ │           │ │  system   │    │
-│  └───────────┘ └───────────┘ └───────────┘ └───────────┘ └───────────┘    │
-│                                                       [GitHub link]  ↗    │
-└───────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    classDef default fill:#111,stroke:#333,stroke-width:1px,color:#fff;
+    classDef navbar fill:#1e293b,stroke:#0ea5e9,stroke-width:2px,color:#fff;
+
+    Navbar["NAVBAR (Điều hướng Toàn cục)"]:::navbar
+    
+    Navbar --> Home["Trang chủ (/)"]
+    Navbar --> Arch["Kiến trúc (/architecture)"]
+    Navbar --> Prompts["Prompt Palettes (/prompts)"]
+    Navbar --> Research["Nghiên cứu (/research)"]
+    Navbar --> Design["Design System (/design-system)"]
+    Navbar -.-> GitHub["GitHub Link ↗"]
 ```
 
 ### Cây Thư mục Routing (Next.js App Router)
@@ -91,45 +93,29 @@ apps/website/src/app/
 
 <!-- beads-id: br-prd-web-structure-s2 -->
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│ TRANG CHỦ (/)                                                     │
-│                                                                   │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [HERO] Gmind — Context Layer for Agentic Coding               │ │
-│ │ Mô tả: gmind là tầng trung gian giữa Agentic IDE và           │ │
-│ │ codebase — cung cấp và tối ưu ngữ cảnh cho AI Agent           │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│                          │                                        │
-│                          ▼                                        │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [4 TRỤ CỘT] gmind.gscfin.com                                │   │
-│ │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │   │
-│ │  │A: FastCod│ │B: SSOT   │ │C: Xác    │ │D: Hệ sinh│        │   │
-│ │  │  AST +   │ │Franken   │ │minh SAFe │ │thái Agent│        │   │
-│ │  │ Graph RAG│ │ SQLite   │ │ Gate     │ │ Village  │        │   │
-│ │  └──────────┘ └──────────┘ └──────────┘ └──────────┘        │   │
-│ └───────────────────────────────────────────────────────────────┘ │
-│                          │                                        │
-│                   [Phân cách Section]                             │
-│                          │                                        │
-│                          ▼                                        │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [KIẾN TRÚC 5+1 LỚP] Lớp 1 > 2 > 3 > 4 > 5 > 6                 │ │
-│ │ Lưu trữ > Công cụ > Agent > Xác minh > API > Giao diện        │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│                          │                                        │
-│                   [Phân cách Section]                             │
-│                          │                                        │
-│                          ▼                                        │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [TẦNG TRUNG GIAN] gmind — Tầng Ngữ cảnh cho Agentic IDE       │ │
-│ │ Người dùng+IDE > gmind (search/trace/context) > Agent         │ │
-│ │                                                               │ │
-│ │ [ĐƠN KHO MÃ] Tổ chức Không gian Làm việc                      │ │
-│ │ cli/ > apps/ > packages/ > .agents/ > docs/                   │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Trang_Chu["TRANG CHỦ (/)"]
+        Hero["[HERO] Gmind — Context Layer for Agentic Coding<br/>Mô tả: gmind là tầng trung gian giữa Agentic IDE và codebase — cung cấp và tối ưu ngữ cảnh cho AI Agent"]
+        
+        subgraph Pillars["[4 TRỤ CỘT] gmind.gscfin.com"]
+            PillarA["A: FastCode<br/>AST + Graph RAG"]
+            PillarB["B: SSOT<br/>Franken SQLite"]
+            PillarC["C: Xác minh<br/>SAFe Gate"]
+            PillarD["D: Hệ sinh thái<br/>Agent Village"]
+        end
+        
+        Layers["[KIẾN TRÚC 5+1 LỚP]<br/>Lớp 1 (Lưu trữ) > Lớp 2 (Công cụ) > Lớp 3 (Agent) > Lớp 4 (Xác minh) > Lớp 5 (API) > Lớp 6 (Giao diện)"]
+        
+        subgraph Workspace["TẦNG TRUNG GIAN & ĐƠN KHO MÃ"]
+            Middle["[TẦNG TRUNG GIAN] gmind<br/>Người dùng+IDE > gmind (search/trace/context) > Agent"]
+            Monorepo["[ĐƠN KHO MÃ] Tổ chức Không gian Làm việc<br/>cli/ > apps/ > packages/ > .agents/ > docs/"]
+        end
+        
+        Hero --> Pillars
+        Pillars --> Layers
+        Layers --> Workspace
+    end
 ```
 
 **Các section chính:**
@@ -408,38 +394,26 @@ sequenceDiagram
 
 <!-- beads-id: br-prd-web-structure-s3 -->
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│ KIẾN TRÚC (/architecture)                                         │
-│                                                                   │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [SƠ ĐỒ LUỒNG] Kiến trúc Agentic SE                         │    │
-│ │                                                               │ │
-│ │    ┌────────────────┐                                         │ │
-│ │    │ Chuyên gia     │ (Lập trình viên)                        │ │
-│ │    └───────┬────────┘                                         │ │
-│ │            │                                                  │ │
-│ │    ┌───────┴────────┐                                         │ │
-│ │    │ GSAFe 6.0      │ (Quy trình)                             │ │
-│ │    └───────┬────────┘                                         │ │
-│ │            │                                                  │ │
-│ │    ┌───────┴────────┐                                         │ │
-│ │    │ gmind          │ (Tầng Bộ nhớ Agent) [TRUNG TÂM]         │ │
-│ │    └───┬────────┬───┘                                         │ │
-│ │        │        │                                             │ │
-│ │   ┌────┴────┐ ┌─┴──────────┐                                  │ │
-│ │   │Mã nguồn│ │ Mô hình LLM│                                  │  │
-│ │   └────────┘ └────────────┘                                   │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│                          │                                        │
-│                   [Phân cách Section]                             │
-│                          │                                        │
-│                          ▼                                        │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [5+1 LỚP CHI TIẾT] Ma trận toàn bộ 6 lớp kiến trúc            │ │
-│ │ Mỗi lớp có: tech stack, danh mục chi tiết, màu nhấn           │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Arch_Page["KIẾN TRÚC (/architecture)"]
+        subgraph Flow_Section["[SƠ ĐỒ LUỒNG] Kiến trúc Agentic SE"]
+            Dev["Chuyên gia<br/>(Lập trình viên)"]
+            Process["GSAFe 6.0<br/>(Quy trình)"]
+            Gmind["gmind (Tầng Bộ nhớ Agent)<br/>[TRUNG TÂM]"]
+            Source["Mã nguồn"]
+            LLM["Mô hình LLM"]
+
+            Dev --> Process
+            Process --> Gmind
+            Gmind --> Source
+            Gmind --> LLM
+        end
+        
+        LayersDetail["[5+1 LỚP CHI TIẾT] Ma trận toàn bộ 6 lớp kiến trúc<br/>Mỗi lớp có: tech stack, danh mục chi tiết, màu nhấn"]
+        
+        Flow_Section --> LayersDetail
+    end
 ```
 
 **Các section chính:**
@@ -456,38 +430,22 @@ sequenceDiagram
 
 Trang có layout 2 cột: Sidebar trái (300px) + Content phải. Nội dung chuyển đổi theo 4 `activeSection`:
 
-```
-┌─────────────┬────────────────────────────────────────────────────────┐
-│ THANH BÊN   │ VÙNG NỘI DUNG                                          │
-│ (cố định)   │                                                        │
-│             │  ┌──────────────────────────────────────────────────┐  │
-│ CÀI ĐẶT     │  │ [Trình xem Cài đặt] hoặc [Trình xem Lý thuyết]   │  │
-│ ────────    │  │ hoặc [Trình xem Workflow] hoặc [Nghiên cứu]      │  │
-│ > Cài đặt   │  │                                                  │  │
-│   toàn diện │  │ Component: PromptViewer                          │  │
-│             │  └──────────────────────────────────────────────────┘  │
-│ LÝ THUYẾT  │                                                         │
-│ KỸ THUẬT PM│                                                         │
-│ ────────    │                                                        │
-│ > Agile và  │                                                        │
-│   Scrum     │                                                        │
-│ > XP cho    │                                                        │
-│   Agentic   │                                                        │
-│ > SAFe 6.0  │                                                        │
-│             │                                                        │
-│ AI WORKFLOW │                                                        │
-│ ────────    │                                                        │
-│ A. Khởi tạo │                                                        │
-│   > A.1..   │                                                        │
-│ B. One-shot │                                                        │
-│   > B.1..   │                                                        │
-│ C. XP       │                                                        │
-│   Agentic   │                                                        │
-│   > C.1..   │                                                        │
-│ D. SAFe 6.0 │                                                        │
-│   > D.1     │                                                        │
-│             │                                                        │
-└─────────────┴────────────────────────────────────────────────────────┘
+```mermaid
+graph LR
+    subgraph Prompts_Page["PROMPT PALETTES (/prompts) - Layout 2 cột"]
+        subgraph Sidebar["THANH BÊN (Sidebar - Cố định)"]
+            direction TB
+            Setup["CÀI ĐẶT<br/>- Cài đặt toàn diện"]
+            Theory["LÝ THUYẾT KỸ THUẬT PM<br/>- Agile và Scrum<br/>- XP cho Agentic<br/>- SAFe 6.0"]
+            Workflows["AI WORKFLOWS<br/>- A. Khởi tạo Projects<br/>- B. One-shot AI Coding<br/>- C. XP Agentic Coding<br/>- D. SAFe 6.0 AgenticSE"]
+        end
+        
+        subgraph Content["VÙNG NỘI DUNG"]
+            Viewer["Component: PromptViewer<br/>Hiển thị một trong các trình xem:<br/>- [Trình xem Cài đặt]<br/>- [Trình xem Lý thuyết]<br/>- [Trình xem Workflow]<br/>- [Nghiên cứu]"]
+        end
+
+        Sidebar -->|Chọn mục| Content
+    end
 ```
 
 ### 4.1. Sidebar Structure (PromptsSidebar)
@@ -523,26 +481,20 @@ Trang có layout 2 cột: Sidebar trái (300px) + Content phải. Nội dung chu
 
 <!-- beads-id: br-prd-web-structure-s5 -->
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│ NGHIÊN CỨU (/research)                                            │
-│                                                                   │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [TIÊU ĐỀ] Nghiên cứu và Spike                                 │ │
-│ │ "16 Spike + 6 PRD trước khi viết dòng code đầu tiên"          │ │
-│ └───────────────────────────────────────────────────────────────┘ │
-│                          │                                        │
-│                          ▼                                        │
-│ ┌───────────────────────────────────────────────────────────────┐ │
-│ │ [TẤT CẢ MỤC] researchItems[]                                │   │
-│ │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐                        │   │
-│ │  │ PRD  │ │Spike │ │Spike │ │ ...  │                        │   │
-│ │  │Loại  │ │Loại  │ │Loại  │ │      │                        │   │
-│ │  │Tr.thá│ │Tr.thá│ │Tr.thá│ │      │                        │   │
-│ │  └──────┘ └──────┘ └──────┘ └──────┘                        │   │
-│ │  [StatusBadge] [TypeBadge] cho mỗi mục                      │   │
-│ └───────────────────────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Research_Page["NGHIÊN CỨU (/research)"]
+        Title["[TIÊU ĐỀ] Nghiên cứu và Spike<br/>'16 Spike + 6 PRD trước khi viết dòng code đầu tiên'"]
+        
+        subgraph Grid["[TẤT CẢ MỤC] Hiển thị danh sách researchItems[]"]
+            Item1["PRD Card<br/>Loại / Trạng thái / Badge"]
+            Item2["Spike Card 1<br/>Loại / Trạng thái / Badge"]
+            Item3["Spike Card 2<br/>Loại / Trạng thái / Badge"]
+            Item4["..."]
+        end
+        
+        Title --> Grid
+    end
 ```
 
 **Nguồn dữ liệu:** `src/data/research-data.ts` → `researchItems[]`
@@ -555,41 +507,24 @@ Trang có layout 2 cột: Sidebar trái (300px) + Content phải. Nội dung chu
 
 Trang Design System có layout riêng (`DesignSystemLayout`) với sidebar 3 cấp (Danh mục → Mục chính → Mục con) và 13+ trang con.
 
-```
-┌──────────────┬───────────────────────────────────────────────────────┐
-│ THANH BÊN DS │ VÙNG NỘI DUNG                                         │
-│  (3 cấp)     │                                                       │
-│              │  [Hub] hoặc [Trang con tương ứng]                     │
-│              │                                                       │
-│ > HỆ THỐNG  │  ┌─────────────────────────────────────────────────┐   │
-│   THIẾT KẾ  │  │ Trang Hub (/design-system)                      │   │
-│   > Hub     │  │  [Tokens]  [Thành phần]  [Trạng thái]  [Luồng]  │   │
-│     #màu    │  │  [11 Thẻ màn hình --> trang con]                │   │
-│     #kc     │  └─────────────────────────────────────────────────┘   │
-│     #font   │                                                        │
-│     ...     │                                                        │
-│              │                                                       │
-│ > MÀN HÌNH  │                                                        │
-│   > Terminal│                                                        │
-│   > Danh mục│                                                        │
-│   > PI Plan │                                                        │
-│   > Đồ thị │                                                         │
-│   > Kanban  │                                                        │
-│   > Tri thức│                                                        │
-│   > Phê duyệ│                                                        │
-│   > Dòng th.│                                                        │
-│   > Thành ph│                                                        │
-│              │                                                       │
-│ > KHÁM PHÁ  │                                                        │
-│   > Trình xe│                                                        │
-│   > Gmind Ex│                                                        │
-│   > Beads   │                                                        │
-│              │                                                       │
-│ > KỊCH BẢN  │                                                        │
-│   > Tổng qua│                                                        │
-│     UC-01   │                                                        │
-│     ...10   │                                                        │
-└──────────────┴───────────────────────────────────────────────────────┘
+```mermaid
+graph LR
+    subgraph DS_Page["DESIGN SYSTEM (/design-system)"]
+        subgraph DS_Sidebar["THANH BÊN DS (3 cấp)"]
+            direction TB
+            Cat1["1. HỆ THỐNG THIẾT KẾ<br/>- Hub (#colors, #spacing, #font...)"]
+            Cat2["2. MÀN HÌNH<br/>- Terminal<br/>- Portfolio View<br/>- PI Planning Sandbox<br/>- Git Graph<br/>- Kanban<br/>- Knowledge Graph<br/>- Phê duyệt & RTM<br/>- Timeline<br/>- Components"]
+            Cat3["3. KHÁM PHÁ<br/>- Doc Viewer<br/>- Gmind Explorer<br/>- Beads Traversal"]
+            Cat4["4. KỊCH BẢN<br/>- Tổng quan (UC-01 → UC-10)"]
+        end
+        
+        subgraph DS_Content["VÙNG NỘI DUNG"]
+            Hub["Trang Hub (/design-system)<br/>- Tokens / Thành phần / Trạng thái / Luồng<br/>- 11 Thẻ màn hình trỏ tới các trang con"]
+            DetailPages["Trang con chi tiết<br/>Hiển thị UI mẫu & interactive tools tương ứng khi click sidebar"]
+        end
+
+        DS_Sidebar -->|Chọn mục| DS_Content
+    end
 ```
 
 ### 6.1. Design System Sidebar (4 Danh mục)
@@ -619,69 +554,61 @@ Trang Design System có layout riêng (`DesignSystemLayout`) với sidebar 3 c�
 
 ### 7.1. Biểu đồ Liên kết Toàn cục (Cross-Page Link Map)
 
-```
-                      ┌───────────────┐
-                      │   TRANG CHỦ   │
-                      │      /        │
-                      └───┬───────┬───┘
-                          │       │
-          ┌───────────────┘       └───────────────┐
-          │                                       │
-          ▼                                       ▼
-┌──────────────────┐                   ┌──────────────────┐
-│    KIẾN TRÚC     │                   │  PROMPT PALETTES│
-│  /architecture   │                   │    /prompts│
-└────────┬─────────┘                   └──┬───────────┬───┘
-         │                             │              │
-         │    ┌──────────────────┐        │           │
-         │    │   NGHIÊN CỨU     │◄────────┘          │
-         │    │   /research      │                    │
-         │    └────────┬────────┘                     │
-         │             │                              │
-         ▼             ▼                              ▼
-┌──────────────────────────────────────────────────────────┐
-│                     DESIGN SYSTEM                        │
-│                    /design-system                        │
-│  ┌───────┐ ┌───────┐ ┌───────┐ ┌───────┐ ┌───────┐       │
-│  │Termina│ │Đồ thị │ │Kanban │ │Tri thứ│ │Phê duy│ ...   │
-│  │   l   │ │  Git  │ │       │ │  c    │ │  ệt   │       │
-│  └───────┘ └───────┘ └───────┘ └───────┘ └───────┘       │
-│  ┌───────┐ ┌───────┐ ┌───────┐ ┌──────────────┐          │
-│  │Dòng   │ │Thành  │ │Khám   │ │  Kịch bản    │          │
-│  │thời gi│ │ phần  │ │ phá   │ │  (10 UCs)    │          │
-│  └───────┘ └───────┘ └───────┘ └──────────────┘          │
-└──────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    classDef default fill:#111,stroke:#333,stroke-width:1px,color:#fff;
+    classDef ds fill:#1e293b,stroke:#0ea5e9,stroke-width:1px,color:#fff;
+
+    Home["TRANG CHỦ (/)"]
+    Arch["KIẾN TRÚC (/architecture)"]
+    Prompts["PROMPT PALETTES (/prompts)"]
+    Research["NGHIÊN CỨU (/research)"]
+    
+    subgraph DS["DESIGN SYSTEM (/design-system)"]
+        direction TB
+        DS_Hub["Hub"]
+        DS_Sub1["Terminal / Đồ thị Git / Kanban / Tri thức / Phê duyệt / Dòng thời gian / Thành phần"]
+        DS_Sub2["Khám phá / Kịch bản (10 UCs)"]
+    end
+    class DS ds;
+
+    Home --> Arch
+    Home --> Prompts
+    Arch --> DS
+    Prompts --> Research
+    Prompts --> DS
+    Research --> DS
 ```
 
 ### 7.2. Mối liên kết Logic giữa các Nội dung
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│ MỐI LIÊN KẾT LOGIC GIỮA CÁC NỘI DUNG                             │
-│                                                                  │
-│  /prompts#theory-agile ──────────────────────┐                   │
-│  (Lý thuyết Agile)                           │                   │
-│       │                                      │                   │
-│       │ tham chiếu                           │ nền tảng          │
-│       ▼                                      ▼                   │
-│  /prompts#theory-xp-agentic            /prompts#theory-safe      │
-│  (XP cho Agentic Coding)               (SAFe 6.0 với GSAFe)      │
-│       │                                      │                   │
-│       │ thực hành                            │ quy trình         │
-│       ▼                                      ▼                   │
-│  /prompts (AI Workflows)              /research                  │
-│  Nhóm C: XP Agentic (13 wf)          (Báo cáo Spike + PRDs)      │
-│       │                                      │                   │
-│       │ trình diễn                           │ xác nhận          │
-│       ▼                                      ▼                   │
-│  /architecture                         /design-system            │
-│  (Luồng Agentic SE)                   (Bản mẫu UI)               │
-│       │                                      │                   │
-│       └───────────── ánh xạ ─────────────────┘                   │
-│  /design-system/storyboard (UC-01..UC-10)                        │
-│  /design-system/beads-traversal (PRD-->Kế hoạch-->Task-->Commit) │
-│  /design-system/approval (RTM + Bản đồ nhiệt)                    │
-└──────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    Agile["/prompts#theory-agile<br/>(Lý thuyết Agile)"]
+    XP["/prompts#theory-xp-agentic<br/>(XP cho Agentic Coding)"]
+    Safe["/prompts#theory-safe<br/>(SAFe 6.0 với GSAFe)"]
+    Workflows["/prompts (AI Workflows)<br/>Nhóm C: XP Agentic (13 wf)"]
+    Research["/research<br/>(Báo cáo Spike + PRDs)"]
+    Arch["/architecture<br/>(Luồng Agentic SE)"]
+    DS["/design-system<br/>(Bản mẫu UI)"]
+    
+    subgraph DS_Mappings["Ánh xạ & Chi tiết"]
+        Storyboards["/design-system/storyboard (UC-01..UC-10)"]
+        Beads["/design-system/beads-traversal<br/>(PRD -> Kế hoạch -> Task -> Commit)"]
+        Approval["/design-system/approval (RTM + Bản đồ nhiệt)"]
+    end
+
+    Agile -->|tham chiếu| XP
+    Agile -->|nền tảng| Safe
+    XP -->|thực hành| Workflows
+    Safe -->|quy trình| Research
+    Workflows -->|trình diễn| Arch
+    Research -->|xác nhận| DS
+    
+    Arch -->|ánh xạ| Storyboards
+    DS -->|ánh xạ| Storyboards
+    DS -->|ánh xạ| Beads
+    DS -->|ánh xạ| Approval
 ```
 
 ### 7.3. Bảng Chi tiết Liên kết Chéo (Cross-Reference Table)
@@ -703,4 +630,4 @@ Trang Design System có layout riêng (`DesignSystemLayout`) với sidebar 3 c�
 ---
 
 > Document maintained by AI Agent (`arch-review-prd-after-design-system` workflow).
-> _Generated with /ascii_
+> _Generated with Mermaid_
