@@ -3,5 +3,5 @@ prompt = """
 # Design System Ralph Loop
 Arguments: {{args}}
 
-@{${extensionPath}/workflows/design-system-ralph-loop.md}
+@{.agents/extensions/gsafe-design-system-toolkit/workflows/design-system-ralph-loop.md}
 """

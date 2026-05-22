@@ -59,6 +59,7 @@ sections:
 > - **UI/UX Methodology:** [Spike Ralph Loop](../../researches/spikes/spike-design-system-ralph-loop-agent.md) — Contract-driven UI pipeline (Stage 1: Low-Fi, Stage 2: Hi-Fi)
 >
 > **>> AGENT DIRECTIVE:** Bạn đang ở Layer 3 (UI Detail). Data contract đến từ PRD-03 (CLI/API). Data model từ PRD-01 (Storage). Nếu implementing UI, sử dụng Ralph Loop workflow: `/gsafe-uiux-ralph-loop-antigravity`.
+> **>> NOTE:** if execute workflow design-system, these prd name = "webui-and-pm-workspace"
 
 ## 1. Quản lý Project Tasks (PM Custom Fields) qua First-class SQL Columns
 
