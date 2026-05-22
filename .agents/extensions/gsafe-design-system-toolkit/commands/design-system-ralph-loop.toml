@@ -1,0 +1,7 @@
+description = "Unified schema-driven Ralph Loop command for design-system UI workflows."
+prompt = """
+# Design System Ralph Loop
+Arguments: {{args}}
+
+@{${extensionPath}/workflows/design-system-ralph-loop.md}
+"""

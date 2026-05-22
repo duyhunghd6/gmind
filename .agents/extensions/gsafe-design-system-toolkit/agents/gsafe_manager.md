@@ -1,0 +1,1 @@
+../../../../.agents/agents/gsafe_manager.md
