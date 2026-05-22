@@ -2,22 +2,43 @@
   "feature_name": "webui-and-pm-workspace",
   "agents": {
     "ralph_stage1_gen_contracts": {
-      "status": "PENDING"
+      "status": "DONE",
+      "iteration": 3,
+      "updated_at": "2026-05-21T00:00:00Z"
     },
     "ralph_stage1_gen_wireframes": {
-      "status": "PENDING"
+      "status": "DONE",
+      "iteration": 4,
+      "updated_at": "2026-05-21T10:05:00Z"
     },
     "ralph_stage1_gen_flows": {
-      "status": "PENDING"
+      "status": "DONE",
+      "iteration": 4,
+      "updated_at": "2026-05-21T00:00:00Z"
     },
     "ralph_stage1_evaluator": {
-      "status": "PENDING"
+      "status": "DONE",
+      "iteration": 4,
+      "updated_at": "2026-05-21T00:00:00Z",
+      "result_path": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage1-iter-4.json",
+      "convergence_status": "GATE_A_READY",
+      "score": 98
     },
     "ralph_stage1_qa": {
-      "status": "PENDING"
+      "status": "DONE",
+      "updated_at": "2026-05-21T10:06:32Z",
+      "result_path": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/stage1-qa-results.json",
+      "convergence_status": "QA_PASS",
+      "passed": 7,
+      "failed": 0,
+      "iteration": 4
     },
     "ralph_stage1_ba": {
-      "status": "PENDING"
+      "status": "DONE",
+      "iteration": 4,
+      "updated_at": "2026-05-21T10:10:00Z",
+      "result_path": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/stage1-routing-decision.json",
+      "action": "GATE_A_READY"
     },
     "ralph_stage2_build_layout": {
       "status": "PENDING"

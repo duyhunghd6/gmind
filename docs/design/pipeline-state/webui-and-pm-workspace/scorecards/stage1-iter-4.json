@@ -1,0 +1,68 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 4,
+  "score": 98,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists; 1 YAML fence, 1 Mermaid fence; YAML parsed successfully"
+    },
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "9 screens and 9 routes map PRD route/screen requirements; metadata.satisfies covers 15 PRD IDs br-prd04-s1..s14 plus br-prd04-s14a; 41 screen states traced"
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "67 ds_id values, 67 unique, 0 duplicates; 18 registry refs; component-map has 67 ds_ids/components with 0 missing and 0 extra IDs"
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "135 unique YAML action/event sources and 135 unique Mermaid events; 139 transitions cover API success/empty/error, retry, offline, sync conflict, permission, and back paths; 0 unmatched action events"
+    },
+    "derived_artifact_consistency": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "flow.md has exactly 1 valid Mermaid block and matches contract Mermaid; review-diagrams.md has 5 valid blocks with 0 missing ds_ids and 0 missing action IDs; storyboards valid with 22 trajectories, 0 invalid screen refs, all 9 screens covered; component-map/layout-rules valid with 67 ds_ids and no missing/extra IDs"
+    },
+    "conflict_preview_readiness": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "contract_to_ui.py returned OK and preview-manifest.json is valid with 252 components, 67 ds_ids, 135 actions; 4 acceptable parser warnings are limited to EVENT_HEALTH_OK/OFFLINE labels with slash annotations; prd-ds-conflicts.md resolves/assigns 2 conflicts and lists no unresolved Stage 1 blockers"
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "standalone_mmd_files": [],
+    "json_artifacts": {
+      "storyboards_json": "valid: 22 trajectories, 0 invalid screen refs, all 9 screens covered, 0 storyboard events missing from Mermaid",
+      "component_map_json": "valid: 67 components/ds_ids, 0 missing ds_id values, 0 extra ds_id values",
+      "layout_rules_json": "valid: 67 ds_ids, 0 missing ds_id values, 0 extra ds_id values, 9 screens",
+      "preview_manifest_json": "valid: 4 warnings, 252 extracted components, 67 ds_ids, 135 actions"
+    },
+    "mermaid_markdown": {
+      "flow_md_blocks": 1,
+      "review_diagrams_md_blocks": 5,
+      "validator_status": "PASS",
+      "flow_matches_contract_mermaid": true,
+      "unsupported_or_empty_blocks": 0,
+      "markdown_inside_mermaid_blocks": false
+    }
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "issues": [
+    "Baseline regression check not applicable: .agents/agent-org/baselines.json has features_processed=0.",
+    "Required Markdown Mermaid artifacts validate successfully and no standalone .mmd files were found.",
+    "Preview generation emitted 4 acceptable warnings caused by slash annotations in EVENT_HEALTH_OK and EVENT_HEALTH_OFFLINE transition labels; semantic action/event matching is complete.",
+    "Task-board ralph_stage1_evaluator was marked DONE for iteration 4 after scoring."
+  ]
+}

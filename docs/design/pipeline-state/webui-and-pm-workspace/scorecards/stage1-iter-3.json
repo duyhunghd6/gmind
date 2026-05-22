@@ -1,0 +1,80 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 3,
+  "score": 96,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists; 1 YAML fence, 1 Mermaid fence; YAML parsed successfully"
+    },
+    "prd_coverage": {
+      "score": 19,
+      "max": 20,
+      "tool_evidence": "9 screens and 9 routes mapped; metadata.satisfies covers 15 PRD IDs including br-prd04-s1..s14 and br-prd04-s14a; 41 screen states"
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "67 ds_id values, 67 unique, 0 duplicates; 18 registry refs; component-map has 67 ds_ids/components with 0 missing and 0 extra IDs"
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "50 contract UI actions are covered by Mermaid EVENT_action_* transitions; 135 unique Mermaid events and 139 transitions cover API success/empty/error, retry, offline, sync conflict, and back paths"
+    },
+    "derived_artifact_consistency": {
+      "score": 12,
+      "max": 15,
+      "tool_evidence": "flow.md has 1 valid Mermaid block and matches contract; review-diagrams.md has 5 valid blocks but omits 14 contract ds_ids in component diagrams; storyboards valid with 22 trajectories and all 9 screens covered; component-map/layout-rules valid with 67 ds_ids and no missing/extra IDs"
+    },
+    "conflict_preview_readiness": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "contract_to_ui.py returned OK with 0 warnings; preview-manifest.json valid with 252 components, 67 ds_ids, 135 actions; prd-ds-conflicts.md resolves/assigns 2 conflicts and lists no unresolved Stage 1 blockers"
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "standalone_mmd_files": [],
+    "json_artifacts": {
+      "storyboards_json": "valid: 22 trajectories, 0 invalid screen refs, all 9 screens covered, 0 storyboard events missing from Mermaid",
+      "component_map_json": "valid: 67 components/ds_ids, 0 missing ds_id values, 0 extra ds_id values",
+      "layout_rules_json": "valid: 67 ds_ids, 0 missing ds_id values, 0 extra ds_id values",
+      "preview_manifest_json": "valid: 0 warnings, 252 extracted components, 67 ds_ids, 135 actions"
+    },
+    "mermaid_markdown": {
+      "flow_md_blocks": 1,
+      "review_diagrams_md_blocks": 5,
+      "validator_status": "PASS",
+      "flow_matches_contract_mermaid": true,
+      "unsupported_or_empty_blocks": 0,
+      "markdown_inside_mermaid_blocks": false
+    }
+  },
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_wireframes",
+      "detail": "review-diagrams.md component hierarchy omits 14 contract ds_ids: ds:webui.shell.nav_dashboard, nav_board, nav_tasks, nav_trace, nav_docs, nav_approval, plus task detail tab/code/detail IDs ds:webui.task_detail.tab_list, tab_detail, tab_activity, tab_graph, tab_code, detail_panel, code_panel, and code_file_list. Add them to the component hierarchy diagram or document why the focused review diagram intentionally excludes them."
+    },
+    {
+      "priority": "P1",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_wireframes",
+      "detail": "review-diagrams.md action-to-event overview is selective and omits 24 contract action IDs, including nav actions, task detail tab/dependency/full-trace actions, task list sort/select/open/export/toggle/bulk-status actions, trace filter/fit/open/view-impact actions, docs copy, search retry, and boundary back action. Either expand the action diagram or label it as a sampled overview so it is not mistaken for complete traceability."
+    }
+  ],
+  "baseline_regression": false,
+  "issues": [
+    "Baseline regression check not applicable: .agents/agent-org/baselines.json has features_processed=0.",
+    "Required Markdown Mermaid artifacts validate successfully and no standalone .mmd files were found.",
+    "Task-board ralph_stage1_evaluator was already marked DONE before scoring; no task-board source artifact update was required."
+  ]
+}

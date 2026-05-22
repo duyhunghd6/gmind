@@ -1,0 +1,3309 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "source_contract": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+  "source_prd": "/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md",
+  "iteration": 4,
+  "generated_by": "ralph_stage1_gen_flows",
+  "preview_extraction_contract": {
+    "components_path": "components",
+    "ds_ids_path": "ds_ids",
+    "actions_path": "actions",
+    "screens_path": "screens",
+    "events_path": "action_event_coverage.mermaid_events",
+    "transitions_path": "flow.md mermaid block",
+    "component_tree_keys": [
+      "layout.children",
+      "components",
+      "children",
+      "ds_id",
+      "registry_ref",
+      "Action.action"
+    ],
+    "event_mapping_rule": "YAML Action action EVENT_{action.id} maps to Mermaid event EVENT_{action.id}"
+  },
+  "components_total": 67,
+  "actions_mapped_total": 50,
+  "ds_ids_total": 67,
+  "ds_ids": [
+    "ds:webui.shell.root",
+    "ds:webui.shell.header",
+    "ds:webui.shell.global_search",
+    "ds:webui.shell.connection_badge",
+    "ds:webui.shell.sidebar",
+    "ds:webui.shell.nav_dashboard",
+    "ds:webui.shell.nav_board",
+    "ds:webui.shell.nav_tasks",
+    "ds:webui.shell.nav_trace",
+    "ds:webui.shell.nav_docs",
+    "ds:webui.shell.nav_approval",
+    "ds:webui.shell.offline_banner",
+    "ds:webui.shell.footer",
+    "ds:webui.dashboard.root",
+    "ds:webui.dashboard.kpi_row",
+    "ds:webui.dashboard.kpi_coverage",
+    "ds:webui.dashboard.kpi_done",
+    "ds:webui.dashboard.kpi_gaps",
+    "ds:webui.dashboard.coverage_panel",
+    "ds:webui.dashboard.progress_panel",
+    "ds:webui.dashboard.graph_panel",
+    "ds:webui.dashboard.gap_panel",
+    "ds:webui.board.root",
+    "ds:webui.board.level_tabs",
+    "ds:webui.board.todo_column",
+    "ds:webui.board.progress_column",
+    "ds:webui.board.blocked_column",
+    "ds:webui.board.done_column",
+    "ds:webui.board.rte_task_card",
+    "ds:webui.board.rte_escalation_badge",
+    "ds:webui.board.confidence_vote_button",
+    "ds:webui.approval.root",
+    "ds:webui.approval.evidence_panel",
+    "ds:webui.approval.prd_context",
+    "ds:webui.approval.approve_button",
+    "ds:webui.approval.reject_button",
+    "ds:webui.docs.root",
+    "ds:webui.docs.tree",
+    "ds:webui.docs.content",
+    "ds:webui.docs.coverage_badge",
+    "ds:webui.trace.root",
+    "ds:webui.trace.toolbar",
+    "ds:webui.trace.graph_canvas",
+    "ds:webui.trace.detail_panel",
+    "ds:webui.task_detail.root",
+    "ds:webui.task_detail.header_card",
+    "ds:webui.task_detail.tabs",
+    "ds:webui.task_detail.tab_list",
+    "ds:webui.task_detail.tab_detail",
+    "ds:webui.task_detail.tab_activity",
+    "ds:webui.task_detail.tab_graph",
+    "ds:webui.task_detail.tab_code",
+    "ds:webui.task_detail.detail_panel",
+    "ds:webui.task_detail.activity_timeline",
+    "ds:webui.task_detail.graph_widget",
+    "ds:webui.task_detail.code_panel",
+    "ds:webui.task_detail.code_file_list",
+    "ds:webui.task_detail.rte_context",
+    "ds:webui.tasks.root",
+    "ds:webui.tasks.filter_bar",
+    "ds:webui.tasks.table",
+    "ds:webui.tasks.bulk_bar",
+    "ds:webui.search.root",
+    "ds:webui.search.filters",
+    "ds:webui.search.results",
+    "ds:webui.boundary.permission_root",
+    "ds:webui.boundary.permission_back_button"
+  ],
+  "components": [
+    {
+      "ds_id": "ds:webui.shell.root",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "AppShell",
+      "ds_type": "ds-lay-section",
+      "label": null,
+      "states": [
+        "default"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.header",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "Navbar",
+      "ds_type": "ds-lay-navbar",
+      "label": "gmind Web UI",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_shell_open_nav",
+          "label": "Open navigation",
+          "event": "click",
+          "target": "shell.sidebar",
+          "mobile_only": true
+        },
+        {
+          "id": "action_shell_focus_search",
+          "label": "Focus global search",
+          "event": "keyboard_shortcut",
+          "target_route": "/search",
+          "keys": [
+            "Ctrl+K",
+            "/"
+          ]
+        }
+      ],
+      "bindings": {
+        "active_route": "route.current",
+        "connection_state": "api.health.status"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Navbar"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.global_search",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "SearchInput",
+      "ds_type": "ds-comp-card",
+      "label": "Tìm tasks, tài liệu, commits, code... (Ctrl+K)",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_shell_submit_search",
+          "label": "Search",
+          "event": "submit",
+          "target_route": "/search?q={query}"
+        }
+      ],
+      "bindings": {
+        "value": "route.query.q",
+        "suggestions": "api.search.suggestions_top5"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Navbar",
+        "SearchInput"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.connection_badge",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "Badge",
+      "ds_type": "ds-comp-badge",
+      "label": "Online",
+      "states": [
+        "default"
+      ],
+      "actions": [],
+      "bindings": {
+        "text": "api.health.status_label",
+        "variant": "api.health.status_variant"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Navbar",
+        "Badge"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.sidebar",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "Sidebar",
+      "ds_type": "ds-lay-navbar",
+      "label": "Primary navigation",
+      "states": [
+        "default"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.nav_dashboard",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "NavItem",
+      "ds_type": "ds-comp-button",
+      "label": "Dashboard",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_nav_dashboard",
+          "label": "Navigate to Dashboard",
+          "event": "click",
+          "target_route": "/"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar",
+        "NavItem"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.nav_board",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "NavItem",
+      "ds_type": "ds-comp-button",
+      "label": "Board",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_nav_board",
+          "label": "Navigate to Board",
+          "event": "click",
+          "target_route": "/board"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar",
+        "NavItem"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.nav_tasks",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "NavItem",
+      "ds_type": "ds-comp-button",
+      "label": "Tasks",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_nav_tasks",
+          "label": "Navigate to Tasks",
+          "event": "click",
+          "target_route": "/tasks"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar",
+        "NavItem"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.nav_trace",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "NavItem",
+      "ds_type": "ds-comp-button",
+      "label": "Trace",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_nav_trace",
+          "label": "Navigate to Trace",
+          "event": "click",
+          "target_route": "/trace/:id"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar",
+        "NavItem"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.nav_docs",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "NavItem",
+      "ds_type": "ds-comp-button",
+      "label": "Docs",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_nav_docs",
+          "label": "Navigate to Docs",
+          "event": "click",
+          "target_route": "/docs"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar",
+        "NavItem"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.nav_approval",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "NavItem",
+      "ds_type": "ds-comp-button",
+      "label": "Approval",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_nav_approval",
+          "label": "Navigate to Approval",
+          "event": "click",
+          "target_route": "/approval"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Sidebar",
+        "NavItem"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.offline_banner",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "OfflineBanner",
+      "ds_type": "ds-comp-badge",
+      "label": "Đang offline — chế độ chỉ đọc",
+      "states": [
+        "default"
+      ],
+      "actions": [
+        {
+          "id": "action_shell_retry_connection",
+          "label": "Kiểm tra lại kết nối",
+          "event": "click",
+          "api": "GET /api/health"
+        }
+      ],
+      "bindings": {},
+      "visibility": "api.health.status == offline",
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "OfflineBanner"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.shell.footer",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "component_type": "Footer",
+      "ds_type": "ds-lay-footer",
+      "label": "gmind version, FrankenSQLite sync status, uptime",
+      "states": [
+        "default"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "shared",
+        "global_shell",
+        "AppShell",
+        "Footer"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.root",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "DashboardPage",
+      "ds_type": "ds-lay-grid",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.kpi_row",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "KpiRow",
+      "ds_type": "ds-lay-grid",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "KpiRow"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.kpi_coverage",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "Coverage 78%",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {
+        "value": "coverage.overall_percent"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "KpiRow",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.kpi_done",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "Tasks done 98 of 142",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {
+        "value": "tasks.done_count"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "KpiRow",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.kpi_gaps",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "Gaps found 5",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {
+        "value": "gaps.total"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "KpiRow",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.coverage_panel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "HeatmapPanel",
+      "ds_type": "ds-comp-heatmap-cell",
+      "label": "Coverage Heatmap",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_dashboard_expand_prd",
+          "label": "Expand PRD section coverage",
+          "event": "click",
+          "target": "coverage.section_rows"
+        },
+        {
+          "id": "action_dashboard_open_section_tasks",
+          "label": "Show linked tasks",
+          "event": "click",
+          "target": "dashboard.side_panel"
+        }
+      ],
+      "bindings": {
+        "rows": "api.coverage.prd_sections"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "HeatmapPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.progress_panel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "TaskProgressPanel",
+      "ds_type": "ds-comp-card",
+      "label": "Task Progress",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_dashboard_filter_by_status",
+          "label": "Filter tasks by status",
+          "event": "click",
+          "target_route": "/tasks?status={status}"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "TaskProgressPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.graph_panel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "KnowledgeGraphWidget",
+      "ds_type": "ds-comp-graph-node",
+      "label": "Knowledge Graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_dashboard_select_graph_node",
+          "label": "Open node details",
+          "event": "click",
+          "target": "dashboard.graph_detail_panel"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "KnowledgeGraphWidget"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.dashboard.gap_panel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "component_type": "GapListPanel",
+      "ds_type": "ds-comp-rtm-row",
+      "label": "Gap Analysis",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_dashboard_create_plan",
+          "label": "Create plan for gap",
+          "event": "click",
+          "target": "dashboard.create_plan_drawer"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_dashboard_rtm",
+        "DashboardPage",
+        "GapListPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.root",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "BoardPage",
+      "ds_type": "ds-lay-kanban-board",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.level_tabs",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "SegmentControl",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Portfolio, ART, Team, PI Planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_board_switch_level",
+          "label": "Switch board level",
+          "event": "click",
+          "api": "GET /api/tasks?view=board&level={level}"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "SegmentControl"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.todo_column",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "KanbanColumn",
+      "ds_type": "ds-comp-kanban-column",
+      "label": "Todo",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_board_drag_task",
+          "label": "Move task card",
+          "event": "drag_drop",
+          "api": "PUT /api/tasks/:id"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "KanbanColumn"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.progress_column",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "KanbanColumn",
+      "ds_type": "ds-comp-kanban-column",
+      "label": "In Progress",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "KanbanColumn"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.blocked_column",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "KanbanColumn",
+      "ds_type": "ds-comp-kanban-column",
+      "label": "Blocked",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "KanbanColumn"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.done_column",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "KanbanColumn",
+      "ds_type": "ds-comp-kanban-column",
+      "label": "Done",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "KanbanColumn"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.rte_task_card",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "bd-r7k2 Agent handoff conflict",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {
+        "rte_status": "task.rte_status",
+        "assignee": "task.assignee",
+        "priority": "task.priority"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.rte_escalation_badge",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "Badge",
+      "ds_type": "ds-comp-badge",
+      "label": "RTE:ESCALATED",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_board_open_rte_drawer",
+          "label": "Open RTE discussion",
+          "event": "click",
+          "target": "board.rte_drawer"
+        }
+      ],
+      "bindings": {},
+      "visibility": "task.rte_status in ['escalated','discussing']",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "Card",
+        "Badge"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.board.confidence_vote_button",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "component_type": "Button",
+      "ds_type": "ds-comp-button",
+      "label": "Confidence Vote",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_board_submit_confidence_vote",
+          "label": "Submit confidence vote",
+          "event": "click",
+          "api": "POST /api/pi-planning/confidence-vote"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_safe_board",
+        "BoardPage",
+        "Button"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.approval.root",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "component_type": "ApprovalPage",
+      "ds_type": "ds-lay-split-panel",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "insufficient_evidence",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_approval_gates",
+        "ApprovalPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.approval.evidence_panel",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "component_type": "ApprovalPanel",
+      "ds_type": "ds-comp-approval-panel",
+      "label": "Level 3 Evidence",
+      "states": [
+        "default",
+        "loading",
+        "insufficient_evidence",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_approval_refresh_evidence",
+          "label": "Refresh evidence",
+          "event": "click",
+          "api": "POST /api/approvals/:id/refresh"
+        },
+        {
+          "id": "action_approval_open_diff",
+          "label": "Open code diff",
+          "event": "click",
+          "target": "approval.diff_section"
+        }
+      ],
+      "bindings": {
+        "evidence": "approval.selected_task.evidence"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_approval_gates",
+        "ApprovalPage",
+        "ApprovalPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.approval.prd_context",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "PRD Requirements Context",
+      "states": [
+        "default",
+        "loading",
+        "insufficient_evidence",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "requirements": "approval.selected_task.prd_links"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_approval_gates",
+        "ApprovalPage",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.approval.approve_button",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "component_type": "Button",
+      "ds_type": "ds-comp-button",
+      "label": "Approve",
+      "states": [
+        "default",
+        "loading",
+        "insufficient_evidence",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_approval_approve_task",
+          "label": "Approve task",
+          "event": "click",
+          "api": "POST /api/approvals/:id/approve"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": "approval.evidence_status != complete",
+      "component_path": [
+        "screens",
+        "screen_approval_gates",
+        "ApprovalPage",
+        "Button"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.approval.reject_button",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "component_type": "Button",
+      "ds_type": "ds-comp-button",
+      "label": "Reject",
+      "states": [
+        "default",
+        "loading",
+        "insufficient_evidence",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_approval_reject_task",
+          "label": "Reject with feedback",
+          "event": "click",
+          "api": "POST /api/approvals/:id/reject"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_approval_gates",
+        "ApprovalPage",
+        "Button"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.docs.root",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "component_type": "DocsPage",
+      "ds_type": "ds-lay-docs-layout",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_docs_viewer",
+        "DocsPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.docs.tree",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "component_type": "DocTree",
+      "ds_type": "ds-comp-card",
+      "label": "Document source tree",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_docs_select_document",
+          "label": "Select document",
+          "event": "click",
+          "api": "GET /api/docs/:source_type"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_docs_viewer",
+        "DocsPage",
+        "DocTree"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.docs.content",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "component_type": "MarkdownContent",
+      "ds_type": "ds-comp-code-block",
+      "label": "Rendered document content",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_docs_open_trace",
+          "label": "Open Beads trace",
+          "event": "click",
+          "target_route": "/trace/{beads_id}"
+        },
+        {
+          "id": "action_docs_copy_beads_id",
+          "label": "Copy Beads ID",
+          "event": "click",
+          "target": "clipboard"
+        }
+      ],
+      "bindings": {
+        "document": "docs.selected_document",
+        "beads_ids": "docs.detected_beads_ids"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_docs_viewer",
+        "DocsPage",
+        "MarkdownContent"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.docs.coverage_badge",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "component_type": "Badge",
+      "ds_type": "ds-comp-badge",
+      "label": "Coverage indicator",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "value": "coverage.document_percent"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_docs_viewer",
+        "DocsPage",
+        "Badge"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.trace.root",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "component_type": "TracePage",
+      "ds_type": "ds-lay-split-panel",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_trace_explorer",
+        "TracePage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.trace.toolbar",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "component_type": "Toolbar",
+      "ds_type": "ds-comp-card",
+      "label": "Trace toolbar",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "partial"
+      ],
+      "actions": [
+        {
+          "id": "action_trace_change_root",
+          "label": "Change root Beads ID",
+          "event": "submit",
+          "api": "GET /api/trace/:id?depth={depth}"
+        },
+        {
+          "id": "action_trace_filter_node_types",
+          "label": "Filter node types",
+          "event": "click",
+          "target": "trace.graph_canvas"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_trace_explorer",
+        "TracePage",
+        "Toolbar"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.trace.graph_canvas",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "component_type": "GraphCanvas",
+      "ds_type": "ds-comp-graph-node",
+      "label": "Beads trace graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "partial"
+      ],
+      "actions": [
+        {
+          "id": "action_trace_select_node",
+          "label": "Select node",
+          "event": "click",
+          "target": "trace.detail_panel"
+        },
+        {
+          "id": "action_trace_open_node_route",
+          "label": "Open node route",
+          "event": "double_click",
+          "target_route": "{node.route}"
+        },
+        {
+          "id": "action_trace_fit_view",
+          "label": "Fit graph to view",
+          "event": "click",
+          "target": "trace.graph_canvas"
+        }
+      ],
+      "bindings": {
+        "nodes": "trace.nodes",
+        "edges": "trace.edges",
+        "selected_node": "trace.selected_node"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_trace_explorer",
+        "TracePage",
+        "GraphCanvas"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.trace.detail_panel",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "component_type": "DetailPanel",
+      "ds_type": "ds-comp-card",
+      "label": "Node details",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "partial"
+      ],
+      "actions": [
+        {
+          "id": "action_trace_view_impact",
+          "label": "View impact",
+          "event": "click",
+          "api": "GET /api/impact/:section"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_trace_explorer",
+        "TracePage",
+        "DetailPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.root",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "TaskDetailPage",
+      "ds_type": "ds-lay-section",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.header_card",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "Task bd-r7k2 Resolve release gate evidence",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_task_update_status",
+          "label": "Update status",
+          "event": "change",
+          "api": "PUT /api/tasks/:id"
+        },
+        {
+          "id": "action_task_update_assignee",
+          "label": "Update assignee",
+          "event": "change",
+          "api": "PUT /api/tasks/:id"
+        },
+        {
+          "id": "action_task_update_priority",
+          "label": "Update priority",
+          "event": "change",
+          "api": "PUT /api/tasks/:id"
+        }
+      ],
+      "bindings": {
+        "task": "task_detail.record"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.tabs",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "TabPanel",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Task detail tab workspace",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_task_switch_tab",
+          "label": "Switch task tab",
+          "event": "click",
+          "target": "task_detail.active_tab"
+        }
+      ],
+      "bindings": {
+        "active_tab": "task_detail.active_tab"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.tab_list",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "TabList",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Detail, Activity, Graph, Code",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "TabList"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.tab_detail",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "Tab",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Detail",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "tab_id": "detail"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "TabList",
+        "Tab"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.tab_activity",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "Tab",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Activity",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "tab_id": "activity"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "TabList",
+        "Tab"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.tab_graph",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "Tab",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Graph",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "tab_id": "graph"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "TabList",
+        "Tab"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.tab_code",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "Tab",
+      "ds_type": "ds-comp-tab-panel",
+      "label": "Code",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "tab_id": "code"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "TabList",
+        "Tab"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.detail_panel",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "DetailTabPanel",
+      "ds_type": "ds-comp-card",
+      "label": "Editable task description, dependencies, labels, and escalation fields",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_task_open_dependency_trace",
+          "label": "Open dependency trace",
+          "event": "click",
+          "target_route": "/trace/{dependency.id}"
+        }
+      ],
+      "bindings": {
+        "description": "task_detail.record.description",
+        "dependencies": "task_detail.record.dependencies",
+        "labels": "task_detail.record.labels"
+      },
+      "visibility": "task_detail.active_tab == detail",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "DetailTabPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.activity_timeline",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "ActivityTimeline",
+      "ds_type": "ds-comp-activity-item",
+      "label": "Activity timeline",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "items": "task_detail.activity"
+      },
+      "visibility": "task_detail.active_tab == activity",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "ActivityTimeline"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.graph_widget",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "KnowledgeGraphWidget",
+      "ds_type": "ds-comp-graph-node",
+      "label": "Scoped task graph",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_task_open_full_trace",
+          "label": "Open full trace",
+          "event": "click",
+          "target_route": "/trace/{task.id}"
+        }
+      ],
+      "bindings": {
+        "nodes": "task_detail.trace.nodes",
+        "edges": "task_detail.trace.edges"
+      },
+      "visibility": "task_detail.active_tab == graph",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "KnowledgeGraphWidget"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.code_panel",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "CodeTabPanel",
+      "ds_type": "ds-comp-code-block",
+      "label": "Code files touched by this task",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "files": "task_detail.trace.code_touches",
+        "grouped_by": "directory",
+        "last_commit": "task_detail.trace.last_commit"
+      },
+      "visibility": "task_detail.active_tab == code",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "CodeTabPanel"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.code_file_list",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "CodeFileList",
+      "ds_type": "ds-comp-code-block",
+      "label": "Files grouped by directory with filename, last commit, and lines changed",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {
+        "rows": "task_detail.trace.code_touches"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "TabPanel",
+        "CodeTabPanel",
+        "CodeFileList"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.task_detail.rte_context",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "component_type": "Card",
+      "ds_type": "ds-comp-card",
+      "label": "Execution Context",
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": "task.rte_status == approved",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_detail",
+        "TaskDetailPage",
+        "Card"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.tasks.root",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "component_type": "TaskListPage",
+      "ds_type": "ds-lay-section",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "bulk_action_processing",
+        "offline"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_list",
+        "TaskListPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.tasks.filter_bar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "component_type": "FilterBar",
+      "ds_type": "ds-comp-card",
+      "label": "Task filters",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "bulk_action_processing",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_tasks_apply_filter",
+          "label": "Apply filters",
+          "event": "change",
+          "api": "GET /api/tasks?format=list&filters={filters}"
+        },
+        {
+          "id": "action_tasks_export_csv",
+          "label": "Export CSV",
+          "event": "click",
+          "api": "GET /api/tasks/export.csv"
+        },
+        {
+          "id": "action_tasks_toggle_board_list",
+          "label": "Toggle board or list view",
+          "event": "click",
+          "target_route": "/board"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_list",
+        "TaskListPage",
+        "FilterBar"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.tasks.table",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "component_type": "DataTable",
+      "ds_type": "ds-comp-rtm-row",
+      "label": "Tasks table",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "bulk_action_processing",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_tasks_sort_column",
+          "label": "Sort column",
+          "event": "click",
+          "api": "GET /api/tasks?sort={column}"
+        },
+        {
+          "id": "action_tasks_open_detail",
+          "label": "Open task detail",
+          "event": "click",
+          "target_route": "/tasks/{task.id}"
+        },
+        {
+          "id": "action_tasks_select_row",
+          "label": "Select row",
+          "event": "click",
+          "target": "tasks.selection"
+        }
+      ],
+      "bindings": {
+        "rows": "tasks.items",
+        "selected_rows": "tasks.selection"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_list",
+        "TaskListPage",
+        "DataTable"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.tasks.bulk_bar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "component_type": "BulkActionBar",
+      "ds_type": "ds-comp-card",
+      "label": "Bulk actions",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "bulk_action_processing",
+        "offline"
+      ],
+      "actions": [
+        {
+          "id": "action_tasks_bulk_assign",
+          "label": "Bulk assign",
+          "event": "submit",
+          "api": "PUT /api/tasks/bulk"
+        },
+        {
+          "id": "action_tasks_bulk_status",
+          "label": "Bulk status change",
+          "event": "submit",
+          "api": "PUT /api/tasks/bulk"
+        }
+      ],
+      "bindings": {},
+      "visibility": "tasks.selection.count >= 1",
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_task_list",
+        "TaskListPage",
+        "BulkActionBar"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.search.root",
+      "screen": "screen_search_results",
+      "screen_name": "Search Results",
+      "route": "/search",
+      "component_type": "SearchPage",
+      "ds_type": "ds-lay-split-panel",
+      "label": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_search_results",
+        "SearchPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.search.filters",
+      "screen": "screen_search_results",
+      "screen_name": "Search Results",
+      "route": "/search",
+      "component_type": "FilterSidebar",
+      "ds_type": "ds-comp-card",
+      "label": "Search filters",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_search_apply_filter",
+          "label": "Apply search filter",
+          "event": "change",
+          "api": "GET /api/search?q={query}&type={types}"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_search_results",
+        "SearchPage",
+        "FilterSidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.search.results",
+      "screen": "screen_search_results",
+      "screen_name": "Search Results",
+      "route": "/search",
+      "component_type": "ResultGroupList",
+      "ds_type": "ds-comp-card",
+      "label": "Grouped search results",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action_search_open_result",
+          "label": "Open result",
+          "event": "click",
+          "target_route": "{result.route}"
+        },
+        {
+          "id": "action_search_retry",
+          "label": "Retry search",
+          "event": "click",
+          "api": "GET /api/search?q={query}"
+        }
+      ],
+      "bindings": {
+        "groups": "search.result_groups"
+      },
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_search_results",
+        "SearchPage",
+        "ResultGroupList"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.boundary.permission_root",
+      "screen": "screen_route_permission_denied",
+      "screen_name": "Permission Denied Boundary",
+      "route": "*permission-denied",
+      "component_type": "BoundaryPage",
+      "ds_type": "ds-comp-card",
+      "label": "Permission denied",
+      "states": [
+        "permission_denied"
+      ],
+      "actions": [],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_route_permission_denied",
+        "BoundaryPage"
+      ]
+    },
+    {
+      "ds_id": "ds:webui.boundary.permission_back_button",
+      "screen": "screen_route_permission_denied",
+      "screen_name": "Permission Denied Boundary",
+      "route": "*permission-denied",
+      "component_type": "Button",
+      "ds_type": "ds-comp-button",
+      "label": "Back to Dashboard",
+      "states": [
+        "permission_denied"
+      ],
+      "actions": [
+        {
+          "id": "action_boundary_back_dashboard",
+          "label": "Return to dashboard",
+          "event": "click",
+          "target_route": "/"
+        }
+      ],
+      "bindings": {},
+      "visibility": null,
+      "disabled_when": null,
+      "component_path": [
+        "screens",
+        "screen_route_permission_denied",
+        "BoundaryPage",
+        "Button"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_shell_open_nav",
+      "event_name": "EVENT_action_shell_open_nav",
+      "component_ds_id": "ds:webui.shell.header",
+      "component_type": "Navbar",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Open navigation",
+      "event": "click",
+      "target": "shell.sidebar",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "active_route": "route.current",
+        "connection_state": "api.health.status"
+      }
+    },
+    {
+      "id": "action_shell_focus_search",
+      "event_name": "EVENT_action_shell_focus_search",
+      "component_ds_id": "ds:webui.shell.header",
+      "component_type": "Navbar",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Focus global search",
+      "event": "keyboard_shortcut",
+      "target": null,
+      "target_route": "/search",
+      "api": null,
+      "binding_context": {
+        "active_route": "route.current",
+        "connection_state": "api.health.status"
+      }
+    },
+    {
+      "id": "action_shell_submit_search",
+      "event_name": "EVENT_action_shell_submit_search",
+      "component_ds_id": "ds:webui.shell.global_search",
+      "component_type": "SearchInput",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Search",
+      "event": "submit",
+      "target": null,
+      "target_route": "/search?q={query}",
+      "api": null,
+      "binding_context": {
+        "value": "route.query.q",
+        "suggestions": "api.search.suggestions_top5"
+      }
+    },
+    {
+      "id": "action_nav_dashboard",
+      "event_name": "EVENT_action_nav_dashboard",
+      "component_ds_id": "ds:webui.shell.nav_dashboard",
+      "component_type": "NavItem",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Navigate to Dashboard",
+      "event": "click",
+      "target": null,
+      "target_route": "/",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_nav_board",
+      "event_name": "EVENT_action_nav_board",
+      "component_ds_id": "ds:webui.shell.nav_board",
+      "component_type": "NavItem",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Navigate to Board",
+      "event": "click",
+      "target": null,
+      "target_route": "/board",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_nav_tasks",
+      "event_name": "EVENT_action_nav_tasks",
+      "component_ds_id": "ds:webui.shell.nav_tasks",
+      "component_type": "NavItem",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Navigate to Tasks",
+      "event": "click",
+      "target": null,
+      "target_route": "/tasks",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_nav_trace",
+      "event_name": "EVENT_action_nav_trace",
+      "component_ds_id": "ds:webui.shell.nav_trace",
+      "component_type": "NavItem",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Navigate to Trace",
+      "event": "click",
+      "target": null,
+      "target_route": "/trace/:id",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_nav_docs",
+      "event_name": "EVENT_action_nav_docs",
+      "component_ds_id": "ds:webui.shell.nav_docs",
+      "component_type": "NavItem",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Navigate to Docs",
+      "event": "click",
+      "target": null,
+      "target_route": "/docs",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_nav_approval",
+      "event_name": "EVENT_action_nav_approval",
+      "component_ds_id": "ds:webui.shell.nav_approval",
+      "component_type": "NavItem",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Navigate to Approval",
+      "event": "click",
+      "target": null,
+      "target_route": "/approval",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_shell_retry_connection",
+      "event_name": "EVENT_action_shell_retry_connection",
+      "component_ds_id": "ds:webui.shell.offline_banner",
+      "component_type": "OfflineBanner",
+      "screen": "shared_global_shell",
+      "screen_name": "Global Shell",
+      "route": "all_routes",
+      "label": "Kiểm tra lại kết nối",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/health",
+      "binding_context": {}
+    },
+    {
+      "id": "action_dashboard_expand_prd",
+      "event_name": "EVENT_action_dashboard_expand_prd",
+      "component_ds_id": "ds:webui.dashboard.coverage_panel",
+      "component_type": "HeatmapPanel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "label": "Expand PRD section coverage",
+      "event": "click",
+      "target": "coverage.section_rows",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "rows": "api.coverage.prd_sections"
+      }
+    },
+    {
+      "id": "action_dashboard_open_section_tasks",
+      "event_name": "EVENT_action_dashboard_open_section_tasks",
+      "component_ds_id": "ds:webui.dashboard.coverage_panel",
+      "component_type": "HeatmapPanel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "label": "Show linked tasks",
+      "event": "click",
+      "target": "dashboard.side_panel",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "rows": "api.coverage.prd_sections"
+      }
+    },
+    {
+      "id": "action_dashboard_filter_by_status",
+      "event_name": "EVENT_action_dashboard_filter_by_status",
+      "component_ds_id": "ds:webui.dashboard.progress_panel",
+      "component_type": "TaskProgressPanel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "label": "Filter tasks by status",
+      "event": "click",
+      "target": null,
+      "target_route": "/tasks?status={status}",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_dashboard_select_graph_node",
+      "event_name": "EVENT_action_dashboard_select_graph_node",
+      "component_ds_id": "ds:webui.dashboard.graph_panel",
+      "component_type": "KnowledgeGraphWidget",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "label": "Open node details",
+      "event": "click",
+      "target": "dashboard.graph_detail_panel",
+      "target_route": null,
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_dashboard_create_plan",
+      "event_name": "EVENT_action_dashboard_create_plan",
+      "component_ds_id": "ds:webui.dashboard.gap_panel",
+      "component_type": "GapListPanel",
+      "screen": "screen_dashboard_rtm",
+      "screen_name": "RTM Dashboard",
+      "route": "/",
+      "label": "Create plan for gap",
+      "event": "click",
+      "target": "dashboard.create_plan_drawer",
+      "target_route": null,
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_board_switch_level",
+      "event_name": "EVENT_action_board_switch_level",
+      "component_ds_id": "ds:webui.board.level_tabs",
+      "component_type": "SegmentControl",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "label": "Switch board level",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/tasks?view=board&level={level}",
+      "binding_context": {}
+    },
+    {
+      "id": "action_board_drag_task",
+      "event_name": "EVENT_action_board_drag_task",
+      "component_ds_id": "ds:webui.board.todo_column",
+      "component_type": "KanbanColumn",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "label": "Move task card",
+      "event": "drag_drop",
+      "target": null,
+      "target_route": null,
+      "api": "PUT /api/tasks/:id",
+      "binding_context": {}
+    },
+    {
+      "id": "action_board_open_rte_drawer",
+      "event_name": "EVENT_action_board_open_rte_drawer",
+      "component_ds_id": "ds:webui.board.rte_escalation_badge",
+      "component_type": "Badge",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "label": "Open RTE discussion",
+      "event": "click",
+      "target": "board.rte_drawer",
+      "target_route": null,
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_board_submit_confidence_vote",
+      "event_name": "EVENT_action_board_submit_confidence_vote",
+      "component_ds_id": "ds:webui.board.confidence_vote_button",
+      "component_type": "Button",
+      "screen": "screen_safe_board",
+      "screen_name": "SAFe Board",
+      "route": "/board",
+      "label": "Submit confidence vote",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "POST /api/pi-planning/confidence-vote",
+      "binding_context": {}
+    },
+    {
+      "id": "action_approval_refresh_evidence",
+      "event_name": "EVENT_action_approval_refresh_evidence",
+      "component_ds_id": "ds:webui.approval.evidence_panel",
+      "component_type": "ApprovalPanel",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "label": "Refresh evidence",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "POST /api/approvals/:id/refresh",
+      "binding_context": {
+        "evidence": "approval.selected_task.evidence"
+      }
+    },
+    {
+      "id": "action_approval_open_diff",
+      "event_name": "EVENT_action_approval_open_diff",
+      "component_ds_id": "ds:webui.approval.evidence_panel",
+      "component_type": "ApprovalPanel",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "label": "Open code diff",
+      "event": "click",
+      "target": "approval.diff_section",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "evidence": "approval.selected_task.evidence"
+      }
+    },
+    {
+      "id": "action_approval_approve_task",
+      "event_name": "EVENT_action_approval_approve_task",
+      "component_ds_id": "ds:webui.approval.approve_button",
+      "component_type": "Button",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "label": "Approve task",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "POST /api/approvals/:id/approve",
+      "binding_context": {}
+    },
+    {
+      "id": "action_approval_reject_task",
+      "event_name": "EVENT_action_approval_reject_task",
+      "component_ds_id": "ds:webui.approval.reject_button",
+      "component_type": "Button",
+      "screen": "screen_approval_gates",
+      "screen_name": "Approval Gates",
+      "route": "/approval",
+      "label": "Reject with feedback",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "POST /api/approvals/:id/reject",
+      "binding_context": {}
+    },
+    {
+      "id": "action_docs_select_document",
+      "event_name": "EVENT_action_docs_select_document",
+      "component_ds_id": "ds:webui.docs.tree",
+      "component_type": "DocTree",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "label": "Select document",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/docs/:source_type",
+      "binding_context": {}
+    },
+    {
+      "id": "action_docs_open_trace",
+      "event_name": "EVENT_action_docs_open_trace",
+      "component_ds_id": "ds:webui.docs.content",
+      "component_type": "MarkdownContent",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "label": "Open Beads trace",
+      "event": "click",
+      "target": null,
+      "target_route": "/trace/{beads_id}",
+      "api": null,
+      "binding_context": {
+        "document": "docs.selected_document",
+        "beads_ids": "docs.detected_beads_ids"
+      }
+    },
+    {
+      "id": "action_docs_copy_beads_id",
+      "event_name": "EVENT_action_docs_copy_beads_id",
+      "component_ds_id": "ds:webui.docs.content",
+      "component_type": "MarkdownContent",
+      "screen": "screen_docs_viewer",
+      "screen_name": "Document Viewer",
+      "route": "/docs",
+      "label": "Copy Beads ID",
+      "event": "click",
+      "target": "clipboard",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "document": "docs.selected_document",
+        "beads_ids": "docs.detected_beads_ids"
+      }
+    },
+    {
+      "id": "action_trace_change_root",
+      "event_name": "EVENT_action_trace_change_root",
+      "component_ds_id": "ds:webui.trace.toolbar",
+      "component_type": "Toolbar",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "label": "Change root Beads ID",
+      "event": "submit",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/trace/:id?depth={depth}",
+      "binding_context": {}
+    },
+    {
+      "id": "action_trace_filter_node_types",
+      "event_name": "EVENT_action_trace_filter_node_types",
+      "component_ds_id": "ds:webui.trace.toolbar",
+      "component_type": "Toolbar",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "label": "Filter node types",
+      "event": "click",
+      "target": "trace.graph_canvas",
+      "target_route": null,
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_trace_select_node",
+      "event_name": "EVENT_action_trace_select_node",
+      "component_ds_id": "ds:webui.trace.graph_canvas",
+      "component_type": "GraphCanvas",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "label": "Select node",
+      "event": "click",
+      "target": "trace.detail_panel",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "nodes": "trace.nodes",
+        "edges": "trace.edges",
+        "selected_node": "trace.selected_node"
+      }
+    },
+    {
+      "id": "action_trace_open_node_route",
+      "event_name": "EVENT_action_trace_open_node_route",
+      "component_ds_id": "ds:webui.trace.graph_canvas",
+      "component_type": "GraphCanvas",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "label": "Open node route",
+      "event": "double_click",
+      "target": null,
+      "target_route": "{node.route}",
+      "api": null,
+      "binding_context": {
+        "nodes": "trace.nodes",
+        "edges": "trace.edges",
+        "selected_node": "trace.selected_node"
+      }
+    },
+    {
+      "id": "action_trace_fit_view",
+      "event_name": "EVENT_action_trace_fit_view",
+      "component_ds_id": "ds:webui.trace.graph_canvas",
+      "component_type": "GraphCanvas",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "label": "Fit graph to view",
+      "event": "click",
+      "target": "trace.graph_canvas",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "nodes": "trace.nodes",
+        "edges": "trace.edges",
+        "selected_node": "trace.selected_node"
+      }
+    },
+    {
+      "id": "action_trace_view_impact",
+      "event_name": "EVENT_action_trace_view_impact",
+      "component_ds_id": "ds:webui.trace.detail_panel",
+      "component_type": "DetailPanel",
+      "screen": "screen_trace_explorer",
+      "screen_name": "Beads Trace Explorer",
+      "route": "/trace/:id",
+      "label": "View impact",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/impact/:section",
+      "binding_context": {}
+    },
+    {
+      "id": "action_task_update_status",
+      "event_name": "EVENT_action_task_update_status",
+      "component_ds_id": "ds:webui.task_detail.header_card",
+      "component_type": "Card",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "label": "Update status",
+      "event": "change",
+      "target": null,
+      "target_route": null,
+      "api": "PUT /api/tasks/:id",
+      "binding_context": {
+        "task": "task_detail.record"
+      }
+    },
+    {
+      "id": "action_task_update_assignee",
+      "event_name": "EVENT_action_task_update_assignee",
+      "component_ds_id": "ds:webui.task_detail.header_card",
+      "component_type": "Card",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "label": "Update assignee",
+      "event": "change",
+      "target": null,
+      "target_route": null,
+      "api": "PUT /api/tasks/:id",
+      "binding_context": {
+        "task": "task_detail.record"
+      }
+    },
+    {
+      "id": "action_task_update_priority",
+      "event_name": "EVENT_action_task_update_priority",
+      "component_ds_id": "ds:webui.task_detail.header_card",
+      "component_type": "Card",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "label": "Update priority",
+      "event": "change",
+      "target": null,
+      "target_route": null,
+      "api": "PUT /api/tasks/:id",
+      "binding_context": {
+        "task": "task_detail.record"
+      }
+    },
+    {
+      "id": "action_task_switch_tab",
+      "event_name": "EVENT_action_task_switch_tab",
+      "component_ds_id": "ds:webui.task_detail.tabs",
+      "component_type": "TabPanel",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "label": "Switch task tab",
+      "event": "click",
+      "target": "task_detail.active_tab",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "active_tab": "task_detail.active_tab"
+      }
+    },
+    {
+      "id": "action_task_open_dependency_trace",
+      "event_name": "EVENT_action_task_open_dependency_trace",
+      "component_ds_id": "ds:webui.task_detail.detail_panel",
+      "component_type": "DetailTabPanel",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "label": "Open dependency trace",
+      "event": "click",
+      "target": null,
+      "target_route": "/trace/{dependency.id}",
+      "api": null,
+      "binding_context": {
+        "description": "task_detail.record.description",
+        "dependencies": "task_detail.record.dependencies",
+        "labels": "task_detail.record.labels"
+      }
+    },
+    {
+      "id": "action_task_open_full_trace",
+      "event_name": "EVENT_action_task_open_full_trace",
+      "component_ds_id": "ds:webui.task_detail.graph_widget",
+      "component_type": "KnowledgeGraphWidget",
+      "screen": "screen_task_detail",
+      "screen_name": "Task Detail",
+      "route": "/tasks/:id",
+      "label": "Open full trace",
+      "event": "click",
+      "target": null,
+      "target_route": "/trace/{task.id}",
+      "api": null,
+      "binding_context": {
+        "nodes": "task_detail.trace.nodes",
+        "edges": "task_detail.trace.edges"
+      }
+    },
+    {
+      "id": "action_tasks_apply_filter",
+      "event_name": "EVENT_action_tasks_apply_filter",
+      "component_ds_id": "ds:webui.tasks.filter_bar",
+      "component_type": "FilterBar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Apply filters",
+      "event": "change",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/tasks?format=list&filters={filters}",
+      "binding_context": {}
+    },
+    {
+      "id": "action_tasks_export_csv",
+      "event_name": "EVENT_action_tasks_export_csv",
+      "component_ds_id": "ds:webui.tasks.filter_bar",
+      "component_type": "FilterBar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Export CSV",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/tasks/export.csv",
+      "binding_context": {}
+    },
+    {
+      "id": "action_tasks_toggle_board_list",
+      "event_name": "EVENT_action_tasks_toggle_board_list",
+      "component_ds_id": "ds:webui.tasks.filter_bar",
+      "component_type": "FilterBar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Toggle board or list view",
+      "event": "click",
+      "target": null,
+      "target_route": "/board",
+      "api": null,
+      "binding_context": {}
+    },
+    {
+      "id": "action_tasks_sort_column",
+      "event_name": "EVENT_action_tasks_sort_column",
+      "component_ds_id": "ds:webui.tasks.table",
+      "component_type": "DataTable",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Sort column",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/tasks?sort={column}",
+      "binding_context": {
+        "rows": "tasks.items",
+        "selected_rows": "tasks.selection"
+      }
+    },
+    {
+      "id": "action_tasks_open_detail",
+      "event_name": "EVENT_action_tasks_open_detail",
+      "component_ds_id": "ds:webui.tasks.table",
+      "component_type": "DataTable",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Open task detail",
+      "event": "click",
+      "target": null,
+      "target_route": "/tasks/{task.id}",
+      "api": null,
+      "binding_context": {
+        "rows": "tasks.items",
+        "selected_rows": "tasks.selection"
+      }
+    },
+    {
+      "id": "action_tasks_select_row",
+      "event_name": "EVENT_action_tasks_select_row",
+      "component_ds_id": "ds:webui.tasks.table",
+      "component_type": "DataTable",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Select row",
+      "event": "click",
+      "target": "tasks.selection",
+      "target_route": null,
+      "api": null,
+      "binding_context": {
+        "rows": "tasks.items",
+        "selected_rows": "tasks.selection"
+      }
+    },
+    {
+      "id": "action_tasks_bulk_assign",
+      "event_name": "EVENT_action_tasks_bulk_assign",
+      "component_ds_id": "ds:webui.tasks.bulk_bar",
+      "component_type": "BulkActionBar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Bulk assign",
+      "event": "submit",
+      "target": null,
+      "target_route": null,
+      "api": "PUT /api/tasks/bulk",
+      "binding_context": {}
+    },
+    {
+      "id": "action_tasks_bulk_status",
+      "event_name": "EVENT_action_tasks_bulk_status",
+      "component_ds_id": "ds:webui.tasks.bulk_bar",
+      "component_type": "BulkActionBar",
+      "screen": "screen_task_list",
+      "screen_name": "Task List",
+      "route": "/tasks",
+      "label": "Bulk status change",
+      "event": "submit",
+      "target": null,
+      "target_route": null,
+      "api": "PUT /api/tasks/bulk",
+      "binding_context": {}
+    },
+    {
+      "id": "action_search_apply_filter",
+      "event_name": "EVENT_action_search_apply_filter",
+      "component_ds_id": "ds:webui.search.filters",
+      "component_type": "FilterSidebar",
+      "screen": "screen_search_results",
+      "screen_name": "Search Results",
+      "route": "/search",
+      "label": "Apply search filter",
+      "event": "change",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/search?q={query}&type={types}",
+      "binding_context": {}
+    },
+    {
+      "id": "action_search_open_result",
+      "event_name": "EVENT_action_search_open_result",
+      "component_ds_id": "ds:webui.search.results",
+      "component_type": "ResultGroupList",
+      "screen": "screen_search_results",
+      "screen_name": "Search Results",
+      "route": "/search",
+      "label": "Open result",
+      "event": "click",
+      "target": null,
+      "target_route": "{result.route}",
+      "api": null,
+      "binding_context": {
+        "groups": "search.result_groups"
+      }
+    },
+    {
+      "id": "action_search_retry",
+      "event_name": "EVENT_action_search_retry",
+      "component_ds_id": "ds:webui.search.results",
+      "component_type": "ResultGroupList",
+      "screen": "screen_search_results",
+      "screen_name": "Search Results",
+      "route": "/search",
+      "label": "Retry search",
+      "event": "click",
+      "target": null,
+      "target_route": null,
+      "api": "GET /api/search?q={query}",
+      "binding_context": {
+        "groups": "search.result_groups"
+      }
+    },
+    {
+      "id": "action_boundary_back_dashboard",
+      "event_name": "EVENT_action_boundary_back_dashboard",
+      "component_ds_id": "ds:webui.boundary.permission_back_button",
+      "component_type": "Button",
+      "screen": "screen_route_permission_denied",
+      "screen_name": "Permission Denied Boundary",
+      "route": "*permission-denied",
+      "label": "Return to dashboard",
+      "event": "click",
+      "target": null,
+      "target_route": "/",
+      "api": null,
+      "binding_context": {}
+    }
+  ],
+  "action_event_coverage": {
+    "required_action_events": [
+      "EVENT_action_approval_approve_task",
+      "EVENT_action_approval_open_diff",
+      "EVENT_action_approval_refresh_evidence",
+      "EVENT_action_approval_reject_task",
+      "EVENT_action_board_drag_task",
+      "EVENT_action_board_open_rte_drawer",
+      "EVENT_action_board_submit_confidence_vote",
+      "EVENT_action_board_switch_level",
+      "EVENT_action_boundary_back_dashboard",
+      "EVENT_action_dashboard_create_plan",
+      "EVENT_action_dashboard_expand_prd",
+      "EVENT_action_dashboard_filter_by_status",
+      "EVENT_action_dashboard_open_section_tasks",
+      "EVENT_action_dashboard_select_graph_node",
+      "EVENT_action_docs_copy_beads_id",
+      "EVENT_action_docs_open_trace",
+      "EVENT_action_docs_select_document",
+      "EVENT_action_nav_approval",
+      "EVENT_action_nav_board",
+      "EVENT_action_nav_dashboard",
+      "EVENT_action_nav_docs",
+      "EVENT_action_nav_tasks",
+      "EVENT_action_nav_trace",
+      "EVENT_action_search_apply_filter",
+      "EVENT_action_search_open_result",
+      "EVENT_action_search_retry",
+      "EVENT_action_shell_focus_search",
+      "EVENT_action_shell_open_nav",
+      "EVENT_action_shell_retry_connection",
+      "EVENT_action_shell_submit_search",
+      "EVENT_action_task_open_dependency_trace",
+      "EVENT_action_task_open_full_trace",
+      "EVENT_action_task_switch_tab",
+      "EVENT_action_task_update_assignee",
+      "EVENT_action_task_update_priority",
+      "EVENT_action_task_update_status",
+      "EVENT_action_tasks_apply_filter",
+      "EVENT_action_tasks_bulk_assign",
+      "EVENT_action_tasks_bulk_status",
+      "EVENT_action_tasks_export_csv",
+      "EVENT_action_tasks_open_detail",
+      "EVENT_action_tasks_select_row",
+      "EVENT_action_tasks_sort_column",
+      "EVENT_action_tasks_toggle_board_list",
+      "EVENT_action_trace_change_root",
+      "EVENT_action_trace_filter_node_types",
+      "EVENT_action_trace_fit_view",
+      "EVENT_action_trace_open_node_route",
+      "EVENT_action_trace_select_node",
+      "EVENT_action_trace_view_impact"
+    ],
+    "mermaid_events": [
+      "EVENT_API_APPROVALS_EMPTY",
+      "EVENT_API_APPROVALS_ERROR",
+      "EVENT_API_APPROVALS_SUCCESS",
+      "EVENT_API_BOARD_EMPTY",
+      "EVENT_API_BOARD_ERROR",
+      "EVENT_API_BOARD_SUCCESS",
+      "EVENT_API_COVERAGE_TASKS_TRACE_GAPS_SUCCESS",
+      "EVENT_API_DASHBOARD_EMPTY",
+      "EVENT_API_DASHBOARD_ERROR",
+      "EVENT_API_DOCS_EMPTY",
+      "EVENT_API_DOCS_ERROR",
+      "EVENT_API_DOCS_SUCCESS",
+      "EVENT_API_HEALTH_CHECK",
+      "EVENT_API_SEARCH_EMPTY",
+      "EVENT_API_SEARCH_ERROR",
+      "EVENT_API_SEARCH_SUCCESS",
+      "EVENT_API_TASK_DETAIL_ERROR",
+      "EVENT_API_TASK_DETAIL_SUCCESS",
+      "EVENT_API_TASK_LIST_EMPTY",
+      "EVENT_API_TASK_LIST_ERROR",
+      "EVENT_API_TASK_LIST_SUCCESS",
+      "EVENT_API_TRACE_EMPTY",
+      "EVENT_API_TRACE_ERROR",
+      "EVENT_API_TRACE_PARTIAL_ENRICHMENT_TIMEOUT",
+      "EVENT_API_TRACE_SUCCESS",
+      "EVENT_APPROVE_ERROR_OR_PERMISSION_DENIED",
+      "EVENT_APPROVE_SUCCESS_MERGE_AND_CLOSE",
+      "EVENT_APP_START",
+      "EVENT_AUTH_SCOPE_DENIED",
+      "EVENT_BACK_TO_TASKS",
+      "EVENT_BULK_UPDATE_ERROR_ROLLBACK",
+      "EVENT_BULK_UPDATE_SUCCESS",
+      "EVENT_CHECK_ID_WITH_SEARCH",
+      "EVENT_CLEAR_FILTERS",
+      "EVENT_CLEAR_OR_EDIT_QUERY",
+      "EVENT_CLOSE_DIFF_OR_BACK",
+      "EVENT_CLOSE_RTE_DRAWER_OR_BACK",
+      "EVENT_CONFIDENCE_VOTE_ERROR",
+      "EVENT_CONFIDENCE_VOTE_SUCCESS",
+      "EVENT_CONNECTION_RESTORED",
+      "EVENT_COPY_TOAST_DISMISSED",
+      "EVENT_CREATE_PLAN_SUCCESS_RELOAD",
+      "EVENT_CSV_DOWNLOAD_STARTED",
+      "EVENT_ENRICHMENT_SUCCESS",
+      "EVENT_EVENTS_TABLE_REFRESH_UNDER_5S",
+      "EVENT_EVIDENCE_COMPLETE",
+      "EVENT_EVIDENCE_INCOMPLETE",
+      "EVENT_FILTER_UPDATED",
+      "EVENT_HEALTH_OFFLINE",
+      "EVENT_HEALTH_OK",
+      "EVENT_IMPACT_ERROR",
+      "EVENT_IMPACT_SUCCESS",
+      "EVENT_IMPORT_OR_CREATE_WORK_ITEMS",
+      "EVENT_KEEP_MINE_OR_USE_SERVER",
+      "EVENT_MANUAL_REFRESH_OR_ADMIN_OVERRIDE",
+      "EVENT_NAV_ITEM_SELECTED_OR_BACK",
+      "EVENT_OPEN_SETUP_OR_REINDEX_GUIDE",
+      "EVENT_PUT_TASK_ERROR_ROLLBACK",
+      "EVENT_PUT_TASK_FIELD_ERROR_ROLLBACK",
+      "EVENT_PUT_TASK_FIELD_SUCCESS_ACTIVITY_APPENDED",
+      "EVENT_PUT_TASK_SUCCESS",
+      "EVENT_READ_CACHED_BOARD_WITH_PENDING_LABELS",
+      "EVENT_READ_CACHED_DASHBOARD",
+      "EVENT_READ_CACHED_TASKS_WITH_WRITES_DISABLED",
+      "EVENT_READ_CACHED_TASK_DETAIL",
+      "EVENT_REINDEX_COMPLETE",
+      "EVENT_REJECT_ERROR",
+      "EVENT_REJECT_SUCCESS_FEEDBACK_POSTED",
+      "EVENT_RETRY_BOARD_API",
+      "EVENT_RETRY_DASHBOARD_APIS",
+      "EVENT_RETRY_DOCS_API",
+      "EVENT_RETRY_TASKS_API",
+      "EVENT_RETRY_TASK_DETAIL_API",
+      "EVENT_RETRY_TRACE_API",
+      "EVENT_ROUTE_APPROVAL",
+      "EVENT_ROUTE_BOARD",
+      "EVENT_ROUTE_DASHBOARD",
+      "EVENT_ROUTE_DOCS",
+      "EVENT_ROUTE_SEARCH",
+      "EVENT_ROUTE_TASKS",
+      "EVENT_ROUTE_TASK_DETAIL",
+      "EVENT_ROUTE_TRACE",
+      "EVENT_SYNC_CONFLICT",
+      "EVENT_SYNC_SUCCESS",
+      "EVENT_TASK_NOT_FOUND",
+      "EVENT_action_approval_approve_task",
+      "EVENT_action_approval_open_diff",
+      "EVENT_action_approval_refresh_evidence",
+      "EVENT_action_approval_reject_task",
+      "EVENT_action_board_drag_task",
+      "EVENT_action_board_open_rte_drawer",
+      "EVENT_action_board_submit_confidence_vote",
+      "EVENT_action_board_switch_level",
+      "EVENT_action_boundary_back_dashboard",
+      "EVENT_action_dashboard_create_plan",
+      "EVENT_action_dashboard_expand_prd",
+      "EVENT_action_dashboard_filter_by_status",
+      "EVENT_action_dashboard_open_section_tasks",
+      "EVENT_action_dashboard_select_graph_node",
+      "EVENT_action_docs_copy_beads_id",
+      "EVENT_action_docs_open_trace",
+      "EVENT_action_docs_select_document",
+      "EVENT_action_nav_approval",
+      "EVENT_action_nav_board",
+      "EVENT_action_nav_dashboard",
+      "EVENT_action_nav_docs",
+      "EVENT_action_nav_tasks",
+      "EVENT_action_nav_trace",
+      "EVENT_action_search_apply_filter",
+      "EVENT_action_search_open_result",
+      "EVENT_action_search_retry",
+      "EVENT_action_shell_focus_search",
+      "EVENT_action_shell_open_nav",
+      "EVENT_action_shell_retry_connection",
+      "EVENT_action_shell_submit_search",
+      "EVENT_action_task_open_dependency_trace",
+      "EVENT_action_task_open_full_trace",
+      "EVENT_action_task_switch_tab",
+      "EVENT_action_task_update_assignee",
+      "EVENT_action_task_update_priority",
+      "EVENT_action_task_update_status",
+      "EVENT_action_tasks_apply_filter",
+      "EVENT_action_tasks_bulk_assign",
+      "EVENT_action_tasks_bulk_status",
+      "EVENT_action_tasks_export_csv",
+      "EVENT_action_tasks_open_detail",
+      "EVENT_action_tasks_select_row",
+      "EVENT_action_tasks_sort_column",
+      "EVENT_action_tasks_toggle_board_list",
+      "EVENT_action_trace_change_root",
+      "EVENT_action_trace_filter_node_types",
+      "EVENT_action_trace_fit_view",
+      "EVENT_action_trace_open_node_route",
+      "EVENT_action_trace_select_node",
+      "EVENT_action_trace_view_impact"
+    ],
+    "missing_action_events_in_mermaid": [],
+    "non_action_system_events_documented": [
+      "EVENT_API_APPROVALS_EMPTY",
+      "EVENT_API_APPROVALS_ERROR",
+      "EVENT_API_APPROVALS_SUCCESS",
+      "EVENT_API_BOARD_EMPTY",
+      "EVENT_API_BOARD_ERROR",
+      "EVENT_API_BOARD_SUCCESS",
+      "EVENT_API_COVERAGE_TASKS_TRACE_GAPS_SUCCESS",
+      "EVENT_API_DASHBOARD_EMPTY",
+      "EVENT_API_DASHBOARD_ERROR",
+      "EVENT_API_DOCS_EMPTY",
+      "EVENT_API_DOCS_ERROR",
+      "EVENT_API_DOCS_SUCCESS",
+      "EVENT_API_HEALTH_CHECK",
+      "EVENT_API_SEARCH_EMPTY",
+      "EVENT_API_SEARCH_ERROR",
+      "EVENT_API_SEARCH_SUCCESS",
+      "EVENT_API_TASK_DETAIL_ERROR",
+      "EVENT_API_TASK_DETAIL_SUCCESS",
+      "EVENT_API_TASK_LIST_EMPTY",
+      "EVENT_API_TASK_LIST_ERROR",
+      "EVENT_API_TASK_LIST_SUCCESS",
+      "EVENT_API_TRACE_EMPTY",
+      "EVENT_API_TRACE_ERROR",
+      "EVENT_API_TRACE_PARTIAL_ENRICHMENT_TIMEOUT",
+      "EVENT_API_TRACE_SUCCESS",
+      "EVENT_APPROVE_ERROR_OR_PERMISSION_DENIED",
+      "EVENT_APPROVE_SUCCESS_MERGE_AND_CLOSE",
+      "EVENT_APP_START",
+      "EVENT_AUTH_SCOPE_DENIED",
+      "EVENT_BACK_TO_TASKS",
+      "EVENT_BULK_UPDATE_ERROR_ROLLBACK",
+      "EVENT_BULK_UPDATE_SUCCESS",
+      "EVENT_CHECK_ID_WITH_SEARCH",
+      "EVENT_CLEAR_FILTERS",
+      "EVENT_CLEAR_OR_EDIT_QUERY",
+      "EVENT_CLOSE_DIFF_OR_BACK",
+      "EVENT_CLOSE_RTE_DRAWER_OR_BACK",
+      "EVENT_CONFIDENCE_VOTE_ERROR",
+      "EVENT_CONFIDENCE_VOTE_SUCCESS",
+      "EVENT_CONNECTION_RESTORED",
+      "EVENT_COPY_TOAST_DISMISSED",
+      "EVENT_CREATE_PLAN_SUCCESS_RELOAD",
+      "EVENT_CSV_DOWNLOAD_STARTED",
+      "EVENT_ENRICHMENT_SUCCESS",
+      "EVENT_EVENTS_TABLE_REFRESH_UNDER_5S",
+      "EVENT_EVIDENCE_COMPLETE",
+      "EVENT_EVIDENCE_INCOMPLETE",
+      "EVENT_FILTER_UPDATED",
+      "EVENT_HEALTH_OFFLINE",
+      "EVENT_HEALTH_OK",
+      "EVENT_IMPACT_ERROR",
+      "EVENT_IMPACT_SUCCESS",
+      "EVENT_IMPORT_OR_CREATE_WORK_ITEMS",
+      "EVENT_KEEP_MINE_OR_USE_SERVER",
+      "EVENT_MANUAL_REFRESH_OR_ADMIN_OVERRIDE",
+      "EVENT_NAV_ITEM_SELECTED_OR_BACK",
+      "EVENT_OPEN_SETUP_OR_REINDEX_GUIDE",
+      "EVENT_PUT_TASK_ERROR_ROLLBACK",
+      "EVENT_PUT_TASK_FIELD_ERROR_ROLLBACK",
+      "EVENT_PUT_TASK_FIELD_SUCCESS_ACTIVITY_APPENDED",
+      "EVENT_PUT_TASK_SUCCESS",
+      "EVENT_READ_CACHED_BOARD_WITH_PENDING_LABELS",
+      "EVENT_READ_CACHED_DASHBOARD",
+      "EVENT_READ_CACHED_TASKS_WITH_WRITES_DISABLED",
+      "EVENT_READ_CACHED_TASK_DETAIL",
+      "EVENT_REINDEX_COMPLETE",
+      "EVENT_REJECT_ERROR",
+      "EVENT_REJECT_SUCCESS_FEEDBACK_POSTED",
+      "EVENT_RETRY_BOARD_API",
+      "EVENT_RETRY_DASHBOARD_APIS",
+      "EVENT_RETRY_DOCS_API",
+      "EVENT_RETRY_TASKS_API",
+      "EVENT_RETRY_TASK_DETAIL_API",
+      "EVENT_RETRY_TRACE_API",
+      "EVENT_ROUTE_APPROVAL",
+      "EVENT_ROUTE_BOARD",
+      "EVENT_ROUTE_DASHBOARD",
+      "EVENT_ROUTE_DOCS",
+      "EVENT_ROUTE_SEARCH",
+      "EVENT_ROUTE_TASKS",
+      "EVENT_ROUTE_TASK_DETAIL",
+      "EVENT_ROUTE_TRACE",
+      "EVENT_SYNC_CONFLICT",
+      "EVENT_SYNC_SUCCESS",
+      "EVENT_TASK_NOT_FOUND"
+    ],
+    "coverage_pass": true
+  }
+}

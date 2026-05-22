@@ -1,0 +1,613 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "source_prd": "/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md",
+  "trajectories_total": 22,
+  "trajectories": [
+    {
+      "trajectory_id": "sb_dashboard_coverage_drill",
+      "title": "Dashboard coverage drill-down",
+      "prd_trace": "br-prd04-s6",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "loading",
+          "event": "EVENT_API_COVERAGE_TASKS_TRACE_GAPS_SUCCESS",
+          "assert": "KPI row and four RTM panels render from Go REST API"
+        },
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "default",
+          "event": "EVENT_action_dashboard_expand_prd",
+          "assert": "Coverage heatmap expands PRD sections"
+        },
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "default",
+          "event": "EVENT_action_dashboard_open_section_tasks",
+          "assert": "Linked task side panel opens"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "loading",
+          "event": "EVENT_action_dashboard_filter_by_status",
+          "assert": "Tasks route loads filtered rows"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_dashboard_gap_resolution",
+      "title": "Gap resolution create plan",
+      "prd_trace": "br-prd04-s6",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "default",
+          "event": "EVENT_action_dashboard_create_plan",
+          "assert": "Create plan drawer opens from gap panel"
+        },
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "default",
+          "event": "EVENT_CREATE_PLAN_SUCCESS_RELOAD",
+          "assert": "Dashboard reloads and gap count updates"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_dashboard_api_error_recovery",
+      "title": "Dashboard API error recovery",
+      "prd_trace": "br-prd04-s14a",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "loading",
+          "event": "EVENT_API_DASHBOARD_ERROR",
+          "assert": "Inline API error is shown"
+        },
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "error",
+          "event": "EVENT_RETRY_DASHBOARD_APIS",
+          "assert": "Retry reloads dashboard APIs"
+        },
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "default",
+          "event": "EVENT_API_COVERAGE_TASKS_TRACE_GAPS_SUCCESS",
+          "assert": "Dashboard recovers"
+        }
+      ],
+      "expected_recovery": "Retry calls coverage/tasks/trace/gaps APIs through gmind serve."
+    },
+    {
+      "trajectory_id": "sb_board_drag_task",
+      "title": "SAFe board drag task",
+      "prd_trace": "br-prd04-s3",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_safe_board",
+          "state": "loading",
+          "event": "EVENT_API_BOARD_SUCCESS",
+          "assert": "ART board renders Kanban columns"
+        },
+        {
+          "screen": "screen_safe_board",
+          "state": "default",
+          "event": "EVENT_action_board_switch_level",
+          "assert": "Level tabs reload selected board"
+        },
+        {
+          "screen": "screen_safe_board",
+          "state": "default",
+          "event": "EVENT_action_board_drag_task",
+          "assert": "Task card moves optimistically"
+        },
+        {
+          "screen": "screen_safe_board",
+          "state": "default",
+          "event": "EVENT_PUT_TASK_SUCCESS",
+          "assert": "PUT /api/tasks/:id persists under 5 seconds"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_board_rte_escalation",
+      "title": "RTE escalated risk review",
+      "prd_trace": "br-prd04-s7",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "screen_safe_board",
+          "state": "default",
+          "event": "EVENT_action_board_open_rte_drawer",
+          "assert": "RTE drawer displays discussion thread"
+        },
+        {
+          "screen": "screen_safe_board",
+          "state": "default",
+          "event": "EVENT_CLOSE_RTE_DRAWER_OR_BACK",
+          "assert": "Drawer closes and board remains in context"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_board_vote_error",
+      "title": "PI confidence vote error path",
+      "prd_trace": "br-prd04-s3",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "screen_safe_board",
+          "state": "default",
+          "event": "EVENT_action_board_submit_confidence_vote",
+          "assert": "Vote submit begins"
+        },
+        {
+          "screen": "screen_safe_board",
+          "state": "error",
+          "event": "EVENT_CONFIDENCE_VOTE_ERROR",
+          "assert": "Error card explains failed vote"
+        },
+        {
+          "screen": "screen_safe_board",
+          "state": "loading",
+          "event": "EVENT_RETRY_BOARD_API",
+          "assert": "Board can recover via retry"
+        }
+      ],
+      "expected_recovery": "Retry board API or resubmit after permission/connection issue resolves."
+    },
+    {
+      "trajectory_id": "sb_approval_approve",
+      "title": "Level 3 review and approve",
+      "prd_trace": "br-prd04-s4",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_approval_gates",
+          "state": "loading",
+          "event": "EVENT_API_APPROVALS_SUCCESS",
+          "assert": "Evidence panel shows test, diff, Beads ID, PRD, PR and CI"
+        },
+        {
+          "screen": "screen_approval_gates",
+          "state": "default",
+          "event": "EVENT_action_approval_open_diff",
+          "assert": "Code diff section is visible"
+        },
+        {
+          "screen": "screen_approval_gates",
+          "state": "default",
+          "event": "EVENT_action_approval_approve_task",
+          "assert": "Approve call posts audit comment"
+        },
+        {
+          "screen": "screen_approval_gates",
+          "state": "success",
+          "event": "EVENT_APPROVE_SUCCESS_MERGE_AND_CLOSE",
+          "assert": "Task closes and branch merge status is shown"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_approval_insufficient_evidence",
+      "title": "Insufficient evidence recovery",
+      "prd_trace": "br-prd04-s4",
+      "start_state": "insufficient_evidence",
+      "steps": [
+        {
+          "screen": "screen_approval_gates",
+          "state": "insufficient_evidence",
+          "event": "EVENT_EVIDENCE_INCOMPLETE",
+          "assert": "Approve disabled with missing evidence reason"
+        },
+        {
+          "screen": "screen_approval_gates",
+          "state": "insufficient_evidence",
+          "event": "EVENT_action_approval_refresh_evidence",
+          "assert": "Refresh evidence CTA calls API"
+        },
+        {
+          "screen": "screen_approval_gates",
+          "state": "default",
+          "event": "EVENT_EVIDENCE_COMPLETE",
+          "assert": "Approve becomes available"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_approval_reject",
+      "title": "Level 3 reject with feedback",
+      "prd_trace": "br-prd04-s4",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "screen_approval_gates",
+          "state": "default",
+          "event": "EVENT_action_approval_reject_task",
+          "assert": "Reject form requires feedback"
+        },
+        {
+          "screen": "screen_approval_gates",
+          "state": "success",
+          "event": "EVENT_REJECT_SUCCESS_FEEDBACK_POSTED",
+          "assert": "Feedback posts to task and PR"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_docs_browse_prd",
+      "title": "Document viewer browse PRD",
+      "prd_trace": "br-prd04-s9",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_docs_viewer",
+          "state": "loading",
+          "event": "EVENT_API_DOCS_SUCCESS",
+          "assert": "Doc tree and first document render"
+        },
+        {
+          "screen": "screen_docs_viewer",
+          "state": "default",
+          "event": "EVENT_action_docs_select_document",
+          "assert": "PRD document loads through docs API"
+        },
+        {
+          "screen": "screen_docs_viewer",
+          "state": "default",
+          "event": "EVENT_action_docs_open_trace",
+          "assert": "Beads ID link routes to trace explorer"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_docs_error_reindex",
+      "title": "Document viewer empty/error recovery",
+      "prd_trace": "br-prd04-s9",
+      "start_state": "empty",
+      "steps": [
+        {
+          "screen": "screen_docs_viewer",
+          "state": "empty",
+          "event": "EVENT_API_DOCS_EMPTY",
+          "assert": "Reindex guidance appears"
+        },
+        {
+          "screen": "screen_docs_viewer",
+          "state": "loading",
+          "event": "EVENT_REINDEX_COMPLETE",
+          "assert": "Docs API reloads after reindex"
+        }
+      ],
+      "expected_recovery": "Retry docs API; if empty, run/retry gmind reindex through backend workflow."
+    },
+    {
+      "trajectory_id": "sb_trace_from_task",
+      "title": "Trace from task dependency",
+      "prd_trace": "br-prd04-s10",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "screen_task_detail",
+          "state": "default",
+          "event": "EVENT_action_task_switch_tab",
+          "assert": "Graph tab content is active"
+        },
+        {
+          "screen": "screen_trace_explorer",
+          "state": "loading",
+          "event": "EVENT_action_task_open_full_trace",
+          "assert": "Trace route loads selected task root"
+        },
+        {
+          "screen": "screen_trace_explorer",
+          "state": "default",
+          "event": "EVENT_action_trace_select_node",
+          "assert": "Node detail panel opens"
+        },
+        {
+          "screen": "screen_trace_explorer",
+          "state": "default",
+          "event": "EVENT_action_trace_open_node_route",
+          "assert": "Double-click navigates to node route"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_trace_impact_partial",
+      "title": "Trace impact partial enrichment",
+      "prd_trace": "br-prd04-s10",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_trace_explorer",
+          "state": "loading",
+          "event": "EVENT_API_TRACE_PARTIAL_ENRICHMENT_TIMEOUT",
+          "assert": "Local graph shows enrichment badge"
+        },
+        {
+          "screen": "screen_trace_explorer",
+          "state": "partial",
+          "event": "EVENT_ENRICHMENT_SUCCESS",
+          "assert": "GitHub/FastCode enriched nodes appear"
+        },
+        {
+          "screen": "screen_trace_explorer",
+          "state": "default",
+          "event": "EVENT_action_trace_view_impact",
+          "assert": "Impact analysis loads for selected node"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_task_list_bulk_assign",
+      "title": "Task list bulk assign",
+      "prd_trace": "br-prd04-s13",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_task_list",
+          "state": "loading",
+          "event": "EVENT_API_TASK_LIST_SUCCESS",
+          "assert": "Sortable table renders"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "default",
+          "event": "EVENT_action_tasks_apply_filter",
+          "assert": "Filtered rows reload"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "default",
+          "event": "EVENT_action_tasks_select_row",
+          "assert": "Bulk bar appears"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "bulk_action_processing",
+          "event": "EVENT_action_tasks_bulk_assign",
+          "assert": "Bulk update is processing"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "default",
+          "event": "EVENT_BULK_UPDATE_SUCCESS",
+          "assert": "Assignee values update"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_task_list_export_error",
+      "title": "Task list export and error recovery",
+      "prd_trace": "br-prd04-s13",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "screen_task_list",
+          "state": "default",
+          "event": "EVENT_action_tasks_export_csv",
+          "assert": "CSV download starts for current filters"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "error",
+          "event": "EVENT_API_TASK_LIST_ERROR",
+          "assert": "FrankenSQLite list error displayed"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "loading",
+          "event": "EVENT_RETRY_TASKS_API",
+          "assert": "Retry reloads task list"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_task_detail_edit",
+      "title": "Task detail edit status",
+      "prd_trace": "br-prd04-s11",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_task_detail",
+          "state": "loading",
+          "event": "EVENT_API_TASK_DETAIL_SUCCESS",
+          "assert": "Header and tabs load"
+        },
+        {
+          "screen": "screen_task_detail",
+          "state": "saving",
+          "event": "EVENT_action_task_update_status",
+          "assert": "Field disabled while saving"
+        },
+        {
+          "screen": "screen_task_detail",
+          "state": "default",
+          "event": "EVENT_PUT_TASK_FIELD_SUCCESS_ACTIVITY_APPENDED",
+          "assert": "Status badge updates and activity entry appears"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_task_detail_not_found",
+      "title": "Task detail not found recovery",
+      "prd_trace": "br-prd04-s11",
+      "start_state": "loading",
+      "steps": [
+        {
+          "screen": "screen_task_detail",
+          "state": "loading",
+          "event": "EVENT_TASK_NOT_FOUND",
+          "assert": "Missing Beads ID is echoed"
+        },
+        {
+          "screen": "screen_task_list",
+          "state": "loading",
+          "event": "EVENT_BACK_TO_TASKS",
+          "assert": "Back to Tasks CTA returns to list"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_search_quick",
+      "title": "Global search quick route",
+      "prd_trace": "br-prd04-s12",
+      "start_state": "default",
+      "steps": [
+        {
+          "screen": "shared_global_shell",
+          "state": "default",
+          "event": "EVENT_action_shell_focus_search",
+          "assert": "Search input receives focus"
+        },
+        {
+          "screen": "screen_search_results",
+          "state": "loading",
+          "event": "EVENT_action_shell_submit_search",
+          "assert": "Search route loads query"
+        },
+        {
+          "screen": "screen_search_results",
+          "state": "default",
+          "event": "EVENT_API_SEARCH_SUCCESS",
+          "assert": "Grouped results render"
+        },
+        {
+          "screen": "screen_search_results",
+          "state": "default",
+          "event": "EVENT_action_search_open_result",
+          "assert": "Result routes to task, docs, trace, or external PR"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_search_empty_error",
+      "title": "Search empty and retry",
+      "prd_trace": "br-prd04-s12",
+      "start_state": "empty",
+      "steps": [
+        {
+          "screen": "screen_search_results",
+          "state": "empty",
+          "event": "EVENT_API_SEARCH_EMPTY",
+          "assert": "No results copy suggests query/filter change"
+        },
+        {
+          "screen": "screen_search_results",
+          "state": "loading",
+          "event": "EVENT_CLEAR_OR_EDIT_QUERY",
+          "assert": "Edited query re-runs search"
+        },
+        {
+          "screen": "screen_search_results",
+          "state": "error",
+          "event": "EVENT_API_SEARCH_ERROR",
+          "assert": "Backend error displays retry"
+        },
+        {
+          "screen": "screen_search_results",
+          "state": "loading",
+          "event": "EVENT_action_search_retry",
+          "assert": "Retry re-runs search"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_shell_offline_sync",
+      "title": "Offline queue and rehydration",
+      "prd_trace": "br-prd04-s2",
+      "start_state": "offline",
+      "steps": [
+        {
+          "screen": "shared_global_shell",
+          "state": "offline",
+          "event": "EVENT_HEALTH_OFFLINE",
+          "assert": "Offline banner appears and cached views remain readable"
+        },
+        {
+          "screen": "shared_global_shell",
+          "state": "offline",
+          "event": "EVENT_CONNECTION_RESTORED",
+          "assert": "Banner changes to syncing"
+        },
+        {
+          "screen": "shared_global_shell",
+          "state": "default",
+          "event": "EVENT_SYNC_SUCCESS",
+          "assert": "Queued writes clear pending labels"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_shell_sync_conflict",
+      "title": "Offline sync conflict recovery",
+      "prd_trace": "br-prd04-s2",
+      "start_state": "offline",
+      "steps": [
+        {
+          "screen": "shared_global_shell",
+          "state": "offline",
+          "event": "EVENT_CONNECTION_RESTORED",
+          "assert": "Sync starts"
+        },
+        {
+          "screen": "shared_global_shell",
+          "state": "recovery",
+          "event": "EVENT_SYNC_CONFLICT",
+          "assert": "Conflict prompt offers Keep Mine or Use Server Version"
+        },
+        {
+          "screen": "shared_global_shell",
+          "state": "default",
+          "event": "EVENT_KEEP_MINE_OR_USE_SERVER",
+          "assert": "Chosen version syncs and prompt closes"
+        }
+      ],
+      "expected_recovery": null
+    },
+    {
+      "trajectory_id": "sb_permission_denied",
+      "title": "Permission denied boundary",
+      "prd_trace": "br-prd04-s14a",
+      "start_state": "permission_denied",
+      "steps": [
+        {
+          "screen": "screen_route_permission_denied",
+          "state": "permission_denied",
+          "event": "EVENT_AUTH_SCOPE_DENIED",
+          "assert": "Required role is explained"
+        },
+        {
+          "screen": "screen_dashboard_rtm",
+          "state": "loading",
+          "event": "EVENT_action_boundary_back_dashboard",
+          "assert": "Back to Dashboard CTA routes home"
+        }
+      ],
+      "expected_recovery": null
+    }
+  ]
+}
