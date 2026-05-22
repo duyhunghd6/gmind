@@ -208,7 +208,7 @@ export function SearchResults({ navigateTo, searchQuery }: { navigateTo: (id: st
           </div>
         </aside>
         <div data-ds-id="ds:search_results_list" className="list-search_items ds-comp-card" style={{ flex: 1, padding: "var(--space-md)", backgroundColor: "var(--surface)", borderRadius: "var(--radius)", border: "1px solid var(--border)", display: "flex", flexDirection: "column", gap: "12px" }}>
-          <h2 style={{ margin: "0 0 16px 0", fontSize: "1.25rem" }}>Results for "{searchQuery}"</h2>
+          <h2 style={{ margin: "0 0 16px 0", fontSize: "1.25rem" }}>Results for &quot;{searchQuery}&quot;</h2>
           
           <div onClick={() => navigateTo("task_detail")} tabIndex={0} onKeyDown={(e) => { if(e.key==='Enter') navigateTo("task_detail"); }} style={{ padding: "16px", border: "1px solid var(--border)", borderRadius: "var(--radius)", cursor: "pointer", backgroundColor: "var(--bg)", transition: "background-color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "var(--surface)")} onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "var(--bg)")}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>

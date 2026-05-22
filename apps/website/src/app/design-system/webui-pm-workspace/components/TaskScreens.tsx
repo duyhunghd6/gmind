@@ -220,4 +220,3 @@ export function DocViewer({ navigateTo }: { navigateTo: (id: string) => void }) 
     </>
   );
 }
-
