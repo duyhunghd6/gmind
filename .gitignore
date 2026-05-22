@@ -12,3 +12,4 @@ apps/website/tsconfig.tsbuildinfo
 docs/design/*.log
 cli/gmind/*.log
 .turbo/
+__pycache__/
