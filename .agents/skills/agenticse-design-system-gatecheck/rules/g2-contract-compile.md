@@ -50,17 +50,20 @@ Transform the YAML View Blueprint and Mermaid Logic Machine into `layout-rules.j
 }
 ```
 
-### 2.3 Generate Context Slices for Agents
+### 2.3 Generate Artifact Index and Context Slices
 
-When compiled JSON grows beyond a small prompt-safe size, emit optional YAML slices under `docs/design/contracts/{feature}/context-slices/`:
+Always emit `docs/design/contracts/{feature}/artifact-index.json` and YAML slices under `docs/design/contracts/{feature}/context-slices/`:
 
 ```text
-view-blueprints/{screen}--{state}--{viewport}.yaml
+summary/contract-summary.yaml
 components/{ds_id}.yaml
 storyboards/{trajectory_id}.yaml
+layout/{screen}--{state}--{viewport}.yaml
 ```
 
-Each slice must reference `source: ui-contract.md` and contain only the rows needed for one build or fix boundary. These slices are for agent context; the JSON artifacts remain the machine-executable test inputs.
+Each slice must reference `source: ui-contract.md` and contain only the rows needed for one build or fix boundary. These slices are for agent context; the JSON artifacts remain the machine-executable test inputs. `artifact-index.json` must classify every artifact as `canonical_source`, `review_artifact`, `machine_evidence`, or `slice`, and must specify `load_policy: full | summary_only | lookup_only`.
+
+Also generate `storyboards-review.html` or `storyboards-review.md` so Gate A reviewers inspect trajectories visually instead of reading raw JSON.
 
 ### 2.4 Generate Assertion Checklist
 
@@ -96,14 +99,17 @@ Common ambiguity causes:
 
 | Artifact | Path |
 | --- | --- |
-| Layout rules | `docs/design/contracts/{feature}/layout-rules.json` |
+| Layout rules machine evidence | `docs/design/contracts/{feature}/layout-rules.json` |
+| Artifact index | `docs/design/contracts/{feature}/artifact-index.json` |
 | Context slices | `docs/design/contracts/{feature}/context-slices/**/*.yaml` |
+| Storyboard review view | `docs/design/contracts/{feature}/storyboards-review.html` or `.md` |
 | Assertion checklist | `docs/design/test-plans/{feature}.assertion-checklist.md` |
 
 ## Switching Rules
 
 - If `AMBIGUOUS_RULE` is flagged → do not proceed; return to Step 1.
-- If compile succeeds and preview artifacts exist → proceed to Gate A.
+- If large machine artifacts lack `artifact-index.json`, `context-slices/`, or storyboard review output → do not proceed; return to Step 1/2.
+- If compile succeeds and preview/review artifacts exist → proceed to Gate A.
 
 ## Next Step
 

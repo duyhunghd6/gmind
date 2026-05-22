@@ -4,11 +4,7 @@ description: >
   Stage 1 QA Tester for the Ralph Loop pipeline. Runs after evaluator convergence
   and independently verifies ui-contract.md, Mermaid review diagrams, derived JSON
   artifacts, layout rules, and preview output before Gate A.
-tools: Read, Bash, Grep, Glob
-disallowedTools: Write, Edit, Agent
-permissionMode: default
-maxTurns: 25
-background: false
+max_turns: 25
 model: inherit
 ---
 

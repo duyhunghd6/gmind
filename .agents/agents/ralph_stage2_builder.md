@@ -4,11 +4,7 @@ description: >
   Stage 2 Auditor — evaluates built page.tsx against ui-contract.md, derived
   Stage 1 artifacts, DS manifest, and the 100-point DoD. Writes a scorecard with
   responsible_builder attribution.
-tools: Read, Write, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: bypassPermissions
-maxTurns: 25
-background: false
+max_turns: 25
 model: inherit
 ---
 

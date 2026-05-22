@@ -45,7 +45,7 @@ IF TASK IS: Ready Merge -> Branch W4 Handoff
   Read: rules/w4-handoff-release.md
 ```
 
-This skill builds enterprise-grade UI from the Stage 1 schema-driven contract package. The LLM-facing implementation source is `ui-contract.md` with its YAML View Blueprint and Mermaid Logic Machine, plus `flow.md`, review diagrams, preview manifest, and DS manifest/tokens. `component-map.json`, `storyboards.json`, and `layout-rules.json` are compiled artifacts: use them through targeted slices or mechanical checks, not monolithic prompt context.
+This skill builds enterprise-grade UI from the Stage 1 schema-driven contract package. The LLM-facing implementation source is `ui-contract.md` with its YAML View Blueprint and Mermaid Logic Machine, plus `flow.md`, focused review diagrams, compact contract summaries, targeted `context-slices/**/*.yaml`, and DS manifest/tokens. `component-map.json`, `storyboards.json`, `layout-rules.json`, preview manifests, and browser metadata are compiled machine artifacts: use them through `artifact-index.json`, targeted slices, lookup scripts, or mechanical checks, not monolithic prompt context.
 
 Do not treat legacy `contract.yaml`, ASCII wireframes, ASCII user flows, or compiled JSON as the source of truth.
 
@@ -100,18 +100,21 @@ Implementation components must use `data-ds-id="ds:..."` values from the YAML Vi
 
 ## Context Budget Rules
 
-- Prefer YAML/Mermaid over compiled JSON when deciding what to build.
-- If a compiled artifact is needed, extract only the relevant screen/state/viewport/`ds_id` rows and restate them as compact YAML/TOON before coding.
+- Prefer YAML/Mermaid and review summaries over compiled JSON when deciding what to build.
+- Treat full JSON artifacts as machine evidence. If a compiled artifact is needed, use `artifact-index.json`, `context-slices/`, or lookup scripts to extract only the relevant screen/state/viewport/`ds_id` rows and restate them as compact YAML/TOON before coding.
+- Do not load raw `component-map.json`, `storyboards.json`, `layout-rules.json`, or preview manifests unless they are below the reviewability threshold and explicitly routed.
 - Query the DS registry by component ID or token name instead of injecting the entire registry.
-- Feedback from QA/auditors should be diff-only: missing IDs, failed assertions, invalid tokens, and specific responsible builder routing.
+- Feedback from QA/auditors should be diff-only: missing IDs, failed assertions, invalid tokens, failed trajectory/rule IDs, and specific responsible builder routing.
 
 ## Key Files
 
 - Stage 1 source: `docs/design/contracts/{feature}/ui-contract.md`
-- Component map slices/checks: `docs/design/contracts/{feature}/component-map.json`
-- Storyboard slices/checks: `docs/design/contracts/{feature}/storyboards.json`
-- Layout rule slices/checks: `docs/design/contracts/{feature}/layout-rules.json`
-- Preview manifest: `docs/design/contracts/{feature}/preview/preview-manifest.json`
+- Artifact index: `docs/design/contracts/{feature}/artifact-index.json`
+- Context slices: `docs/design/contracts/{feature}/context-slices/**/*.yaml`
+- Component map machine evidence: `docs/design/contracts/{feature}/component-map.json`
+- Storyboard machine evidence: `docs/design/contracts/{feature}/storyboards.json`
+- Layout rule machine evidence: `docs/design/contracts/{feature}/layout-rules.json`
+- Preview manifest machine evidence: `docs/design/contracts/{feature}/preview/preview-manifest.json`
 - Registry: `<frontend-src-dir>/data/ds-registry.ts` or project DS registry equivalent
 
 ## Full Compiled Document

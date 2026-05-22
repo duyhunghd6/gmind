@@ -56,10 +56,10 @@ This pipeline implements the systematic **3-Tier Agent Testing Pyramid** to eval
 Parse PRD → extract screens, journeys, states, breakpoints, a11y requirements → validate completeness → flag gaps if any. **Blocks if PRD incomplete.**
 
 #### Step 1 — Contract Generation (`g1-contract-generation.md`)
-Generate the schema-driven `ui-contract.md` from the normalized PRD: YAML View Blueprint plus Mermaid Logic Machine, with deterministic JSON storyboard trajectories derived from that source.
+Generate the schema-driven `ui-contract.md` from the normalized PRD: YAML View Blueprint plus Mermaid Logic Machine, with deterministic JSON storyboard trajectories derived from that source and compact review/slice artifacts for humans and LLMs.
 
 #### Step 2 — Contract Compile (`g2-contract-compile.md`)
-Compile `ui-contract.md` into review diagrams, `flow.md`, `component-map.json`, `layout-rules.json`, optional context slices, preview artifacts, and the assertion checklist.
+Compile `ui-contract.md` into review diagrams, `flow.md`, `component-map.json`, `layout-rules.json`, `storyboards.json`, `artifact-index.json`, mandatory context slices, storyboard review HTML/Markdown, preview artifacts, and the assertion checklist.
 
 #### Step 3 — Environment Setup (`g3-env-deterministic.md`)
 Lock browser/version/fonts, disable animations, mock dynamic data, seed fixtures per state.
@@ -86,7 +86,7 @@ Normalize all defects → weighted scoring on the 100-Point DoD matrix. Emit the
 *Involving humans in the loop as the final arbiter of UX/UI quality.*
 
 #### 🚧 Gate A — Plan Approval (`gate-a-plan-approval.md`)
-**BLOCKS pipeline.** Human reviews: `ui-contract.md`, review diagrams, storyboards, layout rules, component map, conflict report, coverage matrix, and preview output. Approves or sends back for revision.
+**BLOCKS pipeline.** Human reviews: `ui-contract.md`, compact contract summary, review diagrams, storyboard review HTML/Markdown, conflict report, coverage/checklist summaries, preview output, and scorecard summary. Raw storyboards, layout rules, component maps, and preview manifests remain machine evidence and are listed for traceability instead of raw review.
 
 #### 🚧 Gate B — Result Approval (`gate-b-result-approval.md`)
 **BLOCKS pipeline.** Human reviews results and chooses: Approve / Request Fix / Approve + Update Baseline.
@@ -132,7 +132,9 @@ docs/
         storyboards.json
         component-map.json
         layout-rules.json
+        artifact-index.json
         context-slices/**/*.yaml
+        storyboards-review.html
         prd-ds-conflicts.md
         preview/
           index.html

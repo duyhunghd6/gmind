@@ -4,11 +4,7 @@ description: >
   Stage 1 Flow & Map Generator — owns the Mermaid Logic Machine inside
   ui-contract.md and derives flow.md, storyboards.json, component-map.json,
   and prd-ds-conflicts.md. Runs AFTER gen_contracts.
-tools: Read, Write, Edit, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: acceptEdits
-maxTurns: 15
-background: true
+max_turns: 15
 model: inherit
 ---
 

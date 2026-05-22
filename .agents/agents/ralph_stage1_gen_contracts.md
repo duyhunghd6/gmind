@@ -4,11 +4,7 @@ description: >
   Stage 1 Contract Generator — creates or updates the schema-driven ui-contract.md
   container metadata and YAML View Blueprint. Runs FIRST because flow, diagram,
   preview, QA, and Stage 2 agents depend on ui-contract.md.
-tools: Read, Write, Edit, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: acceptEdits
-maxTurns: 20
-background: false
+max_turns: 20
 model: inherit
 ---
 

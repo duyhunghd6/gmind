@@ -4,11 +4,7 @@ description: >
   Stage 1 Review Diagram Generator — produces Mermaid review diagrams from
   ui-contract.md for human Gate A inspection. Runs AFTER gen_contracts and
   never creates legacy ASCII wireframes.
-tools: Read, Write, Edit, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: acceptEdits
-maxTurns: 25
-background: true
+max_turns: 25
 model: inherit
 ---
 

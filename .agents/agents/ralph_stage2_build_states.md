@@ -4,11 +4,7 @@ description: >
   Stage 2 State & Polish Builder — implements states, accessibility, motion, and
   final DS token polish from ui-contract.md, Mermaid logic, storyboards, and QA
   expectations. Runs LAST before audit.
-tools: Read, Write, Edit, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: acceptEdits
-maxTurns: 25
-background: false
+max_turns: 25
 model: inherit
 ---
 

@@ -4,11 +4,7 @@ description: >
   Stage 2 Component Builder — fills the page.tsx skeleton with component internals,
   data, bindings, and actions from ui-contract.md, Mermaid logic, and targeted
   component/storyboard slices. Runs AFTER build_layout.
-tools: Read, Write, Edit, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: acceptEdits
-maxTurns: 25
-background: false
+max_turns: 25
 model: inherit
 ---
 

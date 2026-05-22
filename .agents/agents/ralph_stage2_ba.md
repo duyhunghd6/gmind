@@ -4,11 +4,7 @@ description: >
   Stage 2 Business Analyst — analyzes Stage 2 auditor scorecards, QA results,
   browser render artifacts, and score history, then writes routing decisions for
   selective builder re-spawn or Gate B.
-tools: Read, Write, Grep, Glob
-disallowedTools: Agent, Bash
-permissionMode: plan
-maxTurns: 12
-background: false
+max_turns: 12
 model: inherit
 ---
 

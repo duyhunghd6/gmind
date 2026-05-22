@@ -106,13 +106,15 @@ Generate or verify these derived artifacts under `docs/design/contracts/{feature
 | --- | --- |
 | `review-diagrams.md` | Human-readable Mermaid review diagrams for screen/component/state/action coverage |
 | `flow.md` | Extracted Mermaid Logic Machine in Markdown |
-| `storyboards.json` | Replayable trajectories for PRD journeys and error paths |
+| `storyboards.json` | Machine replay evidence for PRD journeys and error paths |
 | `layout-rules.json` | Machine-readable layout and responsive constraints |
-| `component-map.json` | YAML component/`ds_id` map for implementation and QA |
-| `context-slices/**/*.yaml` | Optional prompt-safe YAML slices derived from large compiled artifacts |
+| `component-map.json` | Machine YAML component/`ds_id` map for implementation and QA |
+| `artifact-index.json` | Artifact role, size, hash, generated_from, allowed consumers, and load policy |
+| `context-slices/**/*.yaml` | Mandatory prompt-safe YAML slices derived from compiled artifacts |
+| `storyboards-review.html` or `.md` | Human-checkable storyboard review view |
 | `prd-ds-conflicts.md` | PRD ↔ DS conflict list and resolution owner |
 | `preview/index.html` | Simple human-checkable UI preview |
-| `preview/preview-manifest.json` | Parsed preview summary and warnings |
+| `preview/preview-manifest.json` | Machine parsed preview summary and warnings |
 
 Do not create new ASCII wireframes or ASCII user-flow artifacts for the schema-driven pipeline.
 
@@ -133,13 +135,15 @@ Emit unresolved items in `prd-ds-conflicts.md` with a resolution owner: update t
 | UI Contract | `docs/design/contracts/{feature}/ui-contract.md` |
 | Review diagrams | `docs/design/contracts/{feature}/review-diagrams.md` |
 | Flow diagram | `docs/design/contracts/{feature}/flow.md` |
-| Storyboards | `docs/design/contracts/{feature}/storyboards.json` |
-| Layout rules | `docs/design/contracts/{feature}/layout-rules.json` |
-| Component map | `docs/design/contracts/{feature}/component-map.json` |
+| Storyboards machine evidence | `docs/design/contracts/{feature}/storyboards.json` |
+| Layout rules machine evidence | `docs/design/contracts/{feature}/layout-rules.json` |
+| Component map machine evidence | `docs/design/contracts/{feature}/component-map.json` |
+| Artifact index | `docs/design/contracts/{feature}/artifact-index.json` |
 | Context slices | `docs/design/contracts/{feature}/context-slices/**/*.yaml` |
+| Storyboard review view | `docs/design/contracts/{feature}/storyboards-review.html` or `.md` |
 | Conflict report | `docs/design/contracts/{feature}/prd-ds-conflicts.md` |
 | Preview | `docs/design/contracts/{feature}/preview/index.html` |
-| Preview manifest | `docs/design/contracts/{feature}/preview/preview-manifest.json` |
+| Preview manifest machine evidence | `docs/design/contracts/{feature}/preview/preview-manifest.json` |
 
 ### Contract Quality Score Template
 

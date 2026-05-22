@@ -4,11 +4,7 @@ description: >
   Stage 2 Layout Builder — creates the page.tsx skeleton from ui-contract.md,
   review diagrams, targeted layout-rule slices, preview output, and DS tokens.
   Runs FIRST in Stage 2.
-tools: Read, Write, Edit, Bash, Grep, Glob
-disallowedTools: Agent
-permissionMode: acceptEdits
-maxTurns: 20
-background: false
+max_turns: 20
 model: inherit
 ---
 

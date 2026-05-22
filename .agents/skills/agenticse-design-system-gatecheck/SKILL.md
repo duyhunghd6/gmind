@@ -50,7 +50,7 @@ LAYER 3: EXECUTOR
   Gate B: Human Result Approval      -> rules/gate-b-result-approval.md
 ```
 
-This skill evaluates the schema-driven Ralph Loop contract model. Stage 1 source of truth is `docs/design/contracts/{feature}/ui-contract.md`, which contains exactly one YAML View Blueprint and exactly one Mermaid Logic Machine. Review diagrams, storyboards, layout rules, component map, conflict report, and preview files are derived artifacts. JSON artifacts are machine-executable evidence; evaluator prompts should consume compact failures and slices rather than monolithic JSON payloads.
+This skill evaluates the schema-driven Ralph Loop contract model. Stage 1 source of truth is `docs/design/contracts/{feature}/ui-contract.md`, which contains exactly one YAML View Blueprint and exactly one Mermaid Logic Machine. Review diagrams, storyboard review pages, conflict reports, preview HTML, summaries, and scorecards are human/LLM review artifacts. JSON artifacts are machine-executable evidence; evaluator prompts should consume compact failures, `artifact-index.json`, and `context-slices/**/*.yaml` rather than monolithic JSON payloads.
 
 ## When to Apply
 
@@ -75,7 +75,9 @@ PRD
        storyboards.json
        layout-rules.json
        component-map.json
+       artifact-index.json
        context-slices/**/*.yaml
+       storyboards-review.html
        prd-ds-conflicts.md
        preview/index.html
   -> Stage 2 implementation
@@ -110,7 +112,9 @@ docs/design/contracts/{feature}/
   storyboards.json
   layout-rules.json
   component-map.json
+  artifact-index.json
   context-slices/**/*.yaml
+  storyboards-review.html
   prd-ds-conflicts.md
   preview/index.html
   preview/preview-manifest.json
@@ -146,7 +150,8 @@ For deep requirements, read only the rule file for the current pipeline step. Do
 ## Context Budget Rules
 
 - Treat `ui-contract.md` as the source for LLM reasoning.
-- Run full JSON checks mechanically and summarize only counts, mismatches, failed paths, and owner routing.
+- Treat JSON artifacts as machine evidence; run full JSON checks mechanically and summarize only counts, mismatches, failed paths, failed rule/trajectory IDs, and owner routing.
+- Require large machine artifacts to appear in `artifact-index.json` with `lookup_only` or `summary_only` load policies and matching `context-slices/` or review HTML.
 - Prefer YAML/TOON slices for any compiled artifact content that must enter an agent prompt.
 - Keep QA feedback diff-only so implementors receive the smallest actionable fix context.
 
