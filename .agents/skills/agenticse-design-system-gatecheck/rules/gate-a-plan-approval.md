@@ -22,7 +22,7 @@ All artifacts from Steps 0–2:
 | Component map | `docs/design/contracts/{feature}/component-map.json` |
 | Layout rules | `docs/design/contracts/{feature}/layout-rules.json` |
 | Conflict report | `docs/design/contracts/{feature}/prd-ds-conflicts.md` |
-| Assertion checklist | `docs/design/test-plans/{feature}.assertion-checklist.md` |
+| Assertion checklist | `docs/design/contracts/{feature}/assertion-checklist.md` |
 | Preview | `docs/design/contracts/{feature}/preview/index.html` |
 | Preview manifest | `docs/design/contracts/{feature}/preview/preview-manifest.json` |
 

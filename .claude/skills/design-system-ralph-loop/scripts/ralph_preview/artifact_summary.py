@@ -46,7 +46,7 @@ def build_coverage_matrix(
     if sb_data and isinstance(sb_data, dict):
         for traj in sb_data.get("trajectories", []):
             for step in traj.get("steps", []):
-                scr = step.get("screen")
+                scr = step.get("screen") or step.get("state", "").split(".")[0]
                 if scr:
                     storyboard_screens.add(scr)
 
@@ -54,7 +54,7 @@ def build_coverage_matrix(
     cmap_ds_ids: set[str] = set()
     cmap_data = artifacts.get("component-map.json", {}).get("data")
     if cmap_data and isinstance(cmap_data, dict):
-        cmap_ds_ids = set(cmap_data.get("ds_ids", []))
+        cmap_ds_ids = {c.get("ds_id") for c in cmap_data.get("components", []) if c.get("ds_id")}
 
     # Check which events appear in flow.md mermaid
     flow_events: set[str] = set()
@@ -67,7 +67,7 @@ def build_coverage_matrix(
                 parts = line.split(":")
                 if len(parts) > 1:
                     evt = parts[-1].strip().split("/")[0].strip()
-                    if evt.startswith("EVENT_"):
+                    if evt:
                         flow_events.add(evt)
 
     screen_matrix = {

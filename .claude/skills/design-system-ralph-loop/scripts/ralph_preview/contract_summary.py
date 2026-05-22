@@ -63,7 +63,7 @@ def iter_child_nodes(value: dict[str, Any], child_key: str) -> list[Any]:
 def walk_nodes(value: Any) -> list[dict[str, Any]]:
     found: list[dict[str, Any]] = []
     if isinstance(value, dict):
-        if "ds_id" in value or "type" in value or "action" in value:
+        if "ds_id" in value or "type" in value or "action" in value or "actions" in value:
             found.append(value)
         child_keys = (
             "screens", "routes", "layout", "view", "children",
@@ -92,7 +92,16 @@ def collect_summary(contract: dict[str, Any], transitions: list[dict[str, str]])
     screens = collect_screens(contract)
     all_nodes = walk_nodes(contract)
     ds_ids = [str(node.get("ds_id")) for node in all_nodes if node.get("ds_id")]
-    actions = sorted({str(node.get("action")) for node in all_nodes if node.get("action")})
+    
+    actions_set = set()
+    for node in all_nodes:
+        if node.get("action"):
+            actions_set.add(str(node["action"]))
+        if node.get("actions"):
+            for a in as_list(node["actions"]):
+                actions_set.add(str(a))
+    actions = sorted(actions_set)
+    
     events = sorted({t["event"] for t in transitions if t["event"]})
 
     duplicate_ds_ids = sorted({ds_id for ds_id in ds_ids if ds_ids.count(ds_id) > 1})

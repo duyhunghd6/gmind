@@ -116,11 +116,11 @@ docs/design/contracts/{feature}/
   context-slices/**/*.yaml
   storyboards-review.html
   prd-ds-conflicts.md
+  assertion-checklist.md
   preview/index.html
   preview/preview-manifest.json
 
 docs/design/test-plans/
-  {feature}.assertion-checklist.md
   {feature}-qa-stage1.md
   {feature}-qa-stage1-results.md
 

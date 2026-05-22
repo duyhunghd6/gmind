@@ -67,7 +67,7 @@ Also generate `storyboards-review.html` or `storyboards-review.md` so Gate A rev
 
 ### 2.4 Generate Assertion Checklist
 
-Create a human-readable checklist at `docs/design/test-plans/{feature}.assertion-checklist.md`:
+Create a human-readable checklist at `docs/design/contracts/{feature}/assertion-checklist.md`:
 
 ```markdown
 ## Assertion Checklist — feature-x
@@ -103,7 +103,7 @@ Common ambiguity causes:
 | Artifact index | `docs/design/contracts/{feature}/artifact-index.json` |
 | Context slices | `docs/design/contracts/{feature}/context-slices/**/*.yaml` |
 | Storyboard review view | `docs/design/contracts/{feature}/storyboards-review.html` or `.md` |
-| Assertion checklist | `docs/design/test-plans/{feature}.assertion-checklist.md` |
+| Assertion checklist | `docs/design/contracts/{feature}/assertion-checklist.md` |
 
 ## Switching Rules
 
