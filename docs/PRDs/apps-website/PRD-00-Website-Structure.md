@@ -96,20 +96,20 @@ apps/website/src/app/
 ```mermaid
 graph TD
     subgraph Trang_Chu["TRANG CHỦ (/)"]
-        Hero["[HERO] Gmind — Context Layer for Agentic Coding<br/>Mô tả: gmind là tầng trung gian giữa Agentic IDE và codebase — cung cấp và tối ưu ngữ cảnh cho AI Agent"]
+        Hero["[HERO] Gmind — Context Layer for Agentic Coding (Tầng trung gian cung cấp và tối ưu ngữ cảnh cho AI Agent)"]
         
         subgraph Pillars["[4 TRỤ CỘT] gmind.gscfin.com"]
-            PillarA["A: FastCode<br/>AST + Graph RAG"]
-            PillarB["B: SSOT<br/>Franken SQLite"]
-            PillarC["C: Xác minh<br/>SAFe Gate"]
-            PillarD["D: Hệ sinh thái<br/>Agent Village"]
+            PillarA["A: FastCode (AST + Graph RAG)"]
+            PillarB["B: SSOT (Franken SQLite)"]
+            PillarC["C: Xác minh (SAFe Gate)"]
+            PillarD["D: Hệ sinh thái (Agent Village)"]
         end
         
-        Layers["[KIẾN TRÚC 5+1 LỚP]<br/>Lớp 1 (Lưu trữ) > Lớp 2 (Công cụ) > Lớp 3 (Agent) > Lớp 4 (Xác minh) > Lớp 5 (API) > Lớp 6 (Giao diện)"]
+        Layers["[KIẾN TRÚC 5+1 LỚP] Lớp 1 (Lưu trữ) > Lớp 2 (Công cụ) > Lớp 3 (Agent) > Lớp 4 (Xác minh) > Lớp 5 (API) > Lớp 6 (Giao diện)"]
         
         subgraph Workspace["TẦNG TRUNG GIAN & ĐƠN KHO MÃ"]
-            Middle["[TẦNG TRUNG GIAN] gmind<br/>Người dùng+IDE > gmind (search/trace/context) > Agent"]
-            Monorepo["[ĐƠN KHO MÃ] Tổ chức Không gian Làm việc<br/>cli/ > apps/ > packages/ > .agents/ > docs/"]
+            Middle["[TẦNG TRUNG GIAN] gmind (Người dùng+IDE > gmind > Agent)"]
+            Monorepo["[ĐƠN KHO MÃ] Tổ chức Không gian Làm việc (cli/ > apps/ > packages/ > .agents/ > docs/)"]
         end
         
         Hero --> Pillars
@@ -398,9 +398,9 @@ sequenceDiagram
 graph TD
     subgraph Arch_Page["KIẾN TRÚC (/architecture)"]
         subgraph Flow_Section["[SƠ ĐỒ LUỒNG] Kiến trúc Agentic SE"]
-            Dev["Chuyên gia<br/>(Lập trình viên)"]
-            Process["GSAFe 6.0<br/>(Quy trình)"]
-            Gmind["gmind (Tầng Bộ nhớ Agent)<br/>[TRUNG TÂM]"]
+            Dev["Chuyên gia (Lập trình viên)"]
+            Process["GSAFe 6.0 (Quy trình)"]
+            Gmind["gmind (Tầng Bộ nhớ Agent - TRUNG TÂM)"]
             Source["Mã nguồn"]
             LLM["Mô hình LLM"]
 
@@ -410,7 +410,7 @@ graph TD
             Gmind --> LLM
         end
         
-        LayersDetail["[5+1 LỚP CHI TIẾT] Ma trận toàn bộ 6 lớp kiến trúc<br/>Mỗi lớp có: tech stack, danh mục chi tiết, màu nhấn"]
+        LayersDetail["[5+1 LỚP CHI TIẾT] Ma trận 6 lớp kiến trúc (Có tech stack, danh mục, màu nhấn)"]
         
         Flow_Section --> LayersDetail
     end
@@ -435,13 +435,13 @@ graph LR
     subgraph Prompts_Page["PROMPT PALETTES (/prompts) - Layout 2 cột"]
         subgraph Sidebar["THANH BÊN (Sidebar - Cố định)"]
             direction TB
-            Setup["CÀI ĐẶT<br/>- Cài đặt toàn diện"]
-            Theory["LÝ THUYẾT KỸ THUẬT PM<br/>- Agile và Scrum<br/>- XP cho Agentic<br/>- SAFe 6.0"]
-            Workflows["AI WORKFLOWS<br/>- A. Khởi tạo Projects<br/>- B. One-shot AI Coding<br/>- C. XP Agentic Coding<br/>- D. SAFe 6.0 AgenticSE"]
+            Setup["CÀI ĐẶT - Cài đặt toàn diện"]
+            Theory["LÝ THUYẾT KỸ THUẬT PM (Agile & Scrum, XP cho Agentic, SAFe 6.0)"]
+            Workflows["AI WORKFLOWS (Khởi tạo, One-shot, XP Agentic, SAFe 6.0)"]
         end
         
         subgraph Content["VÙNG NỘI DUNG"]
-            Viewer["Component: PromptViewer<br/>Hiển thị một trong các trình xem:<br/>- [Trình xem Cài đặt]<br/>- [Trình xem Lý thuyết]<br/>- [Trình xem Workflow]<br/>- [Nghiên cứu]"]
+            Viewer["Component: PromptViewer (Hiển thị Cài đặt, Lý thuyết, Workflow, hoặc Nghiên cứu)"]
         end
 
         Sidebar -->|Chọn mục| Content
@@ -484,12 +484,12 @@ graph LR
 ```mermaid
 graph TD
     subgraph Research_Page["NGHIÊN CỨU (/research)"]
-        Title["[TIÊU ĐỀ] Nghiên cứu và Spike<br/>'16 Spike + 6 PRD trước khi viết dòng code đầu tiên'"]
+        Title["[TIÊU ĐỀ] Nghiên cứu và Spike (16 Spike + 6 PRD trước khi viết dòng code đầu tiên)"]
         
         subgraph Grid["[TẤT CẢ MỤC] Hiển thị danh sách researchItems[]"]
-            Item1["PRD Card<br/>Loại / Trạng thái / Badge"]
-            Item2["Spike Card 1<br/>Loại / Trạng thái / Badge"]
-            Item3["Spike Card 2<br/>Loại / Trạng thái / Badge"]
+            Item1["PRD Card (Loại / Trạng thái / Badge)"]
+            Item2["Spike Card 1 (Loại / Trạng thái / Badge)"]
+            Item3["Spike Card 2 (Loại / Trạng thái / Badge)"]
             Item4["..."]
         end
         
@@ -512,15 +512,15 @@ graph LR
     subgraph DS_Page["DESIGN SYSTEM (/design-system)"]
         subgraph DS_Sidebar["THANH BÊN DS (3 cấp)"]
             direction TB
-            Cat1["1. HỆ THỐNG THIẾT KẾ<br/>- Hub (#colors, #spacing, #font...)"]
-            Cat2["2. MÀN HÌNH<br/>- Terminal<br/>- Portfolio View<br/>- PI Planning Sandbox<br/>- Git Graph<br/>- Kanban<br/>- Knowledge Graph<br/>- Phê duyệt & RTM<br/>- Timeline<br/>- Components"]
-            Cat3["3. KHÁM PHÁ<br/>- Doc Viewer<br/>- Gmind Explorer<br/>- Beads Traversal"]
-            Cat4["4. KỊCH BẢN<br/>- Tổng quan (UC-01 → UC-10)"]
+            Cat1["1. HỆ THỐNG THIẾT KẾ - Hub (#colors, #spacing, #font...)"]
+            Cat2["2. MÀN HÌNH - Terminal, Portfolio, PI Planning, Git Graph, Kanban, Knowledge Graph, Phê duyệt, Timeline, Components"]
+            Cat3["3. KHÁM PHÁ - Doc Viewer, Gmind Explorer, Beads Traversal"]
+            Cat4["4. KỊCH BẢN - Tổng quan (UC-01 to UC-10)"]
         end
         
         subgraph DS_Content["VÙNG NỘI DUNG"]
-            Hub["Trang Hub (/design-system)<br/>- Tokens / Thành phần / Trạng thái / Luồng<br/>- 11 Thẻ màn hình trỏ tới các trang con"]
-            DetailPages["Trang con chi tiết<br/>Hiển thị UI mẫu & interactive tools tương ứng khi click sidebar"]
+            Hub["Trang Hub (/design-system) - Tokens, Thành phần, Trạng thái, Luồng và 11 Thẻ màn hình"]
+            DetailPages["Trang con chi tiết - Hiển thị UI mẫu & interactive tools"]
         end
 
         DS_Sidebar -->|Chọn mục| DS_Content
@@ -556,9 +556,6 @@ graph LR
 
 ```mermaid
 graph TD
-    classDef default fill:#111,stroke:#333,stroke-width:1px,color:#fff;
-    classDef ds fill:#1e293b,stroke:#0ea5e9,stroke-width:1px,color:#fff;
-
     Home["TRANG CHỦ (/)"]
     Arch["KIẾN TRÚC (/architecture)"]
     Prompts["PROMPT PALETTES (/prompts)"]
@@ -570,7 +567,6 @@ graph TD
         DS_Sub1["Terminal / Đồ thị Git / Kanban / Tri thức / Phê duyệt / Dòng thời gian / Thành phần"]
         DS_Sub2["Khám phá / Kịch bản (10 UCs)"]
     end
-    class DS ds;
 
     Home --> Arch
     Home --> Prompts
@@ -578,23 +574,25 @@ graph TD
     Prompts --> Research
     Prompts --> DS
     Research --> DS
+
+    style DS fill:#1e293b,stroke:#0ea5e9,stroke-width:1px
 ```
 
 ### 7.2. Mối liên kết Logic giữa các Nội dung
 
 ```mermaid
 graph TD
-    Agile["/prompts#theory-agile<br/>(Lý thuyết Agile)"]
-    XP["/prompts#theory-xp-agentic<br/>(XP cho Agentic Coding)"]
-    Safe["/prompts#theory-safe<br/>(SAFe 6.0 với GSAFe)"]
-    Workflows["/prompts (AI Workflows)<br/>Nhóm C: XP Agentic (13 wf)"]
-    Research["/research<br/>(Báo cáo Spike + PRDs)"]
-    Arch["/architecture<br/>(Luồng Agentic SE)"]
-    DS["/design-system<br/>(Bản mẫu UI)"]
+    Agile["/prompts#theory-agile (Lý thuyết Agile)"]
+    XP["/prompts#theory-xp-agentic (XP cho Agentic Coding)"]
+    Safe["/prompts#theory-safe (SAFe 6.0 với GSAFe)"]
+    Workflows["/prompts (AI Workflows) - Nhóm C: XP Agentic (13 wf)"]
+    Research["/research (Báo cáo Spike + PRDs)"]
+    Arch["/architecture (Luồng Agentic SE)"]
+    DS["/design-system (Bản mẫu UI)"]
     
     subgraph DS_Mappings["Ánh xạ & Chi tiết"]
         Storyboards["/design-system/storyboard (UC-01..UC-10)"]
-        Beads["/design-system/beads-traversal<br/>(PRD -> Kế hoạch -> Task -> Commit)"]
+        Beads["/design-system/beads-traversal (PRD to Kế hoạch to Task to Commit)"]
         Approval["/design-system/approval (RTM + Bản đồ nhiệt)"]
     end
 
