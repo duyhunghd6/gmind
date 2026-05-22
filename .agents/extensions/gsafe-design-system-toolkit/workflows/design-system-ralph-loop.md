@@ -133,6 +133,8 @@ The validator extracts fenced `mermaid` blocks from Markdown, rejects standalone
 
 Use after Gate A approval.
 
+**Integration Note:** When implementing the WebUI PM Workspace (PRD: `"webui-and-pm-workspace"`), the Stage 2 entry point and final Hi-Fi output destination MUST be `apps/website/src/app/design-system/webui-pm-workspace/page.tsx`.
+
 Preconditions:
 
 - `docs/design/contracts/{feature}/ui-contract.md`

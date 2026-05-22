@@ -55,34 +55,6 @@ This project implements GSAFe 6.0 (Agentic Software Engineering) workflows.
 - Use `/project:aiworkflows-ingest` to ingest AI Workflows into the showcase website.
 - Use `/project:satisfy-matrix` to generate a Requirements Traceability Matrix.
 
-## Ralph Loop Architecture (SubAgent Spawn-Loop)
-
-The `/project:ralph-loop` command makes YOU the Master Orchestrator:
-
-1. **Stage 1 Loop:** You dispatch `ralph_stage1_evaluator` N times until score ≥90. Then dispatch `ralph_stage1_qa` for independent pass/fail testing. If QA fails, feed failures back to evaluator. If QA passes → Gate A.
-2. **Stage 2 Loop:** Each cycle: dispatch `ralph_stage2_builder` (with DS pre-read), then dispatch `ralph_stage2_qa` for acceptance testing. Convergence: builder ≥95 AND zero P0 AND QA all-PASS → Gate B.
-
-**SubAgents get fresh context per dispatch.** Inter-iteration state travels via:
-- Disk artifacts (contract files, HTML, scorecards) that persist between dispatches
-- Previous scorecard JSON passed in the SubAgent invocation prompt
-
-## Available SubAgents
-
-- `ralph_stage1_evaluator` — Stage 1: one-iteration contract generator + 6-pillar scorer.
-- `ralph_stage1_qa` — Stage 1 QA: independent contract tester (writes test plan, runs T1-T6, returns scorecard).
-- `ralph_stage2_builder` — Stage 2: one-iteration HTML/CSS builder + 100-pt DoD auditor (reads existing DS first).
-- `ralph_stage2_qa` — Stage 2 QA: E2E acceptance tester (storyboard replay, DS audit, a11y, returns scorecard).
-- `browser_subagent` — Headless browser rendering and screenshot capture.
-- `gsafe_manager` — SAFe lifecycle status checker and coordinator.
-- `prd_writer_agent` — PRD gap-filling and conflict resolution.
-
-## Key Skills (Shared with GeminiCLI)
-
-These skills are located in `.agents/skills/` and activated by the model:
-
-- `design-system-gatecheck` — The Evaluator: 12-step QA pipeline, 100-pt scoring.
-- `agenticse-design-system` — The Implementor: HTML/CSS generation from contracts.
-
 ## Methodology Source
 
 Root methodology: `docs/researches/spikes/spike-design-system-ralph-loop-agent.md`
@@ -94,3 +66,5 @@ Root methodology: `docs/researches/spikes/spike-design-system-ralph-loop-agent.m
 - Keep code files < 400 lines, docs files < 1000 lines.
 - Running website showcase at port http://localhost:9993/
 - Git commits must be in English, include `Beads-ID:` trailer on last line.
+
+## Design System ↔ Ralph Loop Integration: - WebUI PM Workspace: To extend, edit [PRD-04](docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md), then run `/project:ralph-loop` (PRD: `"webui-and-pm-workspace"`) to auto-update `apps/website/src/app/design-system/webui-pm-workspace/page.tsx`.

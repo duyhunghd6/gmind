@@ -82,6 +82,8 @@ apps/website/src/app/
     ├── beads-traversal/page.tsx  /design-system/beads-traversal
     ├── portfolio/page.tsx ...... /design-system/portfolio
     ├── pi-planning/page.tsx .... /design-system/pi-planning
+    ├── webui-pm-workspace/
+    │   └── page.tsx ............ /design-system/webui-pm-workspace (PRD-04 Hi-Fi)
     └── storyboard/
         ├── page.tsx ............ /design-system/storyboard (Tổng quan)
         └── [uc-xx]/page.tsx .... 10 trang use-case con
@@ -431,10 +433,9 @@ graph TD
 Trang có layout 2 cột: Sidebar trái (300px) + Content phải. Nội dung chuyển đổi theo 4 `activeSection`:
 
 ```mermaid
-graph LR
+graph TD
     subgraph Prompts_Page["PROMPT PALETTES (/prompts) - Layout 2 cột"]
         subgraph Sidebar["THANH BÊN (Sidebar - Cố định)"]
-            direction TB
             Setup["CÀI ĐẶT - Cài đặt toàn diện"]
             Theory["LÝ THUYẾT KỸ THUẬT PM (Agile & Scrum, XP cho Agentic, SAFe 6.0)"]
             Workflows["AI WORKFLOWS (Khởi tạo, One-shot, XP Agentic, SAFe 6.0)"]
@@ -507,13 +508,17 @@ graph TD
 
 Trang Design System có layout riêng (`DesignSystemLayout`) với sidebar 3 cấp (Danh mục → Mục chính → Mục con) và 13+ trang con.
 
+> **PRD Mapping:** Trang `/design-system/webui-pm-workspace` là bản Hi-Fi HTML implement trực tiếp từ **[PRD-04: WebUI & PM Workspace](../../core-gmind/PRD-04-WebUI-and-PM-Workspace.md)**. Khi cần mở rộng/thay đổi UI này, quy trình là: **Edit PRD-04 → Chạy Ralph Loop (`/design-system-ralph-loop`)** → Stage 2 sẽ tự động sinh/cập nhật Hi-Fi HTML tại route `/design-system/webui-pm-workspace`.
+>
+> **Canonical URL:** `http://localhost:9993/design-system/webui-pm-workspace`
+> ~~URL cũ `PRD-04-WebUI-and-PM-Workspace` đã được thay thế hoàn toàn.~~
+
 ```mermaid
-graph LR
+graph TD
     subgraph DS_Page["DESIGN SYSTEM (/design-system)"]
         subgraph DS_Sidebar["THANH BÊN DS (3 cấp)"]
-            direction TB
             Cat1["1. HỆ THỐNG THIẾT KẾ - Hub (#colors, #spacing, #font...)"]
-            Cat2["2. MÀN HÌNH - Terminal, Portfolio, PI Planning, Git Graph, Kanban, Knowledge Graph, Phê duyệt, Timeline, Components"]
+            Cat2["2. MÀN HÌNH - Terminal, Portfolio, PI Planning, Git Graph, Kanban, Knowledge Graph, Phê duyệt, PM Workspace, Timeline, Components"]
             Cat3["3. KHÁM PHÁ - Doc Viewer, Gmind Explorer, Beads Traversal"]
             Cat4["4. KỊCH BẢN - Tổng quan (UC-01 to UC-10)"]
         end
@@ -521,6 +526,7 @@ graph LR
         subgraph DS_Content["VÙNG NỘI DUNG"]
             Hub["Trang Hub (/design-system) - Tokens, Thành phần, Trạng thái, Luồng và 11 Thẻ màn hình"]
             DetailPages["Trang con chi tiết - Hiển thị UI mẫu & interactive tools"]
+            PMWorkspace["PM Workspace (/webui-pm-workspace) - Hi-Fi HTML từ PRD-04 via Ralph Loop"]
         end
 
         DS_Sidebar -->|Chọn mục| DS_Content
@@ -539,6 +545,7 @@ graph LR
 |                 | Kanban              | #sprint, #release, #bug-triage                                                                                                                                                            |
 |                 | Knowledge Graph     | #simple, #ecosystem, #sprint                                                                                                                                                              |
 |                 | Phê duyệt & RTM     | #panels, #rtm, #heatmap                                                                                                                                                                   |
+|                 | **PM Workspace**    | #surface-dashboard, #surface-board, #surface-pi-planning, #surface-approval, #surface-graph _(PRD-04 Hi-Fi via Ralph Loop)_                                                               |
 |                 | Timeline            | #file-lease, #activity-feed, #sprint-day                                                                                                                                                  |
 |                 | Components          | #buttons, #badges, #progress, #avatar, #modal, #dropdown, #accordion, #tabs, #table, #tooltip, #codeblock, #cards, #promptcard, #labels, #statusdot, #skeleton, #emptystate, #errorbanner |
 | **Khám phá**    | Doc Viewer          | —                                                                                                                                                                                         |
