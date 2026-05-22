@@ -1,0 +1,569 @@
+{
+  "metadata": {
+    "feature": "PRD-04-WebUI-and-PM-Workspace",
+    "satisfies": [
+      "br-prd04",
+      "br-prd04-s1",
+      "br-prd04-s2",
+      "br-prd04-s3",
+      "br-prd04-s4",
+      "br-prd04-s5",
+      "br-prd04-s6",
+      "br-prd04-s7",
+      "br-prd04-s8",
+      "br-prd04-s9",
+      "br-prd04-s10",
+      "br-prd04-s11",
+      "br-prd04-s12",
+      "br-prd04-s13",
+      "br-prd04-s14"
+    ]
+  },
+  "components": [
+    {
+      "ds_id": "ds:global_shell",
+      "type": "layout.shell",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_OFFLINE_DETECTED",
+        "EVENT_ONLINE_DETECTED",
+        "EVENT_FETCH_DATA",
+        "EVENT_FETCH_SUCCESS"
+      ],
+      "states": [
+        "default",
+        "offline",
+        "loading"
+      ]
+    },
+    {
+      "ds_id": "ds:shell_header",
+      "type": "header",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": "ds:global_shell",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:logo_btn",
+      "type": "button.logo",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": "ds:shell_header",
+      "actions": [
+        "navigate_home"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:global_search",
+      "type": "input.search",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": "ds:shell_header",
+      "actions": [
+        "trigger_search"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:offline_status_indicator",
+      "type": "indicator.status",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": "ds:shell_header",
+      "actions": [],
+      "states": [
+        "offline"
+      ]
+    },
+    {
+      "ds_id": "ds:shell_sidebar",
+      "type": "sidebar",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": "ds:global_shell",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:nav_menu",
+      "type": "navigation.menu",
+      "screen_id": "global_shell",
+      "layout_type": "layout.shell",
+      "parent_ds_id": "ds:shell_sidebar",
+      "actions": [
+        "navigate_board",
+        "navigate_tasks",
+        "navigate_docs",
+        "navigate_approval"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:dashboard_grid",
+      "type": "layout.grid",
+      "screen_id": "rtm_dashboard",
+      "layout_type": "layout.grid",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR",
+        "EVENT_RETRY"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "ds_id": "ds:kpi_metrics",
+      "type": "widget.kpi_row",
+      "screen_id": "rtm_dashboard",
+      "layout_type": "layout.grid",
+      "parent_ds_id": "ds:dashboard_grid",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:heatmap_panel",
+      "type": "panel.coverage",
+      "screen_id": "rtm_dashboard",
+      "layout_type": "layout.grid",
+      "parent_ds_id": "ds:dashboard_grid",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_progress_panel",
+      "type": "panel.progress",
+      "screen_id": "rtm_dashboard",
+      "layout_type": "layout.grid",
+      "parent_ds_id": "ds:dashboard_grid",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:mini_graph_panel",
+      "type": "panel.graph",
+      "screen_id": "rtm_dashboard",
+      "layout_type": "layout.grid",
+      "parent_ds_id": "ds:dashboard_grid",
+      "actions": [
+        "drill_down_graph"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:gap_analysis_panel",
+      "type": "panel.gaps",
+      "screen_id": "rtm_dashboard",
+      "layout_type": "layout.grid",
+      "parent_ds_id": "ds:dashboard_grid",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:kanban_layout",
+      "type": "layout.kanban",
+      "screen_id": "safe_board",
+      "layout_type": "layout.kanban",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR",
+        "EVENT_RETRY"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban_column",
+      "type": "column.kanban",
+      "screen_id": "safe_board",
+      "layout_type": "layout.kanban",
+      "parent_ds_id": "ds:kanban_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_card",
+      "type": "card.task",
+      "screen_id": "safe_board",
+      "layout_type": "layout.kanban",
+      "parent_ds_id": "ds:kanban_column",
+      "actions": [
+        "click_task_card"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:rte_badge",
+      "type": "badge.rte_escalation",
+      "screen_id": "safe_board",
+      "layout_type": "layout.kanban",
+      "parent_ds_id": "ds:task_card",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_list_layout",
+      "type": "layout.table_view",
+      "screen_id": "task_list",
+      "layout_type": "layout.table_view",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR",
+        "EVENT_RETRY"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "bulk_processing"
+      ]
+    },
+    {
+      "ds_id": "ds:task_filters",
+      "type": "toolbar.filters",
+      "screen_id": "task_list",
+      "layout_type": "layout.table_view",
+      "parent_ds_id": "ds:task_list_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_table",
+      "type": "table.data",
+      "screen_id": "task_list",
+      "layout_type": "layout.table_view",
+      "parent_ds_id": "ds:task_list_layout",
+      "actions": [
+        "click_task_row"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_pagination",
+      "type": "toolbar.pagination",
+      "screen_id": "task_list",
+      "layout_type": "layout.table_view",
+      "parent_ds_id": "ds:task_list_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_bulk_actions",
+      "type": "toolbar.bulk_actions",
+      "screen_id": "task_list",
+      "layout_type": "layout.table_view",
+      "parent_ds_id": "ds:task_list_layout",
+      "actions": [
+        "EVENT_BULK_ACTION",
+        "EVENT_BULK_SUCCESS"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_detail_layout",
+      "type": "layout.details",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_NOT_FOUND",
+        "EVENT_LOAD_ERROR",
+        "EVENT_OFFLINE_DETECTED",
+        "EVENT_ONLINE_DETECTED"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "not_found",
+        "offline",
+        "saving"
+      ]
+    },
+    {
+      "ds_id": "ds:task_detail_header",
+      "type": "header.task",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": "ds:task_detail_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:task_detail_tabs",
+      "type": "navigation.tabs",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": "ds:task_detail_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:tab_detail",
+      "type": "tab.detail",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": "ds:task_detail_tabs",
+      "actions": [
+        "EVENT_EDIT_FIELD",
+        "EVENT_SAVE_SUCCESS",
+        "click_trace_link"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:tab_activity",
+      "type": "tab.activity",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": "ds:task_detail_tabs",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:tab_graph",
+      "type": "tab.graph",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": "ds:task_detail_tabs",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:tab_code",
+      "type": "tab.code",
+      "screen_id": "task_detail",
+      "layout_type": "layout.details",
+      "parent_ds_id": "ds:task_detail_tabs",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:trace_explorer_layout",
+      "type": "layout.split_view",
+      "screen_id": "trace_explorer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_PARTIAL_LOAD",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR",
+        "EVENT_ENRICHMENT_SUCCESS"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "partial"
+      ]
+    },
+    {
+      "ds_id": "ds:graph_controls",
+      "type": "toolbar.graph_controls",
+      "screen_id": "trace_explorer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:trace_explorer_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:d3_canvas",
+      "type": "canvas.force_directed",
+      "screen_id": "trace_explorer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:trace_explorer_layout",
+      "actions": [
+        "click_task_node",
+        "click_doc_node"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:node_detail_drawer",
+      "type": "panel.node_details",
+      "screen_id": "trace_explorer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:trace_explorer_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:doc_viewer_layout",
+      "type": "layout.split_view",
+      "screen_id": "doc_viewer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "ds_id": "ds:doc_tree_sidebar",
+      "type": "sidebar.doc_tree",
+      "screen_id": "doc_viewer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:doc_viewer_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:markdown_viewer",
+      "type": "view.markdown",
+      "screen_id": "doc_viewer",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:doc_viewer_layout",
+      "actions": [
+        "click_beads_id"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:approval_layout",
+      "type": "layout.stack",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_MISSING_EVIDENCE",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR",
+        "trigger_refresh"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "insufficient_evidence",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "ds_id": "ds:code_diff_panel",
+      "type": "panel.diff",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": "ds:approval_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:test_logs_panel",
+      "type": "panel.test_logs",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": "ds:approval_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:prd_context_panel",
+      "type": "panel.prd_context",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": "ds:approval_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:approval_action_bar",
+      "type": "toolbar.approval_actions",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": "ds:approval_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:approve_btn",
+      "type": "button.approve",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": "ds:approval_action_bar",
+      "actions": [
+        "trigger_approve"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:reject_btn",
+      "type": "button.reject",
+      "screen_id": "approval_gates",
+      "layout_type": "layout.stack",
+      "parent_ds_id": "ds:approval_action_bar",
+      "actions": [
+        "trigger_reject"
+      ],
+      "states": []
+    },
+    {
+      "ds_id": "ds:search_results_layout",
+      "type": "layout.split_view",
+      "screen_id": "search_results",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": null,
+      "actions": [
+        "EVENT_LOAD_SUCCESS",
+        "EVENT_LOAD_EMPTY",
+        "EVENT_LOAD_ERROR"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ]
+    },
+    {
+      "ds_id": "ds:search_filter_sidebar",
+      "type": "sidebar.search_filters",
+      "screen_id": "search_results",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:search_results_layout",
+      "actions": [],
+      "states": []
+    },
+    {
+      "ds_id": "ds:search_results_list",
+      "type": "list.search_items",
+      "screen_id": "search_results",
+      "layout_type": "layout.split_view",
+      "parent_ds_id": "ds:search_results_layout",
+      "actions": [
+        "click_task_result",
+        "click_doc_result",
+        "click_commit_result"
+      ],
+      "states": []
+    }
+  ]
+}

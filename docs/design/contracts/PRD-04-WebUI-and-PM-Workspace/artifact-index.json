@@ -1,0 +1,72 @@
+{
+  "metadata": {
+    "feature": "PRD-04-WebUI-and-PM-Workspace",
+    "satisfies": [
+      "br-prd04",
+      "br-prd04-s1",
+      "br-prd04-s2",
+      "br-prd04-s3",
+      "br-prd04-s4",
+      "br-prd04-s5",
+      "br-prd04-s6",
+      "br-prd04-s7",
+      "br-prd04-s8",
+      "br-prd04-s9",
+      "br-prd04-s10",
+      "br-prd04-s11",
+      "br-prd04-s12",
+      "br-prd04-s13",
+      "br-prd04-s14"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/ui-contract.md",
+      "size": 12783,
+      "role": "contract_artifact",
+      "load_policy": "always"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/flow.md",
+      "size": 4735,
+      "role": "contract_artifact",
+      "load_policy": "always"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/storyboards.json",
+      "size": 1831,
+      "role": "machine_evidence",
+      "load_policy": "summary_only"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/component-map.json",
+      "size": 13950,
+      "role": "machine_evidence",
+      "load_policy": "lookup_only"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/layout-rules.json",
+      "size": 203,
+      "role": "machine_evidence",
+      "load_policy": "summary_only"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/storyboards-review.html",
+      "size": 1041,
+      "role": "contract_artifact",
+      "load_policy": "always"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/prd-ds-conflicts.md",
+      "size": 56,
+      "role": "contract_artifact",
+      "load_policy": "always"
+    },
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/assertion-checklist.md",
+      "size": 800,
+      "role": "contract_artifact",
+      "load_policy": "always"
+    }
+  ]
+}

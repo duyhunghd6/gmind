@@ -1,0 +1,8 @@
+actions: []
+ds_id: ds:offline_status_indicator
+layout_type: layout.shell
+parent_ds_id: ds:shell_header
+screen_id: global_shell
+states:
+- offline
+type: indicator.status

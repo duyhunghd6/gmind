@@ -1,0 +1,10 @@
+actions:
+- EVENT_EDIT_FIELD
+- EVENT_SAVE_SUCCESS
+- click_trace_link
+ds_id: ds:tab_detail
+layout_type: layout.details
+parent_ds_id: ds:task_detail_tabs
+screen_id: task_detail
+states: []
+type: tab.detail

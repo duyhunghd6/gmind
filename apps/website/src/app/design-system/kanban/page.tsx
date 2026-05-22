@@ -124,7 +124,7 @@ export default function KanbanScreen() {
                           )}
                         </div>
                         <Droppable droppableId={col.id}>
-                          {(provided, snapshot) => (
+                          {(provided: any, snapshot: any) => (
                             <div
                               ref={provided.innerRef}
                               {...provided.droppableProps}

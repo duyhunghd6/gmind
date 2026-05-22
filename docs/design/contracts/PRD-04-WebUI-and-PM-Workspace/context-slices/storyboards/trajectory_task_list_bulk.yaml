@@ -1,0 +1,15 @@
+id: trajectory_task_list_bulk
+prd_journey: Task List Bulk Processing
+steps:
+- state: task_list.loading_task_list
+  action: EVENT_LOAD_SUCCESS
+  next_state: task_list.default_task_list
+  assertion: Task list finishes loading.
+- state: task_list.default_task_list
+  action: EVENT_BULK_ACTION
+  next_state: task_list.bulk_processing_task_list
+  assertion: User triggers bulk action, entering processing state.
+- state: task_list.bulk_processing_task_list
+  action: EVENT_BULK_SUCCESS
+  next_state: task_list.default_task_list
+  assertion: Bulk action completes, returning to default task list.

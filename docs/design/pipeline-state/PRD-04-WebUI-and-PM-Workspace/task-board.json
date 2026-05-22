@@ -1,0 +1,12 @@
+{
+  "status": "IN_PROGRESS",
+  "current_iteration": 3,
+  "tasks": {
+    "build_layout": "DONE",
+    "build_components": "DONE",
+    "build_states": "DONE",
+    "builder_audit": "PENDING",
+    "qa": "PENDING",
+    "ba": "PENDING"
+  }
+}

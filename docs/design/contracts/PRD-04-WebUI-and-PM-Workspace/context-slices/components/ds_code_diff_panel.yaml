@@ -1,0 +1,7 @@
+actions: []
+ds_id: ds:code_diff_panel
+layout_type: layout.stack
+parent_ds_id: ds:approval_layout
+screen_id: approval_gates
+states: []
+type: panel.diff

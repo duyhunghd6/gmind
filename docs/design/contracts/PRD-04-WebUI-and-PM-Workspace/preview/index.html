@@ -1,0 +1,2814 @@
+<!doctype html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <title>PRD-04-WebUI-and-PM-Workspace - Ralph Loop SSOT Preview</title>
+  <style>
+    :root { color-scheme: light dark; font-family: Inter, system-ui, sans-serif; }
+    body { margin: 0; padding: 32px; background: #0f172a; color: #e5e7eb; }
+    main { max-width: 1280px; margin: 0 auto; }
+    h1, h2, h3 { margin: 0 0 12px; color: #f1f5f9; }
+    h4 { margin: 8px 0 4px; color: #cbd5e1; }
+    .subtitle { color: #94a3b8; margin-bottom: 4px; }
+    .meta { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .card { border: 1px solid #334155; background: #111827; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+    .component { border: 1px dashed #475569; border-radius: 10px; padding: 10px; margin-top: 10px; background: #172033; }
+    code { color: #67e8f9; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    td, th { border-bottom: 1px solid #334155; padding: 6px 8px; text-align: left; }
+    pre { overflow: auto; background: #020617; padding: 16px; border-radius: 12px; }
+    /* Mermaid cards */
+    .mermaid-card { overflow: hidden; }
+    .mermaid-card pre.mermaid { background: transparent; font-size: 14px; }
+    .mermaid-card details { margin-top: 8px; }
+    .mermaid-card details summary { cursor: pointer; color: #94a3b8; font-size: 13px; }
+    .raw-mermaid, .conflicts-text { background: #020617; padding: 16px; border-radius: 12px; font-size: 13px; overflow: auto; }
+    /* Status indicators */
+    .status-ok { color: #34d399; font-weight: 600; }
+    .status-missing { color: #f87171; font-weight: 600; }
+    .status-error { color: #fbbf24; font-weight: 600; }
+    .beads-cell { font-size: 12px; color: #67e8f9; }
+    /* Flow walk-through */
+    .flow-domain-card h3 { color: #a5b4fc; }
+    .flow-walk-table .state-from { color: #fbbf24; }
+    .flow-walk-table .state-to { color: #34d399; }
+    .flow-walk-table .arrow-cell { color: #64748b; text-align: center; width: 30px; }
+    .flow-walk-table .action-event { color: #c084fc; font-weight: 600; }
+    .flow-walk-table .system-event { color: #94a3b8; }
+    /* Storyboard cards */
+    .storyboard-card { border-left: 3px solid #6366f1; }
+    .traj-meta { font-size: 12px; color: #94a3b8; }
+    .step-timeline { display: flex; flex-direction: row; gap: 4px; overflow-x: auto; padding: 8px 0; }
+    .step-badge { display: flex; flex-direction: row; align-items: flex-start; min-width: 140px; padding: 8px; border-radius: 8px; font-size: 11px; gap: 8px; }
+    .step-badge .step-number { font-weight: 700; color: #6366f1; font-size: 16px; min-width: 20px; }
+    .step-badge .step-detail { flex: 1; }
+    .step-badge .step-screen { font-weight: 600; color: #a5b4fc; }
+    .step-badge .step-state { color: #94a3b8; }
+    .step-badge .step-event { color: #67e8f9; margin-top: 2px; }
+    .step-badge .step-assert { color: #64748b; margin-top: 2px; font-style: italic; }
+    .step-default { background: #1e293b; border-left: 3px solid #64748b; }
+    .step-success { background: #064e3b; border-left: 3px solid #34d399; }
+    .step-loading { background: #1e1b4b; border-left: 3px solid #818cf8; }
+    .step-error { background: #450a0a; border-left: 3px solid #f87171; }
+    .prd-group { margin-bottom: 16px; }
+    .prd-group-header { color: #a5b4fc; border-bottom: 1px solid #334155; padding-bottom: 4px; }
+    .recovery-text { color: #fbbf24; }
+    /* Component hierarchy */
+    .comp-tree-card { border-left: 3px solid #0ea5e9; }
+    .comp-node { padding: 4px 8px; margin: 2px 0; border-radius: 6px; font-size: 12px; }
+    .comp-ds { background: #172033; }
+    .comp-anon { background: #1e293b; }
+    .comp-ds-id { color: #67e8f9; margin-left: 4px; }
+    .comp-ref { color: #a78bfa; margin-left: 4px; }
+    .comp-label { color: #cbd5e1; margin-left: 4px; }
+    .comp-action { color: #c084fc; }
+    .comp-screen { color: #64748b; font-size: 11px; }
+    .ds-id-table td:first-child { font-family: monospace; font-size: 12px; }
+    /* Layout mockups */
+    .layout-card { border-left: 3px solid #f59e0b; }
+    .viewport-mockups { display: flex; flex-direction: row; gap: 12px; overflow-x: auto; margin: 12px 0; }
+    .viewport-mockup { min-width: 160px; }
+    .viewport-label { font-size: 11px; color: #94a3b8; font-weight: 600; margin-bottom: 4px; }
+    .mock-frame { border: 1px solid #475569; border-radius: 6px; overflow: hidden; background: #0f172a; margin-bottom: 4px; }
+    .mock-header { background: #1e293b; padding: 4px 8px; font-size: 10px; color: #94a3b8; border-bottom: 1px solid #334155; }
+    .mock-sidebar { background: #1e1b4b; padding: 4px; font-size: 10px; color: #a5b4fc; min-height: 40px; }
+    .mock-content { background: #172033; padding: 8px; font-size: 10px; color: #64748b; min-height: 50px; flex: 1; }
+    .mock-stacked { min-height: 80px; }
+    .mock-footer { background: #1e293b; padding: 4px 8px; font-size: 10px; color: #64748b; border-top: 1px solid #334155; }
+    .mock-body-row { display: flex; flex-direction: row; }
+    .layout-desc { font-size: 11px; color: #94a3b8; font-style: italic; }
+    .state-table td:first-child { font-weight: 600; width: 120px; }
+    .state-ok { color: #34d399; }
+    .state-loading { color: #818cf8; }
+    .state-error { color: #f87171; }
+    .state-default { color: #94a3b8; }
+    /* Conflicts */
+    .conflict-card { border-left: 3px solid #f59e0b; }
+    .conflict-resolved { border-left-color: #34d399; }
+    .conflict-unresolved { border-left-color: #f87171; }
+    .conflict-header { display: flex; justify-content: space-between; align-items: center; }
+    .conflict-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+    .conflict-badge.conflict-resolved { background: #064e3b; color: #34d399; }
+    .conflict-badge.conflict-unresolved { background: #450a0a; color: #f87171; }
+    /* Navigation tabs */
+    .nav-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 24px; position: sticky; top: 0; z-index: 10; background: #0f172a; padding: 8px 0; border-bottom: 1px solid #334155; }
+    .nav-tab { padding: 6px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; color: #94a3b8; text-decoration: none; background: #1e293b; transition: background 0.15s; }
+    .nav-tab:hover { background: #334155; color: #e5e7eb; }
+    /* Details/pre sizing */
+    details pre { font-size: 12px; max-height: 400px; }
+</style>
+</head>
+<body>
+  <main>
+    <h1>PRD-04-WebUI-and-PM-Workspace</h1><p class='subtitle'>Static SSOT preview - all artifacts visualized as low-fi UI/UX descriptions.</p><p class='meta'><strong>Contract:</strong> docs/design/contracts/PRD-04-WebUI-and-PM-Workspace/ui-contract.md | <strong>Beads ID:</strong> br-chat-20260522-contract-to-ui-ralph-ssot-preview | <strong>v2.0</strong></p><nav class='nav-tabs'><a class="nav-tab" href="#overview">Overview</a><a class="nav-tab" href="#screens">Screens</a><a class="nav-tab" href="#flow">Flow</a><a class="nav-tab" href="#storyboards">Storyboards</a><a class="nav-tab" href="#components">Components</a><a class="nav-tab" href="#layout">Layout</a><a class="nav-tab" href="#review-diagrams">Diagrams</a><a class="nav-tab" href="#conflicts">Conflicts</a><a class="nav-tab" href="#coverage">Coverage</a></nav><div id='overview'>
+    <section class='card'>
+      <h2>Artifact Status</h2>
+      <table>
+        <thead><tr><th>Artifact</th><th>Exists</th><th>Parsed</th><th>Mermaid Blocks</th><th>Size / Lines</th><th>Beads IDs</th></tr></thead>
+        <tbody><tr><td>flow.md</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>1</td><td>124</td></td><td class='beads-cell'></td></tr><tr><td>review-diagrams.md</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>21</td><td>272</td></td><td class='beads-cell'></td></tr><tr><td>prd-ds-conflicts.md</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>0</td><td>2</td></td><td class='beads-cell'></td></tr><tr><td>assertion-checklist.md</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>0</td><td>17</td></td><td class='beads-cell'>br-test-prd04-assertions</td></tr><tr><td>storyboards.json</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>---</td><td>5209 bytes</td></td><td class='beads-cell'></td></tr><tr><td>layout-rules.json</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>---</td><td>203 bytes</td></td><td class='beads-cell'></td></tr><tr><td>component-map.json</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>---</td><td>13950 bytes</td></td><td class='beads-cell'></td></tr><tr><td>artifact-index.json</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td><td><td>---</td><td>1925 bytes</td></td><td class='beads-cell'></td></tr></tbody>
+      </table>
+    </section>
+    
+    <section class='card'>
+      <h2>Warnings</h2>
+      <ul><li>No warnings</li></ul>
+    </section>
+    </div><div id='screens'><h2>Contract Screens</h2><div class='grid'>
+        <section class='card'>
+          <h2>global_shell</h2>
+          <p><strong>Route:</strong> /*</p>
+          <p><strong>States:</strong> default, offline, loading</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.shell</strong> <code>ds:global_shell</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>header</strong> <code>ds:shell_header</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>button.logo</strong> <code>ds:logo_btn</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>input.search</strong> <code>ds:global_search</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>indicator.status</strong> <code>ds:offline_status_indicator</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>sidebar</strong> <code>ds:shell_sidebar</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>navigation.menu</strong> <code>ds:nav_menu</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>rtm_dashboard</h2>
+          <p><strong>Route:</strong> /</p>
+          <p><strong>States:</strong> default, loading, empty, error</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.grid</strong> <code>ds:dashboard_grid</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>widget.kpi_row</strong> <code>ds:kpi_metrics</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.coverage</strong> <code>ds:heatmap_panel</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.progress</strong> <code>ds:task_progress_panel</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.graph</strong> <code>ds:mini_graph_panel</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.gaps</strong> <code>ds:gap_analysis_panel</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>safe_board</h2>
+          <p><strong>Route:</strong> /board</p>
+          <p><strong>States:</strong> default, loading, empty, error</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.kanban</strong> <code>ds:kanban_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>column.kanban</strong> <code>ds:kanban_column</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>card.task</strong> <code>ds:task_card</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>badge.rte_escalation</strong> <code>ds:rte_badge</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>task_list</h2>
+          <p><strong>Route:</strong> /tasks</p>
+          <p><strong>States:</strong> default, loading, empty, error, bulk_processing</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.table_view</strong> <code>ds:task_list_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>toolbar.filters</strong> <code>ds:task_filters</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>table.data</strong> <code>ds:task_table</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>toolbar.pagination</strong> <code>ds:task_pagination</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>toolbar.bulk_actions</strong> <code>ds:task_bulk_actions</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>task_detail</h2>
+          <p><strong>Route:</strong> /tasks/:id</p>
+          <p><strong>States:</strong> default, loading, not_found, offline, saving</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.details</strong> <code>ds:task_detail_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>header.task</strong> <code>ds:task_detail_header</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>navigation.tabs</strong> <code>ds:task_detail_tabs</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>tab.detail</strong> <code>ds:tab_detail</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>tab.activity</strong> <code>ds:tab_activity</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>tab.graph</strong> <code>ds:tab_graph</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>tab.code</strong> <code>ds:tab_code</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>trace_explorer</h2>
+          <p><strong>Route:</strong> /trace/:id</p>
+          <p><strong>States:</strong> default, loading, empty, error, partial</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.split_view</strong> <code>ds:trace_explorer_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>toolbar.graph_controls</strong> <code>ds:graph_controls</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>canvas.force_directed</strong> <code>ds:d3_canvas</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.node_details</strong> <code>ds:node_detail_drawer</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>doc_viewer</h2>
+          <p><strong>Route:</strong> /docs</p>
+          <p><strong>States:</strong> default, loading, empty, error</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.split_view</strong> <code>ds:doc_viewer_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>sidebar.doc_tree</strong> <code>ds:doc_tree_sidebar</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>view.markdown</strong> <code>ds:markdown_viewer</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>approval_gates</h2>
+          <p><strong>Route:</strong> /approval</p>
+          <p><strong>States:</strong> default, loading, insufficient_evidence, empty, error</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.stack</strong> <code>ds:approval_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.diff</strong> <code>ds:code_diff_panel</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.test_logs</strong> <code>ds:test_logs_panel</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>panel.prd_context</strong> <code>ds:prd_context_panel</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>toolbar.approval_actions</strong> <code>ds:approval_action_bar</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>button.approve</strong> <code>ds:approve_btn</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>button.reject</strong> <code>ds:reject_btn</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        
+        <section class='card'>
+          <h2>search_results</h2>
+          <p><strong>Route:</strong> /search</p>
+          <p><strong>States:</strong> default, loading, empty, error</p>
+          
+          <div class='component-list'>
+    <div class='component' style='margin-left:0px'>
+      <strong>layout.split_view</strong> <code>ds:search_results_layout</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>sidebar.search_filters</strong> <code>ds:search_filter_sidebar</code>
+      <div></div>
+      
+    </div>
+    
+    <div class='component' style='margin-left:0px'>
+      <strong>list.search_items</strong> <code>ds:search_results_list</code>
+      <div></div>
+      
+    </div>
+    </div>
+        </section>
+        </div>
+    <section class='card'>
+      <h2>Mermaid Transitions (Contract)</h2>
+      <table><thead><tr><th>From</th><th>To</th><th>Event</th></tr></thead><tbody><tr><td>[*]</td><td>global_shell</td><td></td></tr><tr><td>[*]</td><td>default_shell</td><td></td></tr><tr><td>default_shell</td><td>offline_shell</td><td>EVENT_OFFLINE_DETECTED</td></tr><tr><td>offline_shell</td><td>default_shell</td><td>EVENT_ONLINE_DETECTED</td></tr><tr><td>default_shell</td><td>loading_shell</td><td>EVENT_FETCH_DATA</td></tr><tr><td>loading_shell</td><td>default_shell</td><td>EVENT_FETCH_SUCCESS</td></tr><tr><td>default_shell</td><td>rtm_dashboard</td><td>navigate_home</td></tr><tr><td>default_shell</td><td>search_results</td><td>trigger_search</td></tr><tr><td>default_shell</td><td>safe_board</td><td>navigate_board</td></tr><tr><td>default_shell</td><td>task_list</td><td>navigate_tasks</td></tr><tr><td>default_shell</td><td>doc_viewer</td><td>navigate_docs</td></tr><tr><td>default_shell</td><td>approval_gates</td><td>navigate_approval</td></tr><tr><td>[*]</td><td>loading_dashboard</td><td></td></tr><tr><td>loading_dashboard</td><td>default_dashboard</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_dashboard</td><td>empty_dashboard</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_dashboard</td><td>error_dashboard</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>error_dashboard</td><td>loading_dashboard</td><td>EVENT_RETRY</td></tr><tr><td>default_dashboard</td><td>trace_explorer</td><td>drill_down_graph</td></tr><tr><td>[*]</td><td>loading_board</td><td></td></tr><tr><td>loading_board</td><td>default_board</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_board</td><td>empty_board</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_board</td><td>error_board</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>error_board</td><td>loading_board</td><td>EVENT_RETRY</td></tr><tr><td>default_board</td><td>task_detail</td><td>click_task_card</td></tr><tr><td>[*]</td><td>loading_task_list</td><td></td></tr><tr><td>loading_task_list</td><td>default_task_list</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_task_list</td><td>empty_task_list</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_task_list</td><td>error_task_list</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>error_task_list</td><td>loading_task_list</td><td>EVENT_RETRY</td></tr><tr><td>default_task_list</td><td>bulk_processing_task_list</td><td>EVENT_BULK_ACTION</td></tr><tr><td>bulk_processing_task_list</td><td>default_task_list</td><td>EVENT_BULK_SUCCESS</td></tr><tr><td>default_task_list</td><td>task_detail</td><td>click_task_row</td></tr><tr><td>[*]</td><td>loading_task_detail</td><td></td></tr><tr><td>loading_task_detail</td><td>default_task_detail</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_task_detail</td><td>not_found_task_detail</td><td>EVENT_NOT_FOUND</td></tr><tr><td>loading_task_detail</td><td>error_task_detail</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>default_task_detail</td><td>offline_task_detail</td><td>EVENT_OFFLINE_DETECTED</td></tr><tr><td>offline_task_detail</td><td>default_task_detail</td><td>EVENT_ONLINE_DETECTED</td></tr><tr><td>default_task_detail</td><td>saving_task_detail</td><td>EVENT_EDIT_FIELD</td></tr><tr><td>saving_task_detail</td><td>default_task_detail</td><td>EVENT_SAVE_SUCCESS</td></tr><tr><td>default_task_detail</td><td>trace_explorer</td><td>click_trace_link</td></tr><tr><td>[*]</td><td>loading_trace</td><td></td></tr><tr><td>loading_trace</td><td>default_trace</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_trace</td><td>partial_trace</td><td>EVENT_PARTIAL_LOAD</td></tr><tr><td>loading_trace</td><td>empty_trace</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_trace</td><td>error_trace</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>partial_trace</td><td>default_trace</td><td>EVENT_ENRICHMENT_SUCCESS</td></tr><tr><td>default_trace</td><td>task_detail</td><td>click_task_node</td></tr><tr><td>default_trace</td><td>doc_viewer</td><td>click_doc_node</td></tr><tr><td>[*]</td><td>loading_doc</td><td></td></tr><tr><td>loading_doc</td><td>default_doc</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_doc</td><td>empty_doc</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_doc</td><td>error_doc</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>default_doc</td><td>trace_explorer</td><td>click_beads_id</td></tr><tr><td>[*]</td><td>loading_approval</td><td></td></tr><tr><td>loading_approval</td><td>default_approval</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_approval</td><td>insufficient_evidence</td><td>EVENT_MISSING_EVIDENCE</td></tr><tr><td>loading_approval</td><td>empty_approval</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_approval</td><td>error_approval</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>default_approval</td><td>default_approval</td><td>trigger_approve</td></tr><tr><td>default_approval</td><td>default_approval</td><td>trigger_reject</td></tr><tr><td>insufficient_evidence</td><td>loading_approval</td><td>trigger_refresh</td></tr><tr><td>[*]</td><td>loading_search</td><td></td></tr><tr><td>loading_search</td><td>default_search</td><td>EVENT_LOAD_SUCCESS</td></tr><tr><td>loading_search</td><td>empty_search</td><td>EVENT_LOAD_EMPTY</td></tr><tr><td>loading_search</td><td>error_search</td><td>EVENT_LOAD_ERROR</td></tr><tr><td>default_search</td><td>task_detail</td><td>click_task_result</td></tr><tr><td>default_search</td><td>doc_viewer</td><td>click_doc_result</td></tr><tr><td>default_search</td><td>trace_explorer</td><td>click_commit_result</td></tr></tbody></table>
+    </section>
+    
+    <section class='card mermaid-card'>
+      <h2>Mermaid Logic Machine (ui-contract.md)</h2>
+      <pre class="mermaid" id="contract-mermaid-0">stateDiagram-v2
+    direction LR
+
+    %% Initial Setup
+    [*] --&gt; global_shell
+
+    %% Global Shell State
+    state global_shell {
+        [*] --&gt; default_shell
+        default_shell --&gt; offline_shell: EVENT_OFFLINE_DETECTED
+        offline_shell --&gt; default_shell: EVENT_ONLINE_DETECTED
+        default_shell --&gt; loading_shell: EVENT_FETCH_DATA
+        loading_shell --&gt; default_shell: EVENT_FETCH_SUCCESS
+        
+        %% Shell Navigation Actions
+        default_shell --&gt; rtm_dashboard: navigate_home
+        default_shell --&gt; search_results: trigger_search
+        default_shell --&gt; safe_board: navigate_board
+        default_shell --&gt; task_list: navigate_tasks
+        default_shell --&gt; doc_viewer: navigate_docs
+        default_shell --&gt; approval_gates: navigate_approval
+    }
+
+    %% RTM Dashboard Screen
+    state rtm_dashboard {
+        [*] --&gt; loading_dashboard
+        loading_dashboard --&gt; default_dashboard: EVENT_LOAD_SUCCESS
+        loading_dashboard --&gt; empty_dashboard: EVENT_LOAD_EMPTY
+        loading_dashboard --&gt; error_dashboard: EVENT_LOAD_ERROR
+        error_dashboard --&gt; loading_dashboard: EVENT_RETRY
+        
+        %% Drill down / Interaction
+        default_dashboard --&gt; trace_explorer: drill_down_graph
+    }
+
+    %% SAFe Board Screen
+    state safe_board {
+        [*] --&gt; loading_board
+        loading_board --&gt; default_board: EVENT_LOAD_SUCCESS
+        loading_board --&gt; empty_board: EVENT_LOAD_EMPTY
+        loading_board --&gt; error_board: EVENT_LOAD_ERROR
+        error_board --&gt; loading_board: EVENT_RETRY
+        
+        default_board --&gt; task_detail: click_task_card
+    }
+
+    %% Task List Screen
+    state task_list {
+        [*] --&gt; loading_task_list
+        loading_task_list --&gt; default_task_list: EVENT_LOAD_SUCCESS
+        loading_task_list --&gt; empty_task_list: EVENT_LOAD_EMPTY
+        loading_task_list --&gt; error_task_list: EVENT_LOAD_ERROR
+        error_task_list --&gt; loading_task_list: EVENT_RETRY
+        
+        default_task_list --&gt; bulk_processing_task_list: EVENT_BULK_ACTION
+        bulk_processing_task_list --&gt; default_task_list: EVENT_BULK_SUCCESS
+        default_task_list --&gt; task_detail: click_task_row
+    }
+
+    %% Task Detail Screen
+    state task_detail {
+        [*] --&gt; loading_task_detail
+        loading_task_detail --&gt; default_task_detail: EVENT_LOAD_SUCCESS
+        loading_task_detail --&gt; not_found_task_detail: EVENT_NOT_FOUND
+        loading_task_detail --&gt; error_task_detail: EVENT_LOAD_ERROR
+        default_task_detail --&gt; offline_task_detail: EVENT_OFFLINE_DETECTED
+        offline_task_detail --&gt; default_task_detail: EVENT_ONLINE_DETECTED
+        default_task_detail --&gt; saving_task_detail: EVENT_EDIT_FIELD
+        saving_task_detail --&gt; default_task_detail: EVENT_SAVE_SUCCESS
+        
+        default_task_detail --&gt; trace_explorer: click_trace_link
+    }
+
+    %% Trace Explorer Screen
+    state trace_explorer {
+        [*] --&gt; loading_trace
+        loading_trace --&gt; default_trace: EVENT_LOAD_SUCCESS
+        loading_trace --&gt; partial_trace: EVENT_PARTIAL_LOAD
+        loading_trace --&gt; empty_trace: EVENT_LOAD_EMPTY
+        loading_trace --&gt; error_trace: EVENT_LOAD_ERROR
+        partial_trace --&gt; default_trace: EVENT_ENRICHMENT_SUCCESS
+        
+        default_trace --&gt; task_detail: click_task_node
+        default_trace --&gt; doc_viewer: click_doc_node
+    }
+
+    %% Doc Viewer Screen
+    state doc_viewer {
+        [*] --&gt; loading_doc
+        loading_doc --&gt; default_doc: EVENT_LOAD_SUCCESS
+        loading_doc --&gt; empty_doc: EVENT_LOAD_EMPTY
+        loading_doc --&gt; error_doc: EVENT_LOAD_ERROR
+        
+        default_doc --&gt; trace_explorer: click_beads_id
+    }
+
+    %% Approval Gates Screen
+    state approval_gates {
+        [*] --&gt; loading_approval
+        loading_approval --&gt; default_approval: EVENT_LOAD_SUCCESS
+        loading_approval --&gt; insufficient_evidence: EVENT_MISSING_EVIDENCE
+        loading_approval --&gt; empty_approval: EVENT_LOAD_EMPTY
+        loading_approval --&gt; error_approval: EVENT_LOAD_ERROR
+        
+        default_approval --&gt; default_approval: trigger_approve
+        default_approval --&gt; default_approval: trigger_reject
+        insufficient_evidence --&gt; loading_approval: trigger_refresh
+    }
+
+    %% Search Results Screen
+    state search_results {
+        [*] --&gt; loading_search
+        loading_search --&gt; default_search: EVENT_LOAD_SUCCESS
+        loading_search --&gt; empty_search: EVENT_LOAD_EMPTY
+        loading_search --&gt; error_search: EVENT_LOAD_ERROR
+        
+        default_search --&gt; task_detail: click_task_result
+        default_search --&gt; doc_viewer: click_doc_result
+        default_search --&gt; trace_explorer: click_commit_result
+    }</pre>
+      <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+
+    %% Initial Setup
+    [*] --&gt; global_shell
+
+    %% Global Shell State
+    state global_shell {
+        [*] --&gt; default_shell
+        default_shell --&gt; offline_shell: EVENT_OFFLINE_DETECTED
+        offline_shell --&gt; default_shell: EVENT_ONLINE_DETECTED
+        default_shell --&gt; loading_shell: EVENT_FETCH_DATA
+        loading_shell --&gt; default_shell: EVENT_FETCH_SUCCESS
+        
+        %% Shell Navigation Actions
+        default_shell --&gt; rtm_dashboard: navigate_home
+        default_shell --&gt; search_results: trigger_search
+        default_shell --&gt; safe_board: navigate_board
+        default_shell --&gt; task_list: navigate_tasks
+        default_shell --&gt; doc_viewer: navigate_docs
+        default_shell --&gt; approval_gates: navigate_approval
+    }
+
+    %% RTM Dashboard Screen
+    state rtm_dashboard {
+        [*] --&gt; loading_dashboard
+        loading_dashboard --&gt; default_dashboard: EVENT_LOAD_SUCCESS
+        loading_dashboard --&gt; empty_dashboard: EVENT_LOAD_EMPTY
+        loading_dashboard --&gt; error_dashboard: EVENT_LOAD_ERROR
+        error_dashboard --&gt; loading_dashboard: EVENT_RETRY
+        
+        %% Drill down / Interaction
+        default_dashboard --&gt; trace_explorer: drill_down_graph
+    }
+
+    %% SAFe Board Screen
+    state safe_board {
+        [*] --&gt; loading_board
+        loading_board --&gt; default_board: EVENT_LOAD_SUCCESS
+        loading_board --&gt; empty_board: EVENT_LOAD_EMPTY
+        loading_board --&gt; error_board: EVENT_LOAD_ERROR
+        error_board --&gt; loading_board: EVENT_RETRY
+        
+        default_board --&gt; task_detail: click_task_card
+    }
+
+    %% Task List Screen
+    state task_list {
+        [*] --&gt; loading_task_list
+        loading_task_list --&gt; default_task_list: EVENT_LOAD_SUCCESS
+        loading_task_list --&gt; empty_task_list: EVENT_LOAD_EMPTY
+        loading_task_list --&gt; error_task_list: EVENT_LOAD_ERROR
+        error_task_list --&gt; loading_task_list: EVENT_RETRY
+        
+        default_task_list --&gt; bulk_processing_task_list: EVENT_BULK_ACTION
+        bulk_processing_task_list --&gt; default_task_list: EVENT_BULK_SUCCESS
+        default_task_list --&gt; task_detail: click_task_row
+    }
+
+    %% Task Detail Screen
+    state task_detail {
+        [*] --&gt; loading_task_detail
+        loading_task_detail --&gt; default_task_detail: EVENT_LOAD_SUCCESS
+        loading_task_detail --&gt; not_found_task_detail: EVENT_NOT_FOUND
+        loading_task_detail --&gt; error_task_detail: EVENT_LOAD_ERROR
+        default_task_detail --&gt; offline_task_detail: EVENT_OFFLINE_DETECTED
+        offline_task_detail --&gt; default_task_detail: EVENT_ONLINE_DETECTED
+        default_task_detail --&gt; saving_task_detail: EVENT_EDIT_FIELD
+        saving_task_detail --&gt; default_task_detail: EVENT_SAVE_SUCCESS
+        
+        default_task_detail --&gt; trace_explorer: click_trace_link
+    }
+
+    %% Trace Explorer Screen
+    state trace_explorer {
+        [*] --&gt; loading_trace
+        loading_trace --&gt; default_trace: EVENT_LOAD_SUCCESS
+        loading_trace --&gt; partial_trace: EVENT_PARTIAL_LOAD
+        loading_trace --&gt; empty_trace: EVENT_LOAD_EMPTY
+        loading_trace --&gt; error_trace: EVENT_LOAD_ERROR
+        partial_trace --&gt; default_trace: EVENT_ENRICHMENT_SUCCESS
+        
+        default_trace --&gt; task_detail: click_task_node
+        default_trace --&gt; doc_viewer: click_doc_node
+    }
+
+    %% Doc Viewer Screen
+    state doc_viewer {
+        [*] --&gt; loading_doc
+        loading_doc --&gt; default_doc: EVENT_LOAD_SUCCESS
+        loading_doc --&gt; empty_doc: EVENT_LOAD_EMPTY
+        loading_doc --&gt; error_doc: EVENT_LOAD_ERROR
+        
+        default_doc --&gt; trace_explorer: click_beads_id
+    }
+
+    %% Approval Gates Screen
+    state approval_gates {
+        [*] --&gt; loading_approval
+        loading_approval --&gt; default_approval: EVENT_LOAD_SUCCESS
+        loading_approval --&gt; insufficient_evidence: EVENT_MISSING_EVIDENCE
+        loading_approval --&gt; empty_approval: EVENT_LOAD_EMPTY
+        loading_approval --&gt; error_approval: EVENT_LOAD_ERROR
+        
+        default_approval --&gt; default_approval: trigger_approve
+        default_approval --&gt; default_approval: trigger_reject
+        insufficient_evidence --&gt; loading_approval: trigger_refresh
+    }
+
+    %% Search Results Screen
+    state search_results {
+        [*] --&gt; loading_search
+        loading_search --&gt; default_search: EVENT_LOAD_SUCCESS
+        loading_search --&gt; empty_search: EVENT_LOAD_EMPTY
+        loading_search --&gt; error_search: EVENT_LOAD_ERROR
+        
+        default_search --&gt; task_detail: click_task_result
+        default_search --&gt; doc_viewer: click_doc_result
+        default_search --&gt; trace_explorer: click_commit_result
+    }</pre></details>
+    </section>
+    </div><div id='flow'><h2>Flow Diagrams (flow.md)</h2>
+
+        <section class='card mermaid-card'>
+          <h3>Flow: PRD-04-WebUI-and-PM-Workspace</h3>
+          <pre class="mermaid" id="flow-mermaid-0">stateDiagram-v2
+    direction LR
+
+    %% Initial Setup
+    [*] --&gt; global_shell
+
+    %% Global Shell State
+    state global_shell {
+        [*] --&gt; default_shell
+        default_shell --&gt; offline_shell: EVENT_OFFLINE_DETECTED
+        offline_shell --&gt; default_shell: EVENT_ONLINE_DETECTED
+        default_shell --&gt; loading_shell: EVENT_FETCH_DATA
+        loading_shell --&gt; default_shell: EVENT_FETCH_SUCCESS
+        
+        %% Shell Navigation Actions
+        default_shell --&gt; rtm_dashboard: navigate_home
+        default_shell --&gt; search_results: trigger_search
+        default_shell --&gt; safe_board: navigate_board
+        default_shell --&gt; task_list: navigate_tasks
+        default_shell --&gt; doc_viewer: navigate_docs
+        default_shell --&gt; approval_gates: navigate_approval
+    }
+
+    %% RTM Dashboard Screen
+    state rtm_dashboard {
+        [*] --&gt; loading_dashboard
+        loading_dashboard --&gt; default_dashboard: EVENT_LOAD_SUCCESS
+        loading_dashboard --&gt; empty_dashboard: EVENT_LOAD_EMPTY
+        loading_dashboard --&gt; error_dashboard: EVENT_LOAD_ERROR
+        error_dashboard --&gt; loading_dashboard: EVENT_RETRY
+        
+        %% Drill down / Interaction
+        default_dashboard --&gt; trace_explorer: drill_down_graph
+    }
+
+    %% SAFe Board Screen
+    state safe_board {
+        [*] --&gt; loading_board
+        loading_board --&gt; default_board: EVENT_LOAD_SUCCESS
+        loading_board --&gt; empty_board: EVENT_LOAD_EMPTY
+        loading_board --&gt; error_board: EVENT_LOAD_ERROR
+        error_board --&gt; loading_board: EVENT_RETRY
+        
+        default_board --&gt; task_detail: click_task_card
+    }
+
+    %% Task List Screen
+    state task_list {
+        [*] --&gt; loading_task_list
+        loading_task_list --&gt; default_task_list: EVENT_LOAD_SUCCESS
+        loading_task_list --&gt; empty_task_list: EVENT_LOAD_EMPTY
+        loading_task_list --&gt; error_task_list: EVENT_LOAD_ERROR
+        error_task_list --&gt; loading_task_list: EVENT_RETRY
+        
+        default_task_list --&gt; bulk_processing_task_list: EVENT_BULK_ACTION
+        bulk_processing_task_list --&gt; default_task_list: EVENT_BULK_SUCCESS
+        default_task_list --&gt; task_detail: click_task_row
+    }
+
+    %% Task Detail Screen
+    state task_detail {
+        [*] --&gt; loading_task_detail
+        loading_task_detail --&gt; default_task_detail: EVENT_LOAD_SUCCESS
+        loading_task_detail --&gt; not_found_task_detail: EVENT_NOT_FOUND
+        loading_task_detail --&gt; error_task_detail: EVENT_LOAD_ERROR
+        default_task_detail --&gt; offline_task_detail: EVENT_OFFLINE_DETECTED
+        offline_task_detail --&gt; default_task_detail: EVENT_ONLINE_DETECTED
+        default_task_detail --&gt; saving_task_detail: EVENT_EDIT_FIELD
+        saving_task_detail --&gt; default_task_detail: EVENT_SAVE_SUCCESS
+        
+        default_task_detail --&gt; trace_explorer: click_trace_link
+    }
+
+    %% Trace Explorer Screen
+    state trace_explorer {
+        [*] --&gt; loading_trace
+        loading_trace --&gt; default_trace: EVENT_LOAD_SUCCESS
+        loading_trace --&gt; partial_trace: EVENT_PARTIAL_LOAD
+        loading_trace --&gt; empty_trace: EVENT_LOAD_EMPTY
+        loading_trace --&gt; error_trace: EVENT_LOAD_ERROR
+        partial_trace --&gt; default_trace: EVENT_ENRICHMENT_SUCCESS
+        
+        default_trace --&gt; task_detail: click_task_node
+        default_trace --&gt; doc_viewer: click_doc_node
+    }
+
+    %% Doc Viewer Screen
+    state doc_viewer {
+        [*] --&gt; loading_doc
+        loading_doc --&gt; default_doc: EVENT_LOAD_SUCCESS
+        loading_doc --&gt; empty_doc: EVENT_LOAD_EMPTY
+        loading_doc --&gt; error_doc: EVENT_LOAD_ERROR
+        
+        default_doc --&gt; trace_explorer: click_beads_id
+    }
+
+    %% Approval Gates Screen
+    state approval_gates {
+        [*] --&gt; loading_approval
+        loading_approval --&gt; default_approval: EVENT_LOAD_SUCCESS
+        loading_approval --&gt; insufficient_evidence: EVENT_MISSING_EVIDENCE
+        loading_approval --&gt; empty_approval: EVENT_LOAD_EMPTY
+        loading_approval --&gt; error_approval: EVENT_LOAD_ERROR
+        
+        default_approval --&gt; default_approval: trigger_approve
+        default_approval --&gt; default_approval: trigger_reject
+        insufficient_evidence --&gt; loading_approval: trigger_refresh
+    }
+
+    %% Search Results Screen
+    state search_results {
+        [*] --&gt; loading_search
+        loading_search --&gt; default_search: EVENT_LOAD_SUCCESS
+        loading_search --&gt; empty_search: EVENT_LOAD_EMPTY
+        loading_search --&gt; error_search: EVENT_LOAD_ERROR
+        
+        default_search --&gt; task_detail: click_task_result
+        default_search --&gt; doc_viewer: click_doc_result
+        default_search --&gt; trace_explorer: click_commit_result
+    }</pre>
+          <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+
+    %% Initial Setup
+    [*] --&gt; global_shell
+
+    %% Global Shell State
+    state global_shell {
+        [*] --&gt; default_shell
+        default_shell --&gt; offline_shell: EVENT_OFFLINE_DETECTED
+        offline_shell --&gt; default_shell: EVENT_ONLINE_DETECTED
+        default_shell --&gt; loading_shell: EVENT_FETCH_DATA
+        loading_shell --&gt; default_shell: EVENT_FETCH_SUCCESS
+        
+        %% Shell Navigation Actions
+        default_shell --&gt; rtm_dashboard: navigate_home
+        default_shell --&gt; search_results: trigger_search
+        default_shell --&gt; safe_board: navigate_board
+        default_shell --&gt; task_list: navigate_tasks
+        default_shell --&gt; doc_viewer: navigate_docs
+        default_shell --&gt; approval_gates: navigate_approval
+    }
+
+    %% RTM Dashboard Screen
+    state rtm_dashboard {
+        [*] --&gt; loading_dashboard
+        loading_dashboard --&gt; default_dashboard: EVENT_LOAD_SUCCESS
+        loading_dashboard --&gt; empty_dashboard: EVENT_LOAD_EMPTY
+        loading_dashboard --&gt; error_dashboard: EVENT_LOAD_ERROR
+        error_dashboard --&gt; loading_dashboard: EVENT_RETRY
+        
+        %% Drill down / Interaction
+        default_dashboard --&gt; trace_explorer: drill_down_graph
+    }
+
+    %% SAFe Board Screen
+    state safe_board {
+        [*] --&gt; loading_board
+        loading_board --&gt; default_board: EVENT_LOAD_SUCCESS
+        loading_board --&gt; empty_board: EVENT_LOAD_EMPTY
+        loading_board --&gt; error_board: EVENT_LOAD_ERROR
+        error_board --&gt; loading_board: EVENT_RETRY
+        
+        default_board --&gt; task_detail: click_task_card
+    }
+
+    %% Task List Screen
+    state task_list {
+        [*] --&gt; loading_task_list
+        loading_task_list --&gt; default_task_list: EVENT_LOAD_SUCCESS
+        loading_task_list --&gt; empty_task_list: EVENT_LOAD_EMPTY
+        loading_task_list --&gt; error_task_list: EVENT_LOAD_ERROR
+        error_task_list --&gt; loading_task_list: EVENT_RETRY
+        
+        default_task_list --&gt; bulk_processing_task_list: EVENT_BULK_ACTION
+        bulk_processing_task_list --&gt; default_task_list: EVENT_BULK_SUCCESS
+        default_task_list --&gt; task_detail: click_task_row
+    }
+
+    %% Task Detail Screen
+    state task_detail {
+        [*] --&gt; loading_task_detail
+        loading_task_detail --&gt; default_task_detail: EVENT_LOAD_SUCCESS
+        loading_task_detail --&gt; not_found_task_detail: EVENT_NOT_FOUND
+        loading_task_detail --&gt; error_task_detail: EVENT_LOAD_ERROR
+        default_task_detail --&gt; offline_task_detail: EVENT_OFFLINE_DETECTED
+        offline_task_detail --&gt; default_task_detail: EVENT_ONLINE_DETECTED
+        default_task_detail --&gt; saving_task_detail: EVENT_EDIT_FIELD
+        saving_task_detail --&gt; default_task_detail: EVENT_SAVE_SUCCESS
+        
+        default_task_detail --&gt; trace_explorer: click_trace_link
+    }
+
+    %% Trace Explorer Screen
+    state trace_explorer {
+        [*] --&gt; loading_trace
+        loading_trace --&gt; default_trace: EVENT_LOAD_SUCCESS
+        loading_trace --&gt; partial_trace: EVENT_PARTIAL_LOAD
+        loading_trace --&gt; empty_trace: EVENT_LOAD_EMPTY
+        loading_trace --&gt; error_trace: EVENT_LOAD_ERROR
+        partial_trace --&gt; default_trace: EVENT_ENRICHMENT_SUCCESS
+        
+        default_trace --&gt; task_detail: click_task_node
+        default_trace --&gt; doc_viewer: click_doc_node
+    }
+
+    %% Doc Viewer Screen
+    state doc_viewer {
+        [*] --&gt; loading_doc
+        loading_doc --&gt; default_doc: EVENT_LOAD_SUCCESS
+        loading_doc --&gt; empty_doc: EVENT_LOAD_EMPTY
+        loading_doc --&gt; error_doc: EVENT_LOAD_ERROR
+        
+        default_doc --&gt; trace_explorer: click_beads_id
+    }
+
+    %% Approval Gates Screen
+    state approval_gates {
+        [*] --&gt; loading_approval
+        loading_approval --&gt; default_approval: EVENT_LOAD_SUCCESS
+        loading_approval --&gt; insufficient_evidence: EVENT_MISSING_EVIDENCE
+        loading_approval --&gt; empty_approval: EVENT_LOAD_EMPTY
+        loading_approval --&gt; error_approval: EVENT_LOAD_ERROR
+        
+        default_approval --&gt; default_approval: trigger_approve
+        default_approval --&gt; default_approval: trigger_reject
+        insufficient_evidence --&gt; loading_approval: trigger_refresh
+    }
+
+    %% Search Results Screen
+    state search_results {
+        [*] --&gt; loading_search
+        loading_search --&gt; default_search: EVENT_LOAD_SUCCESS
+        loading_search --&gt; empty_search: EVENT_LOAD_EMPTY
+        loading_search --&gt; error_search: EVENT_LOAD_ERROR
+        
+        default_search --&gt; task_detail: click_task_result
+        default_search --&gt; doc_viewer: click_doc_result
+        default_search --&gt; trace_explorer: click_commit_result
+    }</pre></details>
+        </section>
+        
+
+    <h2>Flow Walk-Through</h2>
+    <p class='subtitle'>All state transitions grouped by screen/domain. <span class='action-event'>Action events</span> vs <span class='system-event'>system events</span>.</p>
+    <div class='grid'>
+        <section class='card flow-domain-card'>
+          <h3>bulk_processing_task_list (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>bulk_processing_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_task_list</td>
+              <td class='system-event'>EVENT_BULK_SUCCESS</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_approval (2 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_approval</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_approval</td>
+              <td class='system-event'>trigger_approve</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_approval</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_approval</td>
+              <td class='system-event'>trigger_reject</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_board (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_board</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>task_detail</td>
+              <td class='system-event'>click_task_card</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_dashboard (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_dashboard</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>trace_explorer</td>
+              <td class='system-event'>drill_down_graph</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_doc (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_doc</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>trace_explorer</td>
+              <td class='system-event'>click_beads_id</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_search (3 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_search</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>task_detail</td>
+              <td class='system-event'>click_task_result</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_search</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>doc_viewer</td>
+              <td class='system-event'>click_doc_result</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_search</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>trace_explorer</td>
+              <td class='system-event'>click_commit_result</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_shell (9 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_shell</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>offline_shell</td>
+              <td class='system-event'>EVENT_OFFLINE_DETECTED</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_shell</td>
+              <td class='system-event'>EVENT_FETCH_DATA</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>rtm_dashboard</td>
+              <td class='system-event'>navigate_home</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>search_results</td>
+              <td class='system-event'>trigger_search</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>safe_board</td>
+              <td class='system-event'>navigate_board</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>task_list</td>
+              <td class='system-event'>navigate_tasks</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>doc_viewer</td>
+              <td class='system-event'>navigate_docs</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>approval_gates</td>
+              <td class='system-event'>navigate_approval</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_task_detail (3 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>offline_task_detail</td>
+              <td class='system-event'>EVENT_OFFLINE_DETECTED</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>saving_task_detail</td>
+              <td class='system-event'>EVENT_EDIT_FIELD</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>trace_explorer</td>
+              <td class='system-event'>click_trace_link</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_task_list (2 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>bulk_processing_task_list</td>
+              <td class='system-event'>EVENT_BULK_ACTION</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>task_detail</td>
+              <td class='system-event'>click_task_row</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>default_trace (2 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>default_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>task_detail</td>
+              <td class='system-event'>click_task_node</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>default_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>doc_viewer</td>
+              <td class='system-event'>click_doc_node</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>error_board (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>error_board</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_board</td>
+              <td class='system-event'>EVENT_RETRY</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>error_dashboard (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>error_dashboard</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_dashboard</td>
+              <td class='system-event'>EVENT_RETRY</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>error_task_list (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>error_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_task_list</td>
+              <td class='system-event'>EVENT_RETRY</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>global_shell (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>global_shell</td>
+              <td class='system-event'></td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>insufficient_evidence (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>insufficient_evidence</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_approval</td>
+              <td class='system-event'>trigger_refresh</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_approval (5 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_approval</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_approval</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_approval</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_approval</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>insufficient_evidence</td>
+              <td class='system-event'>EVENT_MISSING_EVIDENCE</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_approval</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_approval</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_approval</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_approval</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_board (4 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_board</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_board</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_board</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_board</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_board</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_board</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_board</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_dashboard (4 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_dashboard</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_dashboard</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_dashboard</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_dashboard</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_dashboard</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_dashboard</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_dashboard</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_doc (4 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_doc</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_doc</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_doc</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_doc</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_doc</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_doc</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_doc</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_search (4 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_search</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_search</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_search</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_search</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_search</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_search</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_search</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_shell (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>loading_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_shell</td>
+              <td class='system-event'>EVENT_FETCH_SUCCESS</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_task_detail (4 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_task_detail</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_task_detail</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>not_found_task_detail</td>
+              <td class='system-event'>EVENT_NOT_FOUND</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_task_detail</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_task_list (4 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_task_list</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_task_list</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_task_list</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_task_list</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_task_list</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>loading_trace (5 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>[*]</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>loading_trace</td>
+              <td class='system-event'></td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_trace</td>
+              <td class='system-event'>EVENT_LOAD_SUCCESS</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>partial_trace</td>
+              <td class='system-event'>EVENT_PARTIAL_LOAD</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>empty_trace</td>
+              <td class='system-event'>EVENT_LOAD_EMPTY</td>
+            </tr>
+            
+            <tr>
+              <td class='state-from'>loading_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>error_trace</td>
+              <td class='system-event'>EVENT_LOAD_ERROR</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>offline_shell (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>offline_shell</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_shell</td>
+              <td class='system-event'>EVENT_ONLINE_DETECTED</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>offline_task_detail (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>offline_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_task_detail</td>
+              <td class='system-event'>EVENT_ONLINE_DETECTED</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>partial_trace (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>partial_trace</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_trace</td>
+              <td class='system-event'>EVENT_ENRICHMENT_SUCCESS</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        
+        <section class='card flow-domain-card'>
+          <h3>saving_task_detail (1 transitions)</h3>
+          <table class='flow-walk-table'>
+            <thead><tr><th>From</th><th></th><th>To</th><th>Event</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class='state-from'>saving_task_detail</td>
+              <td class='arrow-cell'>&#8594;</td>
+              <td class='state-to'>default_task_detail</td>
+              <td class='system-event'>EVENT_SAVE_SUCCESS</td>
+            </tr>
+            </tbody>
+          </table>
+        </section>
+        </div>
+    </div><div id='storyboards'>
+    <h2>Storyboard Trajectories (8 total)</h2>
+    <p class='subtitle'>Visual step-by-step UI walk-throughs grouped by PRD trace.</p>
+    
+        <div class='prd-group'>
+          <h3 class='prd-group-header'>untracked (8 trajectories)</h3>
+          <div class='grid'>
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>global_shell.default_shell</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>safe_board.loading_board</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>global_shell.default_shell</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>global_shell.offline_shell</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>rtm_dashboard.default_dashboard</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>trace_explorer.loading_trace</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>approval_gates.loading_approval</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>approval_gates.default_approval</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 3
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>task_list.loading_task_list</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>task_list.default_task_list</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>3</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>task_list.bulk_processing_task_list</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>task_detail.default_task_detail</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>task_detail.saving_task_detail</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>search_results.loading_search</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>search_results.default_search</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    
+    <section class='card storyboard-card'>
+      <h3>: </h3>
+      <p class='traj-meta'>
+        <strong>PRD:</strong>  |
+        <strong>Start:</strong>  |
+        <strong>Steps:</strong> 2
+        
+      </p>
+      <div class='step-timeline'>
+        
+    <div class='step-badge step-default'>
+      <div class='step-number'>1</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>doc_viewer.loading_doc</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+    <div class='step-badge step-default'>
+      <div class='step-number'>2</div>
+      <div class='step-detail'>
+        <div class='step-screen'></div>
+        <div class='step-state'>doc_viewer.default_doc</div>
+        <div class='step-event'></div>
+        <div class='step-assert'></div>
+      </div>
+    </div>
+    
+      </div>
+    </section>
+    </div>
+        </div>
+        
+    </div><div id='components'>
+    <h2>Component Hierarchy (46 components, 0 ds_ids, 0 actions)</h2>
+    <div class='grid'>
+        <section class='card comp-tree-card'>
+          <h3>unknown (46 components)</h3>
+          <div class='comp-tree'>
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.shell</strong>
+      <code class='comp-ds-id'>ds:global_shell</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>header</strong>
+      <code class='comp-ds-id'>ds:shell_header</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>button.logo</strong>
+      <code class='comp-ds-id'>ds:logo_btn</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>input.search</strong>
+      <code class='comp-ds-id'>ds:global_search</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>indicator.status</strong>
+      <code class='comp-ds-id'>ds:offline_status_indicator</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>sidebar</strong>
+      <code class='comp-ds-id'>ds:shell_sidebar</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>navigation.menu</strong>
+      <code class='comp-ds-id'>ds:nav_menu</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.grid</strong>
+      <code class='comp-ds-id'>ds:dashboard_grid</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>widget.kpi_row</strong>
+      <code class='comp-ds-id'>ds:kpi_metrics</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.coverage</strong>
+      <code class='comp-ds-id'>ds:heatmap_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.progress</strong>
+      <code class='comp-ds-id'>ds:task_progress_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.graph</strong>
+      <code class='comp-ds-id'>ds:mini_graph_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.gaps</strong>
+      <code class='comp-ds-id'>ds:gap_analysis_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.kanban</strong>
+      <code class='comp-ds-id'>ds:kanban_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>column.kanban</strong>
+      <code class='comp-ds-id'>ds:kanban_column</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>card.task</strong>
+      <code class='comp-ds-id'>ds:task_card</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>badge.rte_escalation</strong>
+      <code class='comp-ds-id'>ds:rte_badge</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.table_view</strong>
+      <code class='comp-ds-id'>ds:task_list_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>toolbar.filters</strong>
+      <code class='comp-ds-id'>ds:task_filters</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>table.data</strong>
+      <code class='comp-ds-id'>ds:task_table</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>toolbar.pagination</strong>
+      <code class='comp-ds-id'>ds:task_pagination</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>toolbar.bulk_actions</strong>
+      <code class='comp-ds-id'>ds:task_bulk_actions</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.details</strong>
+      <code class='comp-ds-id'>ds:task_detail_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>header.task</strong>
+      <code class='comp-ds-id'>ds:task_detail_header</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>navigation.tabs</strong>
+      <code class='comp-ds-id'>ds:task_detail_tabs</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>tab.detail</strong>
+      <code class='comp-ds-id'>ds:tab_detail</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>tab.activity</strong>
+      <code class='comp-ds-id'>ds:tab_activity</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>tab.graph</strong>
+      <code class='comp-ds-id'>ds:tab_graph</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>tab.code</strong>
+      <code class='comp-ds-id'>ds:tab_code</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.split_view</strong>
+      <code class='comp-ds-id'>ds:trace_explorer_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>toolbar.graph_controls</strong>
+      <code class='comp-ds-id'>ds:graph_controls</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>canvas.force_directed</strong>
+      <code class='comp-ds-id'>ds:d3_canvas</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.node_details</strong>
+      <code class='comp-ds-id'>ds:node_detail_drawer</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.split_view</strong>
+      <code class='comp-ds-id'>ds:doc_viewer_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>sidebar.doc_tree</strong>
+      <code class='comp-ds-id'>ds:doc_tree_sidebar</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>view.markdown</strong>
+      <code class='comp-ds-id'>ds:markdown_viewer</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.stack</strong>
+      <code class='comp-ds-id'>ds:approval_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.diff</strong>
+      <code class='comp-ds-id'>ds:code_diff_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.test_logs</strong>
+      <code class='comp-ds-id'>ds:test_logs_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>panel.prd_context</strong>
+      <code class='comp-ds-id'>ds:prd_context_panel</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>toolbar.approval_actions</strong>
+      <code class='comp-ds-id'>ds:approval_action_bar</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>button.approve</strong>
+      <code class='comp-ds-id'>ds:approve_btn</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>button.reject</strong>
+      <code class='comp-ds-id'>ds:reject_btn</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>layout.split_view</strong>
+      <code class='comp-ds-id'>ds:search_results_layout</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>sidebar.search_filters</strong>
+      <code class='comp-ds-id'>ds:search_filter_sidebar</code>
+      
+    </div>
+    
+    <div class='comp-node comp-ds' style='margin-left:0px'>
+      <strong>list.search_items</strong>
+      <code class='comp-ds-id'>ds:search_results_list</code>
+      
+    </div>
+    </div>
+        </section>
+        </div>
+    </div><div id='layout'>
+    <h2>Layout Rules</h2>
+    
+    
+    <section class='card'>
+      <h2>Viewports</h2>
+      <table>
+        <thead><tr><th>Name</th><th>Width</th><th>Constraints</th></tr></thead>
+        <tbody>
+        <tr>
+          <td></td>
+          <td>1440</td>
+          <td><ul></ul></td>
+        </tr>
+        
+        <tr>
+          <td></td>
+          <td>1024</td>
+          <td><ul></ul></td>
+        </tr>
+        
+        <tr>
+          <td></td>
+          <td>390</td>
+          <td><ul></ul></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+    
+    <h3>Screen Layouts (0 screens)</h3>
+    <div class='grid'></div>
+    </div><div id='review-diagrams'><h2>Review Diagrams</h2>
+
+            <section class='card mermaid-card'>
+              <h3>Screen Inventory and Routes</h3>
+              <pre class="mermaid" id="review-mermaid-0">flowchart LR
+    A[Global Shell &#x27;/*&#x27;] --&gt; B[RTM Dashboard &#x27;/&#x27;]
+    A --&gt; C[SAFe Board &#x27;/board&#x27;]
+    A --&gt; D[Task List &#x27;/tasks&#x27;]
+    A --&gt; E[Doc Viewer &#x27;/docs&#x27;]
+    A --&gt; F[Approval Gates &#x27;/approval&#x27;]
+    A --&gt; G[Search Results &#x27;/search&#x27;]
+    B --&gt; H[Trace Explorer &#x27;/trace/:id&#x27;]
+    C --&gt; I[Task Detail &#x27;/tasks/:id&#x27;]
+    D --&gt; I
+    E --&gt; H
+    G --&gt; I
+    G --&gt; E
+    G --&gt; H
+    I --&gt; H</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart LR
+    A[Global Shell &#x27;/*&#x27;] --&gt; B[RTM Dashboard &#x27;/&#x27;]
+    A --&gt; C[SAFe Board &#x27;/board&#x27;]
+    A --&gt; D[Task List &#x27;/tasks&#x27;]
+    A --&gt; E[Doc Viewer &#x27;/docs&#x27;]
+    A --&gt; F[Approval Gates &#x27;/approval&#x27;]
+    A --&gt; G[Search Results &#x27;/search&#x27;]
+    B --&gt; H[Trace Explorer &#x27;/trace/:id&#x27;]
+    C --&gt; I[Task Detail &#x27;/tasks/:id&#x27;]
+    D --&gt; I
+    E --&gt; H
+    G --&gt; I
+    G --&gt; E
+    G --&gt; H
+    I --&gt; H</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Responsive Layout Intent by Viewport</h3>
+              <pre class="mermaid" id="review-mermaid-1">flowchart TD
+    subgraph Viewports
+        D[Desktop: 1440px]
+        T[Tablet: 1024px]
+        M[Mobile: 390px]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Viewports
+        D[Desktop: 1440px]
+        T[Tablet: 1024px]
+        M[Mobile: 390px]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-2">flowchart TD
+    subgraph Global Shell
+        GS[global_shell] --&gt; H[header]
+        GS --&gt; SB[sidebar]
+        H --&gt; L[button.logo]
+        H --&gt; S[input.search]
+        H --&gt; I[indicator.status]
+        SB --&gt; NM[navigation.menu]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Global Shell
+        GS[global_shell] --&gt; H[header]
+        GS --&gt; SB[sidebar]
+        H --&gt; L[button.logo]
+        H --&gt; S[input.search]
+        H --&gt; I[indicator.status]
+        SB --&gt; NM[navigation.menu]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-3">flowchart TD
+    subgraph RTM Dashboard
+        RD[rtm_dashboard] --&gt; KR[widget.kpi_row]
+        RD --&gt; HP[panel.coverage]
+        RD --&gt; TP[panel.progress]
+        RD --&gt; MG[panel.graph]
+        RD --&gt; GA[panel.gaps]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph RTM Dashboard
+        RD[rtm_dashboard] --&gt; KR[widget.kpi_row]
+        RD --&gt; HP[panel.coverage]
+        RD --&gt; TP[panel.progress]
+        RD --&gt; MG[panel.graph]
+        RD --&gt; GA[panel.gaps]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-4">flowchart TD
+    subgraph SAFe Board
+        SB[safe_board] --&gt; KC[column.kanban]
+        KC --&gt; TC[card.task]
+        TC --&gt; RB[badge.rte_escalation]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph SAFe Board
+        SB[safe_board] --&gt; KC[column.kanban]
+        KC --&gt; TC[card.task]
+        TC --&gt; RB[badge.rte_escalation]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-5">flowchart TD
+    subgraph Task List
+        TL[task_list] --&gt; TF[toolbar.filters]
+        TL --&gt; TD[table.data]
+        TL --&gt; TP[toolbar.pagination]
+        TL --&gt; TBA[toolbar.bulk_actions]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Task List
+        TL[task_list] --&gt; TF[toolbar.filters]
+        TL --&gt; TD[table.data]
+        TL --&gt; TP[toolbar.pagination]
+        TL --&gt; TBA[toolbar.bulk_actions]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-6">flowchart TD
+    subgraph Task Detail
+        TD[task_detail] --&gt; TH[header.task]
+        TD --&gt; NT[navigation.tabs]
+        NT --&gt; T1[tab.detail]
+        NT --&gt; T2[tab.activity]
+        NT --&gt; T3[tab.graph]
+        NT --&gt; T4[tab.code]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Task Detail
+        TD[task_detail] --&gt; TH[header.task]
+        TD --&gt; NT[navigation.tabs]
+        NT --&gt; T1[tab.detail]
+        NT --&gt; T2[tab.activity]
+        NT --&gt; T3[tab.graph]
+        NT --&gt; T4[tab.code]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-7">flowchart TD
+    subgraph Trace Explorer
+        TE[trace_explorer] --&gt; GC[toolbar.graph_controls]
+        TE --&gt; DC[canvas.force_directed]
+        TE --&gt; ND[panel.node_details]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Trace Explorer
+        TE[trace_explorer] --&gt; GC[toolbar.graph_controls]
+        TE --&gt; DC[canvas.force_directed]
+        TE --&gt; ND[panel.node_details]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-8">flowchart TD
+    subgraph Doc Viewer
+        DV[doc_viewer] --&gt; DT[sidebar.doc_tree]
+        DV --&gt; MV[view.markdown]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Doc Viewer
+        DV[doc_viewer] --&gt; DT[sidebar.doc_tree]
+        DV --&gt; MV[view.markdown]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-9">flowchart TD
+    subgraph Approval Gates
+        AG[approval_gates] --&gt; DP[panel.diff]
+        AG --&gt; TL[panel.test_logs]
+        AG --&gt; PC[panel.prd_context]
+        AG --&gt; AB[toolbar.approval_actions]
+        AB --&gt; AB1[button.approve]
+        AB --&gt; AB2[button.reject]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Approval Gates
+        AG[approval_gates] --&gt; DP[panel.diff]
+        AG --&gt; TL[panel.test_logs]
+        AG --&gt; PC[panel.prd_context]
+        AG --&gt; AB[toolbar.approval_actions]
+        AB --&gt; AB1[button.approve]
+        AB --&gt; AB2[button.reject]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Per-screen Component Hierarchy</h3>
+              <pre class="mermaid" id="review-mermaid-10">flowchart TD
+    subgraph Search Results
+        SR[search_results] --&gt; SF[sidebar.search_filters]
+        SR --&gt; SL[list.search_items]
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart TD
+    subgraph Search Results
+        SR[search_results] --&gt; SF[sidebar.search_filters]
+        SR --&gt; SL[list.search_items]
+    end</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-11">stateDiagram-v2
+    direction LR
+    state global_shell {
+        [*] --&gt; default
+        [*] --&gt; offline
+        [*] --&gt; loading
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state global_shell {
+        [*] --&gt; default
+        [*] --&gt; offline
+        [*] --&gt; loading
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-12">stateDiagram-v2
+    direction LR
+    state rtm_dashboard {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state rtm_dashboard {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-13">stateDiagram-v2
+    direction LR
+    state safe_board {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state safe_board {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-14">stateDiagram-v2
+    direction LR
+    state task_list {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+        [*] --&gt; bulk_processing
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state task_list {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+        [*] --&gt; bulk_processing
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-15">stateDiagram-v2
+    direction LR
+    state task_detail {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; not_found
+        [*] --&gt; offline
+        [*] --&gt; saving
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state task_detail {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; not_found
+        [*] --&gt; offline
+        [*] --&gt; saving
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-16">stateDiagram-v2
+    direction LR
+    state trace_explorer {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+        [*] --&gt; partial
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state trace_explorer {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+        [*] --&gt; partial
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-17">stateDiagram-v2
+    direction LR
+    state doc_viewer {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state doc_viewer {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-18">stateDiagram-v2
+    direction LR
+    state approval_gates {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; insufficient_evidence
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state approval_gates {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; insufficient_evidence
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>State Coverage per Screen</h3>
+              <pre class="mermaid" id="review-mermaid-19">stateDiagram-v2
+    direction LR
+    state search_results {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>stateDiagram-v2
+    direction LR
+    state search_results {
+        [*] --&gt; default
+        [*] --&gt; loading
+        [*] --&gt; empty
+        [*] --&gt; error
+    }</pre></details>
+            </section>
+            
+
+            <section class='card mermaid-card'>
+              <h3>Action-to-Event Links</h3>
+              <pre class="mermaid" id="review-mermaid-20">flowchart LR
+    subgraph Action Links
+        navigate_home --&gt; EVENT_LOAD_SUCCESS
+        trigger_search --&gt; EVENT_LOAD_SUCCESS
+        navigate_board --&gt; EVENT_LOAD_SUCCESS
+        navigate_tasks --&gt; EVENT_LOAD_SUCCESS
+        navigate_docs --&gt; EVENT_LOAD_SUCCESS
+        navigate_approval --&gt; EVENT_LOAD_SUCCESS
+        EVENT_OFFLINE_DETECTED --&gt; offline
+        EVENT_ONLINE_DETECTED --&gt; default
+        EVENT_FETCH_DATA --&gt; loading
+        EVENT_FETCH_SUCCESS --&gt; default
+        EVENT_LOAD_SUCCESS --&gt; default
+        EVENT_LOAD_EMPTY --&gt; empty
+        EVENT_LOAD_ERROR --&gt; error
+        EVENT_RETRY --&gt; loading
+        drill_down_graph --&gt; EVENT_LOAD_SUCCESS
+        click_task_card --&gt; EVENT_LOAD_SUCCESS
+        EVENT_BULK_ACTION --&gt; bulk_processing
+        EVENT_BULK_SUCCESS --&gt; default
+        click_task_row --&gt; EVENT_LOAD_SUCCESS
+        EVENT_NOT_FOUND --&gt; not_found
+        EVENT_EDIT_FIELD --&gt; saving
+        EVENT_SAVE_SUCCESS --&gt; default
+        click_trace_link --&gt; EVENT_LOAD_SUCCESS
+        EVENT_PARTIAL_LOAD --&gt; partial
+        EVENT_ENRICHMENT_SUCCESS --&gt; default
+        click_task_node --&gt; EVENT_LOAD_SUCCESS
+        click_doc_node --&gt; EVENT_LOAD_SUCCESS
+        click_beads_id --&gt; EVENT_LOAD_SUCCESS
+        EVENT_MISSING_EVIDENCE --&gt; insufficient_evidence
+        trigger_approve --&gt; default
+        trigger_reject --&gt; default
+        trigger_refresh --&gt; loading
+        click_task_result --&gt; EVENT_LOAD_SUCCESS
+        click_doc_result --&gt; EVENT_LOAD_SUCCESS
+        click_commit_result --&gt; EVENT_LOAD_SUCCESS
+    end</pre>
+              <details><summary>Raw Mermaid source</summary><pre class='raw-mermaid'>flowchart LR
+    subgraph Action Links
+        navigate_home --&gt; EVENT_LOAD_SUCCESS
+        trigger_search --&gt; EVENT_LOAD_SUCCESS
+        navigate_board --&gt; EVENT_LOAD_SUCCESS
+        navigate_tasks --&gt; EVENT_LOAD_SUCCESS
+        navigate_docs --&gt; EVENT_LOAD_SUCCESS
+        navigate_approval --&gt; EVENT_LOAD_SUCCESS
+        EVENT_OFFLINE_DETECTED --&gt; offline
+        EVENT_ONLINE_DETECTED --&gt; default
+        EVENT_FETCH_DATA --&gt; loading
+        EVENT_FETCH_SUCCESS --&gt; default
+        EVENT_LOAD_SUCCESS --&gt; default
+        EVENT_LOAD_EMPTY --&gt; empty
+        EVENT_LOAD_ERROR --&gt; error
+        EVENT_RETRY --&gt; loading
+        drill_down_graph --&gt; EVENT_LOAD_SUCCESS
+        click_task_card --&gt; EVENT_LOAD_SUCCESS
+        EVENT_BULK_ACTION --&gt; bulk_processing
+        EVENT_BULK_SUCCESS --&gt; default
+        click_task_row --&gt; EVENT_LOAD_SUCCESS
+        EVENT_NOT_FOUND --&gt; not_found
+        EVENT_EDIT_FIELD --&gt; saving
+        EVENT_SAVE_SUCCESS --&gt; default
+        click_trace_link --&gt; EVENT_LOAD_SUCCESS
+        EVENT_PARTIAL_LOAD --&gt; partial
+        EVENT_ENRICHMENT_SUCCESS --&gt; default
+        click_task_node --&gt; EVENT_LOAD_SUCCESS
+        click_doc_node --&gt; EVENT_LOAD_SUCCESS
+        click_beads_id --&gt; EVENT_LOAD_SUCCESS
+        EVENT_MISSING_EVIDENCE --&gt; insufficient_evidence
+        trigger_approve --&gt; default
+        trigger_reject --&gt; default
+        trigger_refresh --&gt; loading
+        click_task_result --&gt; EVENT_LOAD_SUCCESS
+        click_doc_result --&gt; EVENT_LOAD_SUCCESS
+        click_commit_result --&gt; EVENT_LOAD_SUCCESS
+    end</pre></details>
+            </section>
+            </div><div id='conflicts'>
+    <h2>PRD/DS Conflicts</h2>
+    <p class='subtitle'>0 resolved, 0 unresolved</p>
+    <pre class='conflicts-text'># PRD vs Design System Conflicts
+No conflicts detected.
+</pre>
+    </div><div id='coverage'><h2>Cross-Artifact Coverage</h2>
+        <section class='card'>
+          <h2>Screen Coverage Matrix</h2>
+          <table><thead><tr><th>Screen</th><th>In Contract</th><th>In Storyboards</th></tr></thead>
+          <tbody><tr><td>approval_gates</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>doc_viewer</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>global_shell</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>rtm_dashboard</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>safe_board</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>search_results</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>task_detail</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>task_list</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>trace_explorer</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr></tbody></table>
+        </section>
+        
+
+        <section class='card'>
+          <h2>Event Coverage Matrix</h2>
+          <table><thead><tr><th>Event</th><th>In Contract</th><th>In Flow.md</th></tr></thead>
+          <tbody><tr><td>EVENT_BULK_ACTION</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_BULK_SUCCESS</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_EDIT_FIELD</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_ENRICHMENT_SUCCESS</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_FETCH_DATA</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_FETCH_SUCCESS</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_LOAD_EMPTY</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_LOAD_ERROR</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_LOAD_SUCCESS</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_MISSING_EVIDENCE</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_NOT_FOUND</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_OFFLINE_DETECTED</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_ONLINE_DETECTED</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_PARTIAL_LOAD</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_RETRY</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>EVENT_SAVE_SUCCESS</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_beads_id</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_commit_result</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_doc_node</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_doc_result</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_task_card</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_task_node</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_task_result</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_task_row</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>click_trace_link</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>drill_down_graph</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>navigate_approval</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>navigate_board</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>navigate_docs</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>navigate_home</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>navigate_tasks</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>trigger_approve</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>trigger_refresh</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>trigger_reject</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>trigger_search</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr></tbody></table>
+        </section>
+        
+
+        <section class='card'>
+          <h2>DS ID Coverage Matrix</h2>
+          <table><thead><tr><th>DS ID</th><th>In Contract</th><th>In Component Map</th></tr></thead>
+          <tbody><tr><td>ds:approval_action_bar</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:approval_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:approve_btn</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:code_diff_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:d3_canvas</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:dashboard_grid</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:doc_tree_sidebar</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:doc_viewer_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:gap_analysis_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:global_search</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:global_shell</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:graph_controls</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:heatmap_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:kanban_column</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:kanban_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:kpi_metrics</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:logo_btn</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:markdown_viewer</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:mini_graph_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:nav_menu</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:node_detail_drawer</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:offline_status_indicator</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:prd_context_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:reject_btn</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:rte_badge</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:search_filter_sidebar</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:search_results_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:search_results_list</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:shell_header</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:shell_sidebar</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:tab_activity</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:tab_code</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:tab_detail</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:tab_graph</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_bulk_actions</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_card</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_detail_header</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_detail_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_detail_tabs</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_filters</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_list_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_pagination</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_progress_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:task_table</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:test_logs_panel</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr><tr><td>ds:trace_explorer_layout</td><td class='status-ok'>OK</td><td class='status-ok'>OK</td></tr></tbody></table>
+        </section>
+        </div>
+  </main>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, theme: "base", securityLevel: "strict",
+      themeVariables: {
+        primaryColor: "#1e293b",
+        primaryTextColor: "#e5e7eb",
+        primaryBorderColor: "#475569",
+        lineColor: "#64748b",
+        secondaryColor: "#172033",
+        tertiaryColor: "#0f172a"
+      }
+    });
+  </script>
+</body>
+</html>

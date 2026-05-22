@@ -1,0 +1,8 @@
+actions:
+- click_task_row
+ds_id: ds:task_table
+layout_type: layout.table_view
+parent_ds_id: ds:task_list_layout
+screen_id: task_list
+states: []
+type: table.data

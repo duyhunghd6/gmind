@@ -1,0 +1,11 @@
+id: trajectory_drill_down_graph
+prd_journey: Drill down to Trace Explorer
+steps:
+- state: rtm_dashboard.default_dashboard
+  action: drill_down_graph
+  next_state: trace_explorer.loading_trace
+  assertion: User clicks on a graph node, navigating to Trace Explorer loading state.
+- state: trace_explorer.loading_trace
+  action: EVENT_LOAD_SUCCESS
+  next_state: trace_explorer.default_trace
+  assertion: Trace Explorer finishes loading trace data.

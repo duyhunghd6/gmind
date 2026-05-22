@@ -1,0 +1,7 @@
+actions: []
+ds_id: ds:tab_activity
+layout_type: layout.details
+parent_ds_id: ds:task_detail_tabs
+screen_id: task_detail
+states: []
+type: tab.activity

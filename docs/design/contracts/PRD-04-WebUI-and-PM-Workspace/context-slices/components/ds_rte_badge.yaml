@@ -1,0 +1,7 @@
+actions: []
+ds_id: ds:rte_badge
+layout_type: layout.kanban
+parent_ds_id: ds:task_card
+screen_id: safe_board
+states: []
+type: badge.rte_escalation

@@ -1,0 +1,12 @@
+id: tj-1-board-navigation
+description: Board Navigation (Drag & Drop Update)
+steps:
+  - state: Global_Shell
+    event: API Success
+    next: Safe_Board
+  - state: Board_Loading
+    event: Data Loaded
+    next: Board_Default
+  - state: Board_Default
+    event: Drag Drop Update
+    next: Board_Loading

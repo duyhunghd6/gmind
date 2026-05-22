@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": "2024-05-18T10:00:00Z",
+    "event": "stage1_ba_analyzed",
+    "iteration": 3,
+    "action": "CONTINUE",
+    "details": "QA failed with 1 issue in gen_flows. Routing back to generators."
+  },
+  {
+    "timestamp": "2026-05-22T12:00:00Z",
+    "event": "stage1_ba_analyzed",
+    "iteration": 4,
+    "action": "GATE_A_READY",
+    "details": "Score >= 90, evaluator status is GATE_A_READY, and QA has not run."
+  }
+]

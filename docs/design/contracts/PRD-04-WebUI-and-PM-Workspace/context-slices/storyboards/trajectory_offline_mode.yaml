@@ -1,0 +1,12 @@
+id: trajectory_offline_mode
+prd_journey: Offline Mode Transition
+steps:
+- state: global_shell.default_shell
+  action: EVENT_OFFLINE_DETECTED
+  next_state: global_shell.offline_shell
+  assertion: System detects offline mode and updates the shell to reflect offline
+    status.
+- state: global_shell.offline_shell
+  action: EVENT_ONLINE_DETECTED
+  next_state: global_shell.default_shell
+  assertion: System detects online mode and restores the default shell.

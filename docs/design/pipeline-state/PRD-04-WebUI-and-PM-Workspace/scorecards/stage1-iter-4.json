@@ -1,0 +1,48 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 4,
+  "score": 100,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists and has exactly 1 YAML block and 1 Mermaid block."
+    },
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "metadata.satisfies contains 15 PRD coverage trace IDs mapping all screens."
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "46 unique ds_id values found. component-map.json correctly maps all 46 ds_ids."
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "Perfect logic coverage: all 35 YAML actions perfectly match 35 Mermaid events."
+    },
+    "derived_artifact_consistency": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "flow.md and review-diagrams.md passed mermaid validation. storyboards.json is valid with 4 trajectories."
+    },
+    "conflict_preview_readiness": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "preview generated successfully. prd-ds-conflicts.md states no conflicts. 16 false warnings from preview script noted but ignored."
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": []
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "issues": []
+}

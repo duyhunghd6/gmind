@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chevrotain/regexp-to-ast": "^12.0.0",
     "@gmind/design-system": "workspace:*",
     "@hello-pangea/dnd": "^18.0.1",
     "@react-sigma/core": "^5.0.6",
@@ -21,7 +22,10 @@
     "next": "^16.1.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "sigma": "^3.0.2"
+    "sigma": "^3.0.2",
+    "vscode-jsonrpc": "^8.2.1",
+    "vscode-languageserver-protocol": "^3.17.5",
+    "vscode-languageserver-types": "^3.17.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",

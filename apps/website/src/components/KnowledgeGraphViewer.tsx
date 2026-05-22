@@ -70,13 +70,13 @@ function GraphEvents({ onSelect }: { onSelect: (id: string | null) => void }) {
         // Highlight neighbors
         const neighbors = new Set(graph.neighbors(node));
         neighbors.add(node);
-        graph.forEachNode((n) => {
+        graph.forEachNode((n: string) => {
           graph.setNodeAttribute(n, "highlighted", neighbors.has(n));
         });
         sigma.refresh();
       },
       leaveNode: () => {
-        graph.forEachNode((n) => {
+        graph.forEachNode((n: string) => {
           graph.setNodeAttribute(n, "highlighted", true);
         });
         sigma.refresh();
@@ -143,12 +143,12 @@ export default function KnowledgeGraphViewer({ data, onSelect }: { data: GraphDa
           renderEdgeLabels: false,
           enableEdgeEvents: true,
           zIndex: true,
-          nodeReducer: (node, data) => ({
+          nodeReducer: (node: string, data: any) => ({
             ...data,
             color: data.highlighted ? data.color : `${data.color}33`,
             label: data.highlighted ? data.label : "",
           }),
-          edgeReducer: (_edge, data) => ({
+          edgeReducer: (_edge: string, data: any) => ({
             ...data,
           }),
         }}

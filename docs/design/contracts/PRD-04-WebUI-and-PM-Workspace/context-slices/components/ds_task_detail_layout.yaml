@@ -1,0 +1,17 @@
+actions:
+- EVENT_LOAD_SUCCESS
+- EVENT_NOT_FOUND
+- EVENT_LOAD_ERROR
+- EVENT_OFFLINE_DETECTED
+- EVENT_ONLINE_DETECTED
+ds_id: ds:task_detail_layout
+layout_type: layout.details
+parent_ds_id: null
+screen_id: task_detail
+states:
+- default
+- loading
+- not_found
+- offline
+- saving
+type: layout.details

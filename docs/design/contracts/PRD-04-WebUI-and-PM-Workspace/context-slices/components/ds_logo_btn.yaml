@@ -1,0 +1,8 @@
+actions:
+- navigate_home
+ds_id: ds:logo_btn
+layout_type: layout.shell
+parent_ds_id: ds:shell_header
+screen_id: global_shell
+states: []
+type: button.logo

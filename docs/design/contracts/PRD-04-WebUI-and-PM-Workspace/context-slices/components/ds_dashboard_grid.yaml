@@ -1,0 +1,15 @@
+actions:
+- EVENT_LOAD_SUCCESS
+- EVENT_LOAD_EMPTY
+- EVENT_LOAD_ERROR
+- EVENT_RETRY
+ds_id: ds:dashboard_grid
+layout_type: layout.grid
+parent_ds_id: null
+screen_id: rtm_dashboard
+states:
+- default
+- loading
+- empty
+- error
+type: layout.grid

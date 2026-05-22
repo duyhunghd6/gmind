@@ -1,0 +1,7 @@
+screen: rtm-dashboard
+state: default
+viewport: Desktop
+layout:
+  type: ds:ds-lay-grid
+  children:
+    - type: ds:ds-comp-card

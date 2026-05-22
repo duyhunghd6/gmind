@@ -1,0 +1,11 @@
+id: trajectory_navigate_board
+prd_journey: Navigate to SAFe Board
+steps:
+- state: global_shell.default_shell
+  action: navigate_board
+  next_state: safe_board.loading_board
+  assertion: The system navigates to the SAFe Board screen and shows a loading state.
+- state: safe_board.loading_board
+  action: EVENT_LOAD_SUCCESS
+  next_state: safe_board.default_board
+  assertion: The SAFe Board finishes loading and displays the default view.

@@ -1,0 +1,14 @@
+actions:
+- EVENT_LOAD_SUCCESS
+- EVENT_LOAD_EMPTY
+- EVENT_LOAD_ERROR
+ds_id: ds:search_results_layout
+layout_type: layout.split_view
+parent_ds_id: null
+screen_id: search_results
+states:
+- default
+- loading
+- empty
+- error
+type: layout.split_view

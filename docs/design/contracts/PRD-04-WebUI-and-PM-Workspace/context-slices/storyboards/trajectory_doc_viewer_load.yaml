@@ -1,0 +1,11 @@
+id: trajectory_doc_viewer_load
+prd_journey: View Doc and Trace
+steps:
+- state: doc_viewer.loading_doc
+  action: EVENT_LOAD_SUCCESS
+  next_state: doc_viewer.default_doc
+  assertion: Doc viewer finishes loading.
+- state: doc_viewer.default_doc
+  action: click_beads_id
+  next_state: trace_explorer.loading_trace
+  assertion: User clicks a beads ID, navigating to trace explorer.

@@ -1,0 +1,11 @@
+id: trajectory_task_detail_save
+prd_journey: Edit and Save Task Detail
+steps:
+- state: task_detail.default_task_detail
+  action: EVENT_EDIT_FIELD
+  next_state: task_detail.saving_task_detail
+  assertion: User edits a field, entering saving state.
+- state: task_detail.saving_task_detail
+  action: EVENT_SAVE_SUCCESS
+  next_state: task_detail.default_task_detail
+  assertion: Save succeeds, returning to default view.

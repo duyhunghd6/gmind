@@ -1,0 +1,8 @@
+actions:
+- drill_down_graph
+ds_id: ds:mini_graph_panel
+layout_type: layout.grid
+parent_ds_id: ds:dashboard_grid
+screen_id: rtm_dashboard
+states: []
+type: panel.graph

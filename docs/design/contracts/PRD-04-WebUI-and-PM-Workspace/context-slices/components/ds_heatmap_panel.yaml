@@ -1,0 +1,7 @@
+actions: []
+ds_id: ds:heatmap_panel
+layout_type: layout.grid
+parent_ds_id: ds:dashboard_grid
+screen_id: rtm_dashboard
+states: []
+type: panel.coverage

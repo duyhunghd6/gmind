@@ -1,0 +1,48 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 1,
+  "score": 75,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "container_validity": { "score": 15, "max": 15, "tool_evidence": "ui-contract.md exists with exactly 1 YAML fence and 1 Mermaid fence." },
+    "prd_coverage": { "score": 18, "max": 20, "tool_evidence": "All 14 PRD sections trace in metadata.satisfies, trace correctly via screens." },
+    "component_traceability": { "score": 15, "max": 20, "tool_evidence": "46 unique ds_id values in ui-contract.md, component-map.json maps 29 ds_ids (17 gaps)." },
+    "logic_coverage": { "score": 7, "max": 15, "tool_evidence": "16 Mermaid events (e.g. EVENT_BULK_ACTION, EVENT_EDIT_FIELD) have no YAML action source." },
+    "derived_artifact_consistency": { "score": 10, "max": 15, "tool_evidence": "flow.md & review-diagrams.md are valid Mermaid. storyboards.json & component-map.json have slight format drift vs preview parser." },
+    "conflict_preview_readiness": { "score": 10, "max": 15, "tool_evidence": "preview HTML and manifest generated; prd-ds-conflicts.md exists." }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [
+      "EVENT_BULK_ACTION",
+      "EVENT_BULK_SUCCESS",
+      "EVENT_EDIT_FIELD",
+      "EVENT_ENRICHMENT_SUCCESS",
+      "EVENT_FETCH_DATA",
+      "EVENT_FETCH_SUCCESS",
+      "EVENT_LOAD_EMPTY",
+      "EVENT_LOAD_ERROR",
+      "EVENT_LOAD_SUCCESS",
+      "EVENT_MISSING_EVIDENCE",
+      "EVENT_NOT_FOUND",
+      "EVENT_OFFLINE_DETECTED",
+      "EVENT_ONLINE_DETECTED",
+      "EVENT_PARTIAL_LOAD",
+      "EVENT_RETRY",
+      "EVENT_SAVE_SUCCESS"
+    ]
+  },
+  "fix_queue": [
+    { 
+      "priority": "P0", 
+      "pillar": "logic_coverage", 
+      "responsible_generator": "gen_contracts", 
+      "detail": "16 EVENT_* Mermaid events have no corresponding YAML action source (e.g., EVENT_BULK_ACTION). Add them to the YAML actions or remove from Mermaid." 
+    }
+  ],
+  "baseline_regression": false,
+  "issues": []
+}

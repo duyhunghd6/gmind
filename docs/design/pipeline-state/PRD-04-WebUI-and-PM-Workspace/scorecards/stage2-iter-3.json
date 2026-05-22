@@ -1,0 +1,20 @@
+{
+  "iteration": 3,
+  "score": 95,
+  "convergence_status": "GATE_B_READY",
+  "p0_issues": 0,
+  "issues": [
+    {
+      "severity": "P1",
+      "description": "Missing skip-to-content link for accessibility."
+    },
+    {
+      "severity": "P2",
+      "description": "219 occurrences of hardcoded hex colors used as fallbacks in inline styles."
+    }
+  ],
+  "metrics": {
+    "data_ds_id_coverage": "46/46",
+    "data_state_coverage": "9/9"
+  }
+}

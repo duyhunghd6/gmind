@@ -1,0 +1,11 @@
+actions:
+- navigate_board
+- navigate_tasks
+- navigate_docs
+- navigate_approval
+ds_id: ds:nav_menu
+layout_type: layout.shell
+parent_ds_id: ds:shell_sidebar
+screen_id: global_shell
+states: []
+type: navigation.menu

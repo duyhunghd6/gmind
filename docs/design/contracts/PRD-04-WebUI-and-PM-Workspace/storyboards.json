@@ -1,0 +1,154 @@
+{
+  "trajectories": [
+    {
+      "id": "trajectory_navigate_board",
+      "prd_journey": "Navigate to SAFe Board",
+      "steps": [
+        {
+          "state": "global_shell.default_shell",
+          "action": "navigate_board",
+          "next_state": "safe_board.loading_board",
+          "assertion": "The system navigates to the SAFe Board screen and shows a loading state."
+        },
+        {
+          "state": "safe_board.loading_board",
+          "action": "EVENT_LOAD_SUCCESS",
+          "next_state": "safe_board.default_board",
+          "assertion": "The SAFe Board finishes loading and displays the default view."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_offline_mode",
+      "prd_journey": "Offline Mode Transition",
+      "steps": [
+        {
+          "state": "global_shell.default_shell",
+          "action": "EVENT_OFFLINE_DETECTED",
+          "next_state": "global_shell.offline_shell",
+          "assertion": "System detects offline mode and updates the shell to reflect offline status."
+        },
+        {
+          "state": "global_shell.offline_shell",
+          "action": "EVENT_ONLINE_DETECTED",
+          "next_state": "global_shell.default_shell",
+          "assertion": "System detects online mode and restores the default shell."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_drill_down_graph",
+      "prd_journey": "Drill down to Trace Explorer",
+      "steps": [
+        {
+          "state": "rtm_dashboard.default_dashboard",
+          "action": "drill_down_graph",
+          "next_state": "trace_explorer.loading_trace",
+          "assertion": "User clicks on a graph node, navigating to Trace Explorer loading state."
+        },
+        {
+          "state": "trace_explorer.loading_trace",
+          "action": "EVENT_LOAD_SUCCESS",
+          "next_state": "trace_explorer.default_trace",
+          "assertion": "Trace Explorer finishes loading trace data."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_approve_gate",
+      "prd_journey": "Approve Gate",
+      "steps": [
+        {
+          "state": "approval_gates.loading_approval",
+          "action": "EVENT_LOAD_SUCCESS",
+          "next_state": "approval_gates.default_approval",
+          "assertion": "Approval gates data loads successfully."
+        },
+        {
+          "state": "approval_gates.default_approval",
+          "action": "trigger_approve",
+          "next_state": "approval_gates.default_approval",
+          "assertion": "User triggers approval, staying on the same view after state update."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_task_list_bulk",
+      "prd_journey": "Task List Bulk Processing",
+      "steps": [
+        {
+          "state": "task_list.loading_task_list",
+          "action": "EVENT_LOAD_SUCCESS",
+          "next_state": "task_list.default_task_list",
+          "assertion": "Task list finishes loading."
+        },
+        {
+          "state": "task_list.default_task_list",
+          "action": "EVENT_BULK_ACTION",
+          "next_state": "task_list.bulk_processing_task_list",
+          "assertion": "User triggers bulk action, entering processing state."
+        },
+        {
+          "state": "task_list.bulk_processing_task_list",
+          "action": "EVENT_BULK_SUCCESS",
+          "next_state": "task_list.default_task_list",
+          "assertion": "Bulk action completes, returning to default task list."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_task_detail_save",
+      "prd_journey": "Edit and Save Task Detail",
+      "steps": [
+        {
+          "state": "task_detail.default_task_detail",
+          "action": "EVENT_EDIT_FIELD",
+          "next_state": "task_detail.saving_task_detail",
+          "assertion": "User edits a field, entering saving state."
+        },
+        {
+          "state": "task_detail.saving_task_detail",
+          "action": "EVENT_SAVE_SUCCESS",
+          "next_state": "task_detail.default_task_detail",
+          "assertion": "Save succeeds, returning to default view."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_search_docs",
+      "prd_journey": "Search and Navigate to Doc",
+      "steps": [
+        {
+          "state": "search_results.loading_search",
+          "action": "EVENT_LOAD_SUCCESS",
+          "next_state": "search_results.default_search",
+          "assertion": "Search results finish loading."
+        },
+        {
+          "state": "search_results.default_search",
+          "action": "click_doc_result",
+          "next_state": "doc_viewer.loading_doc",
+          "assertion": "User clicks a doc result, navigating to doc viewer."
+        }
+      ]
+    },
+    {
+      "id": "trajectory_doc_viewer_load",
+      "prd_journey": "View Doc and Trace",
+      "steps": [
+        {
+          "state": "doc_viewer.loading_doc",
+          "action": "EVENT_LOAD_SUCCESS",
+          "next_state": "doc_viewer.default_doc",
+          "assertion": "Doc viewer finishes loading."
+        },
+        {
+          "state": "doc_viewer.default_doc",
+          "action": "click_beads_id",
+          "next_state": "trace_explorer.loading_trace",
+          "assertion": "User clicks a beads ID, navigating to trace explorer."
+        }
+      ]
+    }
+  ]
+}

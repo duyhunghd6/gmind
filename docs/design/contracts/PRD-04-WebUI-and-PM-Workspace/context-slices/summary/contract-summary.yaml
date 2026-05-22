@@ -1,0 +1,291 @@
+metadata:
+  feature: PRD-04-WebUI-and-PM-Workspace
+  satisfies:
+    - br-prd04
+    - br-prd04-s1
+    - br-prd04-s2
+    - br-prd04-s3
+    - br-prd04-s4
+    - br-prd04-s5
+    - br-prd04-s6
+    - br-prd04-s7
+    - br-prd04-s8
+    - br-prd04-s9
+    - br-prd04-s10
+    - br-prd04-s11
+    - br-prd04-s12
+    - br-prd04-s13
+    - br-prd04-s14
+viewports:
+  - id: desktop
+    width: 1440
+  - id: tablet
+    width: 1024
+  - id: mobile
+    width: 390
+screens:
+  - id: global_shell
+    route: "/*"
+    states:
+      - default
+      - offline
+      - loading
+    layout:
+      type: layout.shell
+      ds_id: ds:global_shell
+      actions:
+        - EVENT_OFFLINE_DETECTED
+        - EVENT_ONLINE_DETECTED
+        - EVENT_FETCH_DATA
+        - EVENT_FETCH_SUCCESS
+      components:
+        - type: header
+          ds_id: ds:shell_header
+          components:
+            - type: button.logo
+              ds_id: ds:logo_btn
+              actions:
+                - navigate_home
+            - type: input.search
+              ds_id: ds:global_search
+              actions:
+                - trigger_search
+            - type: indicator.status
+              ds_id: ds:offline_status_indicator
+              visible_in_states:
+                - offline
+        - type: sidebar
+          ds_id: ds:shell_sidebar
+          components:
+            - type: navigation.menu
+              ds_id: ds:nav_menu
+              actions:
+                - navigate_board
+                - navigate_tasks
+                - navigate_docs
+                - navigate_approval
+  - id: rtm_dashboard
+    route: "/"
+    states:
+      - default
+      - loading
+      - empty
+      - error
+    layout:
+      type: layout.grid
+      ds_id: ds:dashboard_grid
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+        - EVENT_RETRY
+      components:
+        - type: widget.kpi_row
+          ds_id: ds:kpi_metrics
+        - type: panel.coverage
+          ds_id: ds:heatmap_panel
+        - type: panel.progress
+          ds_id: ds:task_progress_panel
+        - type: panel.graph
+          ds_id: ds:mini_graph_panel
+          actions:
+            - drill_down_graph
+        - type: panel.gaps
+          ds_id: ds:gap_analysis_panel
+  - id: safe_board
+    route: "/board"
+    states:
+      - default
+      - loading
+      - empty
+      - error
+    layout:
+      type: layout.kanban
+      ds_id: ds:kanban_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+        - EVENT_RETRY
+      components:
+        - type: column.kanban
+          ds_id: ds:kanban_column
+          components:
+            - type: card.task
+              ds_id: ds:task_card
+              actions:
+                - click_task_card
+              components:
+                - type: badge.rte_escalation
+                  ds_id: ds:rte_badge
+  - id: task_list
+    route: "/tasks"
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - bulk_processing
+    layout:
+      type: layout.table_view
+      ds_id: ds:task_list_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+        - EVENT_RETRY
+      components:
+        - type: toolbar.filters
+          ds_id: ds:task_filters
+        - type: table.data
+          ds_id: ds:task_table
+          actions:
+            - click_task_row
+        - type: toolbar.pagination
+          ds_id: ds:task_pagination
+        - type: toolbar.bulk_actions
+          ds_id: ds:task_bulk_actions
+          actions:
+            - EVENT_BULK_ACTION
+            - EVENT_BULK_SUCCESS
+  - id: task_detail
+    route: "/tasks/:id"
+    states:
+      - default
+      - loading
+      - not_found
+      - offline
+      - saving
+    layout:
+      type: layout.details
+      ds_id: ds:task_detail_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_NOT_FOUND
+        - EVENT_LOAD_ERROR
+        - EVENT_OFFLINE_DETECTED
+        - EVENT_ONLINE_DETECTED
+      components:
+        - type: header.task
+          ds_id: ds:task_detail_header
+        - type: navigation.tabs
+          ds_id: ds:task_detail_tabs
+          components:
+            - type: tab.detail
+              ds_id: ds:tab_detail
+              actions:
+                - EVENT_EDIT_FIELD
+                - EVENT_SAVE_SUCCESS
+                - click_trace_link
+            - type: tab.activity
+              ds_id: ds:tab_activity
+            - type: tab.graph
+              ds_id: ds:tab_graph
+            - type: tab.code
+              ds_id: ds:tab_code
+  - id: trace_explorer
+    route: "/trace/:id"
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - partial
+    layout:
+      type: layout.split_view
+      ds_id: ds:trace_explorer_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_PARTIAL_LOAD
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+        - EVENT_ENRICHMENT_SUCCESS
+      components:
+        - type: toolbar.graph_controls
+          ds_id: ds:graph_controls
+        - type: canvas.force_directed
+          ds_id: ds:d3_canvas
+          actions:
+            - click_task_node
+            - click_doc_node
+        - type: panel.node_details
+          ds_id: ds:node_detail_drawer
+  - id: doc_viewer
+    route: "/docs"
+    states:
+      - default
+      - loading
+      - empty
+      - error
+    layout:
+      type: layout.split_view
+      ds_id: ds:doc_viewer_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+      components:
+        - type: sidebar.doc_tree
+          ds_id: ds:doc_tree_sidebar
+        - type: view.markdown
+          ds_id: ds:markdown_viewer
+          actions:
+            - click_beads_id
+  - id: approval_gates
+    route: "/approval"
+    states:
+      - default
+      - loading
+      - insufficient_evidence
+      - empty
+      - error
+    layout:
+      type: layout.stack
+      ds_id: ds:approval_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_MISSING_EVIDENCE
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+        - trigger_refresh
+      components:
+        - type: panel.diff
+          ds_id: ds:code_diff_panel
+        - type: panel.test_logs
+          ds_id: ds:test_logs_panel
+        - type: panel.prd_context
+          ds_id: ds:prd_context_panel
+        - type: toolbar.approval_actions
+          ds_id: ds:approval_action_bar
+          components:
+            - type: button.approve
+              ds_id: ds:approve_btn
+              actions:
+                - trigger_approve
+            - type: button.reject
+              ds_id: ds:reject_btn
+              actions:
+                - trigger_reject
+  - id: search_results
+    route: "/search"
+    states:
+      - default
+      - loading
+      - empty
+      - error
+    layout:
+      type: layout.split_view
+      ds_id: ds:search_results_layout
+      actions:
+        - EVENT_LOAD_SUCCESS
+        - EVENT_LOAD_EMPTY
+        - EVENT_LOAD_ERROR
+      components:
+        - type: sidebar.search_filters
+          ds_id: ds:search_filter_sidebar
+        - type: list.search_items
+          ds_id: ds:search_results_list
+          actions:
+            - click_task_result
+            - click_doc_result
+            - click_commit_result

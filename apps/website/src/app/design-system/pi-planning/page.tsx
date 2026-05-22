@@ -92,7 +92,7 @@ export default function PiPlanningScreen() {
                           <span className="badge" style={{ fontSize: "0.65rem" }}>{col.items.length}</span>
                         </div>
                         <Droppable droppableId={col.id}>
-                          {(provided, snapshot) => (
+                          {(provided: any, snapshot: any) => (
                             <div
                               ref={provided.innerRef}
                               {...provided.droppableProps}
