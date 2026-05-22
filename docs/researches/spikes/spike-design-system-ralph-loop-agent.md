@@ -1590,13 +1590,15 @@ This section is the compact decision log for the Ralph Loop contract architectur
 
 <!-- beads-id: bd-spike-ralph-session9-asymmetric-handoff -->
 
-**Decision:** Compiled artifacts (`storyboards.json`, `layout-rules.json`, `components.json`) cause LLM context exhaustion, attention dilution, and hallucinations during Stage 2. We must shift to an Asymmetric Handoff architecture.
+**Decision:** Compiled artifacts (`storyboards.json`, `layout-rules.json`, `component-map.json`, preview manifests, and DS registries) cause LLM context exhaustion, attention dilution, human review fatigue, and hallucinations when loaded as monolithic prompt content. Ralph Loop must use an Asymmetric Handoff architecture: compact review sources for humans/LLMs, machine-only JSON for tools, and lookup slices between them.
 
-**Keep:** `ui-contract.md` remains the sole source of truth for the Implementor Agent.
+**Keep:** `ui-contract.md` remains the LLM-facing canonical source. `flow.md`, focused `review-diagrams.md` bundles, conflict reports, preview HTML, scorecard summaries, and generated storyboard/review HTML are human-reviewable views. Large JSON artifacts are executable evidence, not review documents.
 
-**Apply (The 3-Pillar Fix):**
-1. **Compiler Offloading (Zero-JSON for LLMs):** The Implementor Agent must *never* read compiled JSON artifacts. Those files are exclusively routed to the mechanical execution layer (Playwright/Go CLI) to drive E2E testing.
-2. **Scorecard Feedback Loop:** The Evaluator feeds back to the Implementor using only a condensed `Scorecard` detailing targeted P0/P1 failures.
-3. **JIT Component Queries:** The `components.json` registry is removed from the system prompt. Instead, the Implementor uses a tool `query_ds_registry(ds_id)` to lazy-load component constraints just-in-time, returning data in concise YAML format.
+**Apply (Artifact Budget + 3-Pillar Fix):**
+1. **Reviewability Budget:** Human/LLM-facing artifacts target 1,000–2,000 lines per review unit. Split by screen, journey, state, viewport, or `ds_id` when a review artifact exceeds that range.
+2. **Compiler Offloading (Zero-JSON for LLMs):** The Implementor Agent must not read full compiled JSON artifacts. `storyboards.json`, `layout-rules.json`, `component-map.json`, preview manifests, and browser metadata are routed to mechanical validation and queried through scripts.
+3. **Context Slices:** Every large machine artifact must have compact YAML/TOON lookup slices under `context-slices/` plus an `artifact-index.json` recording role, size, hash, source, allowed consumers, and load policy.
+4. **Scorecard Feedback Loop:** The Evaluator feeds back only condensed P0/P1/P2 failures, missing/extra IDs, failed trajectory IDs, invalid tokens, and responsible owner routing.
+5. **JIT Component Queries:** The DS registry is removed from prompts. Implementors query component/token constraints just-in-time by `ds_id` or token name, receiving concise YAML.
 
-**Status:** This reduces Stage 2 Ralph Loop token consumption by ~85%, massively accelerating iteration speed, neutralizing context bloat, and satisfying the GAP-71 "Thin Orchestrator" requirement.
+**Status:** This reduces Stage 2 Ralph Loop token consumption by ~85%, prevents Gate A/B review packages from becoming raw JSON dumps, neutralizes context bloat, and satisfies the GAP-71 "Thin Orchestrator" requirement.
