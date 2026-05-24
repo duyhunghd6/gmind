@@ -196,7 +196,7 @@ Các biểu đồ dưới đây cung cấp thêm ngữ cảnh về cách áp d�
 
 <!-- beads-id: br-prd-web-prompts-s4 -->
 
-Giao diện SAFe 6.0 cũng phải trở thành một bài hướng dẫn, tuân thủ nghiêm ngặt các kết quả nghiên cứu ngữ cảnh (`./docs/research-rules.md`).
+Giao diện SAFe 6.0 cũng phải trở thành một bài hướng dẫn, tuân thủ nghiêm ngặt các kết quả nghiên cứu ngữ cảnh (`../../../../.agents/workflows/gsafe-research.md`).
 
 **Dàn ý & Yêu cầu Nội dung:**
 

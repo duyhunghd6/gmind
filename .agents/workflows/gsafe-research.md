@@ -4,6 +4,8 @@ description: SAFe 6.0 Continuous Exploration workflow — 4-activity CE cycle be
 
 # /gsafe-research — Continuous Exploration Workflow
 
+<!-- beads-id: br-workflow-gsafe-research -->
+
 > **SAFe 6.0 Phase 1: Continuous Exploration**
 > Mục đích: Hypothesize → Collaborate & Research → Architect → Synthesize — TRƯỚC KHI viết code.
 > Tham chiếu: [SAFe-framework-for-Agentic-RustTradingBot.md](../../docs/researches/SAFe%206.0%20Framework/SAFe-framework-for-Agentic-RustTradingBot.md)
@@ -16,6 +18,15 @@ description: SAFe 6.0 Continuous Exploration workflow — 4-activity CE cycle be
 - Khi cần nghiên cứu công nghệ, đánh giá reference code, hoặc thiết kế kiến trúc
 - Khi Human yêu cầu "research" hoặc "explore" trước khi implement
 - **KHÔNG dùng** khi đã approve xong và đang ở phase Implementation
+
+---
+
+## Nguyên tắc cốt lõi (Core Principle)
+
+- **Research = Spikes.** Mỗi phiên nghiên cứu (dù là 1 hay 100 phiên) đều tạo ra chính xác 1 Spike Report.
+- Spike tích lũy kiến thức → được tổng hợp thành PRDs trong Activity D (Synthesize).
+- Spikes **KHÔNG** yêu cầu phê duyệt riêng biệt từ Human — phê duyệt chỉ cần thiết khi quá trình Synthesize hoàn tất ở cuối CE Phase.
+- Việc có hàng chục hoặc hàng trăm spikes là hoàn toàn bình thường. Mỗi spike nên nhẹ nhàng, không cần xin phép trước và tích lũy dần dần.
 
 ---
 
@@ -39,12 +50,19 @@ description: SAFe 6.0 Continuous Exploration workflow — 4-activity CE cycle be
 // turbo
 
 ```bash
+# Liệt kê các Spike Reports hiện có
 ls -la ./docs/researches/spikes/ 2>/dev/null || echo "No previous spikes found — this is the first CE cycle."
+
+# Đọc kết quả từ các Spikes gần nhất
+cat ./docs/researches/spikes/spike-*.md 2>/dev/null
 ```
 
-- Nếu có spike reports → **BẮT BUỘC** đọc tất cả trước khi tiếp tục
-- Kiểm tra CE artifacts đã có: Vision.md? PRDs? Architecture.md?
-- Nếu không có → bỏ qua, đây là CE cycle đầu tiên
+**BẮT BUỘC thực hiện trước khi bắt đầu một Spike mới:**
+1. **Đọc toàn bộ Spike Reports trước đó** (tối thiểu là phần Findings/Recommendation).
+2. **Tổng hợp ngữ cảnh (Synthesize context)** từ các Spikes trước đó để tránh lặp lại công việc đã làm.
+3. **Kiểm tra Open Items** từ các Spikes cũ → chuyển chúng thành giả thuyết (hypotheses) cho Spike mới.
+
+> ⚠️ **WARNING:** Việc bỏ qua bước đọc Spike cũ sẽ dẫn đến việc lặp lại nghiên cứu, gây lãng phí tokens và thời gian. Đây là một vi phạm quy trình (Process Violation).
 
 ### Step 2: Xác định Activity hiện tại
 
@@ -60,7 +78,7 @@ Dựa trên CE artifacts đã tồn tại, xác định agent đang ở activity
 
 ### Step 3: Thực hiện CE Activity
 
-Các hoạt động được phép:
+Các hoạt động được phép và không được phép:
 
 | ✅ Được làm                               | ❌ KHÔNG được làm                   |
 | ----------------------------------------- | ----------------------------------- |
@@ -73,23 +91,25 @@ Các hoạt động được phép:
 | Tạo Spike reports cho research            | Tự ý chuyển sang PI Planning        |
 | Tạo Beads Epics/Features (`bd create`)    | Close Beads tasks (`bd close`)      |
 
+> 🔴 **RULE CỐT LÕI:** Trong suốt phase Continuous Exploration, Agent **TUYỆT ĐỐI KHÔNG** được phép viết code implementation. Chỉ được làm các việc được phép nêu trên.
+
 #### Activity B: Spike Reports (Khi nghiên cứu)
 
 Khi Human yêu cầu research một topic cụ thể, dùng **Spike** (SAFe 6.0: time-boxed research story):
 
 ```bash
-# Tạo Spike task trong Beads
+# 1. Tạo Spike task trong Beads (chỉ thực hiện một lần cho mỗi phiên nghiên cứu)
 bd create "Spike: Evaluate FrankenSQLite vs DoltDB" --type=spike
 
-# Nghiên cứu → ghi kết quả vào spike report
+# 2. Nghiên cứu → ghi kết quả vào spike report
+# Đường dẫn: docs/researches/spikes/spike-{topic}.md
+# Tên file viết thường, nối nhau bằng dấu gạch ngang (kebab-case)
+
+# 3. Đóng spike task sau khi hoàn thành nghiên cứu
+bd close <spike-id>
 ```
 
-// turbo
-
-```bash
-# Tạo thư mục nếu chưa có
-mkdir -p ./docs/researches/spikes
-```
+> 💡 **Bình thường khi có hàng trăm Spikes:** Nếu bạn cần 100 phiên nghiên cứu trước khi viết một PRD → hãy tạo 100 Spike reports. Mỗi Spike là một tài liệu nhẹ nhàng, tích lũy dần dần và không yêu cầu Human approve riêng lẻ.
 
 Spike report template (`docs/researches/spikes/spike-{topic}.md`):
 
@@ -97,12 +117,12 @@ Spike report template (`docs/researches/spikes/spike-{topic}.md`):
 # Spike: [Topic]
 
 **Beads ID:** bd-xxx (spike task)
-**Tác giả:** [Agent role]
+**Author:** [Agent role / Human]
 **Phase:** Continuous Exploration — Activity B (Collaborate & Research)
 
 ## Hypothesis
 
-- Giả thuyết cần validate qua spike này
+- Giả thuyết cần validate qua spike này (The hypothesis to validate through this spike)
 
 ## Research Sessions
 
@@ -110,17 +130,17 @@ Spike report template (`docs/researches/spikes/spike-{topic}.md`):
 
 **Findings:**
 
-- Kết quả nghiên cứu phiên 1
+- Kết quả nghiên cứu phiên 1 (Results from session 1)
 
 **Open Items:**
 
-- Câu hỏi cần tiếp tục → Session 2
+- Câu hỏi cần tiếp tục → Session 2 (Questions to continue investigating)
 
 ### Session 2 (YYYY-MM-DD)
 
 **Findings:**
 
-- Kết quả bổ sung từ phiên 2
+- Kết quả bổ sung từ phiên 2 (Additional findings from session 2)
 
 **Open Items:**
 
@@ -128,15 +148,15 @@ Spike report template (`docs/researches/spikes/spike-{topic}.md`):
 
 ## Recommendation
 
-- Đề xuất cụ thể dựa trên tổng hợp tất cả sessions
+- Đề xuất cụ thể dựa trên tổng hợp tất cả sessions (Specific recommendations)
 
 ## Decision (nếu đã thống nhất với Human)
 
-- Decision + Lý do (sẽ ghi thành ADR nếu là architectural decision)
+- Decision + Lý do (Ghi nhận dưới dạng ADR nếu đây là quyết định kiến trúc)
 
 ## Open Items → Next Spikes
 
-- Những gì chưa trả lời → tạo spike mới: `bd create "Spike: ..." --type=spike`
+- Những gì chưa giải quyết → tạo spike mới: `bd create "Spike: ..." --type=spike`
 ```
 
 #### Activity D: Synthesize (Tổng hợp → CE artifacts)
@@ -155,6 +175,17 @@ docs/PRDs/
 ├── PRD-02-Storage.md
 └── PRD-03-CLI-and-Workflow.md
 ```
+
+### Quy chuẩn đặt tên (Naming Conventions)
+
+| Artifact           | Path                                        | Example                            |
+| ------------------ | ------------------------------------------- | ---------------------------------- |
+| Spike Report       | `./docs/researches/spikes/spike-{topic}.md` | `spike-frankensqlite-vs-doltdb.md` |
+| Research Reference | `./docs/researches/*.md`                    | `FastCode-Integration-Research.md` |
+| PRD                | `./docs/PRDs/PRD-XX-*.md`                   | `PRD-01-Overview.md`               |
+| Architecture       | `./docs/architecture/Architecture.md`       | —                                  |
+| ADR                | `./docs/architecture/adr/ADR-XXX-*.md`      | `ADR-001-storage-choice.md`        |
+| Vision             | `./docs/requirements/Vision.md`             | —                                  |
 
 ### Step 4: Trình bày CE Status cho Human
 
