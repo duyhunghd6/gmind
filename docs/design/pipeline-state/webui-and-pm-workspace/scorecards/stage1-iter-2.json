@@ -1,0 +1,24 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 2,
+  "score": 92,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": 100,
+    "prd_coverage": 100,
+    "component_traceability": 100,
+    "logic_coverage": 85,
+    "derived_artifact_consistency": 100,
+    "conflict_preview_readiness": 90
+  },
+  "schema_checks": {
+    "mermaid_valid": true,
+    "preview_manifest_valid": true,
+    "layout_rules_present": true
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "issues": [
+    "Storyboards coverage still missing comprehensive journeys for dashboard, doc-viewer, search-results, task-detail, task-list, trace-explorer, although the state machine covers them."
+  ]
+}

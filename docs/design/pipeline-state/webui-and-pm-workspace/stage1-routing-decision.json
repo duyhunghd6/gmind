@@ -1,0 +1,104 @@
+{
+  "ba_agent": "stage1_ba",
+  "iteration_analyzed": 5,
+  "action": "GATE_A_READY",
+  "current_score": 99,
+  "delta": "+0",
+  "convergence_reason": "Evaluator iteration 5 scored 99/100 with convergence_status GATE_A_READY, Stage 1 QA re-run passed 8/8 suites with QA_PASS and APPROVE recommendation, no P0/P1 blockers remain, and no standalone Mermaid .mmd artifacts were found under the canonical contract directory.",
+  "agents_to_respawn": [],
+  "fix_queue_per_agent": {},
+  "skip_agents": [
+    "gen_contracts",
+    "gen_flows",
+    "gen_wireframes",
+    "preview_script",
+    "prd_writer"
+  ],
+  "qa_required": false,
+  "warnings": [
+    "Preview still reports 36 documented nonblocking Mermaid-event warnings because the preview script compares only YAML actions; evaluator verification found all 61 EVENT_* tokens sourced by YAML actions or machine_event_action_sources.",
+    "Legacy PRD slug contract path is handled non-destructively as metadata-only legacy_non_active_ignore_for_gate_a; active Gate A artifacts are rooted at docs/design/contracts/webui-and-pm-workspace.",
+    "No split review-diagrams/*.md directory is present; the canonical review evidence is the single review-diagrams.md file with 65 valid Mermaid blocks."
+  ],
+  "gate_a_summary": {
+    "score_history": [
+      {
+        "iter": 1,
+        "score": 81
+      },
+      {
+        "iter": 2,
+        "score": 92
+      },
+      {
+        "iter": 3,
+        "score": 73
+      },
+      {
+        "iter": 4,
+        "score": 99
+      },
+      {
+        "iter": 5,
+        "score": 99
+      }
+    ],
+    "final_score": 99,
+    "pillar_breakdown": {
+      "container_validity": 15,
+      "prd_coverage": 20,
+      "component_traceability": 20,
+      "logic_coverage": 15,
+      "derived_artifact_consistency": 15,
+      "conflict_preview_readiness": 14
+    },
+    "qa_summary": {
+      "total_tests": 8,
+      "passed": 8,
+      "failed": 0,
+      "status": "QA_PASS",
+      "gate_a_recommendation": "APPROVE"
+    },
+    "warnings": [
+      "36 preview warnings remain documented and nonblocking; evaluator and QA both accepted the event-source evidence.",
+      "Legacy PRD slug path is ignored for Gate A via active artifact-index metadata rather than destructive cleanup."
+    ],
+    "artifacts_for_review": [
+      "ui-contract.md",
+      "context-slices/summary/contract-summary.yaml",
+      "review-diagrams.md",
+      "flow.md",
+      "storyboards-review.html",
+      "storyboards-review.md",
+      "prd-ds-conflicts.md",
+      "assertion-checklist.md",
+      "preview/index.html",
+      "artifact-index.json"
+    ],
+    "assertion_checklist_summary": {
+      "checked": 16,
+      "failed": 0,
+      "summary": "All Gate A flow-fix and preview artifact readiness assertions are checked, including canonical path, single Mermaid flow fence, EVENT_* YAML sources, component-map coverage, no standalone .mmd files, and indexed preview/storyboard/component/layout/conflict/assertion evidence."
+    },
+    "machine_evidence": [
+      "storyboards.json",
+      "layout-rules.json",
+      "component-map.json",
+      "preview/preview-manifest.json"
+    ],
+    "schema_checks": {
+      "yaml_block_count": 1,
+      "mermaid_block_count": 1,
+      "yaml_parse_ok": true,
+      "yaml_is_block_style": true,
+      "standalone_mmd_files": 0,
+      "mermaid_markdown_validation": "PASS",
+      "preview_artifacts_loaded": "8/8",
+      "artifact_index_entries": 239,
+      "context_slice_files": 228,
+      "storyboard_trajectories": 33,
+      "storyboard_routes_covered": 24,
+      "legacy_contract_path_status": "legacy_non_active_ignore_for_gate_a"
+    }
+  }
+}

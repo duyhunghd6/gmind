@@ -1,0 +1,62 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 4,
+  "score": 99,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists; exactly 1 block-style YAML fence and 1 Mermaid fence; YAML parses; Mermaid has direction LR and 652 transition/event delimiters"
+    },
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "24 screens/routes, 11 state names, and 15 metadata/source satisfies IDs cover all detected PRD IDs br-prd04-s1..s14a"
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "98 YAML ds_id values are unique; component-map.json has 122 rows and 122 unique ds_id values; no YAML-to-map gaps; ds:screen:webui-pm-workspace-001 is present"
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "61/61 Mermaid EVENT_* tokens have YAML event sources via actions or machine_event_action_sources; 0 unmatched YAML events and 0 unmatched Mermaid events; Mermaid Markdown validator PASS"
+    },
+    "derived_artifact_consistency": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "flow.md has exactly 1 valid Mermaid block; review-diagrams.md has 65 valid Mermaid blocks; storyboards=33, layout rules=72, component map=122, artifact index=238, context slices=228; no standalone .mmd files; no invalid load policies"
+    },
+    "conflict_preview_readiness": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "contract_to_ui status OK with 8/8 artifacts loaded; preview HTML contains SSOT, Mermaid, Flow, Storyboard, Component, Layout, Conflict, Route, and Review sections; prd-ds-conflicts.md has no unresolved conflicts; assertion-checklist.md exists and is indexed; 36 preview warnings are stale YAML-actions-only warnings but the same events are documented in machine_event_action_sources"
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_parse_ok": true,
+    "yaml_is_block_style": true,
+    "yaml_duplicate_ds_ids": [],
+    "duplicate_ds_ids": [],
+    "missing_yaml_ds_ids_in_component_map": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "yaml_event_sources": 61,
+    "mermaid_event_tokens": 61,
+    "standalone_mmd_files": 0,
+    "mermaid_markdown_validation": "PASS",
+    "preview_warnings": 36,
+    "preview_artifacts_loaded": "8/8"
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "issues": [
+    "No P0 or P1 issues remain after iteration 4 selective flow fixes.",
+    "Preview manifest still lists 36 Mermaid-event warnings because it appears to compare only YAML actions, but evaluator verification found all 61 EVENT_* tokens sourced by YAML actions or machine_event_action_sources; this is nonblocking for Gate A.",
+    "BA can route this package to Gate A readiness."
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 1,
+  "score": 81,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "container_validity": 80,
+    "prd_coverage": 80,
+    "component_traceability": 50,
+    "logic_coverage": 100,
+    "derived_artifact_consistency": 100,
+    "conflict_preview_readiness": 90
+  },
+  "schema_checks": {
+    "mermaid_valid": true,
+    "preview_manifest_valid": true,
+    "layout_rules_present": false
+  },
+  "fix_queue": [
+    "Missing layout-rules.json artifact.",
+    "component-map.json format mismatch (preview manifest shows 0 mapped).",
+    "Storyboards coverage missing screens: approval-gates, dashboard, doc-viewer, global-shell, safe-board, search-results, task-detail, task-list, trace-explorer.",
+    "PRD Coverage missing sections br-prd04-s1, br-prd04-s5, br-prd04-s7."
+  ],
+  "baseline_regression": false,
+  "issues": []
+}
