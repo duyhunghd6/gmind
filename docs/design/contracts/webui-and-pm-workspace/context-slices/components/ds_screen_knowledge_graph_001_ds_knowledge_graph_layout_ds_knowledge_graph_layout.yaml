@@ -1,0 +1,20 @@
+ds_id: "ds:screen:knowledge-graph-001--ds-knowledge-graph--layout"
+screen_id: "ds-knowledge-graph"
+route: "/design-system/knowledge-graph"
+route_family: "showcase"
+screen_ds_id: "ds:screen:knowledge-graph-001"
+component_path: "layout"
+component_type: "client_only_graph_viewer"
+layout_type: "client_only_graph_viewer"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+canonical_ds_id: "ds:screen:knowledge-graph-001"

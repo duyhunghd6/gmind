@@ -1,0 +1,21 @@
+ds_id: "ds:core-safe-board-lanes"
+screen_id: "core-safe-board"
+route: "/board"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-safe-board-001"
+component_path: "layout/kanban_lanes"
+component_type: "kanban_lanes"
+layout_type: "kanban_board"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  - id: "action:core-board-drag-card"
+    label: "Move task status"
+    target: "api:task-status"
+bindings:
+  []

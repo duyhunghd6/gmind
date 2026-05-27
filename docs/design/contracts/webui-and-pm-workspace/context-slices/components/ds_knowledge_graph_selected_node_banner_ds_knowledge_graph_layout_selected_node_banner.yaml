@@ -1,0 +1,19 @@
+ds_id: "ds:knowledge-graph-selected-node-banner"
+screen_id: "ds-knowledge-graph"
+route: "/design-system/knowledge-graph"
+route_family: "showcase"
+screen_ds_id: "ds:screen:knowledge-graph-001"
+component_path: "layout/selected_node_banner"
+component_type: "selected_node_banner"
+layout_type: "client_only_graph_viewer"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

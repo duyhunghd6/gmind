@@ -1,0 +1,25 @@
+trajectory_id: journey-doc-to-knowledge
+title: Doc Viewer to Knowledge Graph
+source_refs:
+- br-prd04-s8
+- br-prd04-s14
+route: /design-system/doc-viewer
+screen_id: ds-knowledge-graph
+journey_type: prd_journey
+steps:
+- state: route-entry
+  screen_id: ds-doc-viewer
+  event: EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH
+  expected: navigation begins from mapped route
+- state: default
+  screen_id: ds-knowledge-graph
+  event: API_SUCCESS
+  expected: target screen reaches default state
+- state: default
+  screen_id: ds-knowledge-graph
+  event: API_SUCCESS
+  expected: primary journey action is recorded
+- state: error
+  screen_id: ds-knowledge-graph
+  event: API_ERROR
+  expected: error recovery path supports retry or back navigation

@@ -1,0 +1,22 @@
+ds_id: "ds:terminal-mosaic-2x2"
+screen_id: "ds-terminal"
+route: "/design-system/terminal"
+route_family: "showcase"
+screen_ds_id: "ds:screen:terminal-001"
+component_path: "layout/terminal_mosaic"
+component_type: "terminal_mosaic"
+layout_type: "terminal_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "api:agent-sessions"
+  - "api:ci-runs"
+  - "api:task-activity"
+  - "API-streamed logs only"

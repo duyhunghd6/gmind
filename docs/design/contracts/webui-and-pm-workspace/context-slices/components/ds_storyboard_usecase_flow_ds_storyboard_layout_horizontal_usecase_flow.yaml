@@ -1,0 +1,19 @@
+ds_id: "ds:storyboard-usecase-flow"
+screen_id: "ds-storyboard"
+route: "/design-system/storyboard"
+route_family: "showcase"
+screen_ds_id: "ds:screen:storyboard-001"
+component_path: "layout/horizontal_usecase_flow"
+component_type: "horizontal_usecase_flow"
+layout_type: "storyboard_overview"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

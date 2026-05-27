@@ -1,0 +1,19 @@
+ds_id: "ds:core-doc-viewer-tree"
+screen_id: "core-doc-viewer"
+route: "/docs"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-doc-viewer-001"
+component_path: "layout/document_tree"
+component_type: "document_tree"
+layout_type: "document_viewer"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "api:docs-grouped"

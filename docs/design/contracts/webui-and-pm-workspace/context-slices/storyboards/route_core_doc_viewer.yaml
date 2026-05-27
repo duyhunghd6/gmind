@@ -1,0 +1,36 @@
+trajectory_id: route-core_doc_viewer
+title: 'Route coverage: /docs'
+source_refs:
+- br-prd04-s9
+route: /docs
+screen_id: core-doc-viewer
+ds_id: ds:screen:core-doc-viewer-001
+journey_type: route_traceability
+steps:
+- state: route-entry
+  screen_id: core-doc-viewer
+  route: /docs
+  event: EVENT_ROUTE_ENTER
+  expected: screen shell renders and requests API-backed data
+- state: loading
+  screen_id: core-doc-viewer
+  event: API_SUCCESS
+  expected: default state shows mapped components
+- state: empty
+  screen_id: core-doc-viewer
+  event: BOUNDARY_EMPTY
+  expected: direct recovery path is visible and keyboard reachable
+- state: error
+  screen_id: core-doc-viewer
+  event: BOUNDARY_ERROR
+  expected: direct recovery path is visible and keyboard reachable
+- state: offline
+  screen_id: core-doc-viewer
+  event: BOUNDARY_OFFLINE
+  expected: direct recovery path is visible and keyboard reachable
+- state: forbidden
+  screen_id: core-doc-viewer
+  event: BOUNDARY_FORBIDDEN
+  expected: direct recovery path is visible and keyboard reachable
+covered_actions:
+- action:core-doc-open-beads-trace

@@ -1,0 +1,19 @@
+ds_id: "ds:kanban-board-selector"
+screen_id: "ds-kanban"
+route: "/design-system/kanban"
+route_family: "showcase"
+screen_ds_id: "ds:screen:kanban-001"
+component_path: "layout/hash_board_selector"
+component_type: "hash_board_selector"
+layout_type: "showcase_kanban"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "api:tasks-board"

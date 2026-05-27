@@ -1,0 +1,21 @@
+ds_id: "ds:kanban-drag-drop-cards"
+screen_id: "ds-kanban"
+route: "/design-system/kanban"
+route_family: "showcase"
+screen_ds_id: "ds:screen:kanban-001"
+component_path: "layout/drag_drop_cards"
+component_type: "drag_drop_cards"
+layout_type: "showcase_kanban"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  - id: "action:kanban-update-card-status"
+    label: "Update card status"
+    target: "api:task-status"
+bindings:
+  []

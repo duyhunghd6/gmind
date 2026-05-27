@@ -1,0 +1,19 @@
+ds_id: "ds:beads-traversal-linked-highlighting"
+screen_id: "ds-beads-traversal"
+route: "/design-system/beads-traversal"
+route_family: "showcase"
+screen_ds_id: "ds:screen:beads-traversal-001"
+component_path: "layout/selected_linked_highlighting"
+component_type: "selected_linked_highlighting"
+layout_type: "layered_dag"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

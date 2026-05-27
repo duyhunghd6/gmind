@@ -1,0 +1,19 @@
+ds_id: "br-ds-portfolio-view"
+screen_id: "ds-portfolio"
+route: "/design-system/portfolio"
+route_family: "showcase"
+screen_ds_id: "br-ds-portfolio-view"
+component_path: "screen"
+component_type: "screen_root"
+layout_type: "executive_portfolio"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

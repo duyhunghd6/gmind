@@ -1,0 +1,21 @@
+ds_id: "ds:core-rtm-coverage-heatmap"
+screen_id: "core-rtm-dashboard"
+route: "/"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-rtm-dashboard-001"
+component_path: "layout/coverage_heatmap"
+component_type: "coverage_heatmap"
+layout_type: "dashboard_grid"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  - id: "action:core-dashboard-open-section-trace"
+    label: "Open section trace"
+    target: "/trace/:id"
+bindings:
+  - "api:coverage"

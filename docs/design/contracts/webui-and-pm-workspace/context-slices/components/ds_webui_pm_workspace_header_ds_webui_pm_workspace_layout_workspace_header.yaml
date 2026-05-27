@@ -1,0 +1,20 @@
+ds_id: "ds:webui-pm-workspace-header"
+screen_id: "ds-webui-pm-workspace"
+route: "/design-system/webui-pm-workspace"
+route_family: "showcase"
+screen_ds_id: "ds:screen:webui-pm-workspace-001"
+component_path: "layout/workspace_header"
+component_type: "workspace_header"
+layout_type: "integrated_pm_workspace_shell"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+semantic_screen_ds_id: "ds:global_shell"

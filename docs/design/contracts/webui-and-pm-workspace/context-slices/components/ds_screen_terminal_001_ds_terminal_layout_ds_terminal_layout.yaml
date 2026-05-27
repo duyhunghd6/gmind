@@ -1,0 +1,20 @@
+ds_id: "ds:screen:terminal-001--ds-terminal--layout"
+screen_id: "ds-terminal"
+route: "/design-system/terminal"
+route_family: "showcase"
+screen_ds_id: "ds:screen:terminal-001"
+component_path: "layout"
+component_type: "terminal_workspace"
+layout_type: "terminal_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+canonical_ds_id: "ds:screen:terminal-001"

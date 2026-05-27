@@ -1,0 +1,22 @@
+ds_id: "ds:core-task-detail-header"
+screen_id: "core-task-detail"
+route: "/tasks/:id"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-task-detail-001"
+component_path: "layout/task_header"
+component_type: "task_header"
+layout_type: "tabbed_detail"
+states:
+  - "default"
+  - "loading"
+  - "not-found"
+  - "error"
+  - "offline"
+  - "forbidden"
+  - "saving"
+actions:
+  - id: "action:core-task-detail-save-field"
+    label: "Save edited field"
+    target: "api:tasks-update"
+bindings:
+  - "api:tasks-detail"

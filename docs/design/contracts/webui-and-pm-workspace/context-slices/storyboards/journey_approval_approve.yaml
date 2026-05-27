@@ -1,0 +1,25 @@
+trajectory_id: journey-approval-approve
+title: Review and Approve
+source_refs:
+- br-prd04-s8
+- br-prd04-s14
+route: /approval
+screen_id: ds-approval
+journey_type: prd_journey
+steps:
+- state: route-entry
+  screen_id: core-approval-gates
+  event: EVENT_CORE_NAV_APPROVAL
+  expected: navigation begins from mapped route
+- state: default
+  screen_id: ds-approval
+  event: API_SUCCESS
+  expected: target screen reaches default state
+- state: processing
+  screen_id: ds-approval
+  event: EVENT_CORE_APPROVAL_SUBMIT_DECISION
+  expected: primary journey action is recorded
+- state: error
+  screen_id: ds-approval
+  event: API_ERROR
+  expected: error recovery path supports retry or back navigation

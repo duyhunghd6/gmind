@@ -1,0 +1,21 @@
+ds_id: "ds:core-doc-viewer-panel"
+screen_id: "core-doc-viewer"
+route: "/docs"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-doc-viewer-001"
+component_path: "layout/document_panel"
+component_type: "document_panel"
+layout_type: "document_viewer"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  - id: "action:core-doc-open-beads-trace"
+    label: "Open beads trace"
+    target: "/trace/:id"
+bindings:
+  - "api:docs-detail"

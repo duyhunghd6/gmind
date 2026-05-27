@@ -1,0 +1,11 @@
+screen_id: ds-timeline
+route: /design-system/timeline
+state: default
+viewport: mobile
+width: 390
+layout_type: timeline_workspace
+rule: compact event list
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

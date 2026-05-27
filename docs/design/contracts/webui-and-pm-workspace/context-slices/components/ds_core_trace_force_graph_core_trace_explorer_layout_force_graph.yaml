@@ -1,0 +1,25 @@
+ds_id: "ds:core-trace-force-graph"
+screen_id: "core-trace-explorer"
+route: "/trace/:id"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-trace-explorer-001"
+component_path: "layout/force_graph"
+component_type: "force_graph"
+layout_type: "graph_explorer"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+  - "partial"
+actions:
+  - id: "action:core-trace-select-node"
+    label: "Select graph node"
+    target: "detail panel"
+  - id: "action:core-trace-open-linked-entity"
+    label: "Open linked entity"
+    target: "route by node type"
+bindings:
+  []

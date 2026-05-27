@@ -1,0 +1,21 @@
+ds_id: "ds:storyboard-guidance-panel"
+screen_id: "ds-storyboard"
+route: "/design-system/storyboard"
+route_family: "showcase"
+screen_ds_id: "ds:screen:storyboard-001"
+component_path: "layout/guidance_panel"
+component_type: "guidance_panel"
+layout_type: "storyboard_overview"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  - id: "action:storyboard-open-real-screen"
+    label: "Open real screen"
+    target: "route by use case"
+bindings:
+  []

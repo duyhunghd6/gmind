@@ -1,0 +1,19 @@
+ds_id: "ds:screen:storyboard-detail-001"
+screen_id: "ds-storyboard-detail"
+route: "/design-system/storyboard/:id"
+route_family: "showcase"
+screen_ds_id: "ds:screen:storyboard-detail-001"
+component_path: "screen"
+component_type: "screen_root"
+layout_type: "storyboard_detail"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

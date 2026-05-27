@@ -1,0 +1,19 @@
+ds_id: "ds:beads-traversal-direction-toggle"
+screen_id: "ds-beads-traversal"
+route: "/design-system/beads-traversal"
+route_family: "showcase"
+screen_ds_id: "ds:screen:beads-traversal-001"
+component_path: "layout/direction_toggle"
+component_type: "direction_toggle"
+layout_type: "layered_dag"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

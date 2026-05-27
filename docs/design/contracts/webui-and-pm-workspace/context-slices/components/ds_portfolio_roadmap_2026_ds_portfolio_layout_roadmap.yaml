@@ -1,0 +1,19 @@
+ds_id: "ds:portfolio-roadmap-2026"
+screen_id: "ds-portfolio"
+route: "/design-system/portfolio"
+route_family: "showcase"
+screen_ds_id: "br-ds-portfolio-view"
+component_path: "layout/roadmap"
+component_type: "roadmap"
+layout_type: "executive_portfolio"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

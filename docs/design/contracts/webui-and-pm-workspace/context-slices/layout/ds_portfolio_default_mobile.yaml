@@ -1,0 +1,11 @@
+screen_id: ds-portfolio
+route: /design-system/portfolio
+state: default
+viewport: mobile
+width: 390
+layout_type: executive_portfolio
+rule: epic cards and scrollable roadmap
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

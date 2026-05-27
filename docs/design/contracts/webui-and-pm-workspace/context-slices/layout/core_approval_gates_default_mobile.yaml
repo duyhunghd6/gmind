@@ -1,0 +1,11 @@
+screen_id: core-approval-gates
+route: /approval
+state: default
+viewport: mobile
+width: 390
+layout_type: approval_workspace
+rule: evidence cards with bottom decision bar
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

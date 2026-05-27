@@ -1,0 +1,20 @@
+ds_id: "ds:approval-evidence-blocks"
+screen_id: "ds-approval"
+route: "/design-system/approval"
+route_family: "showcase"
+screen_ds_id: "ds:screen:approval-001"
+component_path: "layout/evidence_blocks"
+component_type: "evidence_blocks"
+layout_type: "approval_showcase"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+  - "insufficient-evidence"
+actions:
+  []
+bindings:
+  - "api:approval-evidence"

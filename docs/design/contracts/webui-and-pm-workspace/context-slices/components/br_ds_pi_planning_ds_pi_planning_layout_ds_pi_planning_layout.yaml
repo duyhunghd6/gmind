@@ -1,0 +1,20 @@
+ds_id: "br-ds-pi-planning--ds-pi-planning--layout"
+screen_id: "ds-pi-planning"
+route: "/design-system/pi-planning"
+route_family: "showcase"
+screen_ds_id: "br-ds-pi-planning"
+component_path: "layout"
+component_type: "pi_planning_workspace"
+layout_type: "pi_planning_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+canonical_ds_id: "br-ds-pi-planning"

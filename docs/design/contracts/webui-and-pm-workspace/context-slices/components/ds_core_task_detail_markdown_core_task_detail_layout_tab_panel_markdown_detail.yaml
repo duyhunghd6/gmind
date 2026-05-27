@@ -1,0 +1,20 @@
+ds_id: "ds:core-task-detail-markdown"
+screen_id: "core-task-detail"
+route: "/tasks/:id"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-task-detail-001"
+component_path: "layout/tab_panel/markdown_detail"
+component_type: "markdown_detail"
+layout_type: "tabbed_detail"
+states:
+  - "default"
+  - "loading"
+  - "not-found"
+  - "error"
+  - "offline"
+  - "forbidden"
+  - "saving"
+actions:
+  []
+bindings:
+  - "api:tasks-detail"

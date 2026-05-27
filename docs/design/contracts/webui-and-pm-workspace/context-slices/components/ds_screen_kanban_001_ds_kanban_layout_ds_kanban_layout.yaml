@@ -1,0 +1,20 @@
+ds_id: "ds:screen:kanban-001--ds-kanban--layout"
+screen_id: "ds-kanban"
+route: "/design-system/kanban"
+route_family: "showcase"
+screen_ds_id: "ds:screen:kanban-001"
+component_path: "layout"
+component_type: "showcase_kanban"
+layout_type: "showcase_kanban"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+canonical_ds_id: "ds:screen:kanban-001"

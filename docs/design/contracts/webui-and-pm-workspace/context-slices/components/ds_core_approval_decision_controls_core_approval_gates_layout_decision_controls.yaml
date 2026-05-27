@@ -1,0 +1,22 @@
+ds_id: "ds:core-approval-decision-controls"
+screen_id: "core-approval-gates"
+route: "/approval"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-approval-gates-001"
+component_path: "layout/decision_controls"
+component_type: "decision_controls"
+layout_type: "approval_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+  - "insufficient-evidence"
+actions:
+  - id: "action:core-approval-submit-decision"
+    label: "Submit approval decision"
+    target: "api:approval-decision"
+bindings:
+  []

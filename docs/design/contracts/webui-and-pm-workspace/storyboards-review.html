@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>WebUI PM Workspace Storyboard Review</title><style>body{font-family:system-ui,sans-serif;margin:2rem;line-height:1.45}table{border-collapse:collapse;width:100%}td,th{border:1px solid #d0d7de;padding:.5rem;text-align:left}code{background:#f6f8fa;padding:.1rem .25rem}</style></head><body><h1>Storyboard Review: WebUI & PM Workspace</h1><p>Compact review of PRD and route trajectories. Machine evidence lives in <code>storyboards.json</code> and <code>context-slices/storyboards/*.yaml</code>. State coverage: all 33 trajectories, including PRD journeys 24-32, carry an explicit <code>state</code> on every step.</p><table><thead><tr><th>Trajectory ID</th><th>Title</th><th>Route</th><th>Screen</th><th>Steps</th></tr></thead><tbody><tr><td><code>route-core_global_shell</code></td><td>Route coverage: gmind-serve-shell</td><td><code>gmind-serve-shell</code></td><td>core-global-shell</td><td>4</td></tr>
+<tr><td><code>route-core_rtm_dashboard</code></td><td>Route coverage: /</td><td><code>/</code></td><td>core-rtm-dashboard</td><td>6</td></tr>
+<tr><td><code>route-core_safe_board</code></td><td>Route coverage: /board</td><td><code>/board</code></td><td>core-safe-board</td><td>6</td></tr>
+<tr><td><code>route-core_task_list</code></td><td>Route coverage: /tasks</td><td><code>/tasks</code></td><td>core-task-list</td><td>6</td></tr>
+<tr><td><code>route-core_task_detail</code></td><td>Route coverage: /tasks/:id</td><td><code>/tasks/:id</code></td><td>core-task-detail</td><td>6</td></tr>
+<tr><td><code>route-core_trace_explorer</code></td><td>Route coverage: /trace/:id</td><td><code>/trace/:id</code></td><td>core-trace-explorer</td><td>7</td></tr>
+<tr><td><code>route-core_doc_viewer</code></td><td>Route coverage: /docs</td><td><code>/docs</code></td><td>core-doc-viewer</td><td>6</td></tr>
+<tr><td><code>route-core_approval_gates</code></td><td>Route coverage: /approval</td><td><code>/approval</code></td><td>core-approval-gates</td><td>7</td></tr>
+<tr><td><code>route-core_search_results</code></td><td>Route coverage: /search</td><td><code>/search</code></td><td>core-search-results</td><td>6</td></tr>
+<tr><td><code>route-ds_terminal</code></td><td>Route coverage: /design-system/terminal</td><td><code>/design-system/terminal</code></td><td>ds-terminal</td><td>6</td></tr>
+<tr><td><code>route-ds_portfolio</code></td><td>Route coverage: /design-system/portfolio</td><td><code>/design-system/portfolio</code></td><td>ds-portfolio</td><td>6</td></tr>
+<tr><td><code>route-ds_pi_planning</code></td><td>Route coverage: /design-system/pi-planning</td><td><code>/design-system/pi-planning</code></td><td>ds-pi-planning</td><td>6</td></tr>
+<tr><td><code>route-ds_git_graph</code></td><td>Route coverage: /design-system/git-graph</td><td><code>/design-system/git-graph</code></td><td>ds-git-graph</td><td>6</td></tr>
+<tr><td><code>route-ds_kanban</code></td><td>Route coverage: /design-system/kanban</td><td><code>/design-system/kanban</code></td><td>ds-kanban</td><td>6</td></tr>
+<tr><td><code>route-ds_knowledge_graph</code></td><td>Route coverage: /design-system/knowledge-graph</td><td><code>/design-system/knowledge-graph</code></td><td>ds-knowledge-graph</td><td>6</td></tr>
+<tr><td><code>route-ds_approval</code></td><td>Route coverage: /design-system/approval</td><td><code>/design-system/approval</code></td><td>ds-approval</td><td>7</td></tr>
+<tr><td><code>route-ds_timeline</code></td><td>Route coverage: /design-system/timeline</td><td><code>/design-system/timeline</code></td><td>ds-timeline</td><td>6</td></tr>
+<tr><td><code>route-ds_components</code></td><td>Route coverage: /design-system/components</td><td><code>/design-system/components</code></td><td>ds-components</td><td>4</td></tr>
+<tr><td><code>route-ds_doc_viewer</code></td><td>Route coverage: /design-system/doc-viewer</td><td><code>/design-system/doc-viewer</code></td><td>ds-doc-viewer</td><td>6</td></tr>
+<tr><td><code>route-ds_explorer</code></td><td>Route coverage: /design-system/explorer</td><td><code>/design-system/explorer</code></td><td>ds-explorer</td><td>6</td></tr>
+<tr><td><code>route-ds_beads_traversal</code></td><td>Route coverage: /design-system/beads-traversal</td><td><code>/design-system/beads-traversal</code></td><td>ds-beads-traversal</td><td>6</td></tr>
+<tr><td><code>route-ds_storyboard</code></td><td>Route coverage: /design-system/storyboard</td><td><code>/design-system/storyboard</code></td><td>ds-storyboard</td><td>6</td></tr>
+<tr><td><code>route-ds_storyboard_detail</code></td><td>Route coverage: /design-system/storyboard/:id</td><td><code>/design-system/storyboard/:id</code></td><td>ds-storyboard-detail</td><td>6</td></tr>
+<tr><td><code>route-ds_webui_pm_workspace</code></td><td>Route coverage: /design-system/webui-pm-workspace</td><td><code>/design-system/webui-pm-workspace</code></td><td>ds-webui-pm-workspace</td><td>6</td></tr>
+<tr><td><code>journey-board-navigation</code></td><td>Board Navigation</td><td><code>/board</code></td><td>core-safe-board</td><td>4</td></tr>
+<tr><td><code>journey-pi-planning-vote</code></td><td>PI Planning Vote</td><td><code>/design-system/pi-planning</code></td><td>ds-pi-planning</td><td>4</td></tr>
+<tr><td><code>journey-approval-approve</code></td><td>Review and Approve</td><td><code>/approval</code></td><td>ds-approval</td><td>4</td></tr>
+<tr><td><code>journey-insufficient-evidence</code></td><td>Insufficient Evidence Recovery</td><td><code>/approval</code></td><td>ds-approval</td><td>4</td></tr>
+<tr><td><code>journey-navigate-to-task</code></td><td>Navigate to Task</td><td><code>/tasks</code></td><td>core-task-detail</td><td>4</td></tr>
+<tr><td><code>journey-explore-trace</code></td><td>Explore Trace</td><td><code>/trace/:id</code></td><td>core-trace-explorer</td><td>4</td></tr>
+<tr><td><code>journey-quick-search</code></td><td>Quick Search</td><td><code>/search</code></td><td>core-search-results</td><td>4</td></tr>
+<tr><td><code>journey-doc-to-knowledge</code></td><td>Doc Viewer to Knowledge Graph</td><td><code>/design-system/doc-viewer</code></td><td>ds-knowledge-graph</td><td>4</td></tr>
+<tr><td><code>journey-storyboard-detail</code></td><td>Storyboard Overview to Detail</td><td><code>/design-system/storyboard/:id</code></td><td>ds-storyboard-detail</td><td>4</td></tr></tbody></table></body></html>

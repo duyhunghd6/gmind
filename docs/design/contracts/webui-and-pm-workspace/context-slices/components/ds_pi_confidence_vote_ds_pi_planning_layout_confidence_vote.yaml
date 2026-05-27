@@ -1,0 +1,21 @@
+ds_id: "ds:pi-confidence-vote"
+screen_id: "ds-pi-planning"
+route: "/design-system/pi-planning"
+route_family: "showcase"
+screen_ds_id: "br-ds-pi-planning"
+component_path: "layout/confidence_vote"
+component_type: "confidence_vote"
+layout_type: "pi_planning_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  - id: "action:pi-submit-confidence-vote"
+    label: "Submit confidence vote"
+    target: "api:pi-confidence-vote"
+bindings:
+  []

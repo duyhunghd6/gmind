@@ -1,0 +1,19 @@
+ds_id: "ds:components-catalog-sections"
+screen_id: "ds-components"
+route: "/design-system/components"
+route_family: "showcase"
+screen_ds_id: "ds:screen:components-001"
+component_path: "layout/catalog_sections"
+component_type: "catalog_sections"
+layout_type: "component_catalog"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+actions:
+  - id: "action:components-hash-scroll"
+    label: "Scroll to component section"
+    target: "hash anchor"
+bindings:
+  []

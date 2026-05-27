@@ -1,0 +1,38 @@
+trajectory_id: route-ds_doc_viewer
+title: 'Route coverage: /design-system/doc-viewer'
+source_refs:
+- br-prd04-s9
+route: /design-system/doc-viewer
+screen_id: ds-doc-viewer
+ds_id: ds:screen:doc-viewer-001
+journey_type: route_traceability
+steps:
+- state: route-entry
+  screen_id: ds-doc-viewer
+  route: /design-system/doc-viewer
+  event: EVENT_ROUTE_ENTER
+  expected: screen shell renders and requests API-backed data
+- state: loading
+  screen_id: ds-doc-viewer
+  event: API_SUCCESS
+  expected: default state shows mapped components
+- state: empty
+  screen_id: ds-doc-viewer
+  event: BOUNDARY_EMPTY
+  expected: direct recovery path is visible and keyboard reachable
+- state: error
+  screen_id: ds-doc-viewer
+  event: BOUNDARY_ERROR
+  expected: direct recovery path is visible and keyboard reachable
+- state: offline
+  screen_id: ds-doc-viewer
+  event: BOUNDARY_OFFLINE
+  expected: direct recovery path is visible and keyboard reachable
+- state: forbidden
+  screen_id: ds-doc-viewer
+  event: BOUNDARY_FORBIDDEN
+  expected: direct recovery path is visible and keyboard reachable
+covered_actions:
+- action:doc-viewer-open-explorer
+- action:doc-viewer-open-knowledge-graph
+- action:doc-viewer-open-core-trace

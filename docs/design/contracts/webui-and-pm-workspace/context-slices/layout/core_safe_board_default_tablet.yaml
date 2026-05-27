@@ -1,0 +1,11 @@
+screen_id: core-safe-board
+route: /board
+state: default
+viewport: tablet
+width: 1024
+layout_type: kanban_board
+rule: horizontal scroll lanes
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

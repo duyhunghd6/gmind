@@ -1,0 +1,11 @@
+screen_id: core-trace-explorer
+route: /trace/:id
+state: default
+viewport: tablet
+width: 1024
+layout_type: graph_explorer
+rule: graph with bottom sheet detail
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

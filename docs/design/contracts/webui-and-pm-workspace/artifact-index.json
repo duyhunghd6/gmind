@@ -1,0 +1,4339 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "generated_at": "2026-05-27T18:19:06.439363Z",
+  "artifact_count": 239,
+  "artifact_budget_protocol": "large JSON/contract artifacts are indexed; consumers should load compact context-slices or review HTML first",
+  "artifacts": [
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/assertion-checklist.md",
+      "role": "human_review_evidence",
+      "bytes": 1269,
+      "lines": 23,
+      "sha256": "2664541b4c30bcce9fbb55d428c728e1f6abb404ec904a326d635198687c4236",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+      "role": "derived_machine_evidence",
+      "bytes": 102593,
+      "lines": 4045,
+      "sha256": "0f7322c1c2ce7b85460ec7717c8c29b0a2b5712e5b72d9287cf06b5cb6063a47",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "index_only_load_slice_on_demand"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/br_ds_pi_planning_ds_pi_planning_layout_ds_pi_planning_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 432,
+      "lines": 20,
+      "sha256": "b1543bd1d5b997169e40b11f8848e72f0a9a48e276659947d3f533671d466b2d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/br_ds_pi_planning_ds_pi_planning_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 361,
+      "lines": 19,
+      "sha256": "77e4a16c59ebf07034274d2cddb7f3aa41d5340a44395b0181b4299e35bead68",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/br_ds_portfolio_view_ds_portfolio_layout_ds_portfolio_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 431,
+      "lines": 20,
+      "sha256": "e09a0843c38aa634eb41de961f848fb2b1a1f650d6542e3abce41832dea278c0",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/br_ds_portfolio_view_ds_portfolio_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 361,
+      "lines": 19,
+      "sha256": "df6937e2c80a0eb68c6373372c8a5309530c1f3882ae19ee9fc92d0e1b59aa11",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_approval_coverage_heatmap_ds_approval_layout_coverage_heatmap.yaml",
+      "role": "compact_slice",
+      "bytes": 431,
+      "lines": 20,
+      "sha256": "59d5a4194e7c7188ef9dc951ac421eef3f291416dd24be1581327e45eb68335d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_approval_escalated_badge_ds_approval_layout_escalated_badge.yaml",
+      "role": "compact_slice",
+      "bytes": 414,
+      "lines": 20,
+      "sha256": "65b9c8eef862e8044598dac9b66926201b5317d4176e0298ceb177f83ee28970",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_approval_evidence_blocks_ds_approval_layout_evidence_blocks.yaml",
+      "role": "compact_slice",
+      "bytes": 437,
+      "lines": 20,
+      "sha256": "405f8fb7abd2a67ff1053c7052fec1d60925d0d605ec9364c0e7e10524c2b5be",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_approval_rtm_matrix_ds_approval_layout_rtm_matrix.yaml",
+      "role": "compact_slice",
+      "bytes": 399,
+      "lines": 20,
+      "sha256": "4ff9c3db7b84b81c1f2fbf393e5b622ad67e828a8b126f3147c86ef1e7c7060a",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_approval_status_toggles_ds_approval_layout_status_toggles.yaml",
+      "role": "compact_slice",
+      "bytes": 411,
+      "lines": 20,
+      "sha256": "6e0c1c1daa3ff25a4d31b44a84cd8b86fa0824bfa15ba0e5419e94ce3ac5f9f9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_beads_traversal_detail_sidebar_ds_beads_traversal_layout_traversal_detail_sidebar.yaml",
+      "role": "compact_slice",
+      "bytes": 425,
+      "lines": 19,
+      "sha256": "04ed4af540efe215459abecb56de48ef052eb4508ccd6b0eaffe2b73bdb6e9d6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_beads_traversal_direction_toggle_ds_beads_traversal_layout_direction_toggle.yaml",
+      "role": "compact_slice",
+      "bytes": 411,
+      "lines": 19,
+      "sha256": "8de16eebf0bb37c147bbfd974d058f06ec9cfed0242d310dffcd1ae95a220ba7",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_beads_traversal_layers_ds_beads_traversal_layout_layer_columns.yaml",
+      "role": "compact_slice",
+      "bytes": 411,
+      "lines": 19,
+      "sha256": "e7e6e21426745cddaee996c82cce705c09bb0bf1e5114ea2fd9206e7631ccb2b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_beads_traversal_legend_stats_ds_beads_traversal_layout_legend_stats.yaml",
+      "role": "compact_slice",
+      "bytes": 399,
+      "lines": 19,
+      "sha256": "dc852f62cde6202373e954e8ad2d10cde47d3198f51d428c72565fcd0979ea2b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_beads_traversal_linked_highlighting_ds_beads_traversal_layout_selected_linked_highlighting.yaml",
+      "role": "compact_slice",
+      "bytes": 438,
+      "lines": 19,
+      "sha256": "7100d939f9f74f7aa91ba236bebf1054975afdbee1aad1aca0089d6e6cd00664",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_components_catalog_sections_ds_components_layout_catalog_sections.yaml",
+      "role": "compact_slice",
+      "bytes": 469,
+      "lines": 19,
+      "sha256": "e05585df86eb76611e810881aae77642094038ee776223fe41980ea5049d9bb2",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_approval_decision_controls_core_approval_gates_layout_decision_controls.yaml",
+      "role": "compact_slice",
+      "bytes": 549,
+      "lines": 22,
+      "sha256": "4ab6c7800e55f3b49ce595c5bdfdbca82685e491e264dadc961ff091a2202600",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_approval_evidence_blocks_core_approval_gates_layout_evidence_blocks.yaml",
+      "role": "compact_slice",
+      "bytes": 450,
+      "lines": 20,
+      "sha256": "2b4f98b08a380f21ecbe45b596231ad5d9cfe958ebe512418064e2bb95f93a62",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_approval_queue_core_approval_gates_layout_approval_queue.yaml",
+      "role": "compact_slice",
+      "bytes": 435,
+      "lines": 20,
+      "sha256": "dc742ad36c91b8a97738c4e798bf09a32252be2a87f508d23466c4eb15d114b5",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_doc_viewer_panel_core_doc_viewer_layout_document_panel.yaml",
+      "role": "compact_slice",
+      "bytes": 484,
+      "lines": 21,
+      "sha256": "3da99e3924009bf63916ac0f8ff1e9359a12b69c25350d5543be55ded7f31a79",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_doc_viewer_tree_core_doc_viewer_layout_document_tree.yaml",
+      "role": "compact_slice",
+      "bytes": 389,
+      "lines": 19,
+      "sha256": "55e89ef1a738ad2eeffe7b480a7f748cef6bb6b0471e9c57084ba402e5806c6f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_rtm_coverage_heatmap_core_rtm_dashboard_layout_coverage_heatmap.yaml",
+      "role": "compact_slice",
+      "bytes": 500,
+      "lines": 21,
+      "sha256": "642df9b9b992c82e7f03dfe0f089af3cb8d202357e00c05a2390e3d55eb8d015",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_rtm_gap_analysis_core_rtm_dashboard_layout_gap_analysis.yaml",
+      "role": "compact_slice",
+      "bytes": 381,
+      "lines": 19,
+      "sha256": "02ff0ed6ad483a375a3d239e158c8051e6ceb67aa05dca9a5c4cb29073c86eb5",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_rtm_knowledge_graph_widget_core_rtm_dashboard_layout_knowledge_graph_widget.yaml",
+      "role": "compact_slice",
+      "bytes": 417,
+      "lines": 19,
+      "sha256": "ea540f70b9dbb0a756cdfba808ac7ed71caedbd4c7633d93a944ce8ac966035c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_rtm_kpi_row_core_rtm_dashboard_layout_kpi_row.yaml",
+      "role": "compact_slice",
+      "bytes": 401,
+      "lines": 21,
+      "sha256": "0fc455e11c9b0fe1c1c870d2cc197c880316405094d6a53ad393c6f125682b55",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_rtm_task_progress_core_rtm_dashboard_layout_task_progress.yaml",
+      "role": "compact_slice",
+      "bytes": 385,
+      "lines": 19,
+      "sha256": "de1327894089a22a5522fb23faffc82b8643a13ef4285a7a175bd3e1a57220fb",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_safe_board_lanes_core_safe_board_layout_kanban_lanes.yaml",
+      "role": "compact_slice",
+      "bytes": 461,
+      "lines": 21,
+      "sha256": "a9e41749b489e30145e7ba6c31023398c1b6bb1ae8108c876cdeba33fb94d48f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_safe_board_level_tabs_core_safe_board_layout_board_level_tabs.yaml",
+      "role": "compact_slice",
+      "bytes": 398,
+      "lines": 19,
+      "sha256": "b10a32dada6f37a7e5a1fc8c56010ff52406cd07214cb5673f5130fbe45b15ed",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_safe_board_rte_badge_core_safe_board_layout_rte_escalation_badge.yaml",
+      "role": "compact_slice",
+      "bytes": 407,
+      "lines": 19,
+      "sha256": "4bcd2ea0ff8578ceadb3099814162e9c0406a15ca55308a420d032fe531b5ed6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_search_filters_core_search_results_layout_result_filters.yaml",
+      "role": "compact_slice",
+      "bytes": 381,
+      "lines": 19,
+      "sha256": "820d793c197be8172d527eabef026ace2795db0caeb1224394c503228ae06622",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_search_input_core_search_results_layout_search_input.yaml",
+      "role": "compact_slice",
+      "bytes": 387,
+      "lines": 19,
+      "sha256": "15451de0974202cf73e9eae8fa7c0d01e5e00be90c8eadb0984ba89fdd0cc341",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_search_result_list_core_search_results_layout_result_list.yaml",
+      "role": "compact_slice",
+      "bytes": 484,
+      "lines": 21,
+      "sha256": "1c606fa15d42c660e964d88b85f7626a0630717b159fc3d37ea5df6e31c33471",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_shell_header_core_global_shell_layout_header.yaml",
+      "role": "compact_slice",
+      "bytes": 425,
+      "lines": 19,
+      "sha256": "2b6a0fe0b36ba1502b418885df19264caaaa443cfe39a1df3cb0b8ec3b2d97f2",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_shell_router_outlet_core_global_shell_layout_router_outlet.yaml",
+      "role": "compact_slice",
+      "bytes": 372,
+      "lines": 17,
+      "sha256": "f712337d9b7ffd0c46cb7e4f217844bc7b1c9fdada01834cf0c36bfee4fe1933",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_shell_sidebar_core_global_shell_layout_sidebar_nav.yaml",
+      "role": "compact_slice",
+      "bytes": 831,
+      "lines": 34,
+      "sha256": "701a6f16da4d94c77a6d1a595fb7e9b437c15bad488b4f753508ad827cf645dd",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_detail_activity_core_task_detail_layout_tab_panel_activity_timeline.yaml",
+      "role": "compact_slice",
+      "bytes": 435,
+      "lines": 20,
+      "sha256": "0c1a7a872761317d79b97ab370b8a84b91db1a8661887067ac6514e6b7f57aed",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_detail_graph_core_task_detail_layout_tab_panel_trace_graph_widget.yaml",
+      "role": "compact_slice",
+      "bytes": 431,
+      "lines": 20,
+      "sha256": "3a6b6abfb9ecabae2b9aa43b706aa848aaf9dd082a49e5fd8a962d6f7eb9458d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_detail_header_core_task_detail_layout_task_header.yaml",
+      "role": "compact_slice",
+      "bytes": 512,
+      "lines": 22,
+      "sha256": "f4eea57718ddfe68dbc97440ca3ea7b73853efee24b1addad81f1656a20ce5b7",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_detail_markdown_core_task_detail_layout_tab_panel_markdown_detail.yaml",
+      "role": "compact_slice",
+      "bytes": 430,
+      "lines": 20,
+      "sha256": "575b67bd916bd60908b2350fb753decb9e4480730cd430fc0121e851a085bbe1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_detail_tabs_core_task_detail_layout_tab_panel.yaml",
+      "role": "compact_slice",
+      "bytes": 386,
+      "lines": 20,
+      "sha256": "cf4b7e82648a60b606086c51fce656a4ec25de73614de6af1873624d15ecb745",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_list_filter_bar_core_task_list_layout_filter_bar.yaml",
+      "role": "compact_slice",
+      "bytes": 392,
+      "lines": 20,
+      "sha256": "ba97ec5c114761d16680c661f805e823542d8e90c22f2efb0f394f37d7c5b55c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_task_list_table_core_task_list_layout_task_table.yaml",
+      "role": "compact_slice",
+      "bytes": 573,
+      "lines": 25,
+      "sha256": "830d5c9453969d51714d354d9923f3c828d7358d89c4b110a245facd8cfb7895",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_trace_force_graph_core_trace_explorer_layout_force_graph.yaml",
+      "role": "compact_slice",
+      "bytes": 600,
+      "lines": 25,
+      "sha256": "3599ba2615611f3033e2e18ba75e2af0125f10eaeb29194391c76c336b952437",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_trace_node_detail_core_trace_explorer_layout_node_detail_panel.yaml",
+      "role": "compact_slice",
+      "bytes": 407,
+      "lines": 20,
+      "sha256": "951b81ce76503fc1cdb23759a1a7b19bb749543ea4a3276562274875ad9b7f5c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_core_trace_toolbar_core_trace_explorer_layout_trace_toolbar.yaml",
+      "role": "compact_slice",
+      "bytes": 411,
+      "lines": 20,
+      "sha256": "63c24a5e60bbcd95327b45c85b658243178bca6cf94bbdce7fedffdd433d245a",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_doc_viewer_github_tree_ds_doc_viewer_layout_github_like_tree.yaml",
+      "role": "compact_slice",
+      "bytes": 415,
+      "lines": 19,
+      "sha256": "45ab37e249c6fc2586dd062d90eb444f8ecd1645691df221199d5e2aed58576f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_doc_viewer_selected_panel_ds_doc_viewer_layout_selected_document_panel.yaml",
+      "role": "compact_slice",
+      "bytes": 760,
+      "lines": 27,
+      "sha256": "635360dec0e02711377b21feb7d8b21bc1e792c548e99fc853b0690436a42cc1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_explorer_detail_sidebar_ds_explorer_layout_detail_sidebar.yaml",
+      "role": "compact_slice",
+      "bytes": 382,
+      "lines": 19,
+      "sha256": "97fa60f6c29d66a552d0e4b4d5b6aee7d4a72e9dbafefcf9757a4a5fa1c2a75c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_explorer_filter_select_ds_explorer_layout_hash_filter_select.yaml",
+      "role": "compact_slice",
+      "bytes": 389,
+      "lines": 19,
+      "sha256": "81e1a50690bf70cfee2ef0492d719db68ad84252b7f049fb32e152b16513a64b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_explorer_result_list_ds_explorer_layout_result_list.yaml",
+      "role": "compact_slice",
+      "bytes": 373,
+      "lines": 19,
+      "sha256": "089776ed166b473211add55320ce9812e12c505978f2ebd96fd14bcefbe4be23",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_explorer_unified_search_ds_explorer_layout_unified_search.yaml",
+      "role": "compact_slice",
+      "bytes": 394,
+      "lines": 19,
+      "sha256": "9c7e5316357a684d119741147a3114e9e23887824c194aab0f3184d3d065a889",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_git_graph_canvas_ds_git_graph_layout_branch_graph.yaml",
+      "role": "compact_slice",
+      "bytes": 377,
+      "lines": 19,
+      "sha256": "5d5f0c22f972bd315a78da44434e6ea56e703182a88e35182ec17a8579434563",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_git_graph_scenario_tabs_ds_git_graph_layout_hash_scenario_tabs.yaml",
+      "role": "compact_slice",
+      "bytes": 440,
+      "lines": 20,
+      "sha256": "b099f9623b8578ded8830fd4ff50c98b11cfd594ec6bc7b0821c3f68c4d37068",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_global_shell_core_global_shell_layout_core_global_shell_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 391,
+      "lines": 18,
+      "sha256": "76ba70085a849542cf09c51c2ce82a2730e862043357e7231d01b83aaafed280",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_global_shell_core_global_shell_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 324,
+      "lines": 17,
+      "sha256": "7cf3521def565546586a0b84a4d105ac516da84119c146904b68621485a8228c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_global_shell_ds_webui_pm_workspace_layout_ds_webui_pm_workspace_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 521,
+      "lines": 21,
+      "sha256": "92c156920969310d866bd1265904fe4ab48f3358f697a8618d7798c2cdf34db8",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_kanban_board_selector_ds_kanban_layout_hash_board_selector.yaml",
+      "role": "compact_slice",
+      "bytes": 400,
+      "lines": 19,
+      "sha256": "c0d4589d11847ae86ff89c9cfdc3f234febd4c86a17d2f697a2b1d106ff22e09",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_kanban_drag_drop_cards_ds_kanban_layout_drag_drop_cards.yaml",
+      "role": "compact_slice",
+      "bytes": 476,
+      "lines": 21,
+      "sha256": "587c10bd781f246dab608d0a78674056541d3dc21a5c326126fdaa0b08b468a2",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_knowledge_graph_legend_stats_ds_knowledge_graph_layout_graph_legend_stats.yaml",
+      "role": "compact_slice",
+      "bytes": 424,
+      "lines": 19,
+      "sha256": "f80a3caffe866600a698c2359e46b049bcf45c4a8fabeddc04decc469d2287dd",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_knowledge_graph_selected_node_banner_ds_knowledge_graph_layout_selected_node_banner.yaml",
+      "role": "compact_slice",
+      "bytes": 436,
+      "lines": 19,
+      "sha256": "2dbf34a6fb6d8ff9de72f2184127c395f9b4a1ec1e81978859709ab1657922fa",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_knowledge_graph_sigma_viewer_ds_knowledge_graph_layout_sigma_graphology_viewer.yaml",
+      "role": "compact_slice",
+      "bytes": 474,
+      "lines": 20,
+      "sha256": "daf614719bac55b486fa6dd332f086769644639c696596390d50d608eea32dfb",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_pi_business_value_scoring_ds_pi_planning_layout_business_value_scoring.yaml",
+      "role": "compact_slice",
+      "bytes": 406,
+      "lines": 19,
+      "sha256": "4e593558ce9ffc3f09ca7805e5af1dd266e99f8bd6003aa36c61fb3c4e412109",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_pi_confidence_vote_ds_pi_planning_layout_confidence_vote.yaml",
+      "role": "compact_slice",
+      "bytes": 496,
+      "lines": 21,
+      "sha256": "99e2b5a66425562e9e42db2eb46695c9065c6a8054227608079e918bd15749c3",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_pi_roam_board_ds_pi_planning_layout_roam_board.yaml",
+      "role": "compact_slice",
+      "bytes": 384,
+      "lines": 19,
+      "sha256": "3b5a939c14dcce816d76e885f7feab153b6f302ae28aa5af50d9d93eee7886e0",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_pi_strategic_sandbox_ds_pi_planning_layout_strategic_sandbox.yaml",
+      "role": "compact_slice",
+      "bytes": 485,
+      "lines": 21,
+      "sha256": "dea8e5cfab690a42137cd4d07d5be483230ab0617d19901d1de150411a37b4a9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_portfolio_executive_table_ds_portfolio_layout_portfolio_table.yaml",
+      "role": "compact_slice",
+      "bytes": 441,
+      "lines": 20,
+      "sha256": "172ce24638000d058b4e170104f6f9e96f12ac90dac260db6bcbfeb1560a8409",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_portfolio_roadmap_2026_ds_portfolio_layout_roadmap.yaml",
+      "role": "compact_slice",
+      "bytes": 370,
+      "lines": 19,
+      "sha256": "2674ec2f1c7576d6ec4807d9f5a9c5ddaf2371cf824568ef3b8f08e5981865f6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_approval_001_ds_approval_layout_ds_approval_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 458,
+      "lines": 21,
+      "sha256": "9df16fdd595bcae95cc95b2224976542166596ec6c9678db52590331212e5244",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_approval_001_ds_approval_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 389,
+      "lines": 20,
+      "sha256": "d7d61f7981947520db1a97a629d7256bf750936b017af432604be159b1f80254",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_beads_traversal_001_ds_beads_traversal_layout_ds_beads_traversal_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 460,
+      "lines": 20,
+      "sha256": "62bf8f9bd4e7d507208da1ac62e858b199f6f5c832a1c4daec2f59cd0dfb4d7b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_beads_traversal_001_ds_beads_traversal_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 383,
+      "lines": 19,
+      "sha256": "9f441a4fced465ffc6b9c222c8d17ea5fab424d9f0dcdf8b81865ac082e2533a",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_components_001_ds_components_layout_ds_components_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 412,
+      "lines": 18,
+      "sha256": "49e347a16175c4bf42a6bbde49ca47722ff409b6a3de15015e9a52d9ed7654c1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_components_001_ds_components_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 339,
+      "lines": 17,
+      "sha256": "84539299239415938fec35672df7c86b697665f94e2e822e54f56fda7a02f67b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_approval_gates_001_core_approval_gates_layout_core_approval_gates_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 497,
+      "lines": 21,
+      "sha256": "45344cb219cbfd65f04e70f6dd4ac170014dccb0b4450915e23874ab9906c168",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_approval_gates_001_core_approval_gates_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 408,
+      "lines": 20,
+      "sha256": "bcda13ad973cef53212fecf5b0829030f5d8651d5dbf4a8c041875ccb1ef7560",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_doc_viewer_001_core_doc_viewer_layout_core_doc_viewer_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 439,
+      "lines": 20,
+      "sha256": "16168ee5a7325063aa4220db7291b455e55e99e3151de0bcfcdd6aa02990efd8",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_doc_viewer_001_core_doc_viewer_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 361,
+      "lines": 19,
+      "sha256": "611ccc5c1776a1887722f5c6dc6de6a57c0e5688a4b730ee4fb28fb1bcccc09e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_rtm_dashboard_001_core_rtm_dashboard_layout_core_rtm_dashboard_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 448,
+      "lines": 20,
+      "sha256": "89a574aabd3fb7f32026a5188032c0e9a9de687669d0c32b1a60958f33f0faa6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_rtm_dashboard_001_core_rtm_dashboard_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 365,
+      "lines": 19,
+      "sha256": "6db9a2e3a9170eb5d3dd97b9396aa645ea66c50b319a50c22ec280a47ee04997",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_safe_board_001_core_safe_board_layout_core_safe_board_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 434,
+      "lines": 20,
+      "sha256": "4af4508c9d341e9afd06e33dc07ea149030fb99ac7529c3e16b7bddef453f363",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_safe_board_001_core_safe_board_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 359,
+      "lines": 19,
+      "sha256": "bd649c9171df6572698af767af47420d684e36b8fdc29c0be16828cf6eb5b713",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_search_results_001_core_search_results_layout_core_search_results_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 459,
+      "lines": 20,
+      "sha256": "b48b5740ff55080d1cdef38083878c089121f3fccacb6659714b32b27a79981a",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_search_results_001_core_search_results_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 374,
+      "lines": 19,
+      "sha256": "744b6093bf5a04e12cfd25ea747d7301351eb20246d7382729f3deb14c476c63",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_task_detail_001_core_task_detail_layout_core_task_detail_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 462,
+      "lines": 21,
+      "sha256": "f3c3a88bb121c293e8d9e4f9279f8d444d02b97455676f9356798f3ef924c006",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_task_detail_001_core_task_detail_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 384,
+      "lines": 20,
+      "sha256": "32ac8333915a91ec746dd4f9c4243d3125db31bad8149acfa53e5521920d63d8",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_task_list_001_core_task_list_layout_core_task_list_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 442,
+      "lines": 21,
+      "sha256": "42a4e5e14ceee696f34f16f44d49f690542288ab3e63cc49d895df110f0e5f65",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_task_list_001_core_task_list_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 371,
+      "lines": 20,
+      "sha256": "6facb5f416a139292e6735dad3c9044c341f5f2079e1c2c36b93c2ce526ddc7d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_trace_explorer_001_core_trace_explorer_layout_core_trace_explorer_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 476,
+      "lines": 21,
+      "sha256": "cb76a5af1c01cc93965f6b887f6ed4e07c42f08d262df827171107a03c851060",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_core_trace_explorer_001_core_trace_explorer_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 391,
+      "lines": 20,
+      "sha256": "86d2f736b7a04fa8fad43e5fb85e26f52f75dbd7acc01054d92831c81f6e848e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_doc_viewer_001_ds_doc_viewer_layout_ds_doc_viewer_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 452,
+      "lines": 20,
+      "sha256": "5f61accdc22c178dee6fe26a55999a1f76d468755015b394f1b5b71a02d3956e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_doc_viewer_001_ds_doc_viewer_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 374,
+      "lines": 19,
+      "sha256": "1014158741d15ba6b96640a1f66ef4d5beb6f717f1ac2b06ecbe67be2d767ca3",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_explorer_001_ds_explorer_layout_ds_explorer_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 428,
+      "lines": 20,
+      "sha256": "71d90d564229fa67f6e3ea5ceaa67abbbed6140d97bb22cf9f60a4e6a3f32c79",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_explorer_001_ds_explorer_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 360,
+      "lines": 19,
+      "sha256": "64dea2c792abc90fc298192bea195992f48de2e8fa2b1952c711654be3fa7a2e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_git_graph_001_ds_git_graph_layout_ds_git_graph_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 440,
+      "lines": 20,
+      "sha256": "53099e78b7709b288f64df5ef784c04be8bfdfd1a9998c905abea1f9b8f2aa98",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_git_graph_001_ds_git_graph_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 367,
+      "lines": 19,
+      "sha256": "f7a3d7e4025c4ef8eba7bd610d1d4f629d8bed6dc16300350bd9e815385f9e0d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_kanban_001_ds_kanban_layout_ds_kanban_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 414,
+      "lines": 20,
+      "sha256": "916780334f69d2ce7579eb9ff2b45fd6459c2f5676fd2408db89184b1a08cdc1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_kanban_001_ds_kanban_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 351,
+      "lines": 19,
+      "sha256": "8ad28a8988a4e339beed78a786df3f209461a0ed384abf7537d2791aaa7d93b6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_knowledge_graph_001_ds_knowledge_graph_layout_ds_knowledge_graph_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 486,
+      "lines": 20,
+      "sha256": "b9bd7a6981ae7a28f41c28b1b74ae14be3a7183ac6d8163b313a04b1f2e312f6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_knowledge_graph_001_ds_knowledge_graph_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 396,
+      "lines": 19,
+      "sha256": "764c27fb5ea8a3533e4e383f0d8763bb6af556b294accb442cc9dfeed07a1e70",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_storyboard_001_ds_storyboard_layout_ds_storyboard_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 446,
+      "lines": 20,
+      "sha256": "96c5c7291f0e302492d896351022432d0737020074ff60662b46b662c20873c8",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_storyboard_001_ds_storyboard_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 371,
+      "lines": 19,
+      "sha256": "cc0c44d5c63a2216925d9046049e5bae26c851dd1408802330c2aee3fba6b742",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_storyboard_detail_001_ds_storyboard_detail_layout_ds_storyboard_detail_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 481,
+      "lines": 20,
+      "sha256": "bbbb526f00475d3a57825cd11ce38024c2016c2cc5996aa1f55031944f2f8089",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_storyboard_detail_001_ds_storyboard_detail_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 394,
+      "lines": 19,
+      "sha256": "185384c5173c42b3c4b70f61e0d1a8772dffd2e6d8663a66bcec6ddcd7a13403",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_terminal_001_ds_terminal_layout_ds_terminal_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 432,
+      "lines": 20,
+      "sha256": "1da9fd3858f9d67d4768ea836770460a10a2d27438687adb6ca0324b437936ad",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_terminal_001_ds_terminal_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 362,
+      "lines": 19,
+      "sha256": "110ba50a45d447ae060fdb0b90087acd56950e3b0e80eb46a78f25d966c49bec",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_timeline_001_ds_timeline_layout_ds_timeline_layout.yaml",
+      "role": "compact_slice",
+      "bytes": 432,
+      "lines": 20,
+      "sha256": "930e9620ac56a90dc8d666bccb48986be44796d653686d740dba24040990094f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_timeline_001_ds_timeline_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 362,
+      "lines": 19,
+      "sha256": "d2e4901719c555fd8def1a77a53032a44b58c14d634a7d463d2a0dc726a0524b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_screen_webui_pm_workspace_001_ds_webui_pm_workspace_screen.yaml",
+      "role": "compact_slice",
+      "bytes": 447,
+      "lines": 20,
+      "sha256": "07de5edf874d3b90af5bb4800f296b772ad11821aaa9bd76f4cc7107370d6da3",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_storyboard_detail_related_usecases_ds_storyboard_detail_layout_related_usecases.yaml",
+      "role": "compact_slice",
+      "bytes": 422,
+      "lines": 19,
+      "sha256": "27a9281689e38f53d98bc3c5860fd31b4e119054003d1f38a4c9a86d7136be5f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_storyboard_detail_role_summary_ds_storyboard_detail_layout_storyboard_role_summary.yaml",
+      "role": "compact_slice",
+      "bytes": 455,
+      "lines": 19,
+      "sha256": "130bd80a546de969ceb242838385e9ae3460c919c11df2de9f20ca11a7c75ace",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_storyboard_detail_step_timeline_ds_storyboard_detail_layout_storyboard_step_timeline.yaml",
+      "role": "compact_slice",
+      "bytes": 435,
+      "lines": 19,
+      "sha256": "6f9cf123923d13ba3003edc388429921728268597fb4f4efcbac8cf1013dfcfe",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_storyboard_guidance_panel_ds_storyboard_layout_guidance_panel.yaml",
+      "role": "compact_slice",
+      "bytes": 495,
+      "lines": 21,
+      "sha256": "4c6939b295ee116efaa7c3fdd1fb1d036add7c71e70f809161fa6d5c028b6548",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_storyboard_journey_filter_ds_storyboard_layout_journey_filter.yaml",
+      "role": "compact_slice",
+      "bytes": 410,
+      "lines": 19,
+      "sha256": "1c686508320580a1bce3c3fa1e302022948b1d224a69a6a347b1c317a1a3b27c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_storyboard_usecase_flow_ds_storyboard_layout_horizontal_usecase_flow.yaml",
+      "role": "compact_slice",
+      "bytes": 409,
+      "lines": 19,
+      "sha256": "64ddb780c312a4be3924ac0549d1a21f43700418dd12f84ec9f784d5b8b2a63b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_terminal_line_legend_ds_terminal_layout_terminal_line_legend.yaml",
+      "role": "compact_slice",
+      "bytes": 393,
+      "lines": 19,
+      "sha256": "567ecffad6962b67a0dfa46bc0eee494e92af03fab34c130347281df99e01039",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_terminal_mosaic_2x2_ds_terminal_layout_terminal_mosaic.yaml",
+      "role": "compact_slice",
+      "bytes": 473,
+      "lines": 22,
+      "sha256": "320a8e9eb7f3dd571b96b0eefe39943627d8d0a4ba8fc2caafe0efc0028deccd",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_terminal_scenario_tabs_ds_terminal_layout_scenario_tabs.yaml",
+      "role": "compact_slice",
+      "bytes": 381,
+      "lines": 19,
+      "sha256": "ff185eda5b0296f89442727b68dec8098fa48efa146060c758f9be9288342f7e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_timeline_activity_feed_ds_timeline_layout_activity_feed.yaml",
+      "role": "compact_slice",
+      "bytes": 419,
+      "lines": 20,
+      "sha256": "26393769832e042d0e6227311e28b8acf4231947427c34dee22e499e08cf7882",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_timeline_file_lease_indicators_ds_timeline_layout_file_lease_indicators.yaml",
+      "role": "compact_slice",
+      "bytes": 422,
+      "lines": 19,
+      "sha256": "a1b9c857ec7944a09568527716e91b514ac4d286b4aa8651e9e1c8539aa137f0",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_timeline_sprint_day_ds_timeline_layout_sprint_day_timeline.yaml",
+      "role": "compact_slice",
+      "bytes": 390,
+      "lines": 19,
+      "sha256": "4cb4d3364a00c300cb8218e44eb162b59a042615925e0429958ef077ad0b3630",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_webui_pm_workspace_active_surface_router_ds_webui_pm_workspace_layout_active_surface_router.yaml",
+      "role": "compact_slice",
+      "bytes": 524,
+      "lines": 20,
+      "sha256": "7254072aa8b6a40f950f0810c6207a841965d83de354f380d1ae68f0ceee1dac",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_webui_pm_workspace_header_ds_webui_pm_workspace_layout_workspace_header.yaml",
+      "role": "compact_slice",
+      "bytes": 472,
+      "lines": 20,
+      "sha256": "791a1028570c618bef45c8d8c0548bf273be751de137f405e1a984be9a58debf",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/components/ds_webui_pm_workspace_sidebar_ds_webui_pm_workspace_layout_workspace_sidebar.yaml",
+      "role": "compact_slice",
+      "bytes": 475,
+      "lines": 20,
+      "sha256": "666e7576cdbc984dd73a4212a5e624acf3e27ba6ff0ac541f7906c51542710fb",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_approval_gates_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 326,
+      "lines": 11,
+      "sha256": "00c07d3c025df4104021259ab6b12502d3dd7943676b7174f1ce55cd6ac2af96",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_approval_gates_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 317,
+      "lines": 11,
+      "sha256": "ab1eb6896743f05b017545e8e03df4c79d37150b9039f379c5e8f7a5dbb88af1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_approval_gates_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 317,
+      "lines": 11,
+      "sha256": "59a74e09460f36f479fb4ec88fa76a212e2c53534303d5abc4215ec1ad26c425",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_doc_viewer_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 297,
+      "lines": 11,
+      "sha256": "dd884393e7e7eb237553ffe4216bd16d03f0aa78dcae6fb30fe4d24dea996f72",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_doc_viewer_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 303,
+      "lines": 11,
+      "sha256": "708830288b9440f11b0e9d99ed75ecec092376436dd1d23f7360aba970567f8e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_doc_viewer_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 308,
+      "lines": 11,
+      "sha256": "0ccec01d7e8c4c91d792c6e102b59fa1041bcc19a5c668e43263943284faac2e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_global_shell_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 339,
+      "lines": 11,
+      "sha256": "ac66ad695c6211bdae5871b67f5ce2ff1495e7459239030e1f0163510a0c5aea",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_global_shell_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 307,
+      "lines": 11,
+      "sha256": "9c31deba9684cb0f2ef774b06443952fc797615e06673433edc34715703cb183",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_global_shell_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 314,
+      "lines": 11,
+      "sha256": "4c4a92a0aba2380d702327d96ebdf4b730f7d01e70787057c563eed7a841d1ac",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_rtm_dashboard_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 291,
+      "lines": 11,
+      "sha256": "02a4ead0beb189519c71bd403a8de0a5402e02ec962ffc16c5eb6aac567372bf",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_rtm_dashboard_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 282,
+      "lines": 11,
+      "sha256": "a901c2579940a0502a2c5ef1000e3086c1c819b65cf8e2223ecded2229c01664",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_rtm_dashboard_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 282,
+      "lines": 11,
+      "sha256": "59831da32f522bd124bc7606861b338cd93847c3eabe71e190097515395fe685",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_safe_board_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 308,
+      "lines": 11,
+      "sha256": "e24e4d30d55a306354be16bfc3d8fca1370fcdfba3a779ed993d348d8094402b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_safe_board_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 283,
+      "lines": 11,
+      "sha256": "d58b2b05b69af8ca897a106b2e6777a65fa063d7abbc6d1193c504a8a611d601",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_safe_board_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 289,
+      "lines": 11,
+      "sha256": "3134a75baff50747419530c707780c7b4bfdd9398568667f9a1d7b5c2c3b3062",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_search_results_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 308,
+      "lines": 11,
+      "sha256": "aa25f8b9197e7f76b8c498bfe8e3cd8763785aa86cb21de0b9dcdd73a6c8cf94",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_search_results_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 310,
+      "lines": 11,
+      "sha256": "c029d5c4c56be2bc3a2bbcc7fec9e34ca7581c5af71170d174a0426943ee4590",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_search_results_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 305,
+      "lines": 11,
+      "sha256": "3e77d3857957e865fb40bd9db4682760030cc15cf7b8801937b6577d5d4f130e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_task_detail_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 296,
+      "lines": 11,
+      "sha256": "6fc90bc0b52f98046a525a75337bf3d547d66dab1a38886c9ac3f7f794c387a1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_task_detail_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 285,
+      "lines": 11,
+      "sha256": "dd3042bf9477454b1636d811ca024e33b584ad21be454d4e2a533c831f480617",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_task_detail_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 287,
+      "lines": 11,
+      "sha256": "ca44a1b6710a4c1d0fb367ff4fa5037f2d114f3f9c8d9ffa34ef5205bae4aac4",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_task_list_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 283,
+      "lines": 11,
+      "sha256": "e926a5f26c836af6db2afe06147461e214f6831546fff92807b7b9a5427452d3",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_task_list_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 290,
+      "lines": 11,
+      "sha256": "a60b953510db520bc8c6d427e9acd9fd0872213893b9fa0c3ac2d01d2c807c90",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_task_list_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 309,
+      "lines": 11,
+      "sha256": "d9a4df576bb16103aa85b0c3f31bb5bbfe32546e3b236a7e62f682281d643534",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_trace_explorer_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 328,
+      "lines": 11,
+      "sha256": "66a71855e5a577ac81913d12a3d9305908c0aeba37e8457df3490f047af76913",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_trace_explorer_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 327,
+      "lines": 11,
+      "sha256": "7faa7141ea2f5d024b6aba1504db9f21f7f37bab86b5ffb12dd84978e89729e3",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/core_trace_explorer_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 306,
+      "lines": 11,
+      "sha256": "284da8a0a3289a54022483d57378137db34531f62034bd49797c5d8d7ad1e43b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_approval_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 327,
+      "lines": 11,
+      "sha256": "68c6325bd8e35dc8c9107c273fa79ca9413e9e5c1011b03b2de021f2c228698d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_approval_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 308,
+      "lines": 11,
+      "sha256": "42ffa7715d16205d5ccef45b1af13b30715feb99218431f61985ccba4607a088",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_approval_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 318,
+      "lines": 11,
+      "sha256": "32189eb6ec29aceba1c85cc486b29099dc4cf56d9d433d949a255ba766df446d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_beads_traversal_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 327,
+      "lines": 11,
+      "sha256": "3b90d60e00970da795dd293e8e629916a90ba9f3612a3f49c71c60025bdf2ab0",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_beads_traversal_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 327,
+      "lines": 11,
+      "sha256": "8899c2d60d59f126f15ba6912aa6f7b63bf838680fb75b2eac7a98533e60e45d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_beads_traversal_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 322,
+      "lines": 11,
+      "sha256": "515589e8a0a6ff029af4774e10eabf8e518a92aac64205a8528e5b6da715cb74",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_components_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 322,
+      "lines": 11,
+      "sha256": "995bd8b1d7bb7dea1f2e5551d51e683bc3943e9f0f91b5898d1a5c26f76d9941",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_components_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 307,
+      "lines": 11,
+      "sha256": "fd015c513afb05abc9ffc215218430dd0e2ce338f9fc8f0279989c826a752546",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_components_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 313,
+      "lines": 11,
+      "sha256": "d89445c95b5a6d41ffed59e8de5711a6b094fda5d8874bf7e0e0a7f4e2836e6e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_doc_viewer_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 332,
+      "lines": 11,
+      "sha256": "7703cd72e3a2e0e6aac2440783531c19bb96690eae3e47c64fd8d0b7e6a53bc5",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_doc_viewer_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 324,
+      "lines": 11,
+      "sha256": "f1a21ec47d0dc52f5cdc0a377069a3efc78c2d8c2d5aecc7f58fd85b86cf32ff",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_doc_viewer_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 321,
+      "lines": 11,
+      "sha256": "b70accc3515b9771be20b82bf1f95715993621325bf2e4921bfb988049e4482d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_explorer_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 328,
+      "lines": 11,
+      "sha256": "c65e87a478d92a672bed459fd398643561749a7506646a52e4b8c1d5d6f38ad9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_explorer_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 314,
+      "lines": 11,
+      "sha256": "ae9fef1a229f68fb662944f2d448f336b52271eed42ce5079745ce6f7c7e09f4",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_explorer_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 318,
+      "lines": 11,
+      "sha256": "a0baf29296d9e2fea3e41ac571650033773f5b9ab04233eac2fd0e9280498c49",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_git_graph_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 329,
+      "lines": 11,
+      "sha256": "6d2cdc491059ae381f0813989443176bc462e44e4fb0ddd2dc5c10ebefd478ab",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_git_graph_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 326,
+      "lines": 11,
+      "sha256": "d64429a8fb1621a184581bd465f548c192fdbe6bc0c5363e0b0d60a36a0e408c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_git_graph_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 316,
+      "lines": 11,
+      "sha256": "da908fa47302d1327dc871c4c9a61e5ea51a33bafbb30e57eb39a02eafffb2e6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_kanban_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 303,
+      "lines": 11,
+      "sha256": "587052fcf9156919cc8c0f936dff6ec16c9c688155f082201365dbd069e1755c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_kanban_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 304,
+      "lines": 11,
+      "sha256": "50081dd8db62045f198510b6ef40eb2bd700ec08eda44aefa74370acbdd0735c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_kanban_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 294,
+      "lines": 11,
+      "sha256": "f48c29ff331b2bcd5869bdb49392e0e039073ac765c515bfc46ba6b70c3363fe",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_knowledge_graph_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 352,
+      "lines": 11,
+      "sha256": "181baa6e1de6aafc5f80d8e24544e41536cd87c6f9dbfa03f8dacf07027c80e9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_knowledge_graph_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 346,
+      "lines": 11,
+      "sha256": "44f0e4b07fe710df8b1edcf961a57cbf1632d308d86694e22f407dd718876618",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_knowledge_graph_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 336,
+      "lines": 11,
+      "sha256": "7c79ea4c24a79b0c8d4cdf44d7f14b2e31c175992536a92b178d3370163c1b3d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_pi_planning_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 333,
+      "lines": 11,
+      "sha256": "197eb570e04d71fdbf432fbf0106aa4b312886db3c095e43df07c36085490183",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_pi_planning_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 321,
+      "lines": 11,
+      "sha256": "1ad4269df9de4d33a080d5a3e3843ac94edc82968ef961a6a672d787146d9b88",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_pi_planning_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 322,
+      "lines": 11,
+      "sha256": "16d3e764e1f47adf0a62706cde2e31c042f40434151404bdf154ec86c604e34d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_portfolio_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 319,
+      "lines": 11,
+      "sha256": "8fb74330154d06196fef2b76d2a27be6e0387d27567db5404337edfd02fc3304",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_portfolio_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 320,
+      "lines": 11,
+      "sha256": "a45937b232eecff1860458cad6fbbf10c2144ff94ba7851cc14a24a70e900579",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_portfolio_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 307,
+      "lines": 11,
+      "sha256": "d9355bb6b178d3c0d466b268f730b0c7d395fdf5a2cca11e3d0a3496f3cb49c7",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_storyboard_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 338,
+      "lines": 11,
+      "sha256": "a03719ad9e1f8f0e680ef9efa5d808ab6ccf57f467f7abb438d6b05e1786a657",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_storyboard_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 318,
+      "lines": 11,
+      "sha256": "7757e5743ee82ebeb4c5b9f8339506180810cc0366923e0a32effaf78d046899",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_storyboard_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 315,
+      "lines": 11,
+      "sha256": "62882f17ae6e673284273c8599405fdf17cdeb5a39b1987c6b06fcd80843ba22",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_storyboard_detail_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 346,
+      "lines": 11,
+      "sha256": "35763c3104140dd6882f0dad770887f10e988da89aca3716f992c2866ec6f16f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_storyboard_detail_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 320,
+      "lines": 11,
+      "sha256": "021e1b1232f1e5c18f210002bd8ea3338cae2dde124fc041b6b542b87fa899d5",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_storyboard_detail_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 322,
+      "lines": 11,
+      "sha256": "105dd97b76b66ef4eaa7ee8fd6eaf55532dd2f9bf282df359762f38330cad6ae",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_terminal_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 332,
+      "lines": 11,
+      "sha256": "b777e224d3cd804b1aebe4fc6d17d5b88007c30b5d3c0daca134ce6ab269b3d2",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_terminal_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 304,
+      "lines": 11,
+      "sha256": "91f6db58105fe8a2f11dabce7dbbae7f97d55033011a99391f37fc927e59bea6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_terminal_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 319,
+      "lines": 11,
+      "sha256": "b7f156ecdc303ac1520860dd9e7651d5371646cffa51f6911227c0c1d61dfe3f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_timeline_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 309,
+      "lines": 11,
+      "sha256": "0d30a560e6cec52208c5f69ed1e4c4a2f03c2447b871e0d2c7372e1e073bdb3e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_timeline_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 302,
+      "lines": 11,
+      "sha256": "b420148836c4b1801fda9b37fb83c5083d26f85f6bcdfb40a74fefcb478b63ce",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_timeline_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 310,
+      "lines": 11,
+      "sha256": "407007f80a618effaf1cbb803c4a496379514e407cfbe187925aa4435aad651e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_webui_pm_workspace_default_desktop.yaml",
+      "role": "compact_slice",
+      "bytes": 363,
+      "lines": 11,
+      "sha256": "a707fa3dd0351465bfe86554968dca7370a822644c57efd76526a78cff5716c6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_webui_pm_workspace_default_mobile.yaml",
+      "role": "compact_slice",
+      "bytes": 361,
+      "lines": 11,
+      "sha256": "ac3147214c8b744acec178f875505044810a504f4530ab487ff4c6d58aaec455",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/layout/ds_webui_pm_workspace_default_tablet.yaml",
+      "role": "compact_slice",
+      "bytes": 361,
+      "lines": 11,
+      "sha256": "bea15685530d0e82faea38702b257d1aeab7e4a15258f18ca47f9a3074b8bb4b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_approval_approve.yaml",
+      "role": "compact_slice",
+      "bytes": 689,
+      "lines": 25,
+      "sha256": "bde2784563dbf2c869bec066a801e1b9dcf9d6f3f790f4606e46657a321954cb",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_board_navigation.yaml",
+      "role": "compact_slice",
+      "bytes": 686,
+      "lines": 25,
+      "sha256": "93e88cab106593db7fa427b0a4bd55204a4d4d350877ac12327219ba8d77e5aa",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_doc_to_knowledge.yaml",
+      "role": "compact_slice",
+      "bytes": 725,
+      "lines": 25,
+      "sha256": "7f24c11c241e2278266b9afd837e2679849041859a3418adb04f23cbb7983de9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_explore_trace.yaml",
+      "role": "compact_slice",
+      "bytes": 699,
+      "lines": 25,
+      "sha256": "8a3736839752f8b9288095dc250bcd7ede82b1802da9c88a705f536f7ad4167e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_insufficient_evidence.yaml",
+      "role": "compact_slice",
+      "bytes": 701,
+      "lines": 25,
+      "sha256": "fb3cc9722adcd44a783eb79c1c85120aa5dc4110e234dcf00c28fe047234d5af",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_navigate_to_task.yaml",
+      "role": "compact_slice",
+      "bytes": 687,
+      "lines": 25,
+      "sha256": "9e0e5cc3219146065695b8463720742ad27101c66d3e6fafdce0e637f2b8df4d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_pi_planning_vote.yaml",
+      "role": "compact_slice",
+      "bytes": 721,
+      "lines": 25,
+      "sha256": "0b6c537ac5f267b660f0f709cf81a22e94dd1c481d53bfd1095e5b307463336a",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_quick_search.yaml",
+      "role": "compact_slice",
+      "bytes": 702,
+      "lines": 25,
+      "sha256": "ba5fbffdfce7186184e77c86648b3a40515b69d5e84511a8fb08c852c16c7728",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/journey_storyboard_detail.yaml",
+      "role": "compact_slice",
+      "bytes": 729,
+      "lines": 25,
+      "sha256": "0d691c231b4b9a06ac384593db2e6610a54e780e4ca326fee4a294dec31ab77d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_approval_gates.yaml",
+      "role": "compact_slice",
+      "bytes": 1324,
+      "lines": 41,
+      "sha256": "116ac72a05b09857b80a1cb8a9519f0ac3e20e1870458b2d9785f32a7ac3142d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_doc_viewer.yaml",
+      "role": "compact_slice",
+      "bytes": 1087,
+      "lines": 36,
+      "sha256": "fe717d6b6188415f4121e2d2f5a233812b22f1d35103bc9dbfcf6be5a03eb923",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_global_shell.yaml",
+      "role": "compact_slice",
+      "bytes": 1007,
+      "lines": 35,
+      "sha256": "c81e23e6e2eec6772a0b206409ccffd57de342f32ef67b922e715931ab2b3913",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_rtm_dashboard.yaml",
+      "role": "compact_slice",
+      "bytes": 1124,
+      "lines": 37,
+      "sha256": "fc5a4fd57c0ac6ae0978f60afc26cca9a48807d62a0a0376160208e2e7f55152",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_safe_board.yaml",
+      "role": "compact_slice",
+      "bytes": 1099,
+      "lines": 37,
+      "sha256": "16a4bd47d52d68e271df663779ecb72b2acc4669431e8354bb83dd13dad0c946",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_search_results.yaml",
+      "role": "compact_slice",
+      "bytes": 1128,
+      "lines": 36,
+      "sha256": "22edea52119e9d182d4da7615cea263026cdabfb8931900a24360870bea69b0d",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_task_detail.yaml",
+      "role": "compact_slice",
+      "bytes": 1122,
+      "lines": 36,
+      "sha256": "0c3b91f75561e1faf107544d33c70036aad7cffb8da058f1f148b0314926ff0e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_task_list.yaml",
+      "role": "compact_slice",
+      "bytes": 1116,
+      "lines": 37,
+      "sha256": "121f775112a181927a831dd355903e6787b9f87cbb1f33ca47a7b54403e1cc30",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_core_trace_explorer.yaml",
+      "role": "compact_slice",
+      "bytes": 1332,
+      "lines": 42,
+      "sha256": "f839874b457a29ad66a0ab1dfd5d0c98dce6db742a7cb0772ab2dc2c06f98990",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_approval.yaml",
+      "role": "compact_slice",
+      "bytes": 1247,
+      "lines": 40,
+      "sha256": "aba1406d053633d2ff9087ed0bc39082b92ae15893472a85d42851ea525cf59f",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_beads_traversal.yaml",
+      "role": "compact_slice",
+      "bytes": 1155,
+      "lines": 35,
+      "sha256": "4b4151b97fe070cb3f4158bec82cfaaf86e13d42bd192e4e680bd0755ef9b3d7",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_components.yaml",
+      "role": "compact_slice",
+      "bytes": 860,
+      "lines": 29,
+      "sha256": "0e9403bbac947dcd40462a5cf387a2feb5a6dccacde6ac69ff3265191b3a97d6",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_doc_viewer.yaml",
+      "role": "compact_slice",
+      "bytes": 1202,
+      "lines": 38,
+      "sha256": "530ef379bc69896bd017cbc63fc6731eb60ebfd9b617530853a8a6c6ebf50038",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_explorer.yaml",
+      "role": "compact_slice",
+      "bytes": 1071,
+      "lines": 35,
+      "sha256": "2429bbd89c6033c2ced6aafbf821714a940b076603493083c15c220ec4ccba7e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_git_graph.yaml",
+      "role": "compact_slice",
+      "bytes": 1097,
+      "lines": 36,
+      "sha256": "45777eefc0fbd3b9ed1edbbdbb143ed146fb7350bb9f7b440a3103511d42fa87",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_kanban.yaml",
+      "role": "compact_slice",
+      "bytes": 1078,
+      "lines": 36,
+      "sha256": "9a1068015d339c09c52d2baaffa88f00dd46deffd8706f52dc086fb21f2af37c",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_knowledge_graph.yaml",
+      "role": "compact_slice",
+      "bytes": 1169,
+      "lines": 36,
+      "sha256": "b0c920ff774a6938923a0cbb782bd70e4d6782a4052d583f249194604bb889c9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_pi_planning.yaml",
+      "role": "compact_slice",
+      "bytes": 1152,
+      "lines": 37,
+      "sha256": "1052704ce32dd1c42e55547315f40294498123c545c8a55b4e5c6b1f703ce834",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_portfolio.yaml",
+      "role": "compact_slice",
+      "bytes": 1079,
+      "lines": 35,
+      "sha256": "bc9029b3900aa7e66d7dfc5c0c644979b9e2e2f23f61f476d152057fa760a254",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_storyboard.yaml",
+      "role": "compact_slice",
+      "bytes": 1143,
+      "lines": 37,
+      "sha256": "73b5eb3721d7e879b659d191f7b53ed7a6e07bec08efd81afad8b84234daf9ea",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_storyboard_detail.yaml",
+      "role": "compact_slice",
+      "bytes": 1184,
+      "lines": 36,
+      "sha256": "252157112d86165c6250409bc095307ea61db13c92f07c6c8aa480ae8804aa50",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_terminal.yaml",
+      "role": "compact_slice",
+      "bytes": 1085,
+      "lines": 36,
+      "sha256": "66b7d7679347375839513a2abeb97f20917971baf9acc7b97fce157d39c228f1",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_timeline.yaml",
+      "role": "compact_slice",
+      "bytes": 1084,
+      "lines": 36,
+      "sha256": "6b77e5bb57bdf49a7f67a34ca7d5852f2278b47f76041635d2a678d2ff0a2de9",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/storyboards/route_ds_webui_pm_workspace.yaml",
+      "role": "compact_slice",
+      "bytes": 1202,
+      "lines": 37,
+      "sha256": "97385f1b87aa865b06f78caf17951c51a6c4d55bc92e99a74dc64e1602a33151",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/context-slices/summary/contract-summary.yaml",
+      "role": "compact_slice",
+      "bytes": 1141,
+      "lines": 34,
+      "sha256": "cd3bafa4f451743362d98641da2b6e6ca4bcd007aeea5c21454c544389c9c834",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/flow.md",
+      "role": "derived_machine_evidence",
+      "bytes": 24720,
+      "lines": 362,
+      "sha256": "0587ffe9830c3e7d89ee4479d269be1bc11a1043b4270b751f2e97bd396a6b95",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "index_only_load_slice_on_demand"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+      "role": "derived_machine_evidence",
+      "bytes": 32383,
+      "lines": 1017,
+      "sha256": "a8de7aa00530e443ab1c35980b0e293957e217e1a9ef7ca3a911d95d55ff1b96",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "index_only_load_slice_on_demand"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/prd-ds-conflicts.md",
+      "role": "human_review_evidence",
+      "bytes": 651,
+      "lines": 10,
+      "sha256": "48dff10caadf383548fb0fd322793d52d98de795df218fc00b715551a42ab940",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/review-diagrams.md",
+      "role": "human_review_evidence",
+      "bytes": 42944,
+      "lines": 675,
+      "sha256": "547716ba0f1646d5129157ebe8206f6f55d651f36bec5cd3c815c4f53c6ff807",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/storyboards-review.html",
+      "role": "human_review_evidence",
+      "bytes": 6354,
+      "lines": 34,
+      "sha256": "ff3c0afbc14c11bd6a1b72d01832fe380d9c1461bbce89ac5aeb0956ce94948e",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+      "role": "derived_machine_evidence",
+      "bytes": 51561,
+      "lines": 1615,
+      "sha256": "a095e061e06c8c7374df370754e07946301433084c845dd6f1b08d5b5b974360",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "index_only_load_slice_on_demand"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+      "role": "source_contract",
+      "bytes": 67606,
+      "lines": 1864,
+      "sha256": "21a2a4f1d5637a4233439f38128f86f2f9cca9d565f6dc4505acc543cfa6d810",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "index_only_load_slice_on_demand"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/artifact-index.json",
+      "role": "artifact_index",
+      "bytes": 157285,
+      "lines": 4274,
+      "sha256": "99801954d25f58b3b78ec6edf1899658e16a7a3516e0f70aaa113391348fcc6b",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_wireframes",
+        "stage1_qa",
+        "stage1_evaluator",
+        "stage2_builders"
+      ],
+      "load_policy": "safe_to_load_directly"
+    },
+    {
+      "path": "docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json",
+      "role": "preview_manifest_machine_evidence",
+      "bytes": 206959,
+      "lines": 8101,
+      "sha256": "784d24ac698f081c78484ad53370a898b46ba638c74f7263f26e848778e2a865",
+      "generated_from": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md"
+      ],
+      "allowed_consumers": [
+        "stage1_qa",
+        "stage1_evaluator",
+        "preview_script",
+        "stage2_builders"
+      ],
+      "load_policy": "index_only_load_preview_summary_or_lookup_on_demand",
+      "summary": {
+        "purpose": "Preview renderer manifest and lookup metadata for Stage 1 artifact loading",
+        "human_review_entrypoints": [
+          "docs/design/contracts/webui-and-pm-workspace/storyboards-review.html",
+          "docs/design/contracts/webui-and-pm-workspace/review-diagrams.md"
+        ],
+        "raw_manifest_policy": "Do not require humans or LLMs to inspect raw manifest; use summary and lookup paths first."
+      }
+    }
+  ],
+  "active_output_root": "docs/design/contracts/webui-and-pm-workspace",
+  "legacy_non_active_paths": [
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace",
+      "status": "legacy_non_active_ignore_for_gate_a",
+      "handling": "non_destructive_archive_marker_only",
+      "reason": "Canonical active Stage 1 contract output root is docs/design/contracts/webui-and-pm-workspace; legacy PRD-slug path must be ignored by active-root validation and must not be modified, moved, or deleted without user approval.",
+      "allowed_consumers": [
+        "stage1_qa",
+        "stage1_evaluator"
+      ],
+      "load_policy": "metadata_only_do_not_load_raw_legacy_artifacts"
+    }
+  ],
+  "validation_exclusions": [
+    {
+      "path": "docs/design/contracts/PRD-04-WebUI-and-PM-Workspace",
+      "scope": "gate_a_active_output_root",
+      "disposition": "ignore_as_legacy_non_active_root"
+    }
+  ]
+}

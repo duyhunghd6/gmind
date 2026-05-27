@@ -1,0 +1,11 @@
+screen_id: ds-storyboard-detail
+route: /design-system/storyboard/:id
+state: default
+viewport: mobile
+width: 390
+layout_type: storyboard_detail
+rule: single-column timeline
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

@@ -1,0 +1,17 @@
+ds_id: "ds:core-shell-router-outlet"
+screen_id: "core-global-shell"
+route: "gmind-serve-shell"
+route_family: "core-webui"
+screen_ds_id: "ds:global_shell"
+component_path: "layout/router_outlet"
+component_type: "router_outlet"
+layout_type: "responsive_shell"
+states:
+  - "default"
+  - "loading"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "gmind serve routes"

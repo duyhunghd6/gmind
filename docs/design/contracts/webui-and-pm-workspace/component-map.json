@@ -1,0 +1,4045 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "generated_from": [
+    "ui-contract.md",
+    "PRD-04-WebUI-and-PM-Workspace.md"
+  ],
+  "component_count": 122,
+  "components": [
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:global_shell",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:global_shell",
+      "states": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "responsive_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "core-global-shell",
+        "mermaid_state": "core_global_shell"
+      }
+    },
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:global_shell",
+      "component_path": "layout",
+      "component_type": "responsive_shell",
+      "ds_id": "ds:global_shell--core-global-shell--layout",
+      "states": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "responsive_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "core-global-shell",
+        "mermaid_state": "core_global_shell"
+      },
+      "canonical_ds_id": "ds:global_shell"
+    },
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:global_shell",
+      "component_path": "layout/header",
+      "component_type": "header",
+      "ds_id": "ds:core-shell-header",
+      "states": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:core-shell-search",
+          "label": "Search workspace",
+          "target": "/search"
+        }
+      ],
+      "bindings": [
+        "api:search"
+      ],
+      "labels": [
+        "gmind logo",
+        "global search",
+        "offline indicator"
+      ],
+      "layout_type": "responsive_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "core-global-shell",
+        "mermaid_state": "core_global_shell"
+      }
+    },
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:global_shell",
+      "component_path": "layout/sidebar_nav",
+      "component_type": "sidebar_nav",
+      "ds_id": "ds:core-shell-sidebar",
+      "states": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:core-nav-dashboard",
+          "label": "Open dashboard",
+          "target": "/"
+        },
+        {
+          "id": "action:core-nav-board",
+          "label": "Open SAFe board",
+          "target": "/board"
+        },
+        {
+          "id": "action:core-nav-tasks",
+          "label": "Open task list",
+          "target": "/tasks"
+        },
+        {
+          "id": "action:core-nav-trace",
+          "label": "Open trace explorer",
+          "target": "/trace/:id"
+        },
+        {
+          "id": "action:core-nav-docs",
+          "label": "Open docs",
+          "target": "/docs"
+        },
+        {
+          "id": "action:core-nav-approval",
+          "label": "Open approvals",
+          "target": "/approval"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "RTM Dashboard",
+        "SAFe Board",
+        "Task List",
+        "Task Detail",
+        "Trace Explorer",
+        "Doc Viewer",
+        "Approval Gates",
+        "Search Results"
+      ],
+      "layout_type": "responsive_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "core-global-shell",
+        "mermaid_state": "core_global_shell"
+      }
+    },
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:global_shell",
+      "component_path": "layout/router_outlet",
+      "component_type": "router_outlet",
+      "ds_id": "ds:core-shell-router-outlet",
+      "states": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "gmind serve routes"
+      ],
+      "labels": [
+        "active core surface"
+      ],
+      "layout_type": "responsive_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "core-global-shell",
+        "mermaid_state": "core_global_shell"
+      }
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-rtm-dashboard-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      }
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "layout",
+      "component_type": "dashboard_grid",
+      "ds_id": "ds:screen:core-rtm-dashboard-001--core-rtm-dashboard--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      },
+      "canonical_ds_id": "ds:screen:core-rtm-dashboard-001"
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "layout/kpi_row",
+      "component_type": "kpi_row",
+      "ds_id": "ds:core-rtm-kpi-row",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:coverage",
+        "api:tasks",
+        "api:gaps"
+      ],
+      "labels": [
+        "Coverage",
+        "Tasks Done",
+        "Gaps Found"
+      ],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      }
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "layout/coverage_heatmap",
+      "component_type": "coverage_heatmap",
+      "ds_id": "ds:core-rtm-coverage-heatmap",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:core-dashboard-open-section-trace",
+          "label": "Open section trace",
+          "target": "/trace/:id"
+        }
+      ],
+      "bindings": [
+        "api:coverage"
+      ],
+      "labels": [],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      }
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "layout/task_progress",
+      "component_type": "task_progress",
+      "ds_id": "ds:core-rtm-task-progress",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:tasks"
+      ],
+      "labels": [],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      }
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "layout/knowledge_graph_widget",
+      "component_type": "knowledge_graph_widget",
+      "ds_id": "ds:core-rtm-knowledge-graph-widget",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:trace-full"
+      ],
+      "labels": [],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      }
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
+      "component_path": "layout/gap_analysis",
+      "component_type": "gap_analysis",
+      "ds_id": "ds:core-rtm-gap-analysis",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:gaps"
+      ],
+      "labels": [],
+      "layout_type": "dashboard_grid",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s6"
+      ],
+      "evidence": {
+        "yaml_screen": "core-rtm-dashboard",
+        "mermaid_state": "core_rtm_dashboard"
+      }
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-safe-board-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-safe-board-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "kanban_board",
+      "source_refs": [
+        "br-prd04-s3",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-safe-board",
+        "mermaid_state": "core_safe_board"
+      }
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-safe-board-001",
+      "component_path": "layout",
+      "component_type": "kanban_board",
+      "ds_id": "ds:screen:core-safe-board-001--core-safe-board--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "kanban_board",
+      "source_refs": [
+        "br-prd04-s3",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-safe-board",
+        "mermaid_state": "core_safe_board"
+      },
+      "canonical_ds_id": "ds:screen:core-safe-board-001"
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-safe-board-001",
+      "component_path": "layout/board_level_tabs",
+      "component_type": "board_level_tabs",
+      "ds_id": "ds:core-safe-board-level-tabs",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:tasks-board"
+      ],
+      "labels": [
+        "Portfolio",
+        "ART",
+        "Team"
+      ],
+      "layout_type": "kanban_board",
+      "source_refs": [
+        "br-prd04-s3",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-safe-board",
+        "mermaid_state": "core_safe_board"
+      }
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-safe-board-001",
+      "component_path": "layout/kanban_lanes",
+      "component_type": "kanban_lanes",
+      "ds_id": "ds:core-safe-board-lanes",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:core-board-drag-card",
+          "label": "Move task status",
+          "target": "api:task-status"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "Todo",
+        "In Progress",
+        "Review",
+        "Done"
+      ],
+      "layout_type": "kanban_board",
+      "source_refs": [
+        "br-prd04-s3",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-safe-board",
+        "mermaid_state": "core_safe_board"
+      }
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-safe-board-001",
+      "component_path": "layout/rte_escalation_badge",
+      "component_type": "rte_escalation_badge",
+      "ds_id": "ds:core-safe-board-rte-badge",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:task-activity"
+      ],
+      "labels": [
+        "RTE:ESCALATED",
+        "RTE:DISCUSSING"
+      ],
+      "layout_type": "kanban_board",
+      "source_refs": [
+        "br-prd04-s3",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-safe-board",
+        "mermaid_state": "core_safe_board"
+      }
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-list-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-task-list-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "processing"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "data_table",
+      "source_refs": [
+        "br-prd04-s13"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-list",
+        "mermaid_state": "core_task_list"
+      }
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-list-001",
+      "component_path": "layout",
+      "component_type": "data_table",
+      "ds_id": "ds:screen:core-task-list-001--core-task-list--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "processing"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "data_table",
+      "source_refs": [
+        "br-prd04-s13"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-list",
+        "mermaid_state": "core_task_list"
+      },
+      "canonical_ds_id": "ds:screen:core-task-list-001"
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-list-001",
+      "component_path": "layout/filter_bar",
+      "component_type": "filter_bar",
+      "ds_id": "ds:core-task-list-filter-bar",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "processing"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:tasks"
+      ],
+      "labels": [
+        "Status",
+        "Assignee",
+        "Priority",
+        "PRD"
+      ],
+      "layout_type": "data_table",
+      "source_refs": [
+        "br-prd04-s13"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-list",
+        "mermaid_state": "core_task_list"
+      }
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-list-001",
+      "component_path": "layout/task_table",
+      "component_type": "task_table",
+      "ds_id": "ds:core-task-list-table",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "processing"
+      ],
+      "actions": [
+        {
+          "id": "action:core-task-list-row-open",
+          "label": "Open task detail",
+          "target": "/tasks/:id"
+        },
+        {
+          "id": "action:core-task-list-bulk-assign",
+          "label": "Bulk assign tasks",
+          "target": "api:tasks-update"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "ID",
+        "Title",
+        "Status",
+        "Priority",
+        "Assignee",
+        "QA"
+      ],
+      "layout_type": "data_table",
+      "source_refs": [
+        "br-prd04-s13"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-list",
+        "mermaid_state": "core_task_list"
+      }
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-task-detail-001",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      }
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "layout",
+      "component_type": "tabbed_detail",
+      "ds_id": "ds:screen:core-task-detail-001--core-task-detail--layout",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      },
+      "canonical_ds_id": "ds:screen:core-task-detail-001"
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "layout/task_header",
+      "component_type": "task_header",
+      "ds_id": "ds:core-task-detail-header",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        {
+          "id": "action:core-task-detail-save-field",
+          "label": "Save edited field",
+          "target": "api:tasks-update"
+        }
+      ],
+      "bindings": [
+        "api:tasks-detail"
+      ],
+      "labels": [
+        "Status",
+        "Priority",
+        "Assignee",
+        "QA"
+      ],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      }
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "layout/tab_panel",
+      "component_type": "tab_panel",
+      "ds_id": "ds:core-task-detail-tabs",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "Detail",
+        "Activity",
+        "Graph",
+        "Code"
+      ],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      }
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "layout/tab_panel/markdown_detail",
+      "component_type": "markdown_detail",
+      "ds_id": "ds:core-task-detail-markdown",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:tasks-detail"
+      ],
+      "labels": [],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      }
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "layout/tab_panel/activity_timeline",
+      "component_type": "activity_timeline",
+      "ds_id": "ds:core-task-detail-activity",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:task-activity"
+      ],
+      "labels": [],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      }
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-task-detail-001",
+      "component_path": "layout/tab_panel/trace_graph_widget",
+      "component_type": "trace_graph_widget",
+      "ds_id": "ds:core-task-detail-graph",
+      "states": [
+        "default",
+        "loading",
+        "not-found",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:trace-full"
+      ],
+      "labels": [],
+      "layout_type": "tabbed_detail",
+      "source_refs": [
+        "br-prd04-s11"
+      ],
+      "evidence": {
+        "yaml_screen": "core-task-detail",
+        "mermaid_state": "core_task_detail"
+      }
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-trace-explorer-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-trace-explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "graph_explorer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "core-trace-explorer",
+        "mermaid_state": "core_trace_explorer"
+      }
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-trace-explorer-001",
+      "component_path": "layout",
+      "component_type": "graph_explorer",
+      "ds_id": "ds:screen:core-trace-explorer-001--core-trace-explorer--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "graph_explorer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "core-trace-explorer",
+        "mermaid_state": "core_trace_explorer"
+      },
+      "canonical_ds_id": "ds:screen:core-trace-explorer-001"
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-trace-explorer-001",
+      "component_path": "layout/trace_toolbar",
+      "component_type": "trace_toolbar",
+      "ds_id": "ds:core-trace-toolbar",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:trace-full"
+      ],
+      "labels": [
+        "Root",
+        "Depth",
+        "Node type filters"
+      ],
+      "layout_type": "graph_explorer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "core-trace-explorer",
+        "mermaid_state": "core_trace_explorer"
+      }
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-trace-explorer-001",
+      "component_path": "layout/force_graph",
+      "component_type": "force_graph",
+      "ds_id": "ds:core-trace-force-graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [
+        {
+          "id": "action:core-trace-select-node",
+          "label": "Select graph node",
+          "target": "detail panel"
+        },
+        {
+          "id": "action:core-trace-open-linked-entity",
+          "label": "Open linked entity",
+          "target": "route by node type"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "PRD",
+        "Plan",
+        "Task",
+        "Commit",
+        "Chat",
+        "PR",
+        "RTE Approval",
+        "CI Run",
+        "Code File",
+        "Agent Trace"
+      ],
+      "layout_type": "graph_explorer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "core-trace-explorer",
+        "mermaid_state": "core_trace_explorer"
+      }
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-trace-explorer-001",
+      "component_path": "layout/node_detail_panel",
+      "component_type": "node_detail_panel",
+      "ds_id": "ds:core-trace-node-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "Beads ID",
+        "Coverage",
+        "Connected nodes"
+      ],
+      "layout_type": "graph_explorer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "core-trace-explorer",
+        "mermaid_state": "core_trace_explorer"
+      }
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-doc-viewer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "document_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "core-doc-viewer",
+        "mermaid_state": "core_doc_viewer"
+      }
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "component_path": "layout",
+      "component_type": "document_viewer",
+      "ds_id": "ds:screen:core-doc-viewer-001--core-doc-viewer--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "document_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "core-doc-viewer",
+        "mermaid_state": "core_doc_viewer"
+      },
+      "canonical_ds_id": "ds:screen:core-doc-viewer-001"
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "component_path": "layout/document_tree",
+      "component_type": "document_tree",
+      "ds_id": "ds:core-doc-viewer-tree",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:docs-grouped"
+      ],
+      "labels": [
+        "Docs",
+        "Chats",
+        "Commits",
+        "RTE"
+      ],
+      "layout_type": "document_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "core-doc-viewer",
+        "mermaid_state": "core_doc_viewer"
+      }
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "component_path": "layout/document_panel",
+      "component_type": "document_panel",
+      "ds_id": "ds:core-doc-viewer-panel",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:core-doc-open-beads-trace",
+          "label": "Open beads trace",
+          "target": "/trace/:id"
+        }
+      ],
+      "bindings": [
+        "api:docs-detail"
+      ],
+      "labels": [
+        "Rendered content",
+        "Beads ID badges",
+        "Coverage indicator"
+      ],
+      "layout_type": "document_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "core-doc-viewer",
+        "mermaid_state": "core_doc_viewer"
+      }
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-approval-gates-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-approval-gates-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "approval_workspace",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-approval-gates",
+        "mermaid_state": "core_approval_gates"
+      }
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-approval-gates-001",
+      "component_path": "layout",
+      "component_type": "approval_workspace",
+      "ds_id": "ds:screen:core-approval-gates-001--core-approval-gates--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "approval_workspace",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-approval-gates",
+        "mermaid_state": "core_approval_gates"
+      },
+      "canonical_ds_id": "ds:screen:core-approval-gates-001"
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-approval-gates-001",
+      "component_path": "layout/approval_queue",
+      "component_type": "approval_queue",
+      "ds_id": "ds:core-approval-queue",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:approval-queue"
+      ],
+      "labels": [],
+      "layout_type": "approval_workspace",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-approval-gates",
+        "mermaid_state": "core_approval_gates"
+      }
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-approval-gates-001",
+      "component_path": "layout/evidence_blocks",
+      "component_type": "evidence_blocks",
+      "ds_id": "ds:core-approval-evidence-blocks",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:approval-evidence"
+      ],
+      "labels": [
+        "Tests",
+        "Diff",
+        "Beads ID",
+        "PRD",
+        "CI"
+      ],
+      "layout_type": "approval_workspace",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-approval-gates",
+        "mermaid_state": "core_approval_gates"
+      }
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-approval-gates-001",
+      "component_path": "layout/decision_controls",
+      "component_type": "decision_controls",
+      "ds_id": "ds:core-approval-decision-controls",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [
+        {
+          "id": "action:core-approval-submit-decision",
+          "label": "Submit approval decision",
+          "target": "api:approval-decision"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "Approve",
+        "Reject",
+        "Refresh evidence"
+      ],
+      "layout_type": "approval_workspace",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "core-approval-gates",
+        "mermaid_state": "core_approval_gates"
+      }
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-search-results-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:core-search-results-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "search_results",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "core-search-results",
+        "mermaid_state": "core_search_results"
+      }
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-search-results-001",
+      "component_path": "layout",
+      "component_type": "search_results",
+      "ds_id": "ds:screen:core-search-results-001--core-search-results--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "search_results",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "core-search-results",
+        "mermaid_state": "core_search_results"
+      },
+      "canonical_ds_id": "ds:screen:core-search-results-001"
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-search-results-001",
+      "component_path": "layout/search_input",
+      "component_type": "search_input",
+      "ds_id": "ds:core-search-input",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:search"
+      ],
+      "labels": [
+        "Search tasks, documents, commits, code"
+      ],
+      "layout_type": "search_results",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "core-search-results",
+        "mermaid_state": "core_search_results"
+      }
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-search-results-001",
+      "component_path": "layout/result_filters",
+      "component_type": "result_filters",
+      "ds_id": "ds:core-search-filters",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "all",
+        "doc",
+        "commit",
+        "task",
+        "adr",
+        "chat",
+        "spike"
+      ],
+      "layout_type": "search_results",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "core-search-results",
+        "mermaid_state": "core_search_results"
+      }
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "route_family": "core-webui",
+      "screen_ds_id": "ds:screen:core-search-results-001",
+      "component_path": "layout/result_list",
+      "component_type": "result_list",
+      "ds_id": "ds:core-search-result-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:core-search-open-result",
+          "label": "Open selected result",
+          "target": "route by result type"
+        }
+      ],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "search_results",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "core-search-results",
+        "mermaid_state": "core_search_results"
+      }
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:terminal-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "terminal_workspace",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-terminal",
+        "mermaid_state": "ds_terminal"
+      }
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "component_path": "layout",
+      "component_type": "terminal_workspace",
+      "ds_id": "ds:screen:terminal-001--ds-terminal--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "terminal_workspace",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-terminal",
+        "mermaid_state": "ds_terminal"
+      },
+      "canonical_ds_id": "ds:screen:terminal-001"
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "component_path": "layout/scenario_tabs",
+      "component_type": "scenario_tabs",
+      "ds_id": "ds:terminal-scenario-tabs",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "Agent Console",
+        "Deploy",
+        "Debug",
+        "CI/CD"
+      ],
+      "layout_type": "terminal_workspace",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-terminal",
+        "mermaid_state": "ds_terminal"
+      }
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "component_path": "layout/terminal_line_legend",
+      "component_type": "terminal_line_legend",
+      "ds_id": "ds:terminal-line-legend",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "command",
+        "output",
+        "success",
+        "error"
+      ],
+      "layout_type": "terminal_workspace",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-terminal",
+        "mermaid_state": "ds_terminal"
+      }
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "component_path": "layout/terminal_mosaic",
+      "component_type": "terminal_mosaic",
+      "ds_id": "ds:terminal-mosaic-2x2",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:agent-sessions",
+        "api:ci-runs",
+        "api:task-activity",
+        "API-streamed logs only"
+      ],
+      "labels": [
+        "Claude-01 Storage",
+        "Claude-02 CLI",
+        "Claude-03 CI",
+        "QA-Reviewer"
+      ],
+      "layout_type": "terminal_workspace",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-terminal",
+        "mermaid_state": "ds_terminal"
+      }
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-portfolio-view",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "br-ds-portfolio-view",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "executive_portfolio",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-portfolio",
+        "mermaid_state": "ds_portfolio"
+      }
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-portfolio-view",
+      "component_path": "layout",
+      "component_type": "executive_portfolio",
+      "ds_id": "br-ds-portfolio-view--ds-portfolio--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "executive_portfolio",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-portfolio",
+        "mermaid_state": "ds_portfolio"
+      },
+      "canonical_ds_id": "br-ds-portfolio-view"
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-portfolio-view",
+      "component_path": "layout/portfolio_table",
+      "component_type": "portfolio_table",
+      "ds_id": "ds:portfolio-executive-table",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:portfolio-epics",
+        "api:portfolio-task-epics"
+      ],
+      "labels": [
+        "Epic ID",
+        "owner",
+        "progress",
+        "budget",
+        "status",
+        "forecast"
+      ],
+      "layout_type": "executive_portfolio",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-portfolio",
+        "mermaid_state": "ds_portfolio"
+      }
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-portfolio-view",
+      "component_path": "layout/roadmap",
+      "component_type": "roadmap",
+      "ds_id": "ds:portfolio-roadmap-2026",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "Q1 2026",
+        "Q2 2026",
+        "Q3 2026"
+      ],
+      "layout_type": "executive_portfolio",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-portfolio",
+        "mermaid_state": "ds_portfolio"
+      }
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-pi-planning",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "br-ds-pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "pi_planning_workspace",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-pi-planning",
+        "mermaid_state": "ds_pi_planning"
+      }
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-pi-planning",
+      "component_path": "layout",
+      "component_type": "pi_planning_workspace",
+      "ds_id": "br-ds-pi-planning--ds-pi-planning--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "pi_planning_workspace",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-pi-planning",
+        "mermaid_state": "ds_pi_planning"
+      },
+      "canonical_ds_id": "br-ds-pi-planning"
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-pi-planning",
+      "component_path": "layout/strategic_sandbox",
+      "component_type": "strategic_sandbox",
+      "ds_id": "ds:pi-strategic-sandbox",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:pi-save-plan",
+          "label": "Save PI plan",
+          "target": "api:pi-plan"
+        }
+      ],
+      "bindings": [
+        "api:pi-features"
+      ],
+      "labels": [
+        "drag/drop capacity"
+      ],
+      "layout_type": "pi_planning_workspace",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-pi-planning",
+        "mermaid_state": "ds_pi_planning"
+      }
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-pi-planning",
+      "component_path": "layout/business_value_scoring",
+      "component_type": "business_value_scoring",
+      "ds_id": "ds:pi-business-value-scoring",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "Business Value",
+        "capacity impact"
+      ],
+      "layout_type": "pi_planning_workspace",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-pi-planning",
+        "mermaid_state": "ds_pi_planning"
+      }
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-pi-planning",
+      "component_path": "layout/confidence_vote",
+      "component_type": "confidence_vote",
+      "ds_id": "ds:pi-confidence-vote",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:pi-submit-confidence-vote",
+          "label": "Submit confidence vote",
+          "target": "api:pi-confidence-vote"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "layout_type": "pi_planning_workspace",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-pi-planning",
+        "mermaid_state": "ds_pi_planning"
+      }
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "route_family": "showcase",
+      "screen_ds_id": "br-ds-pi-planning",
+      "component_path": "layout/roam_board",
+      "component_type": "roam_board",
+      "ds_id": "ds:pi-roam-board",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:pi-risks"
+      ],
+      "labels": [
+        "Resolved",
+        "Owned",
+        "Accepted",
+        "Mitigated",
+        "Unassigned"
+      ],
+      "layout_type": "pi_planning_workspace",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-pi-planning",
+        "mermaid_state": "ds_pi_planning"
+      }
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:git-graph-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "git_graph_scenarios",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-git-graph",
+        "mermaid_state": "ds_git_graph"
+      }
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "component_path": "layout",
+      "component_type": "git_graph_scenarios",
+      "ds_id": "ds:screen:git-graph-001--ds-git-graph--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "git_graph_scenarios",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-git-graph",
+        "mermaid_state": "ds_git_graph"
+      },
+      "canonical_ds_id": "ds:screen:git-graph-001"
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "component_path": "layout/hash_scenario_tabs",
+      "component_type": "hash_scenario_tabs",
+      "ds_id": "ds:git-graph-scenario-tabs",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:git-graph-scenario",
+        "api:trace-git"
+      ],
+      "labels": [
+        "gitflow",
+        "multi-agent",
+        "hotfix",
+        "release-train",
+        "monorepo",
+        "beads-prd-trace",
+        "beads-deadlock",
+        "beads-ds-comp",
+        "beads-traversal",
+        "beads-sprint-review"
+      ],
+      "layout_type": "git_graph_scenarios",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-git-graph",
+        "mermaid_state": "ds_git_graph"
+      }
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "component_path": "layout/branch_graph",
+      "component_type": "branch_graph",
+      "ds_id": "ds:git-graph-canvas",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "branches",
+        "commits",
+        "connections",
+        "branch tags"
+      ],
+      "layout_type": "git_graph_scenarios",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-git-graph",
+        "mermaid_state": "ds_git_graph"
+      }
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:kanban-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "showcase_kanban",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-kanban",
+        "mermaid_state": "ds_kanban"
+      }
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "component_path": "layout",
+      "component_type": "showcase_kanban",
+      "ds_id": "ds:screen:kanban-001--ds-kanban--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "showcase_kanban",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-kanban",
+        "mermaid_state": "ds_kanban"
+      },
+      "canonical_ds_id": "ds:screen:kanban-001"
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "component_path": "layout/hash_board_selector",
+      "component_type": "hash_board_selector",
+      "ds_id": "ds:kanban-board-selector",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:tasks-board"
+      ],
+      "labels": [
+        "sprint",
+        "release",
+        "bug-triage"
+      ],
+      "layout_type": "showcase_kanban",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-kanban",
+        "mermaid_state": "ds_kanban"
+      }
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "component_path": "layout/drag_drop_cards",
+      "component_type": "drag_drop_cards",
+      "ds_id": "ds:kanban-drag-drop-cards",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:kanban-update-card-status",
+          "label": "Update card status",
+          "target": "api:task-status"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "WIP badges",
+        "total stats",
+        "done stats",
+        "progress stats"
+      ],
+      "layout_type": "showcase_kanban",
+      "source_refs": [
+        "br-prd04-s3"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-kanban",
+        "mermaid_state": "ds_kanban"
+      }
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:knowledge-graph-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:knowledge-graph-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "client_only_graph_viewer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-knowledge-graph",
+        "mermaid_state": "ds_knowledge_graph"
+      }
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:knowledge-graph-001",
+      "component_path": "layout",
+      "component_type": "client_only_graph_viewer",
+      "ds_id": "ds:screen:knowledge-graph-001--ds-knowledge-graph--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "client_only_graph_viewer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-knowledge-graph",
+        "mermaid_state": "ds_knowledge_graph"
+      },
+      "canonical_ds_id": "ds:screen:knowledge-graph-001"
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:knowledge-graph-001",
+      "component_path": "layout/sigma_graphology_viewer",
+      "component_type": "sigma_graphology_viewer",
+      "ds_id": "ds:knowledge-graph-sigma-viewer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:trace-full",
+        "api:graph-presets"
+      ],
+      "labels": [
+        "client-only viewer",
+        "simple preset",
+        "ecosystem preset",
+        "sprint preset"
+      ],
+      "layout_type": "client_only_graph_viewer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-knowledge-graph",
+        "mermaid_state": "ds_knowledge_graph"
+      }
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:knowledge-graph-001",
+      "component_path": "layout/selected_node_banner",
+      "component_type": "selected_node_banner",
+      "ds_id": "ds:knowledge-graph-selected-node-banner",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "client_only_graph_viewer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-knowledge-graph",
+        "mermaid_state": "ds_knowledge_graph"
+      }
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:knowledge-graph-001",
+      "component_path": "layout/graph_legend_stats",
+      "component_type": "graph_legend_stats",
+      "ds_id": "ds:knowledge-graph-legend-stats",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "node legend",
+        "edge legend",
+        "stats"
+      ],
+      "layout_type": "client_only_graph_viewer",
+      "source_refs": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-knowledge-graph",
+        "mermaid_state": "ds_knowledge_graph"
+      }
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:approval-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      }
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "layout",
+      "component_type": "approval_showcase",
+      "ds_id": "ds:screen:approval-001--ds-approval--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      },
+      "canonical_ds_id": "ds:screen:approval-001"
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "layout/status_toggles",
+      "component_type": "status_toggles",
+      "ds_id": "ds:approval-status-toggles",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      }
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "layout/escalated_badge",
+      "component_type": "escalated_badge",
+      "ds_id": "ds:approval-escalated-badge",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      }
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "layout/evidence_blocks",
+      "component_type": "evidence_blocks",
+      "ds_id": "ds:approval-evidence-blocks",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:approval-evidence"
+      ],
+      "labels": [
+        "Tests",
+        "Diff",
+        "Beads ID",
+        "PRD",
+        "CI"
+      ],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      }
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "layout/rtm_matrix",
+      "component_type": "rtm_matrix",
+      "ds_id": "ds:approval-rtm-matrix",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      }
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:approval-001",
+      "component_path": "layout/coverage_heatmap",
+      "component_type": "coverage_heatmap",
+      "ds_id": "ds:approval-coverage-heatmap",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient-evidence"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:coverage"
+      ],
+      "labels": [],
+      "layout_type": "approval_showcase",
+      "source_refs": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-approval",
+        "mermaid_state": "ds_approval"
+      }
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:timeline-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "timeline_workspace",
+      "source_refs": [
+        "br-prd04-s1",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-timeline",
+        "mermaid_state": "ds_timeline"
+      }
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "component_path": "layout",
+      "component_type": "timeline_workspace",
+      "ds_id": "ds:screen:timeline-001--ds-timeline--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "timeline_workspace",
+      "source_refs": [
+        "br-prd04-s1",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-timeline",
+        "mermaid_state": "ds_timeline"
+      },
+      "canonical_ds_id": "ds:screen:timeline-001"
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "component_path": "layout/file_lease_indicators",
+      "component_type": "file_lease_indicators",
+      "ds_id": "ds:timeline-file-lease-indicators",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:file-leases"
+      ],
+      "labels": [
+        "unlocked",
+        "locked",
+        "expiring",
+        "expired"
+      ],
+      "layout_type": "timeline_workspace",
+      "source_refs": [
+        "br-prd04-s1",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-timeline",
+        "mermaid_state": "ds_timeline"
+      }
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "component_path": "layout/activity_feed",
+      "component_type": "activity_feed",
+      "ds_id": "ds:timeline-activity-feed",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:activity",
+        "api:task-activity"
+      ],
+      "labels": [],
+      "layout_type": "timeline_workspace",
+      "source_refs": [
+        "br-prd04-s1",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-timeline",
+        "mermaid_state": "ds_timeline"
+      }
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "component_path": "layout/sprint_day_timeline",
+      "component_type": "sprint_day_timeline",
+      "ds_id": "ds:timeline-sprint-day",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "timeline_workspace",
+      "source_refs": [
+        "br-prd04-s1",
+        "br-prd04-s8"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-timeline",
+        "mermaid_state": "ds_timeline"
+      }
+    },
+    {
+      "screen_id": "ds-components",
+      "route": "/design-system/components",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:components-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:components-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "component_catalog",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-components",
+        "mermaid_state": "ds_components"
+      }
+    },
+    {
+      "screen_id": "ds-components",
+      "route": "/design-system/components",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:components-001",
+      "component_path": "layout",
+      "component_type": "component_catalog",
+      "ds_id": "ds:screen:components-001--ds-components--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "component_catalog",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-components",
+        "mermaid_state": "ds_components"
+      },
+      "canonical_ds_id": "ds:screen:components-001"
+    },
+    {
+      "screen_id": "ds-components",
+      "route": "/design-system/components",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:components-001",
+      "component_path": "layout/catalog_sections",
+      "component_type": "catalog_sections",
+      "ds_id": "ds:components-catalog-sections",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "actions": [
+        {
+          "id": "action:components-hash-scroll",
+          "label": "Scroll to component section",
+          "target": "hash anchor"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "Buttons",
+        "Badges/Status",
+        "Progress",
+        "Avatar Stack",
+        "Modal",
+        "Dropdown",
+        "Accordion",
+        "Tab Panel",
+        "Data Table",
+        "Tooltip",
+        "Code Block",
+        "Cards",
+        "Prompt Card",
+        "Section Labels",
+        "Status Dots",
+        "Skeleton",
+        "Empty State",
+        "Error Banner"
+      ],
+      "layout_type": "component_catalog",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-components",
+        "mermaid_state": "ds_components"
+      }
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:doc-viewer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "github_like_doc_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-doc-viewer",
+        "mermaid_state": "ds_doc_viewer"
+      }
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "component_path": "layout",
+      "component_type": "github_like_doc_viewer",
+      "ds_id": "ds:screen:doc-viewer-001--ds-doc-viewer--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "github_like_doc_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-doc-viewer",
+        "mermaid_state": "ds_doc_viewer"
+      },
+      "canonical_ds_id": "ds:screen:doc-viewer-001"
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "component_path": "layout/github_like_tree",
+      "component_type": "github_like_tree",
+      "ds_id": "ds:doc-viewer-github-tree",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:docs-grouped"
+      ],
+      "labels": [
+        "folders",
+        "expandable folders"
+      ],
+      "layout_type": "github_like_doc_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-doc-viewer",
+        "mermaid_state": "ds_doc_viewer"
+      }
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "component_path": "layout/selected_document_panel",
+      "component_type": "selected_document_panel",
+      "ds_id": "ds:doc-viewer-selected-panel",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:doc-viewer-open-explorer",
+          "label": "Open Explorer",
+          "target": "/design-system/explorer"
+        },
+        {
+          "id": "action:doc-viewer-open-knowledge-graph",
+          "label": "Open Knowledge Graph",
+          "target": "/design-system/knowledge-graph"
+        },
+        {
+          "id": "action:doc-viewer-open-core-trace",
+          "label": "Open Beads trace",
+          "target": "/trace/:id"
+        }
+      ],
+      "bindings": [
+        "api:docs-detail"
+      ],
+      "labels": [
+        "Beads ID badges",
+        "covered",
+        "partial",
+        "gap"
+      ],
+      "layout_type": "github_like_doc_viewer",
+      "source_refs": [
+        "br-prd04-s9"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-doc-viewer",
+        "mermaid_state": "ds_doc_viewer"
+      }
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "unified_explorer",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-explorer",
+        "mermaid_state": "ds_explorer"
+      }
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "component_path": "layout",
+      "component_type": "unified_explorer",
+      "ds_id": "ds:screen:explorer-001--ds-explorer--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "unified_explorer",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-explorer",
+        "mermaid_state": "ds_explorer"
+      },
+      "canonical_ds_id": "ds:screen:explorer-001"
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "component_path": "layout/unified_search",
+      "component_type": "unified_search",
+      "ds_id": "ds:explorer-unified-search",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:search"
+      ],
+      "labels": [],
+      "layout_type": "unified_explorer",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-explorer",
+        "mermaid_state": "ds_explorer"
+      }
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "component_path": "layout/hash_filter_select",
+      "component_type": "hash_filter_select",
+      "ds_id": "ds:explorer-filter-select",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "all",
+        "doc",
+        "commit",
+        "task",
+        "adr",
+        "chat",
+        "spike"
+      ],
+      "layout_type": "unified_explorer",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-explorer",
+        "mermaid_state": "ds_explorer"
+      }
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "component_path": "layout/result_list",
+      "component_type": "result_list",
+      "ds_id": "ds:explorer-result-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "unified_explorer",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-explorer",
+        "mermaid_state": "ds_explorer"
+      }
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "component_path": "layout/detail_sidebar",
+      "component_type": "detail_sidebar",
+      "ds_id": "ds:explorer-detail-sidebar",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "cross-links",
+        "Knowledge Graph",
+        "Beads Traversal",
+        "Doc Viewer"
+      ],
+      "layout_type": "unified_explorer",
+      "source_refs": [
+        "br-prd04-s12"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-explorer",
+        "mermaid_state": "ds_explorer"
+      }
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:beads-traversal-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      }
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "layout",
+      "component_type": "layered_dag",
+      "ds_id": "ds:screen:beads-traversal-001--ds-beads-traversal--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      },
+      "canonical_ds_id": "ds:screen:beads-traversal-001"
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "layout/layer_columns",
+      "component_type": "layer_columns",
+      "ds_id": "ds:beads-traversal-layers",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:trace-full"
+      ],
+      "labels": [
+        "PRD Sections",
+        "Plan Elements",
+        "Tasks",
+        "Commits"
+      ],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      }
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "layout/direction_toggle",
+      "component_type": "direction_toggle",
+      "ds_id": "ds:beads-traversal-direction-toggle",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "forward",
+        "reverse"
+      ],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      }
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "layout/selected_linked_highlighting",
+      "component_type": "selected_linked_highlighting",
+      "ds_id": "ds:beads-traversal-linked-highlighting",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      }
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "layout/traversal_detail_sidebar",
+      "component_type": "traversal_detail_sidebar",
+      "ds_id": "ds:beads-traversal-detail-sidebar",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "satisfies",
+        "implements",
+        "committed-for"
+      ],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      }
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:beads-traversal-001",
+      "component_path": "layout/legend_stats",
+      "component_type": "legend_stats",
+      "ds_id": "ds:beads-traversal-legend-stats",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "layered_dag",
+      "source_refs": [
+        "br-prd04-s10"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-beads-traversal",
+        "mermaid_state": "ds_beads_traversal"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:storyboard-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_overview",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard",
+        "mermaid_state": "ds_storyboard"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "component_path": "layout",
+      "component_type": "storyboard_overview",
+      "ds_id": "ds:screen:storyboard-001--ds-storyboard--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_overview",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard",
+        "mermaid_state": "ds_storyboard"
+      },
+      "canonical_ds_id": "ds:screen:storyboard-001"
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "component_path": "layout/journey_filter",
+      "component_type": "journey_filter",
+      "ds_id": "ds:storyboard-journey-filter",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:storyboards"
+      ],
+      "labels": [],
+      "layout_type": "storyboard_overview",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard",
+        "mermaid_state": "ds_storyboard"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "component_path": "layout/horizontal_usecase_flow",
+      "component_type": "horizontal_usecase_flow",
+      "ds_id": "ds:storyboard-usecase-flow",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_overview",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard",
+        "mermaid_state": "ds_storyboard"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "component_path": "layout/guidance_panel",
+      "component_type": "guidance_panel",
+      "ds_id": "ds:storyboard-guidance-panel",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        {
+          "id": "action:storyboard-open-real-screen",
+          "label": "Open real screen",
+          "target": "route by use case"
+        }
+      ],
+      "bindings": [],
+      "labels": [
+        "Mechanism and Action",
+        "Considerations",
+        "Investigating"
+      ],
+      "layout_type": "storyboard_overview",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard",
+        "mermaid_state": "ds_storyboard"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:storyboard-detail-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_detail",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard-detail",
+        "mermaid_state": "ds_storyboard_detail"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "component_path": "layout",
+      "component_type": "storyboard_detail",
+      "ds_id": "ds:screen:storyboard-detail-001--ds-storyboard-detail--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_detail",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard-detail",
+        "mermaid_state": "ds_storyboard_detail"
+      },
+      "canonical_ds_id": "ds:screen:storyboard-detail-001"
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "component_path": "layout/storyboard_role_summary",
+      "component_type": "storyboard_role_summary",
+      "ds_id": "ds:storyboard-detail-role-summary",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "api:storyboard-detail"
+      ],
+      "labels": [],
+      "layout_type": "storyboard_detail",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard-detail",
+        "mermaid_state": "ds_storyboard_detail"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "component_path": "layout/storyboard_step_timeline",
+      "component_type": "storyboard_step_timeline",
+      "ds_id": "ds:storyboard-detail-step-timeline",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_detail",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard-detail",
+        "mermaid_state": "ds_storyboard_detail"
+      }
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "component_path": "layout/related_usecases",
+      "component_type": "related_usecases",
+      "ds_id": "ds:storyboard-detail-related-usecases",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "storyboard_detail",
+      "source_refs": [
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-storyboard-detail",
+        "mermaid_state": "ds_storyboard_detail"
+      }
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "component_path": "screen",
+      "component_type": "screen_root",
+      "ds_id": "ds:screen:webui-pm-workspace-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "integrated_pm_workspace_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-webui-pm-workspace",
+        "mermaid_state": "ds_webui_pm_workspace"
+      },
+      "semantic_ds_id": "ds:global_shell"
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "component_path": "layout",
+      "component_type": "integrated_pm_workspace_shell",
+      "ds_id": "ds:global_shell--ds-webui-pm-workspace--layout",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [],
+      "layout_type": "integrated_pm_workspace_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-webui-pm-workspace",
+        "mermaid_state": "ds_webui_pm_workspace"
+      },
+      "semantic_screen_ds_id": "ds:global_shell",
+      "canonical_ds_id": "ds:global_shell"
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "component_path": "layout/workspace_header",
+      "component_type": "workspace_header",
+      "ds_id": "ds:webui-pm-workspace-header",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "logo",
+        "search",
+        "offline indicator"
+      ],
+      "layout_type": "integrated_pm_workspace_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-webui-pm-workspace",
+        "mermaid_state": "ds_webui_pm_workspace"
+      },
+      "semantic_screen_ds_id": "ds:global_shell"
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "component_path": "layout/workspace_sidebar",
+      "component_type": "workspace_sidebar",
+      "ds_id": "ds:webui-pm-workspace-sidebar",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [],
+      "labels": [
+        "RTM Dashboard",
+        "SAFe Board",
+        "Task List",
+        "Task Detail",
+        "Trace Explorer",
+        "Doc Viewer",
+        "Approval Gates",
+        "Search Results"
+      ],
+      "layout_type": "integrated_pm_workspace_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-webui-pm-workspace",
+        "mermaid_state": "ds_webui_pm_workspace"
+      },
+      "semantic_screen_ds_id": "ds:global_shell"
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "route_family": "showcase",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "component_path": "layout/active_surface_router",
+      "component_type": "active_surface_router",
+      "ds_id": "ds:webui-pm-workspace-active-surface-router",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": [
+        "gmind serve route mapping"
+      ],
+      "labels": [
+        "/",
+        "/board",
+        "/tasks",
+        "/tasks/:id",
+        "/trace/:id",
+        "/docs",
+        "/approval",
+        "/search"
+      ],
+      "layout_type": "integrated_pm_workspace_shell",
+      "source_refs": [
+        "br-prd04-s2",
+        "br-prd04-s8",
+        "br-prd04-s14"
+      ],
+      "evidence": {
+        "yaml_screen": "ds-webui-pm-workspace",
+        "mermaid_state": "ds_webui_pm_workspace"
+      },
+      "semantic_screen_ds_id": "ds:global_shell"
+    }
+  ],
+  "unique_ds_id_count": 122,
+  "duplicate_ds_ids": [],
+  "traceability_notes": [
+    "Screen-root ds_id values retain canonical YAML IDs; duplicated layout rows use stable ds_id suffixes and keep canonical_ds_id/semantic_ds_id fields for traceability."
+  ]
+}

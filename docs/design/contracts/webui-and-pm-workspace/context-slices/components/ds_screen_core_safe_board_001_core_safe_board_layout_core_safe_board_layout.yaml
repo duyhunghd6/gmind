@@ -1,0 +1,20 @@
+ds_id: "ds:screen:core-safe-board-001--core-safe-board--layout"
+screen_id: "core-safe-board"
+route: "/board"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-safe-board-001"
+component_path: "layout"
+component_type: "kanban_board"
+layout_type: "kanban_board"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+canonical_ds_id: "ds:screen:core-safe-board-001"

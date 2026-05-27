@@ -1,0 +1,1017 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "generated_from": [
+    "ui-contract.md"
+  ],
+  "rule_count": 72,
+  "rules": [
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "responsive_shell",
+      "rule": "240px sidebar with header search and footer sync status",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "responsive_shell",
+      "rule": "60px icon sidebar with tooltips",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-global-shell",
+      "route": "gmind-serve-shell",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "responsive_shell",
+      "rule": "hamburger overlay sidebar",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "dashboard_grid",
+      "rule": "2x2 panels below KPI row",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "dashboard_grid",
+      "rule": "two stacked rows",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-rtm-dashboard",
+      "route": "/",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "dashboard_grid",
+      "rule": "one panel per row",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "kanban_board",
+      "rule": "horizontal Portfolio, ART, and Team lanes",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "kanban_board",
+      "rule": "horizontal scroll lanes",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-safe-board",
+      "route": "/board",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "kanban_board",
+      "rule": "stacked task cards",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "data_table",
+      "rule": "full sortable table",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "data_table",
+      "rule": "hide lower-priority columns in expandable rows",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-task-list",
+      "route": "/tasks",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "data_table",
+      "rule": "card list with filter drawer",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "tabbed_detail",
+      "rule": "header fields plus tabs",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "tabbed_detail",
+      "rule": "scrollable tabs",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-task-detail",
+      "route": "/tasks/:id",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "tabbed_detail",
+      "rule": "accordion tabs",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "graph_explorer",
+      "rule": "70 percent graph canvas and 30 percent detail panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "graph_explorer",
+      "rule": "graph with bottom sheet detail",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-trace-explorer",
+      "route": "/trace/:id",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "graph_explorer",
+      "rule": "simplified tree view with full-screen detail overlay",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "document_viewer",
+      "rule": "tree and document split view",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "document_viewer",
+      "rule": "top document selector with content panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-doc-viewer",
+      "route": "/docs",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "document_viewer",
+      "rule": "document list then selected document",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "approval_workspace",
+      "rule": "evidence split view with sticky decision panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "approval_workspace",
+      "rule": "stacked evidence and decision sections",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-approval-gates",
+      "route": "/approval",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "approval_workspace",
+      "rule": "evidence cards with bottom decision bar",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "search_results",
+      "rule": "filter sidebar and grouped results",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "search_results",
+      "rule": "expandable filters above results",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "core-search-results",
+      "route": "/search",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "search_results",
+      "rule": "filter dropdown and full-width results",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "terminal_workspace",
+      "rule": "scenario tabs above 2x2 mosaic terminal layout",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "terminal_workspace",
+      "rule": "two columns then stacked terminals",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-terminal",
+      "route": "/design-system/terminal",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "terminal_workspace",
+      "rule": "one terminal per row",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "executive_portfolio",
+      "rule": "table and roadmap side by side",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "executive_portfolio",
+      "rule": "table above roadmap",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-portfolio",
+      "route": "/design-system/portfolio",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "executive_portfolio",
+      "rule": "epic cards and scrollable roadmap",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "pi_planning_workspace",
+      "rule": "sandbox, scoring, vote, and ROAM board",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "pi_planning_workspace",
+      "rule": "two stacked planning columns",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-pi-planning",
+      "route": "/design-system/pi-planning",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "pi_planning_workspace",
+      "rule": "single-column planning cards",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "git_graph_scenarios",
+      "rule": "scenario rail, graph canvas, stats panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "git_graph_scenarios",
+      "rule": "scenario select above canvas",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-git-graph",
+      "route": "/design-system/git-graph",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "git_graph_scenarios",
+      "rule": "stacked scenario list and graph summary",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "showcase_kanban",
+      "rule": "board selector and lanes",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "showcase_kanban",
+      "rule": "scrollable lanes",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-kanban",
+      "route": "/design-system/kanban",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "showcase_kanban",
+      "rule": "card list grouped by status",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "client_only_graph_viewer",
+      "rule": "Sigma.js canvas with legends and detail banner",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "client_only_graph_viewer",
+      "rule": "canvas with collapsible legends",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-knowledge-graph",
+      "route": "/design-system/knowledge-graph",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "client_only_graph_viewer",
+      "rule": "simplified graph with selected-node drawer",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "approval_showcase",
+      "rule": "approval panels, RTM, and heatmap sections",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "approval_showcase",
+      "rule": "stacked panels with sticky toggles",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-approval",
+      "route": "/design-system/approval",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "approval_showcase",
+      "rule": "accordion evidence panels",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "timeline_workspace",
+      "rule": "three timeline sections",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "timeline_workspace",
+      "rule": "stacked timeline sections",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-timeline",
+      "route": "/design-system/timeline",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "timeline_workspace",
+      "rule": "compact event list",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-components",
+      "route": "/design-system/components",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "component_catalog",
+      "rule": "section sidebar and examples grid",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-components",
+      "route": "/design-system/components",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "component_catalog",
+      "rule": "section tabs and examples",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-components",
+      "route": "/design-system/components",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "component_catalog",
+      "rule": "hash-scroll sections",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "github_like_doc_viewer",
+      "rule": "file tree with selected document panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "github_like_doc_viewer",
+      "rule": "collapsible tree above panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-doc-viewer",
+      "route": "/design-system/doc-viewer",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "github_like_doc_viewer",
+      "rule": "folder list then document detail",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "unified_explorer",
+      "rule": "search, filters, results, and detail sidebar",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "unified_explorer",
+      "rule": "detail sidebar becomes bottom panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-explorer",
+      "route": "/design-system/explorer",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "unified_explorer",
+      "rule": "results list with detail overlay",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "layered_dag",
+      "rule": "four-layer DAG with detail sidebar",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "layered_dag",
+      "rule": "layered DAG with bottom detail",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-beads-traversal",
+      "route": "/design-system/beads-traversal",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "layered_dag",
+      "rule": "layer cards with linked highlighting",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "storyboard_overview",
+      "rule": "journey filter, horizontal flow, guidance panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "storyboard_overview",
+      "rule": "flow above guidance panel",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-storyboard",
+      "route": "/design-system/storyboard",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "storyboard_overview",
+      "rule": "step list with guidance cards",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "storyboard_detail",
+      "rule": "role, journey, timeline, and related use cases",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "storyboard_detail",
+      "rule": "stacked detail sections",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-storyboard-detail",
+      "route": "/design-system/storyboard/:id",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "storyboard_detail",
+      "rule": "single-column timeline",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "state": "default",
+      "viewport": "desktop",
+      "width": 1440,
+      "layout_type": "integrated_pm_workspace_shell",
+      "rule": "header, sidebar nav, and active surface canvas",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "state": "default",
+      "viewport": "tablet",
+      "width": 1024,
+      "layout_type": "integrated_pm_workspace_shell",
+      "rule": "compact sidebar and stacked dashboard modules",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    },
+    {
+      "screen_id": "ds-webui-pm-workspace",
+      "route": "/design-system/webui-pm-workspace",
+      "state": "default",
+      "viewport": "mobile",
+      "width": 390,
+      "layout_type": "integrated_pm_workspace_shell",
+      "rule": "hamburger nav and one active surface at a time",
+      "assertions": [
+        "screen root has data-screen-id",
+        "all reusable regions expose data-ds-id",
+        "state content remains layout-matched across boundary states"
+      ]
+    }
+  ]
+}

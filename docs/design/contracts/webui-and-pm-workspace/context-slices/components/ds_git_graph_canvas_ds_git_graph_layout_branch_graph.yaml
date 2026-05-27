@@ -1,0 +1,19 @@
+ds_id: "ds:git-graph-canvas"
+screen_id: "ds-git-graph"
+route: "/design-system/git-graph"
+route_family: "showcase"
+screen_ds_id: "ds:screen:git-graph-001"
+component_path: "layout/branch_graph"
+component_type: "branch_graph"
+layout_type: "git_graph_scenarios"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

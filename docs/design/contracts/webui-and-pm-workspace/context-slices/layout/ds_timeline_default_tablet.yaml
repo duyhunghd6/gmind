@@ -1,0 +1,11 @@
+screen_id: ds-timeline
+route: /design-system/timeline
+state: default
+viewport: tablet
+width: 1024
+layout_type: timeline_workspace
+rule: stacked timeline sections
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

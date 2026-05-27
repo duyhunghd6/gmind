@@ -1,0 +1,11 @@
+screen_id: ds-doc-viewer
+route: /design-system/doc-viewer
+state: default
+viewport: mobile
+width: 390
+layout_type: github_like_doc_viewer
+rule: folder list then document detail
+assertions:
+- screen root has data-screen-id
+- all reusable regions expose data-ds-id
+- state content remains layout-matched across boundary states

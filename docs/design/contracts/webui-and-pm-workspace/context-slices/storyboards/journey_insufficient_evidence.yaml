@@ -1,0 +1,25 @@
+trajectory_id: journey-insufficient-evidence
+title: Insufficient Evidence Recovery
+source_refs:
+- br-prd04-s8
+- br-prd04-s14
+route: /approval
+screen_id: ds-approval
+journey_type: prd_journey
+steps:
+- state: insufficient-evidence
+  screen_id: core-approval-gates
+  event: API_EVIDENCE_INCOMPLETE
+  expected: navigation begins from mapped route
+- state: default
+  screen_id: ds-approval
+  event: API_SUCCESS
+  expected: target screen reaches default state
+- state: recovery
+  screen_id: ds-approval
+  event: EVENT_REFRESH_EVIDENCE
+  expected: primary journey action is recorded
+- state: error
+  screen_id: ds-approval
+  event: API_ERROR
+  expected: error recovery path supports retry or back navigation

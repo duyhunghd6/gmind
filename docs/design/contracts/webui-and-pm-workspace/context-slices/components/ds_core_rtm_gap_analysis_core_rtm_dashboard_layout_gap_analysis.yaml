@@ -1,0 +1,19 @@
+ds_id: "ds:core-rtm-gap-analysis"
+screen_id: "core-rtm-dashboard"
+route: "/"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-rtm-dashboard-001"
+component_path: "layout/gap_analysis"
+component_type: "gap_analysis"
+layout_type: "dashboard_grid"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "api:gaps"

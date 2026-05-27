@@ -1,0 +1,20 @@
+ds_id: "ds:screen:doc-viewer-001--ds-doc-viewer--layout"
+screen_id: "ds-doc-viewer"
+route: "/design-system/doc-viewer"
+route_family: "showcase"
+screen_ds_id: "ds:screen:doc-viewer-001"
+component_path: "layout"
+component_type: "github_like_doc_viewer"
+layout_type: "github_like_doc_viewer"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []
+canonical_ds_id: "ds:screen:doc-viewer-001"

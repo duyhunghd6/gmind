@@ -1,0 +1,19 @@
+ds_id: "ds:pi-roam-board"
+screen_id: "ds-pi-planning"
+route: "/design-system/pi-planning"
+route_family: "showcase"
+screen_ds_id: "br-ds-pi-planning"
+component_path: "layout/roam_board"
+component_type: "roam_board"
+layout_type: "pi_planning_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "api:pi-risks"

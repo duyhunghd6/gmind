@@ -1,0 +1,19 @@
+ds_id: "ds:core-safe-board-rte-badge"
+screen_id: "core-safe-board"
+route: "/board"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-safe-board-001"
+component_path: "layout/rte_escalation_badge"
+component_type: "rte_escalation_badge"
+layout_type: "kanban_board"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  - "api:task-activity"

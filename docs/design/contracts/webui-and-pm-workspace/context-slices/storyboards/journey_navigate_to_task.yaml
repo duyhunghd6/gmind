@@ -1,0 +1,25 @@
+trajectory_id: journey-navigate-to-task
+title: Navigate to Task
+source_refs:
+- br-prd04-s8
+- br-prd04-s14
+route: /tasks
+screen_id: core-task-detail
+journey_type: prd_journey
+steps:
+- state: route-entry
+  screen_id: core-task-list
+  event: EVENT_CORE_NAV_TASKS
+  expected: navigation begins from mapped route
+- state: default
+  screen_id: core-task-detail
+  event: API_SUCCESS
+  expected: target screen reaches default state
+- state: default
+  screen_id: core-task-detail
+  event: EVENT_CORE_TASK_LIST_ROW_OPEN
+  expected: primary journey action is recorded
+- state: error
+  screen_id: core-task-detail
+  event: API_ERROR
+  expected: error recovery path supports retry or back navigation

@@ -1,0 +1,279 @@
+{
+  "$schema": "Component Registry for @gmind/design-system",
+  "version": "1.3.0",
+  "tokens": [
+    {
+      "id": "ds-tok-colors",
+      "name": "Color Palette",
+      "file": "tokens/colors.css",
+      "description": "Bảng màu Blueprint/Sci-Fi — dark (mặc định) + light mode"
+    },
+    {
+      "id": "ds-tok-typography",
+      "name": "Typography",
+      "file": "tokens/typography.css",
+      "description": "Font DM Sans (body) + Fira Code (mono), heading scales"
+    },
+    {
+      "id": "ds-tok-spacing",
+      "name": "Spacing & Utilities",
+      "file": "tokens/spacing.css",
+      "description": "Thang khoảng cách 4px, border-radius, shadows, transitions"
+    }
+  ],
+  "components": [
+    {
+      "id": "ds-comp-card",
+      "name": "Card",
+      "file": "components/card.css",
+      "states": ["default", "hover", "active", "disabled"],
+      "variants": ["ve-card", "ve-card--hero", "ve-card--pillar"],
+      "description": "Thẻ chứa nội dung — 3 biến thể: tiêu chuẩn, hero, trụ cột"
+    },
+    {
+      "id": "ds-comp-label",
+      "name": "Section Label",
+      "file": "components/label.css",
+      "states": ["default"],
+      "variants": ["accent-cyan", "accent-teal", "accent-amber", "accent-rose"],
+      "description": "Nhãn phần — chấm tròn + uppercase mono, 4 biến thể màu"
+    },
+    {
+      "id": "ds-comp-divider",
+      "name": "Section Divider",
+      "file": "components/divider.css",
+      "states": ["default"],
+      "description": "Dải phân cách giữa các phần — biểu tượng ▼ chính giữa"
+    },
+    {
+      "id": "ds-comp-code-block",
+      "name": "Code Block",
+      "file": "components/code-block.css",
+      "states": ["default", "hover", "copied"],
+      "description": "Khối mã nguồn mono — nút Sao chép với phản hồi 2 giây"
+    },
+    {
+      "id": "ds-comp-prompt-card",
+      "name": "Prompt Card",
+      "file": "components/prompt-card.css",
+      "states": ["default", "hover", "active", "disabled"],
+      "description": "Thẻ prompt — gradient trên xuất hiện khi hover, scale khi active"
+    },
+    {
+      "id": "ds-comp-arch-layer",
+      "name": "Architecture Layer",
+      "file": "components/arch-layer.css",
+      "states": ["default", "hover", "active", "disabled"],
+      "description": "Thẻ lớp kiến trúc — số lớn mờ góc phải, glow khi hover"
+    },
+    {
+      "id": "ds-comp-path-tree",
+      "name": "Path Tree",
+      "file": "components/path-tree.css",
+      "states": ["default"],
+      "description": "Cây thư mục mono — hiển thị cấu trúc monorepo"
+    },
+    {
+      "id": "ds-comp-button",
+      "name": "Button",
+      "file": "components/button.css",
+      "states": ["default", "hover", "active", "disabled"],
+      "variants": ["btn-primary", "btn-secondary", "btn-danger", "btn-sm"],
+      "description": "Nút hành động — 3 biến thể (chính/phụ/nguy hiểm), kích thước nhỏ"
+    },
+    {
+      "id": "ds-comp-badge",
+      "name": "Badge",
+      "file": "components/badge.css",
+      "states": ["default"],
+      "variants": ["badge-cyan", "badge-teal", "badge-amber", "badge-rose"],
+      "description": "Nhãn trạng thái pill — 4 biến thể màu, mono font"
+    },
+    {
+      "id": "ds-comp-tooltip",
+      "name": "Tooltip",
+      "file": "components/tooltip.css",
+      "states": ["default", "visible"],
+      "variants": ["tooltip--top", "tooltip--bottom"],
+      "description": "Chú thích nổi — CSS-only hover trigger, mũi tên chỉ hướng"
+    },
+    {
+      "id": "ds-comp-terminal",
+      "name": "Terminal",
+      "file": "components/terminal.css",
+      "states": ["default", "typing", "success", "error"],
+      "variants": ["terminal--scanline"],
+      "description": "Cửa sổ terminal — title bar 3 dots, prompt mono, ANSI colors, cursor blink"
+    },
+    {
+      "id": "ds-comp-git-graph",
+      "name": "Git Graph",
+      "file": "components/git-graph.css",
+      "states": ["default", "hover"],
+      "variants": ["master", "hotfix", "release", "develop", "feature-1", "feature-2"],
+      "description": "Đồ thị nhánh Git — SVG dots/lines, color-coded branches, tag badges"
+    },
+    {
+      "id": "ds-comp-kanban-column",
+      "name": "Kanban Column",
+      "file": "components/kanban-column.css",
+      "states": ["default", "hover", "drag-over", "disabled"],
+      "description": "Cột Kanban — header + badge WIP + card stack + vùng thả kéo"
+    },
+    {
+      "id": "ds-comp-activity-item",
+      "name": "Activity Item",
+      "file": "components/activity-item.css",
+      "states": ["default"],
+      "variants": ["info", "success", "warning", "error"],
+      "description": "Mục nhật ký — timestamp + icon + agent + hành động, đường nối dọc"
+    },
+    {
+      "id": "ds-comp-tab-panel",
+      "name": "Tab Panel",
+      "file": "components/tab-panel.css",
+      "states": ["default", "active", "disabled"],
+      "description": "Bảng tab — tab bar ngang, underline glow, fade transition"
+    },
+    {
+      "id": "ds-comp-approval-panel",
+      "name": "Approval Panel",
+      "file": "components/approval-panel.css",
+      "states": ["pending", "approved", "rejected"],
+      "description": "Panel phê duyệt 5 phần — Test Result, Code Diff, Beads ID, PRD, CI"
+    },
+    {
+      "id": "ds-comp-rtm-row",
+      "name": "RTM Row",
+      "file": "components/rtm-row.css",
+      "states": ["default", "hover"],
+      "variants": ["covered", "gap", "partial"],
+      "description": "Hàng ma trận truy vết — PRD Section → Plan Element → Task"
+    },
+    {
+      "id": "ds-comp-heatmap-cell",
+      "name": "Heatmap Cell",
+      "file": "components/heatmap-cell.css",
+      "states": ["default", "hover"],
+      "variants": ["0", "25", "50", "75", "100"],
+      "description": "Ô heatmap — gradient coverage rose(0%) → amber(50%) → teal(100%)"
+    },
+    {
+      "id": "ds-comp-graph-node",
+      "name": "Graph Node",
+      "file": "components/graph-node.css",
+      "states": ["default", "hover", "selected", "dimmed"],
+      "variants": ["document", "task", "commit", "prd", "plan"],
+      "description": "Nút đồ thị tri thức — node types + edge styles cho Document Graph"
+    },
+    {
+      "id": "ds-comp-file-lease",
+      "name": "File Lease",
+      "file": "components/file-lease.css",
+      "states": ["unlocked", "locked", "expiring", "expired"],
+      "description": "Chỉ báo khóa tệp — icon + agent + đếm ngược, flash khi sắp hết"
+    }
+  ],
+  "layouts": [
+    {
+      "id": "ds-lay-navbar",
+      "name": "Navbar",
+      "file": "layouts/navbar.css",
+      "states": ["default", "mobile-open"],
+      "description": "Thanh điều hướng cố định — glassmorphism, chấm nhấp nháy, responsive"
+    },
+    {
+      "id": "ds-lay-footer",
+      "name": "Footer",
+      "file": "layouts/footer.css",
+      "states": ["default"],
+      "description": "Chân trang — liên kết, responsive"
+    },
+    {
+      "id": "ds-lay-grid",
+      "name": "Grid System",
+      "file": "layouts/grid.css",
+      "description": "Lưới 2-cột, 3-cột responsive + blueprint background"
+    },
+    {
+      "id": "ds-lay-glass",
+      "name": "Glassmorphism",
+      "file": "layouts/glass.css",
+      "description": "Hiệu ứng kính mờ — backdrop-filter blur"
+    },
+    {
+      "id": "ds-lay-animations",
+      "name": "Animations",
+      "file": "layouts/animations.css",
+      "description": "Hiệu ứng chuyển động — fadeUp, fadeIn, slideInRight, pulse-glow"
+    },
+    {
+      "id": "ds-lay-hero",
+      "name": "Hero Section",
+      "file": "layouts/hero.css",
+      "description": "Phần hero — gradient overlay, responsive title/subtitle, actions row"
+    },
+    {
+      "id": "ds-lay-section",
+      "name": "Section Wrapper",
+      "file": "layouts/section.css",
+      "description": "Bọc phần nội dung — max-width, padding chuẩn, compact/flush variants"
+    },
+    {
+      "id": "ds-lay-docs-layout",
+      "name": "Docs Layout",
+      "file": "layouts/docs-layout.css",
+      "description": "Bố cục tài liệu 3 cột — sidebar trái, nội dung, TOC phải"
+    },
+    {
+      "id": "ds-lay-kanban-board",
+      "name": "Kanban Board",
+      "file": "layouts/kanban-board.css",
+      "description": "Bảng Kanban — lưới cột ngang scroll-snap, header filters"
+    },
+    {
+      "id": "ds-lay-terminal-mosaic",
+      "name": "Terminal Mosaic",
+      "file": "layouts/terminal-mosaic.css",
+      "variants": ["horizontal", "vertical", "main-side"],
+      "description": "Lưới terminal 2x2 — multi-monitor view, responsive stack"
+    },
+    {
+      "id": "ds-lay-timeline",
+      "name": "Timeline",
+      "file": "layouts/timeline.css",
+      "variants": ["simple"],
+      "description": "Dòng thời gian dọc — đường nối giữa, sự kiện xen kẽ trái/phải"
+    },
+    {
+      "id": "ds-lay-split-panel",
+      "name": "Split Panel",
+      "file": "layouts/split-panel.css",
+      "variants": ["50-50", "30-70", "70-30", "40-60", "60-40", "divider"],
+      "description": "Bố cục 2 panel — tỉ lệ tùy chỉnh, divider, responsive stack"
+    }
+  ]
+}
+@import "tailwindcss";
+@import "../../../../packages/design-system/index.css";
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "Fira Code", monospace;
+
+  --color-blueprint-line: rgba(56, 189, 248, 0.15);
+  --color-accent-cyan: #0ea5e9;
+  --color-accent-cyan-dim: rgba(14, 165, 233, 0.1);
+  --color-accent-teal: #14b8a6;
+  --color-accent-teal-dim: rgba(20, 184, 166, 0.1);
+  --color-accent-amber: #f59e0b;
+  --color-accent-amber-dim: rgba(245, 158, 11, 0.1);
+
+  --radius-custom: 6px;
+}
+
+html {
+  scroll-behavior: smooth;
+}

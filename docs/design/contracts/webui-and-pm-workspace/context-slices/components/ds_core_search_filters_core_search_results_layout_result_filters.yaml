@@ -1,0 +1,19 @@
+ds_id: "ds:core-search-filters"
+screen_id: "core-search-results"
+route: "/search"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-search-results-001"
+component_path: "layout/result_filters"
+component_type: "result_filters"
+layout_type: "search_results"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+actions:
+  []
+bindings:
+  []

@@ -1,0 +1,20 @@
+ds_id: "ds:core-approval-evidence-blocks"
+screen_id: "core-approval-gates"
+route: "/approval"
+route_family: "core-webui"
+screen_ds_id: "ds:screen:core-approval-gates-001"
+component_path: "layout/evidence_blocks"
+component_type: "evidence_blocks"
+layout_type: "approval_workspace"
+states:
+  - "default"
+  - "loading"
+  - "empty"
+  - "error"
+  - "offline"
+  - "forbidden"
+  - "insufficient-evidence"
+actions:
+  []
+bindings:
+  - "api:approval-evidence"
