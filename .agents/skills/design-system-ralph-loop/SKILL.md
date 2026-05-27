@@ -1,3 +1,9 @@
+---
+name: design-system-ralph-loop
+description: Unified schema-driven Ralph Loop command for design-system UI workflows. Use action=init, auto, stage1, stage2, preview, or validate-mermaid.
+argument-hint: "<action=init|auto|stage1|stage2|preview|validate-mermaid> <prd-path|contract-path> [feature-name]"
+---
+
 <!-- beads-id: br-skill-design-system-ralph-loop -->
 
 # Design System Ralph Loop
@@ -146,8 +152,6 @@ The validator extracts fenced `mermaid` blocks from Markdown, rejects standalone
 <!-- beads-id: br-skill-ralph-loop-stage-2 -->
 
 Use after Gate A approval.
-
-**Integration Note:** When implementing the WebUI PM Workspace (PRD: `"webui-and-pm-workspace"`), the Stage 2 entry point and final Hi-Fi output destination MUST be `apps/website/src/app/design-system/webui-pm-workspace/page.tsx`.
 
 Preconditions:
 

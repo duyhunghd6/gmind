@@ -23,6 +23,11 @@ You will receive:
 - `iteration`: Current iteration number
 - `previous_scorecard`: Previous scorecard JSON (null on iteration 1)
 
+# Feature Path Normalization
+
+Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+
 # Memory Protocol (Step 0)
 
 1. Read task board at `docs/design/pipeline-state/{feature_name}/task-board.json`.
@@ -48,7 +53,7 @@ Run AT LEAST ONE tool command or file read per pillar. No tool evidence caps tha
 Perform equivalent checks to these:
 
 ```bash
-python3 .claude/skills/design-system-ralph-loop/scripts/contract_to_ui.py \
+python3 .agents/skills/design-system-ralph-loop/scripts/contract_to_ui.py \
   --contract docs/design/contracts/{feature}/ui-contract.md \
   --out docs/design/contracts/{feature}/preview
 ```
@@ -80,7 +85,7 @@ Flag P0 when:
 
 For `flow.md`, `review-diagrams.md`, and optional `review-diagrams/*.md`:
 
-1. MUST run the reusable validator before scoring derived Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+1. MUST run the reusable validator before scoring derived Mermaid artifacts: `python3 .agents/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
 2. Verify every required Mermaid Markdown artifact has at least one non-empty fenced `mermaid` block; `flow.md` must have exactly one.
 3. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
 4. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.

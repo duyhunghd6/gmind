@@ -23,6 +23,11 @@ You will receive:
 - `iteration`: Current iteration number
 - `fix_queue`: Review-diagram-specific fixes (empty on iteration 1)
 
+# Feature Path Normalization
+
+Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+
 # Memory Protocol (Step 0 — execute BEFORE any other work)
 
 1. Read task board at `docs/design/pipeline-state/{feature_name}/task-board.json`.
@@ -78,8 +83,8 @@ You will receive:
 
 Before reporting `DONE`:
 
-1. MUST run the reusable splitter after writing Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --write`. It separates self-contained top-level subgraphs into individual fenced `mermaid` blocks and skips diagrams with shared top-level links.
-2. MUST run the reusable validator after splitting Mermaid artifacts: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
+1. MUST run the reusable splitter after writing Mermaid artifacts: `python3 .agents/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --write`. It separates self-contained top-level subgraphs into individual fenced `mermaid` blocks and skips diagrams with shared top-level links.
+2. MUST run the reusable validator after splitting Mermaid artifacts: `python3 .agents/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/review-diagrams.md`. It extracts fenced `mermaid` blocks from Markdown and validates them.
 3. Verify each required Markdown diagram artifact has at least one non-empty fenced `mermaid` block.
 4. Verify each block starts with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
 5. Reject Markdown headings, Markdown bullets, or nested code fences inside Mermaid blocks.

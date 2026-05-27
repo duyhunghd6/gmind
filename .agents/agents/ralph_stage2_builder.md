@@ -23,16 +23,21 @@ You will receive:
 - `previous_scorecard`: Previous scorecard JSON (null on iteration 1)
 - `ds_manifest`: Design System manifest
 
+# Feature Path Normalization
+
+Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+
 # Memory Protocol (Step 0)
 
 1. Read task board at `docs/design/pipeline-state/{feature_name}/task-board.json`.
 2. Read `.agents/agent-org/memories/builder.md` if it exists.
 3. Read `.agents/agent-org/org-memory.md` if it exists.
 4. Load local design skills if present to audit compliance:
-   - `.claude/skills/taste-skill/SKILL.md`
-   - `.claude/skills/redesign-skill/SKILL.md`
-   - `.claude/skills/soft-skill/SKILL.md`
-   - `.claude/skills/output-skill/SKILL.md`
+   - `.agents/skills/taste-skill/SKILL.md`
+   - `.agents/skills/redesign-skill/SKILL.md`
+   - `.agents/skills/soft-skill/SKILL.md`
+   - `.agents/skills/output-skill/SKILL.md`
 5. Only write the auditor scorecard.
 
 # What You Do — 100-Point DoD Audit

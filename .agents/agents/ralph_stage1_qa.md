@@ -22,6 +22,11 @@ You will receive:
 - `prd_path`: Path to the PRD markdown file
 - `evaluator_score`: The evaluator's reported score
 
+# Feature Path Normalization
+
+Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+
 # Phase 1: Write Test Plan
 
 Use Bash to write `docs/design/test-plans/{feature_name}-qa-stage1.md`.
@@ -110,9 +115,9 @@ PASS if every large machine artifact has a lookup/slice/review-view path and no 
 
 # Mermaid Markdown Validation Protocol
 
-For T4 and T6, MUST run the reusable validator before passing the suite: `python3 .claude/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. The validator extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
+For T4 and T6, MUST run the reusable validator before passing the suite: `python3 .agents/skills/design-system-ralph-loop/scripts/validate_mermaid_markdown.py {contract_path}/flow.md {contract_path}/review-diagrams.md`. The validator extracts fenced `mermaid` blocks from Markdown artifacts and validates them.
 
-For T6, MUST also run `python3 .claude/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --json` without `--write` before passing the suite. If `files_changed > 0`, fail T6 and route to `gen_wireframes` to split self-contained subgraphs into separate Mermaid fences.
+For T6, MUST also run `python3 .agents/skills/design-system-ralph-loop/scripts/split_mermaid_subgraphs.py {contract_path}/review-diagrams.md --json` without `--write` before passing the suite. If `files_changed > 0`, fail T6 and route to `gen_wireframes` to split self-contained subgraphs into separate Mermaid fences.
 
 1. Required Mermaid Markdown artifacts must contain at least one non-empty fenced `mermaid` block.
 2. Each block must start with a supported Mermaid diagram type such as `stateDiagram-v2` (must include `direction LR`), `flowchart`, `graph`, `sequenceDiagram`, `classDiagram`, `erDiagram`, `journey`, `gantt`, `mindmap`, `timeline`, `gitGraph`, `pie`, `quadrantChart`, or `C4Context`.
