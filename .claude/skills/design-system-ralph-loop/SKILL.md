@@ -35,6 +35,20 @@ Source-of-truth rules:
 - Mermaid artifacts must be Markdown files containing fenced `mermaid` blocks; do not create standalone `*.mmd` files.
 - Do not create hand-authored ASCII wireframes or ASCII user-flow artifacts.
 
+## Feature Naming & Output Path Rule
+
+<!-- beads-id: br-skill-ralph-loop-feature-paths -->
+
+When the PRD path is `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`, or the requested feature is WebUI PM Workspace, normalize the feature slug to `webui-and-pm-workspace`.
+
+For that feature:
+
+- Stage 1 contract output root: `docs/design/contracts/webui-and-pm-workspace`
+- Pipeline state root: `docs/design/pipeline-state/webui-and-pm-workspace`
+- Stage 2 page target: `apps/website/src/app/design-system/webui-pm-workspace/page.tsx`
+
+Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless the user explicitly requests a legacy path migration.
+
 ## Artifact Budget & Reviewability Protocol
 
 <!-- beads-id: br-skill-ralph-loop-artifact-budget -->
