@@ -40,18 +40,14 @@ To successfully run this pipeline, the system relies on a **3-Layer Agent Compre
 
 ```mermaid
 flowchart TB
-  classDef root fill:#fff3bf,stroke:#e67700,stroke-width:2px;
-  classDef workflow fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
-  classDef skill fill:#d3f9d8,stroke:#2b8a3e,stroke-width:2px;
-  classDef directive fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
 
-  Root["Level 1: Root Methodology<br/>spike-design-system-ralph-loop-agent.md<br/>Defines why, what, DoD, RFT, gates"]:::root
-  Main["Level 2: Main Orchestration<br/>gsafe-uiux-ralph-loop-antigravity.md<br/>Routes PRD through Stage 1 to Stage 2"]:::workflow
-  Stage1["Stage 1 workflow<br/>g0 to g1 to g2 to Gate A"]:::workflow
-  Stage2["Stage 2 workflow<br/>W0 to BUILD/AUDIT to Gate B"]:::workflow
-  Eval["Evaluator skill<br/>design-system-gatecheck<br/>YAML/Mermaid contracts, quality gates, scoring"]:::skill
-  Impl["Implementor skill<br/>agenticse-design-system<br/>Contract to hi-fi HTML/CSS"]:::skill
-  Directive["Agent directive<br/>Creating or modifying workflows/skills: read Generative Flow<br/>Final verification: read QA Flow"]:::directive
+  Root["Level 1: Root Methodology<br/>spike-design-system-ralph-loop-agent.md<br/>Defines why, what, DoD, RFT, gates"]
+  Main["Level 2: Main Orchestration<br/>gsafe-uiux-ralph-loop-antigravity.md<br/>Routes PRD through Stage 1 to Stage 2"]
+  Stage1["Stage 1 workflow<br/>g0 to g1 to g2 to Gate A"]
+  Stage2["Stage 2 workflow<br/>W0 to BUILD/AUDIT to Gate B"]
+  Eval["Evaluator skill<br/>design-system-gatecheck<br/>YAML/Mermaid contracts, quality gates, scoring"]
+  Impl["Implementor skill<br/>agenticse-design-system<br/>Contract to hi-fi HTML/CSS"]
+  Directive["Agent directive<br/>Creating or modifying workflows/skills: read Generative Flow<br/>Final verification: read QA Flow"]
 
   Root --> Main
   Main --> Stage1
@@ -68,18 +64,15 @@ How Agentic AI (like Antigravity) uses the Root Methodology to build the ecosyst
 
 ```mermaid
 flowchart LR
-  classDef source fill:#fff3bf,stroke:#e67700,stroke-width:2px;
-  classDef builder fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
-  classDef output fill:#d3f9d8,stroke:#2b8a3e,stroke-width:2px;
 
-  Spike["Root Methodology<br/>Core theory, DoD scoreboard,<br/>3-tier concepts, constraints"]:::source
-  Orchestration["Orchestration Builder<br/>Creates workflow markdowns"]:::builder
-  Executor["Executor Builder<br/>Creates agent skills and rules"]:::builder
-  Main["Main workflow<br/>Stage 1 to Stage 2 routing<br/>Gate A and Gate B mapping"]:::output
-  S1["Stage 1 sub-workflow<br/>g0/g1/g2 with rejection loops"]:::output
-  S2["Stage 2 sub-workflow<br/>BUILD/AUDIT refine loop"]:::output
-  Implementor["agenticse-design-system<br/>Hi-fi code generation rules<br/>Design token compliance"]:::output
-  Evaluator["design-system-gatecheck<br/>100-point DoD<br/>12-step test pipeline"]:::output
+  Spike["Root Methodology<br/>Core theory, DoD scoreboard,<br/>3-tier concepts, constraints"]
+  Orchestration["Orchestration Builder<br/>Creates workflow markdowns"]
+  Executor["Executor Builder<br/>Creates agent skills and rules"]
+  Main["Main workflow<br/>Stage 1 to Stage 2 routing<br/>Gate A and Gate B mapping"]
+  S1["Stage 1 sub-workflow<br/>g0/g1/g2 with rejection loops"]
+  S2["Stage 2 sub-workflow<br/>BUILD/AUDIT refine loop"]
+  Implementor["agenticse-design-system<br/>Hi-fi code generation rules<br/>Design token compliance"]
+  Evaluator["design-system-gatecheck<br/>100-point DoD<br/>12-step test pipeline"]
 
   Spike -->|Agent reads why and what| Orchestration
   Spike --> Executor
@@ -96,20 +89,16 @@ How Quality Assurance (Humans or QA Agents) verifies that generated execution to
 
 ```mermaid
 flowchart TB
-  classDef source fill:#fff3bf,stroke:#e67700,stroke-width:2px;
-  classDef qa fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
-  classDef pass fill:#d3f9d8,stroke:#2b8a3e,stroke-width:2px;
-  classDef fail fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
 
-  Source["Root Methodology<br/>Source of Truth"]:::source
+  Source["Root Methodology<br/>Source of Truth"]
   Question{"Did we build what<br/>we researched?"}
-  Orch["QA: Orchestration Check<br/>main + Stage 1 + Stage 2 workflows"]:::qa
-  Skills["QA: Execution Check<br/>Implementor + Evaluator skills"]:::qa
+  Orch["QA: Orchestration Check<br/>main + Stage 1 + Stage 2 workflows"]
+  Skills["QA: Execution Check<br/>Implementor + Evaluator skills"]
   OrchChecks["Verify dispatch, rejection loops,<br/>W0 Plan Gate, BUILD/AUDIT loop,<br/>Gate A/B blockers"]
   SkillChecks["Verify YAML/Mermaid contract handoff,<br/>tool budget, exact 100-point DoD,<br/>P0/P1/P2 mechanics, Gate A storyboards"]
   Final{"All mappings<br/>match spike?"}
-  Pass["Final QA Pass<br/>Ecosystem certified compliant"]:::pass
-  Fail["Return fixes to workflow or skill owner"]:::fail
+  Pass["Final QA Pass<br/>Ecosystem certified compliant"]
+  Fail["Return fixes to workflow or skill owner"]
 
   Source --> Question
   Question --> Orch
@@ -145,34 +134,30 @@ The loop iterates until the implementation achieves a strict convergence thresho
 
 ```mermaid
 graph TD
-    classDef stage fill:#f8f9fa,stroke:#ced4da,stroke-width:2px,stroke-dasharray: 5 5;
-    classDef gate fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
-    classDef agent fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
-    classDef score fill:#fff3bf,stroke:#e67700,stroke-width:2px;
 
     RawPRD[Raw PRD Text] --> G0[Step 0: Intake & Validate]
 
     subgraph Stage1 ["Stage 1: Low-Fi Contract Ralph Loop (RFT)"]
-        G0 --> Gen["GENERATE: g1 (YAML View + Mermaid Logic) + g2 (Compile)"]:::agent
-        Gen --> S1Eval["EVALUATE: Contract Quality Score (0-100)\n5-Pillar Scoring Engine"]:::score
+        G0 --> Gen["GENERATE: g1 (YAML View + Mermaid Logic) + g2 (Compile)"]
+        Gen --> S1Eval["EVALUATE: Contract Quality Score (0-100)\n5-Pillar Scoring Engine"]
         S1Eval --> S1Conv{"Score >= 90\n& 0 AMBIGUOUS?"}
 
         S1Conv -- "NO\n(Prioritized Fix Queue)" --> Gen
-        S1Conv -- "YES / STALL / TIMEOUT" --> GateA{Gate A: Human UX Concept Approval}:::gate
+        S1Conv -- "YES / STALL / TIMEOUT" --> GateA{Gate A: Human UX Concept Approval}
 
         GateA -- "REJECT_FIX_CONTRACT\n(Tweak Layout)" --> Gen
-        GateA -- "REJECT_FIX_PRD\n(Missing/Bad Requirements)" --> PRDWriter[Agent Fixes & Completes PRD]:::agent
+        GateA -- "REJECT_FIX_PRD\n(Missing/Bad Requirements)" --> PRDWriter[Agent Fixes & Completes PRD]
         PRDWriter --> G0
     end
 
     GateA -- "APPROVE" --> W0[W0: Plan Declaration Gate]
 
     subgraph Stage2 ["Stage 2: Hi-Fi Implementation Ralph Loop (RFT)"]
-        W0 --> Build["BUILD: Implementor Agent (W1→W2)"]:::agent
-        Build --> BrowserRender["RENDER: Browser Agent\nCapture Built UI Screenshot"]:::agent
-        BrowserRender --> DSBaseline["DS BASELINE: Browser Agent\nCapture Live DS Showcase"]:::agent
-        DSBaseline --> Eval["AUDIT: Evaluator Agent (g3→g8)\n100-pt DoD Scoring Engine"]:::score
-        Eval --> QADiff["QA: Visual Diff\nBuilt UI vs Live DS"]:::score
+        W0 --> Build["BUILD: Implementor Agent (W1→W2)"]
+        Build --> BrowserRender["RENDER: Browser Agent\nCapture Built UI Screenshot"]
+        BrowserRender --> DSBaseline["DS BASELINE: Browser Agent\nCapture Live DS Showcase"]
+        DSBaseline --> Eval["AUDIT: Evaluator Agent (g3→g8)\n100-pt DoD Scoring Engine"]
+        Eval --> QADiff["QA: Visual Diff\nBuilt UI vs Live DS"]
         QADiff --> Score{"Score >= 95\n& Zero P0?"}
 
         Score -- "NO\n(Prioritized Fix Queue)" --> Build
@@ -182,11 +167,9 @@ graph TD
 
     AutoQA -- "Missing UI States Discovered" --> PRDWriter
 
-    AutoQA -- "100% Covered" --> GateB{Gate B: Final Human Approval}:::gate
+    AutoQA -- "100% Covered" --> GateB{Gate B: Final Human Approval}
     GateB -- "REQUEST_FIX" --> Build
     GateB -- "APPROVE" --> Merge[Merge & Deploy]
-
-    class Stage1,Stage2 stage;
 ```
 
 ### Loop Mechanics & RFT Alignment:
@@ -1326,24 +1309,19 @@ The architecture relies on the Antigravity Agent declaring explicit, sequential 
 
 ```mermaid
 flowchart TB
-  classDef gate fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px;
-  classDef agent fill:#e7f5ff,stroke:#1971c2,stroke-width:2px;
-  classDef stage fill:#f8f9fa,stroke:#495057,stroke-width:2px;
-  classDef qa fill:#d3f9d8,stroke:#2b8a3e,stroke-width:2px;
-  classDef score fill:#fff3bf,stroke:#e67700,stroke-width:2px;
 
   Human["Human Product Owner<br/>triggers execution and provides PRD"]
-  Anti["Antigravity Agent<br/>single operator using task boundaries"]:::agent
-  Base["Task 0: Optional Baseline Grounding<br/>record base scores before RFT activation"]:::stage
+  Anti["Antigravity Agent<br/>single operator using task boundaries"]
+  Base["Task 0: Optional Baseline Grounding<br/>record base scores before RFT activation"]
 
   subgraph S1["Stage 1: Low-Fi Contract Ralph Loop"]
-    G0["g0: Intake, normalize,<br/>extract beads-id, surface PRD_DS_CONFLICT"]:::agent
-    G1["Task 1A: Generate<br/>ui-contract.md, compiled artifacts,<br/>conflict report"]:::agent
-    G2["Task 1B: Evaluate<br/>contract quality score,<br/>tool evidence, attribution"]:::score
+    G0["g0: Intake, normalize,<br/>extract beads-id, surface PRD_DS_CONFLICT"]
+    G1["Task 1A: Generate<br/>ui-contract.md, compiled artifacts,<br/>conflict report"]
+    G2["Task 1B: Evaluate<br/>contract quality score,<br/>tool evidence, attribution"]
     C1{"Score >= 90 and<br/>zero ambiguous rules?"}
-    GateA["Gate A: Human UX Concept Approval"]:::gate
-    FixPRD["REJECT_FIX_PRD<br/>return to PRD completeness loop"]:::agent
-    FixContract["REJECT_FIX_CONTRACT<br/>regenerate contract"]:::agent
+    GateA["Gate A: Human UX Concept Approval"]
+    FixPRD["REJECT_FIX_PRD<br/>return to PRD completeness loop"]
+    FixContract["REJECT_FIX_CONTRACT<br/>regenerate contract"]
     G0 --> G1 --> G2 --> C1
     C1 -->|No: prioritized fix queue| FixContract --> G1
     C1 -->|Ready, stalled, or timeout| GateA
@@ -1352,22 +1330,22 @@ flowchart TB
   end
 
   subgraph S2["Stage 2: Implementation and Evaluation"]
-    W0["W0 Plan Declaration Gate<br/>components, build sequence, risks, budget"]:::stage
-    Build["Task 2A: Build<br/>read DS manifest, write UI, self-verify"]:::agent
-    Render["Browser Render<br/>built UI screenshot and storyboard replay"]:::qa
-    DS["DS Baseline<br/>live design-system showcase screenshot"]:::qa
-    Audit["Task 2B: Audit<br/>DOM, visual, flow, a11y, scoring"]:::score
-    Diff["QA Visual Diff<br/>built UI vs live DS computed styles"]:::qa
+    W0["W0 Plan Declaration Gate<br/>components, build sequence, risks, budget"]
+    Build["Task 2A: Build<br/>read DS manifest, write UI, self-verify"]
+    Render["Browser Render<br/>built UI screenshot and storyboard replay"]
+    DS["DS Baseline<br/>live design-system showcase screenshot"]
+    Audit["Task 2B: Audit<br/>DOM, visual, flow, a11y, scoring"]
+    Diff["QA Visual Diff<br/>built UI vs live DS computed styles"]
     C2{"Score >= 95,<br/>QA pass, zero P0?"}
-    Agile["Task 3: Agile Refine<br/>PRD journey coverage matrix"]:::stage
-    GateB["Gate B: Structured Human Scorecard"]:::gate
+    Agile["Task 3: Agile Refine<br/>PRD journey coverage matrix"]
+    GateB["Gate B: Structured Human Scorecard"]
     Build --> Render --> DS --> Audit --> Diff --> C2
     C2 -->|No: p0/p1/p2 fix queue| Build
     C2 -->|Yes| Agile --> GateB
     GateB -->|Request fix| Build
   end
 
-  CI["CI Integration<br/>Tier 1 on push, Tier 2 on PR,<br/>scorecard artifact and branch protection"]:::qa
+  CI["CI Integration<br/>Tier 1 on push, Tier 2 on PR,<br/>scorecard artifact and branch protection"]
   Merge["Merge and Deploy"]
 
   Human --> Anti --> Base --> G0
