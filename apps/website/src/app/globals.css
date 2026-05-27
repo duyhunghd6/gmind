@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "../../../../packages/design-system/index.css";
+@import "../../../../packages/design-system/index.css" layer(base);
 
 @theme inline {
   --color-background: var(--bg);
