@@ -1,0 +1,58 @@
+trajectory_id: offline-rehydrate-conflict
+title: Offline edit rehydrates with conflict
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- EVENT_DISCONNECT
+- EVENT_RECONNECT
+- API_CONFLICT
+- EVENT_KEEP_LOCAL
+- API_SYNC_SUCCESS
+routes:
+- /tasks/:id
+- /design-system/webui-pm-workspace
+recovery_path: true
+steps:
+- order: 1
+  route: /tasks/:id
+  screen_id: screen:task-detail
+  screen_ds_id: ds:screen:task-detail-001
+  state: offline
+  event: EVENT_DISCONNECT
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_DISCONNECT
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:task-detail-001
+- order: 2
+  route: /design-system/webui-pm-workspace
+  screen_id: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: offline
+  event: EVENT_RECONNECT
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_RECONNECT
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: offline-rehydrate-conflict
+prd_journey: PRD-04 §8.1A route coverage — Offline edit rehydrates with conflict
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: offline
+ds_targets:
+- ds:screen:task-detail-001
+- ds:screen:webui-pm-workspace-showcase-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

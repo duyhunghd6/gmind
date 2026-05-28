@@ -1,0 +1,15 @@
+id: layout:screen:task-detail:error:tablet
+screen_id: screen:task-detail
+route: /tasks/:id
+screen_ds_id: ds:screen:task-detail-001
+state: error
+viewport: tablet
+width: 1024
+layout: editable task header with Detail, Activity, Graph, and Code tabs
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

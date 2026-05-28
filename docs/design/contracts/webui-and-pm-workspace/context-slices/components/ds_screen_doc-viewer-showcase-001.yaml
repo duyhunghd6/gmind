@@ -1,0 +1,22 @@
+ds_id: ds:screen:doc-viewer-showcase-001
+type: Screen
+parent_ds_id: null
+actions: []
+screen_id: screen:ds-doc-viewer
+screen_route: /design-system/doc-viewer
+screen_ds_id: ds:screen:doc-viewer-showcase-001
+prd_ds_id: ds:screen:doc-viewer-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/docs?group=source_type
+- GET /api/docs/:id
+screen_actions:
+- expand folders and select documents
+- show section status covered, partial, or gap
+- link to Explorer and Knowledge Graph

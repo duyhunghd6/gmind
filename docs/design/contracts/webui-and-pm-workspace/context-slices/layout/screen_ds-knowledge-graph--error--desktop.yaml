@@ -1,0 +1,15 @@
+id: layout:screen:ds-knowledge-graph:error:desktop
+screen_id: screen:ds-knowledge-graph
+route: /design-system/knowledge-graph
+screen_ds_id: ds:screen:knowledge-graph-showcase-001
+state: error
+viewport: desktop
+width: 1440
+layout: client-only Sigma graph viewer with preset tabs, selected-node banner, legend,
+  and stats
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

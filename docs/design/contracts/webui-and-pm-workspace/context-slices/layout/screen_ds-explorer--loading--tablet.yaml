@@ -1,0 +1,15 @@
+id: layout:screen:ds-explorer:loading:tablet
+screen_id: screen:ds-explorer
+route: /design-system/explorer
+screen_ds_id: ds:screen:explorer-showcase-001
+state: loading
+viewport: tablet
+width: 1024
+layout: unified search, type filters, result list, and detail sidebar
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

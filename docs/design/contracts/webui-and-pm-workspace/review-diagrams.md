@@ -1,675 +1,999 @@
-# Review Diagrams: WebUI & PM Workspace (Iteration 3)
 <!-- beads-id: br-design-review-diagrams-webui-pm-workspace -->
+# Stage 1 Review Diagrams: WebUI PM Workspace
 
-Derived from `ui-contract.md` YAML View Blueprint and Mermaid Logic Machine. Covers Core WebUI surfaces plus required `/design-system/*` showcase routes.
+Derived from `ui-contract.md` for Gate A review. Mermaid is embedded only in Markdown fences; no standalone `.mmd` or hand-authored ASCII artifacts are used.
+
+Coverage notes: all Core WebUI routes and all PRD-04 §8.1A showcase routes are diagrammed, including terminal, portfolio, pi-planning, git-graph, kanban, knowledge-graph, approval, timeline, components, doc-viewer, explorer, beads-traversal, storyboard overview/detail, and the webui-pm-workspace composite.
 
 ## 1. Screen Inventory and Routes
 
 ```mermaid
 flowchart LR
-    Core["Core WebUI via gmind serve"]
-    Showcase["Showcase routes in apps/website"]
-    Core --> core_global_shell["core-global-shell<br/>route: gmind-serve-shell<br/>ds_id: ds:global_shell"]
-    Core --> core_rtm_dashboard["core-rtm-dashboard<br/>route: /<br/>ds_id: ds:screen:core-rtm-dashboard-001"]
-    Core --> core_safe_board["core-safe-board<br/>route: /board<br/>ds_id: ds:screen:core-safe-board-001"]
-    Core --> core_task_list["core-task-list<br/>route: /tasks<br/>ds_id: ds:screen:core-task-list-001"]
-    Core --> core_task_detail["core-task-detail<br/>route: /tasks/:id<br/>ds_id: ds:screen:core-task-detail-001"]
-    Core --> core_trace_explorer["core-trace-explorer<br/>route: /trace/:id<br/>ds_id: ds:screen:core-trace-explorer-001"]
-    Core --> core_doc_viewer["core-doc-viewer<br/>route: /docs<br/>ds_id: ds:screen:core-doc-viewer-001"]
-    Core --> core_approval_gates["core-approval-gates<br/>route: /approval<br/>ds_id: ds:screen:core-approval-gates-001"]
-    Core --> core_search_results["core-search-results<br/>route: /search<br/>ds_id: ds:screen:core-search-results-001"]
-    Showcase --> ds_terminal["ds-terminal<br/>route: /design-system/terminal<br/>ds_id: ds:screen:terminal-001"]
-    Showcase --> ds_portfolio["ds-portfolio<br/>route: /design-system/portfolio<br/>ds_id: br-ds-portfolio-view"]
-    Showcase --> ds_pi_planning["ds-pi-planning<br/>route: /design-system/pi-planning<br/>ds_id: br-ds-pi-planning"]
-    Showcase --> ds_git_graph["ds-git-graph<br/>route: /design-system/git-graph<br/>ds_id: ds:screen:git-graph-001"]
-    Showcase --> ds_kanban["ds-kanban<br/>route: /design-system/kanban<br/>ds_id: ds:screen:kanban-001"]
-    Showcase --> ds_knowledge_graph["ds-knowledge-graph<br/>route: /design-system/knowledge-graph<br/>ds_id: ds:screen:knowledge-graph-001"]
-    Showcase --> ds_approval["ds-approval<br/>route: /design-system/approval<br/>ds_id: ds:screen:approval-001"]
-    Showcase --> ds_timeline["ds-timeline<br/>route: /design-system/timeline<br/>ds_id: ds:screen:timeline-001"]
-    Showcase --> ds_components["ds-components<br/>route: /design-system/components<br/>ds_id: ds:screen:components-001"]
-    Showcase --> ds_doc_viewer["ds-doc-viewer<br/>route: /design-system/doc-viewer<br/>ds_id: ds:screen:doc-viewer-001"]
-    Showcase --> ds_explorer["ds-explorer<br/>route: /design-system/explorer<br/>ds_id: ds:screen:explorer-001"]
-    Showcase --> ds_beads_traversal["ds-beads-traversal<br/>route: /design-system/beads-traversal<br/>ds_id: ds:screen:beads-traversal-001"]
-    Showcase --> ds_storyboard["ds-storyboard<br/>route: /design-system/storyboard<br/>ds_id: ds:screen:storyboard-001"]
-    Showcase --> ds_storyboard_detail["ds-storyboard-detail<br/>route: /design-system/storyboard/:id<br/>ds_id: ds:screen:storyboard-detail-001"]
-    Showcase --> ds_webui_pm_workspace["ds-webui-pm-workspace<br/>route: /design-system/webui-pm-workspace<br/>ds_id: ds:global_shell"]
+    Shell["Global Shell<br/>header search offline indicator sidebar footer<br/>ds:global_shell"]
+    CoreGroup["Core WebUI routes<br/>gmind serve Go REST API"]
+    ShowcaseGroup["Showcase routes<br/>apps website design-system"]
+    Shell --> CoreGroup
+    Shell --> ShowcaseGroup
+    R0["screen:rtm-dashboard<br/>/<br/>ds:screen:rtm-dashboard-001"]
+    CoreGroup --> R0
+    R1["screen:safe-board<br/>/board<br/>ds:screen:safe-board-001"]
+    CoreGroup --> R1
+    R2["screen:task-list<br/>/tasks<br/>ds:screen:task-list-001"]
+    CoreGroup --> R2
+    R3["screen:task-detail<br/>/tasks/:id<br/>ds:screen:task-detail-001"]
+    CoreGroup --> R3
+    R4["screen:trace-explorer<br/>/trace/:id<br/>ds:screen:trace-explorer-001"]
+    CoreGroup --> R4
+    R5["screen:doc-viewer<br/>/docs<br/>ds:screen:core-doc-viewer-001"]
+    CoreGroup --> R5
+    R6["screen:approval-gates<br/>/approval<br/>ds:screen:approval-gates-001"]
+    CoreGroup --> R6
+    R7["screen:search-results<br/>/search<br/>ds:screen:search-results-001"]
+    CoreGroup --> R7
+    R8["screen:ds-terminal<br/>/design-system/terminal<br/>ds:screen:terminal-showcase-001<br/>PRD DS ds:screen:terminal-001"]
+    ShowcaseGroup --> R8
+    R9["screen:ds-portfolio<br/>/design-system/portfolio<br/>ds:screen:portfolio-showcase-001<br/>PRD DS br-ds-portfolio-view"]
+    ShowcaseGroup --> R9
+    R10["screen:ds-pi-planning<br/>/design-system/pi-planning<br/>ds:screen:pi-planning-showcase-001<br/>PRD DS br-ds-pi-planning"]
+    ShowcaseGroup --> R10
+    R11["screen:ds-git-graph<br/>/design-system/git-graph<br/>ds:screen:git-graph-showcase-001<br/>PRD DS ds:screen:git-graph-001"]
+    ShowcaseGroup --> R11
+    R12["screen:ds-kanban<br/>/design-system/kanban<br/>ds:screen:kanban-showcase-001<br/>PRD DS ds:screen:kanban-001"]
+    ShowcaseGroup --> R12
+    R13["screen:ds-knowledge-graph<br/>/design-system/knowledge-graph<br/>ds:screen:knowledge-graph-showcase-001<br/>PRD DS ds:screen:knowledge-graph-001"]
+    ShowcaseGroup --> R13
+    R14["screen:ds-approval<br/>/design-system/approval<br/>ds:screen:approval-showcase-001<br/>PRD DS ds:screen:approval-001"]
+    ShowcaseGroup --> R14
+    R15["screen:ds-timeline<br/>/design-system/timeline<br/>ds:screen:timeline-showcase-001<br/>PRD DS ds:screen:timeline-001"]
+    ShowcaseGroup --> R15
+    R16["screen:ds-components<br/>/design-system/components<br/>ds:screen:components-showcase-001<br/>PRD DS ds:screen:components-001"]
+    ShowcaseGroup --> R16
+    R17["screen:ds-doc-viewer<br/>/design-system/doc-viewer<br/>ds:screen:doc-viewer-showcase-001<br/>PRD DS ds:screen:doc-viewer-001"]
+    ShowcaseGroup --> R17
+    R18["screen:ds-explorer<br/>/design-system/explorer<br/>ds:screen:explorer-showcase-001<br/>PRD DS ds:screen:explorer-001"]
+    ShowcaseGroup --> R18
+    R19["screen:ds-beads-traversal<br/>/design-system/beads-traversal<br/>ds:screen:beads-traversal-showcase-001<br/>PRD DS ds:screen:beads-traversal-001"]
+    ShowcaseGroup --> R19
+    R20["screen:ds-storyboard<br/>/design-system/storyboard<br/>ds:screen:storyboard-showcase-001<br/>PRD DS ds:screen:storyboard-001"]
+    ShowcaseGroup --> R20
+    R21["screen:ds-storyboard-detail<br/>/design-system/storyboard/:id<br/>ds:screen:storyboard-detail-showcase-001<br/>PRD DS ds:screen:storyboard-001"]
+    ShowcaseGroup --> R21
+    R22["screen:ds-webui-pm-workspace<br/>/design-system/webui-pm-workspace<br/>ds:screen:webui-pm-workspace-showcase-001<br/>PRD DS ds:global_shell"]
+    ShowcaseGroup --> R22
 ```
 
 ## 2. Per-Screen Component Hierarchy from YAML View Blueprint
 
+### screen:rtm-dashboard — ds:screen:rtm-dashboard-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_global_shell["core-global-shell | gmind-serve-shell"]
-        screen_core_global_shell["screen<br/>data-screen-id: core-global-shell<br/>ds_id: ds:global_shell"]
-        screen_core_global_shell --> layout_core_global_shell["layout: responsive_shell"]
-        layout_core_global_shell --> core_global_shell_1_header["header&lt;br/&gt;ds_id: ds:core-shell-header&lt;br/&gt;binds: api:search&lt;br/&gt;actions: action:core-shell-search"]
-        layout_core_global_shell --> core_global_shell_2_sidebar_nav["sidebar_nav&lt;br/&gt;ds_id: ds:core-shell-sidebar&lt;br/&gt;actions: action:core-nav-dashboard, action:core-nav-board"]
-        layout_core_global_shell --> core_global_shell_3_router_outlet["router_outlet&lt;br/&gt;ds_id: ds:core-shell-router-outlet&lt;br/&gt;binds: gmind serve routes"]
+flowchart TD
+    subgraph sg_screen_rtm_dashboard ["Rtm Dashboard components"]
+        direction TD
+        n_ds_screen_rtm_dashboard_001["Rtm Dashboard<br/>ds:screen:rtm-dashboard-001<br/>ScreenSurface"]
+        n_ds_rtm_dashboard_coverage_heatmap["CoverageHeatmap<br/>ds:rtm-dashboard:coverage-heatmap<br/>actions EVENT_VIEW_TRACE"]
+        n_ds_screen_rtm_dashboard_001 --> n_ds_rtm_dashboard_coverage_heatmap
+        n_ds_rtm_dashboard_task_progress["TaskProgressPanel<br/>ds:rtm-dashboard:task-progress<br/>actions EVENT_VIEW_TASK"]
+        n_ds_screen_rtm_dashboard_001 --> n_ds_rtm_dashboard_task_progress
+        n_ds_rtm_dashboard_knowledge_graph["KnowledgeGraphPanel<br/>ds:rtm-dashboard:knowledge-graph<br/>actions EVENT_VIEW_TRACE"]
+        n_ds_screen_rtm_dashboard_001 --> n_ds_rtm_dashboard_knowledge_graph
+        n_ds_rtm_dashboard_gap_analysis["GapAnalysisPanel<br/>ds:rtm-dashboard:gap-analysis<br/>actions EVENT_REFRESH"]
+        n_ds_screen_rtm_dashboard_001 --> n_ds_rtm_dashboard_gap_analysis
     end
 ```
 
+### screen:safe-board — ds:screen:safe-board-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_rtm_dashboard["core-rtm-dashboard | /"]
-        screen_core_rtm_dashboard["screen<br/>data-screen-id: core-rtm-dashboard<br/>ds_id: ds:screen:core-rtm-dashboard-001"]
-        screen_core_rtm_dashboard --> layout_core_rtm_dashboard["layout: dashboard_grid"]
-        layout_core_rtm_dashboard --> core_rtm_dashboard_1_kpi_row["kpi_row&lt;br/&gt;ds_id: ds:core-rtm-kpi-row&lt;br/&gt;binds: api:coverage, api:tasks, api:gaps"]
-        layout_core_rtm_dashboard --> core_rtm_dashboard_2_coverage_heatmap["coverage_heatmap&lt;br/&gt;ds_id: ds:core-rtm-coverage-heatmap&lt;br/&gt;binds: api:coverage&lt;br/&gt;actions: action:core-dashboard-open-section-trace"]
-        layout_core_rtm_dashboard --> core_rtm_dashboard_3_task_progress["task_progress&lt;br/&gt;ds_id: ds:core-rtm-task-progress&lt;br/&gt;binds: api:tasks"]
-        layout_core_rtm_dashboard --> core_rtm_dashboard_4_knowledge_graph_widget["knowledge_graph_widget&lt;br/&gt;ds_id: ds:core-rtm-knowledge-graph-widget&lt;br/&gt;binds: api:trace-full"]
-        layout_core_rtm_dashboard --> core_rtm_dashboard_5_gap_analysis["gap_analysis&lt;br/&gt;ds_id: ds:core-rtm-gap-analysis&lt;br/&gt;binds: api:gaps"]
+flowchart TD
+    subgraph sg_screen_safe_board ["Safe Board components"]
+        direction TD
+        n_ds_screen_safe_board_001["Safe Board<br/>ds:screen:safe-board-001<br/>ScreenSurface"]
+        n_ds_safe_board_view_switcher["BoardSwitcher<br/>ds:safe-board:view-switcher"]
+        n_ds_screen_safe_board_001 --> n_ds_safe_board_view_switcher
+        n_ds_safe_board_kanban["KanbanBoard<br/>ds:safe-board:kanban<br/>actions EVENT_MOVE_CARD, EVENT_VIEW_TASK"]
+        n_ds_screen_safe_board_001 --> n_ds_safe_board_kanban
+        n_ds_safe_board_rte_escalation_badge["RteEscalationBadge<br/>ds:safe-board:rte-escalation-badge"]
+        n_ds_screen_safe_board_001 --> n_ds_safe_board_rte_escalation_badge
     end
 ```
 
+### screen:task-list — ds:screen:task-list-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_safe_board["core-safe-board | /board"]
-        screen_core_safe_board["screen<br/>data-screen-id: core-safe-board<br/>ds_id: ds:screen:core-safe-board-001"]
-        screen_core_safe_board --> layout_core_safe_board["layout: kanban_board"]
-        layout_core_safe_board --> core_safe_board_1_board_level_tabs["board_level_tabs&lt;br/&gt;ds_id: ds:core-safe-board-level-tabs&lt;br/&gt;binds: api:tasks-board"]
-        layout_core_safe_board --> core_safe_board_2_kanban_lanes["kanban_lanes&lt;br/&gt;ds_id: ds:core-safe-board-lanes&lt;br/&gt;actions: action:core-board-drag-card"]
-        layout_core_safe_board --> core_safe_board_3_rte_escalation_badge["rte_escalation_badge&lt;br/&gt;ds_id: ds:core-safe-board-rte-badge&lt;br/&gt;binds: api:task-activity"]
+flowchart TD
+    subgraph sg_screen_task_list ["Task List components"]
+        direction TD
+        n_ds_screen_task_list_001["Task List<br/>ds:screen:task-list-001<br/>ScreenSurface"]
+        n_ds_task_list_filters["TaskFilters<br/>ds:task-list:filters"]
+        n_ds_screen_task_list_001 --> n_ds_task_list_filters
+        n_ds_task_list_table["TaskTable<br/>ds:task-list:table<br/>actions EVENT_VIEW_TASK"]
+        n_ds_screen_task_list_001 --> n_ds_task_list_table
+        n_ds_task_list_bulk_actions["BulkActionBar<br/>ds:task-list:bulk-actions<br/>actions EVENT_SAVE_BULK"]
+        n_ds_screen_task_list_001 --> n_ds_task_list_bulk_actions
     end
 ```
 
+### screen:task-detail — ds:screen:task-detail-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_task_list["core-task-list | /tasks"]
-        screen_core_task_list["screen<br/>data-screen-id: core-task-list<br/>ds_id: ds:screen:core-task-list-001"]
-        screen_core_task_list --> layout_core_task_list["layout: data_table"]
-        layout_core_task_list --> core_task_list_1_filter_bar["filter_bar&lt;br/&gt;ds_id: ds:core-task-list-filter-bar&lt;br/&gt;binds: api:tasks"]
-        layout_core_task_list --> core_task_list_2_task_table["task_table&lt;br/&gt;ds_id: ds:core-task-list-table&lt;br/&gt;actions: action:core-task-list-row-open, action:core-task-list-bulk-assign"]
+flowchart TD
+    subgraph sg_screen_task_detail ["Task Detail components"]
+        direction TD
+        n_ds_screen_task_detail_001["Task Detail<br/>ds:screen:task-detail-001<br/>ScreenSurface"]
+        n_ds_task_detail_editable_fields["EditableFieldGroup<br/>ds:task-detail:editable-fields<br/>actions EVENT_SAVE_TASK"]
+        n_ds_screen_task_detail_001 --> n_ds_task_detail_editable_fields
+        n_ds_task_detail_tabs["TaskTabs<br/>ds:task-detail:tabs<br/>actions EVENT_VIEW_TRACE, EVENT_VIEW_DOC"]
+        n_ds_screen_task_detail_001 --> n_ds_task_detail_tabs
+        n_ds_task_detail_activity["ActivityTimeline<br/>ds:task-detail:activity"]
+        n_ds_screen_task_detail_001 --> n_ds_task_detail_activity
     end
 ```
 
+### screen:trace-explorer — ds:screen:trace-explorer-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_task_detail["core-task-detail | /tasks/:id"]
-        screen_core_task_detail["screen<br/>data-screen-id: core-task-detail<br/>ds_id: ds:screen:core-task-detail-001"]
-        screen_core_task_detail --> layout_core_task_detail["layout: tabbed_detail"]
-        layout_core_task_detail --> core_task_detail_1_task_header["task_header&lt;br/&gt;ds_id: ds:core-task-detail-header&lt;br/&gt;binds: api:tasks-detail&lt;br/&gt;actions: action:core-task-detail-save-field"]
-        layout_core_task_detail --> core_task_detail_2_tab_panel["tab_panel&lt;br/&gt;ds_id: ds:core-task-detail-tabs"]
-        core_task_detail_2_tab_panel --> core_task_detail_2_1_markdown_detail["markdown_detail&lt;br/&gt;ds_id: ds:core-task-detail-markdown&lt;br/&gt;binds: api:tasks-detail"]
-        core_task_detail_2_tab_panel --> core_task_detail_2_2_activity_timeline["activity_timeline&lt;br/&gt;ds_id: ds:core-task-detail-activity&lt;br/&gt;binds: api:task-activity"]
-        core_task_detail_2_tab_panel --> core_task_detail_2_3_trace_graph_widget["trace_graph_widget&lt;br/&gt;ds_id: ds:core-task-detail-graph&lt;br/&gt;binds: api:trace-full"]
+flowchart TD
+    subgraph sg_screen_trace_explorer ["Trace Explorer components"]
+        direction TD
+        n_ds_screen_trace_explorer_001["Trace Explorer<br/>ds:screen:trace-explorer-001<br/>ScreenSurface"]
+        n_ds_trace_explorer_toolbar["TraceToolbar<br/>ds:trace-explorer:toolbar"]
+        n_ds_screen_trace_explorer_001 --> n_ds_trace_explorer_toolbar
+        n_ds_trace_explorer_graph["TraceGraphCanvas<br/>ds:trace-explorer:graph<br/>actions EVENT_VIEW_TASK, EVENT_VIEW_DOC"]
+        n_ds_screen_trace_explorer_001 --> n_ds_trace_explorer_graph
+        n_ds_trace_explorer_detail_panel["TraceDetailPanel<br/>ds:trace-explorer:detail-panel"]
+        n_ds_screen_trace_explorer_001 --> n_ds_trace_explorer_detail_panel
     end
 ```
 
+### screen:doc-viewer — ds:screen:core-doc-viewer-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_trace_explorer["core-trace-explorer | /trace/:id"]
-        screen_core_trace_explorer["screen<br/>data-screen-id: core-trace-explorer<br/>ds_id: ds:screen:core-trace-explorer-001"]
-        screen_core_trace_explorer --> layout_core_trace_explorer["layout: graph_explorer"]
-        layout_core_trace_explorer --> core_trace_explorer_1_trace_toolbar["trace_toolbar&lt;br/&gt;ds_id: ds:core-trace-toolbar&lt;br/&gt;binds: api:trace-full"]
-        layout_core_trace_explorer --> core_trace_explorer_2_force_graph["force_graph&lt;br/&gt;ds_id: ds:core-trace-force-graph&lt;br/&gt;actions: action:core-trace-select-node, action:core-trace-open-linked-entity"]
-        layout_core_trace_explorer --> core_trace_explorer_3_node_detail_panel["node_detail_panel&lt;br/&gt;ds_id: ds:core-trace-node-detail"]
+flowchart TD
+    subgraph sg_screen_doc_viewer ["Doc Viewer components"]
+        direction TD
+        n_ds_screen_core_doc_viewer_001["Doc Viewer<br/>ds:screen:core-doc-viewer-001<br/>ScreenSurface"]
+        n_ds_core_doc_viewer_tree["DocTree<br/>ds:core-doc-viewer:tree"]
+        n_ds_screen_core_doc_viewer_001 --> n_ds_core_doc_viewer_tree
+        n_ds_core_doc_viewer_content["RenderedDocContent<br/>ds:core-doc-viewer:content<br/>actions EVENT_VIEW_TRACE"]
+        n_ds_screen_core_doc_viewer_001 --> n_ds_core_doc_viewer_content
+        n_ds_core_doc_viewer_beads_links["BeadsAutoLinks<br/>ds:core-doc-viewer:beads-links"]
+        n_ds_screen_core_doc_viewer_001 --> n_ds_core_doc_viewer_beads_links
     end
 ```
 
+### screen:approval-gates — ds:screen:approval-gates-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_doc_viewer["core-doc-viewer | /docs"]
-        screen_core_doc_viewer["screen<br/>data-screen-id: core-doc-viewer<br/>ds_id: ds:screen:core-doc-viewer-001"]
-        screen_core_doc_viewer --> layout_core_doc_viewer["layout: document_viewer"]
-        layout_core_doc_viewer --> core_doc_viewer_1_document_tree["document_tree&lt;br/&gt;ds_id: ds:core-doc-viewer-tree&lt;br/&gt;binds: api:docs-grouped"]
-        layout_core_doc_viewer --> core_doc_viewer_2_document_panel["document_panel&lt;br/&gt;ds_id: ds:core-doc-viewer-panel&lt;br/&gt;binds: api:docs-detail&lt;br/&gt;actions: action:core-doc-open-beads-trace"]
+flowchart TD
+    subgraph sg_screen_approval_gates ["Approval Gates components"]
+        direction TD
+        n_ds_screen_approval_gates_001["Approval Gates<br/>ds:screen:approval-gates-001<br/>ScreenSurface"]
+        n_ds_approval_gates_queue["ApprovalQueue<br/>ds:approval-gates:queue"]
+        n_ds_screen_approval_gates_001 --> n_ds_approval_gates_queue
+        n_ds_approval_gates_evidence["EvidencePanel<br/>ds:approval-gates:evidence"]
+        n_ds_screen_approval_gates_001 --> n_ds_approval_gates_evidence
+        n_ds_approval_gates_decision_controls["DecisionControls<br/>ds:approval-gates:decision-controls<br/>actions EVENT_APPROVAL_DECISION"]
+        n_ds_screen_approval_gates_001 --> n_ds_approval_gates_decision_controls
     end
 ```
 
+### screen:search-results — ds:screen:search-results-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_approval_gates["core-approval-gates | /approval"]
-        screen_core_approval_gates["screen<br/>data-screen-id: core-approval-gates<br/>ds_id: ds:screen:core-approval-gates-001"]
-        screen_core_approval_gates --> layout_core_approval_gates["layout: approval_workspace"]
-        layout_core_approval_gates --> core_approval_gates_1_approval_queue["approval_queue&lt;br/&gt;ds_id: ds:core-approval-queue&lt;br/&gt;binds: api:approval-queue"]
-        layout_core_approval_gates --> core_approval_gates_2_evidence_blocks["evidence_blocks&lt;br/&gt;ds_id: ds:core-approval-evidence-blocks&lt;br/&gt;binds: api:approval-evidence"]
-        layout_core_approval_gates --> core_approval_gates_3_decision_controls["decision_controls&lt;br/&gt;ds_id: ds:core-approval-decision-controls&lt;br/&gt;actions: action:core-approval-submit-decision"]
+flowchart TD
+    subgraph sg_screen_search_results ["Search Results components"]
+        direction TD
+        n_ds_screen_search_results_001["Search Results<br/>ds:screen:search-results-001<br/>ScreenSurface"]
+        n_ds_search_results_input["SearchInput<br/>ds:search-results:input<br/>actions EVENT_SEARCH"]
+        n_ds_screen_search_results_001 --> n_ds_search_results_input
+        n_ds_search_results_filters["FilterSidebar<br/>ds:search-results:filters"]
+        n_ds_screen_search_results_001 --> n_ds_search_results_filters
+        n_ds_search_results_results["GroupedResults<br/>ds:search-results:results<br/>actions EVENT_VIEW_TASK, EVENT_VIEW_DOC, EVENT_VIEW_TRACE"]
+        n_ds_screen_search_results_001 --> n_ds_search_results_results
     end
 ```
 
+### screen:ds-terminal — ds:screen:terminal-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_core_search_results["core-search-results | /search"]
-        screen_core_search_results["screen<br/>data-screen-id: core-search-results<br/>ds_id: ds:screen:core-search-results-001"]
-        screen_core_search_results --> layout_core_search_results["layout: search_results"]
-        layout_core_search_results --> core_search_results_1_search_input["search_input&lt;br/&gt;ds_id: ds:core-search-input&lt;br/&gt;binds: api:search"]
-        layout_core_search_results --> core_search_results_2_result_filters["result_filters&lt;br/&gt;ds_id: ds:core-search-filters"]
-        layout_core_search_results --> core_search_results_3_result_list["result_list&lt;br/&gt;ds_id: ds:core-search-result-list&lt;br/&gt;actions: action:core-search-open-result"]
+flowchart TD
+    subgraph sg_screen_ds_terminal ["Terminal components"]
+        direction TD
+        n_ds_screen_terminal_showcase_001["Terminal<br/>ds:screen:terminal-showcase-001<br/>ShowcaseSurface"]
+        n_ds_terminal_showcase_scenario_tabs["ScenarioTabs<br/>ds:terminal-showcase:scenario-tabs"]
+        n_ds_screen_terminal_showcase_001 --> n_ds_terminal_showcase_scenario_tabs
+        n_ds_terminal_showcase_mosaic["TerminalMosaic<br/>ds:terminal-showcase:mosaic"]
+        n_ds_screen_terminal_showcase_001 --> n_ds_terminal_showcase_mosaic
+        n_ds_terminal_showcase_lines["TerminalLineList<br/>ds:terminal-showcase:lines"]
+        n_ds_screen_terminal_showcase_001 --> n_ds_terminal_showcase_lines
     end
 ```
 
+### screen:ds-portfolio — ds:screen:portfolio-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_terminal["ds-terminal | /design-system/terminal"]
-        screen_ds_terminal["screen<br/>data-screen-id: ds-terminal<br/>ds_id: ds:screen:terminal-001"]
-        screen_ds_terminal --> layout_ds_terminal["layout: terminal_workspace"]
-        layout_ds_terminal --> ds_terminal_1_scenario_tabs["scenario_tabs&lt;br/&gt;ds_id: ds:terminal-scenario-tabs"]
-        layout_ds_terminal --> ds_terminal_2_terminal_line_legend["terminal_line_legend&lt;br/&gt;ds_id: ds:terminal-line-legend"]
-        layout_ds_terminal --> ds_terminal_3_terminal_mosaic["terminal_mosaic&lt;br/&gt;ds_id: ds:terminal-mosaic-2x2&lt;br/&gt;binds: api:agent-sessions, api:ci-runs, api:task-activity"]
+flowchart TD
+    subgraph sg_screen_ds_portfolio ["Portfolio components"]
+        direction TD
+        n_ds_screen_portfolio_showcase_001["Portfolio<br/>ds:screen:portfolio-showcase-001<br/>ShowcaseSurface"]
+        n_ds_portfolio_showcase_table["PortfolioTable<br/>ds:portfolio-showcase:table"]
+        n_ds_screen_portfolio_showcase_001 --> n_ds_portfolio_showcase_table
+        n_ds_portfolio_showcase_roadmap["Roadmap<br/>ds:portfolio-showcase:roadmap"]
+        n_ds_screen_portfolio_showcase_001 --> n_ds_portfolio_showcase_roadmap
     end
 ```
 
+### screen:ds-pi-planning — ds:screen:pi-planning-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_portfolio["ds-portfolio | /design-system/portfolio"]
-        screen_ds_portfolio["screen<br/>data-screen-id: ds-portfolio<br/>ds_id: br-ds-portfolio-view"]
-        screen_ds_portfolio --> layout_ds_portfolio["layout: executive_portfolio"]
-        layout_ds_portfolio --> ds_portfolio_1_portfolio_table["portfolio_table&lt;br/&gt;ds_id: ds:portfolio-executive-table&lt;br/&gt;binds: api:portfolio-epics, api:portfolio-task-epics"]
-        layout_ds_portfolio --> ds_portfolio_2_roadmap["roadmap&lt;br/&gt;ds_id: ds:portfolio-roadmap-2026"]
+flowchart TD
+    subgraph sg_screen_ds_pi_planning ["Pi Planning components"]
+        direction TD
+        n_ds_screen_pi_planning_showcase_001["Pi Planning<br/>ds:screen:pi-planning-showcase-001<br/>ShowcaseSurface"]
+        n_ds_pi_planning_showcase_sandbox["StrategicSandbox<br/>ds:pi-planning-showcase:sandbox<br/>actions EVENT_PI_PLAN_SAVE"]
+        n_ds_screen_pi_planning_showcase_001 --> n_ds_pi_planning_showcase_sandbox
+        n_ds_pi_planning_showcase_value_scoring["BusinessValueScoring<br/>ds:pi-planning-showcase:value-scoring"]
+        n_ds_screen_pi_planning_showcase_001 --> n_ds_pi_planning_showcase_value_scoring
+        n_ds_pi_planning_showcase_confidence_vote["ConfidenceVote<br/>ds:pi-planning-showcase:confidence-vote<br/>actions EVENT_CONFIDENCE_VOTE"]
+        n_ds_screen_pi_planning_showcase_001 --> n_ds_pi_planning_showcase_confidence_vote
+        n_ds_pi_planning_showcase_roam_board["RoamBoard<br/>ds:pi-planning-showcase:roam-board"]
+        n_ds_screen_pi_planning_showcase_001 --> n_ds_pi_planning_showcase_roam_board
     end
 ```
 
+### screen:ds-git-graph — ds:screen:git-graph-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_pi_planning["ds-pi-planning | /design-system/pi-planning"]
-        screen_ds_pi_planning["screen<br/>data-screen-id: ds-pi-planning<br/>ds_id: br-ds-pi-planning"]
-        screen_ds_pi_planning --> layout_ds_pi_planning["layout: pi_planning_workspace"]
-        layout_ds_pi_planning --> ds_pi_planning_1_strategic_sandbox["strategic_sandbox&lt;br/&gt;ds_id: ds:pi-strategic-sandbox&lt;br/&gt;binds: api:pi-features&lt;br/&gt;actions: action:pi-save-plan"]
-        layout_ds_pi_planning --> ds_pi_planning_2_business_value_scoring["business_value_scoring&lt;br/&gt;ds_id: ds:pi-business-value-scoring"]
-        layout_ds_pi_planning --> ds_pi_planning_3_confidence_vote["confidence_vote&lt;br/&gt;ds_id: ds:pi-confidence-vote&lt;br/&gt;actions: action:pi-submit-confidence-vote"]
-        layout_ds_pi_planning --> ds_pi_planning_4_roam_board["roam_board&lt;br/&gt;ds_id: ds:pi-roam-board&lt;br/&gt;binds: api:pi-risks"]
+flowchart TD
+    subgraph sg_screen_ds_git_graph ["Git Graph components"]
+        direction TD
+        n_ds_screen_git_graph_showcase_001["Git Graph<br/>ds:screen:git-graph-showcase-001<br/>ShowcaseSurface"]
+        n_ds_git_graph_showcase_scenario_selector["ScenarioSelector<br/>ds:git-graph-showcase:scenario-selector<br/>actions EVENT_HASH_NAVIGATE"]
+        n_ds_screen_git_graph_showcase_001 --> n_ds_git_graph_showcase_scenario_selector
+        n_ds_git_graph_showcase_canvas["GitGraphCanvas<br/>ds:git-graph-showcase:canvas"]
+        n_ds_screen_git_graph_showcase_001 --> n_ds_git_graph_showcase_canvas
     end
 ```
 
+### screen:ds-kanban — ds:screen:kanban-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_git_graph["ds-git-graph | /design-system/git-graph"]
-        screen_ds_git_graph["screen<br/>data-screen-id: ds-git-graph<br/>ds_id: ds:screen:git-graph-001"]
-        screen_ds_git_graph --> layout_ds_git_graph["layout: git_graph_scenarios"]
-        layout_ds_git_graph --> ds_git_graph_1_hash_scenario_tabs["hash_scenario_tabs&lt;br/&gt;ds_id: ds:git-graph-scenario-tabs&lt;br/&gt;binds: api:git-graph-scenario, api:trace-git"]
-        layout_ds_git_graph --> ds_git_graph_2_branch_graph["branch_graph&lt;br/&gt;ds_id: ds:git-graph-canvas"]
+flowchart TD
+    subgraph sg_screen_ds_kanban ["Kanban components"]
+        direction TD
+        n_ds_screen_kanban_showcase_001["Kanban<br/>ds:screen:kanban-showcase-001<br/>ShowcaseSurface"]
+        n_ds_kanban_showcase_board_selector["BoardSelector<br/>ds:kanban-showcase:board-selector<br/>actions EVENT_HASH_NAVIGATE"]
+        n_ds_screen_kanban_showcase_001 --> n_ds_kanban_showcase_board_selector
+        n_ds_kanban_showcase_columns["KanbanColumns<br/>ds:kanban-showcase:columns<br/>actions EVENT_MOVE_CARD, EVENT_VIEW_TASK"]
+        n_ds_screen_kanban_showcase_001 --> n_ds_kanban_showcase_columns
+        n_ds_kanban_showcase_stats["BoardStats<br/>ds:kanban-showcase:stats"]
+        n_ds_screen_kanban_showcase_001 --> n_ds_kanban_showcase_stats
     end
 ```
 
+### screen:ds-knowledge-graph — ds:screen:knowledge-graph-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_kanban["ds-kanban | /design-system/kanban"]
-        screen_ds_kanban["screen<br/>data-screen-id: ds-kanban<br/>ds_id: ds:screen:kanban-001"]
-        screen_ds_kanban --> layout_ds_kanban["layout: showcase_kanban"]
-        layout_ds_kanban --> ds_kanban_1_hash_board_selector["hash_board_selector&lt;br/&gt;ds_id: ds:kanban-board-selector&lt;br/&gt;binds: api:tasks-board"]
-        layout_ds_kanban --> ds_kanban_2_drag_drop_cards["drag_drop_cards&lt;br/&gt;ds_id: ds:kanban-drag-drop-cards&lt;br/&gt;actions: action:kanban-update-card-status"]
+flowchart TD
+    subgraph sg_screen_ds_knowledge_graph ["Knowledge Graph components"]
+        direction TD
+        n_ds_screen_knowledge_graph_showcase_001["Knowledge Graph<br/>ds:screen:knowledge-graph-showcase-001<br/>ShowcaseSurface"]
+        n_ds_knowledge_graph_showcase_presets["GraphPresetTabs<br/>ds:knowledge-graph-showcase:presets<br/>actions EVENT_HASH_NAVIGATE"]
+        n_ds_screen_knowledge_graph_showcase_001 --> n_ds_knowledge_graph_showcase_presets
+        n_ds_knowledge_graph_showcase_viewer["SigmaGraph<br/>ds:knowledge-graph-showcase:viewer"]
+        n_ds_screen_knowledge_graph_showcase_001 --> n_ds_knowledge_graph_showcase_viewer
+        n_ds_knowledge_graph_showcase_legend["GraphLegend<br/>ds:knowledge-graph-showcase:legend"]
+        n_ds_screen_knowledge_graph_showcase_001 --> n_ds_knowledge_graph_showcase_legend
     end
 ```
 
+### screen:ds-approval — ds:screen:approval-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_knowledge_graph["ds-knowledge-graph | /design-system/knowledge-graph"]
-        screen_ds_knowledge_graph["screen<br/>data-screen-id: ds-knowledge-graph<br/>ds_id: ds:screen:knowledge-graph-001"]
-        screen_ds_knowledge_graph --> layout_ds_knowledge_graph["layout: client_only_graph_viewer"]
-        layout_ds_knowledge_graph --> ds_knowledge_graph_1_sigma_graphology_viewer["sigma_graphology_viewer&lt;br/&gt;ds_id: ds:knowledge-graph-sigma-viewer&lt;br/&gt;binds: api:trace-full, api:graph-presets"]
-        layout_ds_knowledge_graph --> ds_knowledge_graph_2_selected_node_banner["selected_node_banner&lt;br/&gt;ds_id: ds:knowledge-graph-selected-node-banner"]
-        layout_ds_knowledge_graph --> ds_knowledge_graph_3_graph_legend_stats["graph_legend_stats&lt;br/&gt;ds_id: ds:knowledge-graph-legend-stats"]
+flowchart TD
+    subgraph sg_screen_ds_approval ["Approval components"]
+        direction TD
+        n_ds_screen_approval_showcase_001["Approval<br/>ds:screen:approval-showcase-001<br/>ShowcaseSurface"]
+        n_ds_approval_showcase_toggles["ApprovalToggles<br/>ds:approval-showcase:toggles<br/>actions EVENT_HASH_NAVIGATE"]
+        n_ds_screen_approval_showcase_001 --> n_ds_approval_showcase_toggles
+        n_ds_approval_showcase_evidence["EvidenceBlocks<br/>ds:approval-showcase:evidence"]
+        n_ds_screen_approval_showcase_001 --> n_ds_approval_showcase_evidence
+        n_ds_approval_showcase_rtm["RtmMatrix<br/>ds:approval-showcase:rtm"]
+        n_ds_screen_approval_showcase_001 --> n_ds_approval_showcase_rtm
+        n_ds_approval_showcase_heatmap["CoverageHeatmap<br/>ds:approval-showcase:heatmap"]
+        n_ds_screen_approval_showcase_001 --> n_ds_approval_showcase_heatmap
     end
 ```
 
+### screen:ds-timeline — ds:screen:timeline-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_approval["ds-approval | /design-system/approval"]
-        screen_ds_approval["screen<br/>data-screen-id: ds-approval<br/>ds_id: ds:screen:approval-001"]
-        screen_ds_approval --> layout_ds_approval["layout: approval_showcase"]
-        layout_ds_approval --> ds_approval_1_status_toggles["status_toggles&lt;br/&gt;ds_id: ds:approval-status-toggles"]
-        layout_ds_approval --> ds_approval_2_escalated_badge["escalated_badge&lt;br/&gt;ds_id: ds:approval-escalated-badge"]
-        layout_ds_approval --> ds_approval_3_evidence_blocks["evidence_blocks&lt;br/&gt;ds_id: ds:approval-evidence-blocks&lt;br/&gt;binds: api:approval-evidence"]
-        layout_ds_approval --> ds_approval_4_rtm_matrix["rtm_matrix&lt;br/&gt;ds_id: ds:approval-rtm-matrix"]
-        layout_ds_approval --> ds_approval_5_coverage_heatmap["coverage_heatmap&lt;br/&gt;ds_id: ds:approval-coverage-heatmap&lt;br/&gt;binds: api:coverage"]
+flowchart TD
+    subgraph sg_screen_ds_timeline ["Timeline components"]
+        direction TD
+        n_ds_screen_timeline_showcase_001["Timeline<br/>ds:screen:timeline-showcase-001<br/>ShowcaseSurface"]
+        n_ds_timeline_showcase_file_lease["FileLeaseIndicators<br/>ds:timeline-showcase:file-lease"]
+        n_ds_screen_timeline_showcase_001 --> n_ds_timeline_showcase_file_lease
+        n_ds_timeline_showcase_activity_feed["ActivityFeed<br/>ds:timeline-showcase:activity-feed"]
+        n_ds_screen_timeline_showcase_001 --> n_ds_timeline_showcase_activity_feed
+        n_ds_timeline_showcase_sprint_day["SprintDayTimeline<br/>ds:timeline-showcase:sprint-day"]
+        n_ds_screen_timeline_showcase_001 --> n_ds_timeline_showcase_sprint_day
     end
 ```
 
+### screen:ds-components — ds:screen:components-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_timeline["ds-timeline | /design-system/timeline"]
-        screen_ds_timeline["screen<br/>data-screen-id: ds-timeline<br/>ds_id: ds:screen:timeline-001"]
-        screen_ds_timeline --> layout_ds_timeline["layout: timeline_workspace"]
-        layout_ds_timeline --> ds_timeline_1_file_lease_indicators["file_lease_indicators&lt;br/&gt;ds_id: ds:timeline-file-lease-indicators&lt;br/&gt;binds: api:file-leases"]
-        layout_ds_timeline --> ds_timeline_2_activity_feed["activity_feed&lt;br/&gt;ds_id: ds:timeline-activity-feed&lt;br/&gt;binds: api:activity, api:task-activity"]
-        layout_ds_timeline --> ds_timeline_3_sprint_day_timeline["sprint_day_timeline&lt;br/&gt;ds_id: ds:timeline-sprint-day"]
+flowchart TD
+    subgraph sg_screen_ds_components ["Components components"]
+        direction TD
+        n_ds_screen_components_showcase_001["Components<br/>ds:screen:components-showcase-001<br/>ShowcaseSurface"]
+        n_ds_components_showcase_sections["ComponentSections<br/>ds:components-showcase:sections<br/>actions EVENT_HASH_NAVIGATE"]
+        n_ds_screen_components_showcase_001 --> n_ds_components_showcase_sections
     end
 ```
 
+### screen:ds-doc-viewer — ds:screen:doc-viewer-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_components["ds-components | /design-system/components"]
-        screen_ds_components["screen<br/>data-screen-id: ds-components<br/>ds_id: ds:screen:components-001"]
-        screen_ds_components --> layout_ds_components["layout: component_catalog"]
-        layout_ds_components --> ds_components_1_catalog_sections["catalog_sections&lt;br/&gt;ds_id: ds:components-catalog-sections&lt;br/&gt;actions: action:components-hash-scroll"]
+flowchart TD
+    subgraph sg_screen_ds_doc_viewer ["Doc Viewer components"]
+        direction TD
+        n_ds_screen_doc_viewer_showcase_001["Doc Viewer<br/>ds:screen:doc-viewer-showcase-001<br/>ShowcaseSurface"]
+        n_ds_doc_viewer_showcase_tree["ShowcaseDocTree<br/>ds:doc-viewer-showcase:tree"]
+        n_ds_screen_doc_viewer_showcase_001 --> n_ds_doc_viewer_showcase_tree
+        n_ds_doc_viewer_showcase_panel["ShowcaseDocPanel<br/>ds:doc-viewer-showcase:panel<br/>actions EVENT_VIEW_TRACE"]
+        n_ds_screen_doc_viewer_showcase_001 --> n_ds_doc_viewer_showcase_panel
     end
 ```
 
+### screen:ds-explorer — ds:screen:explorer-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_doc_viewer["ds-doc-viewer | /design-system/doc-viewer"]
-        screen_ds_doc_viewer["screen<br/>data-screen-id: ds-doc-viewer<br/>ds_id: ds:screen:doc-viewer-001"]
-        screen_ds_doc_viewer --> layout_ds_doc_viewer["layout: github_like_doc_viewer"]
-        layout_ds_doc_viewer --> ds_doc_viewer_1_github_like_tree["github_like_tree&lt;br/&gt;ds_id: ds:doc-viewer-github-tree&lt;br/&gt;binds: api:docs-grouped"]
-        layout_ds_doc_viewer --> ds_doc_viewer_2_selected_document_panel["selected_document_panel&lt;br/&gt;ds_id: ds:doc-viewer-selected-panel&lt;br/&gt;binds: api:docs-detail&lt;br/&gt;actions: action:doc-viewer-open-explorer, action:doc-viewer-open-knowledge-graph"]
+flowchart TD
+    subgraph sg_screen_ds_explorer ["Explorer components"]
+        direction TD
+        n_ds_screen_explorer_showcase_001["Explorer<br/>ds:screen:explorer-showcase-001<br/>ShowcaseSurface"]
+        n_ds_explorer_showcase_query["ExplorerQuery<br/>ds:explorer-showcase:query<br/>actions EVENT_SEARCH"]
+        n_ds_screen_explorer_showcase_001 --> n_ds_explorer_showcase_query
+        n_ds_explorer_showcase_type_filters["ExplorerTypeFilters<br/>ds:explorer-showcase:type-filters<br/>actions EVENT_HASH_NAVIGATE"]
+        n_ds_screen_explorer_showcase_001 --> n_ds_explorer_showcase_type_filters
+        n_ds_explorer_showcase_detail_sidebar["ExplorerDetailSidebar<br/>ds:explorer-showcase:detail-sidebar<br/>actions EVENT_VIEW_TRACE, EVENT_VIEW_DOC, EVENT_VIEW_TASK"]
+        n_ds_screen_explorer_showcase_001 --> n_ds_explorer_showcase_detail_sidebar
     end
 ```
 
+### screen:ds-beads-traversal — ds:screen:beads-traversal-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_explorer["ds-explorer | /design-system/explorer"]
-        screen_ds_explorer["screen<br/>data-screen-id: ds-explorer<br/>ds_id: ds:screen:explorer-001"]
-        screen_ds_explorer --> layout_ds_explorer["layout: unified_explorer"]
-        layout_ds_explorer --> ds_explorer_1_unified_search["unified_search&lt;br/&gt;ds_id: ds:explorer-unified-search&lt;br/&gt;binds: api:search"]
-        layout_ds_explorer --> ds_explorer_2_hash_filter_select["hash_filter_select&lt;br/&gt;ds_id: ds:explorer-filter-select"]
-        layout_ds_explorer --> ds_explorer_3_result_list["result_list&lt;br/&gt;ds_id: ds:explorer-result-list"]
-        layout_ds_explorer --> ds_explorer_4_detail_sidebar["detail_sidebar&lt;br/&gt;ds_id: ds:explorer-detail-sidebar"]
+flowchart TD
+    subgraph sg_screen_ds_beads_traversal ["Beatraversal components"]
+        direction TD
+        n_ds_screen_beads_traversal_showcase_001["Beatraversal<br/>ds:screen:beads-traversal-showcase-001<br/>ShowcaseSurface"]
+        n_ds_beads_traversal_showcase_layers["TraversalLayers<br/>ds:beads-traversal-showcase:layers"]
+        n_ds_screen_beads_traversal_showcase_001 --> n_ds_beads_traversal_showcase_layers
+        n_ds_beads_traversal_showcase_direction_toggle["DirectionToggle<br/>ds:beads-traversal-showcase:direction-toggle"]
+        n_ds_screen_beads_traversal_showcase_001 --> n_ds_beads_traversal_showcase_direction_toggle
+        n_ds_beads_traversal_showcase_detail_sidebar["TraversalDetailSidebar<br/>ds:beads-traversal-showcase:detail-sidebar"]
+        n_ds_screen_beads_traversal_showcase_001 --> n_ds_beads_traversal_showcase_detail_sidebar
     end
 ```
 
+### screen:ds-storyboard — ds:screen:storyboard-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_beads_traversal["ds-beads-traversal | /design-system/beads-traversal"]
-        screen_ds_beads_traversal["screen<br/>data-screen-id: ds-beads-traversal<br/>ds_id: ds:screen:beads-traversal-001"]
-        screen_ds_beads_traversal --> layout_ds_beads_traversal["layout: layered_dag"]
-        layout_ds_beads_traversal --> ds_beads_traversal_1_layer_columns["layer_columns&lt;br/&gt;ds_id: ds:beads-traversal-layers&lt;br/&gt;binds: api:trace-full"]
-        layout_ds_beads_traversal --> ds_beads_traversal_2_direction_toggle["direction_toggle&lt;br/&gt;ds_id: ds:beads-traversal-direction-toggle"]
-        layout_ds_beads_traversal --> ds_beads_traversal_3_selected_linked_highlighting["selected_linked_highlighting&lt;br/&gt;ds_id: ds:beads-traversal-linked-highlighting"]
-        layout_ds_beads_traversal --> ds_beads_traversal_4_traversal_detail_sidebar["traversal_detail_sidebar&lt;br/&gt;ds_id: ds:beads-traversal-detail-sidebar"]
-        layout_ds_beads_traversal --> ds_beads_traversal_5_legend_stats["legend_stats&lt;br/&gt;ds_id: ds:beads-traversal-legend-stats"]
+flowchart TD
+    subgraph sg_screen_ds_storyboard ["Storyboard components"]
+        direction TD
+        n_ds_screen_storyboard_showcase_001["Storyboard<br/>ds:screen:storyboard-showcase-001<br/>ShowcaseSurface"]
+        n_ds_storyboard_showcase_filter["JourneyFilter<br/>ds:storyboard-showcase:filter"]
+        n_ds_screen_storyboard_showcase_001 --> n_ds_storyboard_showcase_filter
+        n_ds_storyboard_showcase_flow["UsecaseFlow<br/>ds:storyboard-showcase:flow"]
+        n_ds_screen_storyboard_showcase_001 --> n_ds_storyboard_showcase_flow
+        n_ds_storyboard_showcase_guidance["GuidancePanel<br/>ds:storyboard-showcase:guidance"]
+        n_ds_screen_storyboard_showcase_001 --> n_ds_storyboard_showcase_guidance
     end
 ```
 
+### screen:ds-storyboard-detail — ds:screen:storyboard-detail-showcase-001
+
 ```mermaid
-flowchart TB
-    subgraph sg_ds_storyboard["ds-storyboard | /design-system/storyboard"]
-        screen_ds_storyboard["screen<br/>data-screen-id: ds-storyboard<br/>ds_id: ds:screen:storyboard-001"]
-        screen_ds_storyboard --> layout_ds_storyboard["layout: storyboard_overview"]
-        layout_ds_storyboard --> ds_storyboard_1_journey_filter["journey_filter&lt;br/&gt;ds_id: ds:storyboard-journey-filter&lt;br/&gt;binds: api:storyboards"]
-        layout_ds_storyboard --> ds_storyboard_2_horizontal_usecase_flow["horizontal_usecase_flow&lt;br/&gt;ds_id: ds:storyboard-usecase-flow"]
-        layout_ds_storyboard --> ds_storyboard_3_guidance_panel["guidance_panel&lt;br/&gt;ds_id: ds:storyboard-guidance-panel&lt;br/&gt;actions: action:storyboard-open-real-screen"]
+flowchart TD
+    subgraph sg_screen_ds_storyboard_detail ["Storyboard Detail components"]
+        direction TD
+        n_ds_screen_storyboard_detail_showcase_001["Storyboard Detail<br/>ds:screen:storyboard-detail-showcase-001<br/>ShowcaseSurface"]
+        n_ds_storyboard_detail_showcase_role["StoryboardRolePanel<br/>ds:storyboard-detail-showcase:role"]
+        n_ds_screen_storyboard_detail_showcase_001 --> n_ds_storyboard_detail_showcase_role
+        n_ds_storyboard_detail_showcase_steps["StepTimeline<br/>ds:storyboard-detail-showcase:steps"]
+        n_ds_screen_storyboard_detail_showcase_001 --> n_ds_storyboard_detail_showcase_steps
+        n_ds_storyboard_detail_showcase_related["RelatedUsecases<br/>ds:storyboard-detail-showcase:related"]
+        n_ds_screen_storyboard_detail_showcase_001 --> n_ds_storyboard_detail_showcase_related
     end
 ```
 
-```mermaid
-flowchart TB
-    subgraph sg_ds_storyboard_detail["ds-storyboard-detail | /design-system/storyboard/:id"]
-        screen_ds_storyboard_detail["screen<br/>data-screen-id: ds-storyboard-detail<br/>ds_id: ds:screen:storyboard-detail-001"]
-        screen_ds_storyboard_detail --> layout_ds_storyboard_detail["layout: storyboard_detail"]
-        layout_ds_storyboard_detail --> ds_storyboard_detail_1_storyboard_role_summary["storyboard_role_summary&lt;br/&gt;ds_id: ds:storyboard-detail-role-summary&lt;br/&gt;binds: api:storyboard-detail"]
-        layout_ds_storyboard_detail --> ds_storyboard_detail_2_storyboard_step_timeline["storyboard_step_timeline&lt;br/&gt;ds_id: ds:storyboard-detail-step-timeline"]
-        layout_ds_storyboard_detail --> ds_storyboard_detail_3_related_usecases["related_usecases&lt;br/&gt;ds_id: ds:storyboard-detail-related-usecases"]
-    end
-```
+### screen:ds-webui-pm-workspace — ds:screen:webui-pm-workspace-showcase-001
 
 ```mermaid
-flowchart TB
-    subgraph sg_ds_webui_pm_workspace["ds-webui-pm-workspace | /design-system/webui-pm-workspace"]
-        screen_ds_webui_pm_workspace["screen<br/>data-screen-id: ds-webui-pm-workspace<br/>ds_id: ds:global_shell"]
-        screen_ds_webui_pm_workspace --> layout_ds_webui_pm_workspace["layout: integrated_pm_workspace_shell"]
-        layout_ds_webui_pm_workspace --> ds_webui_pm_workspace_1_workspace_header["workspace_header&lt;br/&gt;ds_id: ds:webui-pm-workspace-header"]
-        layout_ds_webui_pm_workspace --> ds_webui_pm_workspace_2_workspace_sidebar["workspace_sidebar&lt;br/&gt;ds_id: ds:webui-pm-workspace-sidebar"]
-        layout_ds_webui_pm_workspace --> ds_webui_pm_workspace_3_active_surface_router["active_surface_router&lt;br/&gt;ds_id: ds:webui-pm-workspace-active-surface-router&lt;br/&gt;binds: gmind serve route mapping"]
+flowchart TD
+    subgraph sg_screen_ds_webui_pm_workspace ["Webui Pm Workspace components"]
+        direction TD
+        n_ds_screen_webui_pm_workspace_showcase_001["Webui Pm Workspace<br/>ds:screen:webui-pm-workspace-showcase-001<br/>ShowcaseSurface"]
+        n_ds_webui_pm_workspace_showcase_header["WorkspaceHeader<br/>ds:webui-pm-workspace-showcase:header<br/>actions EVENT_SEARCH, EVENT_DISCONNECT, EVENT_RECONNECT"]
+        n_ds_screen_webui_pm_workspace_showcase_001 --> n_ds_webui_pm_workspace_showcase_header
+        n_ds_webui_pm_workspace_showcase_sidebar["WorkspaceSidebar<br/>ds:webui-pm-workspace-showcase:sidebar"]
+        n_ds_screen_webui_pm_workspace_showcase_001 --> n_ds_webui_pm_workspace_showcase_sidebar
+        n_ds_webui_pm_workspace_showcase_boundary_actions["BoundaryActionBar<br/>ds:webui-pm-workspace-showcase:boundary-actions<br/>actions EVENT_BACK"]
+        n_ds_screen_webui_pm_workspace_showcase_001 --> n_ds_webui_pm_workspace_showcase_boundary_actions
+        n_ds_webui_pm_workspace_showcase_sync_conflict_banner["SyncConflictBanner<br/>ds:webui-pm-workspace-showcase:sync-conflict-banner<br/>actions EVENT_KEEP_LOCAL, EVENT_USE_SERVER"]
+        n_ds_screen_webui_pm_workspace_showcase_001 --> n_ds_webui_pm_workspace_showcase_sync_conflict_banner
+        n_ds_webui_pm_workspace_showcase_active_surface["WorkspaceSurface<br/>ds:webui-pm-workspace-showcase:active-surface"]
+        n_ds_screen_webui_pm_workspace_showcase_001 --> n_ds_webui_pm_workspace_showcase_active_surface
     end
 ```
 
 ## 3. State Coverage Per Screen
 
-### Core WebUI state coverage
+Annotations: `loading` requires layout-matched skeletons, `empty` requires an actionable CTA, `error` requires retry/recovery copy, `offline` shows read-mostly or queued-write affordances, and `forbidden` provides a route-safe return action.
 
 ```mermaid
 flowchart LR
-    subgraph state_sg_core_global_shell["core-global-shell"]
-        states_core_global_shell["default, loading, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_rtm_dashboard["core-rtm-dashboard"]
-        states_core_rtm_dashboard["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_safe_board["core-safe-board"]
-        states_core_safe_board["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_task_list["core-task-list"]
-        states_core_task_list["default, loading, empty, error, offline, forbidden, processing"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_task_detail["core-task-detail"]
-        states_core_task_detail["default, loading, not-found, error, offline, forbidden, saving"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_trace_explorer["core-trace-explorer"]
-        states_core_trace_explorer["default, loading, empty, error, offline, forbidden, partial"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_doc_viewer["core-doc-viewer"]
-        states_core_doc_viewer["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_approval_gates["core-approval-gates"]
-        states_core_approval_gates["default, loading, empty, error, offline, forbidden, insufficient-evidence"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_core_search_results["core-search-results"]
-        states_core_search_results["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-### Showcase route state coverage
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_terminal["ds-terminal"]
-        states_ds_terminal["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_portfolio["ds-portfolio"]
-        states_ds_portfolio["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_pi_planning["ds-pi-planning"]
-        states_ds_pi_planning["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_git_graph["ds-git-graph"]
-        states_ds_git_graph["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_kanban["ds-kanban"]
-        states_ds_kanban["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_knowledge_graph["ds-knowledge-graph"]
-        states_ds_knowledge_graph["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_approval["ds-approval"]
-        states_ds_approval["default, loading, empty, error, offline, forbidden, insufficient-evidence"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_timeline["ds-timeline"]
-        states_ds_timeline["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_components["ds-components"]
-        states_ds_components["default, loading, empty, error"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_doc_viewer["ds-doc-viewer"]
-        states_ds_doc_viewer["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_explorer["ds-explorer"]
-        states_ds_explorer["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_beads_traversal["ds-beads-traversal"]
-        states_ds_beads_traversal["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_storyboard["ds-storyboard"]
-        states_ds_storyboard["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_storyboard_detail["ds-storyboard-detail"]
-        states_ds_storyboard_detail["default, loading, empty, error, offline, forbidden"]
-    end
-```
-
-```mermaid
-flowchart LR
-    subgraph state_sg_ds_webui_pm_workspace["ds-webui-pm-workspace"]
-        states_ds_webui_pm_workspace["default, loading, empty, error, offline, forbidden"]
-    end
+    StateSet_default_loading_empty_error_offline_forbidden["states: default, loading, empty, error, offline, forbidden"]
+    StateSet_default_loading_empty_error_offline_forbidden_saving["states: default, loading, empty, error, offline, forbidden, saving"]
+    StateSet_default_loading_empty_error_offline_forbidden_saving_not_found["states: default, loading, empty, error, offline, forbidden, saving, not_found"]
+    StateSet_default_loading_empty_error_offline_forbidden_partial["states: default, loading, empty, error, offline, forbidden, partial"]
+    StateSet_default_loading_empty_error_offline_forbidden_not_found["states: default, loading, empty, error, offline, forbidden, not_found"]
+    ST0["screen:rtm-dashboard<br/>/"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST1["screen:safe-board<br/>/board"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST2["screen:task-list<br/>/tasks"] --> StateSet_default_loading_empty_error_offline_forbidden_saving
+    ST3["screen:task-detail<br/>/tasks/:id"] --> StateSet_default_loading_empty_error_offline_forbidden_saving_not_found
+    ST4["screen:trace-explorer<br/>/trace/:id"] --> StateSet_default_loading_empty_error_offline_forbidden_partial
+    ST5["screen:doc-viewer<br/>/docs"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST6["screen:approval-gates<br/>/approval"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST7["screen:search-results<br/>/search"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST8["screen:ds-terminal<br/>/design-system/terminal"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST9["screen:ds-portfolio<br/>/design-system/portfolio"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST10["screen:ds-pi-planning<br/>/design-system/pi-planning"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST11["screen:ds-git-graph<br/>/design-system/git-graph"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST12["screen:ds-kanban<br/>/design-system/kanban"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST13["screen:ds-knowledge-graph<br/>/design-system/knowledge-graph"] --> StateSet_default_loading_empty_error_offline_forbidden_partial
+    ST14["screen:ds-approval<br/>/design-system/approval"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST15["screen:ds-timeline<br/>/design-system/timeline"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST16["screen:ds-components<br/>/design-system/components"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST17["screen:ds-doc-viewer<br/>/design-system/doc-viewer"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST18["screen:ds-explorer<br/>/design-system/explorer"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST19["screen:ds-beads-traversal<br/>/design-system/beads-traversal"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST20["screen:ds-storyboard<br/>/design-system/storyboard"] --> StateSet_default_loading_empty_error_offline_forbidden
+    ST21["screen:ds-storyboard-detail<br/>/design-system/storyboard/:id"] --> StateSet_default_loading_empty_error_offline_forbidden_not_found
+    ST22["screen:ds-webui-pm-workspace<br/>/design-system/webui-pm-workspace"] --> StateSet_default_loading_empty_error_offline_forbidden
 ```
 
 ## 4. Action-to-Event Links
 
-### Core WebUI actions
+Annotations: every action links the YAML action ID to its Mermaid event and API or browser data-flow boundary. Write actions use optimistic updates with rollback on API error; browser-only hash navigation never calls local shell, git, FrankenSQLite, Zvec, `gh`, or FastCode directly.
+
+### ds:action:disconnect → EVENT_DISCONNECT
 
 ```mermaid
 flowchart LR
-    subgraph actions_core_global_shell["core-global-shell actions"]
-        action_core_shell_search["action:core-shell-search<br/>Search workspace"] --> EVENT_CORE_SHELL_SEARCH["EVENT_CORE_SHELL_SEARCH<br/>matched"]
-        EVENT_CORE_SHELL_SEARCH --> action_core_shell_search_target["target: /search"]
-        action_core_nav_dashboard["action:core-nav-dashboard<br/>Open dashboard"] --> EVENT_CORE_NAV_DASHBOARD["EVENT_CORE_NAV_DASHBOARD<br/>matched"]
-        EVENT_CORE_NAV_DASHBOARD --> action_core_nav_dashboard_target["target: /"]
-        action_core_nav_board["action:core-nav-board<br/>Open SAFe board"] --> EVENT_CORE_NAV_BOARD["EVENT_CORE_NAV_BOARD<br/>matched"]
-        EVENT_CORE_NAV_BOARD --> action_core_nav_board_target["target: /board"]
-        action_core_nav_tasks["action:core-nav-tasks<br/>Open task list"] --> EVENT_CORE_NAV_TASKS["EVENT_CORE_NAV_TASKS<br/>matched"]
-        EVENT_CORE_NAV_TASKS --> action_core_nav_tasks_target["target: /tasks"]
-        action_core_nav_trace["action:core-nav-trace<br/>Open trace explorer"] --> EVENT_CORE_NAV_TRACE["EVENT_CORE_NAV_TRACE<br/>matched"]
-        EVENT_CORE_NAV_TRACE --> action_core_nav_trace_target["target: /trace/:id"]
-        action_core_nav_docs["action:core-nav-docs<br/>Open docs"] --> EVENT_CORE_NAV_DOCS["EVENT_CORE_NAV_DOCS<br/>matched"]
-        EVENT_CORE_NAV_DOCS --> action_core_nav_docs_target["target: /docs"]
-        action_core_nav_approval["action:core-nav-approval<br/>Open approvals"] --> EVENT_CORE_NAV_APPROVAL["EVENT_CORE_NAV_APPROVAL<br/>matched"]
-        EVENT_CORE_NAV_APPROVAL --> action_core_nav_approval_target["target: /approval"]
+    subgraph action_ds_action_disconnect ["ds:action:disconnect"]
+        direction LR
+        src_ds_action_disconnect["Show offline read-only banner"]
+        evt_EVENT_DISCONNECT(("EVENT_DISCONNECT"))
+        api_ds_action_disconnect["GET /api/health failure or stream disconnect"]
+        src_ds_action_disconnect --> evt_EVENT_DISCONNECT
+        evt_EVENT_DISCONNECT --> api_ds_action_disconnect
     end
 ```
 
+### ds:action:reconnect → EVENT_RECONNECT
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_rtm_dashboard["core-rtm-dashboard actions"]
-        action_core_dashboard_open_section_trace["action:core-dashboard-open-section-trace<br/>Open section trace"] --> EVENT_CORE_DASHBOARD_OPEN_SECTION_TRACE["EVENT_CORE_DASHBOARD_OPEN_SECTION_TRACE<br/>matched"]
-        EVENT_CORE_DASHBOARD_OPEN_SECTION_TRACE --> action_core_dashboard_open_section_trace_target["target: /trace/:id"]
+    subgraph action_ds_action_reconnect ["ds:action:reconnect"]
+        direction LR
+        src_ds_action_reconnect["Rehydrate queued edits"]
+        evt_EVENT_RECONNECT(("EVENT_RECONNECT"))
+        api_ds_action_reconnect["POST /api/sync/rehydrate after health check recovery"]
+        src_ds_action_reconnect --> evt_EVENT_RECONNECT
+        evt_EVENT_RECONNECT --> api_ds_action_reconnect
     end
 ```
 
+### ds:action:save-task → EVENT_SAVE_TASK
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_safe_board["core-safe-board actions"]
-        action_core_board_drag_card["action:core-board-drag-card<br/>Move task status"] --> EVENT_CORE_BOARD_DRAG_CARD["EVENT_CORE_BOARD_DRAG_CARD<br/>matched"]
-        EVENT_CORE_BOARD_DRAG_CARD --> action_core_board_drag_card_target["target: api:task-status"]
+    subgraph action_ds_action_save_task ["ds:action:save-task"]
+        direction LR
+        src_ds_action_save_task["Persist editable task fields"]
+        evt_EVENT_SAVE_TASK(("EVENT_SAVE_TASK"))
+        api_ds_action_save_task["PUT /api/tasks/:id"]
+        src_ds_action_save_task --> evt_EVENT_SAVE_TASK
+        evt_EVENT_SAVE_TASK --> api_ds_action_save_task
     end
 ```
 
+### ds:action:save-bulk → EVENT_SAVE_BULK
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_task_list["core-task-list actions"]
-        action_core_task_list_row_open["action:core-task-list-row-open<br/>Open task detail"] --> EVENT_CORE_TASK_LIST_ROW_OPEN["EVENT_CORE_TASK_LIST_ROW_OPEN<br/>matched"]
-        EVENT_CORE_TASK_LIST_ROW_OPEN --> action_core_task_list_row_open_target["target: /tasks/:id"]
-        action_core_task_list_bulk_assign["action:core-task-list-bulk-assign<br/>Bulk assign tasks"] --> EVENT_CORE_TASK_LIST_BULK_ASSIGN["EVENT_CORE_TASK_LIST_BULK_ASSIGN<br/>matched"]
-        EVENT_CORE_TASK_LIST_BULK_ASSIGN --> action_core_task_list_bulk_assign_target["target: api:tasks-update"]
+    subgraph action_ds_action_save_bulk ["ds:action:save-bulk"]
+        direction LR
+        src_ds_action_save_bulk["Persist selected task bulk updates"]
+        evt_EVENT_SAVE_BULK(("EVENT_SAVE_BULK"))
+        api_ds_action_save_bulk["PUT /api/tasks/bulk"]
+        src_ds_action_save_bulk --> evt_EVENT_SAVE_BULK
+        evt_EVENT_SAVE_BULK --> api_ds_action_save_bulk
     end
 ```
 
+### ds:action:save-board → EVENT_MOVE_CARD
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_task_detail["core-task-detail actions"]
-        action_core_task_detail_save_field["action:core-task-detail-save-field<br/>Save edited field"] --> EVENT_CORE_TASK_DETAIL_SAVE_FIELD["EVENT_CORE_TASK_DETAIL_SAVE_FIELD<br/>matched"]
-        EVENT_CORE_TASK_DETAIL_SAVE_FIELD --> action_core_task_detail_save_field_target["target: api:tasks-update"]
+    subgraph action_ds_action_save_board ["ds:action:save-board"]
+        direction LR
+        src_ds_action_save_board["Persist kanban card movement"]
+        evt_EVENT_MOVE_CARD(("EVENT_MOVE_CARD"))
+        api_ds_action_save_board["PUT /api/tasks/:id/status"]
+        src_ds_action_save_board --> evt_EVENT_MOVE_CARD
+        evt_EVENT_MOVE_CARD --> api_ds_action_save_board
     end
 ```
 
+### ds:action:approval-decision → EVENT_APPROVAL_DECISION
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_trace_explorer["core-trace-explorer actions"]
-        action_core_trace_select_node["action:core-trace-select-node<br/>Select graph node"] --> EVENT_CORE_TRACE_SELECT_NODE["EVENT_CORE_TRACE_SELECT_NODE<br/>matched"]
-        EVENT_CORE_TRACE_SELECT_NODE --> action_core_trace_select_node_target["target: detail panel"]
-        action_core_trace_open_linked_entity["action:core-trace-open-linked-entity<br/>Open linked entity"] --> EVENT_CORE_TRACE_OPEN_LINKED_ENTITY["EVENT_CORE_TRACE_OPEN_LINKED_ENTITY<br/>matched"]
-        EVENT_CORE_TRACE_OPEN_LINKED_ENTITY --> action_core_trace_open_linked_entity_target["target: route by node type"]
+    subgraph action_ds_action_approval_decision ["ds:action:approval-decision"]
+        direction LR
+        src_ds_action_approval_decision["Submit approval or rejection with audit reason"]
+        evt_EVENT_APPROVAL_DECISION(("EVENT_APPROVAL_DECISION"))
+        api_ds_action_approval_decision["POST /api/approval/:id/decision"]
+        src_ds_action_approval_decision --> evt_EVENT_APPROVAL_DECISION
+        evt_EVENT_APPROVAL_DECISION --> api_ds_action_approval_decision
     end
 ```
 
+### ds:action:pi-plan-save → EVENT_PI_PLAN_SAVE
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_doc_viewer["core-doc-viewer actions"]
-        action_core_doc_open_beads_trace["action:core-doc-open-beads-trace<br/>Open beads trace"] --> EVENT_CORE_DOC_OPEN_BEADS_TRACE["EVENT_CORE_DOC_OPEN_BEADS_TRACE<br/>matched"]
-        EVENT_CORE_DOC_OPEN_BEADS_TRACE --> action_core_doc_open_beads_trace_target["target: /trace/:id"]
+    subgraph action_ds_action_pi_plan_save ["ds:action:pi-plan-save"]
+        direction LR
+        src_ds_action_pi_plan_save["Save PI planning sandbox changes"]
+        evt_EVENT_PI_PLAN_SAVE(("EVENT_PI_PLAN_SAVE"))
+        api_ds_action_pi_plan_save["PUT /api/pi/plan"]
+        src_ds_action_pi_plan_save --> evt_EVENT_PI_PLAN_SAVE
+        evt_EVENT_PI_PLAN_SAVE --> api_ds_action_pi_plan_save
     end
 ```
 
+### ds:action:confidence-vote → EVENT_CONFIDENCE_VOTE
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_approval_gates["core-approval-gates actions"]
-        action_core_approval_submit_decision["action:core-approval-submit-decision<br/>Submit approval decision"] --> EVENT_CORE_APPROVAL_SUBMIT_DECISION["EVENT_CORE_APPROVAL_SUBMIT_DECISION<br/>matched"]
-        EVENT_CORE_APPROVAL_SUBMIT_DECISION --> action_core_approval_submit_decision_target["target: api:approval-decision"]
+    subgraph action_ds_action_confidence_vote ["ds:action:confidence-vote"]
+        direction LR
+        src_ds_action_confidence_vote["Submit PI confidence vote"]
+        evt_EVENT_CONFIDENCE_VOTE(("EVENT_CONFIDENCE_VOTE"))
+        api_ds_action_confidence_vote["POST /api/pi/confidence-vote"]
+        src_ds_action_confidence_vote --> evt_EVENT_CONFIDENCE_VOTE
+        evt_EVENT_CONFIDENCE_VOTE --> api_ds_action_confidence_vote
     end
 ```
 
+### ds:action:view-doc → EVENT_VIEW_DOC
+
 ```mermaid
 flowchart LR
-    subgraph actions_core_search_results["core-search-results actions"]
-        action_core_search_open_result["action:core-search-open-result<br/>Open selected result"] --> EVENT_CORE_SEARCH_OPEN_RESULT["EVENT_CORE_SEARCH_OPEN_RESULT<br/>matched"]
-        EVENT_CORE_SEARCH_OPEN_RESULT --> action_core_search_open_result_target["target: route by result type"]
+    subgraph action_ds_action_view_doc ["ds:action:view-doc"]
+        direction LR
+        src_ds_action_view_doc["Open document viewer"]
+        evt_EVENT_VIEW_DOC(("EVENT_VIEW_DOC"))
+        api_ds_action_view_doc["GET /api/docs/:id"]
+        src_ds_action_view_doc --> evt_EVENT_VIEW_DOC
+        evt_EVENT_VIEW_DOC --> api_ds_action_view_doc
     end
 ```
 
-### Showcase route actions
+### ds:action:view-task → EVENT_VIEW_TASK
 
 ```mermaid
 flowchart LR
-    subgraph actions_ds_pi_planning["ds-pi-planning actions"]
-        action_pi_save_plan["action:pi-save-plan<br/>Save PI plan"] --> EVENT_PI_SAVE_PLAN["EVENT_PI_SAVE_PLAN<br/>matched"]
-        EVENT_PI_SAVE_PLAN --> action_pi_save_plan_target["target: api:pi-plan"]
-        action_pi_submit_confidence_vote["action:pi-submit-confidence-vote<br/>Submit confidence vote"] --> EVENT_PI_SUBMIT_CONFIDENCE_VOTE["EVENT_PI_SUBMIT_CONFIDENCE_VOTE<br/>matched"]
-        EVENT_PI_SUBMIT_CONFIDENCE_VOTE --> action_pi_submit_confidence_vote_target["target: api:pi-confidence-vote"]
+    subgraph action_ds_action_view_task ["ds:action:view-task"]
+        direction LR
+        src_ds_action_view_task["Open task detail"]
+        evt_EVENT_VIEW_TASK(("EVENT_VIEW_TASK"))
+        api_ds_action_view_task["GET /api/tasks/:id"]
+        src_ds_action_view_task --> evt_EVENT_VIEW_TASK
+        evt_EVENT_VIEW_TASK --> api_ds_action_view_task
     end
 ```
 
-```mermaid
-flowchart LR
-    subgraph actions_ds_kanban["ds-kanban actions"]
-        action_kanban_update_card_status["action:kanban-update-card-status<br/>Update card status"] --> EVENT_KANBAN_UPDATE_CARD_STATUS["EVENT_KANBAN_UPDATE_CARD_STATUS<br/>matched"]
-        EVENT_KANBAN_UPDATE_CARD_STATUS --> action_kanban_update_card_status_target["target: api:task-status"]
-    end
-```
+### ds:action:view-trace → EVENT_VIEW_TRACE
 
 ```mermaid
 flowchart LR
-    subgraph actions_ds_components["ds-components actions"]
-        action_components_hash_scroll["action:components-hash-scroll<br/>Scroll to component section"] --> EVENT_COMPONENTS_HASH_SCROLL["EVENT_COMPONENTS_HASH_SCROLL<br/>matched"]
-        EVENT_COMPONENTS_HASH_SCROLL --> action_components_hash_scroll_target["target: hash anchor"]
+    subgraph action_ds_action_view_trace ["ds:action:view-trace"]
+        direction LR
+        src_ds_action_view_trace["Open Beads trace explorer"]
+        evt_EVENT_VIEW_TRACE(("EVENT_VIEW_TRACE"))
+        api_ds_action_view_trace["GET /api/trace/:id?depth=full"]
+        src_ds_action_view_trace --> evt_EVENT_VIEW_TRACE
+        evt_EVENT_VIEW_TRACE --> api_ds_action_view_trace
     end
 ```
 
-```mermaid
-flowchart LR
-    subgraph actions_ds_doc_viewer["ds-doc-viewer actions"]
-        action_doc_viewer_open_explorer["action:doc-viewer-open-explorer<br/>Open Explorer"] --> EVENT_DOC_VIEWER_OPEN_EXPLORER["EVENT_DOC_VIEWER_OPEN_EXPLORER<br/>matched"]
-        EVENT_DOC_VIEWER_OPEN_EXPLORER --> action_doc_viewer_open_explorer_target["target: /design-system/explorer"]
-        action_doc_viewer_open_knowledge_graph["action:doc-viewer-open-knowledge-graph<br/>Open Knowledge Graph"] --> EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH["EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH<br/>matched"]
-        EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH --> action_doc_viewer_open_knowledge_graph_target["target: /design-system/knowledge-graph"]
-        action_doc_viewer_open_core_trace["action:doc-viewer-open-core-trace<br/>Open Beads trace"] --> EVENT_DOC_VIEWER_OPEN_CORE_TRACE["EVENT_DOC_VIEWER_OPEN_CORE_TRACE<br/>matched"]
-        EVENT_DOC_VIEWER_OPEN_CORE_TRACE --> action_doc_viewer_open_core_trace_target["target: /trace/:id"]
-    end
-```
+### ds:action:search → EVENT_SEARCH
 
 ```mermaid
 flowchart LR
-    subgraph actions_ds_storyboard["ds-storyboard actions"]
-        action_storyboard_open_real_screen["action:storyboard-open-real-screen<br/>Open real screen"] --> EVENT_STORYBOARD_OPEN_REAL_SCREEN["EVENT_STORYBOARD_OPEN_REAL_SCREEN<br/>matched"]
-        EVENT_STORYBOARD_OPEN_REAL_SCREEN --> action_storyboard_open_real_screen_target["target: route by use case"]
+    subgraph action_ds_action_search ["ds:action:search"]
+        direction LR
+        src_ds_action_search["Run global search"]
+        evt_EVENT_SEARCH(("EVENT_SEARCH"))
+        api_ds_action_search["GET /api/search?q=<query>&type=<type>"]
+        src_ds_action_search --> evt_EVENT_SEARCH
+        evt_EVENT_SEARCH --> api_ds_action_search
+    end
+```
+
+### ds:action:hash-nav → EVENT_HASH_NAVIGATE
+
+```mermaid
+flowchart LR
+    subgraph action_ds_action_hash_nav ["ds:action:hash-nav"]
+        direction LR
+        src_ds_action_hash_nav["Update same-route or cross-route showcase hash navigation"]
+        evt_EVENT_HASH_NAVIGATE(("EVENT_HASH_NAVIGATE"))
+        api_ds_action_hash_nav["browser hashchange plus route component state"]
+        src_ds_action_hash_nav --> evt_EVENT_HASH_NAVIGATE
+        evt_EVENT_HASH_NAVIGATE --> api_ds_action_hash_nav
+    end
+```
+
+### ds:action:refresh → EVENT_REFRESH
+
+```mermaid
+flowchart LR
+    subgraph action_ds_action_refresh ["ds:action:refresh"]
+        direction LR
+        src_ds_action_refresh["Refresh route data after retry or evidence update"]
+        evt_EVENT_REFRESH(("EVENT_REFRESH"))
+        api_ds_action_refresh["route-specific GET endpoints"]
+        src_ds_action_refresh --> evt_EVENT_REFRESH
+        evt_EVENT_REFRESH --> api_ds_action_refresh
+    end
+```
+
+### ds:action:back → EVENT_BACK
+
+```mermaid
+flowchart LR
+    subgraph action_ds_action_back ["ds:action:back"]
+        direction LR
+        src_ds_action_back["Return from boundary state to the last safe route"]
+        evt_EVENT_BACK(("EVENT_BACK"))
+        api_ds_action_back["client history back or route-safe fallback to core workspace route"]
+        src_ds_action_back --> evt_EVENT_BACK
+        evt_EVENT_BACK --> api_ds_action_back
+        cmp_0_ds_webui_pm_workspace_showcase_boundary_actions["source ds:webui-pm-workspace-showcase:boundary-actions"] --> src_ds_action_back
+    end
+```
+
+### ds:action:keep-local → EVENT_KEEP_LOCAL
+
+```mermaid
+flowchart LR
+    subgraph action_ds_action_keep_local ["ds:action:keep-local"]
+        direction LR
+        src_ds_action_keep_local["Keep queued local edits during sync conflict resolution"]
+        evt_EVENT_KEEP_LOCAL(("EVENT_KEEP_LOCAL"))
+        api_ds_action_keep_local["POST /api/sync/conflicts/:id/resolve with resolution=keep_local"]
+        src_ds_action_keep_local --> evt_EVENT_KEEP_LOCAL
+        evt_EVENT_KEEP_LOCAL --> api_ds_action_keep_local
+        cmp_0_ds_webui_pm_workspace_showcase_sync_conflict_banner["source ds:webui-pm-workspace-showcase:sync-conflict-banner"] --> src_ds_action_keep_local
+    end
+```
+
+### ds:action:use-server → EVENT_USE_SERVER
+
+```mermaid
+flowchart LR
+    subgraph action_ds_action_use_server ["ds:action:use-server"]
+        direction LR
+        src_ds_action_use_server["Replace queued local edits with the server version during sync conflict resolution"]
+        evt_EVENT_USE_SERVER(("EVENT_USE_SERVER"))
+        api_ds_action_use_server["POST /api/sync/conflicts/:id/resolve with resolution=use_server"]
+        src_ds_action_use_server --> evt_EVENT_USE_SERVER
+        evt_EVENT_USE_SERVER --> api_ds_action_use_server
+        cmp_0_ds_webui_pm_workspace_showcase_sync_conflict_banner["source ds:webui-pm-workspace-showcase:sync-conflict-banner"] --> src_ds_action_use_server
     end
 ```
 
 ## 5. Responsive Layout Intent by Viewport
 
+Annotations: desktop keeps persistent shell and multi-panel review surfaces; tablet condenses navigation and converts secondary panels to drawers or bottom sheets; mobile uses single-column flow, overlay sidebar, full-screen drawers, table-to-card fallback, and simplified graph/tree fallbacks where needed.
+
 ```mermaid
 flowchart TD
-    VP["Canonical viewports"]
-    VP --> vp_desktop["desktop 1440px&lt;br/&gt;min 1280px&lt;br/&gt;persistent shell, expanded sidebar, multi-column content"]
-    VP --> vp_tablet["tablet 1024px&lt;br/&gt;min 768px&lt;br/&gt;condensed sidebar, horizontal scroll for dense boards, drawers become bottom sheets"]
-    VP --> vp_mobile["mobile 390px&lt;br/&gt;max 767px&lt;br/&gt;hamburger shell, single-column content, tables become cards, drawers become full-screen overlays"]
-    vp_desktop --> resp_core_global_shell["core-global-shell&lt;br/&gt;desktop: 240px sidebar with header search and footer sync status&lt;br/&gt;tablet: 60px icon sidebar with tooltips&lt;br/&gt;mobile: hamburger overlay sidebar"]
-    vp_desktop --> resp_core_rtm_dashboard["core-rtm-dashboard&lt;br/&gt;desktop: 2x2 panels below KPI row&lt;br/&gt;tablet: two stacked rows&lt;br/&gt;mobile: one panel per row"]
-    vp_desktop --> resp_core_safe_board["core-safe-board&lt;br/&gt;desktop: horizontal Portfolio, ART, and Team lanes&lt;br/&gt;tablet: horizontal scroll lanes&lt;br/&gt;mobile: stacked task cards"]
-    vp_desktop --> resp_core_task_list["core-task-list&lt;br/&gt;desktop: full sortable table&lt;br/&gt;tablet: hide lower-priority columns in expandable rows&lt;br/&gt;mobile: card list with filter drawer"]
-    vp_desktop --> resp_core_task_detail["core-task-detail&lt;br/&gt;desktop: header fields plus tabs&lt;br/&gt;tablet: scrollable tabs&lt;br/&gt;mobile: accordion tabs"]
-    vp_desktop --> resp_core_trace_explorer["core-trace-explorer&lt;br/&gt;desktop: 70 percent graph canvas and 30 percent detail panel&lt;br/&gt;tablet: graph with bottom sheet detail&lt;br/&gt;mobile: simplified tree view with full-screen detail overlay"]
-    vp_desktop --> resp_core_doc_viewer["core-doc-viewer&lt;br/&gt;desktop: tree and document split view&lt;br/&gt;tablet: top document selector with content panel&lt;br/&gt;mobile: document list then selected document"]
-    vp_desktop --> resp_core_approval_gates["core-approval-gates&lt;br/&gt;desktop: evidence split view with sticky decision panel&lt;br/&gt;tablet: stacked evidence and decision sections&lt;br/&gt;mobile: evidence cards with bottom decision bar"]
-    vp_desktop --> resp_core_search_results["core-search-results&lt;br/&gt;desktop: filter sidebar and grouped results&lt;br/&gt;tablet: expandable filters above results&lt;br/&gt;mobile: filter dropdown and full-width results"]
-    vp_mobile --> resp_ds_terminal["ds-terminal&lt;br/&gt;desktop: scenario tabs above 2x2 mosaic terminal layout&lt;br/&gt;tablet: two columns then stacked terminals&lt;br/&gt;mobile: one terminal per row"]
-    vp_mobile --> resp_ds_portfolio["ds-portfolio&lt;br/&gt;desktop: table and roadmap side by side&lt;br/&gt;tablet: table above roadmap&lt;br/&gt;mobile: epic cards and scrollable roadmap"]
-    vp_mobile --> resp_ds_pi_planning["ds-pi-planning&lt;br/&gt;desktop: sandbox, scoring, vote, and ROAM board&lt;br/&gt;tablet: two stacked planning columns&lt;br/&gt;mobile: single-column planning cards"]
-    vp_mobile --> resp_ds_git_graph["ds-git-graph&lt;br/&gt;desktop: scenario rail, graph canvas, stats panel&lt;br/&gt;tablet: scenario select above canvas&lt;br/&gt;mobile: stacked scenario list and graph summary"]
-    vp_mobile --> resp_ds_kanban["ds-kanban&lt;br/&gt;desktop: board selector and lanes&lt;br/&gt;tablet: scrollable lanes&lt;br/&gt;mobile: card list grouped by status"]
-    vp_mobile --> resp_ds_knowledge_graph["ds-knowledge-graph&lt;br/&gt;desktop: Sigma.js canvas with legends and detail banner&lt;br/&gt;tablet: canvas with collapsible legends&lt;br/&gt;mobile: simplified graph with selected-node drawer"]
-    vp_mobile --> resp_ds_approval["ds-approval&lt;br/&gt;desktop: approval panels, RTM, and heatmap sections&lt;br/&gt;tablet: stacked panels with sticky toggles&lt;br/&gt;mobile: accordion evidence panels"]
-    vp_mobile --> resp_ds_timeline["ds-timeline&lt;br/&gt;desktop: three timeline sections&lt;br/&gt;tablet: stacked timeline sections&lt;br/&gt;mobile: compact event list"]
-    vp_mobile --> resp_ds_components["ds-components&lt;br/&gt;desktop: section sidebar and examples grid&lt;br/&gt;tablet: section tabs and examples&lt;br/&gt;mobile: hash-scroll sections"]
-    vp_mobile --> resp_ds_doc_viewer["ds-doc-viewer&lt;br/&gt;desktop: file tree with selected document panel&lt;br/&gt;tablet: collapsible tree above panel&lt;br/&gt;mobile: folder list then document detail"]
-    vp_mobile --> resp_ds_explorer["ds-explorer&lt;br/&gt;desktop: search, filters, results, and detail sidebar&lt;br/&gt;tablet: detail sidebar becomes bottom panel&lt;br/&gt;mobile: results list with detail overlay"]
-    vp_mobile --> resp_ds_beads_traversal["ds-beads-traversal&lt;br/&gt;desktop: four-layer DAG with detail sidebar&lt;br/&gt;tablet: layered DAG with bottom detail&lt;br/&gt;mobile: layer cards with linked highlighting"]
-    vp_mobile --> resp_ds_storyboard["ds-storyboard&lt;br/&gt;desktop: journey filter, horizontal flow, guidance panel&lt;br/&gt;tablet: flow above guidance panel&lt;br/&gt;mobile: step list with guidance cards"]
-    vp_mobile --> resp_ds_storyboard_detail["ds-storyboard-detail&lt;br/&gt;desktop: role, journey, timeline, and related use cases&lt;br/&gt;tablet: stacked detail sections&lt;br/&gt;mobile: single-column timeline"]
-    vp_mobile --> resp_ds_webui_pm_workspace["ds-webui-pm-workspace&lt;br/&gt;desktop: header, sidebar nav, and active surface canvas&lt;br/&gt;tablet: compact sidebar and stacked dashboard modules&lt;br/&gt;mobile: hamburger nav and one active surface at a time"]
+    ShellIntent["Global shell responsive contract"]
+    VP_desktop["desktop 1440px<br/>persistent shell, expanded sidebar, multi-panel layouts"]
+    ShellIntent --> VP_desktop
+    VP_tablet["tablet 1024px<br/>condensed sidebar, stacked secondary panels, horizontal scroll where boards overflow"]
+    ShellIntent --> VP_tablet
+    VP_mobile["mobile 390px<br/>single-column flow, sidebar as overlay, drawers as full-screen overlays, tables become cards"]
+    ShellIntent --> VP_mobile
+    Rule_ds_rule_shell_desktop["ds:rule:shell-desktop<br/>header, sidebar, footer, and main surface are visible together"]
+    VP_desktop --> Rule_ds_rule_shell_desktop
+    Rule_ds_rule_shell_tablet["ds:rule:shell-tablet<br/>navigation collapses to icon rail; detail panels become drawers or bottom sheets"]
+    VP_tablet --> Rule_ds_rule_shell_tablet
+    Rule_ds_rule_shell_mobile["ds:rule:shell-mobile<br/>hamburger opens overlay sidebar; graph-heavy views may render tree/list fallback"]
+    VP_mobile --> Rule_ds_rule_shell_mobile
+    DesktopScreens["desktop: 2x2 dashboards, side panels, tables, graph canvases"]
+    TabletScreens["tablet: condensed sidebar, horizontal board scroll, drawers or bottom sheets"]
+    MobileScreens["mobile: one-column cards, overlay nav, full-screen drawers, graph list fallback"]
+    VP_desktop --> DesktopScreens
+    VP_tablet --> TabletScreens
+    VP_mobile --> MobileScreens
+    RS0["screen:rtm-dashboard<br/>four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis"]
+    DesktopScreens --> RS0
+    MobileScreens --> RS0
+    RS1["screen:safe-board<br/>portfolio, ART, and team kanban views with WIP and RTE escalation badges"]
+    DesktopScreens --> RS1
+    MobileScreens --> RS1
+    RS2["screen:task-list<br/>sortable data table with filters, pagination, CSV export, and bulk action bar"]
+    DesktopScreens --> RS2
+    MobileScreens --> RS2
+    RS3["screen:task-detail<br/>editable task header with Detail, Activity, Graph, and Code tabs"]
+    DesktopScreens --> RS3
+    MobileScreens --> RS3
+    RS4["screen:trace-explorer<br/>full-page graph canvas with toolbar, filters, legend, and detail panel"]
+    DesktopScreens --> RS4
+    MobileScreens --> RS4
+    RS5["screen:doc-viewer<br/>source-type document tree and rendered content panel"]
+    DesktopScreens --> RS5
+    MobileScreens --> RS5
+    RS6["screen:approval-gates<br/>Level 3 approval workspace with queue, evidence, PRD context, and decision controls"]
+    DesktopScreens --> RS6
+    MobileScreens --> RS6
+    RS7["screen:search-results<br/>global search input, filter sidebar, grouped results, and instant suggestions"]
+    DesktopScreens --> RS7
+    MobileScreens --> RS7
+    RS8["screen:ds-terminal<br/>scenario tabs with 2x2 terminal mosaic"]
+    DesktopScreens --> RS8
+    RS9["screen:ds-portfolio<br/>executive portfolio table with roadmap quarters"]
+    DesktopScreens --> RS9
+    MobileScreens --> RS9
+    RS10["screen:ds-pi-planning<br/>two-column PI planning sandbox, scoring, vote, and ROAM board"]
+    DesktopScreens --> RS10
+    MobileScreens --> RS10
+    RS11["screen:ds-git-graph<br/>hash-selected git graph scenarios with branches, commits, connections, tags, and stats"]
+    DesktopScreens --> RS11
+    MobileScreens --> RS11
+    RS12["screen:ds-kanban<br/>board selector with draggable cards, WIP badges, and board stats"]
+    DesktopScreens --> RS12
+    RS13["screen:ds-knowledge-graph<br/>client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats"]
+    DesktopScreens --> RS13
+    MobileScreens --> RS13
+    RS14["screen:ds-approval<br/>approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap"]
+    DesktopScreens --> RS14
+    MobileScreens --> RS14
+    RS15["screen:ds-timeline<br/>file lease indicators, activity feed, and sprint day timeline"]
+    DesktopScreens --> RS15
+    RS16["screen:ds-components<br/>catalog of 18 shared design-system sections with hash scroll and interactive examples"]
+    DesktopScreens --> RS16
+    RS17["screen:ds-doc-viewer<br/>GitHub-like file tree with selected document panel and Beads badges"]
+    DesktopScreens --> RS17
+    MobileScreens --> RS17
+    RS18["screen:ds-explorer<br/>unified search, type filters, result list, and detail sidebar"]
+    DesktopScreens --> RS18
+    MobileScreens --> RS18
+    RS19["screen:ds-beads-traversal<br/>layered DAG from PRD sections to plan elements, tasks, and commits"]
+    DesktopScreens --> RS19
+    RS20["screen:ds-storyboard<br/>journey filter, horizontal use-case flow, guidance panel, and CTA to real screen"]
+    DesktopScreens --> RS20
+    MobileScreens --> RS20
+    RS21["screen:ds-storyboard-detail<br/>dynamic storyboard detail with role, journey, step timeline, and related use cases"]
+    DesktopScreens --> RS21
+    MobileScreens --> RS21
+    RS22["screen:ds-webui-pm-workspace<br/>integrated shell with header, search, offline indicator, sidebar nav, and active PM surfaces"]
+    DesktopScreens --> RS22
+    MobileScreens --> RS22
 ```
 
-## 6. Route Coverage Check
+## 6. Mermaid Logic Machine States and Transitions
 
 ```mermaid
-flowchart TB
-    Required["Required showcase route coverage"] --> Covered["15 of 15 required showcase routes diagrammed"]
-    Covered --> cov_ds_terminal["/design-system/terminal<br/>ds-terminal"]
-    Covered --> cov_ds_portfolio["/design-system/portfolio<br/>ds-portfolio"]
-    Covered --> cov_ds_pi_planning["/design-system/pi-planning<br/>ds-pi-planning"]
-    Covered --> cov_ds_git_graph["/design-system/git-graph<br/>ds-git-graph"]
-    Covered --> cov_ds_kanban["/design-system/kanban<br/>ds-kanban"]
-    Covered --> cov_ds_knowledge_graph["/design-system/knowledge-graph<br/>ds-knowledge-graph"]
-    Covered --> cov_ds_approval["/design-system/approval<br/>ds-approval"]
-    Covered --> cov_ds_timeline["/design-system/timeline<br/>ds-timeline"]
-    Covered --> cov_ds_components["/design-system/components<br/>ds-components"]
-    Covered --> cov_ds_doc_viewer["/design-system/doc-viewer<br/>ds-doc-viewer"]
-    Covered --> cov_ds_explorer["/design-system/explorer<br/>ds-explorer"]
-    Covered --> cov_ds_beads_traversal["/design-system/beads-traversal<br/>ds-beads-traversal"]
-    Covered --> cov_ds_storyboard["/design-system/storyboard<br/>ds-storyboard"]
-    Covered --> cov_ds_storyboard_detail["/design-system/storyboard/:id<br/>ds-storyboard-detail"]
-    Covered --> cov_ds_webui_pm_workspace["/design-system/webui-pm-workspace<br/>ds-webui-pm-workspace"]
+stateDiagram-v2
+    direction LR
+    [*] --> GlobalShell
+    GlobalShell --> LoadingState : ROUTE_ENTER
+    LoadingState --> CoreRoute : API_SUCCESS_CORE
+    LoadingState --> ShowcaseRoute : API_SUCCESS_SHOWCASE
+    LoadingState --> EmptyState : API_EMPTY
+    LoadingState --> PermissionDenied : API_FORBIDDEN
+    LoadingState --> ErrorState : API_ERROR
+    LoadingState --> NotFoundState : API_NOT_FOUND
+    LoadingState --> PartialState : API_PARTIAL_ENRICHMENT
+
+    CoreRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    CoreRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    CoreRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    CoreRoute --> SearchRoute : EVENT_SEARCH
+    CoreRoute --> LoadingState : EVENT_REFRESH
+    CoreRoute --> SavingState : EVENT_SAVE_TASK
+    CoreRoute --> SavingState : EVENT_SAVE_BULK
+    CoreRoute --> SavingState : EVENT_MOVE_CARD
+    CoreRoute --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
+
+    ShowcaseRoute --> ShowcaseRoute : EVENT_HASH_NAVIGATE
+    ShowcaseRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    ShowcaseRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    ShowcaseRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    ShowcaseRoute --> SearchRoute : EVENT_SEARCH
+    ShowcaseRoute --> LoadingState : EVENT_REFRESH
+    ShowcaseRoute --> SavingState : EVENT_MOVE_CARD
+    ShowcaseRoute --> PiPlanningSaveState : EVENT_PI_PLAN_SAVE
+    ShowcaseRoute --> PiPlanningVoteState : EVENT_CONFIDENCE_VOTE
+    ShowcaseRoute --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
+
+    TaskDetailRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    TaskDetailRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    TraceExplorerRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    TraceExplorerRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    DocViewerRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    SearchRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    SearchRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    SearchRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+
+    SavingState --> CoreRoute : API_SUCCESS
+    SavingState --> ErrorState : API_ERROR_ROLLBACK
+    SavingState --> OfflineState : API_OFFLINE_QUEUE
+    ApprovalDecisionState --> SuccessState : API_APPROVAL_SUCCESS
+    ApprovalDecisionState --> ErrorState : API_APPROVAL_ERROR
+    ApprovalDecisionState --> PermissionDenied : API_APPROVAL_FORBIDDEN
+    PiPlanningSaveState --> SuccessState : API_PI_SAVE_SUCCESS
+    PiPlanningSaveState --> ErrorState : API_PI_SAVE_ERROR
+    PiPlanningVoteState --> SuccessState : API_VOTE_SUCCESS
+    PiPlanningVoteState --> ErrorState : API_VOTE_ERROR
+
+    GlobalShell --> OfflineState : EVENT_DISCONNECT
+    CoreRoute --> OfflineState : EVENT_DISCONNECT
+    ShowcaseRoute --> OfflineState : EVENT_DISCONNECT
+    OfflineState --> RehydratingState : EVENT_RECONNECT
+    RehydratingState --> ConflictResolution : API_CONFLICT
+    ConflictResolution --> RehydratingState : EVENT_KEEP_LOCAL
+    ConflictResolution --> RehydratingState : EVENT_USE_SERVER
+    RehydratingState --> GlobalShell : API_SYNC_SUCCESS
+    RehydratingState --> ErrorState : API_SYNC_ERROR
+
+    EmptyState --> LoadingState : EVENT_REFRESH
+    ErrorState --> LoadingState : EVENT_REFRESH
+    PartialState --> LoadingState : EVENT_REFRESH
+    SuccessState --> LoadingState : EVENT_REFRESH
+    PermissionDenied --> GlobalShell : EVENT_BACK
+    NotFoundState --> GlobalShell : EVENT_BACK
+    ErrorState --> GlobalShell : EVENT_BACK
 ```
 
+## 7. Required Showcase Route and DS ID Coverage
+
+```mermaid
+flowchart LR
+    Required["PRD-04 required showcase coverage"]
+    Q0["/design-system/terminal<br/>screen:ds-terminal<br/>ds:screen:terminal-showcase-001<br/>ds:screen:terminal-001"]
+    Required --> Q0
+    Q1["/design-system/portfolio<br/>screen:ds-portfolio<br/>ds:screen:portfolio-showcase-001<br/>br-ds-portfolio-view"]
+    Required --> Q1
+    Q2["/design-system/pi-planning<br/>screen:ds-pi-planning<br/>ds:screen:pi-planning-showcase-001<br/>br-ds-pi-planning"]
+    Required --> Q2
+    Q3["/design-system/git-graph<br/>screen:ds-git-graph<br/>ds:screen:git-graph-showcase-001<br/>ds:screen:git-graph-001"]
+    Required --> Q3
+    Q4["/design-system/kanban<br/>screen:ds-kanban<br/>ds:screen:kanban-showcase-001<br/>ds:screen:kanban-001"]
+    Required --> Q4
+    Q5["/design-system/knowledge-graph<br/>screen:ds-knowledge-graph<br/>ds:screen:knowledge-graph-showcase-001<br/>ds:screen:knowledge-graph-001"]
+    Required --> Q5
+    Q6["/design-system/approval<br/>screen:ds-approval<br/>ds:screen:approval-showcase-001<br/>ds:screen:approval-001"]
+    Required --> Q6
+    Q7["/design-system/timeline<br/>screen:ds-timeline<br/>ds:screen:timeline-showcase-001<br/>ds:screen:timeline-001"]
+    Required --> Q7
+    Q8["/design-system/components<br/>screen:ds-components<br/>ds:screen:components-showcase-001<br/>ds:screen:components-001"]
+    Required --> Q8
+    Q9["/design-system/doc-viewer<br/>screen:ds-doc-viewer<br/>ds:screen:doc-viewer-showcase-001<br/>ds:screen:doc-viewer-001"]
+    Required --> Q9
+    Q10["/design-system/explorer<br/>screen:ds-explorer<br/>ds:screen:explorer-showcase-001<br/>ds:screen:explorer-001"]
+    Required --> Q10
+    Q11["/design-system/beads-traversal<br/>screen:ds-beads-traversal<br/>ds:screen:beads-traversal-showcase-001<br/>ds:screen:beads-traversal-001"]
+    Required --> Q11
+    Q12["/design-system/storyboard<br/>screen:ds-storyboard<br/>ds:screen:storyboard-showcase-001<br/>ds:screen:storyboard-001"]
+    Required --> Q12
+    Q13["/design-system/storyboard/:id<br/>screen:ds-storyboard-detail<br/>ds:screen:storyboard-detail-showcase-001<br/>ds:screen:storyboard-001"]
+    Required --> Q13
+    Q14["/design-system/webui-pm-workspace<br/>screen:ds-webui-pm-workspace<br/>ds:screen:webui-pm-workspace-showcase-001<br/>ds:global_shell"]
+    Required --> Q14
+```
+
+## 8. Core API Boundary Mapping for Gate A
+
+Annotations: Core WebUI mappings are shown as API-only browser boundaries. Aggregation of FrankenSQLite, Zvec, local git, GitHub `gh`, FastCode, and shell data remains backend-only behind `gmind serve`.
+
+```mermaid
+flowchart LR
+    Browser["Browser UI<br/>route components and showcase shell"]
+    API["gmind serve Go REST API"]
+    Backend["Backend-only sources<br/>FrankenSQLite Zvec git gh FastCode shell"]
+    Browser --> API
+    API --> Backend
+    API0["screen:rtm-dashboard<br/>GET /api/coverage<br/>GET /api/tasks<br/>GET /api/trace/:id?depth=2<br/>GET /api/gaps"]
+    Browser --> API0
+    API0 --> API
+    API1["screen:safe-board<br/>GET /api/tasks?view=board&level=<level><br/>PUT /api/tasks/:id/status<br/>GET /api/tasks/:id/activity"]
+    Browser --> API1
+    API1 --> API
+    API2["screen:task-list<br/>GET /api/tasks?format=list<br/>PUT /api/tasks/bulk"]
+    Browser --> API2
+    API2 --> API
+    API3["screen:task-detail<br/>GET /api/tasks/:id<br/>GET /api/tasks/:id/activity<br/>GET /api/trace/:id?depth=2<br/>PUT /api/tasks/:id"]
+    Browser --> API3
+    API3 --> API
+    API4["screen:trace-explorer<br/>GET /api/trace/:id?depth=full<br/>GET /api/impact/:section"]
+    Browser --> API4
+    API4 --> API
+    API5["screen:doc-viewer<br/>GET /api/docs?group=source_type<br/>GET /api/docs/:id<br/>GET /api/coverage?prd=<beads-id>"]
+    Browser --> API5
+    API5 --> API
+    API6["screen:approval-gates<br/>GET /api/tasks?status=pending-approval<br/>GET /api/approval/:id/evidence<br/>POST /api/approval/:id/decision<br/>GET /api/coverage"]
+    Browser --> API6
+    API6 --> API
+    API7["screen:search-results<br/>GET /api/search?q=<query>&type=<type>"]
+    Browser --> API7
+    API7 --> API
+    API8["screen:ds-terminal<br/>GET /api/agents/sessions<br/>GET /api/ci/runs<br/>GET /api/tasks/:id/activity<br/>GET /api/log-events?stream=terminal"]
+    Browser --> API8
+    API8 --> API
+    API9["screen:ds-portfolio<br/>GET /api/portfolio/epics<br/>GET /api/tasks?issue_type=epic"]
+    Browser --> API9
+    API9 --> API
+    API10["screen:ds-pi-planning<br/>GET /api/pi/features<br/>PUT /api/pi/plan<br/>GET /api/risks?view=roam<br/>POST /api/pi/confidence-vote"]
+    Browser --> API10
+    API10 --> API
+    API11["screen:ds-git-graph<br/>GET /api/git/graph?scenario=<id><br/>GET /api/trace/:id?include=git"]
+    Browser --> API11
+    API11 --> API
+    API12["screen:ds-kanban<br/>GET /api/tasks?view=board&board=<id><br/>PUT /api/tasks/:id/status"]
+    Browser --> API12
+    API12 --> API
+    API13["screen:ds-knowledge-graph<br/>GET /api/trace/:id?depth=full<br/>GET /api/graph/presets"]
+    Browser --> API13
+    API13 --> API
+    API14["screen:ds-approval<br/>GET /api/tasks?status=pending-approval<br/>GET /api/coverage<br/>GET /api/approval/:id/evidence<br/>POST /api/approval/:id/decision"]
+    Browser --> API14
+    API14 --> API
+    API15["screen:ds-timeline<br/>GET /api/activity<br/>GET /api/file-leases<br/>GET /api/tasks/:id/activity"]
+    Browser --> API15
+    API15 --> API
+    API16["screen:ds-components<br/>GET /api/design-system/components"]
+    Browser --> API16
+    API16 --> API
+    API17["screen:ds-doc-viewer<br/>GET /api/docs?group=source_type<br/>GET /api/docs/:id"]
+    Browser --> API17
+    API17 --> API
+    API18["screen:ds-explorer<br/>GET /api/search?q=<query>&type=<type>"]
+    Browser --> API18
+    API18 --> API
+    API19["screen:ds-beads-traversal<br/>GET /api/trace/:id?depth=full"]
+    Browser --> API19
+    API19 --> API
+    API20["screen:ds-storyboard<br/>GET /api/storyboards"]
+    Browser --> API20
+    API20 --> API
+    API21["screen:ds-storyboard-detail<br/>GET /api/storyboards/:id"]
+    Browser --> API21
+    API21 --> API
+    API22["screen:ds-webui-pm-workspace<br/>GET /api/coverage<br/>GET /api/tasks<br/>GET /api/trace/:id<br/>GET /api/docs"]
+    Browser --> API22
+    API22 --> API
+```

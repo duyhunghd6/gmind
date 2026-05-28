@@ -1,0 +1,16 @@
+id: layout:screen:ds-storyboard-detail:error:tablet
+screen_id: screen:ds-storyboard-detail
+route: /design-system/storyboard/:id
+screen_ds_id: ds:screen:storyboard-detail-showcase-001
+state: error
+viewport: tablet
+width: 1024
+layout: dynamic storyboard detail with role, journey, step timeline, and related use
+  cases
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

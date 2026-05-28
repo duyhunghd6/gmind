@@ -1,0 +1,56 @@
+trajectory_id: not-found-recovery
+title: User returns from missing storyboard detail
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- API_NOT_FOUND
+- EVENT_BACK
+- ROUTE_ENTER
+routes:
+- /design-system/storyboard/:id
+- /design-system/storyboard
+recovery_path: true
+steps:
+- order: 1
+  route: /design-system/storyboard/:id
+  screen_id: screen:ds-storyboard-detail
+  screen_ds_id: ds:screen:storyboard-detail-showcase-001
+  state: not_found
+  event: API_NOT_FOUND
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: API_NOT_FOUND
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:storyboard-detail-showcase-001
+- order: 2
+  route: /design-system/storyboard
+  screen_id: screen:ds-storyboard
+  screen_ds_id: ds:screen:storyboard-showcase-001
+  state: default
+  event: EVENT_BACK
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_BACK
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:storyboard-showcase-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: not-found-recovery
+prd_journey: PRD-04 §8.1A route coverage — User returns from missing storyboard detail
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: default
+ds_targets:
+- ds:screen:storyboard-detail-showcase-001
+- ds:screen:storyboard-showcase-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

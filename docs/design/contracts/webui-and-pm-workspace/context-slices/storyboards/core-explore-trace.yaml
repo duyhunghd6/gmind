@@ -1,0 +1,70 @@
+trajectory_id: core-explore-trace
+title: PM opens trace from task graph
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- EVENT_VIEW_TRACE
+- API_SUCCESS_CORE
+- EVENT_VIEW_DOC
+routes:
+- /tasks/:id
+- /trace/:id
+- /docs
+recovery_path: false
+steps:
+- order: 1
+  route: /tasks/:id
+  screen_id: screen:task-detail
+  screen_ds_id: ds:screen:task-detail-001
+  state: default
+  event: EVENT_VIEW_TRACE
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_VIEW_TRACE
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:task-detail-001
+- order: 2
+  route: /trace/:id
+  screen_id: screen:trace-explorer
+  screen_ds_id: ds:screen:trace-explorer-001
+  state: partial
+  event: API_SUCCESS_CORE
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: API_SUCCESS_CORE
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:trace-explorer-001
+- order: 3
+  route: /docs
+  screen_id: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: default
+  event: EVENT_VIEW_DOC
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_VIEW_DOC
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: core-explore-trace
+prd_journey: PRD-04 §8.1A route coverage — PM opens trace from task graph
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: default
+ds_targets:
+- ds:screen:task-detail-001
+- ds:screen:trace-explorer-001
+- ds:screen:core-doc-viewer-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

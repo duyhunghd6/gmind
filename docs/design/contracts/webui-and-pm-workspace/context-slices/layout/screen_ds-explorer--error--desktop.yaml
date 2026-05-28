@@ -1,0 +1,14 @@
+id: layout:screen:ds-explorer:error:desktop
+screen_id: screen:ds-explorer
+route: /design-system/explorer
+screen_ds_id: ds:screen:explorer-showcase-001
+state: error
+viewport: desktop
+width: 1440
+layout: unified search, type filters, result list, and detail sidebar
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

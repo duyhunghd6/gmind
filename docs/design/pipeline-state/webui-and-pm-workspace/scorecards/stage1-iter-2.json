@@ -1,24 +1,101 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 2,
-  "score": 92,
+  "score": 94,
   "convergence_status": "GATE_A_READY",
   "pillar_scores": {
-    "container_validity": 100,
-    "prd_coverage": 100,
-    "component_traceability": 100,
-    "logic_coverage": 85,
-    "derived_artifact_consistency": 100,
-    "conflict_preview_readiness": 90
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses as a dict and Mermaid stateDiagram-v2 has direction LR plus 62 transitions."
+    },
+    "prd_coverage": {
+      "score": 18,
+      "max": 20,
+      "tool_evidence": "23 screens and 24 routes mapped; all 15 PRD-04 §8.1A showcase routes, including storyboard/:id and webui-pm-workspace, are present; metadata.satisfies covers 16 PRD IDs; all screens include required state variants and Core WebUI API mappings."
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "115 YAML ds_id values are unique; component-map.json has 115 unique ds_id values, 0 YAML-to-map gaps, 0 map extras, 70 DS component types, and 17 action events mapped."
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "17/17 YAML EVENT_* actions are covered by Mermaid with 0 unmatched Mermaid EVENT_* events; transitions cover success, empty, forbidden, not-found, partial enrichment, rollback, offline queue, conflict, retry, reconnect, approval, PI save/vote, refresh, and back paths."
+    },
+    "derived_artifact_consistency": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "Mermaid validator PASS: flow.md has exactly 1 block and review-diagrams.md has 46 blocks; storyboards/layout/component/index/manifest JSON parse; 13 storyboard trajectories, 432 layout rules, 562 context slices, 574 artifact-index entries, 0 missing indexed paths, and no standalone .mmd files."
+    },
+    "conflict_preview_readiness": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "preview regenerated OK with 8/8 artifacts loaded and 0 warnings; preview/index.html includes artifact status, screens, Mermaid, flow, storyboard, component hierarchy, layout, review diagram, and conflict sections; prior preview artifact-index gap is resolved; storyboards-review.md and prd-ds-conflicts.md exist."
+    }
   },
   "schema_checks": {
-    "mermaid_valid": true,
-    "preview_manifest_valid": true,
-    "layout_rules_present": true
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_block_style": true,
+    "yaml_parse_type": "dict",
+    "mermaid_transition_count": 62,
+    "duplicate_ds_ids": [],
+    "yaml_ds_ids_total": 115,
+    "component_map_unique_ds_ids": 115,
+    "component_map_missing_ds_ids": [],
+    "component_map_extra_ds_ids": [],
+    "ds_type_count": 70,
+    "yaml_actions_total": 17,
+    "mermaid_events_total": 17,
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "required_showcase_routes_missing": [],
+    "metadata_satisfies_count": 16,
+    "all_screens_have_required_state_variants": true,
+    "core_webui_api_mappings_present": true,
+    "standalone_mmd_files": 0,
+    "required_artifacts_present": true,
+    "json_artifacts_valid": true,
+    "storyboard_trajectories": 13,
+    "layout_rules_count": 432,
+    "artifact_index_entries": 574,
+    "artifact_index_missing_paths": 0,
+    "artifact_index_missing_required_entries": [],
+    "context_slice_count": 562,
+    "invalid_context_slices": [],
+    "invalid_load_policies": [],
+    "mermaid_markdown_validator_status": "PASS",
+    "flow_mermaid_blocks": 1,
+    "review_diagrams_mermaid_blocks": 46,
+    "preview_generation_status": "OK",
+    "preview_artifacts_loaded": 8,
+    "preview_artifacts_total": 8,
+    "preview_warnings": 0,
+    "preview_sections_missing": [],
+    "baseline_features_processed": 0
   },
-  "fix_queue": [],
+  "fix_queue": [
+    {
+      "priority": "P2",
+      "pillar": "prd_coverage",
+      "responsible_generator": "gen_contracts",
+      "detail": "Hash navigation is globally modeled through EVENT_HASH_NAVIGATE and explicitly attached to hash-heavy screens, but several showcase routes rely on behaviors/assertion hooks rather than per-component EVENT_HASH_NAVIGATE bindings. Add explicit hash action bindings for terminal, portfolio, doc-viewer, beads-traversal, storyboard/detail, and integrated shell if Gate A reviewers require per-route hash trace rows."
+    },
+    {
+      "priority": "P2",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_contracts",
+      "detail": "ui-contract.md is 1044 lines, slightly above the repository documentation guideline. Trim non-SSOT prose or move review-only explanation into indexed summaries when convenient."
+    }
+  ],
   "baseline_regression": false,
+  "recommended_ba_route": "Proceed to Gate A / Stage 2. Do not respawn gen_flows for the prior artifact-index issue; it is resolved. Carry only P2 gen_contracts polish for optional hash-action granularity and contract length.",
   "issues": [
-    "Storyboards coverage still missing comprehensive journeys for dashboard, doc-viewer, search-results, task-detail, task-list, trace-explorer, although the state machine covers them."
+    "PASS: prior P1 artifact-index gap is resolved; preview/index.html and preview/preview-manifest.json are indexed and exist.",
+    "PASS: all required Stage 1 artifacts exist, parse, and are discoverable through preview/index.html or artifact-index.json.",
+    "PASS: no P0 or P1 issues remain; package is Gate A ready.",
+    "P2: hash navigation is sufficient globally but not exhaustively bound as per-component actions on every showcase route."
   ]
 }

@@ -1,0 +1,15 @@
+id: layout:screen:ds-git-graph:loading:desktop
+screen_id: screen:ds-git-graph
+route: /design-system/git-graph
+screen_ds_id: ds:screen:git-graph-showcase-001
+state: loading
+viewport: desktop
+width: 1440
+layout: hash-selected git graph scenarios with branches, commits, connections, tags,
+  and stats
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

@@ -1,0 +1,16 @@
+id: layout:screen:task-list:offline:tablet
+screen_id: screen:task-list
+route: /tasks
+screen_ds_id: ds:screen:task-list-001
+state: offline
+viewport: tablet
+width: 1024
+layout: sortable data table with filters, pagination, CSV export, and bulk action
+  bar
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

@@ -1,0 +1,15 @@
+id: layout:screen:ds-timeline:error:tablet
+screen_id: screen:ds-timeline
+route: /design-system/timeline
+screen_ds_id: ds:screen:timeline-showcase-001
+state: error
+viewport: tablet
+width: 1024
+layout: file lease indicators, activity feed, and sprint day timeline
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

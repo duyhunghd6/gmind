@@ -1,0 +1,21 @@
+ds_id: ds:storyboard-detail-showcase:role
+type: StoryboardRolePanel
+parent_ds_id: ds:storyboard-detail-showcase:surface
+actions: []
+screen_id: screen:ds-storyboard-detail
+screen_route: /design-system/storyboard/:id
+screen_ds_id: ds:screen:storyboard-detail-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- not_found
+bindings:
+- GET /api/storyboards/:id
+screen_actions:
+- map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation
+  guidance
+- navigate related use cases without losing sidebar context

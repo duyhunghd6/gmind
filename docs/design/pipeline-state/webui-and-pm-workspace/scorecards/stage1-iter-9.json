@@ -1,0 +1,173 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 9,
+  "score": 98,
+  "convergence_status": "GATE_A_READY",
+  "recommended_ba_route": "GATE_A_READY; no BA reroute required because prior P1 cleanup is verified on disk",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists; exactly 1 block-style YAML fence, 1 Mermaid fence, 2 total fenced blocks; YAML parses, is multi-line block-style YAML, and does not start as JSON"
+    },
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "23/23 required routes present; metadata.satisfies covers br-prd04 and br-prd04-s1..s14 plus s14a; no orphan satisfies IDs and no br-prd04-s15 remains in ui-contract.md"
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "119/119 unique YAML ds_id values covered by component-map.json; duplicate ds_ids=[]; duplicate screen ds_ids=[]; component map includes ds:screen:core-doc-viewer-001 for /docs and ds:screen:doc-viewer-001 for /design-system/doc-viewer"
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "Mermaid has 10 meaningful transitions with direction LR; all 9 YAML actions/events map to Mermaid labels and all Mermaid EVENT/API/RETRY labels have YAML action sources; API_SUCCESS, API_ERROR, RETRY, disconnect, reconnect, save, view-doc, view-task, and view-trace paths represented"
+    },
+    "derived_artifact_consistency": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "flow.md has exactly 1 valid Mermaid block; review-diagrams.md has 30 valid Mermaid blocks; validator PASS with 0 errors; storyboards.json valid with 23 trajectories; layout-rules.json valid with 69 rules; artifact-index.json metadata is fresh with 0 stale hash/size/line-count entries and 626 valid YAML context slices; no standalone .mmd files"
+    },
+    "conflict_preview_readiness": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "contract_to_ui.py generated a temp preview with status OK and 0 warnings; on-disk preview-manifest.json has 23 screens and 0 warnings; preview HTML contains screen inventory, Mermaid logic machine, flow walk-through, storyboard trajectories, component hierarchy, layout rules, and PRD/DS conflict section; prd-ds-conflicts.md declares no unresolved conflicts"
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "total_fenced_block_count": 2,
+    "yaml_block_style": true,
+    "yaml_starts_json": false,
+    "screen_count": 23,
+    "routes_verified": [
+      "/",
+      "/board",
+      "/tasks",
+      "/tasks/:id",
+      "/trace/:id",
+      "/docs",
+      "/approval",
+      "/search",
+      "/design-system/terminal",
+      "/design-system/portfolio",
+      "/design-system/pi-planning",
+      "/design-system/git-graph",
+      "/design-system/kanban",
+      "/design-system/knowledge-graph",
+      "/design-system/approval",
+      "/design-system/timeline",
+      "/design-system/components",
+      "/design-system/doc-viewer",
+      "/design-system/explorer",
+      "/design-system/beads-traversal",
+      "/design-system/storyboard",
+      "/design-system/storyboard/:id",
+      "/design-system/webui-pm-workspace"
+    ],
+    "missing_required_routes": [],
+    "extra_routes": [],
+    "contract_contains_br_prd04_s15": false,
+    "prd_has_br_prd04_s15": false,
+    "orphan_satisfies": [],
+    "ds_ids_total": 119,
+    "ds_ids_unique": 119,
+    "duplicate_ds_ids": [],
+    "duplicate_screen_ds_ids": [],
+    "component_type_count": 68,
+    "component_map_ds_ids_total": 119,
+    "component_map_missing_contract_ds_ids": [],
+    "component_map_extra_ds_ids": [],
+    "component_map_has_core_docs_ds_id": true,
+    "component_map_has_showcase_doc_viewer_ds_id": true,
+    "yaml_events": [
+      "API_ERROR",
+      "API_SUCCESS",
+      "EVENT_DISCONNECT",
+      "EVENT_RECONNECT",
+      "EVENT_SAVE",
+      "EVENT_VIEW_DOC",
+      "EVENT_VIEW_TASK",
+      "EVENT_VIEW_TRACE",
+      "RETRY"
+    ],
+    "mermaid_events": [
+      "API_ERROR",
+      "API_SUCCESS",
+      "EVENT_DISCONNECT",
+      "EVENT_RECONNECT",
+      "EVENT_SAVE",
+      "EVENT_VIEW_DOC",
+      "EVENT_VIEW_TASK",
+      "EVENT_VIEW_TRACE",
+      "RETRY"
+    ],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "mermaid_transition_count": 10,
+    "mermaid_direction_lr": true,
+    "standalone_mmd_files": [],
+    "storyboard_trajectories": 23,
+    "layout_rules": 69,
+    "artifact_index": {
+      "artifacts_for_review": 9,
+      "machine_evidence": 4,
+      "lookup_slices": 626,
+      "tool_summaries": 3,
+      "missing_required_keys": [],
+      "entries_seen": 639,
+      "missing_index_targets": 0,
+      "invalid_load_policies": 0,
+      "stale_metadata_entries": 0,
+      "load_policies_seen": {
+        "review_full": 9,
+        "machine_summary_or_slice": 630
+      }
+    },
+    "context_slices": {
+      "exists": true,
+      "files": 626,
+      "yaml_files": 626,
+      "invalid_yaml": 0
+    },
+    "preview_manifest": {
+      "screens": 23,
+      "warnings": 0
+    },
+    "preview_generation_check": {
+      "output": "/tmp/webui-and-pm-workspace-preview-check",
+      "status": "OK",
+      "warnings": 0,
+      "artifacts_loaded": 8,
+      "artifacts_total": 8
+    },
+    "preview_html_sections": {
+      "screen_inventory": true,
+      "mermaid_logic_machine": true,
+      "flow_walk_through": true,
+      "storyboard_trajectories": true,
+      "component_hierarchy": true,
+      "layout_rules": true,
+      "prd_ds_conflicts": true
+    },
+    "mermaid_markdown_validation": {
+      "status": "PASS",
+      "parser": "mmdc",
+      "files_checked": 2,
+      "errors": 0,
+      "warnings": 0,
+      "flow_mermaid_blocks": 1,
+      "review_diagrams_mermaid_blocks": 30
+    }
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "issues": [
+    "No P0 issues found.",
+    "No P1 issues found.",
+    "Prior P1 cleanup verified: br-prd04-s15 removed, component-map ds_id coverage is complete including both doc viewer screen IDs, and artifact-index hash/size/line-count metadata is fresh."
+  ]
+}

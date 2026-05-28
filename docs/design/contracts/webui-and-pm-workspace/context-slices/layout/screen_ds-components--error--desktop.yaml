@@ -1,0 +1,15 @@
+id: layout:screen:ds-components:error:desktop
+screen_id: screen:ds-components
+route: /design-system/components
+screen_ds_id: ds:screen:components-showcase-001
+state: error
+viewport: desktop
+width: 1440
+layout: catalog of 18 shared design-system sections with hash scroll and interactive
+  examples
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

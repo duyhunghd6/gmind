@@ -4,1612 +4,944 @@
     "ui-contract.md",
     "PRD-04-WebUI-and-PM-Workspace.md"
   ],
-  "trajectory_count": 33,
+  "mermaid_machine": "ui-contract.md fenced mermaid block",
+  "coverage": {
+    "trajectories": 13,
+    "routes": [
+      "/",
+      "/approval",
+      "/board",
+      "/design-system/approval",
+      "/design-system/git-graph",
+      "/design-system/kanban",
+      "/design-system/knowledge-graph",
+      "/design-system/pi-planning",
+      "/design-system/storyboard",
+      "/design-system/storyboard/:id",
+      "/design-system/webui-pm-workspace",
+      "/docs",
+      "/search",
+      "/tasks",
+      "/tasks/:id",
+      "/trace/:id"
+    ],
+    "error_or_recovery_trajectories": 4
+  },
   "trajectories": [
     {
-      "trajectory_id": "route-core_global_shell",
-      "title": "Route coverage: gmind-serve-shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8"
+      "trajectory_id": "core-navigate-task",
+      "title": "PM navigates from dashboard to task detail",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "EVENT_VIEW_TASK",
+        "API_SUCCESS_CORE"
       ],
-      "route": "gmind-serve-shell",
-      "screen_id": "core-global-shell",
-      "ds_id": "ds:global_shell",
-      "journey_type": "route_traceability",
+      "routes": [
+        "/",
+        "/tasks",
+        "/tasks/:id"
+      ],
+      "recovery_path": false,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "core-global-shell",
-          "route": "gmind-serve-shell",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "core-global-shell",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-global-shell",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-global-shell",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:core-shell-search",
-        "action:core-nav-dashboard",
-        "action:core-nav-board",
-        "action:core-nav-tasks",
-        "action:core-nav-trace",
-        "action:core-nav-docs",
-        "action:core-nav-approval"
-      ]
-    },
-    {
-      "trajectory_id": "route-core_rtm_dashboard",
-      "title": "Route coverage: /",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "route": "/",
-      "screen_id": "core-rtm-dashboard",
-      "ds_id": "ds:screen:core-rtm-dashboard-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-rtm-dashboard",
+          "order": 1,
           "route": "/",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
+          "screen_id": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "ROUTE_ENTER",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
         },
         {
-          "state": "loading",
-          "screen_id": "core-rtm-dashboard",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-rtm-dashboard",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-rtm-dashboard",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-rtm-dashboard",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-rtm-dashboard",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:core-dashboard-open-section-trace"
-      ]
-    },
-    {
-      "trajectory_id": "route-core_safe_board",
-      "title": "Route coverage: /board",
-      "source_refs": [
-        "br-prd04-s3",
-        "br-prd04-s7"
-      ],
-      "route": "/board",
-      "screen_id": "core-safe-board",
-      "ds_id": "ds:screen:core-safe-board-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-safe-board",
-          "route": "/board",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "core-safe-board",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-safe-board",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-safe-board",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-safe-board",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-safe-board",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:core-board-drag-card"
-      ]
-    },
-    {
-      "trajectory_id": "route-core_task_list",
-      "title": "Route coverage: /tasks",
-      "source_refs": [
-        "br-prd04-s13"
-      ],
-      "route": "/tasks",
-      "screen_id": "core-task-list",
-      "ds_id": "ds:screen:core-task-list-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-task-list",
+          "order": 2,
           "route": "/tasks",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
+          "screen_id": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "default",
+          "event": "EVENT_VIEW_TASK",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_VIEW_TASK",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
         },
         {
-          "state": "loading",
-          "screen_id": "core-task-list",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-task-list",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-task-list",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-task-list",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-task-list",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:core-task-list-row-open",
-        "action:core-task-list-bulk-assign"
-      ]
-    },
-    {
-      "trajectory_id": "route-core_task_detail",
-      "title": "Route coverage: /tasks/:id",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "route": "/tasks/:id",
-      "screen_id": "core-task-detail",
-      "ds_id": "ds:screen:core-task-detail-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-task-detail",
+          "order": 3,
           "route": "/tasks/:id",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "core-task-detail",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-task-detail",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-task-detail",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-task-detail",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "not-found",
-          "screen_id": "core-task-detail",
-          "event": "BOUNDARY_NOT_FOUND",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "screen_id": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_SUCCESS_CORE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
         }
       ],
-      "covered_actions": [
-        "action:core-task-detail-save-field"
-      ]
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "core-navigate-task",
+      "prd_journey": "PRD-04 §8.1A route coverage — PM navigates from dashboard to task detail",
+      "action": [
+        "ROUTE_ENTER",
+        "EVENT_VIEW_TASK",
+        "API_SUCCESS_CORE"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:rtm-dashboard-001",
+        "ds:screen:task-list-001",
+        "ds:screen:task-detail-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     },
     {
-      "trajectory_id": "route-core_trace_explorer",
-      "title": "Route coverage: /trace/:id",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
+      "trajectory_id": "core-explore-trace",
+      "title": "PM opens trace from task graph",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_VIEW_TRACE",
+        "API_SUCCESS_CORE",
+        "EVENT_VIEW_DOC"
       ],
-      "route": "/trace/:id",
-      "screen_id": "core-trace-explorer",
-      "ds_id": "ds:screen:core-trace-explorer-001",
-      "journey_type": "route_traceability",
+      "routes": [
+        "/tasks/:id",
+        "/trace/:id",
+        "/docs"
+      ],
+      "recovery_path": false,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "core-trace-explorer",
+          "order": 1,
+          "route": "/tasks/:id",
+          "screen_id": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "EVENT_VIEW_TRACE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_VIEW_TRACE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 2,
           "route": "/trace/:id",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "core-trace-explorer",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-trace-explorer",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-trace-explorer",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-trace-explorer",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-trace-explorer",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
+          "screen_id": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
           "state": "partial",
-          "screen_id": "core-trace-explorer",
-          "event": "BOUNDARY_PARTIAL",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:core-trace-select-node",
-        "action:core-trace-open-linked-entity"
-      ]
-    },
-    {
-      "trajectory_id": "route-core_doc_viewer",
-      "title": "Route coverage: /docs",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "route": "/docs",
-      "screen_id": "core-doc-viewer",
-      "ds_id": "ds:screen:core-doc-viewer-001",
-      "journey_type": "route_traceability",
-      "steps": [
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_SUCCESS_CORE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
         {
-          "state": "route-entry",
-          "screen_id": "core-doc-viewer",
+          "order": 3,
           "route": "/docs",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "core-doc-viewer",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-doc-viewer",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-doc-viewer",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-doc-viewer",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-doc-viewer",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "screen_id": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "default",
+          "event": "EVENT_VIEW_DOC",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_VIEW_DOC",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
         }
       ],
-      "covered_actions": [
-        "action:core-doc-open-beads-trace"
-      ]
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "core-explore-trace",
+      "prd_journey": "PRD-04 §8.1A route coverage — PM opens trace from task graph",
+      "action": [
+        "EVENT_VIEW_TRACE",
+        "API_SUCCESS_CORE",
+        "EVENT_VIEW_DOC"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:task-detail-001",
+        "ds:screen:trace-explorer-001",
+        "ds:screen:core-doc-viewer-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     },
     {
-      "trajectory_id": "route-core_approval_gates",
-      "title": "Route coverage: /approval",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
+      "trajectory_id": "core-quick-search",
+      "title": "PM uses global search",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_SEARCH",
+        "API_SUCCESS_CORE",
+        "EVENT_VIEW_TASK"
       ],
-      "route": "/approval",
-      "screen_id": "core-approval-gates",
-      "ds_id": "ds:screen:core-approval-gates-001",
-      "journey_type": "route_traceability",
+      "routes": [
+        "/",
+        "/search",
+        "/tasks/:id"
+      ],
+      "recovery_path": false,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "core-approval-gates",
-          "route": "/approval",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
+          "order": 1,
+          "route": "/",
+          "screen_id": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "EVENT_SEARCH",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_SEARCH",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
         },
         {
-          "state": "loading",
-          "screen_id": "core-approval-gates",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-approval-gates",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-approval-gates",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-approval-gates",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-approval-gates",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "insufficient-evidence",
-          "screen_id": "core-approval-gates",
-          "event": "BOUNDARY_INSUFFICIENT_EVIDENCE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:core-approval-submit-decision"
-      ]
-    },
-    {
-      "trajectory_id": "route-core_search_results",
-      "title": "Route coverage: /search",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "route": "/search",
-      "screen_id": "core-search-results",
-      "ds_id": "ds:screen:core-search-results-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-search-results",
+          "order": 2,
           "route": "/search",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
+          "screen_id": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_SUCCESS_CORE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
         },
         {
-          "state": "loading",
-          "screen_id": "core-search-results",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "core-search-results",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-search-results",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "core-search-results",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "core-search-results",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "order": 3,
+          "route": "/tasks/:id",
+          "screen_id": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "EVENT_VIEW_TASK",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_VIEW_TASK",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
         }
       ],
-      "covered_actions": [
-        "action:core-search-open-result"
-      ]
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "core-quick-search",
+      "prd_journey": "PRD-04 §8.1A route coverage — PM uses global search",
+      "action": [
+        "EVENT_SEARCH",
+        "API_SUCCESS_CORE",
+        "EVENT_VIEW_TASK"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:rtm-dashboard-001",
+        "ds:screen:search-results-001",
+        "ds:screen:task-detail-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     },
     {
-      "trajectory_id": "route-ds_terminal",
-      "title": "Route coverage: /design-system/terminal",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
+      "trajectory_id": "board-drag-success",
+      "title": "RTE moves kanban card",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_MOVE_CARD",
+        "API_SUCCESS",
+        "EVENT_VIEW_TASK"
       ],
-      "route": "/design-system/terminal",
-      "screen_id": "ds-terminal",
-      "ds_id": "ds:screen:terminal-001",
-      "journey_type": "route_traceability",
+      "routes": [
+        "/board",
+        "/tasks/:id"
+      ],
+      "recovery_path": false,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "ds-terminal",
-          "route": "/design-system/terminal",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
+          "order": 1,
+          "route": "/board",
+          "screen_id": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "EVENT_MOVE_CARD",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_MOVE_CARD",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
         },
         {
-          "state": "loading",
-          "screen_id": "ds-terminal",
+          "order": 2,
+          "route": "/tasks/:id",
+          "screen_id": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "saving",
           "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-terminal",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-terminal",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-terminal",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-terminal",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_SUCCESS",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
         }
       ],
-      "covered_actions": []
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "board-drag-success",
+      "prd_journey": "PRD-04 §8.1A route coverage — RTE moves kanban card",
+      "action": [
+        "EVENT_MOVE_CARD",
+        "API_SUCCESS",
+        "EVENT_VIEW_TASK"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "saving",
+      "ds_targets": [
+        "ds:screen:safe-board-001",
+        "ds:screen:task-detail-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     },
     {
-      "trajectory_id": "route-ds_portfolio",
-      "title": "Route coverage: /design-system/portfolio",
-      "source_refs": [
-        "br-prd04-s3"
+      "trajectory_id": "pi-planning-vote",
+      "title": "RTE submits PI confidence vote",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_PI_PLAN_SAVE",
+        "EVENT_CONFIDENCE_VOTE",
+        "API_VOTE_SUCCESS"
       ],
-      "route": "/design-system/portfolio",
-      "screen_id": "ds-portfolio",
-      "ds_id": "br-ds-portfolio-view",
-      "journey_type": "route_traceability",
+      "routes": [
+        "/design-system/pi-planning"
+      ],
+      "recovery_path": false,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "ds-portfolio",
-          "route": "/design-system/portfolio",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-portfolio",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-portfolio",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-portfolio",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-portfolio",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-portfolio",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_pi_planning",
-      "title": "Route coverage: /design-system/pi-planning",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "route": "/design-system/pi-planning",
-      "screen_id": "ds-pi-planning",
-      "ds_id": "br-ds-pi-planning",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-pi-planning",
+          "order": 1,
           "route": "/design-system/pi-planning",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-pi-planning",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-pi-planning",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-pi-planning",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-pi-planning",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-pi-planning",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "screen_id": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "EVENT_PI_PLAN_SAVE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_PI_PLAN_SAVE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
         }
       ],
-      "covered_actions": [
-        "action:pi-save-plan",
-        "action:pi-submit-confidence-vote"
-      ]
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "pi-planning-vote",
+      "prd_journey": "PRD-04 §8.1A route coverage — RTE submits PI confidence vote",
+      "action": [
+        "EVENT_PI_PLAN_SAVE",
+        "EVENT_CONFIDENCE_VOTE",
+        "API_VOTE_SUCCESS"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:pi-planning-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     },
     {
-      "trajectory_id": "route-ds_git_graph",
-      "title": "Route coverage: /design-system/git-graph",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
+      "trajectory_id": "approval-approve",
+      "title": "Human approves sufficient evidence",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_APPROVAL_DECISION",
+        "API_APPROVAL_SUCCESS",
+        "EVENT_REFRESH"
       ],
-      "route": "/design-system/git-graph",
-      "screen_id": "ds-git-graph",
-      "ds_id": "ds:screen:git-graph-001",
-      "journey_type": "route_traceability",
+      "routes": [
+        "/approval",
+        "/design-system/approval"
+      ],
+      "recovery_path": false,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "ds-git-graph",
-          "route": "/design-system/git-graph",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
+          "order": 1,
+          "route": "/approval",
+          "screen_id": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "EVENT_APPROVAL_DECISION",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_APPROVAL_DECISION",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
         },
         {
-          "state": "loading",
-          "screen_id": "ds-git-graph",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-git-graph",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-git-graph",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-git-graph",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-git-graph",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_kanban",
-      "title": "Route coverage: /design-system/kanban",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "route": "/design-system/kanban",
-      "screen_id": "ds-kanban",
-      "ds_id": "ds:screen:kanban-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-kanban",
-          "route": "/design-system/kanban",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-kanban",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-kanban",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-kanban",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-kanban",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-kanban",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:kanban-update-card-status"
-      ]
-    },
-    {
-      "trajectory_id": "route-ds_knowledge_graph",
-      "title": "Route coverage: /design-system/knowledge-graph",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "route": "/design-system/knowledge-graph",
-      "screen_id": "ds-knowledge-graph",
-      "ds_id": "ds:screen:knowledge-graph-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-knowledge-graph",
-          "route": "/design-system/knowledge-graph",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-knowledge-graph",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-knowledge-graph",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-knowledge-graph",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-knowledge-graph",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-knowledge-graph",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_approval",
-      "title": "Route coverage: /design-system/approval",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "route": "/design-system/approval",
-      "screen_id": "ds-approval",
-      "ds_id": "ds:screen:approval-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-approval",
+          "order": 2,
           "route": "/design-system/approval",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
+          "screen_id": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "default",
+          "event": "API_APPROVAL_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_APPROVAL_SUCCESS",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "approval-approve",
+      "prd_journey": "PRD-04 §8.1A route coverage — Human approves sufficient evidence",
+      "action": [
+        "EVENT_APPROVAL_DECISION",
+        "API_APPROVAL_SUCCESS",
+        "EVENT_REFRESH"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:approval-gates-001",
+        "ds:screen:approval-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "approval-insufficient-evidence",
+      "title": "Human refreshes insufficient evidence",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "API_ERROR",
+        "EVENT_REFRESH",
+        "API_SUCCESS_CORE"
+      ],
+      "routes": [
+        "/approval"
+      ],
+      "recovery_path": true,
+      "steps": [
         {
-          "state": "loading",
-          "screen_id": "ds-approval",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-approval",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
+          "order": 1,
+          "route": "/approval",
+          "screen_id": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
           "state": "error",
-          "screen_id": "ds-approval",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_ERROR",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "approval-insufficient-evidence",
+      "prd_journey": "PRD-04 §8.1A route coverage — Human refreshes insufficient evidence",
+      "action": [
+        "API_ERROR",
+        "EVENT_REFRESH",
+        "API_SUCCESS_CORE"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "error",
+      "ds_targets": [
+        "ds:screen:approval-gates-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "offline-rehydrate-conflict",
+      "title": "Offline edit rehydrates with conflict",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_DISCONNECT",
+        "EVENT_RECONNECT",
+        "API_CONFLICT",
+        "EVENT_KEEP_LOCAL",
+        "API_SYNC_SUCCESS"
+      ],
+      "routes": [
+        "/tasks/:id",
+        "/design-system/webui-pm-workspace"
+      ],
+      "recovery_path": true,
+      "steps": [
         {
+          "order": 1,
+          "route": "/tasks/:id",
+          "screen_id": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
           "state": "offline",
-          "screen_id": "ds-approval",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_DISCONNECT",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
         },
         {
-          "state": "forbidden",
-          "screen_id": "ds-approval",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "insufficient-evidence",
-          "screen_id": "ds-approval",
-          "event": "BOUNDARY_INSUFFICIENT_EVIDENCE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_timeline",
-      "title": "Route coverage: /design-system/timeline",
-      "source_refs": [
-        "br-prd04-s1",
-        "br-prd04-s8"
-      ],
-      "route": "/design-system/timeline",
-      "screen_id": "ds-timeline",
-      "ds_id": "ds:screen:timeline-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-timeline",
-          "route": "/design-system/timeline",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-timeline",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-timeline",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-timeline",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-timeline",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-timeline",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_components",
-      "title": "Route coverage: /design-system/components",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/design-system/components",
-      "screen_id": "ds-components",
-      "ds_id": "ds:screen:components-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-components",
-          "route": "/design-system/components",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-components",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-components",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-components",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:components-hash-scroll"
-      ]
-    },
-    {
-      "trajectory_id": "route-ds_doc_viewer",
-      "title": "Route coverage: /design-system/doc-viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "route": "/design-system/doc-viewer",
-      "screen_id": "ds-doc-viewer",
-      "ds_id": "ds:screen:doc-viewer-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-doc-viewer",
-          "route": "/design-system/doc-viewer",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-doc-viewer",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-doc-viewer",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-doc-viewer",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-doc-viewer",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-doc-viewer",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:doc-viewer-open-explorer",
-        "action:doc-viewer-open-knowledge-graph",
-        "action:doc-viewer-open-core-trace"
-      ]
-    },
-    {
-      "trajectory_id": "route-ds_explorer",
-      "title": "Route coverage: /design-system/explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "route": "/design-system/explorer",
-      "screen_id": "ds-explorer",
-      "ds_id": "ds:screen:explorer-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-explorer",
-          "route": "/design-system/explorer",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-explorer",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-explorer",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-explorer",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-explorer",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-explorer",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_beads_traversal",
-      "title": "Route coverage: /design-system/beads-traversal",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "route": "/design-system/beads-traversal",
-      "screen_id": "ds-beads-traversal",
-      "ds_id": "ds:screen:beads-traversal-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-beads-traversal",
-          "route": "/design-system/beads-traversal",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-beads-traversal",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-beads-traversal",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-beads-traversal",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-beads-traversal",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-beads-traversal",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_storyboard",
-      "title": "Route coverage: /design-system/storyboard",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/design-system/storyboard",
-      "screen_id": "ds-storyboard",
-      "ds_id": "ds:screen:storyboard-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-storyboard",
-          "route": "/design-system/storyboard",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-storyboard",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-storyboard",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-storyboard",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-storyboard",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-storyboard",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": [
-        "action:storyboard-open-real-screen"
-      ]
-    },
-    {
-      "trajectory_id": "route-ds_storyboard_detail",
-      "title": "Route coverage: /design-system/storyboard/:id",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/design-system/storyboard/:id",
-      "screen_id": "ds-storyboard-detail",
-      "ds_id": "ds:screen:storyboard-detail-001",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-storyboard-detail",
-          "route": "/design-system/storyboard/:id",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-storyboard-detail",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-storyboard-detail",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-storyboard-detail",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "offline",
-          "screen_id": "ds-storyboard-detail",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "forbidden",
-          "screen_id": "ds-storyboard-detail",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        }
-      ],
-      "covered_actions": []
-    },
-    {
-      "trajectory_id": "route-ds_webui_pm_workspace",
-      "title": "Route coverage: /design-system/webui-pm-workspace",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/design-system/webui-pm-workspace",
-      "screen_id": "ds-webui-pm-workspace",
-      "ds_id": "ds:global_shell",
-      "journey_type": "route_traceability",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-webui-pm-workspace",
+          "order": 2,
           "route": "/design-system/webui-pm-workspace",
-          "event": "EVENT_ROUTE_ENTER",
-          "expected": "screen shell renders and requests API-backed data"
-        },
-        {
-          "state": "loading",
-          "screen_id": "ds-webui-pm-workspace",
-          "event": "API_SUCCESS",
-          "expected": "default state shows mapped components"
-        },
-        {
-          "state": "empty",
-          "screen_id": "ds-webui-pm-workspace",
-          "event": "BOUNDARY_EMPTY",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-webui-pm-workspace",
-          "event": "BOUNDARY_ERROR",
-          "expected": "direct recovery path is visible and keyboard reachable"
-        },
-        {
+          "screen_id": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
           "state": "offline",
-          "screen_id": "ds-webui-pm-workspace",
-          "event": "BOUNDARY_OFFLINE",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "event": "EVENT_RECONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_RECONNECT",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "offline-rehydrate-conflict",
+      "prd_journey": "PRD-04 §8.1A route coverage — Offline edit rehydrates with conflict",
+      "action": [
+        "EVENT_DISCONNECT",
+        "EVENT_RECONNECT",
+        "API_CONFLICT",
+        "EVENT_KEEP_LOCAL",
+        "API_SYNC_SUCCESS"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "offline",
+      "ds_targets": [
+        "ds:screen:task-detail-001",
+        "ds:screen:webui-pm-workspace-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "doc-to-trace",
+      "title": "PM opens Beads ID from document viewer",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_VIEW_TRACE",
+        "API_SUCCESS_CORE"
+      ],
+      "routes": [
+        "/docs",
+        "/trace/:id"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/docs",
+          "screen_id": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "default",
+          "event": "EVENT_VIEW_TRACE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_VIEW_TRACE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
         },
         {
+          "order": 2,
+          "route": "/trace/:id",
+          "screen_id": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_SUCCESS_CORE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "doc-to-trace",
+      "prd_journey": "PRD-04 §8.1A route coverage — PM opens Beads ID from document viewer",
+      "action": [
+        "EVENT_VIEW_TRACE",
+        "API_SUCCESS_CORE"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:core-doc-viewer-001",
+        "ds:screen:trace-explorer-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-hash-navigation",
+      "title": "Reviewer changes showcase hash scenarios",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "EVENT_HASH_NAVIGATE",
+        "EVENT_HASH_NAVIGATE",
+        "EVENT_REFRESH"
+      ],
+      "routes": [
+        "/design-system/git-graph",
+        "/design-system/kanban",
+        "/design-system/knowledge-graph"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/git-graph",
+          "screen_id": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/kanban",
+          "screen_id": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/knowledge-graph",
+          "screen_id": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "default",
+          "event": "EVENT_REFRESH",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_REFRESH",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "showcase-hash-navigation",
+      "prd_journey": "PRD-04 §8.1A route coverage — Reviewer changes showcase hash scenarios",
+      "action": [
+        "EVENT_HASH_NAVIGATE",
+        "EVENT_HASH_NAVIGATE",
+        "EVENT_REFRESH"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:git-graph-showcase-001",
+        "ds:screen:kanban-showcase-001",
+        "ds:screen:knowledge-graph-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "storyboard-detail-alignment",
+      "title": "Reviewer opens storyboard and detail route",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_VIEW_TRACE"
+      ],
+      "routes": [
+        "/design-system/storyboard",
+        "/design-system/storyboard/:id"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/storyboard",
+          "screen_id": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "ROUTE_ENTER",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:storyboard-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/storyboard/:id",
+          "screen_id": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_SUCCESS_SHOWCASE",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "storyboard-detail-alignment",
+      "prd_journey": "PRD-04 §8.1A route coverage — Reviewer opens storyboard and detail route",
+      "action": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_VIEW_TRACE"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:storyboard-showcase-001",
+        "ds:screen:storyboard-detail-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "permission-denied-recovery",
+      "title": "User returns from forbidden route",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "API_FORBIDDEN",
+        "EVENT_BACK",
+        "ROUTE_ENTER"
+      ],
+      "routes": [
+        "/design-system/webui-pm-workspace"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/webui-pm-workspace",
+          "screen_id": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
           "state": "forbidden",
-          "screen_id": "ds-webui-pm-workspace",
-          "event": "BOUNDARY_FORBIDDEN",
-          "expected": "direct recovery path is visible and keyboard reachable"
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_FORBIDDEN",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
         }
       ],
-      "covered_actions": []
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "permission-denied-recovery",
+      "prd_journey": "PRD-04 §8.1A route coverage — User returns from forbidden route",
+      "action": [
+        "API_FORBIDDEN",
+        "EVENT_BACK",
+        "ROUTE_ENTER"
+      ],
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "forbidden",
+      "ds_targets": [
+        "ds:screen:webui-pm-workspace-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     },
     {
-      "trajectory_id": "journey-board-navigation",
-      "title": "Board Navigation",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
+      "trajectory_id": "not-found-recovery",
+      "title": "User returns from missing storyboard detail",
+      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "events": [
+        "API_NOT_FOUND",
+        "EVENT_BACK",
+        "ROUTE_ENTER"
       ],
-      "route": "/board",
-      "screen_id": "core-safe-board",
-      "journey_type": "prd_journey",
+      "routes": [
+        "/design-system/storyboard/:id",
+        "/design-system/storyboard"
+      ],
+      "recovery_path": true,
       "steps": [
         {
-          "state": "route-entry",
-          "screen_id": "core-global-shell",
-          "event": "EVENT_CORE_NAV_BOARD",
-          "expected": "navigation begins from mapped route"
+          "order": 1,
+          "route": "/design-system/storyboard/:id",
+          "screen_id": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "not_found",
+          "event": "API_NOT_FOUND",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "API_NOT_FOUND",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
         },
         {
+          "order": 2,
+          "route": "/design-system/storyboard",
+          "screen_id": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
           "state": "default",
-          "screen_id": "core-safe-board",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "processing",
-          "screen_id": "core-safe-board",
-          "event": "EVENT_CORE_BOARD_DRAG_CARD",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-safe-board",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
+          "event": "EVENT_BACK",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "action": "EVENT_BACK",
+          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "ds_targets": [
+            "ds:screen:storyboard-showcase-001"
+          ]
         }
-      ]
-    },
-    {
-      "trajectory_id": "journey-pi-planning-vote",
-      "title": "PI Planning Vote",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
       ],
-      "route": "/design-system/pi-planning",
-      "screen_id": "ds-pi-planning",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-pi-planning",
-          "event": "EVENT_ROUTE_DESIGN_SYSTEM_PI_PLANNING",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-pi-planning",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "processing",
-          "screen_id": "ds-pi-planning",
-          "event": "EVENT_PI_SUBMIT_CONFIDENCE_VOTE",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-pi-planning",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-approval-approve",
-      "title": "Review and Approve",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
+      "e2e_alignment": {
+        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
+      },
+      "id": "not-found-recovery",
+      "prd_journey": "PRD-04 §8.1A route coverage — User returns from missing storyboard detail",
+      "action": [
+        "API_NOT_FOUND",
+        "EVENT_BACK",
+        "ROUTE_ENTER"
       ],
-      "route": "/approval",
-      "screen_id": "ds-approval",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-approval-gates",
-          "event": "EVENT_CORE_NAV_APPROVAL",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-approval",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "processing",
-          "screen_id": "ds-approval",
-          "event": "EVENT_CORE_APPROVAL_SUBMIT_DECISION",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-approval",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-insufficient-evidence",
-      "title": "Insufficient Evidence Recovery",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
+      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:storyboard-detail-showcase-001",
+        "ds:screen:storyboard-showcase-001"
       ],
-      "route": "/approval",
-      "screen_id": "ds-approval",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "insufficient-evidence",
-          "screen_id": "core-approval-gates",
-          "event": "API_EVIDENCE_INCOMPLETE",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-approval",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "recovery",
-          "screen_id": "ds-approval",
-          "event": "EVENT_REFRESH_EVIDENCE",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-approval",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-navigate-to-task",
-      "title": "Navigate to Task",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/tasks",
-      "screen_id": "core-task-detail",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-task-list",
-          "event": "EVENT_CORE_NAV_TASKS",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "core-task-detail",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "default",
-          "screen_id": "core-task-detail",
-          "event": "EVENT_CORE_TASK_LIST_ROW_OPEN",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-task-detail",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-explore-trace",
-      "title": "Explore Trace",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/trace/:id",
-      "screen_id": "core-trace-explorer",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-task-detail",
-          "event": "EVENT_OPEN_FULL_TRACE",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "core-trace-explorer",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "default",
-          "screen_id": "core-trace-explorer",
-          "event": "EVENT_CORE_TRACE_SELECT_NODE",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-trace-explorer",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-quick-search",
-      "title": "Quick Search",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/search",
-      "screen_id": "core-search-results",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "core-global-shell",
-          "event": "EVENT_CORE_SHELL_SEARCH",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "core-search-results",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "route-entry",
-          "screen_id": "core-search-results",
-          "event": "EVENT_CORE_SEARCH_OPEN_RESULT",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "core-search-results",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-doc-to-knowledge",
-      "title": "Doc Viewer to Knowledge Graph",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/design-system/doc-viewer",
-      "screen_id": "ds-knowledge-graph",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-doc-viewer",
-          "event": "EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-knowledge-graph",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-knowledge-graph",
-          "event": "API_SUCCESS",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-knowledge-graph",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
-    },
-    {
-      "trajectory_id": "journey-storyboard-detail",
-      "title": "Storyboard Overview to Detail",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "route": "/design-system/storyboard/:id",
-      "screen_id": "ds-storyboard-detail",
-      "journey_type": "prd_journey",
-      "steps": [
-        {
-          "state": "route-entry",
-          "screen_id": "ds-storyboard",
-          "event": "EVENT_STORYBOARD_OPEN_DETAIL",
-          "expected": "navigation begins from mapped route"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-storyboard-detail",
-          "event": "API_SUCCESS",
-          "expected": "target screen reaches default state"
-        },
-        {
-          "state": "default",
-          "screen_id": "ds-storyboard-detail",
-          "event": "API_SUCCESS",
-          "expected": "primary journey action is recorded"
-        },
-        {
-          "state": "error",
-          "screen_id": "ds-storyboard-detail",
-          "event": "API_ERROR",
-          "expected": "error recovery path supports retry or back navigation"
-        }
-      ]
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
     }
   ]
 }

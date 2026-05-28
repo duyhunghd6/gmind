@@ -1,0 +1,22 @@
+ds_id: ds:timeline-showcase:sprint-day
+type: SprintDayTimeline
+parent_ds_id: ds:timeline-showcase:surface
+actions: []
+screen_id: screen:ds-timeline
+screen_route: /design-system/timeline
+screen_ds_id: ds:screen:timeline-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/activity
+- GET /api/file-leases
+- GET /api/tasks/:id/activity
+screen_actions:
+- show unlocked, locked, expiring, and expired lease states
+- hash anchors for file-lease, activity-feed, and sprint-day
+- update from activity polling every 3 to 5 seconds

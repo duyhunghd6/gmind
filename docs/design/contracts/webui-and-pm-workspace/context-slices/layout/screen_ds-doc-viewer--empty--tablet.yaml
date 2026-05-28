@@ -1,0 +1,15 @@
+id: layout:screen:ds-doc-viewer:empty:tablet
+screen_id: screen:ds-doc-viewer
+route: /design-system/doc-viewer
+screen_ds_id: ds:screen:doc-viewer-showcase-001
+state: empty
+viewport: tablet
+width: 1024
+layout: GitHub-like file tree with selected document panel and Beads badges
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

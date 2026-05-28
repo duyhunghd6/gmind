@@ -1,0 +1,23 @@
+ds_id: ds:knowledge-graph-showcase:presets
+type: GraphPresetTabs
+parent_ds_id: ds:knowledge-graph-showcase:surface
+actions:
+- EVENT_HASH_NAVIGATE
+screen_id: screen:ds-knowledge-graph
+screen_route: /design-system/knowledge-graph
+screen_ds_id: ds:screen:knowledge-graph-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- partial
+bindings:
+- GET /api/trace/:id?depth=full
+- GET /api/graph/presets
+screen_actions:
+- hash presets simple, ecosystem, and sprint
+- show node and edge legends with selected-node details
+- use tree or simplified fallback on constrained mobile viewports

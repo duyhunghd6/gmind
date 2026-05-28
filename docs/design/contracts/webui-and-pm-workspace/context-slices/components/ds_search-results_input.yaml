@@ -1,0 +1,21 @@
+ds_id: ds:search-results:input
+type: SearchInput
+parent_ds_id: ds:search-results:surface
+actions:
+- EVENT_SEARCH
+screen_id: screen:search-results
+screen_route: /search
+screen_ds_id: ds:screen:search-results-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/search?q=<query>&type=<type>
+screen_actions:
+- focus global search with Ctrl+K or slash
+- group results by task, doc, commit, PR, chat, and RTE approval
+- navigate result clicks to task, doc, trace, or external PR target

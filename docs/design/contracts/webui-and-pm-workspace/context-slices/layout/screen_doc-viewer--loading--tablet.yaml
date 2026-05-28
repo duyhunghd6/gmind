@@ -1,0 +1,15 @@
+id: layout:screen:doc-viewer:loading:tablet
+screen_id: screen:doc-viewer
+route: /docs
+screen_ds_id: ds:screen:core-doc-viewer-001
+state: loading
+viewport: tablet
+width: 1024
+layout: source-type document tree and rendered content panel
+responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
+  where boards overflow
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

@@ -1,0 +1,56 @@
+trajectory_id: board-drag-success
+title: RTE moves kanban card
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- EVENT_MOVE_CARD
+- API_SUCCESS
+- EVENT_VIEW_TASK
+routes:
+- /board
+- /tasks/:id
+recovery_path: false
+steps:
+- order: 1
+  route: /board
+  screen_id: screen:safe-board
+  screen_ds_id: ds:screen:safe-board-001
+  state: default
+  event: EVENT_MOVE_CARD
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_MOVE_CARD
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:safe-board-001
+- order: 2
+  route: /tasks/:id
+  screen_id: screen:task-detail
+  screen_ds_id: ds:screen:task-detail-001
+  state: saving
+  event: API_SUCCESS
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: API_SUCCESS
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:task-detail-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: board-drag-success
+prd_journey: PRD-04 §8.1A route coverage — RTE moves kanban card
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: saving
+ds_targets:
+- ds:screen:safe-board-001
+- ds:screen:task-detail-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

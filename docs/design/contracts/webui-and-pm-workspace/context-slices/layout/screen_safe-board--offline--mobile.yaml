@@ -1,0 +1,15 @@
+id: layout:screen:safe-board:offline:mobile
+screen_id: screen:safe-board
+route: /board
+screen_ds_id: ds:screen:safe-board-001
+state: offline
+viewport: mobile
+width: 390
+layout: portfolio, ART, and team kanban views with WIP and RTE escalation badges
+responsive_constraint: single-column flow, sidebar as overlay, drawers as full-screen
+  overlays, tables become cards
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

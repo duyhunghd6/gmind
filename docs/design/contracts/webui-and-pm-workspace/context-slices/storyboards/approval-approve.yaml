@@ -1,0 +1,56 @@
+trajectory_id: approval-approve
+title: Human approves sufficient evidence
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- EVENT_APPROVAL_DECISION
+- API_APPROVAL_SUCCESS
+- EVENT_REFRESH
+routes:
+- /approval
+- /design-system/approval
+recovery_path: false
+steps:
+- order: 1
+  route: /approval
+  screen_id: screen:approval-gates
+  screen_ds_id: ds:screen:approval-gates-001
+  state: default
+  event: EVENT_APPROVAL_DECISION
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_APPROVAL_DECISION
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:approval-gates-001
+- order: 2
+  route: /design-system/approval
+  screen_id: screen:ds-approval
+  screen_ds_id: ds:screen:approval-showcase-001
+  state: default
+  event: API_APPROVAL_SUCCESS
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: API_APPROVAL_SUCCESS
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:approval-showcase-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: approval-approve
+prd_journey: PRD-04 §8.1A route coverage — Human approves sufficient evidence
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: default
+ds_targets:
+- ds:screen:approval-gates-001
+- ds:screen:approval-showcase-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

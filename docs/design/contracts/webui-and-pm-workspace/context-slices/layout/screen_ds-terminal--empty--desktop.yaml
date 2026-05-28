@@ -1,0 +1,14 @@
+id: layout:screen:ds-terminal:empty:desktop
+screen_id: screen:ds-terminal
+route: /design-system/terminal
+screen_ds_id: ds:screen:terminal-showcase-001
+state: empty
+viewport: desktop
+width: 1440
+layout: scenario tabs with 2x2 terminal mosaic
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

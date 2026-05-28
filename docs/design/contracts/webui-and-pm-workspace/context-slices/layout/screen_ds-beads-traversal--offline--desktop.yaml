@@ -1,0 +1,14 @@
+id: layout:screen:ds-beads-traversal:offline:desktop
+screen_id: screen:ds-beads-traversal
+route: /design-system/beads-traversal
+screen_ds_id: ds:screen:beads-traversal-showcase-001
+state: offline
+viewport: desktop
+width: 1440
+layout: layered DAG from PRD sections to plan elements, tasks, and commits
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

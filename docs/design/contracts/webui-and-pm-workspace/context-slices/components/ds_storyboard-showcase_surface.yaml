@@ -1,0 +1,20 @@
+ds_id: ds:storyboard-showcase:surface
+type: ShowcaseSurface
+parent_ds_id: ds:screen:storyboard-showcase-001
+actions: []
+screen_id: screen:ds-storyboard
+screen_route: /design-system/storyboard
+screen_ds_id: ds:screen:storyboard-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/storyboards
+screen_actions:
+- filter journeys and preserve selected route state
+- show Mechanism and Action, Considerations, and Investigating guidance
+- CTA opens the corresponding implementation screen

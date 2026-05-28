@@ -1,0 +1,65 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 7,
+  "score": 99,
+  "convergence_status": "GATE_A_READY",
+  "recommended_ba_route": "promote_to_gate_a_review",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence, 1 Mermaid fence, YAML parse OK, 0 standalone .mmd files"
+    },
+    "prd_coverage": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "metadata.satisfies covers 16/16 PRD IDs including br-prd04-s14a; 23/23 required Core and showcase routes present including /design-system/storyboard/:id"
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "119 YAML ds_id values, 0 duplicates; component-map.json has 119/119 ds_ids, 90 components, 23 screens, 0 missing/extra IDs"
+    },
+    "logic_coverage": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "6/6 YAML action tokens map to Mermaid EVENT_* labels; 0 unmatched Mermaid events; state machine has 10 transitions with API_SUCCESS, API_ERROR, and RETRY outcomes"
+    },
+    "derived_artifact_consistency": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "Mermaid markdown validator PASS; flow.md has exactly 1 Mermaid block; review-diagrams.md has 6 Mermaid blocks; storyboards 23/23 routes, layout-rules 69 rows with desktop/tablet/mobile coverage, artifact-index 187 entries with 172 valid context-slice references and 0 missing slices"
+    },
+    "conflict_preview_readiness": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "prd-ds-conflicts.md reports no unresolved conflicts; contract_to_ui.py returned status OK with 0 warnings; preview/index.html contains SSOT, Mermaid, flow, storyboard, component, layout, conflict, and route sections"
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_parse": "ok",
+    "yaml_block_style": true,
+    "standalone_mmd_files": [],
+    "metadata_missing_prd_ids": [],
+    "metadata_extra_ids": [],
+    "screen_count": 23,
+    "routes_missing_core": [],
+    "routes_missing_showcase": [],
+    "duplicate_ds_ids": [],
+    "component_map_missing_yaml_ds_ids": [],
+    "component_map_extra_ids": [],
+    "layout_routes_missing_viewports": {},
+    "artifact_index_missing_slices": [],
+    "artifact_index_invalid_load_policies": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "mermaid_transition_count": 10,
+    "preview_warnings": 0
+  },
+  "fix_queue": [],
+  "p0_p1_issues": [],
+  "baseline_regression": false,
+  "issues": []
+}

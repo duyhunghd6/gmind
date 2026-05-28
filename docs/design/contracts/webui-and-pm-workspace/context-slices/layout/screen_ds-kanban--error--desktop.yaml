@@ -1,0 +1,14 @@
+id: layout:screen:ds-kanban:error:desktop
+screen_id: screen:ds-kanban
+route: /design-system/kanban
+screen_ds_id: ds:screen:kanban-showcase-001
+state: error
+viewport: desktop
+width: 1440
+layout: board selector with draggable cards, WIP badges, and board stats
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

@@ -1,0 +1,42 @@
+trajectory_id: approval-insufficient-evidence
+title: Human refreshes insufficient evidence
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- API_ERROR
+- EVENT_REFRESH
+- API_SUCCESS_CORE
+routes:
+- /approval
+recovery_path: true
+steps:
+- order: 1
+  route: /approval
+  screen_id: screen:approval-gates
+  screen_ds_id: ds:screen:approval-gates-001
+  state: error
+  event: API_ERROR
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: API_ERROR
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:approval-gates-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: approval-insufficient-evidence
+prd_journey: PRD-04 §8.1A route coverage — Human refreshes insufficient evidence
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: error
+ds_targets:
+- ds:screen:approval-gates-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

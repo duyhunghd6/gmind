@@ -1,0 +1,14 @@
+gate: A
+load_order:
+- ui-contract.md
+- flow.md
+- component-map.json
+- storyboards.json
+- layout-rules.json
+- context-slices/summary/contract-summary.yaml
+coverage_checks:
+- "all \xA78.1A showcase routes represented"
+- all action_catalog events appear in Mermaid
+- each ds_id has component slice
+- each trajectory has storyboard slice
+- each screen state viewport has layout slice

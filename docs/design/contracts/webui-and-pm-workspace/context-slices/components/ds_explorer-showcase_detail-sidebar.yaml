@@ -1,0 +1,23 @@
+ds_id: ds:explorer-showcase:detail-sidebar
+type: ExplorerDetailSidebar
+parent_ds_id: ds:explorer-showcase:surface
+actions:
+- EVENT_VIEW_TRACE
+- EVENT_VIEW_DOC
+- EVENT_VIEW_TASK
+screen_id: screen:ds-explorer
+screen_route: /design-system/explorer
+screen_ds_id: ds:screen:explorer-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/search?q=<query>&type=<type>
+screen_actions:
+- filter all, doc, commit, task, adr, chat, and spike via hash
+- show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer
+- preserve detail sidebar on desktop and convert to drawer on smaller viewports

@@ -1,10 +1,11 @@
-# PRD/Design-System Conflicts: WebUI & PM Workspace
 <!-- beads-id: br-design-conflicts-webui-pm-workspace -->
+# PRD/DS Conflicts: WebUI PM Workspace
 
 ## Status
-No unresolved flow/map conflicts were found for Stage 1 flow generation.
 
-## Resolved constraints tracked in artifacts
-- Browser data access is constrained to `gmind serve` Go REST/API-streamed events; direct FrankenSQLite, Zvec, git, gh, FastCode, and shell access remains forbidden.
-- Showcase static data is mapped to Core WebUI API equivalents in `component-map.json` and route storyboards.
-- Large machine evidence is indexed in `artifact-index.json` with compact context slices for component, storyboard, and layout lookup.
+No unresolved PRD style or component conflicts were found during Stage 1 flow/map generation.
+
+## Resolved Alignment Notes
+
+- PRD §8.1A route `/design-system/storyboard/:id` is included as a distinct dynamic showcase screen even though AC15 summarizes storyboard routes compactly. Owner: gen_contracts/gen_flows.
+- PRD showcase static data is mapped to Core WebUI Go REST API endpoints; browser direct access to FrankenSQLite, Zvec, local git, GitHub `gh`, FastCode, or shell remains forbidden. Owner: Stage 2 implementer.

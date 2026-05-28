@@ -1,0 +1,14 @@
+id: layout:screen:search-results:forbidden:desktop
+screen_id: screen:search-results
+route: /search
+screen_ds_id: ds:screen:search-results-001
+state: forbidden
+viewport: desktop
+width: 1440
+layout: global search input, filter sidebar, grouped results, and instant suggestions
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

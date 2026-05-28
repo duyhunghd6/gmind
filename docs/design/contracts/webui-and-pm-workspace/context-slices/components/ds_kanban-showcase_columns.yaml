@@ -1,0 +1,23 @@
+ds_id: ds:kanban-showcase:columns
+type: KanbanColumns
+parent_ds_id: ds:kanban-showcase:surface
+actions:
+- EVENT_MOVE_CARD
+- EVENT_VIEW_TASK
+screen_id: screen:ds-kanban
+screen_route: /design-system/kanban
+screen_ds_id: ds:screen:kanban-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/tasks?view=board&board=<id>
+- PUT /api/tasks/:id/status
+screen_actions:
+- hash routes for sprint, release, and bug-triage boards
+- drag cards across WIP-limited columns
+- show total, done, and progress stats

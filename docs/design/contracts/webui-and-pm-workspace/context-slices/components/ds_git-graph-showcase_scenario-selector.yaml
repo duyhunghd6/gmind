@@ -1,0 +1,22 @@
+ds_id: ds:git-graph-showcase:scenario-selector
+type: ScenarioSelector
+parent_ds_id: ds:git-graph-showcase:surface
+actions:
+- EVENT_HASH_NAVIGATE
+screen_id: screen:ds-git-graph
+screen_route: /design-system/git-graph
+screen_ds_id: ds:screen:git-graph-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/git/graph?scenario=<id>
+- GET /api/trace/:id?include=git
+screen_actions:
+- support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace,
+  beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios
+- render backend-aggregated git and Beads trailer lineage

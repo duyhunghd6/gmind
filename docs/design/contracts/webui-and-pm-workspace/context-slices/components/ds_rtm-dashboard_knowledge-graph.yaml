@@ -1,0 +1,24 @@
+ds_id: ds:rtm-dashboard:knowledge-graph
+type: KnowledgeGraphPanel
+parent_ds_id: ds:rtm-dashboard:surface
+actions:
+- EVENT_VIEW_TRACE
+screen_id: screen:rtm-dashboard
+screen_route: /
+screen_ds_id: ds:screen:rtm-dashboard-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/coverage
+- GET /api/tasks
+- GET /api/trace/:id?depth=2
+- GET /api/gaps
+screen_actions:
+- drill into PRD and section coverage
+- click graph nodes to show trace details
+- resolve gaps with create or source navigation action

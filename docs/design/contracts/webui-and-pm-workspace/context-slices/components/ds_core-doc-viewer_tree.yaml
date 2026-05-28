@@ -1,0 +1,22 @@
+ds_id: ds:core-doc-viewer:tree
+type: DocTree
+parent_ds_id: ds:core-doc-viewer:surface
+actions: []
+screen_id: screen:doc-viewer
+screen_route: /docs
+screen_ds_id: ds:screen:core-doc-viewer-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/docs?group=source_type
+- GET /api/docs/:id
+- GET /api/coverage?prd=<beads-id>
+screen_actions:
+- browse indexed documents by source type
+- auto-link Beads IDs to trace routes
+- show coverage indicator for PRD documents

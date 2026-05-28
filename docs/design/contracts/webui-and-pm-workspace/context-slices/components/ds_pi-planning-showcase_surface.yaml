@@ -1,0 +1,23 @@
+ds_id: ds:pi-planning-showcase:surface
+type: ShowcaseSurface
+parent_ds_id: ds:screen:pi-planning-showcase-001
+actions: []
+screen_id: screen:ds-pi-planning
+screen_route: /design-system/pi-planning
+screen_ds_id: ds:screen:pi-planning-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/pi/features
+- PUT /api/pi/plan
+- GET /api/risks?view=roam
+- POST /api/pi/confidence-vote
+screen_actions:
+- drag and drop strategic sandbox capacity items
+- capture business value scoring and confidence vote one through five
+- classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned

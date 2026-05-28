@@ -4,568 +4,187 @@
     "ui-contract.md",
     "PRD-04-WebUI-and-PM-Workspace.md"
   ],
-  "component_count": 122,
+  "coverage": {
+    "screens": 23,
+    "components": 115,
+    "action_events_mapped": [
+      "EVENT_APPROVAL_DECISION",
+      "EVENT_BACK",
+      "EVENT_CONFIDENCE_VOTE",
+      "EVENT_DISCONNECT",
+      "EVENT_HASH_NAVIGATE",
+      "EVENT_KEEP_LOCAL",
+      "EVENT_MOVE_CARD",
+      "EVENT_PI_PLAN_SAVE",
+      "EVENT_RECONNECT",
+      "EVENT_REFRESH",
+      "EVENT_SAVE_BULK",
+      "EVENT_SAVE_TASK",
+      "EVENT_SEARCH",
+      "EVENT_USE_SERVER",
+      "EVENT_VIEW_DOC",
+      "EVENT_VIEW_TASK",
+      "EVENT_VIEW_TRACE"
+    ]
+  },
   "components": [
     {
-      "screen_id": "core-global-shell",
-      "route": "gmind-serve-shell",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:global_shell",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:global_shell",
+      "ds_id": "ds:screen:rtm-dashboard-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:rtm-dashboard",
+      "screen_route": "/",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
+        "empty",
+        "error",
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "responsive_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8"
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
       ],
-      "evidence": {
-        "yaml_screen": "core-global-shell",
-        "mermaid_state": "core_global_shell"
-      }
+      "screen_actions": [
+        "drill into PRD and section coverage",
+        "click graph nodes to show trace details",
+        "resolve gaps with create or source navigation action"
+      ]
     },
     {
-      "screen_id": "core-global-shell",
-      "route": "gmind-serve-shell",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:global_shell",
-      "component_path": "layout",
-      "component_type": "responsive_shell",
-      "ds_id": "ds:global_shell--core-global-shell--layout",
+      "ds_id": "ds:rtm-dashboard:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:rtm-dashboard-001",
+      "actions": [],
+      "screen_id": "screen:rtm-dashboard",
+      "screen_route": "/",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
       "states": [
         "default",
         "loading",
+        "empty",
+        "error",
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "responsive_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8"
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
       ],
-      "evidence": {
-        "yaml_screen": "core-global-shell",
-        "mermaid_state": "core_global_shell"
-      },
-      "canonical_ds_id": "ds:global_shell"
+      "screen_actions": [
+        "drill into PRD and section coverage",
+        "click graph nodes to show trace details",
+        "resolve gaps with create or source navigation action"
+      ]
     },
     {
-      "screen_id": "core-global-shell",
-      "route": "gmind-serve-shell",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:global_shell",
-      "component_path": "layout/header",
-      "component_type": "header",
-      "ds_id": "ds:core-shell-header",
-      "states": [
-        "default",
-        "loading",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:rtm-dashboard:coverage-heatmap",
+      "type": "CoverageHeatmap",
+      "parent_ds_id": "ds:rtm-dashboard:surface",
       "actions": [
-        {
-          "id": "action:core-shell-search",
-          "label": "Search workspace",
-          "target": "/search"
-        }
+        "EVENT_VIEW_TRACE"
       ],
-      "bindings": [
-        "api:search"
-      ],
-      "labels": [
-        "gmind logo",
-        "global search",
-        "offline indicator"
-      ],
-      "layout_type": "responsive_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "core-global-shell",
-        "mermaid_state": "core_global_shell"
-      }
-    },
-    {
-      "screen_id": "core-global-shell",
-      "route": "gmind-serve-shell",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:global_shell",
-      "component_path": "layout/sidebar_nav",
-      "component_type": "sidebar_nav",
-      "ds_id": "ds:core-shell-sidebar",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_route": "/",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
       "states": [
         "default",
         "loading",
+        "empty",
+        "error",
         "offline",
         "forbidden"
       ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "screen_actions": [
+        "drill into PRD and section coverage",
+        "click graph nodes to show trace details",
+        "resolve gaps with create or source navigation action"
+      ]
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:task-progress",
+      "type": "TaskProgressPanel",
+      "parent_ds_id": "ds:rtm-dashboard:surface",
       "actions": [
-        {
-          "id": "action:core-nav-dashboard",
-          "label": "Open dashboard",
-          "target": "/"
-        },
-        {
-          "id": "action:core-nav-board",
-          "label": "Open SAFe board",
-          "target": "/board"
-        },
-        {
-          "id": "action:core-nav-tasks",
-          "label": "Open task list",
-          "target": "/tasks"
-        },
-        {
-          "id": "action:core-nav-trace",
-          "label": "Open trace explorer",
-          "target": "/trace/:id"
-        },
-        {
-          "id": "action:core-nav-docs",
-          "label": "Open docs",
-          "target": "/docs"
-        },
-        {
-          "id": "action:core-nav-approval",
-          "label": "Open approvals",
-          "target": "/approval"
-        }
+        "EVENT_VIEW_TASK"
       ],
-      "bindings": [],
-      "labels": [
-        "RTM Dashboard",
-        "SAFe Board",
-        "Task List",
-        "Task Detail",
-        "Trace Explorer",
-        "Doc Viewer",
-        "Approval Gates",
-        "Search Results"
-      ],
-      "layout_type": "responsive_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "core-global-shell",
-        "mermaid_state": "core_global_shell"
-      }
-    },
-    {
-      "screen_id": "core-global-shell",
-      "route": "gmind-serve-shell",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:global_shell",
-      "component_path": "layout/router_outlet",
-      "component_type": "router_outlet",
-      "ds_id": "ds:core-shell-router-outlet",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_route": "/",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
       "states": [
         "default",
         "loading",
+        "empty",
+        "error",
         "offline",
         "forbidden"
       ],
-      "actions": [],
       "bindings": [
-        "gmind serve routes"
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
       ],
-      "labels": [
-        "active core surface"
-      ],
-      "layout_type": "responsive_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "core-global-shell",
-        "mermaid_state": "core_global_shell"
-      }
+      "screen_actions": [
+        "drill into PRD and section coverage",
+        "click graph nodes to show trace details",
+        "resolve gaps with create or source navigation action"
+      ]
     },
     {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-rtm-dashboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      }
-    },
-    {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "layout",
-      "component_type": "dashboard_grid",
-      "ds_id": "ds:screen:core-rtm-dashboard-001--core-rtm-dashboard--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      },
-      "canonical_ds_id": "ds:screen:core-rtm-dashboard-001"
-    },
-    {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "layout/kpi_row",
-      "component_type": "kpi_row",
-      "ds_id": "ds:core-rtm-kpi-row",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:coverage",
-        "api:tasks",
-        "api:gaps"
-      ],
-      "labels": [
-        "Coverage",
-        "Tasks Done",
-        "Gaps Found"
-      ],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      }
-    },
-    {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "layout/coverage_heatmap",
-      "component_type": "coverage_heatmap",
-      "ds_id": "ds:core-rtm-coverage-heatmap",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:rtm-dashboard:knowledge-graph",
+      "type": "KnowledgeGraphPanel",
+      "parent_ds_id": "ds:rtm-dashboard:surface",
       "actions": [
-        {
-          "id": "action:core-dashboard-open-section-trace",
-          "label": "Open section trace",
-          "target": "/trace/:id"
-        }
+        "EVENT_VIEW_TRACE"
+      ],
+      "screen_id": "screen:rtm-dashboard",
+      "screen_route": "/",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
       ],
       "bindings": [
-        "api:coverage"
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
       ],
-      "labels": [],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      }
+      "screen_actions": [
+        "drill into PRD and section coverage",
+        "click graph nodes to show trace details",
+        "resolve gaps with create or source navigation action"
+      ]
     },
     {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "layout/task_progress",
-      "component_type": "task_progress",
-      "ds_id": "ds:core-rtm-task-progress",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:tasks"
-      ],
-      "labels": [],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      }
-    },
-    {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "layout/knowledge_graph_widget",
-      "component_type": "knowledge_graph_widget",
-      "ds_id": "ds:core-rtm-knowledge-graph-widget",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:trace-full"
-      ],
-      "labels": [],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      }
-    },
-    {
-      "screen_id": "core-rtm-dashboard",
-      "route": "/",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-rtm-dashboard-001",
-      "component_path": "layout/gap_analysis",
-      "component_type": "gap_analysis",
-      "ds_id": "ds:core-rtm-gap-analysis",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:gaps"
-      ],
-      "labels": [],
-      "layout_type": "dashboard_grid",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s6"
-      ],
-      "evidence": {
-        "yaml_screen": "core-rtm-dashboard",
-        "mermaid_state": "core_rtm_dashboard"
-      }
-    },
-    {
-      "screen_id": "core-safe-board",
-      "route": "/board",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-safe-board-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-safe-board-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "kanban_board",
-      "source_refs": [
-        "br-prd04-s3",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-safe-board",
-        "mermaid_state": "core_safe_board"
-      }
-    },
-    {
-      "screen_id": "core-safe-board",
-      "route": "/board",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-safe-board-001",
-      "component_path": "layout",
-      "component_type": "kanban_board",
-      "ds_id": "ds:screen:core-safe-board-001--core-safe-board--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "kanban_board",
-      "source_refs": [
-        "br-prd04-s3",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-safe-board",
-        "mermaid_state": "core_safe_board"
-      },
-      "canonical_ds_id": "ds:screen:core-safe-board-001"
-    },
-    {
-      "screen_id": "core-safe-board",
-      "route": "/board",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-safe-board-001",
-      "component_path": "layout/board_level_tabs",
-      "component_type": "board_level_tabs",
-      "ds_id": "ds:core-safe-board-level-tabs",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:tasks-board"
-      ],
-      "labels": [
-        "Portfolio",
-        "ART",
-        "Team"
-      ],
-      "layout_type": "kanban_board",
-      "source_refs": [
-        "br-prd04-s3",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-safe-board",
-        "mermaid_state": "core_safe_board"
-      }
-    },
-    {
-      "screen_id": "core-safe-board",
-      "route": "/board",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-safe-board-001",
-      "component_path": "layout/kanban_lanes",
-      "component_type": "kanban_lanes",
-      "ds_id": "ds:core-safe-board-lanes",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:rtm-dashboard:gap-analysis",
+      "type": "GapAnalysisPanel",
+      "parent_ds_id": "ds:rtm-dashboard:surface",
       "actions": [
-        {
-          "id": "action:core-board-drag-card",
-          "label": "Move task status",
-          "target": "api:task-status"
-        }
+        "EVENT_REFRESH"
       ],
-      "bindings": [],
-      "labels": [
-        "Todo",
-        "In Progress",
-        "Review",
-        "Done"
-      ],
-      "layout_type": "kanban_board",
-      "source_refs": [
-        "br-prd04-s3",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-safe-board",
-        "mermaid_state": "core_safe_board"
-      }
-    },
-    {
-      "screen_id": "core-safe-board",
-      "route": "/board",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-safe-board-001",
-      "component_path": "layout/rte_escalation_badge",
-      "component_type": "rte_escalation_badge",
-      "ds_id": "ds:core-safe-board-rte-badge",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_route": "/",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
       "states": [
         "default",
         "loading",
@@ -574,402 +193,462 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
       "bindings": [
-        "api:task-activity"
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
       ],
-      "labels": [
-        "RTE:ESCALATED",
-        "RTE:DISCUSSING"
-      ],
-      "layout_type": "kanban_board",
-      "source_refs": [
-        "br-prd04-s3",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-safe-board",
-        "mermaid_state": "core_safe_board"
-      }
+      "screen_actions": [
+        "drill into PRD and section coverage",
+        "click graph nodes to show trace details",
+        "resolve gaps with create or source navigation action"
+      ]
     },
     {
-      "screen_id": "core-task-list",
-      "route": "/tasks",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-list-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-task-list-001",
+      "ds_id": "ds:screen:safe-board-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:safe-board",
+      "screen_route": "/board",
+      "screen_ds_id": "ds:screen:safe-board-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden",
-        "processing"
+        "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "data_table",
-      "source_refs": [
-        "br-prd04-s13"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-list",
-        "mermaid_state": "core_task_list"
-      }
-    },
-    {
-      "screen_id": "core-task-list",
-      "route": "/tasks",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-list-001",
-      "component_path": "layout",
-      "component_type": "data_table",
-      "ds_id": "ds:screen:core-task-list-001--core-task-list--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "processing"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "data_table",
-      "source_refs": [
-        "br-prd04-s13"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-list",
-        "mermaid_state": "core_task_list"
-      },
-      "canonical_ds_id": "ds:screen:core-task-list-001"
-    },
-    {
-      "screen_id": "core-task-list",
-      "route": "/tasks",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-list-001",
-      "component_path": "layout/filter_bar",
-      "component_type": "filter_bar",
-      "ds_id": "ds:core-task-list-filter-bar",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "processing"
-      ],
-      "actions": [],
       "bindings": [
-        "api:tasks"
+        "GET /api/tasks?view=board&level=<level>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
       ],
-      "labels": [
-        "Status",
-        "Assignee",
-        "Priority",
-        "PRD"
-      ],
-      "layout_type": "data_table",
-      "source_refs": [
-        "br-prd04-s13"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-list",
-        "mermaid_state": "core_task_list"
-      }
+      "screen_actions": [
+        "switch Portfolio, ART, and Team board scopes",
+        "drag task cards across statuses",
+        "open RTE drawer from escalation badge"
+      ]
     },
     {
-      "screen_id": "core-task-list",
-      "route": "/tasks",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-list-001",
-      "component_path": "layout/task_table",
-      "component_type": "task_table",
-      "ds_id": "ds:core-task-list-table",
+      "ds_id": "ds:safe-board:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:safe-board-001",
+      "actions": [],
+      "screen_id": "screen:safe-board",
+      "screen_route": "/board",
+      "screen_ds_id": "ds:screen:safe-board-001",
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden",
-        "processing"
+        "forbidden"
       ],
+      "bindings": [
+        "GET /api/tasks?view=board&level=<level>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "switch Portfolio, ART, and Team board scopes",
+        "drag task cards across statuses",
+        "open RTE drawer from escalation badge"
+      ]
+    },
+    {
+      "ds_id": "ds:safe-board:view-switcher",
+      "type": "BoardSwitcher",
+      "parent_ds_id": "ds:safe-board:surface",
+      "actions": [],
+      "screen_id": "screen:safe-board",
+      "screen_route": "/board",
+      "screen_ds_id": "ds:screen:safe-board-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?view=board&level=<level>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "switch Portfolio, ART, and Team board scopes",
+        "drag task cards across statuses",
+        "open RTE drawer from escalation badge"
+      ]
+    },
+    {
+      "ds_id": "ds:safe-board:kanban",
+      "type": "KanbanBoard",
+      "parent_ds_id": "ds:safe-board:surface",
       "actions": [
-        {
-          "id": "action:core-task-list-row-open",
-          "label": "Open task detail",
-          "target": "/tasks/:id"
-        },
-        {
-          "id": "action:core-task-list-bulk-assign",
-          "label": "Bulk assign tasks",
-          "target": "api:tasks-update"
-        }
+        "EVENT_MOVE_CARD",
+        "EVENT_VIEW_TASK"
       ],
-      "bindings": [],
-      "labels": [
-        "ID",
-        "Title",
-        "Status",
-        "Priority",
-        "Assignee",
-        "QA"
-      ],
-      "layout_type": "data_table",
-      "source_refs": [
-        "br-prd04-s13"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-list",
-        "mermaid_state": "core_task_list"
-      }
-    },
-    {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-task-detail-001",
+      "screen_id": "screen:safe-board",
+      "screen_route": "/board",
+      "screen_ds_id": "ds:screen:safe-board-001",
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
-        "forbidden",
-        "saving"
+        "forbidden"
       ],
+      "bindings": [
+        "GET /api/tasks?view=board&level=<level>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "switch Portfolio, ART, and Team board scopes",
+        "drag task cards across statuses",
+        "open RTE drawer from escalation badge"
+      ]
+    },
+    {
+      "ds_id": "ds:safe-board:rte-escalation-badge",
+      "type": "RteEscalationBadge",
+      "parent_ds_id": "ds:safe-board:surface",
       "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      }
-    },
-    {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "layout",
-      "component_type": "tabbed_detail",
-      "ds_id": "ds:screen:core-task-detail-001--core-task-detail--layout",
+      "screen_id": "screen:safe-board",
+      "screen_route": "/board",
+      "screen_ds_id": "ds:screen:safe-board-001",
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
-        "forbidden",
-        "saving"
+        "forbidden"
       ],
+      "bindings": [
+        "GET /api/tasks?view=board&level=<level>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "switch Portfolio, ART, and Team board scopes",
+        "drag task cards across statuses",
+        "open RTE drawer from escalation badge"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:task-list-001",
+      "type": "Screen",
+      "parent_ds_id": null,
       "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      },
-      "canonical_ds_id": "ds:screen:core-task-detail-001"
-    },
-    {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "layout/task_header",
-      "component_type": "task_header",
-      "ds_id": "ds:core-task-detail-header",
+      "screen_id": "screen:task-list",
+      "screen_route": "/tasks",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
         "forbidden",
         "saving"
       ],
+      "bindings": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "screen_actions": [
+        "combine status, priority, assignee, PRD, and QA filters",
+        "select visible rows and bulk assign, status, or priority",
+        "switch between list and board presentation"
+      ]
+    },
+    {
+      "ds_id": "ds:task-list:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:task-list-001",
+      "actions": [],
+      "screen_id": "screen:task-list",
+      "screen_route": "/tasks",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "bindings": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "screen_actions": [
+        "combine status, priority, assignee, PRD, and QA filters",
+        "select visible rows and bulk assign, status, or priority",
+        "switch between list and board presentation"
+      ]
+    },
+    {
+      "ds_id": "ds:task-list:filters",
+      "type": "TaskFilters",
+      "parent_ds_id": "ds:task-list:surface",
+      "actions": [],
+      "screen_id": "screen:task-list",
+      "screen_route": "/tasks",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "bindings": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "screen_actions": [
+        "combine status, priority, assignee, PRD, and QA filters",
+        "select visible rows and bulk assign, status, or priority",
+        "switch between list and board presentation"
+      ]
+    },
+    {
+      "ds_id": "ds:task-list:table",
+      "type": "TaskTable",
+      "parent_ds_id": "ds:task-list:surface",
       "actions": [
-        {
-          "id": "action:core-task-detail-save-field",
-          "label": "Save edited field",
-          "target": "api:tasks-update"
-        }
+        "EVENT_VIEW_TASK"
       ],
-      "bindings": [
-        "api:tasks-detail"
-      ],
-      "labels": [
-        "Status",
-        "Priority",
-        "Assignee",
-        "QA"
-      ],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      }
-    },
-    {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "layout/tab_panel",
-      "component_type": "tab_panel",
-      "ds_id": "ds:core-task-detail-tabs",
+      "screen_id": "screen:task-list",
+      "screen_route": "/tasks",
+      "screen_ds_id": "ds:screen:task-list-001",
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
         "forbidden",
         "saving"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "Detail",
-        "Activity",
-        "Graph",
-        "Code"
+      "bindings": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
       ],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      }
+      "screen_actions": [
+        "combine status, priority, assignee, PRD, and QA filters",
+        "select visible rows and bulk assign, status, or priority",
+        "switch between list and board presentation"
+      ]
     },
     {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "layout/tab_panel/markdown_detail",
-      "component_type": "markdown_detail",
-      "ds_id": "ds:core-task-detail-markdown",
+      "ds_id": "ds:task-list:bulk-actions",
+      "type": "BulkActionBar",
+      "parent_ds_id": "ds:task-list:surface",
+      "actions": [
+        "EVENT_SAVE_BULK"
+      ],
+      "screen_id": "screen:task-list",
+      "screen_route": "/tasks",
+      "screen_ds_id": "ds:screen:task-list-001",
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
         "forbidden",
         "saving"
       ],
-      "actions": [],
       "bindings": [
-        "api:tasks-detail"
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
       ],
-      "labels": [],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      }
+      "screen_actions": [
+        "combine status, priority, assignee, PRD, and QA filters",
+        "select visible rows and bulk assign, status, or priority",
+        "switch between list and board presentation"
+      ]
     },
     {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "layout/tab_panel/activity_timeline",
-      "component_type": "activity_timeline",
-      "ds_id": "ds:core-task-detail-activity",
+      "ds_id": "ds:screen:task-detail-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:task-detail",
+      "screen_route": "/tasks/:id",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
         "forbidden",
-        "saving"
+        "saving",
+        "not_found"
       ],
-      "actions": [],
       "bindings": [
-        "api:task-activity"
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
       ],
-      "labels": [],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      }
+      "screen_actions": [
+        "edit first-class PM fields through optimistic API writes",
+        "open dependency links in Trace Explorer",
+        "show activity timeline and code-touch context"
+      ]
     },
     {
-      "screen_id": "core-task-detail",
-      "route": "/tasks/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-task-detail-001",
-      "component_path": "layout/tab_panel/trace_graph_widget",
-      "component_type": "trace_graph_widget",
-      "ds_id": "ds:core-task-detail-graph",
+      "ds_id": "ds:task-detail:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:task-detail-001",
+      "actions": [],
+      "screen_id": "screen:task-detail",
+      "screen_route": "/tasks/:id",
+      "screen_ds_id": "ds:screen:task-detail-001",
       "states": [
         "default",
         "loading",
-        "not-found",
+        "empty",
         "error",
         "offline",
         "forbidden",
-        "saving"
+        "saving",
+        "not_found"
       ],
-      "actions": [],
       "bindings": [
-        "api:trace-full"
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
       ],
-      "labels": [],
-      "layout_type": "tabbed_detail",
-      "source_refs": [
-        "br-prd04-s11"
-      ],
-      "evidence": {
-        "yaml_screen": "core-task-detail",
-        "mermaid_state": "core_task_detail"
-      }
+      "screen_actions": [
+        "edit first-class PM fields through optimistic API writes",
+        "open dependency links in Trace Explorer",
+        "show activity timeline and code-touch context"
+      ]
     },
     {
-      "screen_id": "core-trace-explorer",
-      "route": "/trace/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-trace-explorer-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-trace-explorer-001",
+      "ds_id": "ds:task-detail:editable-fields",
+      "type": "EditableFieldGroup",
+      "parent_ds_id": "ds:task-detail:surface",
+      "actions": [
+        "EVENT_SAVE_TASK"
+      ],
+      "screen_id": "screen:task-detail",
+      "screen_route": "/tasks/:id",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "screen_actions": [
+        "edit first-class PM fields through optimistic API writes",
+        "open dependency links in Trace Explorer",
+        "show activity timeline and code-touch context"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:tabs",
+      "type": "TaskTabs",
+      "parent_ds_id": "ds:task-detail:surface",
+      "actions": [
+        "EVENT_VIEW_TRACE",
+        "EVENT_VIEW_DOC"
+      ],
+      "screen_id": "screen:task-detail",
+      "screen_route": "/tasks/:id",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "screen_actions": [
+        "edit first-class PM fields through optimistic API writes",
+        "open dependency links in Trace Explorer",
+        "show activity timeline and code-touch context"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:activity",
+      "type": "ActivityTimeline",
+      "parent_ds_id": "ds:task-detail:surface",
+      "actions": [],
+      "screen_id": "screen:task-detail",
+      "screen_route": "/tasks/:id",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "screen_actions": [
+        "edit first-class PM fields through optimistic API writes",
+        "open dependency links in Trace Explorer",
+        "show activity timeline and code-touch context"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:trace-explorer-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:trace-explorer",
+      "screen_route": "/trace/:id",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -979,208 +658,136 @@
         "forbidden",
         "partial"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "graph_explorer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "core-trace-explorer",
-        "mermaid_state": "core_trace_explorer"
-      }
-    },
-    {
-      "screen_id": "core-trace-explorer",
-      "route": "/trace/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-trace-explorer-001",
-      "component_path": "layout",
-      "component_type": "graph_explorer",
-      "ds_id": "ds:screen:core-trace-explorer-001--core-trace-explorer--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "graph_explorer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "core-trace-explorer",
-        "mermaid_state": "core_trace_explorer"
-      },
-      "canonical_ds_id": "ds:screen:core-trace-explorer-001"
-    },
-    {
-      "screen_id": "core-trace-explorer",
-      "route": "/trace/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-trace-explorer-001",
-      "component_path": "layout/trace_toolbar",
-      "component_type": "trace_toolbar",
-      "ds_id": "ds:core-trace-toolbar",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "actions": [],
       "bindings": [
-        "api:trace-full"
+        "GET /api/trace/:id?depth=full",
+        "GET /api/impact/:section"
       ],
-      "labels": [
-        "Root",
-        "Depth",
-        "Node type filters"
-      ],
-      "layout_type": "graph_explorer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "core-trace-explorer",
-        "mermaid_state": "core_trace_explorer"
-      }
+      "screen_actions": [
+        "change root Beads ID and depth",
+        "click node for detail, double-click to route, right-click for context menu",
+        "show partial local data when enrichment times out"
+      ]
     },
     {
-      "screen_id": "core-trace-explorer",
-      "route": "/trace/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-trace-explorer-001",
-      "component_path": "layout/force_graph",
-      "component_type": "force_graph",
-      "ds_id": "ds:core-trace-force-graph",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "actions": [
-        {
-          "id": "action:core-trace-select-node",
-          "label": "Select graph node",
-          "target": "detail panel"
-        },
-        {
-          "id": "action:core-trace-open-linked-entity",
-          "label": "Open linked entity",
-          "target": "route by node type"
-        }
-      ],
-      "bindings": [],
-      "labels": [
-        "PRD",
-        "Plan",
-        "Task",
-        "Commit",
-        "Chat",
-        "PR",
-        "RTE Approval",
-        "CI Run",
-        "Code File",
-        "Agent Trace"
-      ],
-      "layout_type": "graph_explorer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "core-trace-explorer",
-        "mermaid_state": "core_trace_explorer"
-      }
-    },
-    {
-      "screen_id": "core-trace-explorer",
-      "route": "/trace/:id",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-trace-explorer-001",
-      "component_path": "layout/node_detail_panel",
-      "component_type": "node_detail_panel",
-      "ds_id": "ds:core-trace-node-detail",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
+      "ds_id": "ds:trace-explorer:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:trace-explorer-001",
       "actions": [],
-      "bindings": [],
-      "labels": [
-        "Beads ID",
-        "Coverage",
-        "Connected nodes"
+      "screen_id": "screen:trace-explorer",
+      "screen_route": "/trace/:id",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
       ],
-      "layout_type": "graph_explorer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
+      "bindings": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/impact/:section"
       ],
-      "evidence": {
-        "yaml_screen": "core-trace-explorer",
-        "mermaid_state": "core_trace_explorer"
-      }
+      "screen_actions": [
+        "change root Beads ID and depth",
+        "click node for detail, double-click to route, right-click for context menu",
+        "show partial local data when enrichment times out"
+      ]
     },
     {
-      "screen_id": "core-doc-viewer",
-      "route": "/docs",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
+      "ds_id": "ds:trace-explorer:toolbar",
+      "type": "TraceToolbar",
+      "parent_ds_id": "ds:trace-explorer:surface",
+      "actions": [],
+      "screen_id": "screen:trace-explorer",
+      "screen_route": "/trace/:id",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/impact/:section"
+      ],
+      "screen_actions": [
+        "change root Beads ID and depth",
+        "click node for detail, double-click to route, right-click for context menu",
+        "show partial local data when enrichment times out"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:graph",
+      "type": "TraceGraphCanvas",
+      "parent_ds_id": "ds:trace-explorer:surface",
+      "actions": [
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_DOC"
+      ],
+      "screen_id": "screen:trace-explorer",
+      "screen_route": "/trace/:id",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/impact/:section"
+      ],
+      "screen_actions": [
+        "change root Beads ID and depth",
+        "click node for detail, double-click to route, right-click for context menu",
+        "show partial local data when enrichment times out"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:detail-panel",
+      "type": "TraceDetailPanel",
+      "parent_ds_id": "ds:trace-explorer:surface",
+      "actions": [],
+      "screen_id": "screen:trace-explorer",
+      "screen_route": "/trace/:id",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/impact/:section"
+      ],
+      "screen_actions": [
+        "change root Beads ID and depth",
+        "click node for detail, double-click to route, right-click for context menu",
+        "show partial local data when enrichment times out"
+      ]
+    },
+    {
       "ds_id": "ds:screen:core-doc-viewer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "type": "Screen",
+      "parent_ds_id": null,
       "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "document_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "core-doc-viewer",
-        "mermaid_state": "core_doc_viewer"
-      }
-    },
-    {
-      "screen_id": "core-doc-viewer",
-      "route": "/docs",
-      "route_family": "core-webui",
+      "screen_id": "screen:doc-viewer",
+      "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "component_path": "layout",
-      "component_type": "document_viewer",
-      "ds_id": "ds:screen:core-doc-viewer-001--core-doc-viewer--layout",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1189,27 +796,25 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "document_viewer",
-      "source_refs": [
-        "br-prd04-s9"
+      "bindings": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?prd=<beads-id>"
       ],
-      "evidence": {
-        "yaml_screen": "core-doc-viewer",
-        "mermaid_state": "core_doc_viewer"
-      },
-      "canonical_ds_id": "ds:screen:core-doc-viewer-001"
+      "screen_actions": [
+        "browse indexed documents by source type",
+        "auto-link Beads IDs to trace routes",
+        "show coverage indicator for PRD documents"
+      ]
     },
     {
-      "screen_id": "core-doc-viewer",
-      "route": "/docs",
-      "route_family": "core-webui",
+      "ds_id": "ds:core-doc-viewer:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:core-doc-viewer-001",
+      "actions": [],
+      "screen_id": "screen:doc-viewer",
+      "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "component_path": "layout/document_tree",
-      "component_type": "document_tree",
-      "ds_id": "ds:core-doc-viewer-tree",
       "states": [
         "default",
         "loading",
@@ -1218,33 +823,25 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
       "bindings": [
-        "api:docs-grouped"
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?prd=<beads-id>"
       ],
-      "labels": [
-        "Docs",
-        "Chats",
-        "Commits",
-        "RTE"
-      ],
-      "layout_type": "document_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "core-doc-viewer",
-        "mermaid_state": "core_doc_viewer"
-      }
+      "screen_actions": [
+        "browse indexed documents by source type",
+        "auto-link Beads IDs to trace routes",
+        "show coverage indicator for PRD documents"
+      ]
     },
     {
-      "screen_id": "core-doc-viewer",
-      "route": "/docs",
-      "route_family": "core-webui",
+      "ds_id": "ds:core-doc-viewer:tree",
+      "type": "DocTree",
+      "parent_ds_id": "ds:core-doc-viewer:surface",
+      "actions": [],
+      "screen_id": "screen:doc-viewer",
+      "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "component_path": "layout/document_panel",
-      "component_type": "document_panel",
-      "ds_id": "ds:core-doc-viewer-panel",
       "states": [
         "default",
         "loading",
@@ -1253,209 +850,196 @@
         "offline",
         "forbidden"
       ],
+      "bindings": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?prd=<beads-id>"
+      ],
+      "screen_actions": [
+        "browse indexed documents by source type",
+        "auto-link Beads IDs to trace routes",
+        "show coverage indicator for PRD documents"
+      ]
+    },
+    {
+      "ds_id": "ds:core-doc-viewer:content",
+      "type": "RenderedDocContent",
+      "parent_ds_id": "ds:core-doc-viewer:surface",
       "actions": [
-        {
-          "id": "action:core-doc-open-beads-trace",
-          "label": "Open beads trace",
-          "target": "/trace/:id"
-        }
+        "EVENT_VIEW_TRACE"
+      ],
+      "screen_id": "screen:doc-viewer",
+      "screen_route": "/docs",
+      "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
       ],
       "bindings": [
-        "api:docs-detail"
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?prd=<beads-id>"
       ],
-      "labels": [
-        "Rendered content",
-        "Beads ID badges",
-        "Coverage indicator"
-      ],
-      "layout_type": "document_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "core-doc-viewer",
-        "mermaid_state": "core_doc_viewer"
-      }
+      "screen_actions": [
+        "browse indexed documents by source type",
+        "auto-link Beads IDs to trace routes",
+        "show coverage indicator for PRD documents"
+      ]
     },
     {
-      "screen_id": "core-approval-gates",
-      "route": "/approval",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-approval-gates-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-approval-gates-001",
+      "ds_id": "ds:core-doc-viewer:beads-links",
+      "type": "BeadsAutoLinks",
+      "parent_ds_id": "ds:core-doc-viewer:surface",
+      "actions": [],
+      "screen_id": "screen:doc-viewer",
+      "screen_route": "/docs",
+      "screen_ds_id": "ds:screen:core-doc-viewer-001",
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden",
-        "insufficient-evidence"
+        "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "approval_workspace",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-approval-gates",
-        "mermaid_state": "core_approval_gates"
-      }
-    },
-    {
-      "screen_id": "core-approval-gates",
-      "route": "/approval",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-approval-gates-001",
-      "component_path": "layout",
-      "component_type": "approval_workspace",
-      "ds_id": "ds:screen:core-approval-gates-001--core-approval-gates--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "approval_workspace",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-approval-gates",
-        "mermaid_state": "core_approval_gates"
-      },
-      "canonical_ds_id": "ds:screen:core-approval-gates-001"
-    },
-    {
-      "screen_id": "core-approval-gates",
-      "route": "/approval",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-approval-gates-001",
-      "component_path": "layout/approval_queue",
-      "component_type": "approval_queue",
-      "ds_id": "ds:core-approval-queue",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
       "bindings": [
-        "api:approval-queue"
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?prd=<beads-id>"
       ],
-      "labels": [],
-      "layout_type": "approval_workspace",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-approval-gates",
-        "mermaid_state": "core_approval_gates"
-      }
+      "screen_actions": [
+        "browse indexed documents by source type",
+        "auto-link Beads IDs to trace routes",
+        "show coverage indicator for PRD documents"
+      ]
     },
     {
-      "screen_id": "core-approval-gates",
-      "route": "/approval",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-approval-gates-001",
-      "component_path": "layout/evidence_blocks",
-      "component_type": "evidence_blocks",
-      "ds_id": "ds:core-approval-evidence-blocks",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
+      "ds_id": "ds:screen:approval-gates-001",
+      "type": "Screen",
+      "parent_ds_id": null,
       "actions": [],
-      "bindings": [
-        "api:approval-evidence"
-      ],
-      "labels": [
-        "Tests",
-        "Diff",
-        "Beads ID",
-        "PRD",
-        "CI"
-      ],
-      "layout_type": "approval_workspace",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-approval-gates",
-        "mermaid_state": "core_approval_gates"
-      }
-    },
-    {
-      "screen_id": "core-approval-gates",
-      "route": "/approval",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-approval-gates-001",
-      "component_path": "layout/decision_controls",
-      "component_type": "decision_controls",
-      "ds_id": "ds:core-approval-decision-controls",
+      "screen_id": "screen:approval-gates",
+      "screen_route": "/approval",
+      "screen_ds_id": "ds:screen:approval-gates-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden",
-        "insufficient-evidence"
+        "forbidden"
       ],
+      "bindings": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision",
+        "GET /api/coverage"
+      ],
+      "screen_actions": [
+        "disable approval when evidence is insufficient",
+        "show RTE execution context for approved escalations",
+        "require audit reason for manual override paths"
+      ]
+    },
+    {
+      "ds_id": "ds:approval-gates:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:approval-gates-001",
+      "actions": [],
+      "screen_id": "screen:approval-gates",
+      "screen_route": "/approval",
+      "screen_ds_id": "ds:screen:approval-gates-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision",
+        "GET /api/coverage"
+      ],
+      "screen_actions": [
+        "disable approval when evidence is insufficient",
+        "show RTE execution context for approved escalations",
+        "require audit reason for manual override paths"
+      ]
+    },
+    {
+      "ds_id": "ds:approval-gates:queue",
+      "type": "ApprovalQueue",
+      "parent_ds_id": "ds:approval-gates:surface",
+      "actions": [],
+      "screen_id": "screen:approval-gates",
+      "screen_route": "/approval",
+      "screen_ds_id": "ds:screen:approval-gates-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision",
+        "GET /api/coverage"
+      ],
+      "screen_actions": [
+        "disable approval when evidence is insufficient",
+        "show RTE execution context for approved escalations",
+        "require audit reason for manual override paths"
+      ]
+    },
+    {
+      "ds_id": "ds:approval-gates:evidence",
+      "type": "EvidencePanel",
+      "parent_ds_id": "ds:approval-gates:surface",
+      "actions": [],
+      "screen_id": "screen:approval-gates",
+      "screen_route": "/approval",
+      "screen_ds_id": "ds:screen:approval-gates-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision",
+        "GET /api/coverage"
+      ],
+      "screen_actions": [
+        "disable approval when evidence is insufficient",
+        "show RTE execution context for approved escalations",
+        "require audit reason for manual override paths"
+      ]
+    },
+    {
+      "ds_id": "ds:approval-gates:decision-controls",
+      "type": "DecisionControls",
+      "parent_ds_id": "ds:approval-gates:surface",
       "actions": [
-        {
-          "id": "action:core-approval-submit-decision",
-          "label": "Submit approval decision",
-          "target": "api:approval-decision"
-        }
+        "EVENT_APPROVAL_DECISION"
       ],
-      "bindings": [],
-      "labels": [
-        "Approve",
-        "Reject",
-        "Refresh evidence"
-      ],
-      "layout_type": "approval_workspace",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "core-approval-gates",
-        "mermaid_state": "core_approval_gates"
-      }
-    },
-    {
-      "screen_id": "core-search-results",
-      "route": "/search",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-search-results-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:core-search-results-001",
+      "screen_id": "screen:approval-gates",
+      "screen_route": "/approval",
+      "screen_ds_id": "ds:screen:approval-gates-001",
       "states": [
         "default",
         "loading",
@@ -1464,123 +1048,27 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "search_results",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "core-search-results",
-        "mermaid_state": "core_search_results"
-      }
-    },
-    {
-      "screen_id": "core-search-results",
-      "route": "/search",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-search-results-001",
-      "component_path": "layout",
-      "component_type": "search_results",
-      "ds_id": "ds:screen:core-search-results-001--core-search-results--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "search_results",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "core-search-results",
-        "mermaid_state": "core_search_results"
-      },
-      "canonical_ds_id": "ds:screen:core-search-results-001"
-    },
-    {
-      "screen_id": "core-search-results",
-      "route": "/search",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-search-results-001",
-      "component_path": "layout/search_input",
-      "component_type": "search_input",
-      "ds_id": "ds:core-search-input",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:search"
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision",
+        "GET /api/coverage"
       ],
-      "labels": [
-        "Search tasks, documents, commits, code"
-      ],
-      "layout_type": "search_results",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "core-search-results",
-        "mermaid_state": "core_search_results"
-      }
+      "screen_actions": [
+        "disable approval when evidence is insufficient",
+        "show RTE execution context for approved escalations",
+        "require audit reason for manual override paths"
+      ]
     },
     {
-      "screen_id": "core-search-results",
-      "route": "/search",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-search-results-001",
-      "component_path": "layout/result_filters",
-      "component_type": "result_filters",
-      "ds_id": "ds:core-search-filters",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:screen:search-results-001",
+      "type": "Screen",
+      "parent_ds_id": null,
       "actions": [],
-      "bindings": [],
-      "labels": [
-        "all",
-        "doc",
-        "commit",
-        "task",
-        "adr",
-        "chat",
-        "spike"
-      ],
-      "layout_type": "search_results",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "core-search-results",
-        "mermaid_state": "core_search_results"
-      }
-    },
-    {
-      "screen_id": "core-search-results",
-      "route": "/search",
-      "route_family": "core-webui",
-      "screen_ds_id": "ds:screen:core-search-results-001",
-      "component_path": "layout/result_list",
-      "component_type": "result_list",
-      "ds_id": "ds:core-search-result-list",
+      "screen_id": "screen:search-results",
+      "screen_route": "/search",
+      "screen_ds_id": "ds:screen:search-results-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1589,32 +1077,50 @@
         "offline",
         "forbidden"
       ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "focus global search with Ctrl+K or slash",
+        "group results by task, doc, commit, PR, chat, and RTE approval",
+        "navigate result clicks to task, doc, trace, or external PR target"
+      ]
+    },
+    {
+      "ds_id": "ds:search-results:surface",
+      "type": "ScreenSurface",
+      "parent_ds_id": "ds:screen:search-results-001",
+      "actions": [],
+      "screen_id": "screen:search-results",
+      "screen_route": "/search",
+      "screen_ds_id": "ds:screen:search-results-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "focus global search with Ctrl+K or slash",
+        "group results by task, doc, commit, PR, chat, and RTE approval",
+        "navigate result clicks to task, doc, trace, or external PR target"
+      ]
+    },
+    {
+      "ds_id": "ds:search-results:input",
+      "type": "SearchInput",
+      "parent_ds_id": "ds:search-results:surface",
       "actions": [
-        {
-          "id": "action:core-search-open-result",
-          "label": "Open selected result",
-          "target": "route by result type"
-        }
+        "EVENT_SEARCH"
       ],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "search_results",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "core-search-results",
-        "mermaid_state": "core_search_results"
-      }
-    },
-    {
-      "screen_id": "ds-terminal",
-      "route": "/design-system/terminal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:terminal-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:terminal-001",
+      "screen_id": "screen:search-results",
+      "screen_route": "/search",
+      "screen_ds_id": "ds:screen:search-results-001",
       "states": [
         "default",
         "loading",
@@ -1623,164 +1129,23 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "terminal_workspace",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-terminal",
-        "mermaid_state": "ds_terminal"
-      }
-    },
-    {
-      "screen_id": "ds-terminal",
-      "route": "/design-system/terminal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:terminal-001",
-      "component_path": "layout",
-      "component_type": "terminal_workspace",
-      "ds_id": "ds:screen:terminal-001--ds-terminal--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "terminal_workspace",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-terminal",
-        "mermaid_state": "ds_terminal"
-      },
-      "canonical_ds_id": "ds:screen:terminal-001"
-    },
-    {
-      "screen_id": "ds-terminal",
-      "route": "/design-system/terminal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:terminal-001",
-      "component_path": "layout/scenario_tabs",
-      "component_type": "scenario_tabs",
-      "ds_id": "ds:terminal-scenario-tabs",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "Agent Console",
-        "Deploy",
-        "Debug",
-        "CI/CD"
-      ],
-      "layout_type": "terminal_workspace",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-terminal",
-        "mermaid_state": "ds_terminal"
-      }
-    },
-    {
-      "screen_id": "ds-terminal",
-      "route": "/design-system/terminal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:terminal-001",
-      "component_path": "layout/terminal_line_legend",
-      "component_type": "terminal_line_legend",
-      "ds_id": "ds:terminal-line-legend",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "command",
-        "output",
-        "success",
-        "error"
-      ],
-      "layout_type": "terminal_workspace",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-terminal",
-        "mermaid_state": "ds_terminal"
-      }
-    },
-    {
-      "screen_id": "ds-terminal",
-      "route": "/design-system/terminal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:terminal-001",
-      "component_path": "layout/terminal_mosaic",
-      "component_type": "terminal_mosaic",
-      "ds_id": "ds:terminal-mosaic-2x2",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:agent-sessions",
-        "api:ci-runs",
-        "api:task-activity",
-        "API-streamed logs only"
+        "GET /api/search?q=<query>&type=<type>"
       ],
-      "labels": [
-        "Claude-01 Storage",
-        "Claude-02 CLI",
-        "Claude-03 CI",
-        "QA-Reviewer"
-      ],
-      "layout_type": "terminal_workspace",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-terminal",
-        "mermaid_state": "ds_terminal"
-      }
+      "screen_actions": [
+        "focus global search with Ctrl+K or slash",
+        "group results by task, doc, commit, PR, chat, and RTE approval",
+        "navigate result clicks to task, doc, trace, or external PR target"
+      ]
     },
     {
-      "screen_id": "ds-portfolio",
-      "route": "/design-system/portfolio",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-portfolio-view",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "br-ds-portfolio-view",
+      "ds_id": "ds:search-results:filters",
+      "type": "FilterSidebar",
+      "parent_ds_id": "ds:search-results:surface",
+      "actions": [],
+      "screen_id": "screen:search-results",
+      "screen_route": "/search",
+      "screen_ds_id": "ds:screen:search-results-001",
       "states": [
         "default",
         "loading",
@@ -1789,251 +1154,53 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "executive_portfolio",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-portfolio",
-        "mermaid_state": "ds_portfolio"
-      }
-    },
-    {
-      "screen_id": "ds-portfolio",
-      "route": "/design-system/portfolio",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-portfolio-view",
-      "component_path": "layout",
-      "component_type": "executive_portfolio",
-      "ds_id": "br-ds-portfolio-view--ds-portfolio--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "executive_portfolio",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-portfolio",
-        "mermaid_state": "ds_portfolio"
-      },
-      "canonical_ds_id": "br-ds-portfolio-view"
-    },
-    {
-      "screen_id": "ds-portfolio",
-      "route": "/design-system/portfolio",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-portfolio-view",
-      "component_path": "layout/portfolio_table",
-      "component_type": "portfolio_table",
-      "ds_id": "ds:portfolio-executive-table",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:portfolio-epics",
-        "api:portfolio-task-epics"
+        "GET /api/search?q=<query>&type=<type>"
       ],
-      "labels": [
-        "Epic ID",
-        "owner",
-        "progress",
-        "budget",
-        "status",
-        "forecast"
-      ],
-      "layout_type": "executive_portfolio",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-portfolio",
-        "mermaid_state": "ds_portfolio"
-      }
+      "screen_actions": [
+        "focus global search with Ctrl+K or slash",
+        "group results by task, doc, commit, PR, chat, and RTE approval",
+        "navigate result clicks to task, doc, trace, or external PR target"
+      ]
     },
     {
-      "screen_id": "ds-portfolio",
-      "route": "/design-system/portfolio",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-portfolio-view",
-      "component_path": "layout/roadmap",
-      "component_type": "roadmap",
-      "ds_id": "ds:portfolio-roadmap-2026",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "Q1 2026",
-        "Q2 2026",
-        "Q3 2026"
-      ],
-      "layout_type": "executive_portfolio",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-portfolio",
-        "mermaid_state": "ds_portfolio"
-      }
-    },
-    {
-      "screen_id": "ds-pi-planning",
-      "route": "/design-system/pi-planning",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-pi-planning",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "pi_planning_workspace",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-pi-planning",
-        "mermaid_state": "ds_pi_planning"
-      }
-    },
-    {
-      "screen_id": "ds-pi-planning",
-      "route": "/design-system/pi-planning",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-pi-planning",
-      "component_path": "layout",
-      "component_type": "pi_planning_workspace",
-      "ds_id": "br-ds-pi-planning--ds-pi-planning--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "pi_planning_workspace",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-pi-planning",
-        "mermaid_state": "ds_pi_planning"
-      },
-      "canonical_ds_id": "br-ds-pi-planning"
-    },
-    {
-      "screen_id": "ds-pi-planning",
-      "route": "/design-system/pi-planning",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-pi-planning",
-      "component_path": "layout/strategic_sandbox",
-      "component_type": "strategic_sandbox",
-      "ds_id": "ds:pi-strategic-sandbox",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:search-results:results",
+      "type": "GroupedResults",
+      "parent_ds_id": "ds:search-results:surface",
       "actions": [
-        {
-          "id": "action:pi-save-plan",
-          "label": "Save PI plan",
-          "target": "api:pi-plan"
-        }
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_DOC",
+        "EVENT_VIEW_TRACE"
+      ],
+      "screen_id": "screen:search-results",
+      "screen_route": "/search",
+      "screen_ds_id": "ds:screen:search-results-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
       ],
       "bindings": [
-        "api:pi-features"
+        "GET /api/search?q=<query>&type=<type>"
       ],
-      "labels": [
-        "drag/drop capacity"
-      ],
-      "layout_type": "pi_planning_workspace",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-pi-planning",
-        "mermaid_state": "ds_pi_planning"
-      }
+      "screen_actions": [
+        "focus global search with Ctrl+K or slash",
+        "group results by task, doc, commit, PR, chat, and RTE approval",
+        "navigate result clicks to task, doc, trace, or external PR target"
+      ]
     },
     {
-      "screen_id": "ds-pi-planning",
-      "route": "/design-system/pi-planning",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-pi-planning",
-      "component_path": "layout/business_value_scoring",
-      "component_type": "business_value_scoring",
-      "ds_id": "ds:pi-business-value-scoring",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:screen:terminal-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
       "actions": [],
-      "bindings": [],
-      "labels": [
-        "Business Value",
-        "capacity impact"
-      ],
-      "layout_type": "pi_planning_workspace",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-pi-planning",
-        "mermaid_state": "ds_pi_planning"
-      }
-    },
-    {
-      "screen_id": "ds-pi-planning",
-      "route": "/design-system/pi-planning",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-pi-planning",
-      "component_path": "layout/confidence_vote",
-      "component_type": "confidence_vote",
-      "ds_id": "ds:pi-confidence-vote",
+      "screen_id": "screen:ds-terminal",
+      "screen_route": "/design-system/terminal",
+      "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "prd_ds_id": "ds:screen:terminal-001",
       "states": [
         "default",
         "loading",
@@ -2042,38 +1209,302 @@
         "offline",
         "forbidden"
       ],
+      "bindings": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "GET /api/log-events?stream=terminal"
+      ],
+      "screen_actions": [
+        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
+        "command, output, success, and error line types",
+        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:terminal-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-terminal",
+      "screen_route": "/design-system/terminal",
+      "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "GET /api/log-events?stream=terminal"
+      ],
+      "screen_actions": [
+        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
+        "command, output, success, and error line types",
+        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal-showcase:scenario-tabs",
+      "type": "ScenarioTabs",
+      "parent_ds_id": "ds:terminal-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-terminal",
+      "screen_route": "/design-system/terminal",
+      "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "GET /api/log-events?stream=terminal"
+      ],
+      "screen_actions": [
+        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
+        "command, output, success, and error line types",
+        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal-showcase:mosaic",
+      "type": "TerminalMosaic",
+      "parent_ds_id": "ds:terminal-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-terminal",
+      "screen_route": "/design-system/terminal",
+      "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "GET /api/log-events?stream=terminal"
+      ],
+      "screen_actions": [
+        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
+        "command, output, success, and error line types",
+        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal-showcase:lines",
+      "type": "TerminalLineList",
+      "parent_ds_id": "ds:terminal-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-terminal",
+      "screen_route": "/design-system/terminal",
+      "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "GET /api/log-events?stream=terminal"
+      ],
+      "screen_actions": [
+        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
+        "command, output, success, and error line types",
+        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:portfolio-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-portfolio",
+      "screen_route": "/design-system/portfolio",
+      "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "prd_ds_id": "br-ds-portfolio-view",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "screen_actions": [
+        "show Epic ID, owner, progress, budget, status, and forecast",
+        "render Q1, Q2, and Q3 2026 roadmap",
+        "preserve specified PRD DS badge value as display metadata"
+      ]
+    },
+    {
+      "ds_id": "ds:portfolio-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:portfolio-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-portfolio",
+      "screen_route": "/design-system/portfolio",
+      "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "screen_actions": [
+        "show Epic ID, owner, progress, budget, status, and forecast",
+        "render Q1, Q2, and Q3 2026 roadmap",
+        "preserve specified PRD DS badge value as display metadata"
+      ]
+    },
+    {
+      "ds_id": "ds:portfolio-showcase:table",
+      "type": "PortfolioTable",
+      "parent_ds_id": "ds:portfolio-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-portfolio",
+      "screen_route": "/design-system/portfolio",
+      "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "screen_actions": [
+        "show Epic ID, owner, progress, budget, status, and forecast",
+        "render Q1, Q2, and Q3 2026 roadmap",
+        "preserve specified PRD DS badge value as display metadata"
+      ]
+    },
+    {
+      "ds_id": "ds:portfolio-showcase:roadmap",
+      "type": "Roadmap",
+      "parent_ds_id": "ds:portfolio-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-portfolio",
+      "screen_route": "/design-system/portfolio",
+      "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "screen_actions": [
+        "show Epic ID, owner, progress, budget, status, and forecast",
+        "render Q1, Q2, and Q3 2026 roadmap",
+        "preserve specified PRD DS badge value as display metadata"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:pi-planning-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-pi-planning",
+      "screen_route": "/design-system/pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "prd_ds_id": "br-ds-pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "screen_actions": [
+        "drag and drop strategic sandbox capacity items",
+        "capture business value scoring and confidence vote one through five",
+        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
+      ]
+    },
+    {
+      "ds_id": "ds:pi-planning-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:pi-planning-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-pi-planning",
+      "screen_route": "/design-system/pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "screen_actions": [
+        "drag and drop strategic sandbox capacity items",
+        "capture business value scoring and confidence vote one through five",
+        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
+      ]
+    },
+    {
+      "ds_id": "ds:pi-planning-showcase:sandbox",
+      "type": "StrategicSandbox",
+      "parent_ds_id": "ds:pi-planning-showcase:surface",
       "actions": [
-        {
-          "id": "action:pi-submit-confidence-vote",
-          "label": "Submit confidence vote",
-          "target": "api:pi-confidence-vote"
-        }
+        "EVENT_PI_PLAN_SAVE"
       ],
-      "bindings": [],
-      "labels": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "layout_type": "pi_planning_workspace",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-pi-planning",
-        "mermaid_state": "ds_pi_planning"
-      }
-    },
-    {
-      "screen_id": "ds-pi-planning",
-      "route": "/design-system/pi-planning",
-      "route_family": "showcase",
-      "screen_ds_id": "br-ds-pi-planning",
-      "component_path": "layout/roam_board",
-      "component_type": "roam_board",
-      "ds_id": "ds:pi-roam-board",
+      "screen_id": "screen:ds-pi-planning",
+      "screen_route": "/design-system/pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
       "states": [
         "default",
         "loading",
@@ -2082,34 +1513,26 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
       "bindings": [
-        "api:pi-risks"
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
       ],
-      "labels": [
-        "Resolved",
-        "Owned",
-        "Accepted",
-        "Mitigated",
-        "Unassigned"
-      ],
-      "layout_type": "pi_planning_workspace",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-pi-planning",
-        "mermaid_state": "ds_pi_planning"
-      }
+      "screen_actions": [
+        "drag and drop strategic sandbox capacity items",
+        "capture business value scoring and confidence vote one through five",
+        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
+      ]
     },
     {
-      "screen_id": "ds-git-graph",
-      "route": "/design-system/git-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:git-graph-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:git-graph-001",
+      "ds_id": "ds:pi-planning-showcase:value-scoring",
+      "type": "BusinessValueScoring",
+      "parent_ds_id": "ds:pi-planning-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-pi-planning",
+      "screen_route": "/design-system/pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
       "states": [
         "default",
         "loading",
@@ -2118,264 +1541,28 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "git_graph_scenarios",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-git-graph",
-        "mermaid_state": "ds_git_graph"
-      }
-    },
-    {
-      "screen_id": "ds-git-graph",
-      "route": "/design-system/git-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:git-graph-001",
-      "component_path": "layout",
-      "component_type": "git_graph_scenarios",
-      "ds_id": "ds:screen:git-graph-001--ds-git-graph--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "git_graph_scenarios",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-git-graph",
-        "mermaid_state": "ds_git_graph"
-      },
-      "canonical_ds_id": "ds:screen:git-graph-001"
-    },
-    {
-      "screen_id": "ds-git-graph",
-      "route": "/design-system/git-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:git-graph-001",
-      "component_path": "layout/hash_scenario_tabs",
-      "component_type": "hash_scenario_tabs",
-      "ds_id": "ds:git-graph-scenario-tabs",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:git-graph-scenario",
-        "api:trace-git"
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
       ],
-      "labels": [
-        "gitflow",
-        "multi-agent",
-        "hotfix",
-        "release-train",
-        "monorepo",
-        "beads-prd-trace",
-        "beads-deadlock",
-        "beads-ds-comp",
-        "beads-traversal",
-        "beads-sprint-review"
-      ],
-      "layout_type": "git_graph_scenarios",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-git-graph",
-        "mermaid_state": "ds_git_graph"
-      }
+      "screen_actions": [
+        "drag and drop strategic sandbox capacity items",
+        "capture business value scoring and confidence vote one through five",
+        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
+      ]
     },
     {
-      "screen_id": "ds-git-graph",
-      "route": "/design-system/git-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:git-graph-001",
-      "component_path": "layout/branch_graph",
-      "component_type": "branch_graph",
-      "ds_id": "ds:git-graph-canvas",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "branches",
-        "commits",
-        "connections",
-        "branch tags"
-      ],
-      "layout_type": "git_graph_scenarios",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-git-graph",
-        "mermaid_state": "ds_git_graph"
-      }
-    },
-    {
-      "screen_id": "ds-kanban",
-      "route": "/design-system/kanban",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:kanban-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:kanban-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "showcase_kanban",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-kanban",
-        "mermaid_state": "ds_kanban"
-      }
-    },
-    {
-      "screen_id": "ds-kanban",
-      "route": "/design-system/kanban",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:kanban-001",
-      "component_path": "layout",
-      "component_type": "showcase_kanban",
-      "ds_id": "ds:screen:kanban-001--ds-kanban--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "showcase_kanban",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-kanban",
-        "mermaid_state": "ds_kanban"
-      },
-      "canonical_ds_id": "ds:screen:kanban-001"
-    },
-    {
-      "screen_id": "ds-kanban",
-      "route": "/design-system/kanban",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:kanban-001",
-      "component_path": "layout/hash_board_selector",
-      "component_type": "hash_board_selector",
-      "ds_id": "ds:kanban-board-selector",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:tasks-board"
-      ],
-      "labels": [
-        "sprint",
-        "release",
-        "bug-triage"
-      ],
-      "layout_type": "showcase_kanban",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-kanban",
-        "mermaid_state": "ds_kanban"
-      }
-    },
-    {
-      "screen_id": "ds-kanban",
-      "route": "/design-system/kanban",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:kanban-001",
-      "component_path": "layout/drag_drop_cards",
-      "component_type": "drag_drop_cards",
-      "ds_id": "ds:kanban-drag-drop-cards",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:pi-planning-showcase:confidence-vote",
+      "type": "ConfidenceVote",
+      "parent_ds_id": "ds:pi-planning-showcase:surface",
       "actions": [
-        {
-          "id": "action:kanban-update-card-status",
-          "label": "Update card status",
-          "target": "api:task-status"
-        }
+        "EVENT_CONFIDENCE_VOTE"
       ],
-      "bindings": [],
-      "labels": [
-        "WIP badges",
-        "total stats",
-        "done stats",
-        "progress stats"
-      ],
-      "layout_type": "showcase_kanban",
-      "source_refs": [
-        "br-prd04-s3"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-kanban",
-        "mermaid_state": "ds_kanban"
-      }
-    },
-    {
-      "screen_id": "ds-knowledge-graph",
-      "route": "/design-system/knowledge-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:knowledge-graph-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:knowledge-graph-001",
+      "screen_id": "screen:ds-pi-planning",
+      "screen_route": "/design-system/pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
       "states": [
         "default",
         "loading",
@@ -2384,94 +1571,26 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "client_only_graph_viewer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-knowledge-graph",
-        "mermaid_state": "ds_knowledge_graph"
-      }
-    },
-    {
-      "screen_id": "ds-knowledge-graph",
-      "route": "/design-system/knowledge-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:knowledge-graph-001",
-      "component_path": "layout",
-      "component_type": "client_only_graph_viewer",
-      "ds_id": "ds:screen:knowledge-graph-001--ds-knowledge-graph--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "client_only_graph_viewer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-knowledge-graph",
-        "mermaid_state": "ds_knowledge_graph"
-      },
-      "canonical_ds_id": "ds:screen:knowledge-graph-001"
-    },
-    {
-      "screen_id": "ds-knowledge-graph",
-      "route": "/design-system/knowledge-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:knowledge-graph-001",
-      "component_path": "layout/sigma_graphology_viewer",
-      "component_type": "sigma_graphology_viewer",
-      "ds_id": "ds:knowledge-graph-sigma-viewer",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:trace-full",
-        "api:graph-presets"
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
       ],
-      "labels": [
-        "client-only viewer",
-        "simple preset",
-        "ecosystem preset",
-        "sprint preset"
-      ],
-      "layout_type": "client_only_graph_viewer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-knowledge-graph",
-        "mermaid_state": "ds_knowledge_graph"
-      }
+      "screen_actions": [
+        "drag and drop strategic sandbox capacity items",
+        "capture business value scoring and confidence vote one through five",
+        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
+      ]
     },
     {
-      "screen_id": "ds-knowledge-graph",
-      "route": "/design-system/knowledge-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:knowledge-graph-001",
-      "component_path": "layout/selected_node_banner",
-      "component_type": "selected_node_banner",
-      "ds_id": "ds:knowledge-graph-selected-node-banner",
+      "ds_id": "ds:pi-planning-showcase:roam-board",
+      "type": "RoamBoard",
+      "parent_ds_id": "ds:pi-planning-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-pi-planning",
+      "screen_route": "/design-system/pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
       "states": [
         "default",
         "loading",
@@ -2480,27 +1599,27 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "client_only_graph_viewer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
+      "bindings": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
       ],
-      "evidence": {
-        "yaml_screen": "ds-knowledge-graph",
-        "mermaid_state": "ds_knowledge_graph"
-      }
+      "screen_actions": [
+        "drag and drop strategic sandbox capacity items",
+        "capture business value scoring and confidence vote one through five",
+        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
+      ]
     },
     {
-      "screen_id": "ds-knowledge-graph",
-      "route": "/design-system/knowledge-graph",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:knowledge-graph-001",
-      "component_path": "layout/graph_legend_stats",
-      "component_type": "graph_legend_stats",
-      "ds_id": "ds:knowledge-graph-legend-stats",
+      "ds_id": "ds:screen:git-graph-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-git-graph",
+      "screen_route": "/design-system/git-graph",
+      "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "prd_ds_id": "ds:screen:git-graph-001",
       "states": [
         "default",
         "loading",
@@ -2509,31 +1628,237 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "node legend",
-        "edge legend",
-        "stats"
+      "bindings": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
       ],
-      "layout_type": "client_only_graph_viewer",
-      "source_refs": [
-        "br-prd04-s5",
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-knowledge-graph",
-        "mermaid_state": "ds_knowledge_graph"
-      }
+      "screen_actions": [
+        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
+        "render backend-aggregated git and Beads trailer lineage"
+      ]
     },
     {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:approval-001",
+      "ds_id": "ds:git-graph-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:git-graph-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-git-graph",
+      "screen_route": "/design-system/git-graph",
+      "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "screen_actions": [
+        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
+        "render backend-aggregated git and Beads trailer lineage"
+      ]
+    },
+    {
+      "ds_id": "ds:git-graph-showcase:scenario-selector",
+      "type": "ScenarioSelector",
+      "parent_ds_id": "ds:git-graph-showcase:surface",
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "screen_id": "screen:ds-git-graph",
+      "screen_route": "/design-system/git-graph",
+      "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "screen_actions": [
+        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
+        "render backend-aggregated git and Beads trailer lineage"
+      ]
+    },
+    {
+      "ds_id": "ds:git-graph-showcase:canvas",
+      "type": "GitGraphCanvas",
+      "parent_ds_id": "ds:git-graph-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-git-graph",
+      "screen_route": "/design-system/git-graph",
+      "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "screen_actions": [
+        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
+        "render backend-aggregated git and Beads trailer lineage"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:kanban-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-kanban",
+      "screen_route": "/design-system/kanban",
+      "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "prd_ds_id": "ds:screen:kanban-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status"
+      ],
+      "screen_actions": [
+        "hash routes for sprint, release, and bug-triage boards",
+        "drag cards across WIP-limited columns",
+        "show total, done, and progress stats"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:kanban-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-kanban",
+      "screen_route": "/design-system/kanban",
+      "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status"
+      ],
+      "screen_actions": [
+        "hash routes for sprint, release, and bug-triage boards",
+        "drag cards across WIP-limited columns",
+        "show total, done, and progress stats"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban-showcase:board-selector",
+      "type": "BoardSelector",
+      "parent_ds_id": "ds:kanban-showcase:surface",
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "screen_id": "screen:ds-kanban",
+      "screen_route": "/design-system/kanban",
+      "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status"
+      ],
+      "screen_actions": [
+        "hash routes for sprint, release, and bug-triage boards",
+        "drag cards across WIP-limited columns",
+        "show total, done, and progress stats"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban-showcase:columns",
+      "type": "KanbanColumns",
+      "parent_ds_id": "ds:kanban-showcase:surface",
+      "actions": [
+        "EVENT_MOVE_CARD",
+        "EVENT_VIEW_TASK"
+      ],
+      "screen_id": "screen:ds-kanban",
+      "screen_route": "/design-system/kanban",
+      "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status"
+      ],
+      "screen_actions": [
+        "hash routes for sprint, release, and bug-triage boards",
+        "drag cards across WIP-limited columns",
+        "show total, done, and progress stats"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban-showcase:stats",
+      "type": "BoardStats",
+      "parent_ds_id": "ds:kanban-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-kanban",
+      "screen_route": "/design-system/kanban",
+      "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status"
+      ],
+      "screen_actions": [
+        "hash routes for sprint, release, and bug-triage boards",
+        "drag cards across WIP-limited columns",
+        "show total, done, and progress stats"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-knowledge-graph",
+      "screen_route": "/design-system/knowledge-graph",
+      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "prd_ds_id": "ds:screen:knowledge-graph-001",
       "states": [
         "default",
         "loading",
@@ -2541,162 +1866,26 @@
         "error",
         "offline",
         "forbidden",
-        "insufficient-evidence"
+        "partial"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      }
-    },
-    {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "layout",
-      "component_type": "approval_showcase",
-      "ds_id": "ds:screen:approval-001--ds-approval--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      },
-      "canonical_ds_id": "ds:screen:approval-001"
-    },
-    {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "layout/status_toggles",
-      "component_type": "status_toggles",
-      "ds_id": "ds:approval-status-toggles",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "pending",
-        "approved",
-        "rejected"
-      ],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      }
-    },
-    {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "layout/escalated_badge",
-      "component_type": "escalated_badge",
-      "ds_id": "ds:approval-escalated-badge",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      }
-    },
-    {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "layout/evidence_blocks",
-      "component_type": "evidence_blocks",
-      "ds_id": "ds:approval-evidence-blocks",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
       "bindings": [
-        "api:approval-evidence"
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets"
       ],
-      "labels": [
-        "Tests",
-        "Diff",
-        "Beads ID",
-        "PRD",
-        "CI"
-      ],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      }
+      "screen_actions": [
+        "hash presets simple, ecosystem, and sprint",
+        "show node and edge legends with selected-node details",
+        "use tree or simplified fallback on constrained mobile viewports"
+      ]
     },
     {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "layout/rtm_matrix",
-      "component_type": "rtm_matrix",
-      "ds_id": "ds:approval-rtm-matrix",
+      "ds_id": "ds:knowledge-graph-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-knowledge-graph",
+      "screen_route": "/design-system/knowledge-graph",
+      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
       "states": [
         "default",
         "loading",
@@ -2704,414 +1893,110 @@
         "error",
         "offline",
         "forbidden",
-        "insufficient-evidence"
+        "partial"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      }
-    },
-    {
-      "screen_id": "ds-approval",
-      "route": "/design-system/approval",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:approval-001",
-      "component_path": "layout/coverage_heatmap",
-      "component_type": "coverage_heatmap",
-      "ds_id": "ds:approval-coverage-heatmap",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "insufficient-evidence"
-      ],
-      "actions": [],
       "bindings": [
-        "api:coverage"
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets"
       ],
-      "labels": [],
-      "layout_type": "approval_showcase",
-      "source_refs": [
-        "br-prd04-s4",
-        "br-prd04-s7"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-approval",
-        "mermaid_state": "ds_approval"
-      }
+      "screen_actions": [
+        "hash presets simple, ecosystem, and sprint",
+        "show node and edge legends with selected-node details",
+        "use tree or simplified fallback on constrained mobile viewports"
+      ]
     },
     {
-      "screen_id": "ds-timeline",
-      "route": "/design-system/timeline",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:timeline-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:timeline-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "timeline_workspace",
-      "source_refs": [
-        "br-prd04-s1",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-timeline",
-        "mermaid_state": "ds_timeline"
-      }
-    },
-    {
-      "screen_id": "ds-timeline",
-      "route": "/design-system/timeline",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:timeline-001",
-      "component_path": "layout",
-      "component_type": "timeline_workspace",
-      "ds_id": "ds:screen:timeline-001--ds-timeline--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "timeline_workspace",
-      "source_refs": [
-        "br-prd04-s1",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-timeline",
-        "mermaid_state": "ds_timeline"
-      },
-      "canonical_ds_id": "ds:screen:timeline-001"
-    },
-    {
-      "screen_id": "ds-timeline",
-      "route": "/design-system/timeline",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:timeline-001",
-      "component_path": "layout/file_lease_indicators",
-      "component_type": "file_lease_indicators",
-      "ds_id": "ds:timeline-file-lease-indicators",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:file-leases"
-      ],
-      "labels": [
-        "unlocked",
-        "locked",
-        "expiring",
-        "expired"
-      ],
-      "layout_type": "timeline_workspace",
-      "source_refs": [
-        "br-prd04-s1",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-timeline",
-        "mermaid_state": "ds_timeline"
-      }
-    },
-    {
-      "screen_id": "ds-timeline",
-      "route": "/design-system/timeline",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:timeline-001",
-      "component_path": "layout/activity_feed",
-      "component_type": "activity_feed",
-      "ds_id": "ds:timeline-activity-feed",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [
-        "api:activity",
-        "api:task-activity"
-      ],
-      "labels": [],
-      "layout_type": "timeline_workspace",
-      "source_refs": [
-        "br-prd04-s1",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-timeline",
-        "mermaid_state": "ds_timeline"
-      }
-    },
-    {
-      "screen_id": "ds-timeline",
-      "route": "/design-system/timeline",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:timeline-001",
-      "component_path": "layout/sprint_day_timeline",
-      "component_type": "sprint_day_timeline",
-      "ds_id": "ds:timeline-sprint-day",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "timeline_workspace",
-      "source_refs": [
-        "br-prd04-s1",
-        "br-prd04-s8"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-timeline",
-        "mermaid_state": "ds_timeline"
-      }
-    },
-    {
-      "screen_id": "ds-components",
-      "route": "/design-system/components",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:components-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:components-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "component_catalog",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-components",
-        "mermaid_state": "ds_components"
-      }
-    },
-    {
-      "screen_id": "ds-components",
-      "route": "/design-system/components",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:components-001",
-      "component_path": "layout",
-      "component_type": "component_catalog",
-      "ds_id": "ds:screen:components-001--ds-components--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "component_catalog",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-components",
-        "mermaid_state": "ds_components"
-      },
-      "canonical_ds_id": "ds:screen:components-001"
-    },
-    {
-      "screen_id": "ds-components",
-      "route": "/design-system/components",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:components-001",
-      "component_path": "layout/catalog_sections",
-      "component_type": "catalog_sections",
-      "ds_id": "ds:components-catalog-sections",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error"
-      ],
+      "ds_id": "ds:knowledge-graph-showcase:presets",
+      "type": "GraphPresetTabs",
+      "parent_ds_id": "ds:knowledge-graph-showcase:surface",
       "actions": [
-        {
-          "id": "action:components-hash-scroll",
-          "label": "Scroll to component section",
-          "target": "hash anchor"
-        }
+        "EVENT_HASH_NAVIGATE"
       ],
-      "bindings": [],
-      "labels": [
-        "Buttons",
-        "Badges/Status",
-        "Progress",
-        "Avatar Stack",
-        "Modal",
-        "Dropdown",
-        "Accordion",
-        "Tab Panel",
-        "Data Table",
-        "Tooltip",
-        "Code Block",
-        "Cards",
-        "Prompt Card",
-        "Section Labels",
-        "Status Dots",
-        "Skeleton",
-        "Empty State",
-        "Error Banner"
-      ],
-      "layout_type": "component_catalog",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-components",
-        "mermaid_state": "ds_components"
-      }
-    },
-    {
-      "screen_id": "ds-doc-viewer",
-      "route": "/design-system/doc-viewer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:doc-viewer-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:doc-viewer-001",
+      "screen_id": "screen:ds-knowledge-graph",
+      "screen_route": "/design-system/knowledge-graph",
+      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden"
+        "forbidden",
+        "partial"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "github_like_doc_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-doc-viewer",
-        "mermaid_state": "ds_doc_viewer"
-      }
-    },
-    {
-      "screen_id": "ds-doc-viewer",
-      "route": "/design-system/doc-viewer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:doc-viewer-001",
-      "component_path": "layout",
-      "component_type": "github_like_doc_viewer",
-      "ds_id": "ds:screen:doc-viewer-001--ds-doc-viewer--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "github_like_doc_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-doc-viewer",
-        "mermaid_state": "ds_doc_viewer"
-      },
-      "canonical_ds_id": "ds:screen:doc-viewer-001"
-    },
-    {
-      "screen_id": "ds-doc-viewer",
-      "route": "/design-system/doc-viewer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:doc-viewer-001",
-      "component_path": "layout/github_like_tree",
-      "component_type": "github_like_tree",
-      "ds_id": "ds:doc-viewer-github-tree",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:docs-grouped"
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets"
       ],
-      "labels": [
-        "folders",
-        "expandable folders"
-      ],
-      "layout_type": "github_like_doc_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-doc-viewer",
-        "mermaid_state": "ds_doc_viewer"
-      }
+      "screen_actions": [
+        "hash presets simple, ecosystem, and sprint",
+        "show node and edge legends with selected-node details",
+        "use tree or simplified fallback on constrained mobile viewports"
+      ]
     },
     {
-      "screen_id": "ds-doc-viewer",
-      "route": "/design-system/doc-viewer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:doc-viewer-001",
-      "component_path": "layout/selected_document_panel",
-      "component_type": "selected_document_panel",
-      "ds_id": "ds:doc-viewer-selected-panel",
+      "ds_id": "ds:knowledge-graph-showcase:viewer",
+      "type": "SigmaGraph",
+      "parent_ds_id": "ds:knowledge-graph-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-knowledge-graph",
+      "screen_route": "/design-system/knowledge-graph",
+      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets"
+      ],
+      "screen_actions": [
+        "hash presets simple, ecosystem, and sprint",
+        "show node and edge legends with selected-node details",
+        "use tree or simplified fallback on constrained mobile viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:knowledge-graph-showcase:legend",
+      "type": "GraphLegend",
+      "parent_ds_id": "ds:knowledge-graph-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-knowledge-graph",
+      "screen_route": "/design-system/knowledge-graph",
+      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets"
+      ],
+      "screen_actions": [
+        "hash presets simple, ecosystem, and sprint",
+        "show node and edge legends with selected-node details",
+        "use tree or simplified fallback on constrained mobile viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:approval-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-approval",
+      "screen_route": "/design-system/approval",
+      "screen_ds_id": "ds:screen:approval-showcase-001",
+      "prd_ds_id": "ds:screen:approval-001",
       "states": [
         "default",
         "loading",
@@ -3120,49 +2005,84 @@
         "offline",
         "forbidden"
       ],
+      "bindings": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/coverage",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision"
+      ],
+      "screen_actions": [
+        "pending, approved, and rejected toggles",
+        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ]
+    },
+    {
+      "ds_id": "ds:approval-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:approval-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-approval",
+      "screen_route": "/design-system/approval",
+      "screen_ds_id": "ds:screen:approval-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/coverage",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision"
+      ],
+      "screen_actions": [
+        "pending, approved, and rejected toggles",
+        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ]
+    },
+    {
+      "ds_id": "ds:approval-showcase:toggles",
+      "type": "ApprovalToggles",
+      "parent_ds_id": "ds:approval-showcase:surface",
       "actions": [
-        {
-          "id": "action:doc-viewer-open-explorer",
-          "label": "Open Explorer",
-          "target": "/design-system/explorer"
-        },
-        {
-          "id": "action:doc-viewer-open-knowledge-graph",
-          "label": "Open Knowledge Graph",
-          "target": "/design-system/knowledge-graph"
-        },
-        {
-          "id": "action:doc-viewer-open-core-trace",
-          "label": "Open Beads trace",
-          "target": "/trace/:id"
-        }
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "screen_id": "screen:ds-approval",
+      "screen_route": "/design-system/approval",
+      "screen_ds_id": "ds:screen:approval-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
       ],
       "bindings": [
-        "api:docs-detail"
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/coverage",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision"
       ],
-      "labels": [
-        "Beads ID badges",
-        "covered",
-        "partial",
-        "gap"
-      ],
-      "layout_type": "github_like_doc_viewer",
-      "source_refs": [
-        "br-prd04-s9"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-doc-viewer",
-        "mermaid_state": "ds_doc_viewer"
-      }
+      "screen_actions": [
+        "pending, approved, and rejected toggles",
+        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ]
     },
     {
-      "screen_id": "ds-explorer",
-      "route": "/design-system/explorer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:explorer-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:explorer-001",
+      "ds_id": "ds:approval-showcase:evidence",
+      "type": "EvidenceBlocks",
+      "parent_ds_id": "ds:approval-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-approval",
+      "screen_route": "/design-system/approval",
+      "screen_ds_id": "ds:screen:approval-showcase-001",
       "states": [
         "default",
         "loading",
@@ -3171,85 +2091,26 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "unified_explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-explorer",
-        "mermaid_state": "ds_explorer"
-      }
-    },
-    {
-      "screen_id": "ds-explorer",
-      "route": "/design-system/explorer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:explorer-001",
-      "component_path": "layout",
-      "component_type": "unified_explorer",
-      "ds_id": "ds:screen:explorer-001--ds-explorer--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "unified_explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-explorer",
-        "mermaid_state": "ds_explorer"
-      },
-      "canonical_ds_id": "ds:screen:explorer-001"
-    },
-    {
-      "screen_id": "ds-explorer",
-      "route": "/design-system/explorer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:explorer-001",
-      "component_path": "layout/unified_search",
-      "component_type": "unified_search",
-      "ds_id": "ds:explorer-unified-search",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:search"
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/coverage",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision"
       ],
-      "labels": [],
-      "layout_type": "unified_explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-explorer",
-        "mermaid_state": "ds_explorer"
-      }
+      "screen_actions": [
+        "pending, approved, and rejected toggles",
+        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ]
     },
     {
-      "screen_id": "ds-explorer",
-      "route": "/design-system/explorer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:explorer-001",
-      "component_path": "layout/hash_filter_select",
-      "component_type": "hash_filter_select",
-      "ds_id": "ds:explorer-filter-select",
+      "ds_id": "ds:approval-showcase:rtm",
+      "type": "RtmMatrix",
+      "parent_ds_id": "ds:approval-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-approval",
+      "screen_route": "/design-system/approval",
+      "screen_ds_id": "ds:screen:approval-showcase-001",
       "states": [
         "default",
         "loading",
@@ -3258,187 +2119,26 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "all",
-        "doc",
-        "commit",
-        "task",
-        "adr",
-        "chat",
-        "spike"
-      ],
-      "layout_type": "unified_explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-explorer",
-        "mermaid_state": "ds_explorer"
-      }
-    },
-    {
-      "screen_id": "ds-explorer",
-      "route": "/design-system/explorer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:explorer-001",
-      "component_path": "layout/result_list",
-      "component_type": "result_list",
-      "ds_id": "ds:explorer-result-list",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "unified_explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-explorer",
-        "mermaid_state": "ds_explorer"
-      }
-    },
-    {
-      "screen_id": "ds-explorer",
-      "route": "/design-system/explorer",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:explorer-001",
-      "component_path": "layout/detail_sidebar",
-      "component_type": "detail_sidebar",
-      "ds_id": "ds:explorer-detail-sidebar",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "cross-links",
-        "Knowledge Graph",
-        "Beads Traversal",
-        "Doc Viewer"
-      ],
-      "layout_type": "unified_explorer",
-      "source_refs": [
-        "br-prd04-s12"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-explorer",
-        "mermaid_state": "ds_explorer"
-      }
-    },
-    {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:beads-traversal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      }
-    },
-    {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "layout",
-      "component_type": "layered_dag",
-      "ds_id": "ds:screen:beads-traversal-001--ds-beads-traversal--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      },
-      "canonical_ds_id": "ds:screen:beads-traversal-001"
-    },
-    {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "layout/layer_columns",
-      "component_type": "layer_columns",
-      "ds_id": "ds:beads-traversal-layers",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:trace-full"
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/coverage",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision"
       ],
-      "labels": [
-        "PRD Sections",
-        "Plan Elements",
-        "Tasks",
-        "Commits"
-      ],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      }
+      "screen_actions": [
+        "pending, approved, and rejected toggles",
+        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ]
     },
     {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "layout/direction_toggle",
-      "component_type": "direction_toggle",
-      "ds_id": "ds:beads-traversal-direction-toggle",
+      "ds_id": "ds:approval-showcase:heatmap",
+      "type": "CoverageHeatmap",
+      "parent_ds_id": "ds:approval-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-approval",
+      "screen_route": "/design-system/approval",
+      "screen_ds_id": "ds:screen:approval-showcase-001",
       "states": [
         "default",
         "loading",
@@ -3447,236 +2147,27 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "forward",
-        "reverse"
-      ],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      }
-    },
-    {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "layout/selected_linked_highlighting",
-      "component_type": "selected_linked_highlighting",
-      "ds_id": "ds:beads-traversal-linked-highlighting",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      }
-    },
-    {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "layout/traversal_detail_sidebar",
-      "component_type": "traversal_detail_sidebar",
-      "ds_id": "ds:beads-traversal-detail-sidebar",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "satisfies",
-        "implements",
-        "committed-for"
-      ],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      }
-    },
-    {
-      "screen_id": "ds-beads-traversal",
-      "route": "/design-system/beads-traversal",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:beads-traversal-001",
-      "component_path": "layout/legend_stats",
-      "component_type": "legend_stats",
-      "ds_id": "ds:beads-traversal-legend-stats",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "layered_dag",
-      "source_refs": [
-        "br-prd04-s10"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-beads-traversal",
-        "mermaid_state": "ds_beads_traversal"
-      }
-    },
-    {
-      "screen_id": "ds-storyboard",
-      "route": "/design-system/storyboard",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_overview",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard",
-        "mermaid_state": "ds_storyboard"
-      }
-    },
-    {
-      "screen_id": "ds-storyboard",
-      "route": "/design-system/storyboard",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-001",
-      "component_path": "layout",
-      "component_type": "storyboard_overview",
-      "ds_id": "ds:screen:storyboard-001--ds-storyboard--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_overview",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard",
-        "mermaid_state": "ds_storyboard"
-      },
-      "canonical_ds_id": "ds:screen:storyboard-001"
-    },
-    {
-      "screen_id": "ds-storyboard",
-      "route": "/design-system/storyboard",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-001",
-      "component_path": "layout/journey_filter",
-      "component_type": "journey_filter",
-      "ds_id": "ds:storyboard-journey-filter",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:storyboards"
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/coverage",
+        "GET /api/approval/:id/evidence",
+        "POST /api/approval/:id/decision"
       ],
-      "labels": [],
-      "layout_type": "storyboard_overview",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard",
-        "mermaid_state": "ds_storyboard"
-      }
+      "screen_actions": [
+        "pending, approved, and rejected toggles",
+        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ]
     },
     {
-      "screen_id": "ds-storyboard",
-      "route": "/design-system/storyboard",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-001",
-      "component_path": "layout/horizontal_usecase_flow",
-      "component_type": "horizontal_usecase_flow",
-      "ds_id": "ds:storyboard-usecase-flow",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
+      "ds_id": "ds:screen:timeline-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
       "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_overview",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard",
-        "mermaid_state": "ds_storyboard"
-      }
-    },
-    {
-      "screen_id": "ds-storyboard",
-      "route": "/design-system/storyboard",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-001",
-      "component_path": "layout/guidance_panel",
-      "component_type": "guidance_panel",
-      "ds_id": "ds:storyboard-guidance-panel",
+      "screen_id": "screen:ds-timeline",
+      "screen_route": "/design-system/timeline",
+      "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "prd_ds_id": "ds:screen:timeline-001",
       "states": [
         "default",
         "loading",
@@ -3685,37 +2176,184 @@
         "offline",
         "forbidden"
       ],
+      "bindings": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "show unlocked, locked, expiring, and expired lease states",
+        "hash anchors for file-lease, activity-feed, and sprint-day",
+        "update from activity polling every 3 to 5 seconds"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:timeline-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-timeline",
+      "screen_route": "/design-system/timeline",
+      "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "show unlocked, locked, expiring, and expired lease states",
+        "hash anchors for file-lease, activity-feed, and sprint-day",
+        "update from activity polling every 3 to 5 seconds"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline-showcase:file-lease",
+      "type": "FileLeaseIndicators",
+      "parent_ds_id": "ds:timeline-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-timeline",
+      "screen_route": "/design-system/timeline",
+      "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "show unlocked, locked, expiring, and expired lease states",
+        "hash anchors for file-lease, activity-feed, and sprint-day",
+        "update from activity polling every 3 to 5 seconds"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline-showcase:activity-feed",
+      "type": "ActivityFeed",
+      "parent_ds_id": "ds:timeline-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-timeline",
+      "screen_route": "/design-system/timeline",
+      "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "show unlocked, locked, expiring, and expired lease states",
+        "hash anchors for file-lease, activity-feed, and sprint-day",
+        "update from activity polling every 3 to 5 seconds"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline-showcase:sprint-day",
+      "type": "SprintDayTimeline",
+      "parent_ds_id": "ds:timeline-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-timeline",
+      "screen_route": "/design-system/timeline",
+      "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "screen_actions": [
+        "show unlocked, locked, expiring, and expired lease states",
+        "hash anchors for file-lease, activity-feed, and sprint-day",
+        "update from activity polling every 3 to 5 seconds"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:components-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-components",
+      "screen_route": "/design-system/components",
+      "screen_ds_id": "ds:screen:components-showcase-001",
+      "prd_ds_id": "ds:screen:components-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/design-system/components"
+      ],
+      "screen_actions": [
+        "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
+        "production screens compose these primitives instead of one-off styling"
+      ]
+    },
+    {
+      "ds_id": "ds:components-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:components-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-components",
+      "screen_route": "/design-system/components",
+      "screen_ds_id": "ds:screen:components-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/design-system/components"
+      ],
+      "screen_actions": [
+        "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
+        "production screens compose these primitives instead of one-off styling"
+      ]
+    },
+    {
+      "ds_id": "ds:components-showcase:sections",
+      "type": "ComponentSections",
+      "parent_ds_id": "ds:components-showcase:surface",
       "actions": [
-        {
-          "id": "action:storyboard-open-real-screen",
-          "label": "Open real screen",
-          "target": "route by use case"
-        }
+        "EVENT_HASH_NAVIGATE"
       ],
-      "bindings": [],
-      "labels": [
-        "Mechanism and Action",
-        "Considerations",
-        "Investigating"
-      ],
-      "layout_type": "storyboard_overview",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard",
-        "mermaid_state": "ds_storyboard"
-      }
-    },
-    {
-      "screen_id": "ds-storyboard-detail",
-      "route": "/design-system/storyboard/:id",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-detail-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:storyboard-detail-001",
+      "screen_id": "screen:ds-components",
+      "screen_route": "/design-system/components",
+      "screen_ds_id": "ds:screen:components-showcase-001",
       "states": [
         "default",
         "loading",
@@ -3724,88 +2362,23 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_detail",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard-detail",
-        "mermaid_state": "ds_storyboard_detail"
-      }
-    },
-    {
-      "screen_id": "ds-storyboard-detail",
-      "route": "/design-system/storyboard/:id",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-detail-001",
-      "component_path": "layout",
-      "component_type": "storyboard_detail",
-      "ds_id": "ds:screen:storyboard-detail-001--ds-storyboard-detail--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_detail",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard-detail",
-        "mermaid_state": "ds_storyboard_detail"
-      },
-      "canonical_ds_id": "ds:screen:storyboard-detail-001"
-    },
-    {
-      "screen_id": "ds-storyboard-detail",
-      "route": "/design-system/storyboard/:id",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-detail-001",
-      "component_path": "layout/storyboard_role_summary",
-      "component_type": "storyboard_role_summary",
-      "ds_id": "ds:storyboard-detail-role-summary",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "api:storyboard-detail"
+        "GET /api/design-system/components"
       ],
-      "labels": [],
-      "layout_type": "storyboard_detail",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard-detail",
-        "mermaid_state": "ds_storyboard_detail"
-      }
+      "screen_actions": [
+        "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
+        "production screens compose these primitives instead of one-off styling"
+      ]
     },
     {
-      "screen_id": "ds-storyboard-detail",
-      "route": "/design-system/storyboard/:id",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-detail-001",
-      "component_path": "layout/storyboard_step_timeline",
-      "component_type": "storyboard_step_timeline",
-      "ds_id": "ds:storyboard-detail-step-timeline",
+      "ds_id": "ds:screen:doc-viewer-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-doc-viewer",
+      "screen_route": "/design-system/doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "prd_ds_id": "ds:screen:doc-viewer-001",
       "states": [
         "default",
         "loading",
@@ -3814,232 +2387,820 @@
         "offline",
         "forbidden"
       ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_detail",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard-detail",
-        "mermaid_state": "ds_storyboard_detail"
-      }
-    },
-    {
-      "screen_id": "ds-storyboard-detail",
-      "route": "/design-system/storyboard/:id",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:storyboard-detail-001",
-      "component_path": "layout/related_usecases",
-      "component_type": "related_usecases",
-      "ds_id": "ds:storyboard-detail-related-usecases",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "storyboard_detail",
-      "source_refs": [
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-storyboard-detail",
-        "mermaid_state": "ds_storyboard_detail"
-      }
-    },
-    {
-      "screen_id": "ds-webui-pm-workspace",
-      "route": "/design-system/webui-pm-workspace",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
-      "component_path": "screen",
-      "component_type": "screen_root",
-      "ds_id": "ds:screen:webui-pm-workspace-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "integrated_pm_workspace_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-webui-pm-workspace",
-        "mermaid_state": "ds_webui_pm_workspace"
-      },
-      "semantic_ds_id": "ds:global_shell"
-    },
-    {
-      "screen_id": "ds-webui-pm-workspace",
-      "route": "/design-system/webui-pm-workspace",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
-      "component_path": "layout",
-      "component_type": "integrated_pm_workspace_shell",
-      "ds_id": "ds:global_shell--ds-webui-pm-workspace--layout",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [],
-      "layout_type": "integrated_pm_workspace_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-webui-pm-workspace",
-        "mermaid_state": "ds_webui_pm_workspace"
-      },
-      "semantic_screen_ds_id": "ds:global_shell",
-      "canonical_ds_id": "ds:global_shell"
-    },
-    {
-      "screen_id": "ds-webui-pm-workspace",
-      "route": "/design-system/webui-pm-workspace",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
-      "component_path": "layout/workspace_header",
-      "component_type": "workspace_header",
-      "ds_id": "ds:webui-pm-workspace-header",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "logo",
-        "search",
-        "offline indicator"
-      ],
-      "layout_type": "integrated_pm_workspace_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-webui-pm-workspace",
-        "mermaid_state": "ds_webui_pm_workspace"
-      },
-      "semantic_screen_ds_id": "ds:global_shell"
-    },
-    {
-      "screen_id": "ds-webui-pm-workspace",
-      "route": "/design-system/webui-pm-workspace",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
-      "component_path": "layout/workspace_sidebar",
-      "component_type": "workspace_sidebar",
-      "ds_id": "ds:webui-pm-workspace-sidebar",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
-      "bindings": [],
-      "labels": [
-        "RTM Dashboard",
-        "SAFe Board",
-        "Task List",
-        "Task Detail",
-        "Trace Explorer",
-        "Doc Viewer",
-        "Approval Gates",
-        "Search Results"
-      ],
-      "layout_type": "integrated_pm_workspace_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8",
-        "br-prd04-s14"
-      ],
-      "evidence": {
-        "yaml_screen": "ds-webui-pm-workspace",
-        "mermaid_state": "ds_webui_pm_workspace"
-      },
-      "semantic_screen_ds_id": "ds:global_shell"
-    },
-    {
-      "screen_id": "ds-webui-pm-workspace",
-      "route": "/design-system/webui-pm-workspace",
-      "route_family": "showcase",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
-      "component_path": "layout/active_surface_router",
-      "component_type": "active_surface_router",
-      "ds_id": "ds:webui-pm-workspace-active-surface-router",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "actions": [],
       "bindings": [
-        "gmind serve route mapping"
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id"
       ],
-      "labels": [
-        "/",
-        "/board",
-        "/tasks",
-        "/tasks/:id",
-        "/trace/:id",
-        "/docs",
-        "/approval",
-        "/search"
+      "screen_actions": [
+        "expand folders and select documents",
+        "show section status covered, partial, or gap",
+        "link to Explorer and Knowledge Graph"
+      ]
+    },
+    {
+      "ds_id": "ds:doc-viewer-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-doc-viewer",
+      "screen_route": "/design-system/doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
       ],
-      "layout_type": "integrated_pm_workspace_shell",
-      "source_refs": [
-        "br-prd04-s2",
-        "br-prd04-s8",
-        "br-prd04-s14"
+      "bindings": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id"
       ],
-      "evidence": {
-        "yaml_screen": "ds-webui-pm-workspace",
-        "mermaid_state": "ds_webui_pm_workspace"
-      },
-      "semantic_screen_ds_id": "ds:global_shell"
+      "screen_actions": [
+        "expand folders and select documents",
+        "show section status covered, partial, or gap",
+        "link to Explorer and Knowledge Graph"
+      ]
+    },
+    {
+      "ds_id": "ds:doc-viewer-showcase:tree",
+      "type": "ShowcaseDocTree",
+      "parent_ds_id": "ds:doc-viewer-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-doc-viewer",
+      "screen_route": "/design-system/doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id"
+      ],
+      "screen_actions": [
+        "expand folders and select documents",
+        "show section status covered, partial, or gap",
+        "link to Explorer and Knowledge Graph"
+      ]
+    },
+    {
+      "ds_id": "ds:doc-viewer-showcase:panel",
+      "type": "ShowcaseDocPanel",
+      "parent_ds_id": "ds:doc-viewer-showcase:surface",
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "screen_id": "screen:ds-doc-viewer",
+      "screen_route": "/design-system/doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id"
+      ],
+      "screen_actions": [
+        "expand folders and select documents",
+        "show section status covered, partial, or gap",
+        "link to Explorer and Knowledge Graph"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:explorer-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-explorer",
+      "screen_route": "/design-system/explorer",
+      "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "prd_ds_id": "ds:screen:explorer-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash",
+        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
+        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:explorer-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:explorer-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-explorer",
+      "screen_route": "/design-system/explorer",
+      "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash",
+        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
+        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:explorer-showcase:query",
+      "type": "ExplorerQuery",
+      "parent_ds_id": "ds:explorer-showcase:surface",
+      "actions": [
+        "EVENT_SEARCH"
+      ],
+      "screen_id": "screen:ds-explorer",
+      "screen_route": "/design-system/explorer",
+      "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash",
+        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
+        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:explorer-showcase:type-filters",
+      "type": "ExplorerTypeFilters",
+      "parent_ds_id": "ds:explorer-showcase:surface",
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "screen_id": "screen:ds-explorer",
+      "screen_route": "/design-system/explorer",
+      "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash",
+        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
+        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:explorer-showcase:detail-sidebar",
+      "type": "ExplorerDetailSidebar",
+      "parent_ds_id": "ds:explorer-showcase:surface",
+      "actions": [
+        "EVENT_VIEW_TRACE",
+        "EVENT_VIEW_DOC",
+        "EVENT_VIEW_TASK"
+      ],
+      "screen_id": "screen:ds-explorer",
+      "screen_route": "/design-system/explorer",
+      "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "screen_actions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash",
+        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
+        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:beads-traversal-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-beads-traversal",
+      "screen_route": "/design-system/beads-traversal",
+      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "prd_ds_id": "ds:screen:beads-traversal-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full"
+      ],
+      "screen_actions": [
+        "toggle forward and reverse traversal direction",
+        "highlight selected and linked nodes",
+        "show parent and children links in detail sidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:beads-traversal-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-beads-traversal",
+      "screen_route": "/design-system/beads-traversal",
+      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full"
+      ],
+      "screen_actions": [
+        "toggle forward and reverse traversal direction",
+        "highlight selected and linked nodes",
+        "show parent and children links in detail sidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:beads-traversal-showcase:layers",
+      "type": "TraversalLayers",
+      "parent_ds_id": "ds:beads-traversal-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-beads-traversal",
+      "screen_route": "/design-system/beads-traversal",
+      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full"
+      ],
+      "screen_actions": [
+        "toggle forward and reverse traversal direction",
+        "highlight selected and linked nodes",
+        "show parent and children links in detail sidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:beads-traversal-showcase:direction-toggle",
+      "type": "DirectionToggle",
+      "parent_ds_id": "ds:beads-traversal-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-beads-traversal",
+      "screen_route": "/design-system/beads-traversal",
+      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full"
+      ],
+      "screen_actions": [
+        "toggle forward and reverse traversal direction",
+        "highlight selected and linked nodes",
+        "show parent and children links in detail sidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:beads-traversal-showcase:detail-sidebar",
+      "type": "TraversalDetailSidebar",
+      "parent_ds_id": "ds:beads-traversal-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-beads-traversal",
+      "screen_route": "/design-system/beads-traversal",
+      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/trace/:id?depth=full"
+      ],
+      "screen_actions": [
+        "toggle forward and reverse traversal direction",
+        "highlight selected and linked nodes",
+        "show parent and children links in detail sidebar"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:storyboard-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-storyboard",
+      "screen_route": "/design-system/storyboard",
+      "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/storyboards"
+      ],
+      "screen_actions": [
+        "filter journeys and preserve selected route state",
+        "show Mechanism and Action, Considerations, and Investigating guidance",
+        "CTA opens the corresponding implementation screen"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:storyboard-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard",
+      "screen_route": "/design-system/storyboard",
+      "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/storyboards"
+      ],
+      "screen_actions": [
+        "filter journeys and preserve selected route state",
+        "show Mechanism and Action, Considerations, and Investigating guidance",
+        "CTA opens the corresponding implementation screen"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-showcase:filter",
+      "type": "JourneyFilter",
+      "parent_ds_id": "ds:storyboard-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard",
+      "screen_route": "/design-system/storyboard",
+      "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/storyboards"
+      ],
+      "screen_actions": [
+        "filter journeys and preserve selected route state",
+        "show Mechanism and Action, Considerations, and Investigating guidance",
+        "CTA opens the corresponding implementation screen"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-showcase:flow",
+      "type": "UsecaseFlow",
+      "parent_ds_id": "ds:storyboard-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard",
+      "screen_route": "/design-system/storyboard",
+      "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/storyboards"
+      ],
+      "screen_actions": [
+        "filter journeys and preserve selected route state",
+        "show Mechanism and Action, Considerations, and Investigating guidance",
+        "CTA opens the corresponding implementation screen"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-showcase:guidance",
+      "type": "GuidancePanel",
+      "parent_ds_id": "ds:storyboard-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard",
+      "screen_route": "/design-system/storyboard",
+      "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/storyboards"
+      ],
+      "screen_actions": [
+        "filter journeys and preserve selected route state",
+        "show Mechanism and Action, Considerations, and Investigating guidance",
+        "CTA opens the corresponding implementation screen"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-storyboard-detail",
+      "screen_route": "/design-system/storyboard/:id",
+      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/storyboards/:id"
+      ],
+      "screen_actions": [
+        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
+        "navigate related use cases without losing sidebar context"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard-detail",
+      "screen_route": "/design-system/storyboard/:id",
+      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/storyboards/:id"
+      ],
+      "screen_actions": [
+        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
+        "navigate related use cases without losing sidebar context"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail-showcase:role",
+      "type": "StoryboardRolePanel",
+      "parent_ds_id": "ds:storyboard-detail-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard-detail",
+      "screen_route": "/design-system/storyboard/:id",
+      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/storyboards/:id"
+      ],
+      "screen_actions": [
+        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
+        "navigate related use cases without losing sidebar context"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail-showcase:steps",
+      "type": "StepTimeline",
+      "parent_ds_id": "ds:storyboard-detail-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard-detail",
+      "screen_route": "/design-system/storyboard/:id",
+      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/storyboards/:id"
+      ],
+      "screen_actions": [
+        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
+        "navigate related use cases without losing sidebar context"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail-showcase:related",
+      "type": "RelatedUsecases",
+      "parent_ds_id": "ds:storyboard-detail-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-storyboard-detail",
+      "screen_route": "/design-system/storyboard/:id",
+      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "bindings": [
+        "GET /api/storyboards/:id"
+      ],
+      "screen_actions": [
+        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
+        "navigate related use cases without losing sidebar context"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "type": "Screen",
+      "parent_ds_id": null,
+      "actions": [],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
+    },
+    {
+      "ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "type": "ShowcaseSurface",
+      "parent_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "actions": [],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
+    },
+    {
+      "ds_id": "ds:webui-pm-workspace-showcase:header",
+      "type": "WorkspaceHeader",
+      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "actions": [
+        "EVENT_SEARCH",
+        "EVENT_DISCONNECT",
+        "EVENT_RECONNECT"
+      ],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
+    },
+    {
+      "ds_id": "ds:webui-pm-workspace-showcase:sidebar",
+      "type": "WorkspaceSidebar",
+      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
+    },
+    {
+      "ds_id": "ds:webui-pm-workspace-showcase:boundary-actions",
+      "type": "BoundaryActionBar",
+      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "actions": [
+        "EVENT_BACK"
+      ],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
+    },
+    {
+      "ds_id": "ds:webui-pm-workspace-showcase:sync-conflict-banner",
+      "type": "SyncConflictBanner",
+      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "actions": [
+        "EVENT_KEEP_LOCAL",
+        "EVENT_USE_SERVER"
+      ],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
+    },
+    {
+      "ds_id": "ds:webui-pm-workspace-showcase:active-surface",
+      "type": "WorkspaceSurface",
+      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "actions": [],
+      "screen_id": "screen:ds-webui-pm-workspace",
+      "screen_route": "/design-system/webui-pm-workspace",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "bindings": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id",
+        "GET /api/docs",
+        "GET /api/search"
+      ],
+      "screen_actions": [
+        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
+        "every active surface carries stable data-screen-id and data-ds-id",
+        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+      ]
     }
-  ],
-  "unique_ds_id_count": 122,
-  "duplicate_ds_ids": [],
-  "traceability_notes": [
-    "Screen-root ds_id values retain canonical YAML IDs; duplicated layout rows use stable ds_id suffixes and keep canonical_ds_id/semantic_ds_id fields for traceability."
   ]
 }

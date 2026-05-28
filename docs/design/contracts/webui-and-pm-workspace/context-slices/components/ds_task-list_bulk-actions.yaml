@@ -1,0 +1,23 @@
+ds_id: ds:task-list:bulk-actions
+type: BulkActionBar
+parent_ds_id: ds:task-list:surface
+actions:
+- EVENT_SAVE_BULK
+screen_id: screen:task-list
+screen_route: /tasks
+screen_ds_id: ds:screen:task-list-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+bindings:
+- GET /api/tasks?format=list
+- PUT /api/tasks/bulk
+screen_actions:
+- combine status, priority, assignee, PRD, and QA filters
+- select visible rows and bulk assign, status, or priority
+- switch between list and board presentation

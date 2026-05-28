@@ -1,0 +1,15 @@
+id: layout:screen:ds-timeline:forbidden:mobile
+screen_id: screen:ds-timeline
+route: /design-system/timeline
+screen_ds_id: ds:screen:timeline-showcase-001
+state: forbidden
+viewport: mobile
+width: 390
+layout: file lease indicators, activity feed, and sprint day timeline
+responsive_constraint: single-column flow, sidebar as overlay, drawers as full-screen
+  overlays, tables become cards
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

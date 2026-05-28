@@ -1,0 +1,25 @@
+ds_id: ds:webui-pm-workspace-showcase:sidebar
+type: WorkspaceSidebar
+parent_ds_id: ds:webui-pm-workspace-showcase:surface
+actions: []
+screen_id: screen:ds-webui-pm-workspace
+screen_route: /design-system/webui-pm-workspace
+screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/coverage
+- GET /api/tasks
+- GET /api/trace/:id
+- GET /api/docs
+- GET /api/search
+screen_actions:
+- expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer,
+  Approval Gates, and Search Results surfaces
+- every active surface carries stable data-screen-id and data-ds-id
+- sidebar categories match Design System, Screens, Explorer, and Storyboard

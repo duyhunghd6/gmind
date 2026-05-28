@@ -1,27 +1,82 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 1,
-  "score": 81,
+  "score": 85,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
-    "container_validity": 80,
-    "prd_coverage": 80,
-    "component_traceability": 50,
-    "logic_coverage": 100,
-    "derived_artifact_consistency": 100,
-    "conflict_preview_readiness": 90
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses and Mermaid contains meaningful stateDiagram-v2 transitions."
+    },
+    "prd_coverage": {
+      "score": 18,
+      "max": 20,
+      "tool_evidence": "23 screens/routes mapped; all 15 PRD-04 §8.1A showcase routes present including storyboard/:id and webui-pm-workspace; metadata.satisfies has 16 PRD IDs and Core WebUI API boundaries are represented."
+    },
+    "component_traceability": {
+      "score": 18,
+      "max": 20,
+      "tool_evidence": "115 ds_id values are unique; component-map.json has 115 components, 70 component types, 0 YAML-to-map gaps, and 17 action events mapped."
+    },
+    "logic_coverage": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "17/17 YAML EVENT_* actions are covered by Mermaid; 0 extra Mermaid events; API success/error/rollback/offline/conflict/retry/back paths are modeled."
+    },
+    "derived_artifact_consistency": {
+      "score": 12,
+      "max": 15,
+      "tool_evidence": "flow.md validator PASS with 1 Mermaid block; review-diagrams.md validator PASS with 46 blocks; storyboards/layout/component/index JSON parse; 562 context slices parse; no standalone .mmd files; artifact-index has 572 entries and 0 missing indexed paths."
+    },
+    "conflict_preview_readiness": {
+      "score": 9,
+      "max": 15,
+      "tool_evidence": "preview generated OK with 0 warnings and expected flow/storyboard/component/layout/conflict/review sections; prd-ds-conflicts.md has no unresolved conflicts, but artifact-index omits present preview outputs so Gate A packaging still needs repair."
+    }
   },
   "schema_checks": {
-    "mermaid_valid": true,
-    "preview_manifest_valid": true,
-    "layout_rules_present": false
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "standalone_mmd_files": 0,
+    "required_artifacts_present": true,
+    "json_artifacts_valid": true,
+    "showcase_routes_missing": [],
+    "context_slice_count": 562,
+    "invalid_context_slices": [],
+    "artifact_index_entries": 572,
+    "artifact_index_missing_paths": 0,
+    "artifact_index_missing_required_entries": [
+      "docs/design/contracts/webui-and-pm-workspace/preview/index.html",
+      "docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json"
+    ],
+    "preview_warnings": 0,
+    "mermaid_markdown_validator_status": "PASS",
+    "baseline_features_processed": 0,
+    "iteration_one_cap_applied": true
   },
   "fix_queue": [
-    "Missing layout-rules.json artifact.",
-    "component-map.json format mismatch (preview manifest shows 0 mapped).",
-    "Storyboards coverage missing screens: approval-gates, dashboard, doc-viewer, global-shell, safe-board, search-results, task-detail, task-list, trace-explorer.",
-    "PRD Coverage missing sections br-prd04-s1, br-prd04-s5, br-prd04-s7."
+    {
+      "priority": "P1",
+      "pillar": "conflict_preview_readiness",
+      "responsible_generator": "gen_flows",
+      "detail": "artifact-index.json omits present preview review outputs preview/index.html and preview/preview-manifest.json. Add these entries so Gate A reviewers can discover the complete review package without raw directory inspection."
+    },
+    {
+      "priority": "P2",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_contracts",
+      "detail": "ui-contract.md is 1044 lines, slightly over the repository documentation guideline of 1000 lines. Consider moving non-SSOT explanatory content into indexed review artifacts while preserving the single YAML and Mermaid source blocks."
+    }
   ],
   "baseline_regression": false,
-  "issues": []
+  "recommended_ba_route": "Do not respawn all generators. Route to gen_flows for artifact-index preview entries, then re-run Stage 1 evaluator. No gen_contracts respawn is required unless the team wants to trim ui-contract.md below the doc line guideline.",
+  "issues": [
+    "PASS on schema container, PRD-04 §8.1A route coverage, unique DS ID traceability, action/event matching, Mermaid Markdown validation, JSON artifact parse, and preview generation.",
+    "FAIL for Gate A readiness only because score is iteration-1 capped at 85 and a P1 review-package indexing defect remains.",
+    "No P0 issues found."
+  ]
 }

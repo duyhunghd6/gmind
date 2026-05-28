@@ -1,0 +1,31 @@
+artifact: docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json
+role: preview-manifest-machine-evidence
+load_policy: summary_only
+line_budget:
+  full_manifest_lines: 4929
+  direct_human_or_llm_load: false
+summary:
+  generator_beads_id: br-chat-20260522-contract-to-ui-ralph-ssot-preview
+  source_contract: docs/design/contracts/webui-and-pm-workspace/ui-contract.md
+  screen_count: 23
+  artifact_count: null
+  warning_count: 0
+  routes_sample:
+  - /
+  - /board
+  - /tasks
+  - /tasks/:id
+  - /trace/:id
+  - /docs
+  - /approval
+  - /search
+  - /design-system/terminal
+  - /design-system/portfolio
+  lookup_keys:
+  - screens[].id
+  - screens[].route
+  - screens[].ds_id
+  - artifacts[].path
+  - warnings[]
+review_path: docs/design/contracts/webui-and-pm-workspace/preview/index.html
+full_manifest_access: lookup_only for scorer/tooling; use this compact slice for review.

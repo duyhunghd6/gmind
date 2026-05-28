@@ -1,0 +1,25 @@
+ds_id: ds:task-detail:surface
+type: ScreenSurface
+parent_ds_id: ds:screen:task-detail-001
+actions: []
+screen_id: screen:task-detail
+screen_route: /tasks/:id
+screen_ds_id: ds:screen:task-detail-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+- not_found
+bindings:
+- GET /api/tasks/:id
+- GET /api/tasks/:id/activity
+- GET /api/trace/:id?depth=2
+- PUT /api/tasks/:id
+screen_actions:
+- edit first-class PM fields through optimistic API writes
+- open dependency links in Trace Explorer
+- show activity timeline and code-touch context

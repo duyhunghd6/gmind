@@ -1,0 +1,15 @@
+id: layout:screen:rtm-dashboard:empty:desktop
+screen_id: screen:rtm-dashboard
+route: /
+screen_ds_id: ds:screen:rtm-dashboard-001
+state: empty
+viewport: desktop
+width: 1440
+layout: four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge
+  graph, and gap analysis
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

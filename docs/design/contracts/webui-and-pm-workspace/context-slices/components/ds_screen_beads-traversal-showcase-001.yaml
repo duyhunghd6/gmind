@@ -1,0 +1,21 @@
+ds_id: ds:screen:beads-traversal-showcase-001
+type: Screen
+parent_ds_id: null
+actions: []
+screen_id: screen:ds-beads-traversal
+screen_route: /design-system/beads-traversal
+screen_ds_id: ds:screen:beads-traversal-showcase-001
+prd_ds_id: ds:screen:beads-traversal-001
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+bindings:
+- GET /api/trace/:id?depth=full
+screen_actions:
+- toggle forward and reverse traversal direction
+- highlight selected and linked nodes
+- show parent and children links in detail sidebar

@@ -1,23 +1,28 @@
-# Assertion Checklist: WebUI & PM Workspace
 <!-- beads-id: br-design-assertions-webui-pm-workspace -->
+# Assertion Checklist: WebUI PM Workspace
 
-## Gate A Flow Fix Assertions
-
-- [x] Canonical contract directory is `docs/design/contracts/webui-and-pm-workspace`.
-- [x] `flow.md` contains exactly one fenced `mermaid` block.
-- [x] Mermaid logic starts with `stateDiagram-v2` and includes `direction LR`.
-- [x] Every Mermaid `EVENT_*` token has a YAML action source in the View Blueprint.
-- [x] `component-map.json` includes `ds:screen:webui-pm-workspace-001` for the integrated shell screen.
-- [x] Component-map `ds_id` values are stable and unique where traceability requires uniqueness.
-- [x] Canonical screen-root DS IDs are preserved; duplicated layout rows use stable suffixes and keep `canonical_ds_id` or semantic fields.
-- [x] No standalone Mermaid `.mmd` file is generated.
-
-## Preview Artifact Readiness
-
-- [x] Source contract: `ui-contract.md`.
-- [x] Flow evidence: `flow.md`.
-- [x] Storyboard evidence: `storyboards.json` and `storyboards-review.html`.
-- [x] Component evidence: `component-map.json` and component context slices.
-- [x] Layout evidence: `layout-rules.json` and layout context slices.
-- [x] Conflict evidence: `prd-ds-conflicts.md`.
-- [x] Assertion evidence: `assertion-checklist.md`.
+| Screen | Route | Assertions |
+| --- | --- | --- |
+| `screen:rtm-dashboard` | `/` | data-screen-id `screen:rtm-dashboard`; data-ds-id `ds:screen:rtm-dashboard-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/coverage; GET /api/tasks; GET /api/trace/:id?depth=2; GET /api/gaps` |
+| `screen:safe-board` | `/board` | data-screen-id `screen:safe-board`; data-ds-id `ds:screen:safe-board-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/tasks?view=board&level=<level>; PUT /api/tasks/:id/status; GET /api/tasks/:id/activity` |
+| `screen:task-list` | `/tasks` | data-screen-id `screen:task-list`; data-ds-id `ds:screen:task-list-001`; states `default, loading, empty, error, offline, forbidden, saving`; API `GET /api/tasks?format=list; PUT /api/tasks/bulk` |
+| `screen:task-detail` | `/tasks/:id` | data-screen-id `screen:task-detail`; data-ds-id `ds:screen:task-detail-001`; states `default, loading, empty, error, offline, forbidden, saving, not_found`; API `GET /api/tasks/:id; GET /api/tasks/:id/activity; GET /api/trace/:id?depth=2; PUT /api/tasks/:id` |
+| `screen:trace-explorer` | `/trace/:id` | data-screen-id `screen:trace-explorer`; data-ds-id `ds:screen:trace-explorer-001`; states `default, loading, empty, error, offline, forbidden, partial`; API `GET /api/trace/:id?depth=full; GET /api/impact/:section` |
+| `screen:doc-viewer` | `/docs` | data-screen-id `screen:doc-viewer`; data-ds-id `ds:screen:core-doc-viewer-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/docs?group=source_type; GET /api/docs/:id; GET /api/coverage?prd=<beads-id>` |
+| `screen:approval-gates` | `/approval` | data-screen-id `screen:approval-gates`; data-ds-id `ds:screen:approval-gates-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/tasks?status=pending-approval; GET /api/approval/:id/evidence; POST /api/approval/:id/decision; GET /api/coverage` |
+| `screen:search-results` | `/search` | data-screen-id `screen:search-results`; data-ds-id `ds:screen:search-results-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/search?q=<query>&type=<type>` |
+| `screen:ds-terminal` | `/design-system/terminal` | data-screen-id `screen:ds-terminal`; data-ds-id `ds:screen:terminal-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/agents/sessions; GET /api/ci/runs; GET /api/tasks/:id/activity; GET /api/log-events?stream=terminal` |
+| `screen:ds-portfolio` | `/design-system/portfolio` | data-screen-id `screen:ds-portfolio`; data-ds-id `ds:screen:portfolio-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/portfolio/epics; GET /api/tasks?issue_type=epic` |
+| `screen:ds-pi-planning` | `/design-system/pi-planning` | data-screen-id `screen:ds-pi-planning`; data-ds-id `ds:screen:pi-planning-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/pi/features; PUT /api/pi/plan; GET /api/risks?view=roam; POST /api/pi/confidence-vote` |
+| `screen:ds-git-graph` | `/design-system/git-graph` | data-screen-id `screen:ds-git-graph`; data-ds-id `ds:screen:git-graph-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/git/graph?scenario=<id>; GET /api/trace/:id?include=git` |
+| `screen:ds-kanban` | `/design-system/kanban` | data-screen-id `screen:ds-kanban`; data-ds-id `ds:screen:kanban-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/tasks?view=board&board=<id>; PUT /api/tasks/:id/status` |
+| `screen:ds-knowledge-graph` | `/design-system/knowledge-graph` | data-screen-id `screen:ds-knowledge-graph`; data-ds-id `ds:screen:knowledge-graph-showcase-001`; states `default, loading, empty, error, offline, forbidden, partial`; API `GET /api/trace/:id?depth=full; GET /api/graph/presets` |
+| `screen:ds-approval` | `/design-system/approval` | data-screen-id `screen:ds-approval`; data-ds-id `ds:screen:approval-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/tasks?status=pending-approval; GET /api/coverage; GET /api/approval/:id/evidence; POST /api/approval/:id/decision` |
+| `screen:ds-timeline` | `/design-system/timeline` | data-screen-id `screen:ds-timeline`; data-ds-id `ds:screen:timeline-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/activity; GET /api/file-leases; GET /api/tasks/:id/activity` |
+| `screen:ds-components` | `/design-system/components` | data-screen-id `screen:ds-components`; data-ds-id `ds:screen:components-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/design-system/components` |
+| `screen:ds-doc-viewer` | `/design-system/doc-viewer` | data-screen-id `screen:ds-doc-viewer`; data-ds-id `ds:screen:doc-viewer-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/docs?group=source_type; GET /api/docs/:id` |
+| `screen:ds-explorer` | `/design-system/explorer` | data-screen-id `screen:ds-explorer`; data-ds-id `ds:screen:explorer-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/search?q=<query>&type=<type>` |
+| `screen:ds-beads-traversal` | `/design-system/beads-traversal` | data-screen-id `screen:ds-beads-traversal`; data-ds-id `ds:screen:beads-traversal-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/trace/:id?depth=full` |
+| `screen:ds-storyboard` | `/design-system/storyboard` | data-screen-id `screen:ds-storyboard`; data-ds-id `ds:screen:storyboard-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/storyboards` |
+| `screen:ds-storyboard-detail` | `/design-system/storyboard/:id` | data-screen-id `screen:ds-storyboard-detail`; data-ds-id `ds:screen:storyboard-detail-showcase-001`; states `default, loading, empty, error, offline, forbidden, not_found`; API `GET /api/storyboards/:id` |
+| `screen:ds-webui-pm-workspace` | `/design-system/webui-pm-workspace` | data-screen-id `screen:ds-webui-pm-workspace`; data-ds-id `ds:screen:webui-pm-workspace-showcase-001`; states `default, loading, empty, error, offline, forbidden`; API `GET /api/coverage; GET /api/tasks; GET /api/trace/:id; GET /api/docs; GET /api/search` |

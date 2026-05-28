@@ -1,0 +1,14 @@
+id: layout:screen:ds-portfolio:error:desktop
+screen_id: screen:ds-portfolio
+route: /design-system/portfolio
+screen_ds_id: ds:screen:portfolio-showcase-001
+state: error
+viewport: desktop
+width: 1440
+layout: executive portfolio table with roadmap quarters
+responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+assertions:
+- global shell remains reachable
+- data-screen-id and data-ds-id present
+- state copy includes recovery CTA when empty/error/forbidden/not_found
+- browser uses Go REST API mappings only

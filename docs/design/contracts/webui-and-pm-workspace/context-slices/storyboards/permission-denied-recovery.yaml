@@ -1,0 +1,42 @@
+trajectory_id: permission-denied-recovery
+title: User returns from forbidden route
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- API_FORBIDDEN
+- EVENT_BACK
+- ROUTE_ENTER
+routes:
+- /design-system/webui-pm-workspace
+recovery_path: true
+steps:
+- order: 1
+  route: /design-system/webui-pm-workspace
+  screen_id: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: forbidden
+  event: API_FORBIDDEN
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: API_FORBIDDEN
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: permission-denied-recovery
+prd_journey: PRD-04 §8.1A route coverage — User returns from forbidden route
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: forbidden
+ds_targets:
+- ds:screen:webui-pm-workspace-showcase-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

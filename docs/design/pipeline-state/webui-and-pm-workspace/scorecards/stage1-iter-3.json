@@ -1,148 +1,112 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 3,
-  "score": 73,
-  "convergence_status": "CONTINUE",
+  "score": 96,
+  "convergence_status": "GATE_A_READY",
+  "pass_fail": "PASS",
   "pillar_scores": {
     "container_validity": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "ui-contract.md exists; exactly 1 block-style YAML fence and 1 Mermaid fence; YAML parses; Mermaid has 326 transitions and direction LR"
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses as a dict, is not JSON/minified, and Mermaid stateDiagram-v2 has direction LR plus 62 transitions."
     },
     "prd_coverage": {
       "score": 19,
       "max": 20,
-      "tool_evidence": "24 screens mapped, 15 metadata.satisfies IDs cover PRD sections br-prd04-s1..s14a; Core WebUI plus 15/15 showcase routes present"
+      "tool_evidence": "23 screens and 23 routes mapped; all 15 PRD-04 §8.1A showcase routes including /design-system/storyboard/:id and /design-system/webui-pm-workspace are represented; metadata.satisfies covers 16 PRD IDs and required state variants are present."
     },
     "component_traceability": {
-      "score": 10,
+      "score": 20,
       "max": 20,
-      "tool_evidence": "YAML has 98 unique ds_id values and no YAML duplicates; component-map.json has 122 components but only 97 unique ds_id values, 23 duplicate ds_id values, and misses ds:screen:webui-pm-workspace-001"
+      "tool_evidence": "115 YAML ds_id values are unique; component-map.json has 115 unique ds_id values, 0 YAML-to-map gaps, 0 map extras, and 71 DS component types."
     },
     "logic_coverage": {
-      "score": 7,
+      "score": 15,
       "max": 15,
-      "tool_evidence": "Mermaid validation passes with 61 unique EVENT_* tokens and 326 transitions, but preview manifest reports 36 Mermaid events with no YAML action source"
+      "tool_evidence": "17/17 YAML EVENT_* sources are covered by Mermaid with 0 unmatched Mermaid EVENT_* events; flow covers success, empty, forbidden, not-found, partial enrichment, rollback, offline queue, conflict, retry/reconnect, approval, PI save/vote, refresh, and back paths."
     },
     "derived_artifact_consistency": {
-      "score": 12,
+      "score": 14,
       "max": 15,
-      "tool_evidence": "flow.md has exactly 1 valid Mermaid block; review-diagrams.md has 65 valid Mermaid blocks; storyboards=33, layout rules=72, component map=122, artifact index=234, context slices=228; no standalone .mmd files; drift remains in component-map ds_id coverage"
+      "tool_evidence": "Mermaid validator PASS: flow.md has exactly 1 block and review-diagrams.md has 46 blocks; storyboards/layout/component/index/manifest JSON parse; 13 storyboard trajectories expose id, prd_journey, ordered steps, state, action, assertion, and 27 DS-targeted steps; 432 layout rules, 563 context slices, 575 artifact-index entries, 0 missing indexed paths, no invalid slices, and no standalone .mmd files."
     },
     "conflict_preview_readiness": {
-      "score": 10,
+      "score": 13,
       "max": 15,
-      "tool_evidence": "contract_to_ui regenerated preview with status OK, 36 warnings, and 7/8 preview artifacts loaded; prd-ds-conflicts.md declares 0 conflicts; preview HTML contains SSOT, Mermaid, Flow, Storyboard, Component, Layout, Conflict, Route, and Review sections; assertion-checklist.md reference is missing"
+      "tool_evidence": "preview regenerated OK with 8/8 artifacts loaded and 0 warnings; preview/index.html includes artifact status, screens, Mermaid, flow, storyboard, component hierarchy, layout, review diagram, and conflict sections; preview/preview-manifest.json is indexed as preview-manifest-machine-evidence with summary_only policy, lookup keys, and context-slices/summary/preview-manifest-summary.yaml."
     }
   },
   "schema_checks": {
     "yaml_block_count": 1,
     "mermaid_block_count": 1,
-    "yaml_parse_ok": true,
-    "yaml_is_block_style": true,
-    "yaml_duplicate_ds_ids": [],
-    "duplicate_ds_ids": [
-      "br-ds-pi-planning",
-      "br-ds-portfolio-view",
-      "ds:global_shell",
-      "ds:screen:approval-001",
-      "ds:screen:beads-traversal-001",
-      "ds:screen:components-001",
-      "ds:screen:core-approval-gates-001",
-      "ds:screen:core-doc-viewer-001",
-      "ds:screen:core-rtm-dashboard-001",
-      "ds:screen:core-safe-board-001",
-      "ds:screen:core-search-results-001",
-      "ds:screen:core-task-detail-001",
-      "ds:screen:core-task-list-001",
-      "ds:screen:core-trace-explorer-001",
-      "ds:screen:doc-viewer-001",
-      "ds:screen:explorer-001",
-      "ds:screen:git-graph-001",
-      "ds:screen:kanban-001",
-      "ds:screen:knowledge-graph-001",
-      "ds:screen:storyboard-001",
-      "ds:screen:storyboard-detail-001",
-      "ds:screen:terminal-001",
-      "ds:screen:timeline-001"
-    ],
-    "missing_yaml_ds_ids_in_component_map": [
-      "ds:screen:webui-pm-workspace-001"
-    ],
+    "yaml_block_style": true,
+    "yaml_parse_type": "dict",
+    "mermaid_transition_count": 62,
+    "duplicate_ds_ids": [],
+    "yaml_ds_ids_total": 115,
+    "component_map_unique_ds_ids": 115,
+    "component_map_missing_ds_ids": [],
+    "component_map_extra_ds_ids": [],
+    "ds_type_count": 71,
+    "yaml_actions_total": 17,
+    "mermaid_events_total": 17,
     "unmatched_yaml_actions": [],
-    "unmatched_mermaid_events": [
-      "EVENT_APP_BOOT",
-      "EVENT_BACK_TO_STORYBOARD_OVERVIEW",
-      "EVENT_BACK_TO_TASKS",
-      "EVENT_BULK_ACTION",
-      "EVENT_CLEAR_FILTERS_OR_CREATE",
-      "EVENT_COMPOSITE_OPEN_APPROVAL",
-      "EVENT_COMPOSITE_OPEN_BOARD",
-      "EVENT_COMPOSITE_OPEN_DASHBOARD",
-      "EVENT_COMPOSITE_OPEN_DOCS",
-      "EVENT_COMPOSITE_OPEN_TASKS",
-      "EVENT_COMPOSITE_OPEN_TRACE",
-      "EVENT_OPEN_DOC_FROM_TRACE",
-      "EVENT_OPEN_FULL_TRACE",
-      "EVENT_RECONNECT_SYNC",
-      "EVENT_REFRESH_EVIDENCE",
-      "EVENT_REQUEST_ACCESS_OR_BACK",
-      "EVENT_RETRY_REQUEST",
-      "EVENT_ROUTE_DESIGN_SYSTEM_APPROVAL",
-      "EVENT_ROUTE_DESIGN_SYSTEM_BEADS_TRAVERSAL",
-      "EVENT_ROUTE_DESIGN_SYSTEM_COMPONENTS",
-      "EVENT_ROUTE_DESIGN_SYSTEM_DOC_VIEWER",
-      "EVENT_ROUTE_DESIGN_SYSTEM_EXPLORER",
-      "EVENT_ROUTE_DESIGN_SYSTEM_GIT_GRAPH",
-      "EVENT_ROUTE_DESIGN_SYSTEM_KANBAN",
-      "EVENT_ROUTE_DESIGN_SYSTEM_KNOWLEDGE_GRAPH",
-      "EVENT_ROUTE_DESIGN_SYSTEM_PI_PLANNING",
-      "EVENT_ROUTE_DESIGN_SYSTEM_PORTFOLIO",
-      "EVENT_ROUTE_DESIGN_SYSTEM_STORYBOARD",
-      "EVENT_ROUTE_DESIGN_SYSTEM_STORYBOARD_ID",
-      "EVENT_ROUTE_DESIGN_SYSTEM_TERMINAL",
-      "EVENT_ROUTE_DESIGN_SYSTEM_TIMELINE",
-      "EVENT_ROUTE_DESIGN_SYSTEM_WEBUI_PM_WORKSPACE",
-      "EVENT_ROUTE_ENTER",
-      "EVENT_SAVE_FIELD",
-      "EVENT_SHOWCASE_BOOT",
-      "EVENT_STORYBOARD_OPEN_DETAIL"
+    "unmatched_mermaid_events": [],
+    "required_showcase_routes_missing": [],
+    "metadata_satisfies_count": 16,
+    "all_screens_have_required_state_variants": true,
+    "storyboard_trajectories": 13,
+    "storyboard_shape_invalid": [],
+    "storyboard_ordered_trajectories": 13,
+    "storyboard_ds_target_steps": 27,
+    "layout_rules_count": 432,
+    "artifact_index_entries": 575,
+    "artifact_index_missing_paths": 0,
+    "preview_manifest_machine_evidence": true,
+    "preview_manifest_load_policy": "summary_only",
+    "preview_manifest_summary_slice_indexed": true,
+    "preview_manifest_summary_slice_exists": true,
+    "context_slice_count": 563,
+    "invalid_context_slices": [],
+    "invalid_load_policies": [],
+    "large_direct_artifacts": [
+      "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+      "docs/design/contracts/webui-and-pm-workspace/artifact-index.json"
     ],
     "standalone_mmd_files": 0,
-    "mermaid_markdown_validation": "PASS",
-    "preview_warnings": 36,
-    "preview_artifacts_loaded": "7/8"
+    "required_artifacts_present": true,
+    "json_artifacts_valid": true,
+    "mermaid_markdown_validator_status": "PASS",
+    "flow_mermaid_blocks": 1,
+    "review_diagrams_mermaid_blocks": 46,
+    "preview_generation_status": "OK",
+    "preview_artifacts_loaded": 8,
+    "preview_artifacts_total": 8,
+    "preview_warnings": 0,
+    "preview_sections_missing": [],
+    "baseline_features_processed": 0
   },
   "fix_queue": [
     {
-      "priority": "P0",
-      "pillar": "logic_coverage",
-      "responsible_generator": "gen_flows",
-      "detail": "36 EVENT_* tokens in the Mermaid Logic Machine have no YAML action source in ui-contract.md; either add corresponding YAML actions or document why they are generated/system events. Examples: EVENT_APP_BOOT, EVENT_ROUTE_ENTER, EVENT_SHOWCASE_BOOT, EVENT_SAVE_FIELD, EVENT_ROUTE_DESIGN_SYSTEM_WEBUI_PM_WORKSPACE."
+      "priority": "P2",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_contracts",
+      "detail": "ui-contract.md is 1044 lines, slightly above the repository documentation guideline. Trim non-SSOT prose or keep relying on indexed summaries for review context when convenient."
     },
     {
-      "priority": "P0",
-      "pillar": "component_traceability",
-      "responsible_generator": "gen_flows",
-      "detail": "component-map.json contains 23 duplicated ds_id values across 122 component rows; ds_id values must be unique for traceability."
-    },
-    {
-      "priority": "P1",
-      "pillar": "component_traceability",
-      "responsible_generator": "gen_flows",
-      "detail": "component-map.json is missing YAML ds_id ds:screen:webui-pm-workspace-001, causing YAML-to-map drift for the normalized showcase route."
-    },
-    {
-      "priority": "P1",
+      "priority": "P2",
       "pillar": "conflict_preview_readiness",
       "responsible_generator": "gen_flows",
-      "detail": "preview-manifest.json reports 7/8 preview artifacts loaded because assertion-checklist.md is referenced but missing. Either generate the artifact or remove it from the preview manifest expectations."
+      "detail": "artifact-index.json is itself a large machine-readable artifact and remains load_policy='load directly'. This does not block Gate A because reviewers have compact scorecard/tool summaries, but adding a small artifact-index summary slice would improve context-budget hygiene."
     }
   ],
   "baseline_regression": false,
+  "recommended_ba_route": "Proceed to Gate A / Stage 2. The iteration 3 gen_flows QA blockers are fixed; rerun independent QA if required, but do not respawn gen_flows unless QA finds a new P0/P1.",
   "issues": [
-    "Gate A is not ready while P0 logic and component traceability issues remain.",
-    "The regenerated preview is structurally complete and status OK, but its warnings are actionable rather than cosmetic.",
-    "Mermaid Markdown validation passed for flow.md and review-diagrams.md; no standalone .mmd files were found."
+    "PASS: T5 storyboard schema shape is fixed; all 13 trajectories expose required Gate A fields and ordered steps.",
+    "PASS: T8 preview manifest evidence indexing is fixed; preview/preview-manifest.json is machine evidence with summary_only policy, lookup keys, and an indexed compact summary slice.",
+    "PASS: all PRD-04 §8.1A showcase routes remain represented and traceable.",
+    "PASS: no standalone .mmd or ASCII artifacts were introduced.",
+    "P2: contract and artifact-index length can be further optimized for context-budget hygiene."
   ]
 }

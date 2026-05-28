@@ -1,0 +1,42 @@
+trajectory_id: pi-planning-vote
+title: RTE submits PI confidence vote
+source: PRD-04 user journeys and §8.1A route coverage
+events: &id001
+- EVENT_PI_PLAN_SAVE
+- EVENT_CONFIDENCE_VOTE
+- API_VOTE_SUCCESS
+routes:
+- /design-system/pi-planning
+recovery_path: false
+steps:
+- order: 1
+  route: /design-system/pi-planning
+  screen_id: screen:ds-pi-planning
+  screen_ds_id: ds:screen:pi-planning-showcase-001
+  state: default
+  event: EVENT_PI_PLAN_SAVE
+  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
+    traceable
+  action: EVENT_PI_PLAN_SAVE
+  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
+  ds_targets:
+  - ds:screen:pi-planning-showcase-001
+e2e_alignment:
+  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
+    go through Go REST API
+  investigation_guidance: Assert route navigation, state transition, optimistic write
+    or recovery copy, and API mapping.
+id: pi-planning-vote
+prd_journey: PRD-04 §8.1A route coverage — RTE submits PI confidence vote
+action: *id001
+assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
+  Go REST API
+state: default
+ds_targets:
+- ds:screen:pi-planning-showcase-001
+schema_adapter:
+  trajectory_id: id
+  source: prd_journey
+  events[0] or events[]: action
+  expected_outcome: assertion
+  screen_ds_id: ds_targets[]

@@ -1,0 +1,168 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 6,
+  "score": 41,
+  "convergence_status": "CONTINUE",
+  "recommended_ba_route": "RESPAWN_TARGETED_GEN_CONTRACTS_AND_GEN_FLOWS",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists; exactly 1 block-style YAML fence and 1 Mermaid fence; YAML parses; Mermaid starts stateDiagram-v2 with direction LR and 27 transitions"
+    },
+    "prd_coverage": {
+      "score": 6,
+      "max": 20,
+      "tool_evidence": "Contract has 14 screens/routes and 2 unique satisfies entries; PRD contains 15 PRD-04 section IDs, 14 are missing from contract metadata; core routes /, /board, /tasks, /tasks/:id, /trace/:id, /docs, /approval, /search are not declared as screens/routes; dynamic showcase route /design-system/storyboard/:id is not declared"
+    },
+    "component_traceability": {
+      "score": 5,
+      "max": 20,
+      "tool_evidence": "29 unique YAML ds_id values and 0 duplicates; component-map.json parses but contains only 4 ds_id values and misses 25 contract ds_id values; selector count is 0 and API/data-flow entries are 0"
+    },
+    "logic_coverage": {
+      "score": 4,
+      "max": 15,
+      "tool_evidence": "Mermaid has meaningful transitions, retry/error/back-like paths, and 6 EVENT_* labels; YAML has 0 explicit action/event sources, so all 6 EVENT_* Mermaid events are unmatched; API outcome mapping is absent from YAML"
+    },
+    "derived_artifact_consistency": {
+      "score": 4,
+      "max": 15,
+      "tool_evidence": "Mermaid Markdown validator PASS; flow.md has exactly 1 valid Mermaid block and review-diagrams.md has 4 valid Mermaid blocks; storyboards.json parses but has 3 trajectories and 0 screen/route references; layout-rules.json parses but has 1 rule for terminal only; artifact-index.json indexes only 5 artifacts and no context-slices; 234 context slice YAML files parse but are not indexed; no standalone .mmd files"
+    },
+    "conflict_preview_readiness": {
+      "score": 7,
+      "max": 15,
+      "tool_evidence": "prd-ds-conflicts.md exists with an explicit no-conflicts row; assertion-checklist.md exists but claims conditions contradicted by parsed artifacts; storyboards-review.md/html exist but summarize only 2 routes while storyboards.json has 3 trajectories and PRD requires more; temporary contract_to_ui run returned OK with 8/8 artifacts loaded and 6 warnings; preview HTML contains Flow, Storyboard, Component, Layout, Conflict, Review, Mermaid, and Screen sections"
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_parse_ok": true,
+    "yaml_is_block_style": true,
+    "duplicate_ds_ids": [],
+    "contract_screens": 14,
+    "contract_routes": 14,
+    "contract_viewports": 3,
+    "contract_actions": 0,
+    "metadata_satisfies_unique": 2,
+    "prd_ids_in_prd": 15,
+    "missing_prd_ids": [
+      "br-prd04-s1",
+      "br-prd04-s10",
+      "br-prd04-s11",
+      "br-prd04-s12",
+      "br-prd04-s13",
+      "br-prd04-s14",
+      "br-prd04-s14a",
+      "br-prd04-s2",
+      "br-prd04-s3",
+      "br-prd04-s4",
+      "br-prd04-s5",
+      "br-prd04-s6",
+      "br-prd04-s7",
+      "br-prd04-s9"
+    ],
+    "missing_core_routes": [
+      "/",
+      "/board",
+      "/tasks",
+      "/tasks/:id",
+      "/trace/:id",
+      "/docs",
+      "/approval",
+      "/search"
+    ],
+    "missing_showcase_routes": [
+      "/design-system/storyboard/:id"
+    ],
+    "component_map_ds_ids": 4,
+    "missing_yaml_ds_ids_in_component_map_count": 25,
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [
+      "EVENT_DISCONNECT",
+      "EVENT_RECONNECT",
+      "EVENT_SAVE",
+      "EVENT_VIEW_DOC",
+      "EVENT_VIEW_TASK",
+      "EVENT_VIEW_TRACE"
+    ],
+    "mermaid_markdown_validation": "PASS",
+    "flow_mermaid_blocks": 1,
+    "review_diagrams_mermaid_blocks": 4,
+    "standalone_mmd_files": 0,
+    "storyboard_trajectories": 3,
+    "storyboard_screen_or_route_references": 0,
+    "layout_rule_count": 1,
+    "artifact_index_entries": 5,
+    "artifact_index_context_slice_entries": 0,
+    "context_slice_files": 234,
+    "invalid_context_slice_yaml": 0,
+    "invalid_load_policies": [],
+    "preview_artifacts_loaded": "8/8",
+    "preview_generation_warnings": 6
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "pillar": "logic_coverage",
+      "responsible_generator": "gen_contracts",
+      "detail": "YAML View Blueprint contains 0 explicit action/event sources, but Mermaid uses EVENT_DISCONNECT, EVENT_RECONNECT, EVENT_SAVE, EVENT_VIEW_DOC, EVENT_VIEW_TASK, and EVENT_VIEW_TRACE. Add block-style YAML actions or documented machine_event_action_sources for every Mermaid EVENT_* token."
+    },
+    {
+      "priority": "P0",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_flows",
+      "detail": "artifact-index.json indexes only 5 top-level artifacts and has 0 context-slice entries while 234 context-slices/**/*.yaml files exist. Large machine artifacts are not reviewable through indexed summaries/slices."
+    },
+    {
+      "priority": "P1",
+      "pillar": "prd_coverage",
+      "responsible_generator": "gen_contracts",
+      "detail": "metadata.satisfies includes only br-prd04 and br-prd04-s8; PRD section IDs br-prd04-s1, s2, s3, s4, s5, s6, s7, s9, s10, s11, s12, s13, s14, and s14a are missing."
+    },
+    {
+      "priority": "P1",
+      "pillar": "prd_coverage",
+      "responsible_generator": "gen_contracts",
+      "detail": "Contract omits Core WebUI routes /, /board, /tasks, /tasks/:id, /trace/:id, /docs, /approval, and /search, and omits required dynamic showcase route /design-system/storyboard/:id."
+    },
+    {
+      "priority": "P1",
+      "pillar": "component_traceability",
+      "responsible_generator": "gen_flows",
+      "detail": "component-map.json contains only 4 component ds_id values and misses 25 ds_id values declared in ui-contract.md; it does not match the YAML View Blueprint."
+    },
+    {
+      "priority": "P1",
+      "pillar": "component_traceability",
+      "responsible_generator": "gen_contracts",
+      "detail": "YAML View Blueprint has 0 stable selectors and 0 API/data-flow entries, so API-only Core data-flow mapping and test selector readiness are absent."
+    },
+    {
+      "priority": "P1",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_flows",
+      "detail": "storyboards.json has only 3 trajectories and 0 screen/route references; storyboards-review.md claims only two route journeys, which drifts from PRD route coverage requirements and the actual storyboard JSON."
+    },
+    {
+      "priority": "P1",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_flows",
+      "detail": "layout-rules.json has a single terminal/Desktop rule and no full viewport or screen coverage for the declared contract routes."
+    },
+    {
+      "priority": "P1",
+      "pillar": "conflict_preview_readiness",
+      "responsible_generator": "gen_flows",
+      "detail": "assertion-checklist.md marks EVENT source coverage and component-map shell ds_id coverage as complete, but mechanical checks show 6 unmatched EVENT_* tokens and no ds:screen:webui-pm-workspace-001 entry in component-map.json."
+    }
+  ],
+  "baseline_regression": false,
+  "issues": [
+    "Previous high-scoring scorecards do not match the current files on disk; the current package appears regressed to a minimal contract and minimal derived artifacts.",
+    "Mandatory Mermaid Markdown validation passed, but it only validates syntax; semantic coverage remains incomplete.",
+    "Recommended BA route: respawn gen_contracts first for PRD/routes/actions/API/selectors, then respawn gen_flows for flow/storyboards/component-map/layout-rules/artifact-index/context-slice alignment; gen_wireframes can be skipped unless review-diagrams need to expand after the contract changes."
+  ]
+}

@@ -1,362 +1,75 @@
-# Flow: WebUI & PM Workspace
 <!-- beads-id: br-design-flow-webui-pm-workspace -->
+# Flow: WebUI PM Workspace
 
 ```mermaid
 stateDiagram-v2
     direction LR
+    [*] --> GlobalShell
+    GlobalShell --> LoadingState : ROUTE_ENTER
+    LoadingState --> CoreRoute : API_SUCCESS_CORE
+    LoadingState --> ShowcaseRoute : API_SUCCESS_SHOWCASE
+    LoadingState --> EmptyState : API_EMPTY
+    LoadingState --> PermissionDenied : API_FORBIDDEN
+    LoadingState --> ErrorState : API_ERROR
+    LoadingState --> NotFoundState : API_NOT_FOUND
+    LoadingState --> PartialState : API_PARTIAL_ENRICHMENT
 
-    [*] --> core_global_shell: EVENT_APP_BOOT
-    [*] --> ds_global_shell: EVENT_SHOWCASE_BOOT
+    CoreRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    CoreRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    CoreRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    CoreRoute --> SearchRoute : EVENT_SEARCH
+    CoreRoute --> LoadingState : EVENT_REFRESH
+    CoreRoute --> SavingState : EVENT_SAVE_TASK
+    CoreRoute --> SavingState : EVENT_SAVE_BULK
+    CoreRoute --> SavingState : EVENT_MOVE_CARD
+    CoreRoute --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
 
-    core_global_shell --> core_rtm_dashboard: EVENT_CORE_NAV_DASHBOARD
-    core_global_shell --> core_safe_board: EVENT_CORE_NAV_BOARD
-    core_global_shell --> core_task_list: EVENT_CORE_NAV_TASKS
-    core_global_shell --> core_trace_explorer: EVENT_CORE_NAV_TRACE
-    core_global_shell --> core_doc_viewer: EVENT_CORE_NAV_DOCS
-    core_global_shell --> core_approval_gates: EVENT_CORE_NAV_APPROVAL
-    core_global_shell --> core_search_results: EVENT_CORE_SHELL_SEARCH
+    ShowcaseRoute --> ShowcaseRoute : EVENT_HASH_NAVIGATE
+    ShowcaseRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    ShowcaseRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    ShowcaseRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    ShowcaseRoute --> SearchRoute : EVENT_SEARCH
+    ShowcaseRoute --> LoadingState : EVENT_REFRESH
+    ShowcaseRoute --> SavingState : EVENT_MOVE_CARD
+    ShowcaseRoute --> PiPlanningSaveState : EVENT_PI_PLAN_SAVE
+    ShowcaseRoute --> PiPlanningVoteState : EVENT_CONFIDENCE_VOTE
+    ShowcaseRoute --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
 
-    ds_global_shell --> ds_terminal: EVENT_ROUTE_DESIGN_SYSTEM_TERMINAL
-    ds_global_shell --> ds_portfolio: EVENT_ROUTE_DESIGN_SYSTEM_PORTFOLIO
-    ds_global_shell --> ds_pi_planning: EVENT_ROUTE_DESIGN_SYSTEM_PI_PLANNING
-    ds_global_shell --> ds_git_graph: EVENT_ROUTE_DESIGN_SYSTEM_GIT_GRAPH
-    ds_global_shell --> ds_kanban: EVENT_ROUTE_DESIGN_SYSTEM_KANBAN
-    ds_global_shell --> ds_knowledge_graph: EVENT_ROUTE_DESIGN_SYSTEM_KNOWLEDGE_GRAPH
-    ds_global_shell --> ds_approval: EVENT_ROUTE_DESIGN_SYSTEM_APPROVAL
-    ds_global_shell --> ds_timeline: EVENT_ROUTE_DESIGN_SYSTEM_TIMELINE
-    ds_global_shell --> ds_components: EVENT_ROUTE_DESIGN_SYSTEM_COMPONENTS
-    ds_global_shell --> ds_doc_viewer: EVENT_ROUTE_DESIGN_SYSTEM_DOC_VIEWER
-    ds_global_shell --> ds_explorer: EVENT_ROUTE_DESIGN_SYSTEM_EXPLORER
-    ds_global_shell --> ds_beads_traversal: EVENT_ROUTE_DESIGN_SYSTEM_BEADS_TRAVERSAL
-    ds_global_shell --> ds_storyboard: EVENT_ROUTE_DESIGN_SYSTEM_STORYBOARD
-    ds_global_shell --> ds_storyboard_detail: EVENT_ROUTE_DESIGN_SYSTEM_STORYBOARD_ID
-    ds_global_shell --> ds_webui_pm_workspace: EVENT_ROUTE_DESIGN_SYSTEM_WEBUI_PM_WORKSPACE
+    TaskDetailRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    TaskDetailRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    TraceExplorerRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    TraceExplorerRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    DocViewerRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
+    SearchRoute --> TaskDetailRoute : EVENT_VIEW_TASK
+    SearchRoute --> DocViewerRoute : EVENT_VIEW_DOC
+    SearchRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
 
-    core_rtm_dashboard --> core_safe_board: EVENT_CORE_NAV_BOARD
-    core_rtm_dashboard --> core_task_list: EVENT_CORE_NAV_TASKS
-    core_task_list --> core_task_detail: EVENT_CORE_TASK_LIST_ROW_OPEN
-    core_task_detail --> core_task_list: EVENT_BACK_TO_TASKS
-    core_task_detail --> core_trace_explorer: EVENT_OPEN_FULL_TRACE
-    core_trace_explorer --> core_doc_viewer: EVENT_OPEN_DOC_FROM_TRACE
-    core_doc_viewer --> core_trace_explorer: EVENT_CORE_DOC_OPEN_BEADS_TRACE
-    core_global_shell --> core_search_results: EVENT_CORE_SHELL_SEARCH
-    ds_doc_viewer --> ds_explorer: EVENT_DOC_VIEWER_OPEN_EXPLORER
-    ds_doc_viewer --> ds_knowledge_graph: EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH
-    ds_doc_viewer --> core_trace_explorer: EVENT_DOC_VIEWER_OPEN_CORE_TRACE
-    ds_storyboard --> ds_storyboard_detail: EVENT_STORYBOARD_OPEN_DETAIL
-    ds_storyboard_detail --> ds_storyboard: EVENT_BACK_TO_STORYBOARD_OVERVIEW
-    ds_webui_pm_workspace --> core_rtm_dashboard: EVENT_COMPOSITE_OPEN_DASHBOARD
-    ds_webui_pm_workspace --> core_safe_board: EVENT_COMPOSITE_OPEN_BOARD
-    ds_webui_pm_workspace --> core_task_list: EVENT_COMPOSITE_OPEN_TASKS
-    ds_webui_pm_workspace --> core_trace_explorer: EVENT_COMPOSITE_OPEN_TRACE
-    ds_webui_pm_workspace --> core_doc_viewer: EVENT_COMPOSITE_OPEN_DOCS
-    ds_webui_pm_workspace --> core_approval_gates: EVENT_COMPOSITE_OPEN_APPROVAL
+    SavingState --> CoreRoute : API_SUCCESS
+    SavingState --> ErrorState : API_ERROR_ROLLBACK
+    SavingState --> OfflineState : API_OFFLINE_QUEUE
+    ApprovalDecisionState --> SuccessState : API_APPROVAL_SUCCESS
+    ApprovalDecisionState --> ErrorState : API_APPROVAL_ERROR
+    ApprovalDecisionState --> PermissionDenied : API_APPROVAL_FORBIDDEN
+    PiPlanningSaveState --> SuccessState : API_PI_SAVE_SUCCESS
+    PiPlanningSaveState --> ErrorState : API_PI_SAVE_ERROR
+    PiPlanningVoteState --> SuccessState : API_VOTE_SUCCESS
+    PiPlanningVoteState --> ErrorState : API_VOTE_ERROR
 
-    core_global_shell --> core_global_shell_loading: EVENT_ROUTE_ENTER
-    core_global_shell_loading --> core_global_shell_default: API_SUCCESS
-    core_global_shell_loading --> core_global_shell_forbidden: API_PERMISSION_DENIED
-    core_global_shell_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_global_shell_default --> core_global_shell_offline: API_OFFLINE_DETECTED
-    core_global_shell_offline --> core_global_shell_loading: EVENT_RECONNECT_SYNC
+    GlobalShell --> OfflineState : EVENT_DISCONNECT
+    CoreRoute --> OfflineState : EVENT_DISCONNECT
+    ShowcaseRoute --> OfflineState : EVENT_DISCONNECT
+    OfflineState --> RehydratingState : EVENT_RECONNECT
+    RehydratingState --> ConflictResolution : API_CONFLICT
+    ConflictResolution --> RehydratingState : EVENT_KEEP_LOCAL
+    ConflictResolution --> RehydratingState : EVENT_USE_SERVER
+    RehydratingState --> GlobalShell : API_SYNC_SUCCESS
+    RehydratingState --> ErrorState : API_SYNC_ERROR
 
-    core_rtm_dashboard --> core_rtm_dashboard_loading: EVENT_ROUTE_ENTER
-    core_rtm_dashboard_loading --> core_rtm_dashboard_default: API_SUCCESS
-    core_rtm_dashboard_loading --> core_rtm_dashboard_empty: API_EMPTY
-    core_rtm_dashboard_empty --> core_rtm_dashboard_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_rtm_dashboard_loading --> core_rtm_dashboard_error: API_ERROR
-    core_rtm_dashboard_error --> core_rtm_dashboard_loading: EVENT_RETRY_REQUEST
-    core_rtm_dashboard_loading --> core_rtm_dashboard_forbidden: API_PERMISSION_DENIED
-    core_rtm_dashboard_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_rtm_dashboard_default --> core_rtm_dashboard_offline: API_OFFLINE_DETECTED
-    core_rtm_dashboard_offline --> core_rtm_dashboard_loading: EVENT_RECONNECT_SYNC
-
-    core_safe_board --> core_safe_board_loading: EVENT_ROUTE_ENTER
-    core_safe_board_loading --> core_safe_board_default: API_SUCCESS
-    core_safe_board_loading --> core_safe_board_empty: API_EMPTY
-    core_safe_board_empty --> core_safe_board_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_safe_board_loading --> core_safe_board_error: API_ERROR
-    core_safe_board_error --> core_safe_board_loading: EVENT_RETRY_REQUEST
-    core_safe_board_loading --> core_safe_board_forbidden: API_PERMISSION_DENIED
-    core_safe_board_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_safe_board_default --> core_safe_board_offline: API_OFFLINE_DETECTED
-    core_safe_board_offline --> core_safe_board_loading: EVENT_RECONNECT_SYNC
-
-    core_task_list --> core_task_list_loading: EVENT_ROUTE_ENTER
-    core_task_list_loading --> core_task_list_default: API_SUCCESS
-    core_task_list_loading --> core_task_list_empty: API_EMPTY
-    core_task_list_empty --> core_task_list_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_task_list_loading --> core_task_list_error: API_ERROR
-    core_task_list_error --> core_task_list_loading: EVENT_RETRY_REQUEST
-    core_task_list_loading --> core_task_list_forbidden: API_PERMISSION_DENIED
-    core_task_list_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_task_list_default --> core_task_list_offline: API_OFFLINE_DETECTED
-    core_task_list_offline --> core_task_list_loading: EVENT_RECONNECT_SYNC
-    core_task_list_default --> core_task_list_processing: EVENT_BULK_ACTION
-    core_task_list_processing --> core_task_list_default: API_BULK_SUCCESS
-    core_task_list_processing --> core_task_list_error: API_BULK_ERROR
-
-    core_task_detail --> core_task_detail_loading: EVENT_ROUTE_ENTER
-    core_task_detail_loading --> core_task_detail_default: API_SUCCESS
-    core_task_detail_loading --> core_task_detail_error: API_ERROR
-    core_task_detail_error --> core_task_detail_loading: EVENT_RETRY_REQUEST
-    core_task_detail_loading --> core_task_detail_forbidden: API_PERMISSION_DENIED
-    core_task_detail_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_task_detail_default --> core_task_detail_offline: API_OFFLINE_DETECTED
-    core_task_detail_offline --> core_task_detail_loading: EVENT_RECONNECT_SYNC
-    core_task_detail_default --> core_task_detail_saving: EVENT_SAVE_FIELD
-    core_task_detail_saving --> core_task_detail_default: API_SAVE_SUCCESS
-    core_task_detail_saving --> core_task_detail_error: API_SAVE_ERROR
-    core_task_detail_loading --> core_task_detail_not_found: API_NOT_FOUND
-    core_task_detail_not_found --> core_task_list: EVENT_BACK_TO_TASKS
-
-    core_trace_explorer --> core_trace_explorer_loading: EVENT_ROUTE_ENTER
-    core_trace_explorer_loading --> core_trace_explorer_default: API_SUCCESS
-    core_trace_explorer_loading --> core_trace_explorer_empty: API_EMPTY
-    core_trace_explorer_empty --> core_trace_explorer_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_trace_explorer_loading --> core_trace_explorer_error: API_ERROR
-    core_trace_explorer_error --> core_trace_explorer_loading: EVENT_RETRY_REQUEST
-    core_trace_explorer_loading --> core_trace_explorer_forbidden: API_PERMISSION_DENIED
-    core_trace_explorer_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_trace_explorer_default --> core_trace_explorer_offline: API_OFFLINE_DETECTED
-    core_trace_explorer_offline --> core_trace_explorer_loading: EVENT_RECONNECT_SYNC
-    core_trace_explorer_loading --> core_trace_explorer_partial: API_ENRICHMENT_TIMEOUT
-    core_trace_explorer_partial --> core_trace_explorer_default: API_ENRICHMENT_SUCCESS
-
-    core_doc_viewer --> core_doc_viewer_loading: EVENT_ROUTE_ENTER
-    core_doc_viewer_loading --> core_doc_viewer_default: API_SUCCESS
-    core_doc_viewer_loading --> core_doc_viewer_empty: API_EMPTY
-    core_doc_viewer_empty --> core_doc_viewer_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_doc_viewer_loading --> core_doc_viewer_error: API_ERROR
-    core_doc_viewer_error --> core_doc_viewer_loading: EVENT_RETRY_REQUEST
-    core_doc_viewer_loading --> core_doc_viewer_forbidden: API_PERMISSION_DENIED
-    core_doc_viewer_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_doc_viewer_default --> core_doc_viewer_offline: API_OFFLINE_DETECTED
-    core_doc_viewer_offline --> core_doc_viewer_loading: EVENT_RECONNECT_SYNC
-
-    core_approval_gates --> core_approval_gates_loading: EVENT_ROUTE_ENTER
-    core_approval_gates_loading --> core_approval_gates_default: API_SUCCESS
-    core_approval_gates_loading --> core_approval_gates_empty: API_EMPTY
-    core_approval_gates_empty --> core_approval_gates_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_approval_gates_loading --> core_approval_gates_error: API_ERROR
-    core_approval_gates_error --> core_approval_gates_loading: EVENT_RETRY_REQUEST
-    core_approval_gates_loading --> core_approval_gates_forbidden: API_PERMISSION_DENIED
-    core_approval_gates_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_approval_gates_default --> core_approval_gates_offline: API_OFFLINE_DETECTED
-    core_approval_gates_offline --> core_approval_gates_loading: EVENT_RECONNECT_SYNC
-    core_approval_gates_default --> core_approval_gates_insufficient_evidence: API_EVIDENCE_INCOMPLETE
-    core_approval_gates_insufficient_evidence --> core_approval_gates_loading: EVENT_REFRESH_EVIDENCE
-
-    core_search_results --> core_search_results_loading: EVENT_ROUTE_ENTER
-    core_search_results_loading --> core_search_results_default: API_SUCCESS
-    core_search_results_loading --> core_search_results_empty: API_EMPTY
-    core_search_results_empty --> core_search_results_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    core_search_results_loading --> core_search_results_error: API_ERROR
-    core_search_results_error --> core_search_results_loading: EVENT_RETRY_REQUEST
-    core_search_results_loading --> core_search_results_forbidden: API_PERMISSION_DENIED
-    core_search_results_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    core_search_results_default --> core_search_results_offline: API_OFFLINE_DETECTED
-    core_search_results_offline --> core_search_results_loading: EVENT_RECONNECT_SYNC
-
-    ds_terminal --> ds_terminal_loading: EVENT_ROUTE_ENTER
-    ds_terminal_loading --> ds_terminal_default: API_SUCCESS
-    ds_terminal_loading --> ds_terminal_empty: API_EMPTY
-    ds_terminal_empty --> ds_terminal_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_terminal_loading --> ds_terminal_error: API_ERROR
-    ds_terminal_error --> ds_terminal_loading: EVENT_RETRY_REQUEST
-    ds_terminal_loading --> ds_terminal_forbidden: API_PERMISSION_DENIED
-    ds_terminal_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_terminal_default --> ds_terminal_offline: API_OFFLINE_DETECTED
-    ds_terminal_offline --> ds_terminal_loading: EVENT_RECONNECT_SYNC
-
-    ds_portfolio --> ds_portfolio_loading: EVENT_ROUTE_ENTER
-    ds_portfolio_loading --> ds_portfolio_default: API_SUCCESS
-    ds_portfolio_loading --> ds_portfolio_empty: API_EMPTY
-    ds_portfolio_empty --> ds_portfolio_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_portfolio_loading --> ds_portfolio_error: API_ERROR
-    ds_portfolio_error --> ds_portfolio_loading: EVENT_RETRY_REQUEST
-    ds_portfolio_loading --> ds_portfolio_forbidden: API_PERMISSION_DENIED
-    ds_portfolio_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_portfolio_default --> ds_portfolio_offline: API_OFFLINE_DETECTED
-    ds_portfolio_offline --> ds_portfolio_loading: EVENT_RECONNECT_SYNC
-
-    ds_pi_planning --> ds_pi_planning_loading: EVENT_ROUTE_ENTER
-    ds_pi_planning_loading --> ds_pi_planning_default: API_SUCCESS
-    ds_pi_planning_loading --> ds_pi_planning_empty: API_EMPTY
-    ds_pi_planning_empty --> ds_pi_planning_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_pi_planning_loading --> ds_pi_planning_error: API_ERROR
-    ds_pi_planning_error --> ds_pi_planning_loading: EVENT_RETRY_REQUEST
-    ds_pi_planning_loading --> ds_pi_planning_forbidden: API_PERMISSION_DENIED
-    ds_pi_planning_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_pi_planning_default --> ds_pi_planning_offline: API_OFFLINE_DETECTED
-    ds_pi_planning_offline --> ds_pi_planning_loading: EVENT_RECONNECT_SYNC
-
-    ds_git_graph --> ds_git_graph_loading: EVENT_ROUTE_ENTER
-    ds_git_graph_loading --> ds_git_graph_default: API_SUCCESS
-    ds_git_graph_loading --> ds_git_graph_empty: API_EMPTY
-    ds_git_graph_empty --> ds_git_graph_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_git_graph_loading --> ds_git_graph_error: API_ERROR
-    ds_git_graph_error --> ds_git_graph_loading: EVENT_RETRY_REQUEST
-    ds_git_graph_loading --> ds_git_graph_forbidden: API_PERMISSION_DENIED
-    ds_git_graph_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_git_graph_default --> ds_git_graph_offline: API_OFFLINE_DETECTED
-    ds_git_graph_offline --> ds_git_graph_loading: EVENT_RECONNECT_SYNC
-
-    ds_kanban --> ds_kanban_loading: EVENT_ROUTE_ENTER
-    ds_kanban_loading --> ds_kanban_default: API_SUCCESS
-    ds_kanban_loading --> ds_kanban_empty: API_EMPTY
-    ds_kanban_empty --> ds_kanban_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_kanban_loading --> ds_kanban_error: API_ERROR
-    ds_kanban_error --> ds_kanban_loading: EVENT_RETRY_REQUEST
-    ds_kanban_loading --> ds_kanban_forbidden: API_PERMISSION_DENIED
-    ds_kanban_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_kanban_default --> ds_kanban_offline: API_OFFLINE_DETECTED
-    ds_kanban_offline --> ds_kanban_loading: EVENT_RECONNECT_SYNC
-
-    ds_knowledge_graph --> ds_knowledge_graph_loading: EVENT_ROUTE_ENTER
-    ds_knowledge_graph_loading --> ds_knowledge_graph_default: API_SUCCESS
-    ds_knowledge_graph_loading --> ds_knowledge_graph_empty: API_EMPTY
-    ds_knowledge_graph_empty --> ds_knowledge_graph_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_knowledge_graph_loading --> ds_knowledge_graph_error: API_ERROR
-    ds_knowledge_graph_error --> ds_knowledge_graph_loading: EVENT_RETRY_REQUEST
-    ds_knowledge_graph_loading --> ds_knowledge_graph_forbidden: API_PERMISSION_DENIED
-    ds_knowledge_graph_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_knowledge_graph_default --> ds_knowledge_graph_offline: API_OFFLINE_DETECTED
-    ds_knowledge_graph_offline --> ds_knowledge_graph_loading: EVENT_RECONNECT_SYNC
-
-    ds_approval --> ds_approval_loading: EVENT_ROUTE_ENTER
-    ds_approval_loading --> ds_approval_default: API_SUCCESS
-    ds_approval_loading --> ds_approval_empty: API_EMPTY
-    ds_approval_empty --> ds_approval_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_approval_loading --> ds_approval_error: API_ERROR
-    ds_approval_error --> ds_approval_loading: EVENT_RETRY_REQUEST
-    ds_approval_loading --> ds_approval_forbidden: API_PERMISSION_DENIED
-    ds_approval_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_approval_default --> ds_approval_offline: API_OFFLINE_DETECTED
-    ds_approval_offline --> ds_approval_loading: EVENT_RECONNECT_SYNC
-    ds_approval_default --> ds_approval_insufficient_evidence: API_EVIDENCE_INCOMPLETE
-    ds_approval_insufficient_evidence --> ds_approval_loading: EVENT_REFRESH_EVIDENCE
-
-    ds_timeline --> ds_timeline_loading: EVENT_ROUTE_ENTER
-    ds_timeline_loading --> ds_timeline_default: API_SUCCESS
-    ds_timeline_loading --> ds_timeline_empty: API_EMPTY
-    ds_timeline_empty --> ds_timeline_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_timeline_loading --> ds_timeline_error: API_ERROR
-    ds_timeline_error --> ds_timeline_loading: EVENT_RETRY_REQUEST
-    ds_timeline_loading --> ds_timeline_forbidden: API_PERMISSION_DENIED
-    ds_timeline_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_timeline_default --> ds_timeline_offline: API_OFFLINE_DETECTED
-    ds_timeline_offline --> ds_timeline_loading: EVENT_RECONNECT_SYNC
-
-    ds_components --> ds_components_loading: EVENT_ROUTE_ENTER
-    ds_components_loading --> ds_components_default: API_SUCCESS
-    ds_components_loading --> ds_components_empty: API_EMPTY
-    ds_components_empty --> ds_components_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_components_loading --> ds_components_error: API_ERROR
-    ds_components_error --> ds_components_loading: EVENT_RETRY_REQUEST
-
-    ds_doc_viewer --> ds_doc_viewer_loading: EVENT_ROUTE_ENTER
-    ds_doc_viewer_loading --> ds_doc_viewer_default: API_SUCCESS
-    ds_doc_viewer_loading --> ds_doc_viewer_empty: API_EMPTY
-    ds_doc_viewer_empty --> ds_doc_viewer_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_doc_viewer_loading --> ds_doc_viewer_error: API_ERROR
-    ds_doc_viewer_error --> ds_doc_viewer_loading: EVENT_RETRY_REQUEST
-    ds_doc_viewer_loading --> ds_doc_viewer_forbidden: API_PERMISSION_DENIED
-    ds_doc_viewer_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_doc_viewer_default --> ds_doc_viewer_offline: API_OFFLINE_DETECTED
-    ds_doc_viewer_offline --> ds_doc_viewer_loading: EVENT_RECONNECT_SYNC
-
-    ds_explorer --> ds_explorer_loading: EVENT_ROUTE_ENTER
-    ds_explorer_loading --> ds_explorer_default: API_SUCCESS
-    ds_explorer_loading --> ds_explorer_empty: API_EMPTY
-    ds_explorer_empty --> ds_explorer_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_explorer_loading --> ds_explorer_error: API_ERROR
-    ds_explorer_error --> ds_explorer_loading: EVENT_RETRY_REQUEST
-    ds_explorer_loading --> ds_explorer_forbidden: API_PERMISSION_DENIED
-    ds_explorer_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_explorer_default --> ds_explorer_offline: API_OFFLINE_DETECTED
-    ds_explorer_offline --> ds_explorer_loading: EVENT_RECONNECT_SYNC
-
-    ds_beads_traversal --> ds_beads_traversal_loading: EVENT_ROUTE_ENTER
-    ds_beads_traversal_loading --> ds_beads_traversal_default: API_SUCCESS
-    ds_beads_traversal_loading --> ds_beads_traversal_empty: API_EMPTY
-    ds_beads_traversal_empty --> ds_beads_traversal_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_beads_traversal_loading --> ds_beads_traversal_error: API_ERROR
-    ds_beads_traversal_error --> ds_beads_traversal_loading: EVENT_RETRY_REQUEST
-    ds_beads_traversal_loading --> ds_beads_traversal_forbidden: API_PERMISSION_DENIED
-    ds_beads_traversal_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_beads_traversal_default --> ds_beads_traversal_offline: API_OFFLINE_DETECTED
-    ds_beads_traversal_offline --> ds_beads_traversal_loading: EVENT_RECONNECT_SYNC
-
-    ds_storyboard --> ds_storyboard_loading: EVENT_ROUTE_ENTER
-    ds_storyboard_loading --> ds_storyboard_default: API_SUCCESS
-    ds_storyboard_loading --> ds_storyboard_empty: API_EMPTY
-    ds_storyboard_empty --> ds_storyboard_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_storyboard_loading --> ds_storyboard_error: API_ERROR
-    ds_storyboard_error --> ds_storyboard_loading: EVENT_RETRY_REQUEST
-    ds_storyboard_loading --> ds_storyboard_forbidden: API_PERMISSION_DENIED
-    ds_storyboard_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_storyboard_default --> ds_storyboard_offline: API_OFFLINE_DETECTED
-    ds_storyboard_offline --> ds_storyboard_loading: EVENT_RECONNECT_SYNC
-
-    ds_storyboard_detail --> ds_storyboard_detail_loading: EVENT_ROUTE_ENTER
-    ds_storyboard_detail_loading --> ds_storyboard_detail_default: API_SUCCESS
-    ds_storyboard_detail_loading --> ds_storyboard_detail_empty: API_EMPTY
-    ds_storyboard_detail_empty --> ds_storyboard_detail_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_storyboard_detail_loading --> ds_storyboard_detail_error: API_ERROR
-    ds_storyboard_detail_error --> ds_storyboard_detail_loading: EVENT_RETRY_REQUEST
-    ds_storyboard_detail_loading --> ds_storyboard_detail_forbidden: API_PERMISSION_DENIED
-    ds_storyboard_detail_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_storyboard_detail_default --> ds_storyboard_detail_offline: API_OFFLINE_DETECTED
-    ds_storyboard_detail_offline --> ds_storyboard_detail_loading: EVENT_RECONNECT_SYNC
-
-    ds_webui_pm_workspace --> ds_webui_pm_workspace_loading: EVENT_ROUTE_ENTER
-    ds_webui_pm_workspace_loading --> ds_webui_pm_workspace_default: API_SUCCESS
-    ds_webui_pm_workspace_loading --> ds_webui_pm_workspace_empty: API_EMPTY
-    ds_webui_pm_workspace_empty --> ds_webui_pm_workspace_loading: EVENT_CLEAR_FILTERS_OR_CREATE
-    ds_webui_pm_workspace_loading --> ds_webui_pm_workspace_error: API_ERROR
-    ds_webui_pm_workspace_error --> ds_webui_pm_workspace_loading: EVENT_RETRY_REQUEST
-    ds_webui_pm_workspace_loading --> ds_webui_pm_workspace_forbidden: API_PERMISSION_DENIED
-    ds_webui_pm_workspace_forbidden --> core_global_shell: EVENT_REQUEST_ACCESS_OR_BACK
-    ds_webui_pm_workspace_default --> ds_webui_pm_workspace_offline: API_OFFLINE_DETECTED
-    ds_webui_pm_workspace_offline --> ds_webui_pm_workspace_loading: EVENT_RECONNECT_SYNC
-
-    core_global_shell_default --> core_search_results: EVENT_CORE_SHELL_SEARCH
-    core_global_shell_default --> core_rtm_dashboard: EVENT_CORE_NAV_DASHBOARD
-    core_global_shell_default --> core_safe_board: EVENT_CORE_NAV_BOARD
-    core_global_shell_default --> core_task_list: EVENT_CORE_NAV_TASKS
-    core_global_shell_default --> core_trace_explorer: EVENT_CORE_NAV_TRACE
-    core_global_shell_default --> core_doc_viewer: EVENT_CORE_NAV_DOCS
-    core_global_shell_default --> core_approval_gates: EVENT_CORE_NAV_APPROVAL
-    core_rtm_dashboard_default --> core_trace_explorer: EVENT_CORE_DASHBOARD_OPEN_SECTION_TRACE
-    core_safe_board_default --> core_safe_board_loading: EVENT_CORE_BOARD_DRAG_CARD
-    core_safe_board_loading --> core_safe_board_default: API_TASK-STATUS_SUCCESS
-    core_safe_board_loading --> core_safe_board_error: API_TASK-STATUS_ERROR
-    core_task_list_default --> core_task_detail: EVENT_CORE_TASK_LIST_ROW_OPEN
-    core_task_list_default --> core_task_list_processing: EVENT_CORE_TASK_LIST_BULK_ASSIGN
-    core_task_list_processing --> core_task_list_default: API_TASKS-UPDATE_SUCCESS
-    core_task_list_processing --> core_task_list_error: API_TASKS-UPDATE_ERROR
-    core_task_detail_default --> core_task_detail_saving: EVENT_CORE_TASK_DETAIL_SAVE_FIELD
-    core_task_detail_saving --> core_task_detail_default: API_TASKS-UPDATE_SUCCESS
-    core_task_detail_saving --> core_task_detail_error: API_TASKS-UPDATE_ERROR
-    core_trace_explorer_default --> core_trace_explorer_default: EVENT_CORE_TRACE_SELECT_NODE
-    core_trace_explorer_default --> core_trace_explorer_default: EVENT_CORE_TRACE_OPEN_LINKED_ENTITY
-    core_doc_viewer_default --> core_trace_explorer: EVENT_CORE_DOC_OPEN_BEADS_TRACE
-    core_approval_gates_default --> core_approval_gates_loading: EVENT_CORE_APPROVAL_SUBMIT_DECISION
-    core_approval_gates_loading --> core_approval_gates_default: API_APPROVAL-DECISION_SUCCESS
-    core_approval_gates_loading --> core_approval_gates_error: API_APPROVAL-DECISION_ERROR
-    core_search_results_default --> core_search_results_default: EVENT_CORE_SEARCH_OPEN_RESULT
-    ds_pi_planning_default --> ds_pi_planning_loading: EVENT_PI_SAVE_PLAN
-    ds_pi_planning_loading --> ds_pi_planning_default: API_PI-PLAN_SUCCESS
-    ds_pi_planning_loading --> ds_pi_planning_error: API_PI-PLAN_ERROR
-    ds_pi_planning_default --> ds_pi_planning_loading: EVENT_PI_SUBMIT_CONFIDENCE_VOTE
-    ds_pi_planning_loading --> ds_pi_planning_default: API_PI-CONFIDENCE-VOTE_SUCCESS
-    ds_pi_planning_loading --> ds_pi_planning_error: API_PI-CONFIDENCE-VOTE_ERROR
-    ds_kanban_default --> ds_kanban_loading: EVENT_KANBAN_UPDATE_CARD_STATUS
-    ds_kanban_loading --> ds_kanban_default: API_TASK-STATUS_SUCCESS
-    ds_kanban_loading --> ds_kanban_error: API_TASK-STATUS_ERROR
-    ds_components_default --> ds_components_default: EVENT_COMPONENTS_HASH_SCROLL
-    ds_doc_viewer_default --> ds_explorer: EVENT_DOC_VIEWER_OPEN_EXPLORER
-    ds_doc_viewer_default --> ds_knowledge_graph: EVENT_DOC_VIEWER_OPEN_KNOWLEDGE_GRAPH
-    ds_doc_viewer_default --> core_trace_explorer: EVENT_DOC_VIEWER_OPEN_CORE_TRACE
-    ds_storyboard_default --> ds_storyboard_default: EVENT_STORYBOARD_OPEN_REAL_SCREEN
+    EmptyState --> LoadingState : EVENT_REFRESH
+    ErrorState --> LoadingState : EVENT_REFRESH
+    PartialState --> LoadingState : EVENT_REFRESH
+    SuccessState --> LoadingState : EVENT_REFRESH
+    PermissionDenied --> GlobalShell : EVENT_BACK
+    NotFoundState --> GlobalShell : EVENT_BACK
+    ErrorState --> GlobalShell : EVENT_BACK
 ```
