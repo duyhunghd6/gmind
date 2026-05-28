@@ -15,7 +15,7 @@ from typing import Any
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 def _step_badge(step: dict[str, Any], idx: int) -> str:

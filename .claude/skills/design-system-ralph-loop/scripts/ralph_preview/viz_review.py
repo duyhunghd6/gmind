@@ -15,7 +15,7 @@ from typing import Any
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 def render_review_diagrams_section(artifacts: dict[str, Any]) -> str:

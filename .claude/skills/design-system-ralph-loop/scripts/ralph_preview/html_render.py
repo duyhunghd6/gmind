@@ -32,7 +32,7 @@ from .viz_conflicts import render_conflicts_section
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 def _contract_mermaid_card(mermaid_source: str) -> str:

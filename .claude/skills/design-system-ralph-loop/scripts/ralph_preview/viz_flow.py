@@ -25,7 +25,7 @@ STATEMENT_RE = re.compile(
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 def parse_transitions(mermaid_source: str) -> list[dict[str, str]]:

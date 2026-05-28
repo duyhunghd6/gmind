@@ -16,7 +16,7 @@ from typing import Any
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 def parse_conflicts_markdown(text: str) -> dict[str, list[dict[str, str]]]:

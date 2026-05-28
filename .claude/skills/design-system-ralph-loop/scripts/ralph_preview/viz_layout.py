@@ -17,7 +17,7 @@ from .artifact_summary import layout_rules, layout_screen_ids, layout_viewports
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 VIEWPORT_WIDTHS = {"desktop": 1440, "tablet": 1024, "mobile": 390}

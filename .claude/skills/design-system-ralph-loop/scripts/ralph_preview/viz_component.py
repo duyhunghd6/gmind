@@ -25,7 +25,7 @@ from .artifact_summary import (
 
 
 def _esc(text: Any) -> str:
-    return html.escape(str(text))
+    return html.escape(str(text), quote=False)
 
 
 def _component_tree_node(node: dict[str, Any], depth: int = 0) -> str:
