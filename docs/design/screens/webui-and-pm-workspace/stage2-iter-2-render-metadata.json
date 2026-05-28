@@ -1,0 +1,283 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "iteration": "stage2-iter-2",
+  "capturedAt": "2026-05-28T05:42:34.650Z",
+  "targetRoute": "http://localhost:9993/design-system/webui-pm-workspace",
+  "screenshots": {
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-2-desktop.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-2-mobile.png",
+    "interactions": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-2-desktop-interactions.png"
+  },
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 900
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "verification": {
+    "desktop": {
+      "integratedShell": true,
+      "routeCoverageMap": true,
+      "exactRouteEntries": [
+        {
+          "route": "/",
+          "visible": true
+        },
+        {
+          "route": "/board",
+          "visible": true
+        },
+        {
+          "route": "/tasks",
+          "visible": true
+        },
+        {
+          "route": "/tasks/:id",
+          "visible": true
+        },
+        {
+          "route": "/trace/:id",
+          "visible": true
+        },
+        {
+          "route": "/docs",
+          "visible": true
+        },
+        {
+          "route": "/approval",
+          "visible": true
+        },
+        {
+          "route": "/search",
+          "visible": true
+        },
+        {
+          "route": "/design-system/terminal",
+          "visible": true
+        },
+        {
+          "route": "/design-system/portfolio",
+          "visible": true
+        },
+        {
+          "route": "/design-system/pi-planning",
+          "visible": true
+        },
+        {
+          "route": "/design-system/git-graph",
+          "visible": true
+        },
+        {
+          "route": "/design-system/kanban",
+          "visible": true
+        },
+        {
+          "route": "/design-system/knowledge-graph",
+          "visible": true
+        },
+        {
+          "route": "/design-system/approval",
+          "visible": true
+        },
+        {
+          "route": "/design-system/timeline",
+          "visible": true
+        },
+        {
+          "route": "/design-system/components",
+          "visible": true
+        },
+        {
+          "route": "/design-system/doc-viewer",
+          "visible": true
+        },
+        {
+          "route": "/design-system/explorer",
+          "visible": true
+        },
+        {
+          "route": "/design-system/beads-traversal",
+          "visible": true
+        },
+        {
+          "route": "/design-system/storyboard",
+          "visible": true
+        },
+        {
+          "route": "/design-system/storyboard/:id",
+          "visible": true
+        },
+        {
+          "route": "/design-system/webui-pm-workspace",
+          "visible": true
+        }
+      ],
+      "stateControls": [
+        {
+          "state": "default",
+          "visible": true
+        },
+        {
+          "state": "loading",
+          "visible": true
+        },
+        {
+          "state": "empty",
+          "visible": true
+        },
+        {
+          "state": "error",
+          "visible": true
+        },
+        {
+          "state": "offline",
+          "visible": true
+        },
+        {
+          "state": "forbidden",
+          "visible": true
+        },
+        {
+          "state": "saving",
+          "visible": true
+        },
+        {
+          "state": "success",
+          "visible": true
+        }
+      ],
+      "prdFacingDsAliases": [
+        {
+          "id": "ds:screen:webui-pm-workspace-showcase-001",
+          "visible": true
+        },
+        {
+          "id": "ds:webui-pm-workspace-showcase:header",
+          "visible": true
+        },
+        {
+          "id": "ds:webui-pm-workspace-showcase:sidebar",
+          "visible": true
+        },
+        {
+          "id": "ds:webui-pm-workspace-showcase:boundary-actions",
+          "visible": true
+        },
+        {
+          "id": "ds:webui-pm-workspace-showcase:sync-conflict-banner",
+          "visible": true
+        },
+        {
+          "id": "ds:webui-pm-workspace-showcase:active-surface",
+          "visible": true
+        }
+      ],
+      "browserBoundaryVisible": true,
+      "dsIdCount": 128
+    },
+    "mobile": {
+      "integratedShell": true,
+      "routeCoverageMap": true,
+      "exactRouteEntriesVisible": true,
+      "stateControlsVisible": true,
+      "prdFacingDsAliasesVisible": true
+    }
+  },
+  "interactions": [
+    {
+      "action": "route selection",
+      "target": {
+        "label": "SAFe Board\n/board",
+        "aria": null
+      },
+      "snapshot": {
+        "body": "gmind\nTrang chủ\nKiến trúc\nPrompt Palettes\nNghiên cứu\nDesign System\nGitHub ↗\n> DESIGN SYSTEM\n🏠\nHub\n▶\nMàu sắc\nThang Khoảng cách\nFont\nHiệu ứng Chuyển động\nCác biến thể Thẻ\nNút (Buttons)\nNhãn trạng thái\nBố cục Lưới\nMa trận Trạng thái\nLuồng Người dùng\n> SCREENS\n💻\nTerminal\n▶\nMặc định\nMosaic Layout\n📈\nPortfolio View\n🎯\nPI Planning Sandbox\n🌿\nBeads: Đồ thị Git\n▶\nGitflow Chuẩn\nMulti-Agent Worktree\nHotfix Khẩn Cấp\nRelease Train\nMonorepo\nPRD Trace\nDeadlock Fix\nDS Components\nFull Traversal\nSprint Review\n📋\nKanban\n▶\nSprint Board\nRelease Board\nBug Triage\n🧠\nKnowledge Graph\n▶\nĐơn giản\nHệ sinh thái\nSprint View\n✅\nPhê duyệt & RTM\n▶\nApproval Panels\nRTM Matrix\nCoverage Heatmap\n🧭\nPM Workspace\n▶\nDashboard\nBoard\nPI Planning\nApproval\nGraph\n📅\nTimeline\n▶\nFile Lease\nActivity Feed\nSprint Day\n🧩\nComponents\n▶\nButtons\nBadges & Status\nProgress Bars\nAvatar Stack\nModal\nDropdown\nAccordion\nTab Panel\nData Table\nTooltip\nCode Block\nCards\nPrompt Card\nSection Labels\nStatus Dots\nSkeleton\nEmpty State\nError Banner\n> EXPLORER\n📄\nDoc Viewer\n🔍\nGmind Explorer\n▶\n📄 Docs\n⏺ Commits\n📋 Tasks\n📐 ADR\n💬 Chat\n🔬 Spike\n🔗\nBeads Traversal\n▶\nPRD Sections\nPlan Elements\nTasks\nCommits\n> STORYBOARD\n🗺️\nOverview\n▶\nUC-01: PM Sprint Review\n",
+        "active": "Declared state anchors\n\nNavigated to /board; data resolves through route-scoped REST endpoints.\n\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsaving\nsuccess\n\nCORE WEBUI\n\nSAFe Board\n\n/board\n\ncontract ds:screen:safe-board-001\n\nPortfolio, ART, and team kanban views with WIP and RTE escalation regions.\n\nds:safe-board:view-switcher\n\nbr-prd04-s8.1A WebUI route coverage\n\nOwner: Priya Okafor; status: API mapped.\n\nOpen linked view\nSAFe Board\nds:safe-board:kanban\nReady 4\nbr-plan-04 Approval gate evidence\nBuild 6/7\nbr-prd04-s8.1A WebUI route coverage\nReview 3\nbd-agent-ralph-stage2-build-components\nSAFe Board\nds:safe-board:rte-escalation-badge\n\nbr-plan-04 Approval gate evidence\n\nOwner: Linh Calder; status: API mapped.\n\nOpen linked view\nSAFe Board\nSTATES\ndefault\nloading\nempty\nerror\noffline\nforbidden\ns",
+        "header": "GMIND SERVE REST WORKSPACE\n\nWebUI PM Workspace\n\nIntegrated Core WebUI and PRD-04 showcase shell. Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\nSearch tasks, docs, commits, and Beads IDs\nSearch\nAPI connected"
+      }
+    },
+    {
+      "action": "state toggle",
+      "target": {
+        "label": "error",
+        "aria": null
+      },
+      "snapshot": {
+        "body": "gmind\nTrang chủ\nKiến trúc\nPrompt Palettes\nNghiên cứu\nDesign System\nGitHub ↗\n> DESIGN SYSTEM\n🏠\nHub\n▶\nMàu sắc\nThang Khoảng cách\nFont\nHiệu ứng Chuyển động\nCác biến thể Thẻ\nNút (Buttons)\nNhãn trạng thái\nBố cục Lưới\nMa trận Trạng thái\nLuồng Người dùng\n> SCREENS\n💻\nTerminal\n▶\nMặc định\nMosaic Layout\n📈\nPortfolio View\n🎯\nPI Planning Sandbox\n🌿\nBeads: Đồ thị Git\n▶\nGitflow Chuẩn\nMulti-Agent Worktree\nHotfix Khẩn Cấp\nRelease Train\nMonorepo\nPRD Trace\nDeadlock Fix\nDS Components\nFull Traversal\nSprint Review\n📋\nKanban\n▶\nSprint Board\nRelease Board\nBug Triage\n🧠\nKnowledge Graph\n▶\nĐơn giản\nHệ sinh thái\nSprint View\n✅\nPhê duyệt & RTM\n▶\nApproval Panels\nRTM Matrix\nCoverage Heatmap\n🧭\nPM Workspace\n▶\nDashboard\nBoard\nPI Planning\nApproval\nGraph\n📅\nTimeline\n▶\nFile Lease\nActivity Feed\nSprint Day\n🧩\nComponents\n▶\nButtons\nBadges & Status\nProgress Bars\nAvatar Stack\nModal\nDropdown\nAccordion\nTab Panel\nData Table\nTooltip\nCode Block\nCards\nPrompt Card\nSection Labels\nStatus Dots\nSkeleton\nEmpty State\nError Banner\n> EXPLORER\n📄\nDoc Viewer\n🔍\nGmind Explorer\n▶\n📄 Docs\n⏺ Commits\n📋 Tasks\n📐 ADR\n💬 Chat\n🔬 Spike\n🔗\nBeads Traversal\n▶\nPRD Sections\nPlan Elements\nTasks\nCommits\n> STORYBOARD\n🗺️\nOverview\n▶\nUC-01: PM Sprint Review\n",
+        "active": "Declared state anchors\n\nerror state selected for /board; Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsaving\nsuccess\n\nCORE WEBUI\n\nSAFe Board\n\n/board\n\ncontract ds:screen:safe-board-001\n\nPortfolio, ART, and team kanban views with WIP and RTE escalation regions.\n\nStatus: error\nEvidence request failed\n\nThe request did not complete. Retry keeps the user in the same safe route and preserves API boundary traceability.\n\nRetry route data\nSTATES\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsuccess\nsaving\nREST DATA FLOW\n\nGET /api/tasks?view=board&level=<level>\n\nPUT /api/tasks/:id/status\n\nGET /api/tasks/:id/activity\n\nBrowser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, l",
+        "header": "GMIND SERVE REST WORKSPACE\n\nWebUI PM Workspace\n\nIntegrated Core WebUI and PRD-04 showcase shell. Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\nSearch tasks, docs, commits, and Beads IDs\nSearch\nAPI connected"
+      }
+    },
+    {
+      "action": "offline toggle",
+      "target": {
+        "label": "API connected",
+        "aria": "Switch workspace to offline read-only state"
+      },
+      "snapshot": {
+        "body": "gmind\nTrang chủ\nKiến trúc\nPrompt Palettes\nNghiên cứu\nDesign System\nGitHub ↗\n> DESIGN SYSTEM\n🏠\nHub\n▶\nMàu sắc\nThang Khoảng cách\nFont\nHiệu ứng Chuyển động\nCác biến thể Thẻ\nNút (Buttons)\nNhãn trạng thái\nBố cục Lưới\nMa trận Trạng thái\nLuồng Người dùng\n> SCREENS\n💻\nTerminal\n▶\nMặc định\nMosaic Layout\n📈\nPortfolio View\n🎯\nPI Planning Sandbox\n🌿\nBeads: Đồ thị Git\n▶\nGitflow Chuẩn\nMulti-Agent Worktree\nHotfix Khẩn Cấp\nRelease Train\nMonorepo\nPRD Trace\nDeadlock Fix\nDS Components\nFull Traversal\nSprint Review\n📋\nKanban\n▶\nSprint Board\nRelease Board\nBug Triage\n🧠\nKnowledge Graph\n▶\nĐơn giản\nHệ sinh thái\nSprint View\n✅\nPhê duyệt & RTM\n▶\nApproval Panels\nRTM Matrix\nCoverage Heatmap\n🧭\nPM Workspace\n▶\nDashboard\nBoard\nPI Planning\nApproval\nGraph\n📅\nTimeline\n▶\nFile Lease\nActivity Feed\nSprint Day\n🧩\nComponents\n▶\nButtons\nBadges & Status\nProgress Bars\nAvatar Stack\nModal\nDropdown\nAccordion\nTab Panel\nData Table\nTooltip\nCode Block\nCards\nPrompt Card\nSection Labels\nStatus Dots\nSkeleton\nEmpty State\nError Banner\n> EXPLORER\n📄\nDoc Viewer\n🔍\nGmind Explorer\n▶\n📄 Docs\n⏺ Commits\n📋 Tasks\n📐 ADR\n💬 Chat\n🔬 Spike\n🔗\nBeads Traversal\n▶\nPRD Sections\nPlan Elements\nTasks\nCommits\n> STORYBOARD\n🗺️\nOverview\n▶\nUC-01: PM Sprint Review\n",
+        "active": "Declared state anchors\n\nEVENT_DISCONNECT uses GET /api/health REST mapping; Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsaving\nsuccess\n\nCORE WEBUI\n\nSAFe Board\n\n/board\n\ncontract ds:screen:safe-board-001\n\nPortfolio, ART, and team kanban views with WIP and RTE escalation regions.\n\nStatus: offline\nOffline read-only\n\nCached data remains visible. Writes are queued until health checks recover, then conflict resolution offers keep-local or use-server choices.\n\nReconnect and rehydrate\nSTATES\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsuccess\nsaving\nREST DATA FLOW\n\nGET /api/tasks?view=board&level=<level>\n\nPUT /api/tasks/:id/status\n\nGET /api/tasks/:id/activity\n\nBrowser boundary: Go REST ",
+        "header": "GMIND SERVE REST WORKSPACE\n\nWebUI PM Workspace\n\nIntegrated Core WebUI and PRD-04 showcase shell. Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\nSearch tasks, docs, commits, and Beads IDs\nSearch\nOffline read-only"
+      }
+    },
+    {
+      "action": "reconnect toggle",
+      "target": {
+        "label": "Reconnect and rehydrate",
+        "aria": null
+      },
+      "snapshot": {
+        "body": "gmind\nTrang chủ\nKiến trúc\nPrompt Palettes\nNghiên cứu\nDesign System\nGitHub ↗\n> DESIGN SYSTEM\n🏠\nHub\n▶\nMàu sắc\nThang Khoảng cách\nFont\nHiệu ứng Chuyển động\nCác biến thể Thẻ\nNút (Buttons)\nNhãn trạng thái\nBố cục Lưới\nMa trận Trạng thái\nLuồng Người dùng\n> SCREENS\n💻\nTerminal\n▶\nMặc định\nMosaic Layout\n📈\nPortfolio View\n🎯\nPI Planning Sandbox\n🌿\nBeads: Đồ thị Git\n▶\nGitflow Chuẩn\nMulti-Agent Worktree\nHotfix Khẩn Cấp\nRelease Train\nMonorepo\nPRD Trace\nDeadlock Fix\nDS Components\nFull Traversal\nSprint Review\n📋\nKanban\n▶\nSprint Board\nRelease Board\nBug Triage\n🧠\nKnowledge Graph\n▶\nĐơn giản\nHệ sinh thái\nSprint View\n✅\nPhê duyệt & RTM\n▶\nApproval Panels\nRTM Matrix\nCoverage Heatmap\n🧭\nPM Workspace\n▶\nDashboard\nBoard\nPI Planning\nApproval\nGraph\n📅\nTimeline\n▶\nFile Lease\nActivity Feed\nSprint Day\n🧩\nComponents\n▶\nButtons\nBadges & Status\nProgress Bars\nAvatar Stack\nModal\nDropdown\nAccordion\nTab Panel\nData Table\nTooltip\nCode Block\nCards\nPrompt Card\nSection Labels\nStatus Dots\nSkeleton\nEmpty State\nError Banner\n> EXPLORER\n📄\nDoc Viewer\n🔍\nGmind Explorer\n▶\n📄 Docs\n⏺ Commits\n📋 Tasks\n📐 ADR\n💬 Chat\n🔬 Spike\n🔗\nBeads Traversal\n▶\nPRD Sections\nPlan Elements\nTasks\nCommits\n> STORYBOARD\n🗺️\nOverview\n▶\nUC-01: PM Sprint Review\n",
+        "active": "Declared state anchors\n\nEVENT_RECONNECT uses POST /api/sync/rehydrate REST mapping; Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsaving\nsuccess\n\nCORE WEBUI\n\nSAFe Board\n\n/board\n\ncontract ds:screen:safe-board-001\n\nPortfolio, ART, and team kanban views with WIP and RTE escalation regions.\n\nStatus: error\nEvidence request failed\n\nThe request did not complete. Retry keeps the user in the same safe route and preserves API boundary traceability.\n\nRetry route data\nSTATES\ndefault\nloading\nempty\nerror\noffline\nforbidden\nsuccess\nsaving\nREST DATA FLOW\n\nGET /api/tasks?view=board&level=<level>\n\nPUT /api/tasks/:id/status\n\nGET /api/tasks/:id/activity\n\nBrowser boundary: Go REST API only; no direct sh",
+        "header": "GMIND SERVE REST WORKSPACE\n\nWebUI PM Workspace\n\nIntegrated Core WebUI and PRD-04 showcase shell. Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.\n\nSearch tasks, docs, commits, and Beads IDs\nSearch\nAPI connected"
+      }
+    }
+  ],
+  "consoleErrors": [
+    {
+      "viewport": "desktop",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=3Q_RVrnEegwaXKwuEdTdc' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "desktop",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=3Q_RVrnEegwaXKwuEdTdc' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "desktop",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=3Q_RVrnEegwaXKwuEdTdc' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "desktop",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=3Q_RVrnEegwaXKwuEdTdc' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "desktop",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=3Q_RVrnEegwaXKwuEdTdc' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "desktop",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=3Q_RVrnEegwaXKwuEdTdc' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "mobile",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=rOPYc4od1oTLDglt6ceeS' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "mobile",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=rOPYc4od1oTLDglt6ceeS' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    },
+    {
+      "viewport": "mobile",
+      "text": "WebSocket connection to 'ws://localhost:9993/_next/webpack-hmr?id=rOPYc4od1oTLDglt6ceeS' failed: Error during WebSocket handshake: Unexpected response code: 404"
+    }
+  ],
+  "pageErrors": [],
+  "errors": [],
+  "blockers": [
+    "Browser console emitted Next HMR WebSocket errors on port 9993 during capture."
+  ]
+}

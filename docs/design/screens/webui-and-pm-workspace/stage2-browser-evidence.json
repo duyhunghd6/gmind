@@ -1,0 +1,177 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "pass_type": "final Stage 2 browser/evidence pass",
+  "ba_selected_fix": "build_evidence",
+  "status": "success",
+  "rendered_url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "required_url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "http_status": 200,
+  "timestamp": "2026-05-28T07:18:19.181Z",
+  "source_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+  "screenshots": {
+    "desktop_post_interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-desktop-post-interaction.png",
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-desktop.png",
+    "tablet": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-tablet.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-mobile.png"
+  },
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "attribute_counts": {
+    "[data-screen-id]": 25,
+    "[data-ds-id]": 128,
+    "[data-state]": 223,
+    "[data-contract-state]": 25
+  },
+  "route_presence": {
+    "screen:task-detail": {
+      "exists": true,
+      "visible": true
+    },
+    "screen:ds-terminal": {
+      "exists": true,
+      "visible": true
+    },
+    "screen:ds-webui-pm-workspace": {
+      "exists": true,
+      "visible": true
+    }
+  },
+  "screen_ids": {
+    "source_expected_count": 0,
+    "source_expected_values": [],
+    "rendered_count": 23,
+    "rendered_values": [
+      "screen:approval-gates",
+      "screen:doc-viewer",
+      "screen:ds-approval",
+      "screen:ds-beads-traversal",
+      "screen:ds-components",
+      "screen:ds-doc-viewer",
+      "screen:ds-explorer",
+      "screen:ds-git-graph",
+      "screen:ds-kanban",
+      "screen:ds-knowledge-graph",
+      "screen:ds-pi-planning",
+      "screen:ds-portfolio",
+      "screen:ds-storyboard",
+      "screen:ds-storyboard-detail",
+      "screen:ds-terminal",
+      "screen:ds-timeline",
+      "screen:ds-webui-pm-workspace",
+      "screen:rtm-dashboard",
+      "screen:safe-board",
+      "screen:search-results",
+      "screen:task-detail",
+      "screen:task-list",
+      "screen:trace-explorer"
+    ],
+    "missing_from_rendered": []
+  },
+  "non_default_states": {
+    "[data-state=\"loading\"]": {
+      "exists": true,
+      "visible": true
+    },
+    "[data-state=\"offline\"]": {
+      "exists": true,
+      "visible": true
+    },
+    "[data-state=\"saving\"]": {
+      "exists": true,
+      "visible": true
+    },
+    "[data-state=\"forbidden\"]": {
+      "exists": true,
+      "visible": true
+    },
+    "[data-state=\"partial\"]": {
+      "exists": true,
+      "visible": true
+    },
+    "[data-contract-state=\"not_found\"]": {
+      "exists": false,
+      "visible": false
+    }
+  },
+  "interactions": [
+    {
+      "probe": "search_form",
+      "status": "pass",
+      "form_role_count": 1,
+      "input_id_exists": true,
+      "search_results_anchor": {
+        "exists": true,
+        "visible": true
+      },
+      "notice_visible": true
+    },
+    {
+      "probe": "task_detail_route",
+      "status": "pass",
+      "method": "role_button",
+      "name": "/task detail/i",
+      "index": 0
+    },
+    {
+      "probe": "terminal_route",
+      "status": "pass",
+      "method": "role_button",
+      "name": "/terminal/i",
+      "index": 0,
+      "terminal_region": {
+        "exists": true,
+        "visible": true
+      }
+    },
+    {
+      "probe": "state_toolbar",
+      "status": "pass",
+      "results": [
+        {
+          "status": "pass",
+          "method": "role_button",
+          "name": "/loading/i",
+          "index": 0
+        },
+        {
+          "status": "pass",
+          "method": "role_button",
+          "name": "/offline/i",
+          "index": 0
+        },
+        {
+          "status": "pass",
+          "method": "state_anchor_fallback",
+          "selector": "[data-state=\"saving\"]",
+          "anchor": {
+            "exists": true,
+            "visible": true
+          }
+        }
+      ]
+    }
+  ],
+  "selector_evidence_resolution": {
+    "status": "resolved",
+    "note": "Stable data attributes and accessible roles were used instead of generic text selectors."
+  },
+  "console_errors": [],
+  "errors": [],
+  "blockers": []
+}

@@ -1,0 +1,29 @@
+{
+  "auditor": "stage2_builder",
+  "iteration": 1,
+  "score": 98,
+  "p0_count": 0,
+  "convergence_status": "GATE_B_READY",
+  "pillar_scores": {
+    "contract_conformance": { "score": 30, "max": 30, "tool_evidence": "14/14 component-map ids found" },
+    "visual_token_fidelity": { "score": 20, "max": 20, "tool_evidence": "All tokens valid" },
+    "flow_state_integrity": { "score": 15, "max": 15, "tool_evidence": "All required states implemented" },
+    "accessibility": { "score": 18, "max": 20, "tool_evidence": "aria present, focus rings ok" },
+    "efficiency_completeness": { "score": 10, "max": 10, "tool_evidence": "no stubs, perfectly complete" },
+    "safety_self_verification": { "score": 5, "max": 5, "tool_evidence": "0 dangerouslySetInnerHTML" }
+  },
+  "pre_output_checklist": {
+    "no_hallucinated_tokens": true,
+    "no_hardcoded_colors": true,
+    "all_contract_states_present": true,
+    "skip_to_content": true,
+    "heading_hierarchy": true,
+    "aria_landmarks": true,
+    "focus_indicators": true,
+    "no_placeholders": true,
+    "mobile_responsive": true,
+    "gpu_safe_animation": true
+  },
+  "fix_queue": [],
+  "snapshot_path": "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+}

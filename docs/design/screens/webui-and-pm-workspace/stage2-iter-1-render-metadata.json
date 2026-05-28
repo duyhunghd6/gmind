@@ -1,0 +1,25 @@
+{
+  "status": "success",
+  "url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "screenshots": {
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-desktop.png",
+    "desktop_interactions": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-desktop-interactions.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-mobile.png"
+  },
+  "observations": [
+    "Required shell, route coverage map entries, and state controls are visible.",
+    "route selection /board: clicked",
+    "state toggle error: clicked",
+    "offline control: clicked",
+    "reconnect/offline control second toggle: clicked",
+    "Post-interaction state text includes offline=true, error=true, board=true."
+  ],
+  "errors": [],
+  "console_errors": [],
+  "captured_at": "2026-05-28T05:25:22.888Z",
+  "note": "Rendered through localhost:9993 proxy to existing Next dev server on localhost:3000 because npm run dev could not acquire the existing .next/dev lock."
+}

@@ -1,0 +1,115 @@
+{
+  "auditor": "stage2_builder",
+  "iteration": 4,
+  "score": 94,
+  "p0_count": 0,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "contract_conformance": {
+      "score": 29,
+      "max": 30,
+      "tool_evidence": "115/115 component-map ids found in source; 23/23 contract screen ids found; all required PRD-04 core and §8.1A showcase route strings present; ui-contract YAML block is valid block-style YAML"
+    },
+    "visual_token_fidelity": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "19/19 var(--*) references resolve to DS manifest tokens; 0 hardcoded #/rgb/rgba/hsl color literals in target page"
+    },
+    "flow_state_integrity": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "All contract states present in source and success is Mermaid-derived; 17/17 component-map events found; browser interaction probes did not find task-detail, non-default state, or search selectors"
+    },
+    "accessibility": {
+      "score": 19,
+      "max": 20,
+      "tool_evidence": "skip link present; 1 main, header/banner, nav, footer, 2 forms, 17 aria-label refs, 2 aria-live refs, focus-visible ring utility applied; browser screenshots show very long mobile/tablet scroll but no console errors"
+    },
+    "efficiency_completeness": {
+      "score": 8,
+      "max": 10,
+      "tool_evidence": "145 lines and under 400-line target; no placeholder patterns; route coverage complete; JSX remains highly compressed and browser evidence rendered on port 3000 instead of required 9993"
+    },
+    "safety_self_verification": {
+      "score": 5,
+      "max": 5,
+      "tool_evidence": "0 dangerouslySetInnerHTML; REST-only browser boundary copy present; browser evidence reports 0 console errors and 0 runtime errors"
+    }
+  },
+  "pre_output_checklist": {
+    "no_hallucinated_tokens": true,
+    "no_hardcoded_colors": true,
+    "all_contract_states_present": true,
+    "skip_to_content": true,
+    "heading_hierarchy": true,
+    "aria_landmarks": true,
+    "focus_indicators": true,
+    "no_placeholders": true,
+    "mobile_responsive": true,
+    "gpu_safe_animation": true
+  },
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_states",
+      "detail": "Browser evidence interactionChecks failed to find non-default state controls via /Offline/i | /Saving/i | /Loading/i, even though source declares state buttons. Add or expose stable state control labels/anchors that generic and E2E probes can target."
+    },
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_components",
+      "detail": "Browser evidence interactionChecks failed to find the core task-detail route selector and search form via generic probes, despite source handlers and route constants. Ensure visible labels and stable anchors support task-detail navigation and search interaction probes."
+    },
+    {
+      "priority": "P2",
+      "pillar": "efficiency_completeness",
+      "responsible_builder": "build_layout",
+      "detail": "Browser evidence was rendered at http://localhost:3000/design-system/webui-pm-workspace because port 9993 was unavailable; rerun evidence on the project-standard port 9993 before final Gate B packaging."
+    },
+    {
+      "priority": "P2",
+      "pillar": "efficiency_completeness",
+      "responsible_builder": "build_layout",
+      "detail": "Target file is under 400 lines but dense single-line JSX branches make future diffs and targeted audits harder to review. Split or format without changing behavior."
+    }
+  ],
+  "browser_evidence": {
+    "metadata_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-evidence.json",
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-desktop.png",
+    "desktop_post_interactions": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-desktop-post-interactions.png",
+    "tablet": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-tablet.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-mobile.png",
+    "summary": "status=success, rendered_url=http://localhost:3000/design-system/webui-pm-workspace, data_screen_id_count=25, data_ds_id_count=128, data_state_count=223, console_errors=0; blockers note port 9993 unavailable and generic interaction probes missed task-detail, non-default state, and search selectors."
+  },
+  "mechanical_checks": {
+    "ui_contract_yaml_block_style": true,
+    "component_map_ids_found": "115/115",
+    "missing_data_ds_ids": [],
+    "extra_source_ds_ids": [
+      "ds:global_shell",
+      "ds:screen:approval-001",
+      "ds:screen:beads-traversal-001",
+      "ds:screen:components-001",
+      "ds:screen:doc-viewer-001",
+      "ds:screen:explorer-001",
+      "ds:screen:git-graph-001",
+      "ds:screen:kanban-001",
+      "ds:screen:knowledge-graph-001",
+      "ds:screen:storyboard-001",
+      "ds:screen:terminal-001",
+      "ds:screen:timeline-001"
+    ],
+    "extra_source_ds_id_note": "Extras are PRD-facing aliases carried via data-prd-ds-id or visible alias copy, not missing component-map anchors.",
+    "tokens_valid": "19/19",
+    "invalid_tokens": [],
+    "hardcoded_colors_count": 0,
+    "placeholder_patterns_count": 0,
+    "dangerously_set_inner_html_count": 0,
+    "data_state_source_attributes": 7,
+    "data_contract_state_source_attributes": 2,
+    "mermaid_states_sampled": 21,
+    "mapped_actions_found": "17/17"
+  },
+  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+}

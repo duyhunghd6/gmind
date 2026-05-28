@@ -1,0 +1,45 @@
+{
+  "ba_agent": "stage2_ba",
+  "iteration_analyzed": 4,
+  "action": "CONTINUE",
+  "auditor_score": 94,
+  "qa_status": "QA_PASS",
+  "p0_count": 0,
+  "delta": "-5",
+  "convergence_reason": "Gate B is not clean because the latest auditor score is 94, below the required >=95 threshold, even though P0=0 and QA passed with 6 passed, 0 failed, and 1 skipped suite. The regression from iteration 3 is evidence-driven: QA triaged the task-detail, state-control, and search misses as selector/probe issues rather than source defects, and browser evidence fell back to port 3000 instead of the project-standard 9993. Route a targeted evidence/browser rerun rather than respawning source builders.",
+  "builders_to_respawn": [
+    "build_evidence"
+  ],
+  "fix_queue_per_builder": {
+    "build_evidence": [
+      {
+        "fix": "Update browser interaction probes to target stable source attributes and accessible roles for task-detail navigation, non-default state controls, and the search form instead of broad text regex selectors.",
+        "priority": "P1",
+        "source": "qa_t6_auditor_flow_state_integrity",
+        "responsible_builder": "build_evidence"
+      },
+      {
+        "fix": "Rerun final browser evidence against http://localhost:9993/design-system/webui-pm-workspace and refresh the metadata/screenshots so the rendered_url matches the project-standard port before Gate B packaging.",
+        "priority": "P2",
+        "source": "qa_t7_browser_evidence_auditor_efficiency_completeness",
+        "responsible_builder": "build_evidence"
+      }
+    ]
+  },
+  "skip_builders": [
+    "build_layout",
+    "build_components",
+    "build_states"
+  ],
+  "browser_render_needed": true,
+  "qa_retry_count": 0,
+  "warnings": [
+    "Gate B was not selected because the effective auditor score is 94, below the >=95 threshold.",
+    "QA status is PASS with T7 skipped because port 9993 refused connection; final browser evidence still needs to be rerun on port 9993.",
+    "The latest browser evidence rendered on http://localhost:3000/design-system/webui-pm-workspace after requesting port 9993, so browser artifacts are not final Gate B evidence.",
+    "Auditor P1 findings for task-detail, state, and search interactions conflict with QA source triage; QA found required controls in source and classified the misses as selector/evidence issues, not source defects.",
+    "No source builder respawn is required for this route. Dense JSX formatting remains optional P2 maintainability cleanup and is not blocking this evidence-only rerun.",
+    "build_evidence is an evidence/probe owner from QA, not a source builder in the canonical build_layout/build_components/build_states set. It is used here intentionally to avoid unnecessary source edits."
+  ],
+  "gate_b_summary": null
+}

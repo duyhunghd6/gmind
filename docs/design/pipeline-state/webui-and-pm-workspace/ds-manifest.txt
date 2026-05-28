@@ -1,0 +1,81 @@
+# Stage 2 DS Manifest — webui-and-pm-workspace
+
+refreshed_at: 2026-05-28T00:00:00Z
+sources:
+- packages/design-system/registry.json
+- packages/design-system/index.css
+- packages/design-system/tokens/colors.css
+- packages/design-system/tokens/typography.css
+- packages/design-system/tokens/spacing.css
+- packages/design-system/tokens/accessibility.css
+- apps/website/src/app/globals.css
+
+registry:
+  version: 1.3.0
+  tokens: 3
+  components: 20
+  layouts: 12
+
+tokens_available:
+- --bg
+- --surface
+- --surface-elevated
+- --text
+- --text-dim
+- --border
+- --border-highlight
+- --accent-cyan
+- --accent-cyan-dim
+- --accent-teal
+- --accent-teal-dim
+- --accent-amber
+- --accent-amber-dim
+- --accent-rose
+- --accent-rose-dim
+- --blueprint-line
+- --radius
+- --radius-lg
+- --space-xs
+- --space-sm
+- --space-md
+- --space-lg
+- --space-xl
+- --space-2xl
+- --ease-out
+- --duration-fast
+- --duration-normal
+- --duration-slow
+- --font-body
+- --font-mono
+
+component_classes_available:
+- btn-primary, btn-secondary, btn-danger, btn-sm
+- badge, badge-cyan, badge-teal, badge-amber, badge-rose
+- terminal, terminal--scanline
+- kanban-column, kanban-board__columns
+- approval-panel
+- data-table
+- graph-node, graph-node--prd, graph-node--task, graph-node--commit
+- heatmap-cell, heatmap-cell--25, heatmap-cell--50, heatmap-cell--75, heatmap-cell--100
+- path-tree
+- file-lease, file-lease--unlocked, file-lease--locked, file-lease--expiring, file-lease--expired
+- skeleton, skeleton-group, skeleton--text-full, skeleton--text-short, skeleton--card
+
+layout_classes_available:
+- docs-layout, docs-sidebar, docs-content
+- kanban-board
+- terminal-mosaic
+- timeline
+- split-panel
+
+globals_css:
+  imports_tailwind: true
+  imports_design_system_index: true
+  theme_maps_background_to: var(--bg)
+  theme_maps_foreground_to: var(--text)
+  font_sans: DM Sans
+  font_mono: Fira Code
+
+stage2_layout_usage:
+  target_page: apps/website/src/app/design-system/webui-pm-workspace/page.tsx
+  policy: Use registry classes plus CSS custom properties from token sources; do not introduce hardcoded colors in the page skeleton.

@@ -1,0 +1,146 @@
+{
+  "status": "success",
+  "captured_at": "2026-05-28T05:45:26.558Z",
+  "target_url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "tcp_forwarder": true,
+  "viewport_desktop": {
+    "width": 1440,
+    "height": 900
+  },
+  "viewport_mobile": {
+    "width": 390,
+    "height": 844
+  },
+  "screenshots": {
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-desktop.png",
+    "interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-desktop-interactions.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-mobile.png",
+    "metadata": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-render-metadata.json"
+  },
+  "verification": {
+    "integrated_shell_visible": true,
+    "route_coverage_map_visible": true,
+    "missing_route_entries": [],
+    "missing_state_controls": [],
+    "missing_prd_facing_ds_id_aliases": [],
+    "browser_boundary_messaging_visible": true,
+    "data_ds_ids_visible_count": 7,
+    "route_selection_exercised": true,
+    "state_toggle_exercised": true,
+    "offline_exercised": true,
+    "reconnect_exercised": true,
+    "mobile_shell_visible": true
+  },
+  "route_entries_expected": [
+    {
+      "label": "RTM Dashboard",
+      "route": "/"
+    },
+    {
+      "label": "SAFe Board",
+      "route": "/board"
+    },
+    {
+      "label": "Task List",
+      "route": "/tasks"
+    },
+    {
+      "label": "Task Detail",
+      "route": "/tasks/:id"
+    },
+    {
+      "label": "Trace Explorer",
+      "route": "/trace/:id"
+    },
+    {
+      "label": "Core Doc Viewer",
+      "route": "/docs"
+    },
+    {
+      "label": "Approval Gates",
+      "route": "/approval"
+    },
+    {
+      "label": "Search Results",
+      "route": "/search"
+    },
+    {
+      "label": "Terminal",
+      "route": "/design-system/terminal"
+    },
+    {
+      "label": "Portfolio",
+      "route": "/design-system/portfolio"
+    },
+    {
+      "label": "PI Planning",
+      "route": "/design-system/pi-planning"
+    },
+    {
+      "label": "Git Graph",
+      "route": "/design-system/git-graph"
+    },
+    {
+      "label": "Kanban",
+      "route": "/design-system/kanban"
+    },
+    {
+      "label": "Knowledge Graph",
+      "route": "/design-system/knowledge-graph"
+    },
+    {
+      "label": "Approval",
+      "route": "/design-system/approval"
+    },
+    {
+      "label": "Timeline",
+      "route": "/design-system/timeline"
+    },
+    {
+      "label": "Components",
+      "route": "/design-system/components"
+    },
+    {
+      "label": "DS Doc Viewer",
+      "route": "/design-system/doc-viewer"
+    },
+    {
+      "label": "Explorer",
+      "route": "/design-system/explorer"
+    },
+    {
+      "label": "Beads Traversal",
+      "route": "/design-system/beads-traversal"
+    },
+    {
+      "label": "Storyboard",
+      "route": "/design-system/storyboard"
+    },
+    {
+      "label": "Storyboard Detail",
+      "route": "/design-system/storyboard/:id"
+    },
+    {
+      "label": "WebUI PM Workspace",
+      "route": "/design-system/webui-pm-workspace"
+    }
+  ],
+  "state_controls_expected": [
+    "default",
+    "loading",
+    "empty",
+    "error",
+    "offline",
+    "forbidden",
+    "saving",
+    "success"
+  ],
+  "interactions": [
+    "selected route: SAFe Board /board",
+    "selected state control: error",
+    "offline toggle: API connected -> Reconnect and rehydrate",
+    "reconnect toggle: Reconnect and rehydrate -> API connected"
+  ],
+  "console_errors": [],
+  "errors": []
+}
