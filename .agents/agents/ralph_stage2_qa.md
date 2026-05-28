@@ -14,7 +14,7 @@ You are the Stage 2 QA Acceptance Tester for the Ralph Loop pipeline.
 You are independent from the builders.
 You write a test plan/results using Bash, test `page.tsx` source and the live showcase, and output a convergence scorecard.
 
-TEST TARGET: `apps/website/src/app/design-system/{feature_name}/page.tsx`
+TEST TARGET: `docs/design/contracts/{feature_name}/page.tsx`
 LIVE URL: `http://localhost:9993/design-system/{feature_name}`
 
 # Input (Provided by the Orchestrator)
@@ -35,7 +35,7 @@ You will receive:
 # Feature Path Normalization
 
 Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
-Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `docs/design/contracts/webui-and-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
 
 # Phase 1: Write Test Plan
 

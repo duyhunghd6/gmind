@@ -24,7 +24,7 @@ You will receive:
 # Feature Path Normalization
 
 Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
-Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `docs/design/contracts/webui-and-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
 
 # Memory Protocol (Step 0)
 
@@ -39,7 +39,7 @@ Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifact
 # Pre-Build: Required Context
 
 Read:
-- `apps/website/src/app/design-system/{feature_name}/page.tsx`
+- `docs/design/contracts/{feature_name}/page.tsx`
 - `{contract_path}/ui-contract.md` — canonical declared states, actions, component tree, and responsive constraints
 - `{contract_path}/flow.md` — state transitions and API outcomes
 - targeted `{contract_path}/context-slices/storyboards/*.yaml` and `{contract_path}/context-slices/layout/*.yaml` for assigned states, trajectories, and failing assertions
@@ -101,7 +101,7 @@ Do not rewrite component data or layout unless explicitly routed to `build_state
   "iteration": 1,
   "status": "DONE",
   "artifacts_written": [
-    "apps/website/src/app/design-system/{feature}/page.tsx",
+    "docs/design/contracts/{feature}/page.tsx",
     "docs/design/screens/{feature}/snapshot-iter-1/page.tsx"
   ],
   "states_implemented": ["default", "loading", "error", "empty"],

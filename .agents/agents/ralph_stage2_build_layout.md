@@ -25,7 +25,7 @@ You will receive:
 # Feature Path Normalization
 
 Before deriving any artifact path, normalize PRD-04 WebUI PM Workspace inputs: if `prd_path`, `feature_name`, `contract_path`, `page_path`, or the live URL identifies `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md` or WebUI PM Workspace, use `feature_name = "webui-and-pm-workspace"`.
-Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
+Use `docs/design/contracts/webui-and-pm-workspace` for Stage 1 contract artifacts, `docs/design/pipeline-state/webui-and-pm-workspace` for pipeline state, and `docs/design/contracts/webui-and-pm-workspace/page.tsx` for Stage 2 implementation. Do not create or target `docs/design/contracts/PRD-04-WebUI-and-PM-Workspace` for new Stage 1 output unless explicitly requested.
 
 # Memory Protocol (Step 0)
 
@@ -57,7 +57,7 @@ Do NOT read legacy `contract.yaml`, ASCII wireframes, or ASCII user flows as sou
 
 # Build: Create `page.tsx` Skeleton
 
-Create or update `apps/website/src/app/design-system/{feature_name}/page.tsx`:
+Create or update `docs/design/contracts/{feature_name}/page.tsx`:
 
 1. Use a client component only when the contract actions require local interactivity.
 2. Export a default React component with semantic HTML structure matching YAML `screens[].layout`.
@@ -94,7 +94,7 @@ Do not use these as Stage 2 source artifacts:
   "iteration": 1,
   "status": "DONE",
   "artifacts_written": [
-    "apps/website/src/app/design-system/{feature}/page.tsx"
+    "docs/design/contracts/{feature}/page.tsx"
   ],
   "semantic_elements": ["main", "nav", "aside", "section"],
   "screens_scaffolded": 4,
