@@ -1,0 +1,28 @@
+ds_id: ds:global-shell:root
+screen_id: screen:global-shell
+screen_ds_id: ds:screen:webui-pm-workspace-001
+route: /design-system/webui-pm-workspace
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+- sync_conflict
+actions: []
+bindings: {}
+ds_type: Shell
+data_flow_endpoints:
+- GET /api/health
+- GET /api/coverage
+- GET /api/tasks
+- GET /api/trace/:id
+- GET /api/docs
+- GET /api/search
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

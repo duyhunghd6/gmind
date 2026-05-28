@@ -1,0 +1,26 @@
+ds_id: ds:approval:evidence-hub
+screen_id: screen:approval-gates
+screen_ds_id: ds:screen:approval-001
+route: /approval
+showcase_route: /design-system/approval
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- insufficient_evidence
+- decision_submitted
+actions: []
+bindings: {}
+ds_type: EvidenceHub
+data_flow_endpoints:
+- GET /api/tasks?status=pending-approval
+- GET /api/approval/:id/evidence
+- GET /api/coverage
+- POST /api/approval/:id/decision
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

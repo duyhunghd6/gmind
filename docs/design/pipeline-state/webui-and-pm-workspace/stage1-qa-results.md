@@ -1,23 +1,27 @@
 # Stage 1 QA Results: WebUI PM Workspace
-<!-- beads-id: br-agent-ralph-stage1-qa-results-webui-pm-workspace -->
 
-Gate A recommendation: APPROVE (QA_PASS).
-Passed 8/8 suites after independent rerun against `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace`.
+<!-- beads-id: br-agent-ralph-stage1-qa -->
 
-- T1_contract_container: PASS — 1 YAML block, 1 Mermaid block, block-style YAML, preview manifest/YAML parser OK at /Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md
-- T2_yaml_schema: PASS — 23 screens have routes, states, layout; metadata/viewports present; nested DS components missing type=0
-- T3_component_traceability: PASS — 115/115 YAML ds_ids unique; all mapped once in component-map; invalid entries=0
-- T4_mermaid_logic: PASS — flow.md has 1 Mermaid block faithful to ui-contract; validator PASS=True; error/retry-via-refresh/back/success paths present=True/True/True/True; standalone .mmd=0
-- T5_storyboards: PASS — 13 trajectories replayable; 13 PRD journeys; recovery path=True; DS-targeted steps=27
-- T6_layout_review_diagrams: PASS — layout viewports match; 46 review Mermaid blocks; validator PASS; split files_changed=0; required diagram topics present; standalone .mmd=0
-- T7_conflicts_preview: PASS — conflicts actionable/resolved; preview index and manifest exist; manifest warnings=0
-- T8_artifact_budget_slices: PASS — large JSON machine evidence with summary/context load policies; 563 context slices; preview manifest summary present; required artifacts present; no ASCII/.mmd sources; all §8.1A routes and API/state mappings covered
+Convergence status: QA_FAIL
+Gate A readiness: NOT READY
+Passed: 4/8
 
-## Blockers / Residual Risks
-<!-- beads-id: br-agent-ralph-stage1-qa-results-webui-pm-workspace-risks -->
-- No Gate A blockers found. Residual P2 hygiene only: `ui-contract.md` and `artifact-index.json` remain large, but artifact-index load policies and context slices keep raw machine evidence out of mandatory human review.
+## Suite Results
+- **T1_contract_container**: PASS — 1 YAML block, 1 Mermaid block, block-style YAML, preview parser proxy OK
+- **T2_yaml_schema**: PASS — 18 screens have required route/states/layout fields; 77 nested DS components checked
+- **T3_component_traceability**: PASS — 95 YAML ds_id values mapped in component-map with no duplicates
+- **T4_mermaid_logic**: FAIL — Mermaid validator passes; 1 flow.md block; no standalone .mmd; PRD-required retry path absent
+  - Fix: Add retry transition/path to ui-contract Mermaid Logic Machine and flow.md
+- **T5_storyboards**: FAIL — 16 trajectories parse; requested route families and document-graph-widget coverage present; all 35 steps lack explicit action/event field
+  - Fix: Add explicit action or event field to each storyboard step, or document a schema-level mapping from trajectory events to steps
+- **T6_layout_review_diagrams**: PASS — 3 viewports covered; 26 review-diagrams Mermaid blocks; split_mermaid_subgraphs files_changed=0; validator passes
+- **T7_conflicts_preview**: FAIL — Conflicts artifact exists and warnings are zero, but preview manifest has no explicit OK/status field
+  - Fix: Add explicit status/ok field to preview/preview-manifest.json reporting OK
+- **T8_artifact_budget_slices**: FAIL — artifact-index parses; slices exist; storyboards/layout/component-map are machine-evidence; preview manifest is role preview-output, not machine-evidence
+  - Fix: Mark preview/preview-manifest.json as machine-evidence or document an equivalent machine-evidence role accepted by Gate A
 
-## Evidence
-<!-- beads-id: br-agent-ralph-stage1-qa-results-webui-pm-workspace-evidence -->
-- Mermaid validator PASS; split dry run files_changed=0.
-- Preview manifest parses with zero warnings; summary slice exists.
+## Fix Queue
+- P0 T4 -> gen_flows: Add retry transition/path to ui-contract Mermaid Logic Machine and flow.md
+- P0 T5 -> gen_storyboards: Add explicit action/event field to each storyboard step or define accepted step-to-event mapping
+- P0 T7 -> gen_preview: preview-manifest.json lacks explicit OK/status field
+- P0 T8 -> gen_summary: preview/preview-manifest.json is not marked machine-evidence in artifact-index

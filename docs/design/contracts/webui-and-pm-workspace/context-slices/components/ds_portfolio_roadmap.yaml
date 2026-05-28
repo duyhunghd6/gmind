@@ -1,0 +1,22 @@
+ds_id: ds:portfolio:roadmap
+screen_id: screen:portfolio
+screen_ds_id: ds:screen:portfolio-001
+route: /portfolio
+showcase_route: /design-system/portfolio
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: Roadmap
+data_flow_endpoints:
+- GET /api/portfolio/epics
+- GET /api/tasks?issue_type=epic
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

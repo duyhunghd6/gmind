@@ -1,0 +1,35 @@
+ds_id: ds:screen:components-001
+screen_id: screen:components-catalog
+route: /design-system/components
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: Screen
+data_flow_endpoints:
+- GET /api/design-system/components
+anchors:
+- buttons
+- badges-status
+- progress
+- avatar-stack
+- modal
+- dropdown
+- accordion
+- tab-panel
+- data-table
+- tooltip
+- code-block
+- cards
+- prompt-card
+- section-labels
+- status-dots
+- skeleton
+- empty-state
+- error-banner

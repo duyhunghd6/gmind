@@ -1,12 +1,8 @@
 ds_id: ds:rtm-dashboard:coverage-heatmap
-type: CoverageHeatmap
-parent_ds_id: ds:rtm-dashboard:surface
-actions:
-- EVENT_VIEW_TRACE
 screen_id: screen:rtm-dashboard
-screen_route: /
 screen_ds_id: ds:screen:rtm-dashboard-001
-prd_ds_id: null
+route: /
+showcase_route: /design-system/webui-pm-workspace#surface-rtm-dashboard
 states:
 - default
 - loading
@@ -14,16 +10,16 @@ states:
 - error
 - offline
 - forbidden
-bindings:
+actions:
+- EVENT_VIEW_TRACE
+bindings: {}
+ds_type: CoverageHeatmap
+data_flow_endpoints:
 - GET /api/coverage
 - GET /api/tasks
 - GET /api/trace/:id?depth=2
 - GET /api/gaps
-layout: four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge
-  graph, and gap analysis
-behaviors:
-- drill into PRD and section coverage
-- click graph nodes to show trace details
-- resolve gaps with create or source navigation action
-api_gateway: gmind serve Go REST API
-hash_route_interactions: []
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

@@ -1,0 +1,21 @@
+ds_id: ds:storyboard-overview:flow
+screen_id: screen:storyboard-overview
+screen_ds_id: ds:screen:storyboard-001
+route: /storyboards
+showcase_route: /design-system/storyboard
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: UsecaseFlow
+data_flow_endpoints:
+- GET /api/storyboards
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

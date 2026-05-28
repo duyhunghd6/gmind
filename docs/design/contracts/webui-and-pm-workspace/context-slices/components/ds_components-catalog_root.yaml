@@ -1,0 +1,21 @@
+ds_id: ds:components-catalog:root
+screen_id: screen:components-catalog
+screen_ds_id: ds:screen:components-001
+route: /design-system/components
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: ComponentsCatalogSurface
+data_flow_endpoints:
+- GET /api/design-system/components
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

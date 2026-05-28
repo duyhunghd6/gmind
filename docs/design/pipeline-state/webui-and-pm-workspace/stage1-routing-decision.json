@@ -1,39 +1,52 @@
 {
   "ba_agent": "stage1_ba",
-  "iteration_analyzed": 1,
+  "iteration_analyzed": 2,
   "action": "CONTINUE",
-  "current_score": 85,
+  "current_score": 95,
   "delta": "+0",
-  "convergence_reason": "Iteration 1 score is 85, below the 90 Gate A threshold; evaluator status is CONTINUE with two P1 drift issues and no P0 issues.",
+  "convergence_reason": "Independent Stage 1 QA ran after evaluator Gate A readiness and failed 4 of 8 suites. Gate A is blocked until P0 QA failures in Mermaid retry coverage, storyboard step action/event traceability, preview manifest status, and preview manifest machine-evidence indexing are fixed and QA passes.",
   "agents_to_respawn": [
-    "gen_contracts",
-    "gen_flows"
+    "gen_flows",
+    "preview_script"
   ],
   "fix_queue_per_agent": {
-    "gen_contracts": [
+    "gen_flows": [
       {
-        "fix": "Resolve the legacy normalized-path violation at docs/design/contracts/PRD-04-WebUI-and-PM-Workspace using a non-destructive approach unless explicit user approval is given for deletion; keep the canonical package at docs/design/contracts/webui-and-pm-workspace.",
-        "priority": "P1",
+        "fix": "Add the PRD-required retry transition/path to the ui-contract.md Mermaid Logic Machine and flow.md.",
+        "priority": "P0",
+        "pillar": "logic_coverage"
+      },
+      {
+        "fix": "Add an explicit action or event field to each storyboard step in storyboards.json and update storyboard review artifacts, or define an accepted schema-level mapping from trajectory events to steps.",
+        "priority": "P0",
+        "pillar": "derived_artifact_consistency"
+      },
+      {
+        "fix": "Update artifact-index.json so preview/preview-manifest.json is marked as machine-evidence, or document an equivalent Gate A machine-evidence role accepted by QA.",
+        "priority": "P0",
         "pillar": "conflict_preview_readiness"
       }
     ],
-    "gen_flows": [
+    "preview_script": [
       {
-        "fix": "Remove or regenerate the stale component context slice for ds:webui-pm-workspace-showcase:sidebar and align it to the canonical ui-contract.md ds_id ds:webui-pm-workspace-showcase:sidebar-nav; update contract-summary component counts to match component-map.json.",
-        "priority": "P1",
-        "pillar": "derived_artifact_consistency"
+        "fix": "Add an explicit status or ok field to preview/preview-manifest.json reporting OK when preview generation succeeds with zero warnings.",
+        "priority": "P0",
+        "pillar": "conflict_preview_readiness"
       }
     ]
   },
   "skip_agents": [
+    "gen_contracts",
     "gen_wireframes",
-    "preview_script",
     "prd_writer"
   ],
-  "qa_required": false,
+  "qa_required": true,
   "warnings": [
-    "No standalone .mmd files were found under /Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace.",
-    "Do not delete or overwrite legacy contract artifacts without explicit user approval; route gen_contracts toward non-destructive archival, ignore-listing, or approval-gated cleanup."
+    "No standalone Mermaid .mmd artifacts were found under the contract root.",
+    "QA fix owners gen_storyboards, gen_preview, and gen_summary were normalized to allowed Ralph Loop owners gen_flows and preview_script.",
+    "Do not rerun review diagrams unless the Mermaid Logic Machine retry-path change requires review-diagram synchronization.",
+    "Evaluator still reports a non-blocking P2 polish item: ui-contract.md is slightly above the repository documentation guideline at 1007 lines. This is not part of the selective P0 QA fix route.",
+    "No PRD writer route is needed because QA identifies missing contract/artifact coverage for an existing PRD-required retry path, not a missing PRD requirement."
   ],
   "gate_a_summary": null
 }

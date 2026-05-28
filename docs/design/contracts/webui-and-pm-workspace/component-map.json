@@ -1,578 +1,36 @@
 {
-  "feature": "webui-and-pm-workspace",
-  "generated_from": [
-    "ui-contract.md",
-    "PRD-04-WebUI-and-PM-Workspace.md"
-  ],
-  "coverage": {
-    "screens": 23,
-    "components": 115,
-    "action_events_mapped": [
+  "metadata": {
+    "feature": "webui-and-pm-workspace",
+    "component_count": 95,
+    "action_events": [
+      "EVENT_ROUTE_ENTER",
+      "EVENT_HASH_NAVIGATE",
+      "EVENT_REFRESH",
+      "EVENT_SEARCH",
+      "EVENT_VIEW_TASK",
+      "EVENT_VIEW_TRACE",
+      "EVENT_VIEW_DOC",
+      "EVENT_SAVE_TASK",
+      "EVENT_SAVE_BULK",
+      "EVENT_MOVE_CARD",
       "EVENT_APPROVAL_DECISION",
-      "EVENT_BACK",
+      "EVENT_PI_PLAN_SAVE",
       "EVENT_CONFIDENCE_VOTE",
       "EVENT_DISCONNECT",
-      "EVENT_HASH_NAVIGATE",
-      "EVENT_KEEP_LOCAL",
-      "EVENT_MOVE_CARD",
-      "EVENT_PI_PLAN_SAVE",
       "EVENT_RECONNECT",
-      "EVENT_REFRESH",
-      "EVENT_SAVE_BULK",
-      "EVENT_SAVE_TASK",
-      "EVENT_SEARCH",
+      "EVENT_KEEP_LOCAL",
       "EVENT_USE_SERVER",
-      "EVENT_VIEW_DOC",
-      "EVENT_VIEW_TASK",
-      "EVENT_VIEW_TRACE"
-    ],
-    "routes": [
-      "/",
-      "/board",
-      "/tasks",
-      "/tasks/:id",
-      "/trace/:id",
-      "/docs",
-      "/approval",
-      "/search",
-      "/design-system/terminal",
-      "/design-system/portfolio",
-      "/design-system/pi-planning",
-      "/design-system/git-graph",
-      "/design-system/kanban",
-      "/design-system/knowledge-graph",
-      "/design-system/approval",
-      "/design-system/timeline",
-      "/design-system/components",
-      "/design-system/doc-viewer",
-      "/design-system/explorer",
-      "/design-system/beads-traversal",
-      "/design-system/storyboard",
-      "/design-system/storyboard/:id",
-      "/design-system/webui-pm-workspace"
+      "EVENT_BACK",
+      "EVENT_OPEN_OVERLAY",
+      "EVENT_CLOSE_OVERLAY"
     ]
   },
   "components": [
     {
-      "ds_id": "ds:screen:rtm-dashboard-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:rtm-dashboard",
-      "screen_route": "/",
-      "screen_ds_id": "ds:screen:rtm-dashboard-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/coverage",
-        "GET /api/tasks",
-        "GET /api/trace/:id?depth=2",
-        "GET /api/gaps"
-      ],
-      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
-      "behaviors": [
-        "drill into PRD and section coverage",
-        "click graph nodes to show trace details",
-        "resolve gaps with create or source navigation action"
-      ]
-    },
-    {
-      "ds_id": "ds:rtm-dashboard:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:rtm-dashboard-001",
-      "actions": [],
-      "screen_id": "screen:rtm-dashboard",
-      "screen_route": "/",
-      "screen_ds_id": "ds:screen:rtm-dashboard-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/coverage",
-        "GET /api/tasks",
-        "GET /api/trace/:id?depth=2",
-        "GET /api/gaps"
-      ],
-      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
-      "behaviors": [
-        "drill into PRD and section coverage",
-        "click graph nodes to show trace details",
-        "resolve gaps with create or source navigation action"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:rtm-dashboard:coverage-heatmap",
-      "type": "CoverageHeatmap",
-      "parent_ds_id": "ds:rtm-dashboard:surface",
-      "actions": [
-        "EVENT_VIEW_TRACE"
-      ],
-      "screen_id": "screen:rtm-dashboard",
-      "screen_route": "/",
-      "screen_ds_id": "ds:screen:rtm-dashboard-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/coverage",
-        "GET /api/tasks",
-        "GET /api/trace/:id?depth=2",
-        "GET /api/gaps"
-      ],
-      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
-      "behaviors": [
-        "drill into PRD and section coverage",
-        "click graph nodes to show trace details",
-        "resolve gaps with create or source navigation action"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:rtm-dashboard:task-progress",
-      "type": "TaskProgressPanel",
-      "parent_ds_id": "ds:rtm-dashboard:surface",
-      "actions": [
-        "EVENT_VIEW_TASK"
-      ],
-      "screen_id": "screen:rtm-dashboard",
-      "screen_route": "/",
-      "screen_ds_id": "ds:screen:rtm-dashboard-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/coverage",
-        "GET /api/tasks",
-        "GET /api/trace/:id?depth=2",
-        "GET /api/gaps"
-      ],
-      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
-      "behaviors": [
-        "drill into PRD and section coverage",
-        "click graph nodes to show trace details",
-        "resolve gaps with create or source navigation action"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:rtm-dashboard:knowledge-graph",
-      "type": "KnowledgeGraphPanel",
-      "parent_ds_id": "ds:rtm-dashboard:surface",
-      "actions": [
-        "EVENT_VIEW_TRACE"
-      ],
-      "screen_id": "screen:rtm-dashboard",
-      "screen_route": "/",
-      "screen_ds_id": "ds:screen:rtm-dashboard-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/coverage",
-        "GET /api/tasks",
-        "GET /api/trace/:id?depth=2",
-        "GET /api/gaps"
-      ],
-      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
-      "behaviors": [
-        "drill into PRD and section coverage",
-        "click graph nodes to show trace details",
-        "resolve gaps with create or source navigation action"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:rtm-dashboard:gap-analysis",
-      "type": "GapAnalysisPanel",
-      "parent_ds_id": "ds:rtm-dashboard:surface",
-      "actions": [
-        "EVENT_REFRESH"
-      ],
-      "screen_id": "screen:rtm-dashboard",
-      "screen_route": "/",
-      "screen_ds_id": "ds:screen:rtm-dashboard-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/coverage",
-        "GET /api/tasks",
-        "GET /api/trace/:id?depth=2",
-        "GET /api/gaps"
-      ],
-      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
-      "behaviors": [
-        "drill into PRD and section coverage",
-        "click graph nodes to show trace details",
-        "resolve gaps with create or source navigation action"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:safe-board-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:safe-board",
-      "screen_route": "/board",
-      "screen_ds_id": "ds:screen:safe-board-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&level=<level>",
-        "PUT /api/tasks/:id/status",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
-      "behaviors": [
-        "switch Portfolio, ART, and Team board scopes",
-        "drag task cards across statuses",
-        "open RTE drawer from escalation badge"
-      ]
-    },
-    {
-      "ds_id": "ds:safe-board:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:safe-board-001",
-      "actions": [],
-      "screen_id": "screen:safe-board",
-      "screen_route": "/board",
-      "screen_ds_id": "ds:screen:safe-board-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&level=<level>",
-        "PUT /api/tasks/:id/status",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
-      "behaviors": [
-        "switch Portfolio, ART, and Team board scopes",
-        "drag task cards across statuses",
-        "open RTE drawer from escalation badge"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:safe-board:view-switcher",
-      "type": "BoardSwitcher",
-      "parent_ds_id": "ds:safe-board:surface",
-      "actions": [],
-      "screen_id": "screen:safe-board",
-      "screen_route": "/board",
-      "screen_ds_id": "ds:screen:safe-board-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&level=<level>",
-        "PUT /api/tasks/:id/status",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
-      "behaviors": [
-        "switch Portfolio, ART, and Team board scopes",
-        "drag task cards across statuses",
-        "open RTE drawer from escalation badge"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:safe-board:kanban",
-      "type": "KanbanBoard",
-      "parent_ds_id": "ds:safe-board:surface",
-      "actions": [
-        "EVENT_MOVE_CARD",
-        "EVENT_VIEW_TASK"
-      ],
-      "screen_id": "screen:safe-board",
-      "screen_route": "/board",
-      "screen_ds_id": "ds:screen:safe-board-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&level=<level>",
-        "PUT /api/tasks/:id/status",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
-      "behaviors": [
-        "switch Portfolio, ART, and Team board scopes",
-        "drag task cards across statuses",
-        "open RTE drawer from escalation badge"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:safe-board:rte-escalation-badge",
-      "type": "RteEscalationBadge",
-      "parent_ds_id": "ds:safe-board:surface",
-      "actions": [],
-      "screen_id": "screen:safe-board",
-      "screen_route": "/board",
-      "screen_ds_id": "ds:screen:safe-board-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&level=<level>",
-        "PUT /api/tasks/:id/status",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
-      "behaviors": [
-        "switch Portfolio, ART, and Team board scopes",
-        "drag task cards across statuses",
-        "open RTE drawer from escalation badge"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:task-list-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:task-list",
-      "screen_route": "/tasks",
-      "screen_ds_id": "ds:screen:task-list-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving"
-      ],
-      "bindings": [
-        "GET /api/tasks?format=list",
-        "PUT /api/tasks/bulk"
-      ],
-      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
-      "behaviors": [
-        "combine status, priority, assignee, PRD, and QA filters",
-        "select visible rows and bulk assign, status, or priority",
-        "switch between list and board presentation"
-      ]
-    },
-    {
-      "ds_id": "ds:task-list:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:task-list-001",
-      "actions": [],
-      "screen_id": "screen:task-list",
-      "screen_route": "/tasks",
-      "screen_ds_id": "ds:screen:task-list-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving"
-      ],
-      "bindings": [
-        "GET /api/tasks?format=list",
-        "PUT /api/tasks/bulk"
-      ],
-      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
-      "behaviors": [
-        "combine status, priority, assignee, PRD, and QA filters",
-        "select visible rows and bulk assign, status, or priority",
-        "switch between list and board presentation"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:task-list:filters",
-      "type": "TaskFilters",
-      "parent_ds_id": "ds:task-list:surface",
-      "actions": [],
-      "screen_id": "screen:task-list",
-      "screen_route": "/tasks",
-      "screen_ds_id": "ds:screen:task-list-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving"
-      ],
-      "bindings": [
-        "GET /api/tasks?format=list",
-        "PUT /api/tasks/bulk"
-      ],
-      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
-      "behaviors": [
-        "combine status, priority, assignee, PRD, and QA filters",
-        "select visible rows and bulk assign, status, or priority",
-        "switch between list and board presentation"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:task-list:table",
-      "type": "TaskTable",
-      "parent_ds_id": "ds:task-list:surface",
-      "actions": [
-        "EVENT_VIEW_TASK"
-      ],
-      "screen_id": "screen:task-list",
-      "screen_route": "/tasks",
-      "screen_ds_id": "ds:screen:task-list-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving"
-      ],
-      "bindings": [
-        "GET /api/tasks?format=list",
-        "PUT /api/tasks/bulk"
-      ],
-      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
-      "behaviors": [
-        "combine status, priority, assignee, PRD, and QA filters",
-        "select visible rows and bulk assign, status, or priority",
-        "switch between list and board presentation"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:task-list:bulk-actions",
-      "type": "BulkActionBar",
-      "parent_ds_id": "ds:task-list:surface",
-      "actions": [
-        "EVENT_SAVE_BULK"
-      ],
-      "screen_id": "screen:task-list",
-      "screen_route": "/tasks",
-      "screen_ds_id": "ds:screen:task-list-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving"
-      ],
-      "bindings": [
-        "GET /api/tasks?format=list",
-        "PUT /api/tasks/bulk"
-      ],
-      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
-      "behaviors": [
-        "combine status, priority, assignee, PRD, and QA filters",
-        "select visible rows and bulk assign, status, or priority",
-        "switch between list and board presentation"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:task-detail-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:task-detail",
-      "screen_route": "/tasks/:id",
-      "screen_ds_id": "ds:screen:task-detail-001",
-      "prd_ds_id": null,
+      "ds_id": "ds:screen:webui-pm-workspace-001",
+      "screen_id": "screen:global-shell",
+      "route": "/design-system/webui-pm-workspace",
+      "showcase_route": null,
       "states": [
         "default",
         "loading",
@@ -581,3080 +39,215 @@
         "offline",
         "forbidden",
         "saving",
-        "not_found"
+        "sync_conflict"
       ],
-      "bindings": [
-        "GET /api/tasks/:id",
-        "GET /api/tasks/:id/activity",
-        "GET /api/trace/:id?depth=2",
-        "PUT /api/tasks/:id"
-      ],
-      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
-      "behaviors": [
-        "edit first-class PM fields through optimistic API writes",
-        "open dependency links in Trace Explorer",
-        "show activity timeline and code-touch context"
-      ]
-    },
-    {
-      "ds_id": "ds:task-detail:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:task-detail-001",
-      "actions": [],
-      "screen_id": "screen:task-detail",
-      "screen_route": "/tasks/:id",
-      "screen_ds_id": "ds:screen:task-detail-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/tasks/:id",
-        "GET /api/tasks/:id/activity",
-        "GET /api/trace/:id?depth=2",
-        "PUT /api/tasks/:id"
-      ],
-      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
-      "behaviors": [
-        "edit first-class PM fields through optimistic API writes",
-        "open dependency links in Trace Explorer",
-        "show activity timeline and code-touch context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:task-detail:editable-fields",
-      "type": "EditableFieldGroup",
-      "parent_ds_id": "ds:task-detail:surface",
-      "actions": [
-        "EVENT_SAVE_TASK"
-      ],
-      "screen_id": "screen:task-detail",
-      "screen_route": "/tasks/:id",
-      "screen_ds_id": "ds:screen:task-detail-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/tasks/:id",
-        "GET /api/tasks/:id/activity",
-        "GET /api/trace/:id?depth=2",
-        "PUT /api/tasks/:id"
-      ],
-      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
-      "behaviors": [
-        "edit first-class PM fields through optimistic API writes",
-        "open dependency links in Trace Explorer",
-        "show activity timeline and code-touch context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:task-detail:tabs",
-      "type": "TaskTabs",
-      "parent_ds_id": "ds:task-detail:surface",
-      "actions": [
-        "EVENT_VIEW_TRACE",
-        "EVENT_VIEW_DOC"
-      ],
-      "screen_id": "screen:task-detail",
-      "screen_route": "/tasks/:id",
-      "screen_ds_id": "ds:screen:task-detail-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/tasks/:id",
-        "GET /api/tasks/:id/activity",
-        "GET /api/trace/:id?depth=2",
-        "PUT /api/tasks/:id"
-      ],
-      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
-      "behaviors": [
-        "edit first-class PM fields through optimistic API writes",
-        "open dependency links in Trace Explorer",
-        "show activity timeline and code-touch context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:task-detail:activity",
-      "type": "ActivityTimeline",
-      "parent_ds_id": "ds:task-detail:surface",
-      "actions": [],
-      "screen_id": "screen:task-detail",
-      "screen_route": "/tasks/:id",
-      "screen_ds_id": "ds:screen:task-detail-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "saving",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/tasks/:id",
-        "GET /api/tasks/:id/activity",
-        "GET /api/trace/:id?depth=2",
-        "PUT /api/tasks/:id"
-      ],
-      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
-      "behaviors": [
-        "edit first-class PM fields through optimistic API writes",
-        "open dependency links in Trace Explorer",
-        "show activity timeline and code-touch context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:trace-explorer-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:trace-explorer",
-      "screen_route": "/trace/:id",
-      "screen_ds_id": "ds:screen:trace-explorer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/impact/:section"
-      ],
-      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
-      "behaviors": [
-        "change root Beads ID and depth",
-        "click node for detail, double-click to route, right-click for context menu",
-        "show partial local data when enrichment times out"
-      ]
-    },
-    {
-      "ds_id": "ds:trace-explorer:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:trace-explorer-001",
-      "actions": [],
-      "screen_id": "screen:trace-explorer",
-      "screen_route": "/trace/:id",
-      "screen_ds_id": "ds:screen:trace-explorer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/impact/:section"
-      ],
-      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
-      "behaviors": [
-        "change root Beads ID and depth",
-        "click node for detail, double-click to route, right-click for context menu",
-        "show partial local data when enrichment times out"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:trace-explorer:toolbar",
-      "type": "TraceToolbar",
-      "parent_ds_id": "ds:trace-explorer:surface",
-      "actions": [],
-      "screen_id": "screen:trace-explorer",
-      "screen_route": "/trace/:id",
-      "screen_ds_id": "ds:screen:trace-explorer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/impact/:section"
-      ],
-      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
-      "behaviors": [
-        "change root Beads ID and depth",
-        "click node for detail, double-click to route, right-click for context menu",
-        "show partial local data when enrichment times out"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:trace-explorer:graph",
-      "type": "TraceGraphCanvas",
-      "parent_ds_id": "ds:trace-explorer:surface",
-      "actions": [
-        "EVENT_VIEW_TASK",
-        "EVENT_VIEW_DOC"
-      ],
-      "screen_id": "screen:trace-explorer",
-      "screen_route": "/trace/:id",
-      "screen_ds_id": "ds:screen:trace-explorer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/impact/:section"
-      ],
-      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
-      "behaviors": [
-        "change root Beads ID and depth",
-        "click node for detail, double-click to route, right-click for context menu",
-        "show partial local data when enrichment times out"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:trace-explorer:detail-panel",
-      "type": "TraceDetailPanel",
-      "parent_ds_id": "ds:trace-explorer:surface",
-      "actions": [],
-      "screen_id": "screen:trace-explorer",
-      "screen_route": "/trace/:id",
-      "screen_ds_id": "ds:screen:trace-explorer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/impact/:section"
-      ],
-      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
-      "behaviors": [
-        "change root Beads ID and depth",
-        "click node for detail, double-click to route, right-click for context menu",
-        "show partial local data when enrichment times out"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:core-doc-viewer-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:doc-viewer",
-      "screen_route": "/docs",
-      "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id",
-        "GET /api/coverage?prd=<beads-id>"
-      ],
-      "layout": "source-type document tree and rendered content panel",
-      "behaviors": [
-        "browse indexed documents by source type",
-        "auto-link Beads IDs to trace routes",
-        "show coverage indicator for PRD documents"
-      ]
-    },
-    {
-      "ds_id": "ds:core-doc-viewer:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:core-doc-viewer-001",
-      "actions": [],
-      "screen_id": "screen:doc-viewer",
-      "screen_route": "/docs",
-      "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id",
-        "GET /api/coverage?prd=<beads-id>"
-      ],
-      "layout": "source-type document tree and rendered content panel",
-      "behaviors": [
-        "browse indexed documents by source type",
-        "auto-link Beads IDs to trace routes",
-        "show coverage indicator for PRD documents"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:core-doc-viewer:tree",
-      "type": "DocTree",
-      "parent_ds_id": "ds:core-doc-viewer:surface",
-      "actions": [],
-      "screen_id": "screen:doc-viewer",
-      "screen_route": "/docs",
-      "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id",
-        "GET /api/coverage?prd=<beads-id>"
-      ],
-      "layout": "source-type document tree and rendered content panel",
-      "behaviors": [
-        "browse indexed documents by source type",
-        "auto-link Beads IDs to trace routes",
-        "show coverage indicator for PRD documents"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:core-doc-viewer:content",
-      "type": "RenderedDocContent",
-      "parent_ds_id": "ds:core-doc-viewer:surface",
-      "actions": [
-        "EVENT_VIEW_TRACE"
-      ],
-      "screen_id": "screen:doc-viewer",
-      "screen_route": "/docs",
-      "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id",
-        "GET /api/coverage?prd=<beads-id>"
-      ],
-      "layout": "source-type document tree and rendered content panel",
-      "behaviors": [
-        "browse indexed documents by source type",
-        "auto-link Beads IDs to trace routes",
-        "show coverage indicator for PRD documents"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:core-doc-viewer:beads-links",
-      "type": "BeadsAutoLinks",
-      "parent_ds_id": "ds:core-doc-viewer:surface",
-      "actions": [],
-      "screen_id": "screen:doc-viewer",
-      "screen_route": "/docs",
-      "screen_ds_id": "ds:screen:core-doc-viewer-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id",
-        "GET /api/coverage?prd=<beads-id>"
-      ],
-      "layout": "source-type document tree and rendered content panel",
-      "behaviors": [
-        "browse indexed documents by source type",
-        "auto-link Beads IDs to trace routes",
-        "show coverage indicator for PRD documents"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:approval-gates-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:approval-gates",
-      "screen_route": "/approval",
-      "screen_ds_id": "ds:screen:approval-gates-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision",
-        "GET /api/coverage"
-      ],
-      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
-      "behaviors": [
-        "disable approval when evidence is insufficient",
-        "show RTE execution context for approved escalations",
-        "require audit reason for manual override paths"
-      ]
-    },
-    {
-      "ds_id": "ds:approval-gates:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:approval-gates-001",
-      "actions": [],
-      "screen_id": "screen:approval-gates",
-      "screen_route": "/approval",
-      "screen_ds_id": "ds:screen:approval-gates-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision",
-        "GET /api/coverage"
-      ],
-      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
-      "behaviors": [
-        "disable approval when evidence is insufficient",
-        "show RTE execution context for approved escalations",
-        "require audit reason for manual override paths"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:approval-gates:queue",
-      "type": "ApprovalQueue",
-      "parent_ds_id": "ds:approval-gates:surface",
-      "actions": [],
-      "screen_id": "screen:approval-gates",
-      "screen_route": "/approval",
-      "screen_ds_id": "ds:screen:approval-gates-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision",
-        "GET /api/coverage"
-      ],
-      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
-      "behaviors": [
-        "disable approval when evidence is insufficient",
-        "show RTE execution context for approved escalations",
-        "require audit reason for manual override paths"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:approval-gates:evidence",
-      "type": "EvidencePanel",
-      "parent_ds_id": "ds:approval-gates:surface",
-      "actions": [],
-      "screen_id": "screen:approval-gates",
-      "screen_route": "/approval",
-      "screen_ds_id": "ds:screen:approval-gates-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision",
-        "GET /api/coverage"
-      ],
-      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
-      "behaviors": [
-        "disable approval when evidence is insufficient",
-        "show RTE execution context for approved escalations",
-        "require audit reason for manual override paths"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:approval-gates:decision-controls",
-      "type": "DecisionControls",
-      "parent_ds_id": "ds:approval-gates:surface",
-      "actions": [
-        "EVENT_APPROVAL_DECISION"
-      ],
-      "screen_id": "screen:approval-gates",
-      "screen_route": "/approval",
-      "screen_ds_id": "ds:screen:approval-gates-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision",
-        "GET /api/coverage"
-      ],
-      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
-      "behaviors": [
-        "disable approval when evidence is insufficient",
-        "show RTE execution context for approved escalations",
-        "require audit reason for manual override paths"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:search-results-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:search-results",
-      "screen_route": "/search",
-      "screen_ds_id": "ds:screen:search-results-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
-      "behaviors": [
-        "focus global search with Ctrl+K or slash",
-        "group results by task, doc, commit, PR, chat, and RTE approval",
-        "navigate result clicks to task, doc, trace, or external PR target"
-      ]
-    },
-    {
-      "ds_id": "ds:search-results:surface",
-      "type": "ScreenSurface",
-      "parent_ds_id": "ds:screen:search-results-001",
-      "actions": [],
-      "screen_id": "screen:search-results",
-      "screen_route": "/search",
-      "screen_ds_id": "ds:screen:search-results-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
-      "behaviors": [
-        "focus global search with Ctrl+K or slash",
-        "group results by task, doc, commit, PR, chat, and RTE approval",
-        "navigate result clicks to task, doc, trace, or external PR target"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:search-results:input",
-      "type": "SearchInput",
-      "parent_ds_id": "ds:search-results:surface",
-      "actions": [
-        "EVENT_SEARCH"
-      ],
-      "screen_id": "screen:search-results",
-      "screen_route": "/search",
-      "screen_ds_id": "ds:screen:search-results-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
-      "behaviors": [
-        "focus global search with Ctrl+K or slash",
-        "group results by task, doc, commit, PR, chat, and RTE approval",
-        "navigate result clicks to task, doc, trace, or external PR target"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:search-results:filters",
-      "type": "FilterSidebar",
-      "parent_ds_id": "ds:search-results:surface",
-      "actions": [],
-      "screen_id": "screen:search-results",
-      "screen_route": "/search",
-      "screen_ds_id": "ds:screen:search-results-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
-      "behaviors": [
-        "focus global search with Ctrl+K or slash",
-        "group results by task, doc, commit, PR, chat, and RTE approval",
-        "navigate result clicks to task, doc, trace, or external PR target"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:search-results:results",
-      "type": "GroupedResults",
-      "parent_ds_id": "ds:search-results:surface",
-      "actions": [
-        "EVENT_VIEW_TASK",
-        "EVENT_VIEW_DOC",
-        "EVENT_VIEW_TRACE"
-      ],
-      "screen_id": "screen:search-results",
-      "screen_route": "/search",
-      "screen_ds_id": "ds:screen:search-results-001",
-      "prd_ds_id": null,
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
-      "behaviors": [
-        "focus global search with Ctrl+K or slash",
-        "group results by task, doc, commit, PR, chat, and RTE approval",
-        "navigate result clicks to task, doc, trace, or external PR target"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:terminal-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-terminal",
-      "screen_route": "/design-system/terminal",
-      "screen_ds_id": "ds:screen:terminal-showcase-001",
-      "prd_ds_id": "ds:screen:terminal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/agents/sessions",
-        "GET /api/ci/runs",
-        "GET /api/tasks/:id/activity",
-        "STREAM /api/log-events?stream=terminal"
-      ],
-      "layout": "scenario tabs with 2x2 terminal mosaic",
-      "behaviors": [
-        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
-        "command, output, success, and error line types",
-        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ]
-    },
-    {
-      "ds_id": "ds:terminal-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:terminal-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-terminal",
-      "screen_route": "/design-system/terminal",
-      "screen_ds_id": "ds:screen:terminal-showcase-001",
-      "prd_ds_id": "ds:screen:terminal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/agents/sessions",
-        "GET /api/ci/runs",
-        "GET /api/tasks/:id/activity",
-        "STREAM /api/log-events?stream=terminal"
-      ],
-      "layout": "scenario tabs with 2x2 terminal mosaic",
-      "behaviors": [
-        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
-        "command, output, success, and error line types",
-        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:terminal-showcase:scenario-tabs",
-      "type": "ScenarioTabs",
-      "parent_ds_id": "ds:terminal-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-terminal",
-      "screen_route": "/design-system/terminal",
-      "screen_ds_id": "ds:screen:terminal-showcase-001",
-      "prd_ds_id": "ds:screen:terminal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/agents/sessions",
-        "GET /api/ci/runs",
-        "GET /api/tasks/:id/activity",
-        "STREAM /api/log-events?stream=terminal"
-      ],
-      "layout": "scenario tabs with 2x2 terminal mosaic",
-      "behaviors": [
-        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
-        "command, output, success, and error line types",
-        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:terminal-showcase:mosaic",
-      "type": "TerminalMosaic",
-      "parent_ds_id": "ds:terminal-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-terminal",
-      "screen_route": "/design-system/terminal",
-      "screen_ds_id": "ds:screen:terminal-showcase-001",
-      "prd_ds_id": "ds:screen:terminal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/agents/sessions",
-        "GET /api/ci/runs",
-        "GET /api/tasks/:id/activity",
-        "STREAM /api/log-events?stream=terminal"
-      ],
-      "layout": "scenario tabs with 2x2 terminal mosaic",
-      "behaviors": [
-        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
-        "command, output, success, and error line types",
-        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:terminal-showcase:lines",
-      "type": "TerminalLineList",
-      "parent_ds_id": "ds:terminal-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-terminal",
-      "screen_route": "/design-system/terminal",
-      "screen_ds_id": "ds:screen:terminal-showcase-001",
-      "prd_ds_id": "ds:screen:terminal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/agents/sessions",
-        "GET /api/ci/runs",
-        "GET /api/tasks/:id/activity",
-        "STREAM /api/log-events?stream=terminal"
-      ],
-      "layout": "scenario tabs with 2x2 terminal mosaic",
-      "behaviors": [
-        "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
-        "command, output, success, and error line types",
-        "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:portfolio-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-portfolio",
-      "screen_route": "/design-system/portfolio",
-      "screen_ds_id": "ds:screen:portfolio-showcase-001",
-      "prd_ds_id": "br-ds-portfolio-view",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/portfolio/epics",
-        "GET /api/tasks?issue_type=epic"
-      ],
-      "layout": "executive portfolio table with roadmap quarters",
-      "behaviors": [
-        "show Epic ID, owner, progress, budget, status, and forecast",
-        "render Q1, Q2, and Q3 2026 roadmap",
-        "preserve specified PRD DS badge value as display metadata"
-      ]
-    },
-    {
-      "ds_id": "ds:portfolio-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:portfolio-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-portfolio",
-      "screen_route": "/design-system/portfolio",
-      "screen_ds_id": "ds:screen:portfolio-showcase-001",
-      "prd_ds_id": "br-ds-portfolio-view",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/portfolio/epics",
-        "GET /api/tasks?issue_type=epic"
-      ],
-      "layout": "executive portfolio table with roadmap quarters",
-      "behaviors": [
-        "show Epic ID, owner, progress, budget, status, and forecast",
-        "render Q1, Q2, and Q3 2026 roadmap",
-        "preserve specified PRD DS badge value as display metadata"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:portfolio-showcase:table",
-      "type": "PortfolioTable",
-      "parent_ds_id": "ds:portfolio-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-portfolio",
-      "screen_route": "/design-system/portfolio",
-      "screen_ds_id": "ds:screen:portfolio-showcase-001",
-      "prd_ds_id": "br-ds-portfolio-view",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/portfolio/epics",
-        "GET /api/tasks?issue_type=epic"
-      ],
-      "layout": "executive portfolio table with roadmap quarters",
-      "behaviors": [
-        "show Epic ID, owner, progress, budget, status, and forecast",
-        "render Q1, Q2, and Q3 2026 roadmap",
-        "preserve specified PRD DS badge value as display metadata"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:portfolio-showcase:roadmap",
-      "type": "Roadmap",
-      "parent_ds_id": "ds:portfolio-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-portfolio",
-      "screen_route": "/design-system/portfolio",
-      "screen_ds_id": "ds:screen:portfolio-showcase-001",
-      "prd_ds_id": "br-ds-portfolio-view",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/portfolio/epics",
-        "GET /api/tasks?issue_type=epic"
-      ],
-      "layout": "executive portfolio table with roadmap quarters",
-      "behaviors": [
-        "show Epic ID, owner, progress, budget, status, and forecast",
-        "render Q1, Q2, and Q3 2026 roadmap",
-        "preserve specified PRD DS badge value as display metadata"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:pi-planning-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-pi-planning",
-      "screen_route": "/design-system/pi-planning",
-      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-      "prd_ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/pi/features",
-        "PUT /api/pi/plan",
-        "GET /api/risks?view=roam",
-        "POST /api/pi/confidence-vote"
-      ],
-      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
-      "behaviors": [
-        "drag and drop strategic sandbox capacity items",
-        "capture business value scoring and confidence vote one through five",
-        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ]
-    },
-    {
-      "ds_id": "ds:pi-planning-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:pi-planning-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-pi-planning",
-      "screen_route": "/design-system/pi-planning",
-      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-      "prd_ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/pi/features",
-        "PUT /api/pi/plan",
-        "GET /api/risks?view=roam",
-        "POST /api/pi/confidence-vote"
-      ],
-      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
-      "behaviors": [
-        "drag and drop strategic sandbox capacity items",
-        "capture business value scoring and confidence vote one through five",
-        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:pi-planning-showcase:sandbox",
-      "type": "StrategicSandbox",
-      "parent_ds_id": "ds:pi-planning-showcase:surface",
-      "actions": [
-        "EVENT_PI_PLAN_SAVE"
-      ],
-      "screen_id": "screen:ds-pi-planning",
-      "screen_route": "/design-system/pi-planning",
-      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-      "prd_ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/pi/features",
-        "PUT /api/pi/plan",
-        "GET /api/risks?view=roam",
-        "POST /api/pi/confidence-vote"
-      ],
-      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
-      "behaviors": [
-        "drag and drop strategic sandbox capacity items",
-        "capture business value scoring and confidence vote one through five",
-        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:pi-planning-showcase:value-scoring",
-      "type": "BusinessValueScoring",
-      "parent_ds_id": "ds:pi-planning-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-pi-planning",
-      "screen_route": "/design-system/pi-planning",
-      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-      "prd_ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/pi/features",
-        "PUT /api/pi/plan",
-        "GET /api/risks?view=roam",
-        "POST /api/pi/confidence-vote"
-      ],
-      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
-      "behaviors": [
-        "drag and drop strategic sandbox capacity items",
-        "capture business value scoring and confidence vote one through five",
-        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:pi-planning-showcase:confidence-vote",
-      "type": "ConfidenceVote",
-      "parent_ds_id": "ds:pi-planning-showcase:surface",
-      "actions": [
-        "EVENT_CONFIDENCE_VOTE"
-      ],
-      "screen_id": "screen:ds-pi-planning",
-      "screen_route": "/design-system/pi-planning",
-      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-      "prd_ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/pi/features",
-        "PUT /api/pi/plan",
-        "GET /api/risks?view=roam",
-        "POST /api/pi/confidence-vote"
-      ],
-      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
-      "behaviors": [
-        "drag and drop strategic sandbox capacity items",
-        "capture business value scoring and confidence vote one through five",
-        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:pi-planning-showcase:roam-board",
-      "type": "RoamBoard",
-      "parent_ds_id": "ds:pi-planning-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-pi-planning",
-      "screen_route": "/design-system/pi-planning",
-      "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-      "prd_ds_id": "br-ds-pi-planning",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/pi/features",
-        "PUT /api/pi/plan",
-        "GET /api/risks?view=roam",
-        "POST /api/pi/confidence-vote"
-      ],
-      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
-      "behaviors": [
-        "drag and drop strategic sandbox capacity items",
-        "capture business value scoring and confidence vote one through five",
-        "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:git-graph-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-git-graph",
-      "screen_route": "/design-system/git-graph",
-      "screen_ds_id": "ds:screen:git-graph-showcase-001",
-      "prd_ds_id": "ds:screen:git-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/git/graph?scenario=<id>",
-        "GET /api/trace/:id?include=git"
-      ],
-      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
-      "behaviors": [
-        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
-        "render backend-aggregated git and Beads trailer lineage"
-      ]
-    },
-    {
-      "ds_id": "ds:git-graph-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:git-graph-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-git-graph",
-      "screen_route": "/design-system/git-graph",
-      "screen_ds_id": "ds:screen:git-graph-showcase-001",
-      "prd_ds_id": "ds:screen:git-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/git/graph?scenario=<id>",
-        "GET /api/trace/:id?include=git"
-      ],
-      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
-      "behaviors": [
-        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
-        "render backend-aggregated git and Beads trailer lineage"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:git-graph-showcase:scenario-selector",
-      "type": "ScenarioSelector",
-      "parent_ds_id": "ds:git-graph-showcase:surface",
-      "actions": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "screen_id": "screen:ds-git-graph",
-      "screen_route": "/design-system/git-graph",
-      "screen_ds_id": "ds:screen:git-graph-showcase-001",
-      "prd_ds_id": "ds:screen:git-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/git/graph?scenario=<id>",
-        "GET /api/trace/:id?include=git"
-      ],
-      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
-      "behaviors": [
-        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
-        "render backend-aggregated git and Beads trailer lineage"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash navigation updates route component state"
-      ]
-    },
-    {
-      "ds_id": "ds:git-graph-showcase:canvas",
-      "type": "GitGraphCanvas",
-      "parent_ds_id": "ds:git-graph-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-git-graph",
-      "screen_route": "/design-system/git-graph",
-      "screen_ds_id": "ds:screen:git-graph-showcase-001",
-      "prd_ds_id": "ds:screen:git-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/git/graph?scenario=<id>",
-        "GET /api/trace/:id?include=git"
-      ],
-      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
-      "behaviors": [
-        "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
-        "render backend-aggregated git and Beads trailer lineage"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:kanban-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-kanban",
-      "screen_route": "/design-system/kanban",
-      "screen_ds_id": "ds:screen:kanban-showcase-001",
-      "prd_ds_id": "ds:screen:kanban-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&board=<id>",
-        "PUT /api/tasks/:id/status"
-      ],
-      "layout": "board selector with draggable cards, WIP badges, and board stats",
-      "behaviors": [
-        "hash routes for sprint, release, and bug-triage boards",
-        "drag cards across WIP-limited columns",
-        "show total, done, and progress stats"
-      ]
-    },
-    {
-      "ds_id": "ds:kanban-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:kanban-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-kanban",
-      "screen_route": "/design-system/kanban",
-      "screen_ds_id": "ds:screen:kanban-showcase-001",
-      "prd_ds_id": "ds:screen:kanban-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&board=<id>",
-        "PUT /api/tasks/:id/status"
-      ],
-      "layout": "board selector with draggable cards, WIP badges, and board stats",
-      "behaviors": [
-        "hash routes for sprint, release, and bug-triage boards",
-        "drag cards across WIP-limited columns",
-        "show total, done, and progress stats"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash routes for sprint, release, and bug-triage boards"
-      ]
-    },
-    {
-      "ds_id": "ds:kanban-showcase:board-selector",
-      "type": "BoardSelector",
-      "parent_ds_id": "ds:kanban-showcase:surface",
-      "actions": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "screen_id": "screen:ds-kanban",
-      "screen_route": "/design-system/kanban",
-      "screen_ds_id": "ds:screen:kanban-showcase-001",
-      "prd_ds_id": "ds:screen:kanban-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&board=<id>",
-        "PUT /api/tasks/:id/status"
-      ],
-      "layout": "board selector with draggable cards, WIP badges, and board stats",
-      "behaviors": [
-        "hash routes for sprint, release, and bug-triage boards",
-        "drag cards across WIP-limited columns",
-        "show total, done, and progress stats"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash routes for sprint, release, and bug-triage boards"
-      ]
-    },
-    {
-      "ds_id": "ds:kanban-showcase:columns",
-      "type": "KanbanColumns",
-      "parent_ds_id": "ds:kanban-showcase:surface",
-      "actions": [
-        "EVENT_MOVE_CARD",
-        "EVENT_VIEW_TASK"
-      ],
-      "screen_id": "screen:ds-kanban",
-      "screen_route": "/design-system/kanban",
-      "screen_ds_id": "ds:screen:kanban-showcase-001",
-      "prd_ds_id": "ds:screen:kanban-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&board=<id>",
-        "PUT /api/tasks/:id/status"
-      ],
-      "layout": "board selector with draggable cards, WIP badges, and board stats",
-      "behaviors": [
-        "hash routes for sprint, release, and bug-triage boards",
-        "drag cards across WIP-limited columns",
-        "show total, done, and progress stats"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash routes for sprint, release, and bug-triage boards"
-      ]
-    },
-    {
-      "ds_id": "ds:kanban-showcase:stats",
-      "type": "BoardStats",
-      "parent_ds_id": "ds:kanban-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-kanban",
-      "screen_route": "/design-system/kanban",
-      "screen_ds_id": "ds:screen:kanban-showcase-001",
-      "prd_ds_id": "ds:screen:kanban-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?view=board&board=<id>",
-        "PUT /api/tasks/:id/status"
-      ],
-      "layout": "board selector with draggable cards, WIP badges, and board stats",
-      "behaviors": [
-        "hash routes for sprint, release, and bug-triage boards",
-        "drag cards across WIP-limited columns",
-        "show total, done, and progress stats"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash routes for sprint, release, and bug-triage boards"
-      ]
-    },
-    {
-      "ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-knowledge-graph",
-      "screen_route": "/design-system/knowledge-graph",
-      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "prd_ds_id": "ds:screen:knowledge-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/graph/presets"
-      ],
-      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
-      "behaviors": [
-        "hash presets simple, ecosystem, and sprint",
-        "show node and edge legends with selected-node details",
-        "use tree or simplified fallback on constrained mobile viewports"
-      ]
-    },
-    {
-      "ds_id": "ds:knowledge-graph-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-knowledge-graph",
-      "screen_route": "/design-system/knowledge-graph",
-      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "prd_ds_id": "ds:screen:knowledge-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/graph/presets"
-      ],
-      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
-      "behaviors": [
-        "hash presets simple, ecosystem, and sprint",
-        "show node and edge legends with selected-node details",
-        "use tree or simplified fallback on constrained mobile viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash presets simple, ecosystem, and sprint"
-      ]
-    },
-    {
-      "ds_id": "ds:knowledge-graph-showcase:presets",
-      "type": "GraphPresetTabs",
-      "parent_ds_id": "ds:knowledge-graph-showcase:surface",
-      "actions": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "screen_id": "screen:ds-knowledge-graph",
-      "screen_route": "/design-system/knowledge-graph",
-      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "prd_ds_id": "ds:screen:knowledge-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/graph/presets"
-      ],
-      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
-      "behaviors": [
-        "hash presets simple, ecosystem, and sprint",
-        "show node and edge legends with selected-node details",
-        "use tree or simplified fallback on constrained mobile viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash presets simple, ecosystem, and sprint"
-      ]
-    },
-    {
-      "ds_id": "ds:knowledge-graph-showcase:viewer",
-      "type": "SigmaGraph",
-      "parent_ds_id": "ds:knowledge-graph-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-knowledge-graph",
-      "screen_route": "/design-system/knowledge-graph",
-      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "prd_ds_id": "ds:screen:knowledge-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/graph/presets"
-      ],
-      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
-      "behaviors": [
-        "hash presets simple, ecosystem, and sprint",
-        "show node and edge legends with selected-node details",
-        "use tree or simplified fallback on constrained mobile viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash presets simple, ecosystem, and sprint"
-      ]
-    },
-    {
-      "ds_id": "ds:knowledge-graph-showcase:legend",
-      "type": "GraphLegend",
-      "parent_ds_id": "ds:knowledge-graph-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-knowledge-graph",
-      "screen_route": "/design-system/knowledge-graph",
-      "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
-      "prd_ds_id": "ds:screen:knowledge-graph-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "partial"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full",
-        "GET /api/graph/presets"
-      ],
-      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
-      "behaviors": [
-        "hash presets simple, ecosystem, and sprint",
-        "show node and edge legends with selected-node details",
-        "use tree or simplified fallback on constrained mobile viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash presets simple, ecosystem, and sprint"
-      ]
-    },
-    {
-      "ds_id": "ds:screen:approval-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-approval",
-      "screen_route": "/design-system/approval",
-      "screen_ds_id": "ds:screen:approval-showcase-001",
-      "prd_ds_id": "ds:screen:approval-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/coverage",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision"
-      ],
-      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
-      "behaviors": [
-        "pending, approved, and rejected toggles",
-        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
-        "hash anchors for panels, RTM, and heatmap"
-      ]
-    },
-    {
-      "ds_id": "ds:approval-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:approval-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-approval",
-      "screen_route": "/design-system/approval",
-      "screen_ds_id": "ds:screen:approval-showcase-001",
-      "prd_ds_id": "ds:screen:approval-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/coverage",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision"
-      ],
-      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
-      "behaviors": [
-        "pending, approved, and rejected toggles",
-        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
-        "hash anchors for panels, RTM, and heatmap"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for panels, RTM, and heatmap"
-      ]
-    },
-    {
-      "ds_id": "ds:approval-showcase:toggles",
-      "type": "ApprovalToggles",
-      "parent_ds_id": "ds:approval-showcase:surface",
-      "actions": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "screen_id": "screen:ds-approval",
-      "screen_route": "/design-system/approval",
-      "screen_ds_id": "ds:screen:approval-showcase-001",
-      "prd_ds_id": "ds:screen:approval-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/coverage",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision"
-      ],
-      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
-      "behaviors": [
-        "pending, approved, and rejected toggles",
-        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
-        "hash anchors for panels, RTM, and heatmap"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for panels, RTM, and heatmap"
-      ]
-    },
-    {
-      "ds_id": "ds:approval-showcase:evidence",
-      "type": "EvidenceBlocks",
-      "parent_ds_id": "ds:approval-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-approval",
-      "screen_route": "/design-system/approval",
-      "screen_ds_id": "ds:screen:approval-showcase-001",
-      "prd_ds_id": "ds:screen:approval-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/coverage",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision"
-      ],
-      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
-      "behaviors": [
-        "pending, approved, and rejected toggles",
-        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
-        "hash anchors for panels, RTM, and heatmap"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for panels, RTM, and heatmap"
-      ]
-    },
-    {
-      "ds_id": "ds:approval-showcase:rtm",
-      "type": "RtmMatrix",
-      "parent_ds_id": "ds:approval-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-approval",
-      "screen_route": "/design-system/approval",
-      "screen_ds_id": "ds:screen:approval-showcase-001",
-      "prd_ds_id": "ds:screen:approval-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/coverage",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision"
-      ],
-      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
-      "behaviors": [
-        "pending, approved, and rejected toggles",
-        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
-        "hash anchors for panels, RTM, and heatmap"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for panels, RTM, and heatmap"
-      ]
-    },
-    {
-      "ds_id": "ds:approval-showcase:heatmap",
-      "type": "CoverageHeatmap",
-      "parent_ds_id": "ds:approval-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-approval",
-      "screen_route": "/design-system/approval",
-      "screen_ds_id": "ds:screen:approval-showcase-001",
-      "prd_ds_id": "ds:screen:approval-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/tasks?status=pending-approval",
-        "GET /api/coverage",
-        "GET /api/approval/:id/evidence",
-        "POST /api/approval/:id/decision"
-      ],
-      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
-      "behaviors": [
-        "pending, approved, and rejected toggles",
-        "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
-        "hash anchors for panels, RTM, and heatmap"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for panels, RTM, and heatmap"
-      ]
-    },
-    {
-      "ds_id": "ds:screen:timeline-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-timeline",
-      "screen_route": "/design-system/timeline",
-      "screen_ds_id": "ds:screen:timeline-showcase-001",
-      "prd_ds_id": "ds:screen:timeline-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/activity",
-        "GET /api/file-leases",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "file lease indicators, activity feed, and sprint day timeline",
-      "behaviors": [
-        "show unlocked, locked, expiring, and expired lease states",
-        "hash anchors for file-lease, activity-feed, and sprint-day",
-        "update from activity polling every 3 to 5 seconds"
-      ]
-    },
-    {
-      "ds_id": "ds:timeline-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:timeline-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-timeline",
-      "screen_route": "/design-system/timeline",
-      "screen_ds_id": "ds:screen:timeline-showcase-001",
-      "prd_ds_id": "ds:screen:timeline-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/activity",
-        "GET /api/file-leases",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "file lease indicators, activity feed, and sprint day timeline",
-      "behaviors": [
-        "show unlocked, locked, expiring, and expired lease states",
-        "hash anchors for file-lease, activity-feed, and sprint-day",
-        "update from activity polling every 3 to 5 seconds"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for file-lease, activity-feed, and sprint-day"
-      ]
-    },
-    {
-      "ds_id": "ds:timeline-showcase:file-lease",
-      "type": "FileLeaseIndicators",
-      "parent_ds_id": "ds:timeline-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-timeline",
-      "screen_route": "/design-system/timeline",
-      "screen_ds_id": "ds:screen:timeline-showcase-001",
-      "prd_ds_id": "ds:screen:timeline-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/activity",
-        "GET /api/file-leases",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "file lease indicators, activity feed, and sprint day timeline",
-      "behaviors": [
-        "show unlocked, locked, expiring, and expired lease states",
-        "hash anchors for file-lease, activity-feed, and sprint-day",
-        "update from activity polling every 3 to 5 seconds"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for file-lease, activity-feed, and sprint-day"
-      ]
-    },
-    {
-      "ds_id": "ds:timeline-showcase:activity-feed",
-      "type": "ActivityFeed",
-      "parent_ds_id": "ds:timeline-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-timeline",
-      "screen_route": "/design-system/timeline",
-      "screen_ds_id": "ds:screen:timeline-showcase-001",
-      "prd_ds_id": "ds:screen:timeline-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/activity",
-        "GET /api/file-leases",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "file lease indicators, activity feed, and sprint day timeline",
-      "behaviors": [
-        "show unlocked, locked, expiring, and expired lease states",
-        "hash anchors for file-lease, activity-feed, and sprint-day",
-        "update from activity polling every 3 to 5 seconds"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for file-lease, activity-feed, and sprint-day"
-      ]
-    },
-    {
-      "ds_id": "ds:timeline-showcase:sprint-day",
-      "type": "SprintDayTimeline",
-      "parent_ds_id": "ds:timeline-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-timeline",
-      "screen_route": "/design-system/timeline",
-      "screen_ds_id": "ds:screen:timeline-showcase-001",
-      "prd_ds_id": "ds:screen:timeline-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/activity",
-        "GET /api/file-leases",
-        "GET /api/tasks/:id/activity"
-      ],
-      "layout": "file lease indicators, activity feed, and sprint day timeline",
-      "behaviors": [
-        "show unlocked, locked, expiring, and expired lease states",
-        "hash anchors for file-lease, activity-feed, and sprint-day",
-        "update from activity polling every 3 to 5 seconds"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash anchors for file-lease, activity-feed, and sprint-day"
-      ]
-    },
-    {
-      "ds_id": "ds:screen:components-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-components",
-      "screen_route": "/design-system/components",
-      "screen_ds_id": "ds:screen:components-showcase-001",
-      "prd_ds_id": "ds:screen:components-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/design-system/components"
-      ],
-      "layout": "catalog of 18 shared design-system sections with hash scroll and interactive examples",
-      "behaviors": [
-        "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
-        "production screens compose these primitives instead of one-off styling"
-      ]
-    },
-    {
-      "ds_id": "ds:components-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:components-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-components",
-      "screen_route": "/design-system/components",
-      "screen_ds_id": "ds:screen:components-showcase-001",
-      "prd_ds_id": "ds:screen:components-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/design-system/components"
-      ],
-      "layout": "catalog of 18 shared design-system sections with hash scroll and interactive examples",
-      "behaviors": [
-        "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
-        "production screens compose these primitives instead of one-off styling"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:components-showcase:sections",
-      "type": "ComponentSections",
-      "parent_ds_id": "ds:components-showcase:surface",
-      "actions": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "screen_id": "screen:ds-components",
-      "screen_route": "/design-system/components",
-      "screen_ds_id": "ds:screen:components-showcase-001",
-      "prd_ds_id": "ds:screen:components-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/design-system/components"
-      ],
-      "layout": "catalog of 18 shared design-system sections with hash scroll and interactive examples",
-      "behaviors": [
-        "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
-        "production screens compose these primitives instead of one-off styling"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "hash navigation updates route component state"
-      ]
-    },
-    {
-      "ds_id": "ds:screen:doc-viewer-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-doc-viewer",
-      "screen_route": "/design-system/doc-viewer",
-      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
-      "prd_ds_id": "ds:screen:doc-viewer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id"
-      ],
-      "layout": "GitHub-like file tree with selected document panel and Beads badges",
-      "behaviors": [
-        "expand folders and select documents",
-        "show section status covered, partial, or gap",
-        "link to Explorer and Knowledge Graph"
-      ]
-    },
-    {
-      "ds_id": "ds:doc-viewer-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:doc-viewer-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-doc-viewer",
-      "screen_route": "/design-system/doc-viewer",
-      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
-      "prd_ds_id": "ds:screen:doc-viewer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id"
-      ],
-      "layout": "GitHub-like file tree with selected document panel and Beads badges",
-      "behaviors": [
-        "expand folders and select documents",
-        "show section status covered, partial, or gap",
-        "link to Explorer and Knowledge Graph"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:doc-viewer-showcase:tree",
-      "type": "ShowcaseDocTree",
-      "parent_ds_id": "ds:doc-viewer-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-doc-viewer",
-      "screen_route": "/design-system/doc-viewer",
-      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
-      "prd_ds_id": "ds:screen:doc-viewer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id"
-      ],
-      "layout": "GitHub-like file tree with selected document panel and Beads badges",
-      "behaviors": [
-        "expand folders and select documents",
-        "show section status covered, partial, or gap",
-        "link to Explorer and Knowledge Graph"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:doc-viewer-showcase:panel",
-      "type": "ShowcaseDocPanel",
-      "parent_ds_id": "ds:doc-viewer-showcase:surface",
-      "actions": [
-        "EVENT_VIEW_TRACE"
-      ],
-      "screen_id": "screen:ds-doc-viewer",
-      "screen_route": "/design-system/doc-viewer",
-      "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
-      "prd_ds_id": "ds:screen:doc-viewer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/docs?group=source_type",
-        "GET /api/docs/:id"
-      ],
-      "layout": "GitHub-like file tree with selected document panel and Beads badges",
-      "behaviors": [
-        "expand folders and select documents",
-        "show section status covered, partial, or gap",
-        "link to Explorer and Knowledge Graph"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:explorer-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-explorer",
-      "screen_route": "/design-system/explorer",
-      "screen_ds_id": "ds:screen:explorer-showcase-001",
-      "prd_ds_id": "ds:screen:explorer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "unified search, type filters, result list, and detail sidebar",
-      "behaviors": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash",
-        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
-        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
-      ]
-    },
-    {
-      "ds_id": "ds:explorer-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:explorer-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-explorer",
-      "screen_route": "/design-system/explorer",
-      "screen_ds_id": "ds:screen:explorer-showcase-001",
-      "prd_ds_id": "ds:screen:explorer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "unified search, type filters, result list, and detail sidebar",
-      "behaviors": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash",
-        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
-        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash"
-      ]
-    },
-    {
-      "ds_id": "ds:explorer-showcase:query",
-      "type": "ExplorerQuery",
-      "parent_ds_id": "ds:explorer-showcase:surface",
-      "actions": [
-        "EVENT_SEARCH"
-      ],
-      "screen_id": "screen:ds-explorer",
-      "screen_route": "/design-system/explorer",
-      "screen_ds_id": "ds:screen:explorer-showcase-001",
-      "prd_ds_id": "ds:screen:explorer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "unified search, type filters, result list, and detail sidebar",
-      "behaviors": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash",
-        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
-        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash"
-      ]
-    },
-    {
-      "ds_id": "ds:explorer-showcase:type-filters",
-      "type": "ExplorerTypeFilters",
-      "parent_ds_id": "ds:explorer-showcase:surface",
-      "actions": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "screen_id": "screen:ds-explorer",
-      "screen_route": "/design-system/explorer",
-      "screen_ds_id": "ds:screen:explorer-showcase-001",
-      "prd_ds_id": "ds:screen:explorer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "unified search, type filters, result list, and detail sidebar",
-      "behaviors": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash",
-        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
-        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash"
-      ]
-    },
-    {
-      "ds_id": "ds:explorer-showcase:detail-sidebar",
-      "type": "ExplorerDetailSidebar",
-      "parent_ds_id": "ds:explorer-showcase:surface",
-      "actions": [
-        "EVENT_VIEW_TRACE",
-        "EVENT_VIEW_DOC",
-        "EVENT_VIEW_TASK"
-      ],
-      "screen_id": "screen:ds-explorer",
-      "screen_route": "/design-system/explorer",
-      "screen_ds_id": "ds:screen:explorer-showcase-001",
-      "prd_ds_id": "ds:screen:explorer-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/search?q=<query>&type=<type>"
-      ],
-      "layout": "unified search, type filters, result list, and detail sidebar",
-      "behaviors": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash",
-        "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
-        "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "filter all, doc, commit, task, adr, chat, and spike via hash"
-      ]
-    },
-    {
-      "ds_id": "ds:screen:beads-traversal-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-beads-traversal",
-      "screen_route": "/design-system/beads-traversal",
-      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
-      "prd_ds_id": "ds:screen:beads-traversal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full"
-      ],
-      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
-      "behaviors": [
-        "toggle forward and reverse traversal direction",
-        "highlight selected and linked nodes",
-        "show parent and children links in detail sidebar"
-      ]
-    },
-    {
-      "ds_id": "ds:beads-traversal-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:beads-traversal-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-beads-traversal",
-      "screen_route": "/design-system/beads-traversal",
-      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
-      "prd_ds_id": "ds:screen:beads-traversal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full"
-      ],
-      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
-      "behaviors": [
-        "toggle forward and reverse traversal direction",
-        "highlight selected and linked nodes",
-        "show parent and children links in detail sidebar"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:beads-traversal-showcase:layers",
-      "type": "TraversalLayers",
-      "parent_ds_id": "ds:beads-traversal-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-beads-traversal",
-      "screen_route": "/design-system/beads-traversal",
-      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
-      "prd_ds_id": "ds:screen:beads-traversal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full"
-      ],
-      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
-      "behaviors": [
-        "toggle forward and reverse traversal direction",
-        "highlight selected and linked nodes",
-        "show parent and children links in detail sidebar"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:beads-traversal-showcase:direction-toggle",
-      "type": "DirectionToggle",
-      "parent_ds_id": "ds:beads-traversal-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-beads-traversal",
-      "screen_route": "/design-system/beads-traversal",
-      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
-      "prd_ds_id": "ds:screen:beads-traversal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full"
-      ],
-      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
-      "behaviors": [
-        "toggle forward and reverse traversal direction",
-        "highlight selected and linked nodes",
-        "show parent and children links in detail sidebar"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:beads-traversal-showcase:detail-sidebar",
-      "type": "TraversalDetailSidebar",
-      "parent_ds_id": "ds:beads-traversal-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-beads-traversal",
-      "screen_route": "/design-system/beads-traversal",
-      "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
-      "prd_ds_id": "ds:screen:beads-traversal-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/trace/:id?depth=full"
-      ],
-      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
-      "behaviors": [
-        "toggle forward and reverse traversal direction",
-        "highlight selected and linked nodes",
-        "show parent and children links in detail sidebar"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:storyboard-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-storyboard",
-      "screen_route": "/design-system/storyboard",
-      "screen_ds_id": "ds:screen:storyboard-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/storyboards"
-      ],
-      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
-      "behaviors": [
-        "filter journeys and preserve selected route state",
-        "show Mechanism and Action, Considerations, and Investigating guidance",
-        "CTA opens the corresponding implementation screen"
-      ]
-    },
-    {
-      "ds_id": "ds:storyboard-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:storyboard-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard",
-      "screen_route": "/design-system/storyboard",
-      "screen_ds_id": "ds:screen:storyboard-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/storyboards"
-      ],
-      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
-      "behaviors": [
-        "filter journeys and preserve selected route state",
-        "show Mechanism and Action, Considerations, and Investigating guidance",
-        "CTA opens the corresponding implementation screen"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:storyboard-showcase:filter",
-      "type": "JourneyFilter",
-      "parent_ds_id": "ds:storyboard-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard",
-      "screen_route": "/design-system/storyboard",
-      "screen_ds_id": "ds:screen:storyboard-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/storyboards"
-      ],
-      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
-      "behaviors": [
-        "filter journeys and preserve selected route state",
-        "show Mechanism and Action, Considerations, and Investigating guidance",
-        "CTA opens the corresponding implementation screen"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:storyboard-showcase:flow",
-      "type": "UsecaseFlow",
-      "parent_ds_id": "ds:storyboard-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard",
-      "screen_route": "/design-system/storyboard",
-      "screen_ds_id": "ds:screen:storyboard-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/storyboards"
-      ],
-      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
-      "behaviors": [
-        "filter journeys and preserve selected route state",
-        "show Mechanism and Action, Considerations, and Investigating guidance",
-        "CTA opens the corresponding implementation screen"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:storyboard-showcase:guidance",
-      "type": "GuidancePanel",
-      "parent_ds_id": "ds:storyboard-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard",
-      "screen_route": "/design-system/storyboard",
-      "screen_ds_id": "ds:screen:storyboard-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
-        "GET /api/storyboards"
-      ],
-      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
-      "behaviors": [
-        "filter journeys and preserve selected route state",
-        "show Mechanism and Action, Considerations, and Investigating guidance",
-        "CTA opens the corresponding implementation screen"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
-      "actions": [],
-      "screen_id": "screen:ds-storyboard-detail",
-      "screen_route": "/design-system/storyboard/:id",
-      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/storyboards/:id"
-      ],
-      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
-      "behaviors": [
-        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
-        "navigate related use cases without losing sidebar context"
-      ]
-    },
-    {
-      "ds_id": "ds:storyboard-detail-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard-detail",
-      "screen_route": "/design-system/storyboard/:id",
-      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/storyboards/:id"
-      ],
-      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
-      "behaviors": [
-        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
-        "navigate related use cases without losing sidebar context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:storyboard-detail-showcase:role",
-      "type": "StoryboardRolePanel",
-      "parent_ds_id": "ds:storyboard-detail-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard-detail",
-      "screen_route": "/design-system/storyboard/:id",
-      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/storyboards/:id"
-      ],
-      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
-      "behaviors": [
-        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
-        "navigate related use cases without losing sidebar context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:storyboard-detail-showcase:steps",
-      "type": "StepTimeline",
-      "parent_ds_id": "ds:storyboard-detail-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard-detail",
-      "screen_route": "/design-system/storyboard/:id",
-      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/storyboards/:id"
-      ],
-      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
-      "behaviors": [
-        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
-        "navigate related use cases without losing sidebar context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:storyboard-detail-showcase:related",
-      "type": "RelatedUsecases",
-      "parent_ds_id": "ds:storyboard-detail-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-storyboard-detail",
-      "screen_route": "/design-system/storyboard/:id",
-      "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
-      "prd_ds_id": "ds:screen:storyboard-001",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden",
-        "not_found"
-      ],
-      "bindings": [
-        "GET /api/storyboards/:id"
-      ],
-      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
-      "behaviors": [
-        "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
-        "navigate related use cases without losing sidebar context"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": []
-    },
-    {
-      "ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "type": "Screen",
-      "parent_ds_id": null,
       "actions": [],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/health",
         "GET /api/coverage",
         "GET /api/tasks",
         "GET /api/trace/:id",
         "GET /api/docs",
         "GET /api/search"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "anchors": [
+        "surface-rtm-dashboard",
+        "surface-safe-board",
+        "surface-task-list",
+        "surface-task-detail",
+        "surface-trace-explorer",
+        "surface-doc-viewer",
+        "surface-approval-gates",
+        "surface-search-results"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:surface",
-      "type": "ShowcaseSurface",
-      "parent_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "actions": [],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
+      "ds_id": "ds:global-shell:root",
+      "screen_id": "screen:global-shell",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "route": "/design-system/webui-pm-workspace",
+      "showcase_route": null,
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden"
+        "forbidden",
+        "saving",
+        "sync_conflict"
       ],
-      "bindings": [
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Shell",
+      "data_flow_endpoints": [
+        "GET /api/health",
         "GET /api/coverage",
         "GET /api/tasks",
         "GET /api/trace/:id",
         "GET /api/docs",
         "GET /api/search"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:header",
-      "type": "WorkspaceHeader",
-      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "ds_id": "ds:global-shell:header",
+      "screen_id": "screen:global-shell",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "route": "/design-system/webui-pm-workspace",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "sync_conflict"
+      ],
       "actions": [
         "EVENT_SEARCH",
         "EVENT_DISCONNECT",
         "EVENT_RECONNECT"
       ],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
+      "bindings": {
+        "online_status": "/api/health"
+      },
+      "ds_type": "Header",
+      "data_flow_endpoints": [
+        "GET /api/health",
         "GET /api/coverage",
         "GET /api/tasks",
         "GET /api/trace/:id",
         "GET /api/docs",
         "GET /api/search"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:sidebar-nav",
-      "type": "WorkspaceSidebarNav",
-      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "ds_id": "ds:global-shell:sidebar",
+      "screen_id": "screen:global-shell",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "route": "/design-system/webui-pm-workspace",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "sync_conflict"
+      ],
       "actions": [
         "EVENT_HASH_NAVIGATE",
         "EVENT_VIEW_TASK",
         "EVENT_VIEW_TRACE",
         "EVENT_VIEW_DOC"
       ],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
+      "bindings": {},
+      "ds_type": "SidebarNavigation",
+      "data_flow_endpoints": [
+        "GET /api/health",
         "GET /api/coverage",
         "GET /api/tasks",
         "GET /api/trace/:id",
         "GET /api/docs",
         "GET /api/search"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:boundary-actions",
-      "type": "BoundaryActionBar",
-      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
-      "actions": [
-        "EVENT_BACK"
-      ],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
+      "ds_id": "ds:global-shell:active-surface",
+      "screen_id": "screen:global-shell",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "route": "/design-system/webui-pm-workspace",
+      "showcase_route": null,
       "states": [
         "default",
         "loading",
         "empty",
         "error",
         "offline",
-        "forbidden"
+        "forbidden",
+        "saving",
+        "sync_conflict"
       ],
-      "bindings": [
+      "actions": [],
+      "bindings": {},
+      "ds_type": "ActiveSurface",
+      "data_flow_endpoints": [
+        "GET /api/health",
         "GET /api/coverage",
         "GET /api/tasks",
         "GET /api/trace/:id",
         "GET /api/docs",
         "GET /api/search"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:sync-conflict-banner",
-      "type": "SyncConflictBanner",
-      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
+      "ds_id": "ds:global-shell:sync-banner",
+      "screen_id": "screen:global-shell",
+      "screen_ds_id": "ds:screen:webui-pm-workspace-001",
+      "route": "/design-system/webui-pm-workspace",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "sync_conflict"
+      ],
       "actions": [
         "EVENT_KEEP_LOCAL",
-        "EVENT_USE_SERVER"
+        "EVENT_USE_SERVER",
+        "EVENT_BACK"
       ],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
-      "states": [
-        "default",
-        "loading",
-        "empty",
-        "error",
-        "offline",
-        "forbidden"
-      ],
-      "bindings": [
+      "bindings": {},
+      "ds_type": "OfflineAndSyncBanner",
+      "data_flow_endpoints": [
+        "GET /api/health",
         "GET /api/coverage",
         "GET /api/tasks",
         "GET /api/trace/:id",
         "GET /api/docs",
         "GET /api/search"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
-      ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:active-surface",
-      "type": "WorkspaceSurface",
-      "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
-      "actions": [],
-      "screen_id": "screen:ds-webui-pm-workspace",
-      "screen_route": "/design-system/webui-pm-workspace",
-      "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-      "prd_ds_id": "ds:global_shell",
+      "ds_id": "ds:screen:rtm-dashboard-001",
+      "screen_id": "screen:rtm-dashboard",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
       "states": [
         "default",
         "loading",
@@ -3663,22 +256,2556 @@
         "offline",
         "forbidden"
       ],
-      "bindings": [
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
         "GET /api/coverage",
         "GET /api/tasks",
-        "GET /api/trace/:id",
-        "GET /api/docs",
-        "GET /api/search"
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
       ],
-      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
-      "behaviors": [
-        "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
-        "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:root",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
       ],
-      "api_gateway": "gmind serve Go REST API",
-      "hash_route_interactions": [
-        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      "actions": [],
+      "bindings": {},
+      "ds_type": "DashboardSurface",
+      "data_flow_endpoints": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:kpis",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "KpiCards",
+      "data_flow_endpoints": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:coverage-heatmap",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "CoverageHeatmap",
+      "data_flow_endpoints": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:task-progress",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TASK"
+      ],
+      "bindings": {},
+      "ds_type": "TaskProgressPanel",
+      "data_flow_endpoints": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:knowledge-graph-widget",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "KnowledgeGraphWidget",
+      "data_flow_endpoints": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:rtm-dashboard:gap-analysis",
+      "screen_id": "screen:rtm-dashboard",
+      "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "route": "/",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_REFRESH"
+      ],
+      "bindings": {},
+      "ds_type": "GapAnalysisList",
+      "data_flow_endpoints": [
+        "GET /api/coverage",
+        "GET /api/tasks",
+        "GET /api/trace/:id?depth=2",
+        "GET /api/gaps"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:kanban-001",
+      "screen_id": "screen:safe-board",
+      "route": "/board",
+      "showcase_route": "/design-system/kanban",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "anchors": [
+        "sprint",
+        "release",
+        "bug-triage"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban:root",
+      "screen_id": "screen:safe-board",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "route": "/board",
+      "showcase_route": "/design-system/kanban",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "BoardSurface",
+      "data_flow_endpoints": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban:board-selector",
+      "screen_id": "screen:safe-board",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "route": "/board",
+      "showcase_route": "/design-system/kanban",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "bindings": {},
+      "ds_type": "BoardSelector",
+      "data_flow_endpoints": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban:columns",
+      "screen_id": "screen:safe-board",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "route": "/board",
+      "showcase_route": "/design-system/kanban",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        "EVENT_MOVE_CARD",
+        "EVENT_VIEW_TASK"
+      ],
+      "bindings": {},
+      "ds_type": "KanbanColumns",
+      "data_flow_endpoints": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban:stats",
+      "screen_id": "screen:safe-board",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "route": "/board",
+      "showcase_route": "/design-system/kanban",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "BoardStats",
+      "data_flow_endpoints": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:kanban:rte-escalation-badge",
+      "screen_id": "screen:safe-board",
+      "screen_ds_id": "ds:screen:kanban-001",
+      "route": "/board",
+      "showcase_route": "/design-system/kanban",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "RteEscalationBadge",
+      "data_flow_endpoints": [
+        "GET /api/tasks?view=board&board=<id>",
+        "PUT /api/tasks/:id/status",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:task-list-001",
+      "screen_id": "screen:task-list",
+      "route": "/tasks",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:task-list:root",
+      "screen_id": "screen:task-list",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "route": "/tasks",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TaskListSurface",
+      "data_flow_endpoints": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-list:filters",
+      "screen_id": "screen:task-list",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "route": "/tasks",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TaskFilters",
+      "data_flow_endpoints": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-list:table",
+      "screen_id": "screen:task-list",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "route": "/tasks",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        "EVENT_VIEW_TASK"
+      ],
+      "bindings": {},
+      "ds_type": "TaskTable",
+      "data_flow_endpoints": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-list:bulk-actions",
+      "screen_id": "screen:task-list",
+      "screen_ds_id": "ds:screen:task-list-001",
+      "route": "/tasks",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-list",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        "EVENT_SAVE_BULK"
+      ],
+      "bindings": {},
+      "ds_type": "BulkActionBar",
+      "data_flow_endpoints": [
+        "GET /api/tasks?format=list",
+        "PUT /api/tasks/bulk"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:task-detail-001",
+      "screen_id": "screen:task-detail",
+      "route": "/tasks/:id",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "anchors": [
+        "detail",
+        "activity",
+        "graph",
+        "code",
+        "approval"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:root",
+      "screen_id": "screen:task-detail",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "route": "/tasks/:id",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TaskDetailSurface",
+      "data_flow_endpoints": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:editable-fields",
+      "screen_id": "screen:task-detail",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "route": "/tasks/:id",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "actions": [
+        "EVENT_SAVE_TASK"
+      ],
+      "bindings": {},
+      "ds_type": "EditableFieldGroup",
+      "data_flow_endpoints": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:tabs",
+      "screen_id": "screen:task-detail",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "route": "/tasks/:id",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "bindings": {},
+      "ds_type": "TaskTabs",
+      "data_flow_endpoints": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:activity",
+      "screen_id": "screen:task-detail",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "route": "/tasks/:id",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "ActivityTimeline",
+      "data_flow_endpoints": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:task-detail:graph-widget",
+      "screen_id": "screen:task-detail",
+      "screen_ds_id": "ds:screen:task-detail-001",
+      "route": "/tasks/:id",
+      "showcase_route": "/design-system/webui-pm-workspace#surface-task-detail",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving",
+        "not_found"
+      ],
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "MiniGraphWidget",
+      "data_flow_endpoints": [
+        "GET /api/tasks/:id",
+        "GET /api/tasks/:id/activity",
+        "GET /api/trace/:id?depth=2",
+        "PUT /api/tasks/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:approval-001",
+      "screen_id": "screen:approval-gates",
+      "route": "/approval",
+      "showcase_route": "/design-system/approval",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "GET /api/coverage",
+        "POST /api/approval/:id/decision"
+      ],
+      "anchors": [
+        "panels",
+        "rtm",
+        "heatmap"
+      ]
+    },
+    {
+      "ds_id": "ds:approval:root",
+      "screen_id": "screen:approval-gates",
+      "screen_ds_id": "ds:screen:approval-001",
+      "route": "/approval",
+      "showcase_route": "/design-system/approval",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "ApprovalSurface",
+      "data_flow_endpoints": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "GET /api/coverage",
+        "POST /api/approval/:id/decision"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:approval:queue",
+      "screen_id": "screen:approval-gates",
+      "screen_ds_id": "ds:screen:approval-001",
+      "route": "/approval",
+      "showcase_route": "/design-system/approval",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "ApprovalQueue",
+      "data_flow_endpoints": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "GET /api/coverage",
+        "POST /api/approval/:id/decision"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:approval:evidence-hub",
+      "screen_id": "screen:approval-gates",
+      "screen_ds_id": "ds:screen:approval-001",
+      "route": "/approval",
+      "showcase_route": "/design-system/approval",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "EvidenceHub",
+      "data_flow_endpoints": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "GET /api/coverage",
+        "POST /api/approval/:id/decision"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:approval:rtm-matrix",
+      "screen_id": "screen:approval-gates",
+      "screen_ds_id": "ds:screen:approval-001",
+      "route": "/approval",
+      "showcase_route": "/design-system/approval",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "RtmMatrix",
+      "data_flow_endpoints": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "GET /api/coverage",
+        "POST /api/approval/:id/decision"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:approval:decision-controls",
+      "screen_id": "screen:approval-gates",
+      "screen_ds_id": "ds:screen:approval-001",
+      "route": "/approval",
+      "showcase_route": "/design-system/approval",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "actions": [
+        "EVENT_APPROVAL_DECISION"
+      ],
+      "bindings": {},
+      "ds_type": "DecisionControls",
+      "data_flow_endpoints": [
+        "GET /api/tasks?status=pending-approval",
+        "GET /api/approval/:id/evidence",
+        "GET /api/coverage",
+        "POST /api/approval/:id/decision"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:doc-viewer-001",
+      "screen_id": "screen:doc-viewer",
+      "route": "/docs",
+      "showcase_route": "/design-system/doc-viewer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?doc=<id>"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:doc-viewer:root",
+      "screen_id": "screen:doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "route": "/docs",
+      "showcase_route": "/design-system/doc-viewer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "DocViewerSurface",
+      "data_flow_endpoints": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?doc=<id>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:doc-viewer:tree",
+      "screen_id": "screen:doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "route": "/docs",
+      "showcase_route": "/design-system/doc-viewer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "DocTree",
+      "data_flow_endpoints": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?doc=<id>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:doc-viewer:content",
+      "screen_id": "screen:doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "route": "/docs",
+      "showcase_route": "/design-system/doc-viewer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "RenderedDocument",
+      "data_flow_endpoints": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?doc=<id>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:doc-viewer:section-badges",
+      "screen_id": "screen:doc-viewer",
+      "screen_ds_id": "ds:screen:doc-viewer-001",
+      "route": "/docs",
+      "showcase_route": "/design-system/doc-viewer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "SectionCoverageBadges",
+      "data_flow_endpoints": [
+        "GET /api/docs?group=source_type",
+        "GET /api/docs/:id",
+        "GET /api/coverage?doc=<id>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:trace-explorer-001",
+      "screen_id": "screen:trace-explorer",
+      "route": "/trace/:id",
+      "showcase_route": [
+        "/design-system/knowledge-graph",
+        "/design-system/beads-traversal"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets",
+        "GET /api/impact/:section"
+      ],
+      "anchors": [
+        "simple",
+        "ecosystem",
+        "sprint",
+        "prd-sections",
+        "plan-elements",
+        "tasks",
+        "commits"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:root",
+      "screen_id": "screen:trace-explorer",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "route": "/trace/:id",
+      "showcase_route": [
+        "/design-system/knowledge-graph",
+        "/design-system/beads-traversal"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TraceSurface",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets",
+        "GET /api/impact/:section"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:toolbar",
+      "screen_id": "screen:trace-explorer",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "route": "/trace/:id",
+      "showcase_route": [
+        "/design-system/knowledge-graph",
+        "/design-system/beads-traversal"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TraceToolbar",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets",
+        "GET /api/impact/:section"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:graph-canvas",
+      "screen_id": "screen:trace-explorer",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "route": "/trace/:id",
+      "showcase_route": [
+        "/design-system/knowledge-graph",
+        "/design-system/beads-traversal"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_DOC"
+      ],
+      "bindings": {},
+      "ds_type": "GraphCanvas",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets",
+        "GET /api/impact/:section"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:dag-layers",
+      "screen_id": "screen:trace-explorer",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "route": "/trace/:id",
+      "showcase_route": [
+        "/design-system/knowledge-graph",
+        "/design-system/beads-traversal"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TraversalLayers",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets",
+        "GET /api/impact/:section"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:trace-explorer:detail-panel",
+      "screen_id": "screen:trace-explorer",
+      "screen_ds_id": "ds:screen:trace-explorer-001",
+      "route": "/trace/:id",
+      "showcase_route": [
+        "/design-system/knowledge-graph",
+        "/design-system/beads-traversal"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "DetailPanel",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=full",
+        "GET /api/graph/presets",
+        "GET /api/impact/:section"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:explorer-001",
+      "screen_id": "screen:search-explorer",
+      "route": "/search",
+      "showcase_route": "/design-system/explorer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "anchors": [
+        "all",
+        "doc",
+        "commit",
+        "task",
+        "adr",
+        "chat",
+        "spike"
+      ]
+    },
+    {
+      "ds_id": "ds:search-explorer:root",
+      "screen_id": "screen:search-explorer",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "route": "/search",
+      "showcase_route": "/design-system/explorer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "SearchSurface",
+      "data_flow_endpoints": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:search-explorer:input",
+      "screen_id": "screen:search-explorer",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "route": "/search",
+      "showcase_route": "/design-system/explorer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_SEARCH"
+      ],
+      "bindings": {},
+      "ds_type": "SearchInput",
+      "data_flow_endpoints": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:search-explorer:type-filters",
+      "screen_id": "screen:search-explorer",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "route": "/search",
+      "showcase_route": "/design-system/explorer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "bindings": {},
+      "ds_type": "TypeFilters",
+      "data_flow_endpoints": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:search-explorer:results",
+      "screen_id": "screen:search-explorer",
+      "screen_ds_id": "ds:screen:explorer-001",
+      "route": "/search",
+      "showcase_route": "/design-system/explorer",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_DOC",
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "GroupedResults",
+      "data_flow_endpoints": [
+        "GET /api/search?q=<query>&type=<type>"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:terminal-001",
+      "screen_id": "screen:terminal-console",
+      "route": "/terminal",
+      "showcase_route": "/design-system/terminal",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "STREAM /api/log-events?stream=terminal"
+      ],
+      "anchors": [
+        "agent-console",
+        "deploy",
+        "debug",
+        "ci-cd"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal:root",
+      "screen_id": "screen:terminal-console",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "route": "/terminal",
+      "showcase_route": "/design-system/terminal",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TerminalSurface",
+      "data_flow_endpoints": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "STREAM /api/log-events?stream=terminal"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal:scenario-tabs",
+      "screen_id": "screen:terminal-console",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "route": "/terminal",
+      "showcase_route": "/design-system/terminal",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "bindings": {},
+      "ds_type": "ScenarioTabs",
+      "data_flow_endpoints": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "STREAM /api/log-events?stream=terminal"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal:mosaic",
+      "screen_id": "screen:terminal-console",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "route": "/terminal",
+      "showcase_route": "/design-system/terminal",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TerminalMosaic",
+      "data_flow_endpoints": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "STREAM /api/log-events?stream=terminal"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:terminal:line-list",
+      "screen_id": "screen:terminal-console",
+      "screen_ds_id": "ds:screen:terminal-001",
+      "route": "/terminal",
+      "showcase_route": "/design-system/terminal",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TerminalLineList",
+      "data_flow_endpoints": [
+        "GET /api/agents/sessions",
+        "GET /api/ci/runs",
+        "GET /api/tasks/:id/activity",
+        "STREAM /api/log-events?stream=terminal"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:portfolio-001",
+      "screen_id": "screen:portfolio",
+      "route": "/portfolio",
+      "showcase_route": "/design-system/portfolio",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:portfolio:root",
+      "screen_id": "screen:portfolio",
+      "screen_ds_id": "ds:screen:portfolio-001",
+      "route": "/portfolio",
+      "showcase_route": "/design-system/portfolio",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "PortfolioSurface",
+      "data_flow_endpoints": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:portfolio:epic-table",
+      "screen_id": "screen:portfolio",
+      "screen_ds_id": "ds:screen:portfolio-001",
+      "route": "/portfolio",
+      "showcase_route": "/design-system/portfolio",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TASK"
+      ],
+      "bindings": {},
+      "ds_type": "PortfolioTable",
+      "data_flow_endpoints": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:portfolio:roadmap",
+      "screen_id": "screen:portfolio",
+      "screen_ds_id": "ds:screen:portfolio-001",
+      "route": "/portfolio",
+      "showcase_route": "/design-system/portfolio",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Roadmap",
+      "data_flow_endpoints": [
+        "GET /api/portfolio/epics",
+        "GET /api/tasks?issue_type=epic"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:pi-planning-001",
+      "screen_id": "screen:pi-planning",
+      "route": "/pi-planning",
+      "showcase_route": "/design-system/pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:pi-planning:root",
+      "screen_id": "screen:pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-001",
+      "route": "/pi-planning",
+      "showcase_route": "/design-system/pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "PiPlanningSurface",
+      "data_flow_endpoints": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:pi-planning:strategic-sandbox",
+      "screen_id": "screen:pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-001",
+      "route": "/pi-planning",
+      "showcase_route": "/design-system/pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        "EVENT_PI_PLAN_SAVE"
+      ],
+      "bindings": {},
+      "ds_type": "StrategicSandbox",
+      "data_flow_endpoints": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:pi-planning:value-scoring",
+      "screen_id": "screen:pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-001",
+      "route": "/pi-planning",
+      "showcase_route": "/design-system/pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "BusinessValueScoring",
+      "data_flow_endpoints": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:pi-planning:confidence-vote",
+      "screen_id": "screen:pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-001",
+      "route": "/pi-planning",
+      "showcase_route": "/design-system/pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [
+        "EVENT_CONFIDENCE_VOTE"
+      ],
+      "bindings": {},
+      "ds_type": "ConfidenceVote",
+      "data_flow_endpoints": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:pi-planning:roam-board",
+      "screen_id": "screen:pi-planning",
+      "screen_ds_id": "ds:screen:pi-planning-001",
+      "route": "/pi-planning",
+      "showcase_route": "/design-system/pi-planning",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "RoamBoard",
+      "data_flow_endpoints": [
+        "GET /api/pi/features",
+        "PUT /api/pi/plan",
+        "GET /api/risks?view=roam",
+        "POST /api/pi/confidence-vote"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:git-graph-001",
+      "screen_id": "screen:git-graph",
+      "route": "/git-graph",
+      "showcase_route": "/design-system/git-graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "anchors": [
+        "gitflow",
+        "multi-agent",
+        "hotfix",
+        "release-train",
+        "monorepo",
+        "beads-prd-trace",
+        "beads-deadlock",
+        "beads-ds-comp",
+        "beads-traversal",
+        "beads-sprint-review"
+      ]
+    },
+    {
+      "ds_id": "ds:git-graph:root",
+      "screen_id": "screen:git-graph",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "route": "/git-graph",
+      "showcase_route": "/design-system/git-graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "GitGraphSurface",
+      "data_flow_endpoints": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:git-graph:scenario-selector",
+      "screen_id": "screen:git-graph",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "route": "/git-graph",
+      "showcase_route": "/design-system/git-graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "bindings": {},
+      "ds_type": "ScenarioSelector",
+      "data_flow_endpoints": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:git-graph:canvas",
+      "screen_id": "screen:git-graph",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "route": "/git-graph",
+      "showcase_route": "/design-system/git-graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "GitGraphCanvas",
+      "data_flow_endpoints": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:git-graph:commit-detail",
+      "screen_id": "screen:git-graph",
+      "screen_ds_id": "ds:screen:git-graph-001",
+      "route": "/git-graph",
+      "showcase_route": "/design-system/git-graph",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "CommitDetail",
+      "data_flow_endpoints": [
+        "GET /api/git/graph?scenario=<id>",
+        "GET /api/trace/:id?include=git"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:timeline-001",
+      "screen_id": "screen:timeline",
+      "route": "/timeline",
+      "showcase_route": "/design-system/timeline",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "anchors": [
+        "file-lease",
+        "activity-feed",
+        "sprint-day"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline:root",
+      "screen_id": "screen:timeline",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "route": "/timeline",
+      "showcase_route": "/design-system/timeline",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "TimelineSurface",
+      "data_flow_endpoints": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline:file-lease-panel",
+      "screen_id": "screen:timeline",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "route": "/timeline",
+      "showcase_route": "/design-system/timeline",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "FileLeasePanel",
+      "data_flow_endpoints": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline:activity-feed",
+      "screen_id": "screen:timeline",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "route": "/timeline",
+      "showcase_route": "/design-system/timeline",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TASK"
+      ],
+      "bindings": {},
+      "ds_type": "ActivityFeed",
+      "data_flow_endpoints": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:timeline:sprint-day",
+      "screen_id": "screen:timeline",
+      "screen_ds_id": "ds:screen:timeline-001",
+      "route": "/timeline",
+      "showcase_route": "/design-system/timeline",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "SprintDayTimeline",
+      "data_flow_endpoints": [
+        "GET /api/activity",
+        "GET /api/file-leases",
+        "GET /api/tasks/:id/activity"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:components-001",
+      "screen_id": "screen:components-catalog",
+      "route": "/design-system/components",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/design-system/components"
+      ],
+      "anchors": [
+        "buttons",
+        "badges-status",
+        "progress",
+        "avatar-stack",
+        "modal",
+        "dropdown",
+        "accordion",
+        "tab-panel",
+        "data-table",
+        "tooltip",
+        "code-block",
+        "cards",
+        "prompt-card",
+        "section-labels",
+        "status-dots",
+        "skeleton",
+        "empty-state",
+        "error-banner"
+      ]
+    },
+    {
+      "ds_id": "ds:components-catalog:root",
+      "screen_id": "screen:components-catalog",
+      "screen_ds_id": "ds:screen:components-001",
+      "route": "/design-system/components",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "ComponentsCatalogSurface",
+      "data_flow_endpoints": [
+        "GET /api/design-system/components"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:components-catalog:section-nav",
+      "screen_id": "screen:components-catalog",
+      "screen_ds_id": "ds:screen:components-001",
+      "route": "/design-system/components",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "bindings": {},
+      "ds_type": "ComponentSectionNav",
+      "data_flow_endpoints": [
+        "GET /api/design-system/components"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:components-catalog:examples",
+      "screen_id": "screen:components-catalog",
+      "screen_ds_id": "ds:screen:components-001",
+      "route": "/design-system/components",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "ComponentExamples",
+      "data_flow_endpoints": [
+        "GET /api/design-system/components"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:storyboard-001",
+      "screen_id": "screen:storyboard-overview",
+      "route": "/storyboards",
+      "showcase_route": "/design-system/storyboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/storyboards"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:storyboard-overview:root",
+      "screen_id": "screen:storyboard-overview",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "route": "/storyboards",
+      "showcase_route": "/design-system/storyboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "StoryboardOverviewSurface",
+      "data_flow_endpoints": [
+        "GET /api/storyboards"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-overview:filter",
+      "screen_id": "screen:storyboard-overview",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "route": "/storyboards",
+      "showcase_route": "/design-system/storyboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "JourneyFilter",
+      "data_flow_endpoints": [
+        "GET /api/storyboards"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-overview:flow",
+      "screen_id": "screen:storyboard-overview",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "route": "/storyboards",
+      "showcase_route": "/design-system/storyboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "UsecaseFlow",
+      "data_flow_endpoints": [
+        "GET /api/storyboards"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-overview:guidance",
+      "screen_id": "screen:storyboard-overview",
+      "screen_ds_id": "ds:screen:storyboard-001",
+      "route": "/storyboards",
+      "showcase_route": "/design-system/storyboard",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "GuidancePanel",
+      "data_flow_endpoints": [
+        "GET /api/storyboards"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:storyboard-detail-001",
+      "screen_id": "screen:storyboard-detail",
+      "route": "/storyboards/:id",
+      "showcase_route": "/design-system/storyboard/:id",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/storyboards/:id"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:storyboard-detail:root",
+      "screen_id": "screen:storyboard-detail",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "route": "/storyboards/:id",
+      "showcase_route": "/design-system/storyboard/:id",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "StoryboardDetailSurface",
+      "data_flow_endpoints": [
+        "GET /api/storyboards/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail:role-panel",
+      "screen_id": "screen:storyboard-detail",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "route": "/storyboards/:id",
+      "showcase_route": "/design-system/storyboard/:id",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "StoryboardRolePanel",
+      "data_flow_endpoints": [
+        "GET /api/storyboards/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail:step-timeline",
+      "screen_id": "screen:storyboard-detail",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "route": "/storyboards/:id",
+      "showcase_route": "/design-system/storyboard/:id",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "StepTimeline",
+      "data_flow_endpoints": [
+        "GET /api/storyboards/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:storyboard-detail:related-usecases",
+      "screen_id": "screen:storyboard-detail",
+      "screen_ds_id": "ds:screen:storyboard-detail-001",
+      "route": "/storyboards/:id",
+      "showcase_route": "/design-system/storyboard/:id",
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "not_found"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "RelatedUsecases",
+      "data_flow_endpoints": [
+        "GET /api/storyboards/:id"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:screen:document-graph-widget-001",
+      "screen_id": "screen:document-graph-widget",
+      "route": "embedded",
+      "showcase_route": null,
+      "states": "inherited_required_states",
+      "actions": [],
+      "bindings": {},
+      "ds_type": "Screen",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=2"
+      ],
+      "anchors": []
+    },
+    {
+      "ds_id": "ds:document-graph-widget:root",
+      "screen_id": "screen:document-graph-widget",
+      "screen_ds_id": "ds:screen:document-graph-widget-001",
+      "route": "embedded",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "EmbeddedGraphWidget",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=2"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:document-graph-widget:canvas",
+      "screen_id": "screen:document-graph-widget",
+      "screen_ds_id": "ds:screen:document-graph-widget-001",
+      "route": "embedded",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [],
+      "bindings": {},
+      "ds_type": "MiniGraphCanvas",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=2"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
+      ]
+    },
+    {
+      "ds_id": "ds:document-graph-widget:detail-panel",
+      "screen_id": "screen:document-graph-widget",
+      "screen_ds_id": "ds:screen:document-graph-widget-001",
+      "route": "embedded",
+      "showcase_route": null,
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "actions": [
+        "EVENT_VIEW_TRACE"
+      ],
+      "bindings": {},
+      "ds_type": "NodeDetailPanel",
+      "data_flow_endpoints": [
+        "GET /api/trace/:id?depth=2"
+      ],
+      "a11y": [
+        "keyboard reachable",
+        "visible focus",
+        "aria label for compact state"
       ]
     }
   ]

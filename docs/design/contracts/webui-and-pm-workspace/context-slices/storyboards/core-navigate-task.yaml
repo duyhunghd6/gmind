@@ -1,70 +1,56 @@
 trajectory_id: core-navigate-task
-title: PM navigates from dashboard to task detail
-source: PRD-04 user journeys and §8.1A route coverage
-events: &id001
-- ROUTE_ENTER
+role: PM
+journey: Open dashboard, navigate task list, inspect detail
+entry_path: /tasks/:id
+events:
+- EVENT_ROUTE_ENTER
 - EVENT_VIEW_TASK
-- API_SUCCESS_CORE
-routes:
-- /
-- /tasks
-- /tasks/:id
-recovery_path: false
-steps:
-- order: 1
-  route: /
+states:
+- loading
+- default
+- empty
+- error
+- offline
+- forbidden
+error_paths:
+- API_ERROR -> ErrorState -> EVENT_REFRESH
+- API_FORBIDDEN -> ForbiddenState -> EVENT_BACK
+- EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT
+screens:
+- screen:global-shell
+- screen:rtm-dashboard
+- screen:task-list
+- screen:task-detail
+step_refs:
+- step: 1
+  screen_id: screen:global-shell
+  screen_path: /design-system/webui-pm-workspace
+  data_ds_id: ds:screen:webui-pm-workspace-001
+  expected_state: loading_to_default
+  event: EVENT_ROUTE_ENTER
+  action: Dispatch EVENT_ROUTE_ENTER and verify screen:global-shell reaches loading_to_default
+  hash_anchor: null
+- step: 2
   screen_id: screen:rtm-dashboard
-  screen_ds_id: ds:screen:rtm-dashboard-001
-  state: default
-  event: ROUTE_ENTER
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: ROUTE_ENTER
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:rtm-dashboard-001
-- order: 2
-  route: /tasks
-  screen_id: screen:task-list
-  screen_ds_id: ds:screen:task-list-001
-  state: default
+  screen_path: /
+  data_ds_id: ds:screen:rtm-dashboard-001
+  expected_state: default
   event: EVENT_VIEW_TASK
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_VIEW_TASK
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:task-list-001
-- order: 3
-  route: /tasks/:id
+  action: Dispatch EVENT_VIEW_TASK and verify screen:rtm-dashboard reaches default
+  hash_anchor: null
+- step: 3
+  screen_id: screen:task-list
+  screen_path: /tasks
+  data_ds_id: ds:screen:task-list-001
+  expected_state: default
+  event: EVENT_VIEW_TASK
+  action: Dispatch EVENT_VIEW_TASK and verify screen:task-list reaches default
+  hash_anchor: null
+- step: 4
   screen_id: screen:task-detail
-  screen_ds_id: ds:screen:task-detail-001
-  state: default
-  event: API_SUCCESS_CORE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: API_SUCCESS_CORE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:task-detail-001
-e2e_alignment:
-  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
-    go through Go REST API
-  investigation_guidance: Assert route navigation, state transition, optimistic write
-    or recovery copy, and API mapping.
-id: core-navigate-task
-prd_journey: PRD-04 §8.1A route coverage — PM navigates from dashboard to task detail
-action: *id001
-assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
-  Go REST API
-state: default
-ds_targets:
-- ds:screen:rtm-dashboard-001
-- ds:screen:task-list-001
-- ds:screen:task-detail-001
-schema_adapter:
-  trajectory_id: id
-  source: prd_journey
-  events[0] or events[]: action
-  expected_outcome: assertion
-  screen_ds_id: ds_targets[]
+  screen_path: /tasks/:id
+  data_ds_id: ds:screen:task-detail-001
+  expected_state: default
+  event: EVENT_VIEW_TASK
+  action: Dispatch EVENT_VIEW_TASK and verify screen:task-detail reaches default
+  hash_anchor: null

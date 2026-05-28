@@ -1,55 +1,38 @@
 trajectory_id: doc-to-trace
-title: PM opens Beads ID from document viewer
-source: PRD-04 user journeys and §8.1A route coverage
-events: &id001
+role: Analyst
+journey: Open document, follow Beads ID into trace graph
+entry_path: /docs/br-prd04
+events:
+- EVENT_VIEW_DOC
 - EVENT_VIEW_TRACE
-- API_SUCCESS_CORE
-routes:
-- /docs
-- /trace/:id
-recovery_path: false
-steps:
-- order: 1
-  route: /docs
+states:
+- loading
+- default
+- empty
+- error
+- offline
+- forbidden
+error_paths:
+- API_ERROR -> ErrorState -> EVENT_REFRESH
+- API_FORBIDDEN -> ForbiddenState -> EVENT_BACK
+- EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT
+screens:
+- screen:doc-viewer
+- screen:trace-explorer
+step_refs:
+- step: 1
   screen_id: screen:doc-viewer
-  screen_ds_id: ds:screen:core-doc-viewer-001
-  state: default
-  event: EVENT_VIEW_TRACE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_VIEW_TRACE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:core-doc-viewer-001
-- order: 2
-  route: /trace/:id
+  screen_path: /docs
+  data_ds_id: ds:screen:doc-viewer-001
+  expected_state: loading_to_default
+  event: EVENT_VIEW_DOC
+  action: Dispatch EVENT_VIEW_DOC and verify screen:doc-viewer reaches loading_to_default
+  hash_anchor: null
+- step: 2
   screen_id: screen:trace-explorer
-  screen_ds_id: ds:screen:trace-explorer-001
-  state: default
-  event: API_SUCCESS_CORE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: API_SUCCESS_CORE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:trace-explorer-001
-e2e_alignment:
-  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
-    go through Go REST API
-  investigation_guidance: Assert route navigation, state transition, optimistic write
-    or recovery copy, and API mapping.
-id: doc-to-trace
-prd_journey: PRD-04 §8.1A route coverage — PM opens Beads ID from document viewer
-action: *id001
-assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
-  Go REST API
-state: default
-ds_targets:
-- ds:screen:core-doc-viewer-001
-- ds:screen:trace-explorer-001
-schema_adapter:
-  trajectory_id: id
-  source: prd_journey
-  events[0] or events[]: action
-  expected_outcome: assertion
-  screen_ds_id: ds_targets[]
+  screen_path: /trace/:id
+  data_ds_id: ds:screen:trace-explorer-001
+  expected_state: default
+  event: EVENT_VIEW_TRACE
+  action: Dispatch EVENT_VIEW_TRACE and verify screen:trace-explorer reaches default
+  hash_anchor: null

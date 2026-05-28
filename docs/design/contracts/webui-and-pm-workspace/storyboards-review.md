@@ -1,40 +1,29 @@
 <!-- beads-id: br-design-storyboards-review-webui-pm-workspace -->
 # Storyboards Review: WebUI PM Workspace
 
-Generated trajectories: 13
+Generated trajectories: 16. Each trajectory links to machine evidence in `storyboards.json` and compact YAML slices.
 
-| Trajectory ID | Routes | Recovery |
-| --- | --- | --- |
-| `core-navigate-task` | / → /tasks → /tasks/:id | no |
-| `core-explore-trace` | /tasks/:id → /trace/:id → /docs | no |
-| `core-quick-search` | / → /search → /tasks/:id | no |
-| `board-drag-success` | /board → /tasks/:id | no |
-| `pi-planning-vote` | /design-system/pi-planning | no |
-| `approval-approve` | /approval → /design-system/approval | no |
-| `approval-insufficient-evidence` | /approval | yes |
-| `offline-rehydrate-conflict` | /tasks/:id → /design-system/webui-pm-workspace | yes |
-| `doc-to-trace` | /docs → /trace/:id | no |
-| `showcase-hash-navigation` | /design-system/git-graph → /design-system/kanban → /design-system/knowledge-graph | no |
-| `storyboard-detail-alignment` | /design-system/storyboard → /design-system/storyboard/:id | no |
-| `permission-denied-recovery` | /design-system/webui-pm-workspace | yes |
-| `not-found-recovery` | /design-system/storyboard/:id → /design-system/storyboard | yes |
+| Trajectory | Role | Entry | Events | Screens | Error recovery |
+| --- | --- | --- | --- | --- | --- |
+| `core-navigate-task` | PM | `/tasks/:id` | EVENT_ROUTE_ENTER, EVENT_VIEW_TASK | screen:global-shell, screen:rtm-dashboard, screen:task-list, screen:task-detail | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `core-explore-trace` | PMO | `/trace/bd-x1y2` | EVENT_HASH_NAVIGATE, EVENT_VIEW_TRACE | screen:task-detail, screen:document-graph-widget, screen:trace-explorer | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `core-quick-search` | PM | `/search?q=coverage` | EVENT_SEARCH, EVENT_VIEW_DOC, EVENT_VIEW_TRACE | screen:global-shell, screen:search-explorer | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `board-drag-success` | RTE | `/board#sprint` | EVENT_HASH_NAVIGATE, EVENT_MOVE_CARD, EVENT_VIEW_TASK | screen:safe-board, screen:task-detail | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `pi-planning-vote` | RTE | `/pi-planning` | EVENT_PI_PLAN_SAVE, EVENT_CONFIDENCE_VOTE | screen:pi-planning | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `portfolio-review` | Executive | `/portfolio` | EVENT_VIEW_TASK, EVENT_VIEW_TRACE | screen:portfolio, screen:task-list, screen:trace-explorer | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `approval-approve` | Human approver | `/approval#panels` | EVENT_APPROVAL_DECISION | screen:approval-gates | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `approval-insufficient-evidence` | Human approver | `/approval#rtm` | EVENT_REFRESH, EVENT_APPROVAL_DECISION | screen:approval-gates | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `offline-rehydrate-conflict` | PM | `/tasks/bd-x1y2` | EVENT_DISCONNECT, EVENT_RECONNECT, EVENT_KEEP_LOCAL, EVENT_USE_SERVER | screen:global-shell, screen:task-detail | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `doc-to-trace` | Analyst | `/docs/br-prd04` | EVENT_VIEW_DOC, EVENT_VIEW_TRACE | screen:doc-viewer, screen:trace-explorer | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `showcase-hash-navigation` | Designer | `/design-system/git-graph#beads-traversal` | EVENT_HASH_NAVIGATE | screen:terminal-console, screen:git-graph, screen:components-catalog | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `storyboard-detail-alignment` | QA | `/storyboards/core-navigate-task` | EVENT_ROUTE_ENTER, EVENT_VIEW_TASK | screen:storyboard-overview, screen:storyboard-detail | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `permission-denied-recovery` | Viewer | `/portfolio` | EVENT_ROUTE_ENTER, EVENT_BACK | screen:portfolio, screen:approval-gates | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `not-found-recovery` | PM | `/tasks/missing` | EVENT_ROUTE_ENTER, EVENT_BACK | screen:task-detail, screen:storyboard-detail | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `terminal-browser-boundary` | Engineer | `/terminal#ci-cd` | EVENT_ROUTE_ENTER, EVENT_HASH_NAVIGATE, EVENT_REFRESH | screen:terminal-console | API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
+| `timeline-file-lease-activity` | Release Train Engineer | `/timeline#file-lease` | EVENT_ROUTE_ENTER, EVENT_HASH_NAVIGATE, EVENT_VIEW_TASK, EVENT_REFRESH, EVENT_DISCONNECT, EVENT_RECONNECT | screen:timeline, screen:timeline, screen:timeline, screen:task-detail | API_EMPTY -> EmptyState -> EVENT_REFRESH; API_ERROR -> ErrorState -> EVENT_REFRESH; API_FORBIDDEN -> ForbiddenState -> EVENT_BACK; EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT |
 
-## Gate A Review Links
+## E2E Alignment Metadata
 
-- `core-navigate-task`: `context-slices/storyboards/core-navigate-task.yaml`
-- `core-explore-trace`: `context-slices/storyboards/core-explore-trace.yaml`
-- `core-quick-search`: `context-slices/storyboards/core-quick-search.yaml`
-- `board-drag-success`: `context-slices/storyboards/board-drag-success.yaml`
-- `pi-planning-vote`: `context-slices/storyboards/pi-planning-vote.yaml`
-- `approval-approve`: `context-slices/storyboards/approval-approve.yaml`
-- `approval-insufficient-evidence`: `context-slices/storyboards/approval-insufficient-evidence.yaml`
-- `offline-rehydrate-conflict`: `context-slices/storyboards/offline-rehydrate-conflict.yaml`
-- `doc-to-trace`: `context-slices/storyboards/doc-to-trace.yaml`
-- `showcase-hash-navigation`: `context-slices/storyboards/showcase-hash-navigation.yaml`
-- `storyboard-detail-alignment`: `context-slices/storyboards/storyboard-detail-alignment.yaml`
-- `permission-denied-recovery`: `context-slices/storyboards/permission-denied-recovery.yaml`
-- `not-found-recovery`: `context-slices/storyboards/not-found-recovery.yaml`
-
-## Gate A Schema Adapter
-
-Every trajectory in `storyboards.json` now exposes required Gate A fields directly: `id`, `prd_journey`, `action`, `assertion`, ordered `steps`, `state`, and `ds_targets`. Legacy aliases are preserved with mapping `trajectory_id→id`, `source→prd_journey`, `events/event→action`, `expected_outcome→assertion`, and `screen_ds_id→ds_targets`.
+- Every step includes `screen_path`, `data-screen-id`, `data-ds-id`, `expected_state`, `event`, `action`, and `success_signal`.
+- CTAs target real Core or showcase routes; no placeholder routes are used.
+- `timeline-file-lease-activity` covers `screen:timeline`, `#file-lease`, `#activity-feed`, `#sprint-day`, file lease states, activity feed navigation, sprint day view, and Core API data flow.

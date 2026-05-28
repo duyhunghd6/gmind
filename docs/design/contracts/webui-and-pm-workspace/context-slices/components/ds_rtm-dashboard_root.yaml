@@ -1,0 +1,24 @@
+ds_id: ds:rtm-dashboard:root
+screen_id: screen:rtm-dashboard
+screen_ds_id: ds:screen:rtm-dashboard-001
+route: /
+showcase_route: /design-system/webui-pm-workspace#surface-rtm-dashboard
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: DashboardSurface
+data_flow_endpoints:
+- GET /api/coverage
+- GET /api/tasks
+- GET /api/trace/:id?depth=2
+- GET /api/gaps
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

@@ -1,0 +1,22 @@
+ds_id: ds:search-explorer:type-filters
+screen_id: screen:search-explorer
+screen_ds_id: ds:screen:explorer-001
+route: /search
+showcase_route: /design-system/explorer
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions:
+- EVENT_HASH_NAVIGATE
+bindings: {}
+ds_type: TypeFilters
+data_flow_endpoints:
+- GET /api/search?q=<query>&type=<type>
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

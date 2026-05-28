@@ -1,15 +1,17 @@
 <!-- beads-id: br-design-contract-webui-pm-workspace -->
 # UI Contract: WebUI PM Workspace
 
-Stage 1 schema-driven View Blueprint for PRD-04 WebUI PM Workspace. This canonical contract maps Core WebUI routes and PRD-04 §8.1A showcase routes to stable DS IDs, reviewable states, required UI/UX behaviors, and API-only data boundaries. Browser views consume `gmind serve` REST data only; local shell, FrankenSQLite, Zvec, git, GitHub `gh`, and FastCode access remain backend responsibilities.
+Canonical Ralph Loop Stage 1 contract for PRD-04 WebUI PM Workspace. This review unit defines the YAML View Blueprint and a minimal Logic Machine container only. It normalizes the feature slug to `webui-and-pm-workspace`, maps all PRD §8 showcase routes to Core WebUI routes, and preserves the data boundary that browser UI consumes only the Go REST API exposed by `gmind serve`.
 
 ```yaml
 metadata:
   feature: webui-and-pm-workspace
   title: WebUI PM Workspace
   canonical_contract: docs/design/contracts/webui-and-pm-workspace/ui-contract.md
-  prd:
+  source_prd:
     path: docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md
+    title: PRD 04 WebUI and PM Workspace
+    route_map_section: br-prd04-s8
   satisfies:
     - br-prd04
     - br-prd04-s1
@@ -22,221 +24,209 @@ metadata:
     - br-prd04-s8
     - br-prd04-s9
     - br-prd04-s10
+    - br-prd04-s10.3a
     - br-prd04-s11
     - br-prd04-s12
     - br-prd04-s13
     - br-prd04-s14
-    - br-prd04-s14a
+    - br-prd04-s15
+    - br-prd04-s16
+    - br-prd04-s17
+    - br-prd04-s18
+    - br-prd04-s18a
   stage: stage1
-  route_coverage:
-    core_routes_required: 8
-    showcase_routes_required: 15
-    screens_defined: 23
-  boundaries:
-    browser_allowed:
-      - Go REST API served by gmind serve
-      - static embedded assets
-      - client cache and queued offline writes
-    browser_forbidden:
-      - direct FrankenSQLite reads or writes
-      - direct Zvec access
-      - local shell commands
-      - local git access
-      - GitHub gh CLI access
-      - FastCode direct access
+  artifact_policy:
+    source_of_truth: ui-contract.md
+    forbidden_contract_source: contract.yaml
+    stage1_output_root: docs/design/contracts/webui-and-pm-workspace
+    stage2_page: apps/website/src/app/design-system/webui-pm-workspace/page.tsx
+  coverage_summary:
+    showcase_routes_defined: 15
+    core_route_families_defined: 18
+    screens_defined: 18
+    viewports_defined: 3
+    yaml_actions_defined: 20
 viewports:
   - name: desktop
     width: 1440
-    constraints: persistent shell, expanded sidebar, multi-panel layouts
+    rules:
+      - Expanded shell sidebar and persistent header/footer.
+      - Multi-panel screens use split views or grids.
+      - Graph detail panels remain visible beside canvas.
   - name: tablet
     width: 1024
-    constraints: condensed sidebar, stacked secondary panels, horizontal scroll where boards overflow
+    rules:
+      - Sidebar condenses to icon rail with tooltips.
+      - Detail panels become drawers or bottom sheets.
+      - Kanban and tables may scroll horizontally.
   - name: mobile
     width: 390
-    constraints: single-column flow, sidebar as overlay, drawers as full-screen overlays, tables become cards
-state_contracts:
-  default: render live data with interactive controls
-  loading: layout-matched skeletons; no standalone spinner-only screens
-  empty: clear message plus actionable CTA such as create, clear filters, reindex, or retry
-  error: short cause plus retry or recovery action
-  offline: read-mostly UI with offline banner and queued write affordance where safe
-  forbidden: permission message with route-safe return action
-  partial: local graph data shown while enrichment is delayed
-  saving: edited controls disabled until API response or rollback
-  not_found: missing entity message with link to parent list
-responsive_rules:
-  - id: ds:rule:shell-desktop
-    applies_to: desktop
-    behavior: header, sidebar, footer, and main surface are visible together
-  - id: ds:rule:shell-tablet
-    applies_to: tablet
-    behavior: navigation collapses to icon rail; detail panels become drawers or bottom sheets
-  - id: ds:rule:shell-mobile
-    applies_to: mobile
-    behavior: hamburger opens overlay sidebar; graph-heavy views may render tree/list fallback
-api_data_flow:
-  gateway: gmind serve Go REST API
-  realtime: polling events table every 3 to 5 seconds plus health checks for offline transitions
-  write_model: optimistic update, queued offline write where allowed, rollback on API error
-  conflict_resolution: sync conflict prompt with keep local or use server version choices
-action_catalog:
-  - id: ds:action:disconnect
-    event: EVENT_DISCONNECT
-    label: Show offline read-only banner
-    data_flow: GET /api/health failure or stream disconnect
-  - id: ds:action:reconnect
-    event: EVENT_RECONNECT
-    label: Rehydrate queued edits
-    data_flow: POST /api/sync/rehydrate after health check recovery
+    rules:
+      - Sidebar is hamburger-triggered overlay.
+      - Tables become card lists and tabs may become accordions.
+      - Drawers become full-screen overlays and graph-heavy screens offer tree fallback.
+principles:
+  data_flow_boundaries:
+    browser_allowed:
+      - Go REST API from gmind serve
+      - Static embedded assets from the Go binary
+      - Client cache for read-only offline state
+      - Local queue metadata for pending writes
+    browser_forbidden:
+      - Direct FrankenSQLite read or write
+      - Direct Zvec query
+      - Local git command or repository read
+      - GitHub gh CLI call
+      - FastCode direct access
+      - Shell command execution
+      - CI provider direct mutation
+    backend_responsibilities:
+      - Aggregate FrankenSQLite, Zvec, local git, GitHub, FastCode, shell, and CI data.
+      - Return normalized JSON and event stream payloads through Go REST endpoints.
+      - Enforce authorization, rate limits, and audit logging before browser data is returned.
+  accessibility_defaults:
+    - WCAG AA contrast and visible focus indicators.
+    - Keyboard access for routes, tabs, filters, tables, cards, graph controls, and dialogs.
+    - Every state color has visible text label and aria-label where status is compact.
+    - Error, offline, saving, and sync messages use aria-live polite unless destructive.
+    - Escape closes modal, drawer, dropdown, and command palette through shared keyboard handling.
+  boundary_states:
+    default: Render live API data with route-specific interactions enabled.
+    loading: Use layout-matched skeletons; avoid standalone spinner-only pages.
+    empty: Show specific empty copy plus create, clear filter, reindex, or retry CTA.
+    error: Show concise cause, retry action, and safe route fallback.
+    offline: Show top banner, preserve navigation, use read-only cache, queue eligible writes.
+    forbidden: Explain missing permission and provide safe return action.
+    partial: Show local graph or cached data while enrichment continues.
+    saving: Disable edited controls, show inline progress, rollback on API error.
+    not_found: Show missing entity message with parent-list link.
+    sync_conflict: Let user choose Keep local edit or Use server version with audit trail.
+  responsive_constraints:
+    shell: Desktop expanded, tablet icon rail, mobile overlay.
+    board: Desktop horizontal kanban, tablet horizontal scroll, mobile card/list stack.
+    graphs: Desktop canvas plus detail, tablet bottom sheet, mobile tree or simplified graph.
+    approval: Desktop queue/evidence/decision split, tablet stacked, mobile fixed decision bar.
+    documents: Desktop tree plus content, tablet selector plus content, mobile list/detail swap.
+api_contracts:
+  realtime:
+    polling_interval: 3 to 5 seconds for events table derived updates
+    health_check: GET /api/health
+    rehydrate: POST /api/sync/rehydrate
+    conflict_resolution: POST /api/sync/conflicts/:id/resolve
+  shared_endpoints:
+    - GET /api/coverage
+    - GET /api/gaps
+    - GET /api/search?q=<query>&type=<type>
+    - GET /api/tasks
+    - GET /api/tasks/:id
+    - PUT /api/tasks/:id
+    - PUT /api/tasks/bulk
+    - GET /api/trace/:id?depth=full
+    - GET /api/docs?group=source_type
+    - GET /api/docs/:id
+actions:
+  - id: ds:action:route-enter
+    event: EVENT_ROUTE_ENTER
+    label: Load route data through Go REST API
+  - id: ds:action:hash-navigate
+    event: EVENT_HASH_NAVIGATE
+    label: Update hash-selected tab, scenario, anchor, preset, or board
+  - id: ds:action:refresh
+    event: EVENT_REFRESH
+    label: Retry or manually refresh current route data
+  - id: ds:action:retry
+    event: EVENT_RETRY
+    label: Retry failed API load from error, empty, or recovery state
+  - id: ds:action:search
+    event: EVENT_SEARCH
+    label: Run global or explorer search
+  - id: ds:action:view-task
+    event: EVENT_VIEW_TASK
+    label: Navigate to task detail
+  - id: ds:action:view-trace
+    event: EVENT_VIEW_TRACE
+    label: Navigate to Trace Explorer or Beads Traversal context
+  - id: ds:action:view-doc
+    event: EVENT_VIEW_DOC
+    label: Navigate to Document Viewer
   - id: ds:action:save-task
     event: EVENT_SAVE_TASK
-    label: Persist editable task fields
-    data_flow: PUT /api/tasks/:id
-  - id: ds:action:save-bulk
+    label: Save editable task field through PUT /api/tasks/:id
+  - id: ds:action:bulk-update
     event: EVENT_SAVE_BULK
-    label: Persist selected task bulk updates
-    data_flow: PUT /api/tasks/bulk
-  - id: ds:action:save-board
+    label: Save selected task bulk updates through PUT /api/tasks/bulk
+  - id: ds:action:move-card
     event: EVENT_MOVE_CARD
-    label: Persist kanban card movement
-    data_flow: PUT /api/tasks/:id/status
+    label: Persist Kanban drag/drop status change
   - id: ds:action:approval-decision
     event: EVENT_APPROVAL_DECISION
-    label: Submit approval or rejection with audit reason
-    data_flow: POST /api/approval/:id/decision
+    label: Submit approve, reject, or request changes with audit reason
   - id: ds:action:pi-plan-save
     event: EVENT_PI_PLAN_SAVE
     label: Save PI planning sandbox changes
-    data_flow: PUT /api/pi/plan
   - id: ds:action:confidence-vote
     event: EVENT_CONFIDENCE_VOTE
-    label: Submit PI confidence vote
-    data_flow: POST /api/pi/confidence-vote
-  - id: ds:action:view-doc
-    event: EVENT_VIEW_DOC
-    label: Open document viewer
-    data_flow: GET /api/docs/:id
-  - id: ds:action:view-task
-    event: EVENT_VIEW_TASK
-    label: Open task detail
-    data_flow: GET /api/tasks/:id
-  - id: ds:action:view-trace
-    event: EVENT_VIEW_TRACE
-    label: Open Beads trace explorer
-    data_flow: GET /api/trace/:id?depth=full
-  - id: ds:action:search
-    event: EVENT_SEARCH
-    label: Run global search
-    data_flow: GET /api/search?q=<query>&type=<type>
-  - id: ds:action:hash-nav
-    event: EVENT_HASH_NAVIGATE
-    label: Update same-route or cross-route showcase hash navigation
-    data_flow: browser hashchange plus route component state
-  - id: ds:action:refresh
-    event: EVENT_REFRESH
-    label: Refresh route data after retry or evidence update
-    data_flow: route-specific GET endpoints
-  - id: ds:action:back
-    event: EVENT_BACK
-    label: Return from boundary state to the last safe route
-    data_flow: client history back or route-safe fallback to core workspace route
-    source_components:
-      - ds:webui-pm-workspace-showcase:boundary-actions
+    label: Submit required PI confidence vote
+  - id: ds:action:disconnect
+    event: EVENT_DISCONNECT
+    label: Enter offline read-only mode
+  - id: ds:action:reconnect
+    event: EVENT_RECONNECT
+    label: Rehydrate queued edits after health recovers
   - id: ds:action:keep-local
     event: EVENT_KEEP_LOCAL
-    label: Keep queued local edits during sync conflict resolution
-    data_flow: POST /api/sync/conflicts/:id/resolve with resolution=keep_local
-    source_components:
-      - ds:webui-pm-workspace-showcase:sync-conflict-banner
+    label: Keep local queued edit during sync conflict
   - id: ds:action:use-server
     event: EVENT_USE_SERVER
-    label: Replace queued local edits with the server version during sync conflict resolution
-    data_flow: POST /api/sync/conflicts/:id/resolve with resolution=use_server
-    source_components:
-      - ds:webui-pm-workspace-showcase:sync-conflict-banner
+    label: Replace queued edit with server version
+  - id: ds:action:back
+    event: EVENT_BACK
+    label: Return to last safe route or workspace shell
+  - id: ds:action:open-overlay
+    event: EVENT_OPEN_OVERLAY
+    label: Open drawer, bottom sheet, command palette, or mobile nav
+  - id: ds:action:close-overlay
+    event: EVENT_CLOSE_OVERLAY
+    label: Close overlay with Escape, close button, or safe outside click
+screen_defaults:
+  required_states:
+    - default
+    - loading
+    - empty
+    - error
+    - offline
+    - forbidden
+  required_assertions:
+    - data-screen-id is stable and unique.
+    - data-ds-id is stable and unique within this contract.
+    - Route and hash anchors deep-link without losing shell state.
+    - Browser data comes from Go REST API only.
+    - Boundary states have specific copy and recovery affordance.
+    - Responsive behavior matches desktop, tablet, and mobile rules.
 screens:
-  - id: screen:rtm-dashboard
-    route: /
-    icon: dashboard
-    ds_id: ds:screen:rtm-dashboard-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis
-    behaviors:
-      - drill into PRD and section coverage
-      - click graph nodes to show trace details
-      - resolve gaps with create or source navigation action
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/coverage
-        - GET /api/tasks
-        - GET /api/trace/:id?depth=2
-        - GET /api/gaps
-    component_tree:
-      type: ScreenSurface
-      ds_id: ds:rtm-dashboard:surface
-      children:
-        - type: CoverageHeatmap
-          ds_id: ds:rtm-dashboard:coverage-heatmap
-          actions:
-            - EVENT_VIEW_TRACE
-        - type: TaskProgressPanel
-          ds_id: ds:rtm-dashboard:task-progress
-          actions:
-            - EVENT_VIEW_TASK
-        - type: KnowledgeGraphPanel
-          ds_id: ds:rtm-dashboard:knowledge-graph
-          actions:
-            - EVENT_VIEW_TRACE
-        - type: GapAnalysisPanel
-          ds_id: ds:rtm-dashboard:gap-analysis
-          actions:
-            - EVENT_REFRESH
-  - id: screen:safe-board
-    route: /board
-    icon: board
-    ds_id: ds:screen:safe-board-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: portfolio, ART, and team kanban views with WIP and RTE escalation badges
-    behaviors:
-      - switch Portfolio, ART, and Team board scopes
-      - drag task cards across statuses
-      - open RTE drawer from escalation badge
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/tasks?view=board&level=<level>
-        - PUT /api/tasks/:id/status
-        - GET /api/tasks/:id/activity
-    component_tree:
-      type: ScreenSurface
-      ds_id: ds:safe-board:surface
-      children:
-        - type: BoardSwitcher
-          ds_id: ds:safe-board:view-switcher
-        - type: KanbanBoard
-          ds_id: ds:safe-board:kanban
-          actions:
-            - EVENT_MOVE_CARD
-            - EVENT_VIEW_TASK
-        - type: RteEscalationBadge
-          ds_id: ds:safe-board:rte-escalation-badge
-  - id: screen:task-list
-    route: /tasks
-    icon: list
-    ds_id: ds:screen:task-list-001
+  - id: screen:global-shell
+    route: /design-system/webui-pm-workspace
+    core_routes:
+      - /
+      - /board
+      - /tasks
+      - /tasks/:id
+      - /trace/:id
+      - /docs
+      - /docs/:id
+      - /approval
+      - /search
+    ds_id: ds:screen:webui-pm-workspace-001
+    prd_ds_identity: ds:global_shell
+    anchors:
+      - surface-rtm-dashboard
+      - surface-safe-board
+      - surface-task-list
+      - surface-task-detail
+      - surface-trace-explorer
+      - surface-doc-viewer
+      - surface-approval-gates
+      - surface-search-results
     states:
       - default
       - loading
@@ -245,19 +235,161 @@ screens:
       - offline
       - forbidden
       - saving
-    layout: sortable data table with filters, pagination, CSV export, and bulk action bar
-    behaviors:
-      - combine status, priority, assignee, PRD, and QA filters
-      - select visible rows and bulk assign, status, or priority
-      - switch between list and board presentation
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+      - sync_conflict
+    layout: Integrated shell with header logo, global search, offline indicator, sidebar categories, footer sync status, and active PM surface.
+    data_flow:
+      endpoints:
+        - GET /api/health
+        - GET /api/coverage
+        - GET /api/tasks
+        - GET /api/trace/:id
+        - GET /api/docs
+        - GET /api/search
+    interactions:
+      - Global search focuses with Ctrl+K or slash and routes to /search.
+      - Sidebar highlights active Core route and showcase hash surface.
+      - Offline banner turns write controls into queued or read-only affordances.
+      - Sync conflict banner offers Keep local and Use server version actions.
+    component_tree:
+      type: Shell
+      ds_id: ds:global-shell:root
+      children:
+        - type: Header
+          ds_id: ds:global-shell:header
+          bindings:
+            online_status: /api/health
+          actions:
+            - EVENT_SEARCH
+            - EVENT_DISCONNECT
+            - EVENT_RECONNECT
+        - type: SidebarNavigation
+          ds_id: ds:global-shell:sidebar
+          actions:
+            - EVENT_HASH_NAVIGATE
+            - EVENT_VIEW_TASK
+            - EVENT_VIEW_TRACE
+            - EVENT_VIEW_DOC
+        - type: ActiveSurface
+          ds_id: ds:global-shell:active-surface
+        - type: OfflineAndSyncBanner
+          ds_id: ds:global-shell:sync-banner
+          actions:
+            - EVENT_KEEP_LOCAL
+            - EVENT_USE_SERVER
+            - EVENT_BACK
+  - id: screen:rtm-dashboard
+    route: /
+    showcase_route: /design-system/webui-pm-workspace#surface-rtm-dashboard
+    ds_id: ds:screen:rtm-dashboard-001
+    prd_ds_identity: ds:global_shell.surface.rtm_dashboard
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - offline
+      - forbidden
+    layout: Four-panel dashboard with KPI row, Coverage Heatmap, Task Progress, Knowledge Graph widget, and Gap Analysis.
+    data_flow:
+      endpoints:
+        - GET /api/coverage
+        - GET /api/tasks
+        - GET /api/trace/:id?depth=2
+        - GET /api/gaps
+    interactions:
+      - Expand PRD coverage sections and route low-coverage items to /trace/:id.
+      - Click graph node opens side panel and full trace CTA.
+      - Gap CTA creates or navigates to missing source context through API-backed flow.
+    component_tree:
+      type: DashboardSurface
+      ds_id: ds:rtm-dashboard:root
+      children:
+        - type: KpiCards
+          ds_id: ds:rtm-dashboard:kpis
+        - type: CoverageHeatmap
+          ds_id: ds:rtm-dashboard:coverage-heatmap
+          actions:
+            - EVENT_VIEW_TRACE
+        - type: TaskProgressPanel
+          ds_id: ds:rtm-dashboard:task-progress
+          actions:
+            - EVENT_VIEW_TASK
+        - type: KnowledgeGraphWidget
+          ds_id: ds:rtm-dashboard:knowledge-graph-widget
+          actions:
+            - EVENT_VIEW_TRACE
+        - type: GapAnalysisList
+          ds_id: ds:rtm-dashboard:gap-analysis
+          actions:
+            - EVENT_REFRESH
+  - id: screen:safe-board
+    route: /board
+    showcase_route: /design-system/kanban
+    ds_id: ds:screen:kanban-001
+    prd_ds_identity: ds:screen:kanban-001
+    anchors:
+      - sprint
+      - release
+      - bug-triage
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - offline
+      - forbidden
+      - saving
+    layout: Hash-selected SAFe board with WIP badges, draggable cards, stats strip, and RTE escalation badge.
+    data_flow:
+      endpoints:
+        - GET /api/tasks?view=board&board=<id>
+        - PUT /api/tasks/:id/status
+        - GET /api/tasks/:id/activity
+    interactions:
+      - Drag/drop cards with optimistic update and rollback on conflict or policy violation.
+      - WIP hard-limit columns reject invalid drops with visible reason.
+      - RTE badge opens discussion drawer and execution context.
+    component_tree:
+      type: BoardSurface
+      ds_id: ds:kanban:root
+      children:
+        - type: BoardSelector
+          ds_id: ds:kanban:board-selector
+          actions:
+            - EVENT_HASH_NAVIGATE
+        - type: KanbanColumns
+          ds_id: ds:kanban:columns
+          actions:
+            - EVENT_MOVE_CARD
+            - EVENT_VIEW_TASK
+        - type: BoardStats
+          ds_id: ds:kanban:stats
+        - type: RteEscalationBadge
+          ds_id: ds:kanban:rte-escalation-badge
+  - id: screen:task-list
+    route: /tasks
+    showcase_route: /design-system/webui-pm-workspace#surface-task-list
+    ds_id: ds:screen:task-list-001
+    prd_ds_identity: ds:global_shell.surface.task_list
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - offline
+      - forbidden
+      - saving
+    layout: Sortable task table with filters, pagination, board/list toggle, CSV export, and bulk action bar.
     data_flow:
       endpoints:
         - GET /api/tasks?format=list
         - PUT /api/tasks/bulk
+    interactions:
+      - Sort, filter, paginate, select rows, bulk assign, bulk status, bulk priority, export CSV.
+      - Mobile switches rows to cards with expandable detail.
     component_tree:
-      type: ScreenSurface
-      ds_id: ds:task-list:surface
+      type: TaskListSurface
+      ds_id: ds:task-list:root
       children:
         - type: TaskFilters
           ds_id: ds:task-list:filters
@@ -271,8 +403,15 @@ screens:
             - EVENT_SAVE_BULK
   - id: screen:task-detail
     route: /tasks/:id
-    icon: task-detail
+    showcase_route: /design-system/webui-pm-workspace#surface-task-detail
     ds_id: ds:screen:task-detail-001
+    prd_ds_identity: ds:global_shell.surface.task_detail
+    anchors:
+      - detail
+      - activity
+      - graph
+      - code
+      - approval
     states:
       - default
       - loading
@@ -282,21 +421,20 @@ screens:
       - forbidden
       - saving
       - not_found
-    layout: editable task header with Detail, Activity, Graph, and Code tabs
-    behaviors:
-      - edit first-class PM fields through optimistic API writes
-      - open dependency links in Trace Explorer
-      - show activity timeline and code-touch context
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Editable task header and tabs for Detail, Activity, Graph, Code, and approval-linked context.
     data_flow:
       endpoints:
         - GET /api/tasks/:id
         - GET /api/tasks/:id/activity
         - GET /api/trace/:id?depth=2
         - PUT /api/tasks/:id
+    interactions:
+      - Edit status, assignee, priority, qa_status, description, and labels through API writes.
+      - Dependency links open /trace/:id and activity anchors open /tasks/:id#activity.
+      - Offline edits are queued only where policy allows.
     component_tree:
-      type: ScreenSurface
-      ds_id: ds:task-detail:surface
+      type: TaskDetailSurface
+      ds_id: ds:task-detail:root
       children:
         - type: EditableFieldGroup
           ds_id: ds:task-detail:editable-fields
@@ -305,14 +443,114 @@ screens:
         - type: TaskTabs
           ds_id: ds:task-detail:tabs
           actions:
-            - EVENT_VIEW_TRACE
-            - EVENT_VIEW_DOC
+            - EVENT_HASH_NAVIGATE
         - type: ActivityTimeline
           ds_id: ds:task-detail:activity
+        - type: MiniGraphWidget
+          ds_id: ds:task-detail:graph-widget
+          actions:
+            - EVENT_VIEW_TRACE
+  - id: screen:approval-gates
+    route: /approval
+    showcase_route: /design-system/approval
+    secondary_routes:
+      - /tasks/:id#approval
+    ds_id: ds:screen:approval-001
+    prd_ds_identity: ds:screen:approval-001
+    anchors:
+      - panels
+      - rtm
+      - heatmap
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - offline
+      - forbidden
+      - insufficient_evidence
+      - decision_submitted
+    layout: Queue panel, evidence hub, RTM matrix, coverage heatmap, decision box, and audit receipt.
+    data_flow:
+      endpoints:
+        - GET /api/tasks?status=pending-approval
+        - GET /api/approval/:id/evidence
+        - GET /api/coverage
+        - POST /api/approval/:id/decision
+    interactions:
+      - Approve disabled until required evidence is valid or admin override includes audit reason.
+      - Reject requires reason; Request Changes creates activity event and policy status change.
+      - Toggles switch pending, approved, and rejected review lists.
+    component_tree:
+      type: ApprovalSurface
+      ds_id: ds:approval:root
+      children:
+        - type: ApprovalQueue
+          ds_id: ds:approval:queue
+        - type: EvidenceHub
+          ds_id: ds:approval:evidence-hub
+        - type: RtmMatrix
+          ds_id: ds:approval:rtm-matrix
+        - type: DecisionControls
+          ds_id: ds:approval:decision-controls
+          actions:
+            - EVENT_APPROVAL_DECISION
+  - id: screen:doc-viewer
+    route: /docs
+    secondary_routes:
+      - /docs/:id
+    showcase_route: /design-system/doc-viewer
+    ds_id: ds:screen:doc-viewer-001
+    prd_ds_identity: ds:screen:doc-viewer-001
+    states:
+      - default
+      - loading
+      - empty
+      - error
+      - offline
+      - forbidden
+    layout: GitHub-like tree grouped by source type and rendered document panel with Beads badges and coverage markers.
+    data_flow:
+      endpoints:
+        - GET /api/docs?group=source_type
+        - GET /api/docs/:id
+        - GET /api/coverage?doc=<id>
+    interactions:
+      - Expand/collapse tree folders with keyboard up/down/enter support.
+      - Auto-link br-* and bd-* IDs to /trace/:id.
+      - Section badges covered, partial, and gap link to Explorer and Knowledge Graph.
+    component_tree:
+      type: DocViewerSurface
+      ds_id: ds:doc-viewer:root
+      children:
+        - type: DocTree
+          ds_id: ds:doc-viewer:tree
+        - type: RenderedDocument
+          ds_id: ds:doc-viewer:content
+          actions:
+            - EVENT_VIEW_TRACE
+        - type: SectionCoverageBadges
+          ds_id: ds:doc-viewer:section-badges
   - id: screen:trace-explorer
     route: /trace/:id
-    icon: trace
+    secondary_routes:
+      - /trace/:id?mode=dag
+      - /knowledge-graph
+    showcase_routes:
+      - /design-system/knowledge-graph
+      - /design-system/beads-traversal
     ds_id: ds:screen:trace-explorer-001
+    prd_ds_identities:
+      - ds:screen:knowledge-graph-001
+      - ds:screen:beads-traversal-001
+    anchors:
+      - simple
+      - ecosystem
+      - sprint
+      - prd-sections
+      - plan-elements
+      - tasks
+      - commits
     states:
       - default
       - loading
@@ -321,102 +559,44 @@ screens:
       - offline
       - forbidden
       - partial
-    layout: full-page graph canvas with toolbar, filters, legend, and detail panel
-    behaviors:
-      - change root Beads ID and depth
-      - click node for detail, double-click to route, right-click for context menu
-      - show partial local data when enrichment times out
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Full graph canvas or layered DAG with toolbar, presets, legends, selected-node banner, and detail sidebar.
     data_flow:
       endpoints:
         - GET /api/trace/:id?depth=full
+        - GET /api/graph/presets
         - GET /api/impact/:section
+    interactions:
+      - Click node opens detail; double-click navigates to task, doc, or external PR link returned by API.
+      - Hash presets select Sigma viewer scenario; DAG mode toggles forward and reverse traversal.
+      - Partial enrichment badge appears when GitHub or FastCode enrichment times out.
     component_tree:
-      type: ScreenSurface
-      ds_id: ds:trace-explorer:surface
+      type: TraceSurface
+      ds_id: ds:trace-explorer:root
       children:
         - type: TraceToolbar
           ds_id: ds:trace-explorer:toolbar
-        - type: TraceGraphCanvas
-          ds_id: ds:trace-explorer:graph
+        - type: GraphCanvas
+          ds_id: ds:trace-explorer:graph-canvas
           actions:
             - EVENT_VIEW_TASK
             - EVENT_VIEW_DOC
-        - type: TraceDetailPanel
+        - type: TraversalLayers
+          ds_id: ds:trace-explorer:dag-layers
+        - type: DetailPanel
           ds_id: ds:trace-explorer:detail-panel
-  - id: screen:doc-viewer
-    route: /docs
-    icon: documents
-    ds_id: ds:screen:core-doc-viewer-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: source-type document tree and rendered content panel
-    behaviors:
-      - browse indexed documents by source type
-      - auto-link Beads IDs to trace routes
-      - show coverage indicator for PRD documents
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/docs?group=source_type
-        - GET /api/docs/:id
-        - GET /api/coverage?prd=<beads-id>
-    component_tree:
-      type: ScreenSurface
-      ds_id: ds:core-doc-viewer:surface
-      children:
-        - type: DocTree
-          ds_id: ds:core-doc-viewer:tree
-        - type: RenderedDocContent
-          ds_id: ds:core-doc-viewer:content
-          actions:
-            - EVENT_VIEW_TRACE
-        - type: BeadsAutoLinks
-          ds_id: ds:core-doc-viewer:beads-links
-  - id: screen:approval-gates
-    route: /approval
-    icon: approval
-    ds_id: ds:screen:approval-gates-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: Level 3 approval workspace with queue, evidence, PRD context, and decision controls
-    behaviors:
-      - disable approval when evidence is insufficient
-      - show RTE execution context for approved escalations
-      - require audit reason for manual override paths
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/tasks?status=pending-approval
-        - GET /api/approval/:id/evidence
-        - POST /api/approval/:id/decision
-        - GET /api/coverage
-    component_tree:
-      type: ScreenSurface
-      ds_id: ds:approval-gates:surface
-      children:
-        - type: ApprovalQueue
-          ds_id: ds:approval-gates:queue
-        - type: EvidencePanel
-          ds_id: ds:approval-gates:evidence
-        - type: DecisionControls
-          ds_id: ds:approval-gates:decision-controls
-          actions:
-            - EVENT_APPROVAL_DECISION
-  - id: screen:search-results
+  - id: screen:search-explorer
     route: /search
-    icon: search
-    ds_id: ds:screen:search-results-001
+    showcase_route: /design-system/explorer
+    ds_id: ds:screen:explorer-001
+    prd_ds_identity: ds:screen:explorer-001
+    anchors:
+      - all
+      - doc
+      - commit
+      - task
+      - adr
+      - chat
+      - spike
     states:
       - default
       - loading
@@ -424,36 +604,42 @@ screens:
       - error
       - offline
       - forbidden
-    layout: global search input, filter sidebar, grouped results, and instant suggestions
-    behaviors:
-      - focus global search with Ctrl+K or slash
-      - group results by task, doc, commit, PR, chat, and RTE approval
-      - navigate result clicks to task, doc, trace, or external PR target
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Unified search with query input, hash-selected filters, grouped result list, and detail sidebar.
     data_flow:
       endpoints:
         - GET /api/search?q=<query>&type=<type>
+    interactions:
+      - Debounced suggestions under global search target under 500ms.
+      - Result clicks navigate to tasks, docs, trace, or external PR URL supplied by API.
+      - Detail sidebar becomes drawer on tablet and mobile.
     component_tree:
-      type: ScreenSurface
-      ds_id: ds:search-results:surface
+      type: SearchSurface
+      ds_id: ds:search-explorer:root
       children:
         - type: SearchInput
-          ds_id: ds:search-results:input
+          ds_id: ds:search-explorer:input
           actions:
             - EVENT_SEARCH
-        - type: FilterSidebar
-          ds_id: ds:search-results:filters
+        - type: TypeFilters
+          ds_id: ds:search-explorer:type-filters
+          actions:
+            - EVENT_HASH_NAVIGATE
         - type: GroupedResults
-          ds_id: ds:search-results:results
+          ds_id: ds:search-explorer:results
           actions:
             - EVENT_VIEW_TASK
             - EVENT_VIEW_DOC
             - EVENT_VIEW_TRACE
-  - id: screen:ds-terminal
-    route: /design-system/terminal
-    icon: terminal-monitor
-    prd_ds_id: ds:screen:terminal-001
-    ds_id: ds:screen:terminal-showcase-001
+  - id: screen:terminal-console
+    route: /terminal
+    showcase_route: /design-system/terminal
+    ds_id: ds:screen:terminal-001
+    prd_ds_identity: ds:screen:terminal-001
+    anchors:
+      - agent-console
+      - deploy
+      - debug
+      - ci-cd
     states:
       - default
       - loading
@@ -461,33 +647,34 @@ screens:
       - error
       - offline
       - forbidden
-    layout: scenario tabs with 2x2 terminal mosaic
-    behaviors:
-      - Agent Console, Deploy, Debug, and CI/CD scenario tabs
-      - command, output, success, and error line types
-      - mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Scenario tabs and 2x2 terminal mosaic for agent, deploy, debug, and CI/CD read-only streams.
     data_flow:
       endpoints:
         - GET /api/agents/sessions
         - GET /api/ci/runs
         - GET /api/tasks/:id/activity
         - STREAM /api/log-events?stream=terminal
+    interactions:
+      - Tabs deep-link via hash and preserve active tab on refresh.
+      - Lines render command, output, success, and error types.
+      - Browser never executes shell; controlled actions are API-gated only.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:terminal-showcase:surface
+      type: TerminalSurface
+      ds_id: ds:terminal:root
       children:
         - type: ScenarioTabs
-          ds_id: ds:terminal-showcase:scenario-tabs
+          ds_id: ds:terminal:scenario-tabs
+          actions:
+            - EVENT_HASH_NAVIGATE
         - type: TerminalMosaic
-          ds_id: ds:terminal-showcase:mosaic
+          ds_id: ds:terminal:mosaic
         - type: TerminalLineList
-          ds_id: ds:terminal-showcase:lines
-  - id: screen:ds-portfolio
-    route: /design-system/portfolio
-    icon: portfolio-chart
-    prd_ds_id: br-ds-portfolio-view
-    ds_id: ds:screen:portfolio-showcase-001
+          ds_id: ds:terminal:line-list
+  - id: screen:portfolio
+    route: /portfolio
+    showcase_route: /design-system/portfolio
+    ds_id: ds:screen:portfolio-001
+    prd_ds_identity: br-ds-portfolio-view
     states:
       - default
       - loading
@@ -495,29 +682,29 @@ screens:
       - error
       - offline
       - forbidden
-    layout: executive portfolio table with roadmap quarters
-    behaviors:
-      - show Epic ID, owner, progress, budget, status, and forecast
-      - render Q1, Q2, and Q3 2026 roadmap
-      - preserve specified PRD DS badge value as display metadata
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Executive epic table and Q1/Q2/Q3 2026 roadmap with budget, progress, status, owner, and forecast.
     data_flow:
       endpoints:
         - GET /api/portfolio/epics
         - GET /api/tasks?issue_type=epic
+    interactions:
+      - Click epic opens blocked task detail list and trace context.
+      - Forbidden hides budget detail while keeping non-sensitive roadmap visible.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:portfolio-showcase:surface
+      type: PortfolioSurface
+      ds_id: ds:portfolio:root
       children:
         - type: PortfolioTable
-          ds_id: ds:portfolio-showcase:table
+          ds_id: ds:portfolio:epic-table
+          actions:
+            - EVENT_VIEW_TASK
         - type: Roadmap
-          ds_id: ds:portfolio-showcase:roadmap
-  - id: screen:ds-pi-planning
-    route: /design-system/pi-planning
-    icon: target
-    prd_ds_id: br-ds-pi-planning
-    ds_id: ds:screen:pi-planning-showcase-001
+          ds_id: ds:portfolio:roadmap
+  - id: screen:pi-planning
+    route: /pi-planning
+    showcase_route: /design-system/pi-planning
+    ds_id: ds:screen:pi-planning-001
+    prd_ds_identity: br-ds-pi-planning
     states:
       - default
       - loading
@@ -525,39 +712,50 @@ screens:
       - error
       - offline
       - forbidden
-    layout: two-column PI planning sandbox, scoring, vote, and ROAM board
-    behaviors:
-      - drag and drop strategic sandbox capacity items
-      - capture business value scoring and confidence vote one through five
-      - classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+      - saving
+    layout: Strategic Sandbox, Capacity Plan, Business Value Scoring, Confidence Vote, and ROAM Board.
     data_flow:
       endpoints:
         - GET /api/pi/features
         - PUT /api/pi/plan
         - GET /api/risks?view=roam
         - POST /api/pi/confidence-vote
+    interactions:
+      - Drag features and risks into capacity plan with policy-aware save.
+      - Confidence Vote 1 to 5 is human-required before sprint launch.
+      - ROAM statuses are Resolved, Owned, Accepted, Mitigated, and Unassigned.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:pi-planning-showcase:surface
+      type: PiPlanningSurface
+      ds_id: ds:pi-planning:root
       children:
         - type: StrategicSandbox
-          ds_id: ds:pi-planning-showcase:sandbox
+          ds_id: ds:pi-planning:strategic-sandbox
           actions:
             - EVENT_PI_PLAN_SAVE
         - type: BusinessValueScoring
-          ds_id: ds:pi-planning-showcase:value-scoring
+          ds_id: ds:pi-planning:value-scoring
         - type: ConfidenceVote
-          ds_id: ds:pi-planning-showcase:confidence-vote
+          ds_id: ds:pi-planning:confidence-vote
           actions:
             - EVENT_CONFIDENCE_VOTE
         - type: RoamBoard
-          ds_id: ds:pi-planning-showcase:roam-board
-  - id: screen:ds-git-graph
-    route: /design-system/git-graph
-    icon: branch-graph
-    prd_ds_id: ds:screen:git-graph-001
-    ds_id: ds:screen:git-graph-showcase-001
+          ds_id: ds:pi-planning:roam-board
+  - id: screen:git-graph
+    route: /git-graph
+    showcase_route: /design-system/git-graph
+    ds_id: ds:screen:git-graph-001
+    prd_ds_identity: ds:screen:git-graph-001
+    anchors:
+      - gitflow
+      - multi-agent
+      - hotfix
+      - release-train
+      - monorepo
+      - beads-prd-trace
+      - beads-deadlock
+      - beads-ds-comp
+      - beads-traversal
+      - beads-sprint-review
     states:
       - default
       - loading
@@ -565,30 +763,39 @@ screens:
       - error
       - offline
       - forbidden
-    layout: hash-selected git graph scenarios with branches, commits, connections, tags, and stats
-    behaviors:
-      - support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios
-      - render backend-aggregated git and Beads trailer lineage
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Scenario selector and graph canvas with branches, commits, merge connections, branch tags, stats, and trace overlay.
     data_flow:
       endpoints:
         - GET /api/git/graph?scenario=<id>
         - GET /api/trace/:id?include=git
+    interactions:
+      - Hash selects scenario; click commit shows Beads trailer, PRD/Plan/Task links, and CI status.
+      - Browser sees only backend-aggregated git data, never local git directly.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:git-graph-showcase:surface
+      type: GitGraphSurface
+      ds_id: ds:git-graph:root
       children:
         - type: ScenarioSelector
-          ds_id: ds:git-graph-showcase:scenario-selector
+          ds_id: ds:git-graph:scenario-selector
           actions:
             - EVENT_HASH_NAVIGATE
         - type: GitGraphCanvas
-          ds_id: ds:git-graph-showcase:canvas
-  - id: screen:ds-kanban
-    route: /design-system/kanban
-    icon: kanban-board
-    prd_ds_id: ds:screen:kanban-001
-    ds_id: ds:screen:kanban-showcase-001
+          ds_id: ds:git-graph:canvas
+        - type: CommitDetail
+          ds_id: ds:git-graph:commit-detail
+          actions:
+            - EVENT_VIEW_TRACE
+  - id: screen:timeline
+    route: /timeline
+    secondary_routes:
+      - /tasks/:id#activity
+    showcase_route: /design-system/timeline
+    ds_id: ds:screen:timeline-001
+    prd_ds_identity: ds:screen:timeline-001
+    anchors:
+      - file-lease
+      - activity-feed
+      - sprint-day
     states:
       - default
       - loading
@@ -596,142 +803,52 @@ screens:
       - error
       - offline
       - forbidden
-    layout: board selector with draggable cards, WIP badges, and board stats
-    behaviors:
-      - hash routes for sprint, release, and bug-triage boards
-      - drag cards across WIP-limited columns
-      - show total, done, and progress stats
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/tasks?view=board&board=<id>
-        - PUT /api/tasks/:id/status
-    component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:kanban-showcase:surface
-      children:
-        - type: BoardSelector
-          ds_id: ds:kanban-showcase:board-selector
-          actions:
-            - EVENT_HASH_NAVIGATE
-        - type: KanbanColumns
-          ds_id: ds:kanban-showcase:columns
-          actions:
-            - EVENT_MOVE_CARD
-            - EVENT_VIEW_TASK
-        - type: BoardStats
-          ds_id: ds:kanban-showcase:stats
-  - id: screen:ds-knowledge-graph
-    route: /design-system/knowledge-graph
-    icon: knowledge-graph
-    prd_ds_id: ds:screen:knowledge-graph-001
-    ds_id: ds:screen:knowledge-graph-showcase-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-      - partial
-    layout: client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats
-    behaviors:
-      - hash presets simple, ecosystem, and sprint
-      - show node and edge legends with selected-node details
-      - use tree or simplified fallback on constrained mobile viewports
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/trace/:id?depth=full
-        - GET /api/graph/presets
-    component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:knowledge-graph-showcase:surface
-      children:
-        - type: GraphPresetTabs
-          ds_id: ds:knowledge-graph-showcase:presets
-          actions:
-            - EVENT_HASH_NAVIGATE
-        - type: SigmaGraph
-          ds_id: ds:knowledge-graph-showcase:viewer
-        - type: GraphLegend
-          ds_id: ds:knowledge-graph-showcase:legend
-  - id: screen:ds-approval
-    route: /design-system/approval
-    icon: approval-check
-    prd_ds_id: ds:screen:approval-001
-    ds_id: ds:screen:approval-showcase-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap
-    behaviors:
-      - pending, approved, and rejected toggles
-      - evidence blocks for Tests, Diff, Beads ID, PRD, and CI
-      - hash anchors for panels, RTM, and heatmap
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/tasks?status=pending-approval
-        - GET /api/coverage
-        - GET /api/approval/:id/evidence
-        - POST /api/approval/:id/decision
-    component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:approval-showcase:surface
-      children:
-        - type: ApprovalToggles
-          ds_id: ds:approval-showcase:toggles
-          actions:
-            - EVENT_HASH_NAVIGATE
-        - type: EvidenceBlocks
-          ds_id: ds:approval-showcase:evidence
-        - type: RtmMatrix
-          ds_id: ds:approval-showcase:rtm
-        - type: CoverageHeatmap
-          ds_id: ds:approval-showcase:heatmap
-  - id: screen:ds-timeline
-    route: /design-system/timeline
-    icon: calendar-timeline
-    prd_ds_id: ds:screen:timeline-001
-    ds_id: ds:screen:timeline-showcase-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: file lease indicators, activity feed, and sprint day timeline
-    behaviors:
-      - show unlocked, locked, expiring, and expired lease states
-      - hash anchors for file-lease, activity-feed, and sprint-day
-      - update from activity polling every 3 to 5 seconds
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: File lease indicators, activity feed, sprint day timeline, and freshness indicator.
     data_flow:
       endpoints:
         - GET /api/activity
         - GET /api/file-leases
         - GET /api/tasks/:id/activity
+    interactions:
+      - Lease states are unlocked, locked, expiring, and expired with labels and avatar context.
+      - Offline stops auto-refresh and shows cached read-only data with last updated timestamp.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:timeline-showcase:surface
+      type: TimelineSurface
+      ds_id: ds:timeline:root
       children:
-        - type: FileLeaseIndicators
-          ds_id: ds:timeline-showcase:file-lease
+        - type: FileLeasePanel
+          ds_id: ds:timeline:file-lease-panel
         - type: ActivityFeed
-          ds_id: ds:timeline-showcase:activity-feed
+          ds_id: ds:timeline:activity-feed
+          actions:
+            - EVENT_VIEW_TASK
         - type: SprintDayTimeline
-          ds_id: ds:timeline-showcase:sprint-day
-  - id: screen:ds-components
+          ds_id: ds:timeline:sprint-day
+  - id: screen:components-catalog
     route: /design-system/components
-    icon: component-blocks
-    prd_ds_id: ds:screen:components-001
-    ds_id: ds:screen:components-showcase-001
+    core_routes:
+      - shared-components
+    ds_id: ds:screen:components-001
+    prd_ds_identity: ds:screen:components-001
+    anchors:
+      - buttons
+      - badges-status
+      - progress
+      - avatar-stack
+      - modal
+      - dropdown
+      - accordion
+      - tab-panel
+      - data-table
+      - tooltip
+      - code-block
+      - cards
+      - prompt-card
+      - section-labels
+      - status-dots
+      - skeleton
+      - empty-state
+      - error-banner
     states:
       - default
       - loading
@@ -739,27 +856,28 @@ screens:
       - error
       - offline
       - forbidden
-    layout: catalog of 18 shared design-system sections with hash scroll and interactive examples
-    behaviors:
-      - cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner
-      - production screens compose these primitives instead of one-off styling
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Catalog of 18 shared primitives with hash scroll and interactive examples.
     data_flow:
       endpoints:
         - GET /api/design-system/components
+    interactions:
+      - Production screens compose catalog primitives and tokens instead of one-off styling.
+      - Hash anchors scroll to component section and preserve active nav state.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:components-showcase:surface
+      type: ComponentsCatalogSurface
+      ds_id: ds:components-catalog:root
       children:
-        - type: ComponentSections
-          ds_id: ds:components-showcase:sections
+        - type: ComponentSectionNav
+          ds_id: ds:components-catalog:section-nav
           actions:
             - EVENT_HASH_NAVIGATE
-  - id: screen:ds-doc-viewer
-    route: /design-system/doc-viewer
-    icon: document-page
-    prd_ds_id: ds:screen:doc-viewer-001
-    ds_id: ds:screen:doc-viewer-showcase-001
+        - type: ComponentExamples
+          ds_id: ds:components-catalog:examples
+  - id: screen:storyboard-overview
+    route: /storyboards
+    showcase_route: /design-system/storyboard
+    ds_id: ds:screen:storyboard-001
+    prd_ds_identity: ds:screen:storyboard-001
     states:
       - default
       - loading
@@ -767,132 +885,29 @@ screens:
       - error
       - offline
       - forbidden
-    layout: GitHub-like file tree with selected document panel and Beads badges
-    behaviors:
-      - expand folders and select documents
-      - show section status covered, partial, or gap
-      - link to Explorer and Knowledge Graph
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/docs?group=source_type
-        - GET /api/docs/:id
-    component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:doc-viewer-showcase:surface
-      children:
-        - type: ShowcaseDocTree
-          ds_id: ds:doc-viewer-showcase:tree
-        - type: ShowcaseDocPanel
-          ds_id: ds:doc-viewer-showcase:panel
-          actions:
-            - EVENT_VIEW_TRACE
-  - id: screen:ds-explorer
-    route: /design-system/explorer
-    icon: search-explorer
-    prd_ds_id: ds:screen:explorer-001
-    ds_id: ds:screen:explorer-showcase-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: unified search, type filters, result list, and detail sidebar
-    behaviors:
-      - filter all, doc, commit, task, adr, chat, and spike via hash
-      - show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer
-      - preserve detail sidebar on desktop and convert to drawer on smaller viewports
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/search?q=<query>&type=<type>
-    component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:explorer-showcase:surface
-      children:
-        - type: ExplorerQuery
-          ds_id: ds:explorer-showcase:query
-          actions:
-            - EVENT_SEARCH
-        - type: ExplorerTypeFilters
-          ds_id: ds:explorer-showcase:type-filters
-          actions:
-            - EVENT_HASH_NAVIGATE
-        - type: ExplorerDetailSidebar
-          ds_id: ds:explorer-showcase:detail-sidebar
-          actions:
-            - EVENT_VIEW_TRACE
-            - EVENT_VIEW_DOC
-            - EVENT_VIEW_TASK
-  - id: screen:ds-beads-traversal
-    route: /design-system/beads-traversal
-    icon: linked-nodes
-    prd_ds_id: ds:screen:beads-traversal-001
-    ds_id: ds:screen:beads-traversal-showcase-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: layered DAG from PRD sections to plan elements, tasks, and commits
-    behaviors:
-      - toggle forward and reverse traversal direction
-      - highlight selected and linked nodes
-      - show parent and children links in detail sidebar
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
-    data_flow:
-      endpoints:
-        - GET /api/trace/:id?depth=full
-    component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:beads-traversal-showcase:surface
-      children:
-        - type: TraversalLayers
-          ds_id: ds:beads-traversal-showcase:layers
-        - type: DirectionToggle
-          ds_id: ds:beads-traversal-showcase:direction-toggle
-        - type: TraversalDetailSidebar
-          ds_id: ds:beads-traversal-showcase:detail-sidebar
-  - id: screen:ds-storyboard
-    route: /design-system/storyboard
-    icon: journey-map
-    prd_ds_id: ds:screen:storyboard-001
-    ds_id: ds:screen:storyboard-showcase-001
-    states:
-      - default
-      - loading
-      - empty
-      - error
-      - offline
-      - forbidden
-    layout: journey filter, horizontal use-case flow, guidance panel, and CTA to real screen
-    behaviors:
-      - filter journeys and preserve selected route state
-      - show Mechanism and Action, Considerations, and Investigating guidance
-      - CTA opens the corresponding implementation screen
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Journey filter, horizontal use-case flow nodes, guidance panel, and CTA to real screen.
     data_flow:
       endpoints:
         - GET /api/storyboards
+    interactions:
+      - Filter by journey, role, module, and outcome.
+      - Guidance separates Mechanism and Action, Considerations, and Investigating.
+      - CTA opens actual screen path, not placeholder.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:storyboard-showcase:surface
+      type: StoryboardOverviewSurface
+      ds_id: ds:storyboard-overview:root
       children:
         - type: JourneyFilter
-          ds_id: ds:storyboard-showcase:filter
+          ds_id: ds:storyboard-overview:filter
         - type: UsecaseFlow
-          ds_id: ds:storyboard-showcase:flow
+          ds_id: ds:storyboard-overview:flow
         - type: GuidancePanel
-          ds_id: ds:storyboard-showcase:guidance
-  - id: screen:ds-storyboard-detail
-    route: /design-system/storyboard/:id
-    icon: journey-detail
-    prd_ds_id: ds:screen:storyboard-001
-    ds_id: ds:screen:storyboard-detail-showcase-001
+          ds_id: ds:storyboard-overview:guidance
+  - id: screen:storyboard-detail
+    route: /storyboards/:id
+    showcase_route: /design-system/storyboard/:id
+    ds_id: ds:screen:storyboard-detail-001
+    prd_ds_identity: ds:screen:storyboard-detail-001
     states:
       - default
       - loading
@@ -901,29 +916,31 @@ screens:
       - offline
       - forbidden
       - not_found
-    layout: dynamic storyboard detail with role, journey, step timeline, and related use cases
-    behaviors:
-      - map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance
-      - navigate related use cases without losing sidebar context
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    layout: Role panel, journey summary, step timeline, related use cases, expected states, and CTA to matching Core route.
     data_flow:
       endpoints:
         - GET /api/storyboards/:id
+    interactions:
+      - Each step exposes screen_path, data-screen-id, expected_state, expected outcome, and success_signal.
+      - Related usecases navigate without losing shell or category context.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:storyboard-detail-showcase:surface
+      type: StoryboardDetailSurface
+      ds_id: ds:storyboard-detail:root
       children:
         - type: StoryboardRolePanel
-          ds_id: ds:storyboard-detail-showcase:role
+          ds_id: ds:storyboard-detail:role-panel
         - type: StepTimeline
-          ds_id: ds:storyboard-detail-showcase:steps
+          ds_id: ds:storyboard-detail:step-timeline
         - type: RelatedUsecases
-          ds_id: ds:storyboard-detail-showcase:related
-  - id: screen:ds-webui-pm-workspace
-    route: /design-system/webui-pm-workspace
-    icon: workspace-compass
-    prd_ds_id: ds:global_shell
-    ds_id: ds:screen:webui-pm-workspace-showcase-001
+          ds_id: ds:storyboard-detail:related-usecases
+  - id: screen:document-graph-widget
+    route: embedded
+    surface_classification: embedded_widget_non_route_surface
+    embed_locations:
+      - /#panel-knowledge-graph
+      - /tasks/:id#graph
+    ds_id: ds:screen:document-graph-widget-001
+    prd_ds_identity: br-prd04-s5
     states:
       - default
       - loading
@@ -931,268 +948,63 @@ screens:
       - error
       - offline
       - forbidden
-    layout: integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces
-    behaviors:
-      - expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces
-      - every active surface carries stable data-screen-id and data-ds-id
-      - sidebar navigation maps showcase hashes to PM surfaces and Core routes
-    assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
+    state_semantics: Inherits host screen shell, auth, offline banner, and recovery affordances while rendering widget-local graph content states from PRD §5.
+    layout: Embedded graph widget with canvas, filters, zoom controls, side panel, and Open Full Page CTA.
     data_flow:
       endpoints:
-        - GET /api/coverage
-        - GET /api/tasks
-        - GET /api/trace/:id
-        - GET /api/docs
-        - GET /api/search
+        - GET /api/trace/:id?depth=2
+    interactions:
+      - Click node shows type-specific detail and route-safe full trace CTA.
+      - Mobile can replace graph with collapsible tree list.
     component_tree:
-      type: ShowcaseSurface
-      ds_id: ds:webui-pm-workspace-showcase:surface
+      type: EmbeddedGraphWidget
+      ds_id: ds:document-graph-widget:root
       children:
-        - type: WorkspaceHeader
-          ds_id: ds:webui-pm-workspace-showcase:header
+        - type: MiniGraphCanvas
+          ds_id: ds:document-graph-widget:canvas
+        - type: NodeDetailPanel
+          ds_id: ds:document-graph-widget:detail-panel
           actions:
-            - EVENT_SEARCH
-            - EVENT_DISCONNECT
-            - EVENT_RECONNECT
-        - type: WorkspaceSidebarNav
-          ds_id: ds:webui-pm-workspace-showcase:sidebar-nav
-          actions:
-            - EVENT_HASH_NAVIGATE
-            - EVENT_VIEW_TASK
             - EVENT_VIEW_TRACE
-            - EVENT_VIEW_DOC
-        - type: BoundaryActionBar
-          ds_id: ds:webui-pm-workspace-showcase:boundary-actions
-          actions:
-            - EVENT_BACK
-        - type: SyncConflictBanner
-          ds_id: ds:webui-pm-workspace-showcase:sync-conflict-banner
-          actions:
-            - EVENT_KEEP_LOCAL
-            - EVENT_USE_SERVER
-        - type: WorkspaceSurface
-          ds_id: ds:webui-pm-workspace-showcase:active-surface
+acceptance_assertions:
+  - id: ac:data-boundary
+    statement: Browser routes use only Go REST API; no direct FrankenSQLite, Zvec, git, gh, FastCode, shell, or CI access.
+  - id: ac:route-coverage
+    statement: All PRD §8 showcase routes and listed Core mappings are represented by a stable screen id, route, ds identity, states, data flow, and component tree.
+  - id: ac:state-coverage
+    statement: Default, loading, empty, error, offline, and forbidden are available for every user-facing screen, with specialized states where required.
+  - id: ac:responsive
+    statement: Desktop, tablet, and mobile constraints are explicit for shell, board, graph, approval, document, and table layouts.
+  - id: ac:a11y
+    statement: Keyboard, focus, labels, aria-live status, and non-color-only state semantics are required before Stage 2 implementation passes.
 ```
 
 ```mermaid
 stateDiagram-v2
     direction LR
     [*] --> GlobalShell
-    GlobalShell --> LoadingState : ROUTE_ENTER
-    LoadingState --> CoreRoute : API_SUCCESS_CORE
-    LoadingState --> ShowcaseRoute : API_SUCCESS_SHOWCASE
-    LoadingState --> EmptyState : API_EMPTY
-    LoadingState --> PermissionDenied : API_FORBIDDEN
-    LoadingState --> ErrorState : API_ERROR
-    LoadingState --> NotFoundState : API_NOT_FOUND
-    LoadingState --> PartialState : API_PARTIAL_ENRICHMENT
-    CoreRoute --> RtmDashboard : ROUTE_
-    RtmDashboard --> LoadingState : EVENT_REFRESH
-    RtmDashboard --> OfflineState : EVENT_DISCONNECT
-    RtmDashboard --> EmptyState : API_EMPTY
-    RtmDashboard --> ErrorState : API_ERROR
-    RtmDashboard --> PermissionDenied : API_FORBIDDEN
-    RtmDashboard --> TraceExplorer : EVENT_VIEW_TRACE
-    RtmDashboard --> TaskDetail : EVENT_VIEW_TASK
-    CoreRoute --> SafeBoard : ROUTE_board
-    SafeBoard --> LoadingState : EVENT_REFRESH
-    SafeBoard --> OfflineState : EVENT_DISCONNECT
-    SafeBoard --> EmptyState : API_EMPTY
-    SafeBoard --> ErrorState : API_ERROR
-    SafeBoard --> PermissionDenied : API_FORBIDDEN
-    SafeBoard --> SavingState : EVENT_MOVE_CARD
-    SafeBoard --> TaskDetail : EVENT_VIEW_TASK
-    CoreRoute --> TaskList : ROUTE_tasks
-    TaskList --> LoadingState : EVENT_REFRESH
-    TaskList --> OfflineState : EVENT_DISCONNECT
-    TaskList --> EmptyState : API_EMPTY
-    TaskList --> ErrorState : API_ERROR
-    TaskList --> PermissionDenied : API_FORBIDDEN
-    TaskList --> TaskDetail : EVENT_VIEW_TASK
-    TaskList --> SavingState : EVENT_SAVE_BULK
-    CoreRoute --> TaskDetail : ROUTE_tasks__id
-    TaskDetail --> LoadingState : EVENT_REFRESH
-    TaskDetail --> OfflineState : EVENT_DISCONNECT
-    TaskDetail --> EmptyState : API_EMPTY
-    TaskDetail --> ErrorState : API_ERROR
-    TaskDetail --> PermissionDenied : API_FORBIDDEN
-    TaskDetail --> NotFoundState : API_NOT_FOUND
-    TaskDetail --> SavingState : EVENT_SAVE_TASK
-    TaskDetail --> TraceExplorer : EVENT_VIEW_TRACE
-    TaskDetail --> DocViewer : EVENT_VIEW_DOC
-    CoreRoute --> TraceExplorer : ROUTE_trace__id
-    TraceExplorer --> LoadingState : EVENT_REFRESH
-    TraceExplorer --> OfflineState : EVENT_DISCONNECT
-    TraceExplorer --> EmptyState : API_EMPTY
-    TraceExplorer --> ErrorState : API_ERROR
-    TraceExplorer --> PermissionDenied : API_FORBIDDEN
-    TraceExplorer --> PartialState : API_PARTIAL_ENRICHMENT
-    TraceExplorer --> TaskDetail : EVENT_VIEW_TASK
-    TraceExplorer --> DocViewer : EVENT_VIEW_DOC
-    CoreRoute --> DocViewer : ROUTE_docs
-    DocViewer --> LoadingState : EVENT_REFRESH
-    DocViewer --> OfflineState : EVENT_DISCONNECT
-    DocViewer --> EmptyState : API_EMPTY
-    DocViewer --> ErrorState : API_ERROR
-    DocViewer --> PermissionDenied : API_FORBIDDEN
-    DocViewer --> TraceExplorer : EVENT_VIEW_TRACE
-    CoreRoute --> ApprovalGates : ROUTE_approval
-    ApprovalGates --> LoadingState : EVENT_REFRESH
-    ApprovalGates --> OfflineState : EVENT_DISCONNECT
-    ApprovalGates --> EmptyState : API_EMPTY
-    ApprovalGates --> ErrorState : API_ERROR
-    ApprovalGates --> PermissionDenied : API_FORBIDDEN
-    ApprovalGates --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
-    CoreRoute --> SearchResults : ROUTE_search
-    SearchResults --> LoadingState : EVENT_REFRESH
-    SearchResults --> OfflineState : EVENT_DISCONNECT
-    SearchResults --> EmptyState : API_EMPTY
-    SearchResults --> ErrorState : API_ERROR
-    SearchResults --> PermissionDenied : API_FORBIDDEN
-    SearchResults --> SearchResults : EVENT_SEARCH
-    SearchResults --> TaskDetail : EVENT_VIEW_TASK
-    SearchResults --> DocViewer : EVENT_VIEW_DOC
-    SearchResults --> TraceExplorer : EVENT_VIEW_TRACE
-    ShowcaseRoute --> DsTerminal : ROUTE_design_system_terminal
-    DsTerminal --> LoadingState : EVENT_REFRESH
-    DsTerminal --> OfflineState : EVENT_DISCONNECT
-    DsTerminal --> EmptyState : API_EMPTY
-    DsTerminal --> ErrorState : API_ERROR
-    DsTerminal --> PermissionDenied : API_FORBIDDEN
-    ShowcaseRoute --> DsPortfolio : ROUTE_design_system_portfolio
-    DsPortfolio --> LoadingState : EVENT_REFRESH
-    DsPortfolio --> OfflineState : EVENT_DISCONNECT
-    DsPortfolio --> EmptyState : API_EMPTY
-    DsPortfolio --> ErrorState : API_ERROR
-    DsPortfolio --> PermissionDenied : API_FORBIDDEN
-    ShowcaseRoute --> DsPiPlanning : ROUTE_design_system_pi_planning
-    DsPiPlanning --> LoadingState : EVENT_REFRESH
-    DsPiPlanning --> OfflineState : EVENT_DISCONNECT
-    DsPiPlanning --> EmptyState : API_EMPTY
-    DsPiPlanning --> ErrorState : API_ERROR
-    DsPiPlanning --> PermissionDenied : API_FORBIDDEN
-    DsPiPlanning --> PiPlanningSaveState : EVENT_PI_PLAN_SAVE
-    DsPiPlanning --> PiPlanningVoteState : EVENT_CONFIDENCE_VOTE
-    ShowcaseRoute --> DsGitGraph : ROUTE_design_system_git_graph
-    DsGitGraph --> LoadingState : EVENT_REFRESH
-    DsGitGraph --> OfflineState : EVENT_DISCONNECT
-    DsGitGraph --> EmptyState : API_EMPTY
-    DsGitGraph --> ErrorState : API_ERROR
-    DsGitGraph --> PermissionDenied : API_FORBIDDEN
-    DsGitGraph --> DsGitGraph : EVENT_HASH_NAVIGATE
-    ShowcaseRoute --> DsKanban : ROUTE_design_system_kanban
-    DsKanban --> LoadingState : EVENT_REFRESH
-    DsKanban --> OfflineState : EVENT_DISCONNECT
-    DsKanban --> EmptyState : API_EMPTY
-    DsKanban --> ErrorState : API_ERROR
-    DsKanban --> PermissionDenied : API_FORBIDDEN
-    DsKanban --> DsKanban : EVENT_HASH_NAVIGATE
-    DsKanban --> SavingState : EVENT_MOVE_CARD
-    DsKanban --> TaskDetail : EVENT_VIEW_TASK
-    ShowcaseRoute --> DsKnowledgeGraph : ROUTE_design_system_knowledge_graph
-    DsKnowledgeGraph --> LoadingState : EVENT_REFRESH
-    DsKnowledgeGraph --> OfflineState : EVENT_DISCONNECT
-    DsKnowledgeGraph --> EmptyState : API_EMPTY
-    DsKnowledgeGraph --> ErrorState : API_ERROR
-    DsKnowledgeGraph --> PermissionDenied : API_FORBIDDEN
-    DsKnowledgeGraph --> PartialState : API_PARTIAL_ENRICHMENT
-    DsKnowledgeGraph --> DsKnowledgeGraph : EVENT_HASH_NAVIGATE
-    ShowcaseRoute --> DsApproval : ROUTE_design_system_approval
-    DsApproval --> LoadingState : EVENT_REFRESH
-    DsApproval --> OfflineState : EVENT_DISCONNECT
-    DsApproval --> EmptyState : API_EMPTY
-    DsApproval --> ErrorState : API_ERROR
-    DsApproval --> PermissionDenied : API_FORBIDDEN
-    DsApproval --> DsApproval : EVENT_HASH_NAVIGATE
-    ShowcaseRoute --> DsTimeline : ROUTE_design_system_timeline
-    DsTimeline --> LoadingState : EVENT_REFRESH
-    DsTimeline --> OfflineState : EVENT_DISCONNECT
-    DsTimeline --> EmptyState : API_EMPTY
-    DsTimeline --> ErrorState : API_ERROR
-    DsTimeline --> PermissionDenied : API_FORBIDDEN
-    ShowcaseRoute --> DsComponents : ROUTE_design_system_components
-    DsComponents --> LoadingState : EVENT_REFRESH
-    DsComponents --> OfflineState : EVENT_DISCONNECT
-    DsComponents --> EmptyState : API_EMPTY
-    DsComponents --> ErrorState : API_ERROR
-    DsComponents --> PermissionDenied : API_FORBIDDEN
-    DsComponents --> DsComponents : EVENT_HASH_NAVIGATE
-    ShowcaseRoute --> DsDocViewer : ROUTE_design_system_doc_viewer
-    DsDocViewer --> LoadingState : EVENT_REFRESH
-    DsDocViewer --> OfflineState : EVENT_DISCONNECT
-    DsDocViewer --> EmptyState : API_EMPTY
-    DsDocViewer --> ErrorState : API_ERROR
-    DsDocViewer --> PermissionDenied : API_FORBIDDEN
-    DsDocViewer --> TraceExplorer : EVENT_VIEW_TRACE
-    ShowcaseRoute --> DsExplorer : ROUTE_design_system_explorer
-    DsExplorer --> LoadingState : EVENT_REFRESH
-    DsExplorer --> OfflineState : EVENT_DISCONNECT
-    DsExplorer --> EmptyState : API_EMPTY
-    DsExplorer --> ErrorState : API_ERROR
-    DsExplorer --> PermissionDenied : API_FORBIDDEN
-    DsExplorer --> SearchResults : EVENT_SEARCH
-    DsExplorer --> DsExplorer : EVENT_HASH_NAVIGATE
-    DsExplorer --> TraceExplorer : EVENT_VIEW_TRACE
-    DsExplorer --> DocViewer : EVENT_VIEW_DOC
-    DsExplorer --> TaskDetail : EVENT_VIEW_TASK
-    ShowcaseRoute --> DsBeadsTraversal : ROUTE_design_system_beads_traversal
-    DsBeadsTraversal --> LoadingState : EVENT_REFRESH
-    DsBeadsTraversal --> OfflineState : EVENT_DISCONNECT
-    DsBeadsTraversal --> EmptyState : API_EMPTY
-    DsBeadsTraversal --> ErrorState : API_ERROR
-    DsBeadsTraversal --> PermissionDenied : API_FORBIDDEN
-    ShowcaseRoute --> DsStoryboard : ROUTE_design_system_storyboard
-    DsStoryboard --> LoadingState : EVENT_REFRESH
-    DsStoryboard --> OfflineState : EVENT_DISCONNECT
-    DsStoryboard --> EmptyState : API_EMPTY
-    DsStoryboard --> ErrorState : API_ERROR
-    DsStoryboard --> PermissionDenied : API_FORBIDDEN
-    ShowcaseRoute --> DsStoryboardDetail : ROUTE_design_system_storyboard__id
-    DsStoryboardDetail --> LoadingState : EVENT_REFRESH
-    DsStoryboardDetail --> OfflineState : EVENT_DISCONNECT
-    DsStoryboardDetail --> EmptyState : API_EMPTY
-    DsStoryboardDetail --> ErrorState : API_ERROR
-    DsStoryboardDetail --> PermissionDenied : API_FORBIDDEN
-    DsStoryboardDetail --> NotFoundState : API_NOT_FOUND
-    ShowcaseRoute --> DsWebuiPmWorkspace : ROUTE_design_system_webui_pm_workspace
-    DsWebuiPmWorkspace --> LoadingState : EVENT_REFRESH
-    DsWebuiPmWorkspace --> OfflineState : EVENT_DISCONNECT
-    DsWebuiPmWorkspace --> EmptyState : API_EMPTY
-    DsWebuiPmWorkspace --> ErrorState : API_ERROR
-    DsWebuiPmWorkspace --> PermissionDenied : API_FORBIDDEN
-    DsWebuiPmWorkspace --> SearchResults : EVENT_SEARCH
-    DsWebuiPmWorkspace --> RehydratingState : EVENT_RECONNECT
-    DsWebuiPmWorkspace --> DsWebuiPmWorkspace : EVENT_HASH_NAVIGATE
-    DsWebuiPmWorkspace --> TaskDetail : EVENT_VIEW_TASK
-    DsWebuiPmWorkspace --> TraceExplorer : EVENT_VIEW_TRACE
-    DsWebuiPmWorkspace --> DocViewer : EVENT_VIEW_DOC
-    DsWebuiPmWorkspace --> GlobalShell : EVENT_BACK
-    DsWebuiPmWorkspace --> RehydratingState : EVENT_KEEP_LOCAL
-    DsWebuiPmWorkspace --> RehydratingState : EVENT_USE_SERVER
+    GlobalShell --> RouteLoading : EVENT_ROUTE_ENTER
+    RouteLoading --> CoreSurface : API_SUCCESS_CORE
+    RouteLoading --> ShowcaseSurface : API_SUCCESS_SHOWCASE
+    RouteLoading --> EmptyState : API_EMPTY
+    RouteLoading --> ErrorState : API_ERROR
+    RouteLoading --> RecoveryState : API_FORBIDDEN / API_NOT_FOUND
+    CoreSurface --> NavigationState : EVENT_HASH_NAVIGATE / EVENT_SEARCH / EVENT_VIEW_TASK / EVENT_VIEW_TRACE / EVENT_VIEW_DOC
+    ShowcaseSurface --> NavigationState : EVENT_HASH_NAVIGATE / EVENT_VIEW_TASK / EVENT_VIEW_TRACE / EVENT_VIEW_DOC
+    NavigationState --> CoreSurface : API_SUCCESS
+    CoreSurface --> SavingState : EVENT_SAVE_TASK / EVENT_SAVE_BULK / EVENT_MOVE_CARD / EVENT_PI_PLAN_SAVE / EVENT_CONFIDENCE_VOTE / EVENT_APPROVAL_DECISION
     SavingState --> SuccessState : API_SUCCESS
-    SavingState --> ErrorState : API_ERROR_ROLLBACK
-    SavingState --> OfflineState : API_OFFLINE_QUEUE
-    ApprovalDecisionState --> SuccessState : API_APPROVAL_SUCCESS
-    ApprovalDecisionState --> ErrorState : API_APPROVAL_ERROR
-    ApprovalDecisionState --> PermissionDenied : API_APPROVAL_FORBIDDEN
-    PiPlanningSaveState --> SuccessState : API_PI_SAVE_SUCCESS
-    PiPlanningSaveState --> ErrorState : API_PI_SAVE_ERROR
-    PiPlanningVoteState --> SuccessState : API_VOTE_SUCCESS
-    PiPlanningVoteState --> ErrorState : API_VOTE_ERROR
-    GlobalShell --> OfflineState : EVENT_DISCONNECT
-    CoreRoute --> OfflineState : EVENT_DISCONNECT
-    ShowcaseRoute --> OfflineState : EVENT_DISCONNECT
+    SavingState --> ErrorState : API_ERROR_ROLLBACK_OR_POLICY_OR_INSUFFICIENT_EVIDENCE
+    CoreSurface --> CoreSurface : EVENT_OPEN_OVERLAY / EVENT_CLOSE_OVERLAY
+    CoreSurface --> OfflineState : EVENT_DISCONNECT
     OfflineState --> RehydratingState : EVENT_RECONNECT
-    RehydratingState --> ConflictResolution : API_CONFLICT
-    ConflictResolution --> RehydratingState : EVENT_KEEP_LOCAL
-    ConflictResolution --> RehydratingState : EVENT_USE_SERVER
-    RehydratingState --> GlobalShell : API_SYNC_SUCCESS
-    RehydratingState --> ErrorState : API_SYNC_ERROR
-    EmptyState --> LoadingState : EVENT_REFRESH
-    ErrorState --> LoadingState : EVENT_REFRESH
-    PartialState --> LoadingState : EVENT_REFRESH
-    SuccessState --> LoadingState : EVENT_REFRESH
-    PermissionDenied --> GlobalShell : EVENT_BACK
-    NotFoundState --> GlobalShell : EVENT_BACK
-    ErrorState --> GlobalShell : EVENT_BACK
+    RehydratingState --> SyncConflictState : API_CONFLICT
+    SyncConflictState --> RehydratingState : EVENT_KEEP_LOCAL / EVENT_USE_SERVER
+    RehydratingState --> SuccessState : API_SYNC_SUCCESS
+    CoreSurface --> PartialGraphState : API_PARTIAL_ENRICHMENT
+    PartialGraphState --> SuccessState : API_ENRICHMENT_SUCCESS
+    EmptyState --> RouteLoading : EVENT_RETRY / EVENT_REFRESH
+    ErrorState --> RouteLoading : EVENT_RETRY / EVENT_REFRESH
+    RecoveryState --> RouteLoading : EVENT_RETRY
+    RecoveryState --> GlobalShell : EVENT_BACK
 ```

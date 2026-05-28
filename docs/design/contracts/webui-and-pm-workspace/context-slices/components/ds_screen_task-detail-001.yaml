@@ -1,11 +1,7 @@
 ds_id: ds:screen:task-detail-001
-type: Screen
-parent_ds_id: null
-actions: []
 screen_id: screen:task-detail
-screen_route: /tasks/:id
-screen_ds_id: ds:screen:task-detail-001
-prd_ds_id: null
+route: /tasks/:id
+showcase_route: /design-system/webui-pm-workspace#surface-task-detail
 states:
 - default
 - loading
@@ -15,13 +11,17 @@ states:
 - forbidden
 - saving
 - not_found
-bindings:
+actions: []
+bindings: {}
+ds_type: Screen
+data_flow_endpoints:
 - GET /api/tasks/:id
 - GET /api/tasks/:id/activity
 - GET /api/trace/:id?depth=2
 - PUT /api/tasks/:id
-layout: editable task header with Detail, Activity, Graph, and Code tabs
-behaviors:
-- edit first-class PM fields through optimistic API writes
-- open dependency links in Trace Explorer
-- show activity timeline and code-touch context
+anchors:
+- detail
+- activity
+- graph
+- code
+- approval

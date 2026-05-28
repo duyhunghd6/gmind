@@ -1,70 +1,39 @@
 trajectory_id: core-quick-search
-title: PM uses global search
-source: PRD-04 user journeys and §8.1A route coverage
-events: &id001
+role: PM
+journey: Search across tasks, docs, commits, chats
+entry_path: /search?q=coverage
+events:
 - EVENT_SEARCH
-- API_SUCCESS_CORE
-- EVENT_VIEW_TASK
-routes:
-- /
-- /search
-- /tasks/:id
-recovery_path: false
-steps:
-- order: 1
-  route: /
-  screen_id: screen:rtm-dashboard
-  screen_ds_id: ds:screen:rtm-dashboard-001
-  state: default
+- EVENT_VIEW_DOC
+- EVENT_VIEW_TRACE
+states:
+- loading
+- default
+- empty
+- error
+- offline
+- forbidden
+error_paths:
+- API_ERROR -> ErrorState -> EVENT_REFRESH
+- API_FORBIDDEN -> ForbiddenState -> EVENT_BACK
+- EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT
+screens:
+- screen:global-shell
+- screen:search-explorer
+step_refs:
+- step: 1
+  screen_id: screen:global-shell
+  screen_path: /design-system/webui-pm-workspace
+  data_ds_id: ds:screen:webui-pm-workspace-001
+  expected_state: loading_to_default
   event: EVENT_SEARCH
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_SEARCH
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:rtm-dashboard-001
-- order: 2
-  route: /search
-  screen_id: screen:search-results
-  screen_ds_id: ds:screen:search-results-001
-  state: default
-  event: API_SUCCESS_CORE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: API_SUCCESS_CORE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:search-results-001
-- order: 3
-  route: /tasks/:id
-  screen_id: screen:task-detail
-  screen_ds_id: ds:screen:task-detail-001
-  state: default
-  event: EVENT_VIEW_TASK
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_VIEW_TASK
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:task-detail-001
-e2e_alignment:
-  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
-    go through Go REST API
-  investigation_guidance: Assert route navigation, state transition, optimistic write
-    or recovery copy, and API mapping.
-id: core-quick-search
-prd_journey: PRD-04 §8.1A route coverage — PM uses global search
-action: *id001
-assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
-  Go REST API
-state: default
-ds_targets:
-- ds:screen:rtm-dashboard-001
-- ds:screen:search-results-001
-- ds:screen:task-detail-001
-schema_adapter:
-  trajectory_id: id
-  source: prd_journey
-  events[0] or events[]: action
-  expected_outcome: assertion
-  screen_ds_id: ds_targets[]
+  action: Dispatch EVENT_SEARCH and verify screen:global-shell reaches loading_to_default
+  hash_anchor: null
+- step: 2
+  screen_id: screen:search-explorer
+  screen_path: /search
+  data_ds_id: ds:screen:explorer-001
+  expected_state: default
+  event: EVENT_VIEW_DOC
+  action: Dispatch EVENT_VIEW_DOC and verify screen:search-explorer reaches default
+  hash_anchor: null

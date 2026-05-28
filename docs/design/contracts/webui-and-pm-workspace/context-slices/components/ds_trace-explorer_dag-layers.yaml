@@ -1,0 +1,26 @@
+ds_id: ds:trace-explorer:dag-layers
+screen_id: screen:trace-explorer
+screen_ds_id: ds:screen:trace-explorer-001
+route: /trace/:id
+showcase_route:
+- /design-system/knowledge-graph
+- /design-system/beads-traversal
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- partial
+actions: []
+bindings: {}
+ds_type: TraversalLayers
+data_flow_endpoints:
+- GET /api/trace/:id?depth=full
+- GET /api/graph/presets
+- GET /api/impact/:section
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

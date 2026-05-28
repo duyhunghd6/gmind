@@ -1,0 +1,18 @@
+ds_id: ds:screen:portfolio-001
+screen_id: screen:portfolio
+route: /portfolio
+showcase_route: /design-system/portfolio
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: Screen
+data_flow_endpoints:
+- GET /api/portfolio/epics
+- GET /api/tasks?issue_type=epic
+anchors: []

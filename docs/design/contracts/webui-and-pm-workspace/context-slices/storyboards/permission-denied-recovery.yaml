@@ -1,42 +1,38 @@
 trajectory_id: permission-denied-recovery
-title: User returns from forbidden route
-source: PRD-04 user journeys and §8.1A route coverage
-events: &id001
-- API_FORBIDDEN
+role: Viewer
+journey: Recover safely from forbidden route or data
+entry_path: /portfolio
+events:
+- EVENT_ROUTE_ENTER
 - EVENT_BACK
-- ROUTE_ENTER
-routes:
-- /design-system/webui-pm-workspace
-recovery_path: true
-steps:
-- order: 1
-  route: /design-system/webui-pm-workspace
-  screen_id: screen:ds-webui-pm-workspace
-  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
-  state: forbidden
-  event: API_FORBIDDEN
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: API_FORBIDDEN
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:webui-pm-workspace-showcase-001
-e2e_alignment:
-  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
-    go through Go REST API
-  investigation_guidance: Assert route navigation, state transition, optimistic write
-    or recovery copy, and API mapping.
-id: permission-denied-recovery
-prd_journey: PRD-04 §8.1A route coverage — User returns from forbidden route
-action: *id001
-assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
-  Go REST API
-state: forbidden
-ds_targets:
-- ds:screen:webui-pm-workspace-showcase-001
-schema_adapter:
-  trajectory_id: id
-  source: prd_journey
-  events[0] or events[]: action
-  expected_outcome: assertion
-  screen_ds_id: ds_targets[]
+states:
+- loading
+- default
+- empty
+- error
+- offline
+- forbidden
+error_paths:
+- API_ERROR -> ErrorState -> EVENT_REFRESH
+- API_FORBIDDEN -> ForbiddenState -> EVENT_BACK
+- EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT
+screens:
+- screen:portfolio
+- screen:approval-gates
+step_refs:
+- step: 1
+  screen_id: screen:portfolio
+  screen_path: /portfolio
+  data_ds_id: ds:screen:portfolio-001
+  expected_state: loading_to_default
+  event: EVENT_ROUTE_ENTER
+  action: Dispatch EVENT_ROUTE_ENTER and verify screen:portfolio reaches loading_to_default
+  hash_anchor: null
+- step: 2
+  screen_id: screen:approval-gates
+  screen_path: /approval
+  data_ds_id: ds:screen:approval-001
+  expected_state: default
+  event: EVENT_BACK
+  action: Dispatch EVENT_BACK and verify screen:approval-gates reaches default
+  hash_anchor: null

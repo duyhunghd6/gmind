@@ -1,70 +1,46 @@
 trajectory_id: showcase-hash-navigation
-title: Reviewer changes showcase hash scenarios
-source: PRD-04 user journeys and §8.1A route coverage
-events: &id001
+role: Designer
+journey: Verify hash anchors across showcase routes
+entry_path: "/design-system/git-graph#beads-traversal"
+events:
 - EVENT_HASH_NAVIGATE
-- EVENT_HASH_NAVIGATE
-- EVENT_REFRESH
-routes:
-- /design-system/git-graph
-- /design-system/kanban
-- /design-system/knowledge-graph
-recovery_path: false
-steps:
-- order: 1
-  route: /design-system/git-graph
-  screen_id: screen:ds-git-graph
-  screen_ds_id: ds:screen:git-graph-showcase-001
-  state: default
+states:
+- loading
+- default
+- empty
+- error
+- offline
+- forbidden
+error_paths:
+- API_ERROR -> ErrorState -> EVENT_REFRESH
+- API_FORBIDDEN -> ForbiddenState -> EVENT_BACK
+- EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT
+screens:
+- screen:terminal-console
+- screen:git-graph
+- screen:components-catalog
+step_refs:
+- step: 1
+  screen_id: screen:terminal-console
+  screen_path: /terminal
+  data_ds_id: ds:screen:terminal-001
+  expected_state: loading_to_default
   event: EVENT_HASH_NAVIGATE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_HASH_NAVIGATE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:git-graph-showcase-001
-- order: 2
-  route: /design-system/kanban
-  screen_id: screen:ds-kanban
-  screen_ds_id: ds:screen:kanban-showcase-001
-  state: default
+  action: Dispatch EVENT_HASH_NAVIGATE and verify screen:terminal-console reaches loading_to_default
+  hash_anchor: null
+- step: 2
+  screen_id: screen:git-graph
+  screen_path: /git-graph
+  data_ds_id: ds:screen:git-graph-001
+  expected_state: default
   event: EVENT_HASH_NAVIGATE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_HASH_NAVIGATE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:kanban-showcase-001
-- order: 3
-  route: /design-system/knowledge-graph
-  screen_id: screen:ds-knowledge-graph
-  screen_ds_id: ds:screen:knowledge-graph-showcase-001
-  state: default
-  event: EVENT_REFRESH
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: EVENT_REFRESH
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:knowledge-graph-showcase-001
-e2e_alignment:
-  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
-    go through Go REST API
-  investigation_guidance: Assert route navigation, state transition, optimistic write
-    or recovery copy, and API mapping.
-id: showcase-hash-navigation
-prd_journey: PRD-04 §8.1A route coverage — Reviewer changes showcase hash scenarios
-action: *id001
-assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
-  Go REST API
-state: default
-ds_targets:
-- ds:screen:git-graph-showcase-001
-- ds:screen:kanban-showcase-001
-- ds:screen:knowledge-graph-showcase-001
-schema_adapter:
-  trajectory_id: id
-  source: prd_journey
-  events[0] or events[]: action
-  expected_outcome: assertion
-  screen_ds_id: ds_targets[]
+  action: Dispatch EVENT_HASH_NAVIGATE and verify screen:git-graph reaches default
+  hash_anchor: null
+- step: 3
+  screen_id: screen:components-catalog
+  screen_path: /design-system/components
+  data_ds_id: ds:screen:components-001
+  expected_state: default
+  event: EVENT_HASH_NAVIGATE
+  action: Dispatch EVENT_HASH_NAVIGATE and verify screen:components-catalog reaches default
+  hash_anchor: null

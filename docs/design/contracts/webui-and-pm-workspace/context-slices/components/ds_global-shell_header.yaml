@@ -1,0 +1,32 @@
+ds_id: ds:global-shell:header
+screen_id: screen:global-shell
+screen_ds_id: ds:screen:webui-pm-workspace-001
+route: /design-system/webui-pm-workspace
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+- sync_conflict
+actions:
+- EVENT_SEARCH
+- EVENT_DISCONNECT
+- EVENT_RECONNECT
+bindings:
+  online_status: /api/health
+ds_type: Header
+data_flow_endpoints:
+- GET /api/health
+- GET /api/coverage
+- GET /api/tasks
+- GET /api/trace/:id
+- GET /api/docs
+- GET /api/search
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

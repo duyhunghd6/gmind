@@ -1,0 +1,32 @@
+screen_id: screen:task-detail
+route: /tasks/:id
+state_matrix:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+- not_found
+viewport: mobile
+width: 390
+layout_assertion: Editable task header and tabs for Detail, Activity, Graph, Code,
+  and approval-linked context.
+responsive_rules:
+- Sidebar is hamburger-triggered overlay.
+- Tables become card lists and tabs may become accordions.
+- Drawers become full-screen overlays and graph-heavy screens offer tree fallback.
+hash_anchors:
+- detail
+- activity
+- graph
+- code
+- approval
+keyboard_a11y:
+- WCAG AA contrast and visible focus indicators.
+- Keyboard access for routes, tabs, filters, tables, cards, graph controls, and dialogs.
+- Every state color has visible text label and aria-label where status is compact.
+- Error, offline, saving, and sync messages use aria-live polite unless destructive.
+- Escape closes modal, drawer, dropdown, and command palette through shared keyboard
+  handling.

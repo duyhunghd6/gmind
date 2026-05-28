@@ -1,0 +1,25 @@
+ds_id: ds:pi-planning:root
+screen_id: screen:pi-planning
+screen_ds_id: ds:screen:pi-planning-001
+route: /pi-planning
+showcase_route: /design-system/pi-planning
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+actions: []
+bindings: {}
+ds_type: PiPlanningSurface
+data_flow_endpoints:
+- GET /api/pi/features
+- PUT /api/pi/plan
+- GET /api/risks?view=roam
+- POST /api/pi/confidence-vote
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

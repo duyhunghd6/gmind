@@ -1,0 +1,22 @@
+ds_id: ds:components-catalog:section-nav
+screen_id: screen:components-catalog
+screen_ds_id: ds:screen:components-001
+route: /design-system/components
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions:
+- EVENT_HASH_NAVIGATE
+bindings: {}
+ds_type: ComponentSectionNav
+data_flow_endpoints:
+- GET /api/design-system/components
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

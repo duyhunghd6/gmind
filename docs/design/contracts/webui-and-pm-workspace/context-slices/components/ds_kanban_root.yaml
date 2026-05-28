@@ -1,0 +1,24 @@
+ds_id: ds:kanban:root
+screen_id: screen:safe-board
+screen_ds_id: ds:screen:kanban-001
+route: /board
+showcase_route: /design-system/kanban
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+actions: []
+bindings: {}
+ds_type: BoardSurface
+data_flow_endpoints:
+- GET /api/tasks?view=board&board=<id>
+- PUT /api/tasks/:id/status
+- GET /api/tasks/:id/activity
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

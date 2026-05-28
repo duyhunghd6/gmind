@@ -1,0 +1,26 @@
+screen_id: screen:storyboard-detail
+route: /storyboards/:id
+state_matrix:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- not_found
+viewport: tablet
+width: 1024
+layout_assertion: Role panel, journey summary, step timeline, related use cases, expected
+  states, and CTA to matching Core route.
+responsive_rules:
+- Sidebar condenses to icon rail with tooltips.
+- Detail panels become drawers or bottom sheets.
+- Kanban and tables may scroll horizontally.
+hash_anchors: []
+keyboard_a11y:
+- WCAG AA contrast and visible focus indicators.
+- Keyboard access for routes, tabs, filters, tables, cards, graph controls, and dialogs.
+- Every state color has visible text label and aria-label where status is compact.
+- Error, offline, saving, and sync messages use aria-live polite unless destructive.
+- Escape closes modal, drawer, dropdown, and command palette through shared keyboard
+  handling.

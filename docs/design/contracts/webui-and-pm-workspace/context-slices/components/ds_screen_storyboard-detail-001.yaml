@@ -1,0 +1,18 @@
+ds_id: ds:screen:storyboard-detail-001
+screen_id: screen:storyboard-detail
+route: /storyboards/:id
+showcase_route: /design-system/storyboard/:id
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- not_found
+actions: []
+bindings: {}
+ds_type: Screen
+data_flow_endpoints:
+- GET /api/storyboards/:id
+anchors: []

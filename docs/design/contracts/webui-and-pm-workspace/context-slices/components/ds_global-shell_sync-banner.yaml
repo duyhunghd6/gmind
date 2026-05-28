@@ -1,0 +1,31 @@
+ds_id: ds:global-shell:sync-banner
+screen_id: screen:global-shell
+screen_ds_id: ds:screen:webui-pm-workspace-001
+route: /design-system/webui-pm-workspace
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+- sync_conflict
+actions:
+- EVENT_KEEP_LOCAL
+- EVENT_USE_SERVER
+- EVENT_BACK
+bindings: {}
+ds_type: OfflineAndSyncBanner
+data_flow_endpoints:
+- GET /api/health
+- GET /api/coverage
+- GET /api/tasks
+- GET /api/trace/:id
+- GET /api/docs
+- GET /api/search
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

@@ -1,11 +1,10 @@
 ds_id: ds:trace-explorer:toolbar
-type: TraceToolbar
-parent_ds_id: ds:trace-explorer:surface
-actions: []
 screen_id: screen:trace-explorer
-screen_route: /trace/:id
 screen_ds_id: ds:screen:trace-explorer-001
-prd_ds_id: null
+route: /trace/:id
+showcase_route:
+- /design-system/knowledge-graph
+- /design-system/beads-traversal
 states:
 - default
 - loading
@@ -14,13 +13,14 @@ states:
 - offline
 - forbidden
 - partial
-bindings:
+actions: []
+bindings: {}
+ds_type: TraceToolbar
+data_flow_endpoints:
 - GET /api/trace/:id?depth=full
+- GET /api/graph/presets
 - GET /api/impact/:section
-layout: full-page graph canvas with toolbar, filters, legend, and detail panel
-behaviors:
-- change root Beads ID and depth
-- click node for detail, double-click to route, right-click for context menu
-- show partial local data when enrichment times out
-api_gateway: gmind serve Go REST API
-hash_route_interactions: []
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

@@ -1,0 +1,32 @@
+screen_id: screen:search-explorer
+route: /search
+state_matrix:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: desktop
+width: 1440
+layout_assertion: Unified search with query input, hash-selected filters, grouped
+  result list, and detail sidebar.
+responsive_rules:
+- Expanded shell sidebar and persistent header/footer.
+- Multi-panel screens use split views or grids.
+- Graph detail panels remain visible beside canvas.
+hash_anchors:
+- all
+- doc
+- commit
+- task
+- adr
+- chat
+- spike
+keyboard_a11y:
+- WCAG AA contrast and visible focus indicators.
+- Keyboard access for routes, tabs, filters, tables, cards, graph controls, and dialogs.
+- Every state color has visible text label and aria-label where status is compact.
+- Error, offline, saving, and sync messages use aria-live polite unless destructive.
+- Escape closes modal, drawer, dropdown, and command palette through shared keyboard
+  handling.

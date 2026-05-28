@@ -1,56 +1,38 @@
 trajectory_id: storyboard-detail-alignment
-title: Reviewer opens storyboard and detail route
-source: PRD-04 user journeys and §8.1A route coverage
-events: &id001
-- ROUTE_ENTER
-- API_SUCCESS_SHOWCASE
-- EVENT_VIEW_TRACE
-routes:
-- /design-system/storyboard
-- /design-system/storyboard/:id
-recovery_path: false
-steps:
-- order: 1
-  route: /design-system/storyboard
-  screen_id: screen:ds-storyboard
-  screen_ds_id: ds:screen:storyboard-showcase-001
-  state: default
-  event: ROUTE_ENTER
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: ROUTE_ENTER
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:storyboard-showcase-001
-- order: 2
-  route: /design-system/storyboard/:id
-  screen_id: screen:ds-storyboard-detail
-  screen_ds_id: ds:screen:storyboard-detail-showcase-001
-  state: default
-  event: API_SUCCESS_SHOWCASE
-  expected_outcome: route, state, data-screen-id, data-ds-id, and API boundary remain
-    traceable
-  action: API_SUCCESS_SHOWCASE
-  assertion: route, state, data-screen-id, data-ds-id, and API boundary remain traceable
-  ds_targets:
-  - ds:screen:storyboard-detail-showcase-001
-e2e_alignment:
-  expected_outcome: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes
-    go through Go REST API
-  investigation_guidance: Assert route navigation, state transition, optimistic write
-    or recovery copy, and API mapping.
-id: storyboard-detail-alignment
-prd_journey: PRD-04 §8.1A route coverage — Reviewer opens storyboard and detail route
-action: *id001
-assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through
-  Go REST API
-state: default
-ds_targets:
-- ds:screen:storyboard-showcase-001
-- ds:screen:storyboard-detail-showcase-001
-schema_adapter:
-  trajectory_id: id
-  source: prd_journey
-  events[0] or events[]: action
-  expected_outcome: assertion
-  screen_ds_id: ds_targets[]
+role: QA
+journey: Open storyboard and validate E2E metadata
+entry_path: /storyboards/core-navigate-task
+events:
+- EVENT_ROUTE_ENTER
+- EVENT_VIEW_TASK
+states:
+- loading
+- default
+- empty
+- error
+- offline
+- forbidden
+error_paths:
+- API_ERROR -> ErrorState -> EVENT_REFRESH
+- API_FORBIDDEN -> ForbiddenState -> EVENT_BACK
+- EVENT_DISCONNECT -> OfflineState -> EVENT_RECONNECT
+screens:
+- screen:storyboard-overview
+- screen:storyboard-detail
+step_refs:
+- step: 1
+  screen_id: screen:storyboard-overview
+  screen_path: /storyboards
+  data_ds_id: ds:screen:storyboard-001
+  expected_state: loading_to_default
+  event: EVENT_ROUTE_ENTER
+  action: Dispatch EVENT_ROUTE_ENTER and verify screen:storyboard-overview reaches loading_to_default
+  hash_anchor: null
+- step: 2
+  screen_id: screen:storyboard-detail
+  screen_path: /storyboards/:id
+  data_ds_id: ds:screen:storyboard-detail-001
+  expected_state: default
+  event: EVENT_VIEW_TASK
+  action: Dispatch EVENT_VIEW_TASK and verify screen:storyboard-detail reaches default
+  hash_anchor: null

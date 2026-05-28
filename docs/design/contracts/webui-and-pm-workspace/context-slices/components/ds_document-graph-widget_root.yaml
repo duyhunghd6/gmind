@@ -1,0 +1,21 @@
+ds_id: ds:document-graph-widget:root
+screen_id: screen:document-graph-widget
+screen_ds_id: ds:screen:document-graph-widget-001
+route: embedded
+showcase_route: null
+states:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+actions: []
+bindings: {}
+ds_type: EmbeddedGraphWidget
+data_flow_endpoints:
+- GET /api/trace/:id?depth=2
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state

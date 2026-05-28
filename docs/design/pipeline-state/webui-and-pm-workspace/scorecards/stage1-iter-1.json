@@ -1,38 +1,38 @@
 {
   "scorer": "stage1_evaluator",
   "iteration": 1,
-  "score": 85,
+  "score": 84,
   "convergence_status": "CONTINUE",
   "pillar_scores": {
     "container_validity": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses, is not serialized JSON, and Mermaid has 218 meaningful transitions."
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses as a mapping, is not serialized JSON, and Mermaid has 24 transition arrows."
     },
     "prd_coverage": {
       "score": 18,
       "max": 20,
-      "tool_evidence": "23 screens/routes mapped; all required Core WebUI and 15 showcase routes are present, including terminal, portfolio, pi-planning, git-graph, kanban, knowledge-graph, approval, timeline, components, doc-viewer, explorer, beads-traversal, storyboard, storyboard/:id, and webui-pm-workspace; metadata.satisfies has 16 PRD IDs."
+      "tool_evidence": "18 contract screens, 18 route entries, and 21 metadata.satisfies IDs; all requested core/showcase route families are present, API-only browser boundary is explicit, but embedded document-graph widget lacks the default required state set."
     },
     "component_traceability": {
-      "score": 18,
+      "score": 19,
       "max": 20,
-      "tool_evidence": "115 YAML ds_id values are unique; component-map.json has 115 mapped contract ds_ids, 0 missing map IDs, 0 extra map IDs, and 70 component types; context-slices/components has 1 extra non-contract slice."
+      "tool_evidence": "95 YAML ds_id values, all unique; component-map.json has 95 unique ds_id values with 0 missing and 0 extra IDs versus the YAML contract, across 78 DS/component types."
     },
     "logic_coverage": {
-      "score": 14,
+      "score": 15,
       "max": 15,
-      "tool_evidence": "17/17 YAML EVENT_* actions are covered by Mermaid; 0 extra EVENT_* Mermaid events; API success/error/empty/forbidden/not-found/partial/offline/conflict/retry/back outcomes are modeled."
+      "tool_evidence": "20/20 YAML EVENT_* actions are present in the Mermaid Logic Machine; 0 extra EVENT_* Mermaid events; flow covers API success, empty, error, forbidden, not_found, partial enrichment, conflict, sync, retry, and back outcomes."
     },
     "derived_artifact_consistency": {
-      "score": 12,
+      "score": 10,
       "max": 15,
-      "tool_evidence": "flow.md Mermaid validator PASS with exactly 1 block; review-diagrams.md validator PASS with 30 blocks; storyboards/layout/component/index JSON parse; 599 YAML context slices found; no standalone .mmd files; drift remains in one extra component slice and summary component count."
+      "tool_evidence": "Mermaid markdown validator PASS: flow.md has exactly 1 block and review-diagrams.md has 26 blocks; storyboards/component-map/layout-rules/artifact-index JSON parse; 167 context-slice YAML files parse; drift remains in storyboard timeline coverage, assertion-checklist IDs, and artifact-index review/preview entries."
     },
     "conflict_preview_readiness": {
-      "score": 8,
+      "score": 7,
       "max": 15,
-      "tool_evidence": "contract_to_ui preview generated OK with 0 warnings; preview contains contract screens, logic machine, flow walk-through, storyboard trajectories, component hierarchy, layout rules, review diagrams, conflicts, and cross-artifact coverage; prd-ds-conflicts.md has no unresolved conflicts; legacy PRD-04 contract directory still exists outside the canonical normalized feature path."
+      "tool_evidence": "contract_to_ui preview regeneration to tmp completed OK but reported 11 warnings; preview/index.html contains SSOT, Mermaid, flow, storyboard, component, layout, conflict, and screen sections; prd-ds-conflicts.md resolves 2 conflicts, but preview warnings and missing preview/review index entries reduce Gate A readiness."
     }
   },
   "schema_checks": {
@@ -41,64 +41,91 @@
     "duplicate_ds_ids": [],
     "unmatched_yaml_actions": [],
     "unmatched_mermaid_events": [],
-    "standalone_mmd_files": 0,
-    "required_artifacts_present": true,
+    "standalone_mmd_files_under_contract_path": 0,
+    "metadata_satisfies_count": 21,
+    "screens_defined": 18,
+    "routes_defined": 18,
+    "required_route_family_gaps": [],
+    "yaml_ds_ids": 95,
+    "component_map_ds_ids": 95,
+    "component_map_missing_ids": 0,
+    "component_map_extra_ids": 0,
     "json_artifacts_valid": true,
-    "showcase_routes_missing": [],
-    "core_routes_missing": [],
-    "metadata_satisfies_count": 16,
-    "screens_defined": 23,
-    "contract_ds_ids": 115,
-    "component_map_ids": 115,
-    "component_map_missing_ids": [],
-    "component_map_extra_ids": [],
-    "context_slice_count": 599,
-    "component_context_slice_count": 116,
-    "component_context_slice_extra_ids": [
-      "ds:webui-pm-workspace-showcase:sidebar"
+    "storyboard_trajectories": 15,
+    "storyboard_step_screen_refs": 31,
+    "storyboard_missing_contract_screens": [
+      "screen:timeline"
     ],
-    "component_context_slice_missing_ids": [],
-    "storyboard_trajectories": 35,
-    "layout_rules_count": 432,
-    "layout_invalid_rows": 0,
-    "artifact_index_entries": 611,
-    "artifact_index_missing_required_entries": [],
-    "preview_warnings": 0,
+    "layout_rules_count": 54,
+    "layout_screens_with_all_viewports": 18,
+    "context_slice_yaml_count": 167,
+    "invalid_context_slices": [],
+    "artifact_index_entries": 175,
+    "artifact_index_missing_required_entries": [
+      "review-diagrams.md",
+      "storyboards-review.html",
+      "preview/index.html",
+      "preview/preview-manifest.json",
+      "assertion-checklist.md"
+    ],
+    "invalid_load_policy_count": 0,
+    "assertion_rows": 23,
+    "assertion_missing_contract_screens_count": 11,
+    "assertion_extra_screen_ids_count": 16,
+    "assertion_ds_mismatch_count": 3,
+    "preview_warnings": 11,
     "preview_sections_verified": [
-      "Contract Screens",
-      "Mermaid Logic Machine",
-      "Flow Walk-Through",
-      "Storyboard Trajectories",
-      "Component Hierarchy",
-      "Layout Rules",
-      "Review Diagrams",
-      "PRD/DS Conflicts",
-      "Cross-Artifact Coverage"
+      "SSOT",
+      "Mermaid",
+      "Flow",
+      "Storyboard",
+      "Component",
+      "Layout",
+      "Conflict",
+      "Screen"
     ],
     "mermaid_markdown_validator_status": "PASS",
-    "legacy_prd04_contract_path_exists": true,
     "baseline_features_processed": 0,
     "iteration_one_cap_applied": true
   },
   "fix_queue": [
     {
       "priority": "P1",
-      "pillar": "conflict_preview_readiness",
-      "responsible_generator": "gen_contracts",
-      "detail": "Legacy normalized-path violation remains at docs/design/contracts/PRD-04-WebUI-and-PM-Workspace. The current package correctly uses docs/design/contracts/webui-and-pm-workspace, but the obsolete directory can misroute Stage 1 reviewers or generators and should be archived or removed by the owning pipeline step."
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_flows",
+      "detail": "storyboards.json contains 15 trajectories and 31 step screen references but never references contract screen:timeline; add a timeline/file-lease storyboard path or document why this route is excluded."
     },
     {
       "priority": "P1",
       "pillar": "derived_artifact_consistency",
       "responsible_generator": "gen_flows",
-      "detail": "context-slices/components contains extra slice ds:webui-pm-workspace-showcase:sidebar that is not a ds_id in ui-contract.md; the contract uses ds:webui-pm-workspace-showcase:sidebar-nav. Regenerate or delete the stale slice and align contract-summary components count with component-map.json."
+      "detail": "artifact-index.json omits required review/preview artifacts: review-diagrams.md, storyboards-review.html, preview/index.html, preview/preview-manifest.json, and assertion-checklist.md. Index these human-reviewable outputs so Gate A does not depend on ad hoc file discovery."
+    },
+    {
+      "priority": "P1",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_flows",
+      "detail": "assertion-checklist.md is present but drifted from ui-contract.md: 11 contract screens are missing, 16 non-contract screen IDs are listed, and 3 ds_id values mismatch the contract (safe-board, doc-viewer, approval-gates). Regenerate assertions from the current YAML View Blueprint."
+    },
+    {
+      "priority": "P1",
+      "pillar": "prd_coverage",
+      "responsible_generator": "gen_contracts",
+      "detail": "screen:document-graph-widget is modeled as an embedded screen but has no default/loading/empty/error/offline/forbidden state set, while screen_defaults requires those states for screens. Add states or mark it explicitly as a non-screen component."
+    },
+    {
+      "priority": "P1",
+      "pillar": "conflict_preview_readiness",
+      "responsible_generator": "preview_script",
+      "detail": "contract_to_ui.py reports 11 YAML actions as missing from Mermaid even though the contract Mermaid contains them in slash-separated transition labels. Update the preview parser to extract all EVENT_* tokens per transition or adjust transition formatting to avoid false warnings."
     }
   ],
   "baseline_regression": false,
-  "recommended_ba_route": "Do not respawn all generators. Route to gen_contracts only for legacy PRD-04 contract path cleanup/archival and to gen_flows for the stale component context-slice/count drift, then re-run Stage 1 evaluator. No P0 issues were found; current score is capped at 85 for iteration 1.",
+  "recommended_ba_route": "Route narrowly: gen_flows should regenerate storyboard/assertion/index artifacts; gen_contracts should clarify the embedded document-graph widget states; preview_script should fix slash-separated EVENT_* extraction. Do not respawn all generators because container, route coverage, component map, logic machine, Mermaid validation, and conflicts are otherwise passing.",
   "issues": [
-    "PASS: canonical container, block-style YAML, single Mermaid Logic Machine, PRD-04 route coverage, Core WebUI API boundary mapping, unique DS IDs, action/event matching, Mermaid Markdown validation, JSON artifact parsing, preview generation, and conflict report readiness.",
-    "P1: stale legacy contract directory exists under docs/design/contracts/PRD-04-WebUI-and-PM-Workspace despite canonical normalization to webui-and-pm-workspace.",
-    "P1: one stale component context slice is not derived from the canonical ui-contract.md ds_id inventory."
+    "PASS: canonical feature normalization uses webui-and-pm-workspace; ui-contract.md has the required single block-style YAML View Blueprint and single Mermaid Logic Machine.",
+    "PASS: all requested route families are represented, including terminal, portfolio, pi-planning, git-graph, kanban/board, knowledge-graph, approval, timeline, components, doc-viewer, explorer/search, beads-traversal/trace, storyboard overview/detail, and webui-pm-workspace shell.",
+    "PASS: no duplicate ds_id values, no unmatched YAML actions, no unmatched Mermaid events by token extraction, no standalone .mmd files under the contract path, and Mermaid Markdown validator passed.",
+    "P1: storyboards omit screen:timeline, assertion-checklist.md is stale relative to the contract, artifact-index.json misses review/preview outputs, embedded document-graph widget lacks screen states, and preview script emits 11 false action warnings."
   ]
 }

@@ -1,12 +1,8 @@
 ds_id: ds:task-detail:editable-fields
-type: EditableFieldGroup
-parent_ds_id: ds:task-detail:surface
-actions:
-- EVENT_SAVE_TASK
 screen_id: screen:task-detail
-screen_route: /tasks/:id
 screen_ds_id: ds:screen:task-detail-001
-prd_ds_id: null
+route: /tasks/:id
+showcase_route: /design-system/webui-pm-workspace#surface-task-detail
 states:
 - default
 - loading
@@ -16,15 +12,16 @@ states:
 - forbidden
 - saving
 - not_found
-bindings:
+actions:
+- EVENT_SAVE_TASK
+bindings: {}
+ds_type: EditableFieldGroup
+data_flow_endpoints:
 - GET /api/tasks/:id
 - GET /api/tasks/:id/activity
 - GET /api/trace/:id?depth=2
 - PUT /api/tasks/:id
-layout: editable task header with Detail, Activity, Graph, and Code tabs
-behaviors:
-- edit first-class PM fields through optimistic API writes
-- open dependency links in Trace Explorer
-- show activity timeline and code-touch context
-api_gateway: gmind serve Go REST API
-hash_route_interactions: []
+a11y:
+- keyboard reachable
+- visible focus
+- aria label for compact state
