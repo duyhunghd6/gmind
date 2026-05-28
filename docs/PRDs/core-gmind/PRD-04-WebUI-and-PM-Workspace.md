@@ -184,9 +184,9 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 
 <!-- beads-id: br-prd04-s3 -->
 
-- **Portfolio View:** Dành cho CEO/CTO xem Epic, Budget, Roadmap.
-- **ART View:** Kanban tổng cho Orchestrator (RTE) / PMO quản lý.
-- **Team View:** Bảng Kanban riêng rẽ cho từng Feature Team (VD: `Platform`, `Connectors`, `Quant`).
+- **Portfolio View:** Dành cho CEO/CTO xem Epic, Budget, Roadmap, forecast và trạng thái ngân sách theo quý.
+- **ART View:** Kanban tổng cho Orchestrator (RTE) / PMO quản lý, có WIP limit, board selector, và progress statistics.
+- **Team View:** Bảng Kanban riêng rẽ cho từng Feature Team (VD: `Platform`, `Connectors`, `Quant`), giữ cùng card model với ART View nhưng filter theo team/assignee.
 - **PI Planning Interactive UI:** Không gian tương tác cho lễ PI Planning. Bao gồm **Strategic Sandbox** (kéo thả rủi ro/bài toán để tính Capacity), **Business Value Scoring**, **ROAM Board** để xử lý rủi ro, và phím bấm **[Confidence Vote]** bắt buộc từ Human trước khi khởi chạy Sprint.
 
 ### 3.1. Portfolio View (Executive Dashboard)
@@ -196,6 +196,23 @@ Route: `/portfolio`
 - **Roadmap:** Kế hoạch phân chia theo quý (Q1/Q2/Q3 2026).
 - **Data Source:** `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic`. Ngân sách (budget) và roadmap được truy xuất từ first-class PM columns và các nhãn (labels).
 
+```text
+┌─────────────────┐     ┌─────────────────┐
+│ Portfolio Table │     │ Roadmap         │
+│ epic owner      │     │ q1 q2 q3        │
+│ progress budget │     │ milestones      │
+│ status forecast │     │ risk markers    │
+└────────┬────────┘     └────────┬────────┘
+         │                       │
+         └────────executive drilldown───────┐
+                                            ▼
+                                   ┌─────────────────┐
+                                   │ Epic Detail     │
+                                   │ blocked tasks   │
+                                   │ budget notes    │
+                                   └─────────────────┘
+```
+
 ### 3.2. PI Planning Interactive UI
 Route: `/pi-planning`
 
@@ -204,7 +221,59 @@ Route: `/pi-planning`
 - **ROAM Board:** Phân tích và giải quyết rủi ro theo chuẩn ROAM (Resolved, Owned, Accepted, Mitigated, Unassigned).
 - **Data Source:** `GET /api/pi/features`, `PUT /api/pi/plan`, `GET /api/risks?view=roam`, `POST /api/pi/confidence-vote`.
 
-### 3.3. State Matrix & Breakpoints
+```text
+┌─────────────────┐     ┌─────────────────┐
+│ Strategic Pool  │────>│ Capacity Plan   │
+│ features risks  │     │ team load       │
+│ drag source     │     │ sprint slots    │
+└────────┬────────┘     └────────┬────────┘
+         │                       │
+         ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐
+│ Value Scoring   │     │ Confidence Vote │
+│ business value  │     │ score 1 to 5    │
+│ priority        │     │ human required  │
+└────────┬────────┘     └────────┬────────┘
+         │                       │
+         └──────────┬────────────┘
+                    ▼
+            ┌─────────────────┐
+            │ ROAM Board      │
+            │ resolved owned  │
+            │ accepted mitig  │
+            └─────────────────┘
+```
+
+### 3.3. SAFe Board / Kanban View
+
+<!-- beads-id: br-prd04-s3.3 -->
+
+Route: `/board`
+Showcase: `/design-system/kanban` (`ds:screen:kanban-001`)
+
+- **Board Selector:** Hash routes `#sprint`, `#release`, `#bug-triage` chọn board hiện tại mà không mất Global Shell state.
+- **Card Model:** Mỗi card hiển thị Beads ID, title, owner/assignee avatar, priority, RTE escalation badge nếu có, QA status, linked PRD/Plan chips, và blocked/dependency marker.
+- **Drag/drop:** Kéo card giữa columns gọi `PUT /api/tasks/:id/status`; UI optimistic update nhưng rollback nếu backend trả conflict hoặc policy violation.
+- **WIP Policy:** Column header hiển thị WIP limit badge; khi vượt WIP, badge chuyển critical và drop vào column đó bị chặn nếu policy `hard_limit=true`.
+- **Stats Strip:** Hiển thị total/done/progress/blocked theo board, tính từ `GET /api/tasks?view=board&board=<id>`.
+
+```text
+┌───────────────┐     ┌───────────────────────────────────────┐
+│ Board Select  │────>│ Kanban Columns                        │
+│ sprint        │     │ todo | in progress | review | done    │
+│ release       │     │ wip  | wip badge   | wip    | stats   │
+│ bug triage    │     │ drag cards with policy checks         │
+└───────────────┘     └───────────────────┬───────────────────┘
+                                          │ click or drop
+                                          ▼
+                                  ┌───────────────┐
+                                  │ Task Card     │
+                                  │ beads owner   │
+                                  │ prd qa rte    │
+                                  └───────────────┘
+```
+
+### 3.4. State Matrix & Breakpoints
 
 | State | Mô tả |
 | --- | --- |
@@ -220,7 +289,7 @@ Route: `/pi-planning`
 - **Tablet (768px - 1023px):** Thu hẹp các cột Kanban, cho phép trượt ngang (horizontal scroll).
 - **Mobile (< 768px):** Hiển thị dạng List view dọc thay vì Kanban ngang, các thẻ công việc xếp chồng lên nhau. PI Planning Sandbox sẽ chuyển sang dạng accordion.
 
-### 3.4. User Journeys
+### 3.5. User Journeys
 
 - **Journey 1 (Board Navigation):** User truy cập `/board` -> Chọn ART View -> Kéo thả (Drag & Drop) một task card từ 'Todo' sang 'In Progress' -> Cập nhật trạng thái thành công.
 - **Journey 2 (PI Planning Vote):** User mở thẻ PI Planning -> Xem danh sách rủi ro (ROAM) -> Click nút [Confidence Vote] -> Xác nhận lựa chọn -> Ghi nhận kết quả vote.
@@ -235,6 +304,32 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 1.  **Chuyển Phase (Phase Boundaries):** Từ Planning (Continuous Exploration) sang Execution (Continuous Integration), hoặc qua Release.
 2.  **The Ultimate Approval Panel:** Khi Agent đệ trình PR hoặc Task, Web UI gọp chung 5 luồng dữ liệu vào một màn hình duy nhất để Human xem xét: `Test Result (Từ Zvec QA Log)` + `Code Diff (FastCode/Git)` + `Beads ID (br-xxx)` + `PRD Requirements liên kết` + `GitHub PR & CI Status (từ gh CLI)`.
 
+**Showcase/Core contract:** `/design-system/approval` (`ds:screen:approval-001`) chuẩn hóa route `/approval`. Màn hình phải có toggles `pending`/`approved`/`rejected`, escalated badge, evidence blocks Tests/Diff/Beads ID/PRD/CI, RTM matrix, Coverage Heatmap, và hash anchors `#panels`, `#rtm`, `#heatmap`. Core WebUI lấy danh sách queue bằng `GET /api/tasks?status=pending-approval`, evidence bằng `GET /api/approval/:id/evidence`, coverage bằng `GET /api/coverage`, và ghi quyết định bằng `POST /api/approval/:id/decision`.
+
+**Decision controls:** [Approve] chỉ enabled khi required evidence hợp lệ hoặc user có quyền Admin override với audit reason. [Reject] luôn yêu cầu reason. [Request Changes] tạo activity event gắn với task/PR và chuyển task về trạng thái `changes-requested` hoặc policy tương đương.
+
+### 4.0. Layout — Approval Gates Screen
+
+<!-- beads-id: br-prd04-s4.0 -->
+
+```text
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│ Queue Panel   │   │ Evidence Hub  │   │ Decision Box  │
+│ pending       │   │ tests diff    │   │ approve       │
+│ approved      │   │ prd ci rtm    │   │ reject        │
+│ rejected      │   │ heatmap       │   │ request       │
+└───────┬───────┘   └───────┬───────┘   └───────┬───────┘
+        │                   │                   │
+        └──────────select task and evidence─────┘
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │ Audit Receipt │
+                    │ actor time    │
+                    │ reason link   │
+                    └───────────────┘
+```
+
 ### 4.1. State Matrix & Breakpoints
 
 | State | Mô tả |
@@ -242,7 +337,8 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 | **Default** | Hiển thị Panel phê duyệt với 5 luồng evidence do Go REST API tổng hợp (Test, Code Diff, Beads ID, PRD, GitHub PR/CI). |
 | **Loading** | Skeleton loaders trong quá trình aggregate dữ liệu từ nhiều nguồn. |
 | **Insufficient Evidence** | Nếu test logs thiếu, đang lỗi, hoặc bất kỳ luồng evidence bắt buộc nào chưa có trạng thái hợp lệ, nút [Approve] bị disabled, có tooltip/lý do ngắn và CTA "Refresh evidence"; [Reject] vẫn khả dụng nếu có quyền. |
-| **Empty** | "Không có yêu cầu phê duyệt nào đang chờ". |
+| **Empty** | "Không có yêu cầu phê duyệt nào đang chờ"; toggle approved/rejected vẫn cho phép xem lịch sử nếu user có quyền. |
+| **Decision Submitted** | Sau approve/reject/request-changes, panel chuyển sang receipt state với decision ID, actor, timestamp, audit reason/comment, và link về task/PR. |
 | **Error** | "Lỗi kết nối đến dịch vụ CI/CD hoặc GitHub"; [Approve] disabled trừ khi Admin chọn luồng "Bỏ qua & Phê duyệt thủ công" có audit reason. |
 
 **Breakpoints (Responsive):**
@@ -561,33 +657,67 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 
 > **Data source:** Tất cả routes phục vụ bởi `gmind serve` (PRD-03). Frontend là SPA (Single Page Application) với client-side routing, embed qua `embed.FS`.
 
-### 8.1. Bảng Route Map Thống Nhất
+### 8.1. Route Map Tái dựng từ Showcase Website Coverage
 
-| Core Route | Tên Giao diện / Trang | Data Source API (Core WebUI) | Showcase URL (`apps/website`) | Trạng thái hiển thị (State Matrix) bắt buộc |
+Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng để chuẩn hóa UI/UX trước khi đưa vào Core WebUI qua `gmind serve`. Route map không tách riêng showcase và Core: mỗi dòng phải nêu rõ showcase URL, DS identity, interaction contract, và data flow tương ứng trong Core WebUI.
+
+**Quy tắc bắt buộc cho mọi route:** giữ nguyên icon, route path, hash navigation, state matrix, `DsIdBadge`/`data-ds-id`, keyboard interaction, offline/forbidden handling, và interaction model như implementation showcase hiện tại. Browser chỉ consume Go REST API; mọi truy cập FrankenSQLite, Zvec, local git, GitHub `gh`, FastCode, CI, hoặc shell phải được backend tổng hợp.
+
+| Showcase URL | Icon / DS ID | Core Route(s) | UI/UX bắt buộc | Data flow tương ứng trong Core WebUI |
 | --- | --- | --- | --- | --- |
-| `/` | Dashboard (RTM) (§6) | `GET /api/coverage`, `/api/tasks`, `/api/trace` | `/design-system/webui-pm-workspace#rtm-dashboard` | Default, Loading, Empty, Error, Offline |
-| `/board` | SAFe Board (Kanban) (§3) | `GET /api/tasks?view=board&level=<level>` | `/design-system/kanban` | Default, Loading, Empty, Error, Offline, Forbidden |
-| `/portfolio` | Executive Portfolio (§3) | `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic` | `/design-system/portfolio` | Default, Loading, Empty, Error, Offline, Forbidden |
-| `/pi-planning` | PI Planning Sandbox (§3) | `GET /api/pi/features`, `PUT /api/pi/plan` | `/design-system/pi-planning` | Default, Loading, Empty, Error, Offline |
-| `/tasks` | Task List (§13) | `GET /api/tasks?format=list` | `/design-system/webui-pm-workspace#task-list` | Default, Loading, Empty, Error, Offline |
-| `/tasks/:id` | Task Detail (§11) | `GET /api/tasks/:id`, `GET /api/trace/:id` | `/design-system/webui-pm-workspace#task-detail` | Default, Loading, Empty, Error, Offline |
-| `/terminal` | Agent & CI Terminal Console (§14) | `GET /api/agents/sessions`, `GET /api/ci/runs` | `/design-system/terminal` | Default, Loading, Empty, Error, Offline, Forbidden |
-| `/timeline` | Timeline & File Leases (§15) | `GET /api/activity`, `GET /api/file-leases` | `/design-system/timeline` | Default, Loading, Empty, Error, Offline, Forbidden |
-| `/trace/:id` | Beads Trace Explorer (§10) | `GET /api/trace/:id?depth=full` | `/design-system/beads-traversal` | Default, Loading, Empty, Error, Partial |
-| `/knowledge-graph` | Knowledge Graph Presets (§10) | `GET /api/graph/presets` | `/design-system/knowledge-graph` | Default, Loading, Empty, Error, Offline, Forbidden |
-| `/git-graph` | Git Graph Explorer (§16) | `GET /api/git/graph?scenario=<id>` | `/design-system/git-graph` | Default, Loading, Empty, Error |
-| `/docs` | Document Viewer (§9) | `GET /api/docs`, `GET /api/docs/:id` | `/design-system/doc-viewer` | Default, Loading, Empty, Error, Offline, Forbidden |
-| `/storyboards` | Storyboards & Journeys (§17) | `GET /api/storyboards`, `GET /api/storyboards/:id` | `/design-system/storyboard` | Default, Loading, Empty, Error |
-| `/approval` | Approval Gates (§4, §7) | `GET /api/tasks?status=pending-approval`, `GET /api/coverage` | `/design-system/approval` | Default, Loading, Empty, Error, Offline |
-| `/search` | Search Results (§12) | `GET /api/search?q=<query>&type=<type>` | `/design-system/explorer` | Default, Loading, Empty, Error |
-| *(Shared)* | Components Catalog | Shared primitives/tokens | `/design-system/components` | Tương tác đầy đủ theo thiết kế |
-| *(Shell)* | Global Shell (§8.2) | Header, Sidebar, Footer | `/design-system/webui-pm-workspace` | N/A |
+| `/design-system/terminal` | 💻 `ds:screen:terminal-001` | `/terminal` | Terminal scenario tabs: Agent Console, Deploy, Debug, CI/CD; terminal line types `command`/`output`/`success`/`error`; 2x2 Mosaic Layout cho Claude-01 Storage, Claude-02 CLI, Claude-03 CI, QA-Reviewer; states loading/empty/error/offline/forbidden. | Showcase dùng static terminal lines; Core dùng `GET /api/agents/sessions`, `GET /api/ci/runs`, `GET /api/tasks/:id/activity`, stream log events qua API, không gọi shell trực tiếp từ browser. |
+| `/design-system/portfolio` | 📈 `br-ds-portfolio-view` | `/portfolio` | Executive Portfolio table gồm Epic ID, owner, progress bar, budget, status badge, forecast; Roadmap Kế hoạch chia Q1/Q2/Q3 2026; states loading/empty/error/offline/forbidden. | Showcase dùng static `portfolios`; Core dùng `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic`, budget/roadmap từ first-class PM columns và labels. |
+| `/design-system/pi-planning` | 🎯 `br-ds-pi-planning` | `/pi-planning` | PI Planning Sandbox 2 cột: Strategic Sandbox drag/drop capacity bằng `@hello-pangea/dnd`, Business Value Scoring, Confidence Vote 1-5, ROAM Board rủi ro Resolved/Owned/Accepted/Mitigated/Unassigned. | Showcase dùng local React state; Core dùng `GET /api/pi/features`, `PUT /api/pi/plan`, `GET /api/risks?view=roam`, `POST /api/pi/confidence-vote`. |
+| `/design-system/git-graph` | 🌿 `ds:screen:git-graph-001` | `/git-graph` | Hash-selected scenarios: `gitflow`, `multi-agent`, `hotfix`, `release-train`, `monorepo`, `beads-prd-trace`, `beads-deadlock`, `beads-ds-comp`, `beads-traversal`, `beads-sprint-review`; render branches/commits/connections, branch tags, stats. | Showcase dùng `gitScenarios`; Core dùng Go API aggregation from local git + Beads trailers: `GET /api/git/graph?scenario=<id>` and `GET /api/trace/:id?include=git`. |
+| `/design-system/kanban` | 📋 `ds:screen:kanban-001` | `/board` | Board selector hash routes `sprint`/`release`/`bug-triage`; drag/drop cards with WIP limit badges; stats total/done/progress; states loading/empty/error/offline/forbidden. | Showcase dùng `kanbanBoards`; Core dùng `GET /api/tasks?view=board&board=<id>`, `PUT /api/tasks/:id/status`, WIP từ policy config/labels. |
+| `/design-system/knowledge-graph` | 🧠 `ds:screen:knowledge-graph-001` | `/knowledge-graph`, `/trace/:id` | Sigma.js/Graphology viewer loaded client-only; presets `simple`/`ecosystem`/`sprint` qua hash; selected-node banner, node/edge legends, stats; states loading/empty/error/offline/forbidden. | Showcase dùng graph presets; Core dùng Graph Assembler `GET /api/trace/:id?depth=full` and `GET /api/graph/presets`, enriched from FrankenSQLite, Zvec, git, GitHub, FastCode. |
+| `/design-system/approval` | ✅ `ds:screen:approval-001` | `/approval`, `/tasks/:id#approval` | Approval Panels with pending/approved/rejected toggles; escalated badge; evidence blocks Tests, Diff, Beads ID, PRD, CI; RTM matrix; Coverage Heatmap; hash anchors `panels`/`rtm`/`heatmap`. | Showcase dùng `approvalPanels`, `rtmRows`, heatmap data; Core dùng `GET /api/tasks?status=pending-approval`, `GET /api/coverage`, `GET /api/approval/:id/evidence`, `POST /api/approval/:id/decision`. |
+| `/design-system/timeline` | 📅 `ds:screen:timeline-001` | `/timeline`, `/tasks/:id#activity` | File Lease indicators unlocked/locked/expiring/expired, Activity Feed, Sprint Day timeline; hash anchors `file-lease`/`activity-feed`/`sprint-day`; states loading/empty/error/offline/forbidden. | Showcase dùng static activity arrays; Core dùng `GET /api/activity`, `GET /api/file-leases`, `GET /api/tasks/:id/activity`, polling events table every 3-5s. |
+| `/design-system/components` | 🧩 `ds:screen:components-001` | Shared components | Components Catalog đủ 18 sections: Buttons, Badges/Status, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, Error Banner; hash scroll and interactive examples. | Showcase dùng `componentSections`; Core treats these as shared primitives/tokens. Every production screen must compose these states/components instead of one-off styling. |
+| `/design-system/doc-viewer` | 📄 `ds:screen:doc-viewer-001` | `/docs`, `/docs/:id` | GitHub-like file tree, expandable folders, selected document panel, Beads ID badges, section status covered/partial/gap, links to Explorer and Knowledge Graph; states loading/empty/error/offline/forbidden. | Showcase uses `docTree`/`docContents`; Core uses `GET /api/docs?group=source_type`, `GET /api/docs/:id`, Beads regex auto-link to `/trace/:id`. |
+| `/design-system/explorer` | 🔍 `ds:screen:explorer-001` | `/search` | Unified search with query input, type filters `all`/`doc`/`commit`/`task`/`adr`/`chat`/`spike`, result list, detail sidebar, cross-links to Knowledge Graph, Beads Traversal, Doc Viewer; hash selects filter. | Showcase uses `explorerItems`; Core uses `GET /api/search?q=<query>&type=<type>` backed by Zvec, FrankenSQLite, FastCode. |
+| `/design-system/beads-traversal` | 🔗 `ds:screen:beads-traversal-001` | `/trace/:id`, `/trace/:id?mode=dag` | Layered DAG PRD Sections → Plan Elements → Tasks → Commits; forward/reverse direction toggle; selected/linked node highlighting; detail sidebar with parent/children links; legends and stats; hash scroll by layer. | Showcase uses `beadsNodes`/`beadsEdges`; Core uses `GET /api/trace/:id?depth=full` and graph edge types `satisfies`, `implements`, `committed-for`. |
+| `/design-system/storyboard` | 🗺️ `ds:screen:storyboard-001` | `/storyboards` | Journey filter, horizontal use-case flow nodes, Guidance Panel with Mechanism & Action, Considerations, Investigating, CTA to real screen. | Showcase uses `usecases`; Core uses PRD-derived storyboards from Ralph Loop artifacts and E2E alignment metadata via `GET /api/storyboards`. |
+| `/design-system/storyboard/:id` | 🗺️ `ds:screen:storyboard-detail-001` | `/storyboards/:id` | Dynamic detail route shows role, journey, step timeline, related usecases, expected state names, and CTA to the corresponding Core route. | Showcase uses selected `usecase`; Core uses `GET /api/storyboards/:id` with screen-path alignment metadata. |
+| `/design-system/webui-pm-workspace` | 🧭 `ds:global_shell` | `/`, `/board`, `/tasks`, `/tasks/:id`, `/trace/:id`, `/docs`, `/approval`, `/search` | Integrated PM Workspace shell: header logo/search/offline indicator, active surfaces RTM Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, Search Results; each surface carries stable `data-screen-id` and `data-ds-id`. In showcase mode, the workspace sidebar is merged with the global Design System layout sidebar. | Showcase is the Ralph Loop Hi-Fi composite; Core maps the same surfaces through `gmind serve` routes and preserves shell state across navigation. |
 
-### 8.1B. Showcase Sidebar & Navigation Rules (Legacy)
-- Sidebar categories must match the implementation: **Design System**, **Screens**, **Explorer**, **Storyboard**.
-- **PM Workspace Integration:** In showcase mode, the PM Workspace simulator's inner sidebar is eliminated, and its surface views (Dashboard, Board, Tasks, etc.) are rendered by navigating via hash-based sub-items on the main showcase sidebar (e.g. `/design-system/webui-pm-workspace#surface-<name>`).
-- Global keyboard behavior must dispatch escape handling for modals/dropdowns through the shared keyboard hook.
-- All core and showcase screens must expose `default`, `loading`, `empty`, `error`, `offline`, and `forbidden` states.
+**Showcase sidebar & navigation rules:** Sidebar categories must match implementation (**Design System**, **Screens**, **Explorer**, **Storyboard**). In showcase mode, PM Workspace surfaces are reached via hash-based sub-items on the main showcase sidebar (for example `/design-system/webui-pm-workspace#surface-rtm-dashboard`) rather than a second inner sidebar. Global keyboard behavior must dispatch Escape handling for modals/dropdowns through the shared keyboard hook.
+
+**Route family layout:**
+
+```text
+┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+│ Shell         │     │ Work Screens  │     │ Detail Views  │
+│ webui pm      │     │ board tasks   │     │ task trace    │
+│ search docs   │     │ approval rtm  │     │ docs story    │
+└───────┬───────┘     └───────┬───────┘     └───────┬───────┘
+        │                     │                     │
+        ▼                     ▼                     ▼
+┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+│ Evidence      │     │ Planning      │     │ Showcase Only │
+│ terminal git  │     │ portfolio pi  │     │ components    │
+│ timeline graph│     │ kanban roam   │     │ ds tokens     │
+└───────────────┘     └───────────────┘     └───────────────┘
+```
+
+**Components catalog layout (`/design-system/components`):** Production screens must reuse the catalog primitives instead of inventing one-off styles. The catalog must keep 18 anchored sections and expose interactive examples for component states.
+
+```text
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│ Inputs          │     │ Display         │     │ Feedback        │
+│ buttons dropdown│     │ badges progress │     │ skeleton empty  │
+│ modal accordion │     │ table cards     │     │ error tooltip   │
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │                       │                       │
+         └──────────────compose every screen─────────────┘
+                                 │
+                                 ▼
+                       ┌─────────────────┐
+                       │ Shared Tokens   │
+                       │ color spacing   │
+                       │ focus motion    │
+                       └─────────────────┘
+```
 
 ### 8.2. Layout Tổng quan — Global Shell
 
@@ -679,6 +809,8 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 | **Coverage Indicator** | Nếu document là PRD, hiển thị coverage % từ RTM data | `GET /api/coverage?prd=<beads-id>` |
 | **Date Filter** | Filter documents theo time range (last 7 days, 30 days, all) | Query params `?since=<date>` |
 | **Search within Doc** | Ctrl+F style search highlight trong document content | Client-side |
+| **Section Coverage Badges** | Mỗi heading có badge `covered`/`partial`/`gap`, link nhanh sang Explorer và Knowledge Graph | `GET /api/coverage?doc=<id>` |
+| **GitHub-like Tree Controls** | Folder expand/collapse, selected file highlight, keyboard up/down/enter, breadcrumb synced với selected document | Client-side + `GET /api/docs?group=source_type` |
 
 ### 9.3. State Matrix & Breakpoints
 
@@ -793,6 +925,49 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 | **Depth selector** | Thay đổi depth (1-5). Depth=1 chỉ hiện direct connections. Depth=full hiện toàn bộ. |
 | **Right-click node** | Context menu: Copy Beads ID, Open in new tab, Show Impact Analysis |
 
+### 10.3A. Knowledge Graph Presets & Beads Traversal Modes
+
+<!-- beads-id: br-prd04-s10.3a -->
+
+`/design-system/knowledge-graph` chuẩn hóa preset viewer cho route `/knowledge-graph`. Viewer phải load Sigma.js/Graphology client-only, chọn preset bằng hash `#simple`, `#ecosystem`, hoặc `#sprint`, và luôn hiển thị selected-node banner, legends, stats, và forbidden/offline states.
+
+```text
+┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+│ Preset List   │────>│ Graph Canvas  │────>│ Node Banner   │
+│ simple        │     │ sigma viewer  │     │ title status  │
+│ ecosystem     │     │ pan zoom      │     │ links stats   │
+│ sprint        │     │ legends       │     │ actions       │
+└───────────────┘     └───────┬───────┘     └───────────────┘
+                              │
+                              ▼
+                      ┌───────────────┐
+                      │ Core Graph    │
+                      │ trace presets │
+                      │ enrichment    │
+                      └───────────────┘
+```
+
+`/design-system/beads-traversal` chuẩn hóa DAG mode cho route `/trace/:id?mode=dag`. Mode này không thay thế full graph; nó cung cấp layout tầng để PMO đọc trace theo chuỗi yêu cầu → kế hoạch → task → commit.
+
+```text
+┌───────────────┐     satisfies      ┌───────────────┐
+│ PRD Sections  │───────────────────>│ Plan Elements │
+│ br prd nodes  │                    │ br plan nodes │
+└───────┬───────┘                    └───────┬───────┘
+        │                                    │ implements
+        │ reverse toggle                     ▼
+        │                            ┌───────────────┐
+        │                            │ Tasks         │
+        │                            │ status owner  │
+        │                            └───────┬───────┘
+        │                                    │ committed for
+        ▼                                    ▼
+┌───────────────┐                    ┌───────────────┐
+│ Detail Panel  │<────select node────│ Commits       │
+│ parents child │                    │ hash pr ci    │
+└───────────────┘                    └───────────────┘
+```
+
 ### 10.4. State Matrix & Breakpoints
 
 | State | Mô tả |
@@ -906,6 +1081,8 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 - **Instant suggestions** (debounce 300ms): Top 5 kết quả preview dưới search bar (dropdown).
 
 ### 12.2. Trang Search Results (`/search`)
+
+Showcase `/design-system/explorer` (`ds:screen:explorer-001`) là bản chuẩn hóa của `/search`: query input, type filters `all`/`doc`/`commit`/`task`/`adr`/`chat`/`spike`, result list, detail sidebar, hash-selected filter, và cross-links sang Knowledge Graph, Beads Traversal, Doc Viewer.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
@@ -1039,13 +1216,37 @@ Route: `/terminal`
 - **Tabs điều hướng:** Agent Console, Deploy, Debug, CI/CD.
 - **Mosaic Layout:** Màn hình hỗ trợ chia 2x2 để quan sát đa luồng (ví dụ: Claude-01 Storage, Claude-02 CLI, Claude-03 CI, QA-Reviewer).
 - **Line Types:** Hỗ trợ các định dạng dòng hiển thị chuyên biệt: `command`, `output`, `success`, `error`.
+- **Scenario Anchors:** Hash/tab state phải deep-link được tới `#agent-console`, `#deploy`, `#debug`, `#ci-cd`; tab active giữ nguyên khi refresh.
+- **Security Boundary:** Terminal là read-only log viewer hoặc controlled action surface qua API; browser không có quyền gọi shell, đọc file hệ thống, hoặc inject command.
+
+```text
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│ Agent Console │   │ Deploy        │   │ Debug         │
+│ tab active    │   │ tab           │   │ tab           │
+└───────┬───────┘   └───────┬───────┘   └───────┬───────┘
+        │                   │                   │
+        └──────────────scenario tabs────────────┘
+                            │
+                            ▼
+┌─────────────────┐     ┌─────────────────┐
+│ Claude 01       │     │ Claude 02       │
+│ command output  │     │ success output  │
+│ error line      │     │ stream line     │
+└─────────────────┘     └─────────────────┘
+┌─────────────────┐     ┌─────────────────┐
+│ Claude 03       │     │ QA Reviewer     │
+│ ci cd output    │     │ failure output  │
+│ deploy log      │     │ retry hint      │
+└─────────────────┘     └─────────────────┘
+```
 
 ### 14.2. State Matrix
 - **Default:** Terminal hiển thị các logs real-time đang chạy.
-- **Loading:** Skeleton UI khi đang kết nối WebSocket hoặc lấy history.
-- **Offline:** 🔴 "Mất kết nối Agent/CI" (Read-only logs).
-- **Empty:** "Chưa có session nào hoạt động."
-- **Forbidden:** Khi User không có quyền truy cập CI pipeline.
+- **Loading:** Skeleton UI khi đang kết nối stream hoặc lấy history.
+- **Empty:** "Chưa có session nào hoạt động." kèm CTA mở Task List hoặc refresh sessions.
+- **Error:** "Không thể tải log stream" kèm retry; error line type vẫn hiển thị trong pane nếu chỉ một session lỗi.
+- **Offline:** "Mất kết nối Agent/CI"; giữ read-only logs cache và dừng controlled actions.
+- **Forbidden:** Khi User không có quyền truy cập CI pipeline hoặc agent session nhạy cảm.
 
 ## 15. Dòng thời gian & File Leases (Timeline)
 
@@ -1059,11 +1260,35 @@ Route: `/timeline`
 - **Sprint Day Timeline:** Hiển thị trục thời gian dọc các sự kiện trong ngày của Sprint.
 - **File Lease Indicators:** Các file đang được agents edit sẽ có trạng thái: `unlocked`, `locked` (với agent avatar), `expiring`, `expired`.
 - **Activity Feed:** Luồng hoạt động cập nhật real-time các tasks được gán, pull request mở, v.v.
+- **Hash Anchors:** `#file-lease`, `#activity-feed`, `#sprint-day` scroll tới đúng panel và cập nhật active nav.
+- **Freshness Indicator:** Mỗi panel hiển thị last updated; offline state giữ dữ liệu cache với nhãn read-only.
+
+```text
+┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+│ File Leases   │     │ Activity Feed │     │ Sprint Day    │
+│ unlocked      │     │ task changes  │     │ morning sync  │
+│ locked        │     │ pr opened     │     │ build check   │
+│ expiring      │     │ ci finished   │     │ demo review   │
+│ expired       │     │ rte decision  │     │ retro notes   │
+└───────┬───────┘     └───────┬───────┘     └───────┬───────┘
+        │                     │                     │
+        └──────────poll events every 3 to 5s────────┘
+                              │
+                              ▼
+                      ┌───────────────┐
+                      │ Freshness     │
+                      │ online cache  │
+                      │ offline read  │
+                      └───────────────┘
+```
 
 ### 15.2. State Matrix
 - **Default:** Dòng thời gian hiển thị, file leases cập nhật liên tục.
-- **Loading:** Skeleton timeline.
-- **Offline:** Ngừng tự động cập nhật, hiển thị "Dữ liệu cũ - Offline".
+- **Loading:** Skeleton timeline và placeholder lease cards.
+- **Empty:** "Chưa có hoạt động trong khoảng thời gian này" kèm CTA clear filters hoặc chuyển sprint day.
+- **Error:** "Không thể tải activity/file leases" kèm retry và timestamp lần tải gần nhất nếu có cache.
+- **Offline:** Ngừng tự động cập nhật, hiển thị "Dữ liệu cũ - Offline" và chuyển mọi write action sang read-only.
+- **Forbidden:** Ẩn activity nhạy cảm nếu user không có quyền xem CI/agent/private file lease.
 
 ## 16. Khám phá Git Graph & Đa kịch bản (Git Graph Explorer)
 
@@ -1077,11 +1302,32 @@ Route: `/git-graph`
 - Hỗ trợ chọn kịch bản (scenarios) qua URL Hash: `gitflow`, `multi-agent`, `hotfix`, `release-train`, `monorepo`, `beads-prd-trace`, `beads-deadlock`, `beads-ds-comp`, `beads-traversal`, `beads-sprint-review`.
 - **Visuals:** Trực quan hóa các nhánh (branches), commits, merge connections, branch tags, và stats (SVG hoặc Canvas).
 - Cho phép tương tác (hover/click) vào từng commit để xem chi tiết Beads ID liên kết.
+- **Trace Overlay:** Khi scenario có Beads context, commit detail hiển thị `Beads-ID:` trailer, linked PRD/Plan/Task, CI status, và CTA mở `/trace/:id`.
+
+```text
+┌───────────────┐     ┌───────────────────────────────┐
+│ Scenario List │────>│ Git Graph Canvas              │
+│ gitflow       │     │ main     o-----o-----o        │
+│ multi agent   │     │ feature     o-----o--m        │
+│ hotfix        │     │ release  o-----------o        │
+│ beads trace   │     │ tags branches merges stats    │
+└───────────────┘     └───────────────┬───────────────┘
+                                      │ click commit
+                                      ▼
+                              ┌───────────────┐
+                              │ Commit Detail │
+                              │ beads id      │
+                              │ pr ci trace   │
+                              └───────────────┘
+```
 
 ### 16.2. State Matrix
-- **Default:** Đồ thị render đầy đủ nhánh và commit.
-- **Loading:** Progress bar đang phân tích git history.
-- **Error:** "Không thể đọc dữ liệu local git."
+- **Default:** Đồ thị render đầy đủ nhánh, commit, branch tags, merge connections, stats.
+- **Loading:** Progress bar đang phân tích git history qua Go API.
+- **Empty:** "Không có commit phù hợp scenario/filter" kèm CTA reset scenario.
+- **Error:** "Không thể đọc dữ liệu local git" kèm retry; browser không hiển thị raw shell error.
+- **Offline:** Hiển thị graph cache nếu có; disable refresh/enrichment.
+- **Forbidden:** Ẩn commit/branch metadata không được phép nếu backend policy đánh dấu private.
 
 ## 17. Bản đồ Hành trình & Storyboard
 
@@ -1095,11 +1341,33 @@ Route: `/storyboards`
 - **Journey Filter:** Lọc các nhóm use-cases và hành trình người dùng.
 - **Flow Nodes:** Biểu diễn các bước use-case theo chiều ngang.
 - **Guidance Panel:** Chứa Mechanism & Action, Considerations, Investigating. Hướng dẫn Agent cách thao tác E2E.
-- **Dynamic Route:** `/storyboards/:id` hiển thị chi tiết role, journey, step timeline, và nút Call-To-Action dẫn sang screen thực tế.
+- **Dynamic Route:** `/storyboards/:id` hiển thị chi tiết role, journey, step timeline, related usecases, expected outcomes, expected state names, và nút Call-To-Action dẫn sang screen thực tế.
+- **E2E Guidance:** Guidance Panel phải tách rõ Mechanism & Action, Considerations, Investigating, và CTA để QA/Agent biết điều kiện test nào cần quan sát.
+- **Screen Alignment:** Mỗi step có `screen_path`, `data-screen-id`, `expected_state`, và `success_signal`; CTA không được trỏ tới placeholder.
+
+```text
+┌───────────────┐     ┌───────────────────────────────┐
+│ Journey Filter│────>│ Usecase Flow                  │
+│ role          │     │ step 1 --> step 2 --> step 3  │
+│ module        │     │ state names and screen paths  │
+│ outcome       │     │ cta opens real screen         │
+└───────────────┘     └───────────────┬───────────────┘
+                                      │ select usecase
+                                      ▼
+┌───────────────┐             ┌───────────────┐
+│ Guidance      │<────────────│ Detail Route  │
+│ mechanism     │             │ role journey  │
+│ action        │             │ timeline      │
+│ investigate   │             │ related cases │
+└───────────────┘             └───────────────┘
+```
 
 ### 17.2. State Matrix
-- **Default:** Flow và Panels hiển thị rõ ràng với tương tác.
-- **Empty:** "Không tìm thấy Storyboard cho module này."
+- **Default:** Flow nodes, guidance panel, timeline, related usecases, và CTA hiển thị rõ ràng với tương tác.
+- **Loading:** Skeleton cho flow row và guidance panel.
+- **Empty:** "Không tìm thấy Storyboard cho module này" kèm CTA quay lại toàn bộ journey.
+- **Error:** "Không thể tải storyboard metadata" kèm retry.
+- **Offline:** Hiển thị cached storyboard read-only; CTA tới screen thực tế vẫn hoạt động nếu route local có sẵn.
 
 ## 18. Acceptance Criteria (Tiêu chí Nghiệm thu)
 
