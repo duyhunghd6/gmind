@@ -122,13 +122,8 @@ const menu: Category[] = [
         icon: "🧭",
         subs: [
           { href: "/design-system/webui-pm-workspace", label: "RTM Dashboard" },
-          { href: "/design-system/webui-pm-workspace#surface-board", label: "SAFe Board" },
           { href: "/design-system/webui-pm-workspace#surface-tasks", label: "Task List" },
           { href: "/design-system/webui-pm-workspace#surface-tasks-detail", label: "Task Detail" },
-          { href: "/design-system/webui-pm-workspace#surface-trace", label: "Trace Explorer" },
-          { href: "/design-system/webui-pm-workspace#surface-docs", label: "Core Doc Viewer" },
-          { href: "/design-system/webui-pm-workspace#surface-approval", label: "Approval Gates" },
-          { href: "/design-system/webui-pm-workspace#surface-search", label: "Search Results" },
         ],
       },
       {
