@@ -41,9 +41,21 @@ sections:
   - anchor: "13-task-list-view"
     title: "Danh sách Task (Task List View)"
     beads-id: br-prd04-s13
-  - anchor: "14-acceptance-criteria"
-    title: "Tiêu chí Nghiệm thu"
+  - anchor: "14-agent-ci-terminal"
+    title: "Bảng điều khiển Agent & CI (Terminal Console)"
     beads-id: br-prd04-s14
+  - anchor: "15-timeline-file-leases"
+    title: "Dòng thời gian & File Leases (Timeline)"
+    beads-id: br-prd04-s15
+  - anchor: "16-git-graph-explorer"
+    title: "Khám phá Git Graph & Đa kịch bản"
+    beads-id: br-prd04-s16
+  - anchor: "17-storyboard-journey"
+    title: "Bản đồ Hành trình & Storyboard"
+    beads-id: br-prd04-s17
+  - anchor: "18-acceptance-criteria"
+    title: "Tiêu chí Nghiệm thu"
+    beads-id: br-prd04-s18
 ---
 
 # PRD 04: Giao diện PM & Quản lý Không gian làm việc (Web UI & PM Workspace)
@@ -177,24 +189,42 @@ Phiên bản **Beads Viewer PM Edition** đóng vai trò là một dự án mở
 - **Team View:** Bảng Kanban riêng rẽ cho từng Feature Team (VD: `Platform`, `Connectors`, `Quant`).
 - **PI Planning Interactive UI:** Không gian tương tác cho lễ PI Planning. Bao gồm **Strategic Sandbox** (kéo thả rủi ro/bài toán để tính Capacity), **Business Value Scoring**, **ROAM Board** để xử lý rủi ro, và phím bấm **[Confidence Vote]** bắt buộc từ Human trước khi khởi chạy Sprint.
 
-### 3.1. State Matrix & Breakpoints
+### 3.1. Portfolio View (Executive Dashboard)
+Route: `/portfolio`
+
+- **Executive Portfolio Table:** Bảng hiển thị thông tin cấp độ Epic, bao gồm `Epic ID`, `owner`, thanh tiến độ (`progress bar`), `budget`, `status badge`, và `forecast`.
+- **Roadmap:** Kế hoạch phân chia theo quý (Q1/Q2/Q3 2026).
+- **Data Source:** `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic`. Ngân sách (budget) và roadmap được truy xuất từ first-class PM columns và các nhãn (labels).
+
+### 3.2. PI Planning Interactive UI
+Route: `/pi-planning`
+
+- **Strategic Sandbox:** Khu vực kéo thả (drag/drop) 2 cột sử dụng thư viện `@hello-pangea/dnd` để phân bổ capacity.
+- **Scoring & Voting:** Chấm điểm Business Value Scoring và Confidence Vote 1-5. Nút **[Confidence Vote]** bắt buộc từ Human trước khi khởi chạy Sprint.
+- **ROAM Board:** Phân tích và giải quyết rủi ro theo chuẩn ROAM (Resolved, Owned, Accepted, Mitigated, Unassigned).
+- **Data Source:** `GET /api/pi/features`, `PUT /api/pi/plan`, `GET /api/risks?view=roam`, `POST /api/pi/confidence-vote`.
+
+### 3.3. State Matrix & Breakpoints
 
 | State | Mô tả |
 | --- | --- |
-| **Default** | Hiển thị các bảng Kanban/Portfolio với dữ liệu đầy đủ. |
-| **Loading** | Hiển thị skeleton loaders cho các thẻ công việc và bảng điều khiển. |
+| **Default** | Hiển thị các bảng Kanban, Portfolio, hoặc PI Sandbox với dữ liệu đầy đủ, hỗ trợ tương tác mượt mà. |
+| **Loading** | Hiển thị skeleton loaders cho các thẻ công việc, bảng điều khiển và danh sách. |
 | **Empty** | Hiển thị "Chưa có dự án/task" kèm nút CTA để tạo mới. |
 | **Error** | Hiển thị thông báo "Không thể tải dữ liệu Board" kèm nút "Thử lại". |
+| **Offline** | Hiển thị banner Offline, vô hiệu hóa các tính năng kéo thả (drag/drop) để tránh lỗi sync. |
+| **Forbidden** | Người dùng không đủ quyền truy cập (vd: xem Budget trên Portfolio). |
 
 **Breakpoints (Responsive):**
 - **Desktop (≥ 1024px):** Hiển thị đầy đủ các cột Kanban ngang (Kanban Board) và PI Planning Sandbox.
 - **Tablet (768px - 1023px):** Thu hẹp các cột Kanban, cho phép trượt ngang (horizontal scroll).
-- **Mobile (< 768px):** Hiển thị dạng List view dọc thay vì Kanban ngang, các thẻ công việc xếp chồng lên nhau.
+- **Mobile (< 768px):** Hiển thị dạng List view dọc thay vì Kanban ngang, các thẻ công việc xếp chồng lên nhau. PI Planning Sandbox sẽ chuyển sang dạng accordion.
 
-### 3.2. User Journeys
+### 3.4. User Journeys
 
 - **Journey 1 (Board Navigation):** User truy cập `/board` -> Chọn ART View -> Kéo thả (Drag & Drop) một task card từ 'Todo' sang 'In Progress' -> Cập nhật trạng thái thành công.
 - **Journey 2 (PI Planning Vote):** User mở thẻ PI Planning -> Xem danh sách rủi ro (ROAM) -> Click nút [Confidence Vote] -> Xác nhận lựa chọn -> Ghi nhận kết quả vote.
+- **Journey 3 (Portfolio Review):** CEO truy cập `/portfolio` -> Xem tổng quan ngân sách và tiến độ Epic -> Phát hiện Epic bị chậm tiến độ (màu vàng/đỏ) -> Click vào Epic để truy xuất danh sách blocked tasks.
 
 ## 4. Cổng Phê duyệt Cấp 3 (Level 3 Approval Gates) & Không gian Phê duyệt
 
@@ -531,48 +561,33 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 
 > **Data source:** Tất cả routes phục vụ bởi `gmind serve` (PRD-03). Frontend là SPA (Single Page Application) với client-side routing, embed qua `embed.FS`.
 
-### 8.1. Bảng Route Map
+### 8.1. Bảng Route Map Thống Nhất
 
-| Route | Trang | Mô tả | Data Source API |
-| --- | --- | --- | --- |
-| `/` | Dashboard (RTM) | 4-panel RTM Dashboard (§6) | `GET /api/coverage`, `/api/tasks`, `/api/trace`, `/api/gaps` |
-| `/board` | SAFe Board | Kanban views: Portfolio / ART / Team (§3) | `GET /api/tasks?view=board&level=<level>` |
-| `/tasks` | Task List | Bảng danh sách task, filter, sort (§13) | `GET /api/tasks?format=list` |
-| `/tasks/:id` | Task Detail | Chi tiết 1 task: tabs Detail/Activity/Graph/Code (§11) | `GET /api/tasks/:id`, `GET /api/trace/:id` |
-| `/trace/:id` | Beads Trace Explorer | Đồ thị toàn trang Beads ID → linked entities (§10) | `GET /api/trace/:id?depth=full` |
-| `/docs` | Document Viewer | Duyệt & đọc tài liệu từ Zvec (§9) | `GET /api/docs`, `GET /api/docs/:source_type` |
-| `/approval` | Approval Gates | Level 3 Approval + RTE Approval (§4, §7) | `GET /api/tasks?status=pending-approval` |
-| `/search` | Search Results | Kết quả tìm kiếm toàn hệ thống (§12) | `GET /api/search?q=<query>` |
+| Core Route | Tên Giao diện / Trang | Data Source API (Core WebUI) | Showcase URL (`apps/website`) | Trạng thái hiển thị (State Matrix) bắt buộc |
+| --- | --- | --- | --- | --- |
+| `/` | Dashboard (RTM) (§6) | `GET /api/coverage`, `/api/tasks`, `/api/trace` | `/design-system/webui-pm-workspace#rtm-dashboard` | Default, Loading, Empty, Error, Offline |
+| `/board` | SAFe Board (Kanban) (§3) | `GET /api/tasks?view=board&level=<level>` | `/design-system/kanban` | Default, Loading, Empty, Error, Offline, Forbidden |
+| `/portfolio` | Executive Portfolio (§3) | `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic` | `/design-system/portfolio` | Default, Loading, Empty, Error, Offline, Forbidden |
+| `/pi-planning` | PI Planning Sandbox (§3) | `GET /api/pi/features`, `PUT /api/pi/plan` | `/design-system/pi-planning` | Default, Loading, Empty, Error, Offline |
+| `/tasks` | Task List (§13) | `GET /api/tasks?format=list` | `/design-system/webui-pm-workspace#task-list` | Default, Loading, Empty, Error, Offline |
+| `/tasks/:id` | Task Detail (§11) | `GET /api/tasks/:id`, `GET /api/trace/:id` | `/design-system/webui-pm-workspace#task-detail` | Default, Loading, Empty, Error, Offline |
+| `/terminal` | Agent & CI Terminal Console (§14) | `GET /api/agents/sessions`, `GET /api/ci/runs` | `/design-system/terminal` | Default, Loading, Empty, Error, Offline, Forbidden |
+| `/timeline` | Timeline & File Leases (§15) | `GET /api/activity`, `GET /api/file-leases` | `/design-system/timeline` | Default, Loading, Empty, Error, Offline, Forbidden |
+| `/trace/:id` | Beads Trace Explorer (§10) | `GET /api/trace/:id?depth=full` | `/design-system/beads-traversal` | Default, Loading, Empty, Error, Partial |
+| `/knowledge-graph` | Knowledge Graph Presets (§10) | `GET /api/graph/presets` | `/design-system/knowledge-graph` | Default, Loading, Empty, Error, Offline, Forbidden |
+| `/git-graph` | Git Graph Explorer (§16) | `GET /api/git/graph?scenario=<id>` | `/design-system/git-graph` | Default, Loading, Empty, Error |
+| `/docs` | Document Viewer (§9) | `GET /api/docs`, `GET /api/docs/:id` | `/design-system/doc-viewer` | Default, Loading, Empty, Error, Offline, Forbidden |
+| `/storyboards` | Storyboards & Journeys (§17) | `GET /api/storyboards`, `GET /api/storyboards/:id` | `/design-system/storyboard` | Default, Loading, Empty, Error |
+| `/approval` | Approval Gates (§4, §7) | `GET /api/tasks?status=pending-approval`, `GET /api/coverage` | `/design-system/approval` | Default, Loading, Empty, Error, Offline |
+| `/search` | Search Results (§12) | `GET /api/search?q=<query>&type=<type>` | `/design-system/explorer` | Default, Loading, Empty, Error |
+| *(Shared)* | Components Catalog | Shared primitives/tokens | `/design-system/components` | Tương tác đầy đủ theo thiết kế |
+| *(Shell)* | Global Shell (§8.2) | Header, Sidebar, Footer | `/design-system/webui-pm-workspace` | N/A |
 
-### 8.1A. Showcase Website Coverage — `/design-system/*`
-
-Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng để chuẩn hóa UI/UX trước khi đưa vào Core WebUI qua `gmind serve`. Mọi route phải giữ icon, route path, state matrix, `DsIdBadge`, hash navigation, và interaction như implementation hiện tại trên ``.
-
-| URL | Icon / DS ID | UI/UX bắt buộc | Data flow tương ứng trong Core WebUI |
-| --- | --- | --- | --- |
-| `/design-system/terminal` | 💻 `ds:screen:terminal-001` | Terminal scenario tabs: Agent Console, Deploy, Debug, CI/CD; terminal line types command/output/success/error; 2x2 Mosaic Layout cho Claude-01 Storage, Claude-02 CLI, Claude-03 CI, QA-Reviewer; states loading/empty/error/offline/forbidden. | Showcase dùng static terminal lines; Core dùng `GET /api/agents/sessions`, `GET /api/ci/runs`, `GET /api/tasks/:id/activity`, stream log events qua API, không gọi shell trực tiếp từ browser. |
-| `/design-system/portfolio` | 📈 `br-ds-portfolio-view` | Executive Portfolio table gồm Epic ID, owner, progress bar, budget, status badge, forecast; Roadmap Kế hoạch chia Q1/Q2/Q3 2026; states loading/empty/error/offline/forbidden. | Showcase dùng static `portfolios`; Core dùng `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic`, budget/roadmap từ first-class PM columns và labels. |
-| `/design-system/pi-planning` | 🎯 `br-ds-pi-planning` | PI Planning Sandbox 2 cột: Strategic Sandbox drag/drop capacity bằng `@hello-pangea/dnd`, Business Value Scoring, Confidence Vote 1-5, ROAM Board rủi ro Resolved/Owned/Accepted/Mitigated/Unassigned. | Showcase dùng local React state; Core dùng `GET /api/pi/features`, `PUT /api/pi/plan`, `GET /api/risks?view=roam`, `POST /api/pi/confidence-vote`. |
-| `/design-system/git-graph` | 🌿 `ds:screen:git-graph-001` | Hash-selected scenarios: gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, beads-sprint-review; render branches/commits/connections, branch tags, stats. | Showcase dùng `gitScenarios`; Core dùng Go API aggregation from local git + Beads trailers: `GET /api/git/graph?scenario=<id>` and `GET /api/trace/:id?include=git`. |
-| `/design-system/kanban` | 📋 `ds:screen:kanban-001` | Board selector hash routes sprint/release/bug-triage; drag/drop cards with WIP limit badges; stats total/done/progress; states loading/empty/error/offline/forbidden. | Showcase dùng `kanbanBoards`; Core dùng `GET /api/tasks?view=board&board=<id>`, `PUT /api/tasks/:id/status`, WIP từ policy config/labels. |
-| `/design-system/knowledge-graph` | 🧠 `ds:screen:knowledge-graph-001` | Sigma.js/Graphology viewer loaded client-only; presets simple/ecosystem/sprint via hash; selected-node banner, node/edge legends, stats; states loading/empty/error/offline/forbidden. | Showcase dùng graph presets; Core dùng Graph Assembler `GET /api/trace/:id?depth=full` and `GET /api/graph/presets`, enriched from FrankenSQLite, Zvec, git, GitHub, FastCode. |
-| `/design-system/approval` | ✅ `ds:screen:approval-001` | Approval Panels with pending/approved/rejected toggles; escalated badge; evidence blocks Tests, Diff, Beads ID, PRD, CI; RTM matrix; Coverage Heatmap; hash anchors panels/rtm/heatmap. | Showcase dùng `approvalPanels`, `rtmRows`, heatmap data; Core dùng `GET /api/tasks?status=pending-approval`, `GET /api/coverage`, `GET /api/approval/:id/evidence`, `POST /api/approval/:id/decision`. |
-| `/design-system/timeline` | 📅 `ds:screen:timeline-001` | File Lease indicators unlocked/locked/expiring/expired, Activity Feed, Sprint Day timeline; hash anchors file-lease/activity-feed/sprint-day; states loading/empty/error/offline/forbidden. | Showcase dùng static activity arrays; Core dùng `GET /api/activity`, `GET /api/file-leases`, `GET /api/tasks/:id/activity`, polling events table every 3-5s. |
-| `/design-system/components` | 🧩 `ds:screen:components-001` | Components Catalog đủ 18 sections: Buttons, Badges/Status, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, Error Banner; hash scroll and interactive examples. | Showcase dùng `componentSections`; Core treats these as shared primitives/tokens. Every production screen must compose these states/components instead of one-off styling. |
-| `/design-system/doc-viewer` | 📄 `ds:screen:doc-viewer-001` | GitHub-like file tree, expandable folders, selected document panel, Beads ID badges, section status covered/partial/gap, links to Explorer and Knowledge Graph; states loading/empty/error/offline/forbidden. | Showcase uses `docTree`/`docContents`; Core uses `GET /api/docs?group=source_type`, `GET /api/docs/:id`, Beads regex auto-link to `/trace/:id`. |
-| `/design-system/explorer` | 🔍 `ds:screen:explorer-001` | Unified search with query input, type filters all/doc/commit/task/adr/chat/spike, result list, detail sidebar, cross-links to Knowledge Graph, Beads Traversal, Doc Viewer; hash selects filter. | Showcase uses `explorerItems`; Core uses `GET /api/search?q=<query>&type=<type>` backed by Zvec, FrankenSQLite, FastCode. |
-| `/design-system/beads-traversal` | 🔗 `ds:screen:beads-traversal-001` | Layered DAG PRD Sections → Plan Elements → Tasks → Commits; forward/reverse direction toggle; selected/linked node highlighting; detail sidebar with parent/children links; legends and stats; hash scroll by layer. | Showcase uses `beadsNodes`/`beadsEdges`; Core uses `GET /api/trace/:id?depth=full` and graph edge types `satisfies`, `implements`, `committed-for`. |
-| `/design-system/storyboard` | 🗺️ `ds:screen:storyboard-001` | Journey filter, horizontal use-case flow nodes, Guidance Panel with Mechanism & Action, Considerations, Investigating, CTA to real screen; dynamic route `/design-system/storyboard/:id` shows role, journey, step timeline, related usecases. | Showcase uses `usecases`; Core uses PRD-derived storyboards from Ralph Loop artifacts and E2E alignment metadata (`GET /api/storyboards`, `GET /api/storyboards/:id`). |
-| `/design-system/webui-pm-workspace` | 🧭 `ds:global_shell` | Integrated PM Workspace shell: header logo/search/offline indicator, active surfaces RTM Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, Search Results; each surface carries stable `data-screen-id` and `data-ds-id`. In showcase mode, the workspace sidebar is merged with the global Design System layout sidebar. | Showcase is the Ralph Loop Hi-Fi composite; Core maps the same surfaces to `/`, `/board`, `/tasks`, `/tasks/:id`, `/trace/:id`, `/docs`, `/approval`, `/search` through `gmind serve`. |
-
-### 8.1B. Showcase Sidebar & Hash Navigation Rules
-
+### 8.1B. Showcase Sidebar & Navigation Rules (Legacy)
 - Sidebar categories must match the implementation: **Design System**, **Screens**, **Explorer**, **Storyboard**.
-- Sidebar items use 3 levels: category → route → hash sub-item. Same-page hash clicks must update `window.location.hash` so route components receive `hashchange`; cross-page hash clicks use SPA routing.
 - **PM Workspace Integration:** In showcase mode, the PM Workspace simulator's inner sidebar is eliminated, and its surface views (Dashboard, Board, Tasks, etc.) are rendered by navigating via hash-based sub-items on the main showcase sidebar (e.g. `/design-system/webui-pm-workspace#surface-<name>`).
-- Sidebar expanded state and scroll position persist in `sessionStorage` keys `ds-sidebar-expanded` and `ds-sidebar-scroll`.
 - Global keyboard behavior must dispatch escape handling for modals/dropdowns through the shared keyboard hook.
-- All showcase screens must expose `default`, `loading`, `empty`, `error`, `offline`, and `forbidden` where the implementation already defines them; Core WebUI may omit states only where a screen explicitly cannot enter that state.
+- All core and showcase screens must expose `default`, `loading`, `empty`, `error`, `offline`, and `forbidden` states.
 
 ### 8.2. Layout Tổng quan — Global Shell
 
@@ -1012,13 +1027,88 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 - **Journey 1 (Bulk Assign):** User mở `/tasks` → Filter "Status: Open" → Select 5 tasks → Dropdown "Assign To" → Chọn "DevBot01" → Confirm → API bulk update → 5 rows update assignee column.
 - **Journey 2 (Export Report):** User filter "Priority: P0" + "Status: not Done" → Click CSV button → Download file `tasks-p0-open-2026-03-17.csv` → Chia sẻ với PMO.
 
-## 14. Acceptance Criteria (Tiêu chí Nghiệm thu)
+## 14. Bảng điều khiển Agent & CI (Terminal Console)
 
-## 14A. Contract Defaults & Clarifications for Ralph Loop Stage 1
+<!-- beads-id: br-prd04-s14 -->
 
-<!-- beads-id: br-prd04-s14a -->
+> **Data source:** `GET /api/agents/sessions`, `GET /api/ci/runs`, `GET /api/tasks/:id/activity`. WebUI hiển thị logs stream qua API, không gọi shell trực tiếp từ browser.
+
+### 14.1. Layout — Terminal Console
+Route: `/terminal`
+
+- **Tabs điều hướng:** Agent Console, Deploy, Debug, CI/CD.
+- **Mosaic Layout:** Màn hình hỗ trợ chia 2x2 để quan sát đa luồng (ví dụ: Claude-01 Storage, Claude-02 CLI, Claude-03 CI, QA-Reviewer).
+- **Line Types:** Hỗ trợ các định dạng dòng hiển thị chuyên biệt: `command`, `output`, `success`, `error`.
+
+### 14.2. State Matrix
+- **Default:** Terminal hiển thị các logs real-time đang chạy.
+- **Loading:** Skeleton UI khi đang kết nối WebSocket hoặc lấy history.
+- **Offline:** 🔴 "Mất kết nối Agent/CI" (Read-only logs).
+- **Empty:** "Chưa có session nào hoạt động."
+- **Forbidden:** Khi User không có quyền truy cập CI pipeline.
+
+## 15. Dòng thời gian & File Leases (Timeline)
+
+<!-- beads-id: br-prd04-s15 -->
+
+> **Data source:** `GET /api/activity`, `GET /api/file-leases`, `GET /api/tasks/:id/activity`. Backend sử dụng polling events table (3-5s).
+
+### 15.1. Layout — Timeline
+Route: `/timeline`
+
+- **Sprint Day Timeline:** Hiển thị trục thời gian dọc các sự kiện trong ngày của Sprint.
+- **File Lease Indicators:** Các file đang được agents edit sẽ có trạng thái: `unlocked`, `locked` (với agent avatar), `expiring`, `expired`.
+- **Activity Feed:** Luồng hoạt động cập nhật real-time các tasks được gán, pull request mở, v.v.
+
+### 15.2. State Matrix
+- **Default:** Dòng thời gian hiển thị, file leases cập nhật liên tục.
+- **Loading:** Skeleton timeline.
+- **Offline:** Ngừng tự động cập nhật, hiển thị "Dữ liệu cũ - Offline".
+
+## 16. Khám phá Git Graph & Đa kịch bản (Git Graph Explorer)
+
+<!-- beads-id: br-prd04-s16 -->
+
+> **Data source:** Go API tổng hợp từ local git và Beads trailers qua `GET /api/git/graph?scenario=<id>` & `GET /api/trace/:id?include=git`.
+
+### 16.1. Layout & Chức năng
+Route: `/git-graph`
+
+- Hỗ trợ chọn kịch bản (scenarios) qua URL Hash: `gitflow`, `multi-agent`, `hotfix`, `release-train`, `monorepo`, `beads-prd-trace`, `beads-deadlock`, `beads-ds-comp`, `beads-traversal`, `beads-sprint-review`.
+- **Visuals:** Trực quan hóa các nhánh (branches), commits, merge connections, branch tags, và stats (SVG hoặc Canvas).
+- Cho phép tương tác (hover/click) vào từng commit để xem chi tiết Beads ID liên kết.
+
+### 16.2. State Matrix
+- **Default:** Đồ thị render đầy đủ nhánh và commit.
+- **Loading:** Progress bar đang phân tích git history.
+- **Error:** "Không thể đọc dữ liệu local git."
+
+## 17. Bản đồ Hành trình & Storyboard
+
+<!-- beads-id: br-prd04-s17 -->
+
+> **Data source:** Backend tổng hợp từ PRD và E2E alignment metadata qua `GET /api/storyboards` & `GET /api/storyboards/:id`.
+
+### 17.1. Chức năng chính
+Route: `/storyboards`
+
+- **Journey Filter:** Lọc các nhóm use-cases và hành trình người dùng.
+- **Flow Nodes:** Biểu diễn các bước use-case theo chiều ngang.
+- **Guidance Panel:** Chứa Mechanism & Action, Considerations, Investigating. Hướng dẫn Agent cách thao tác E2E.
+- **Dynamic Route:** `/storyboards/:id` hiển thị chi tiết role, journey, step timeline, và nút Call-To-Action dẫn sang screen thực tế.
+
+### 17.2. State Matrix
+- **Default:** Flow và Panels hiển thị rõ ràng với tương tác.
+- **Empty:** "Không tìm thấy Storyboard cho module này."
+
+## 18. Acceptance Criteria (Tiêu chí Nghiệm thu)
+
+## 18A. Contract Defaults & Clarifications for Ralph Loop Stage 1
+
+<!-- beads-id: br-prd04-s18a -->
 
 > Phần này bổ sung các giả định thiết kế mức hợp đồng để phục vụ Ralph Loop Stage 1. Đây là các mặc định hợp lý khi PRD chưa mô tả đủ chi tiết cho wireframe/test contract.
+
 
 - **Canonical viewports:** Desktop `1440px`, Tablet `1024px`, Mobile `390px`.
 - **Canonical interaction states dùng để dựng contract:** `default`, `loading`, `empty`, `error`, `offline`, `partial`, `saving`, `not-found`. Mỗi màn hình chỉ bắt buộc áp dụng các state phù hợp với ngữ cảnh đã mô tả ở các mục trước.
@@ -1031,7 +1121,7 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 - **Annotation rule cho wireframe:** Mỗi wireframe contract phải ghi rõ data source, hành vi responsive, và điều kiện state transition ở phần annotations.
 
 
-<!-- beads-id: br-prd04-s14 -->
+<!-- beads-id: br-prd04-s18 -->
 
 - **AC1 (Data Source):** Web UI tuyệt đối không gọi Read/Write trực tiếp vào DB, chỉ thông qua Go REST API.
 - **AC2 (Real-time):** Thao tác assignee/status cập nhật lên UI trong vòng dưới 5 giây (qua polling events table).
