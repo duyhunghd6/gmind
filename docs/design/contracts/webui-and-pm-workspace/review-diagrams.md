@@ -69,7 +69,6 @@ flowchart LR
 ```mermaid
 flowchart TD
     subgraph sg_screen_rtm_dashboard ["Rtm Dashboard components"]
-        direction TD
         n_ds_screen_rtm_dashboard_001["Rtm Dashboard<br/>ds:screen:rtm-dashboard-001<br/>ScreenSurface"]
         n_ds_rtm_dashboard_coverage_heatmap["CoverageHeatmap<br/>ds:rtm-dashboard:coverage-heatmap<br/>actions EVENT_VIEW_TRACE"]
         n_ds_screen_rtm_dashboard_001 --> n_ds_rtm_dashboard_coverage_heatmap
@@ -87,7 +86,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_safe_board ["Safe Board components"]
-        direction TD
         n_ds_screen_safe_board_001["Safe Board<br/>ds:screen:safe-board-001<br/>ScreenSurface"]
         n_ds_safe_board_view_switcher["BoardSwitcher<br/>ds:safe-board:view-switcher"]
         n_ds_screen_safe_board_001 --> n_ds_safe_board_view_switcher
@@ -103,7 +101,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_task_list ["Task List components"]
-        direction TD
         n_ds_screen_task_list_001["Task List<br/>ds:screen:task-list-001<br/>ScreenSurface"]
         n_ds_task_list_filters["TaskFilters<br/>ds:task-list:filters"]
         n_ds_screen_task_list_001 --> n_ds_task_list_filters
@@ -119,7 +116,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_task_detail ["Task Detail components"]
-        direction TD
         n_ds_screen_task_detail_001["Task Detail<br/>ds:screen:task-detail-001<br/>ScreenSurface"]
         n_ds_task_detail_editable_fields["EditableFieldGroup<br/>ds:task-detail:editable-fields<br/>actions EVENT_SAVE_TASK"]
         n_ds_screen_task_detail_001 --> n_ds_task_detail_editable_fields
@@ -135,7 +131,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_trace_explorer ["Trace Explorer components"]
-        direction TD
         n_ds_screen_trace_explorer_001["Trace Explorer<br/>ds:screen:trace-explorer-001<br/>ScreenSurface"]
         n_ds_trace_explorer_toolbar["TraceToolbar<br/>ds:trace-explorer:toolbar"]
         n_ds_screen_trace_explorer_001 --> n_ds_trace_explorer_toolbar
@@ -151,7 +146,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_doc_viewer ["Doc Viewer components"]
-        direction TD
         n_ds_screen_core_doc_viewer_001["Doc Viewer<br/>ds:screen:core-doc-viewer-001<br/>ScreenSurface"]
         n_ds_core_doc_viewer_tree["DocTree<br/>ds:core-doc-viewer:tree"]
         n_ds_screen_core_doc_viewer_001 --> n_ds_core_doc_viewer_tree
@@ -167,7 +161,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_approval_gates ["Approval Gates components"]
-        direction TD
         n_ds_screen_approval_gates_001["Approval Gates<br/>ds:screen:approval-gates-001<br/>ScreenSurface"]
         n_ds_approval_gates_queue["ApprovalQueue<br/>ds:approval-gates:queue"]
         n_ds_screen_approval_gates_001 --> n_ds_approval_gates_queue
@@ -183,7 +176,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_search_results ["Search Results components"]
-        direction TD
         n_ds_screen_search_results_001["Search Results<br/>ds:screen:search-results-001<br/>ScreenSurface"]
         n_ds_search_results_input["SearchInput<br/>ds:search-results:input<br/>actions EVENT_SEARCH"]
         n_ds_screen_search_results_001 --> n_ds_search_results_input
@@ -199,7 +191,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_terminal ["Terminal components"]
-        direction TD
         n_ds_screen_terminal_showcase_001["Terminal<br/>ds:screen:terminal-showcase-001<br/>ShowcaseSurface"]
         n_ds_terminal_showcase_scenario_tabs["ScenarioTabs<br/>ds:terminal-showcase:scenario-tabs"]
         n_ds_screen_terminal_showcase_001 --> n_ds_terminal_showcase_scenario_tabs
@@ -215,7 +206,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_portfolio ["Portfolio components"]
-        direction TD
         n_ds_screen_portfolio_showcase_001["Portfolio<br/>ds:screen:portfolio-showcase-001<br/>ShowcaseSurface"]
         n_ds_portfolio_showcase_table["PortfolioTable<br/>ds:portfolio-showcase:table"]
         n_ds_screen_portfolio_showcase_001 --> n_ds_portfolio_showcase_table
@@ -229,7 +219,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_pi_planning ["Pi Planning components"]
-        direction TD
         n_ds_screen_pi_planning_showcase_001["Pi Planning<br/>ds:screen:pi-planning-showcase-001<br/>ShowcaseSurface"]
         n_ds_pi_planning_showcase_sandbox["StrategicSandbox<br/>ds:pi-planning-showcase:sandbox<br/>actions EVENT_PI_PLAN_SAVE"]
         n_ds_screen_pi_planning_showcase_001 --> n_ds_pi_planning_showcase_sandbox
@@ -247,7 +236,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_git_graph ["Git Graph components"]
-        direction TD
         n_ds_screen_git_graph_showcase_001["Git Graph<br/>ds:screen:git-graph-showcase-001<br/>ShowcaseSurface"]
         n_ds_git_graph_showcase_scenario_selector["ScenarioSelector<br/>ds:git-graph-showcase:scenario-selector<br/>actions EVENT_HASH_NAVIGATE"]
         n_ds_screen_git_graph_showcase_001 --> n_ds_git_graph_showcase_scenario_selector
@@ -261,7 +249,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_kanban ["Kanban components"]
-        direction TD
         n_ds_screen_kanban_showcase_001["Kanban<br/>ds:screen:kanban-showcase-001<br/>ShowcaseSurface"]
         n_ds_kanban_showcase_board_selector["BoardSelector<br/>ds:kanban-showcase:board-selector<br/>actions EVENT_HASH_NAVIGATE"]
         n_ds_screen_kanban_showcase_001 --> n_ds_kanban_showcase_board_selector
@@ -277,7 +264,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_knowledge_graph ["Knowledge Graph components"]
-        direction TD
         n_ds_screen_knowledge_graph_showcase_001["Knowledge Graph<br/>ds:screen:knowledge-graph-showcase-001<br/>ShowcaseSurface"]
         n_ds_knowledge_graph_showcase_presets["GraphPresetTabs<br/>ds:knowledge-graph-showcase:presets<br/>actions EVENT_HASH_NAVIGATE"]
         n_ds_screen_knowledge_graph_showcase_001 --> n_ds_knowledge_graph_showcase_presets
@@ -293,7 +279,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_approval ["Approval components"]
-        direction TD
         n_ds_screen_approval_showcase_001["Approval<br/>ds:screen:approval-showcase-001<br/>ShowcaseSurface"]
         n_ds_approval_showcase_toggles["ApprovalToggles<br/>ds:approval-showcase:toggles<br/>actions EVENT_HASH_NAVIGATE"]
         n_ds_screen_approval_showcase_001 --> n_ds_approval_showcase_toggles
@@ -311,7 +296,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_timeline ["Timeline components"]
-        direction TD
         n_ds_screen_timeline_showcase_001["Timeline<br/>ds:screen:timeline-showcase-001<br/>ShowcaseSurface"]
         n_ds_timeline_showcase_file_lease["FileLeaseIndicators<br/>ds:timeline-showcase:file-lease"]
         n_ds_screen_timeline_showcase_001 --> n_ds_timeline_showcase_file_lease
@@ -327,7 +311,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_components ["Components components"]
-        direction TD
         n_ds_screen_components_showcase_001["Components<br/>ds:screen:components-showcase-001<br/>ShowcaseSurface"]
         n_ds_components_showcase_sections["ComponentSections<br/>ds:components-showcase:sections<br/>actions EVENT_HASH_NAVIGATE"]
         n_ds_screen_components_showcase_001 --> n_ds_components_showcase_sections
@@ -339,7 +322,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_doc_viewer ["Doc Viewer components"]
-        direction TD
         n_ds_screen_doc_viewer_showcase_001["Doc Viewer<br/>ds:screen:doc-viewer-showcase-001<br/>ShowcaseSurface"]
         n_ds_doc_viewer_showcase_tree["ShowcaseDocTree<br/>ds:doc-viewer-showcase:tree"]
         n_ds_screen_doc_viewer_showcase_001 --> n_ds_doc_viewer_showcase_tree
@@ -353,7 +335,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_explorer ["Explorer components"]
-        direction TD
         n_ds_screen_explorer_showcase_001["Explorer<br/>ds:screen:explorer-showcase-001<br/>ShowcaseSurface"]
         n_ds_explorer_showcase_query["ExplorerQuery<br/>ds:explorer-showcase:query<br/>actions EVENT_SEARCH"]
         n_ds_screen_explorer_showcase_001 --> n_ds_explorer_showcase_query
@@ -369,7 +350,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_beads_traversal ["Beatraversal components"]
-        direction TD
         n_ds_screen_beads_traversal_showcase_001["Beatraversal<br/>ds:screen:beads-traversal-showcase-001<br/>ShowcaseSurface"]
         n_ds_beads_traversal_showcase_layers["TraversalLayers<br/>ds:beads-traversal-showcase:layers"]
         n_ds_screen_beads_traversal_showcase_001 --> n_ds_beads_traversal_showcase_layers
@@ -385,7 +365,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_storyboard ["Storyboard components"]
-        direction TD
         n_ds_screen_storyboard_showcase_001["Storyboard<br/>ds:screen:storyboard-showcase-001<br/>ShowcaseSurface"]
         n_ds_storyboard_showcase_filter["JourneyFilter<br/>ds:storyboard-showcase:filter"]
         n_ds_screen_storyboard_showcase_001 --> n_ds_storyboard_showcase_filter
@@ -401,7 +380,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_storyboard_detail ["Storyboard Detail components"]
-        direction TD
         n_ds_screen_storyboard_detail_showcase_001["Storyboard Detail<br/>ds:screen:storyboard-detail-showcase-001<br/>ShowcaseSurface"]
         n_ds_storyboard_detail_showcase_role["StoryboardRolePanel<br/>ds:storyboard-detail-showcase:role"]
         n_ds_screen_storyboard_detail_showcase_001 --> n_ds_storyboard_detail_showcase_role
@@ -417,7 +395,6 @@ flowchart TD
 ```mermaid
 flowchart TD
     subgraph sg_screen_ds_webui_pm_workspace ["Webui Pm Workspace components"]
-        direction TD
         n_ds_screen_webui_pm_workspace_showcase_001["Webui Pm Workspace<br/>ds:screen:webui-pm-workspace-showcase-001<br/>ShowcaseSurface"]
         n_ds_webui_pm_workspace_showcase_header["WorkspaceHeader<br/>ds:webui-pm-workspace-showcase:header<br/>actions EVENT_SEARCH, EVENT_DISCONNECT, EVENT_RECONNECT"]
         n_ds_screen_webui_pm_workspace_showcase_001 --> n_ds_webui_pm_workspace_showcase_header
@@ -477,7 +454,7 @@ Annotations: every action links the YAML action ID to its Mermaid event and API 
 ```mermaid
 flowchart LR
     subgraph action_ds_action_disconnect ["ds:action:disconnect"]
-        direction LR
+
         src_ds_action_disconnect["Show offline read-only banner"]
         evt_EVENT_DISCONNECT(("EVENT_DISCONNECT"))
         api_ds_action_disconnect["GET /api/health failure or stream disconnect"]
@@ -491,7 +468,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_reconnect ["ds:action:reconnect"]
-        direction LR
+
         src_ds_action_reconnect["Rehydrate queued edits"]
         evt_EVENT_RECONNECT(("EVENT_RECONNECT"))
         api_ds_action_reconnect["POST /api/sync/rehydrate after health check recovery"]
@@ -505,7 +482,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_save_task ["ds:action:save-task"]
-        direction LR
+
         src_ds_action_save_task["Persist editable task fields"]
         evt_EVENT_SAVE_TASK(("EVENT_SAVE_TASK"))
         api_ds_action_save_task["PUT /api/tasks/:id"]
@@ -519,7 +496,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_save_bulk ["ds:action:save-bulk"]
-        direction LR
+
         src_ds_action_save_bulk["Persist selected task bulk updates"]
         evt_EVENT_SAVE_BULK(("EVENT_SAVE_BULK"))
         api_ds_action_save_bulk["PUT /api/tasks/bulk"]
@@ -533,7 +510,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_save_board ["ds:action:save-board"]
-        direction LR
+
         src_ds_action_save_board["Persist kanban card movement"]
         evt_EVENT_MOVE_CARD(("EVENT_MOVE_CARD"))
         api_ds_action_save_board["PUT /api/tasks/:id/status"]
@@ -547,7 +524,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_approval_decision ["ds:action:approval-decision"]
-        direction LR
+
         src_ds_action_approval_decision["Submit approval or rejection with audit reason"]
         evt_EVENT_APPROVAL_DECISION(("EVENT_APPROVAL_DECISION"))
         api_ds_action_approval_decision["POST /api/approval/:id/decision"]
@@ -561,7 +538,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_pi_plan_save ["ds:action:pi-plan-save"]
-        direction LR
+
         src_ds_action_pi_plan_save["Save PI planning sandbox changes"]
         evt_EVENT_PI_PLAN_SAVE(("EVENT_PI_PLAN_SAVE"))
         api_ds_action_pi_plan_save["PUT /api/pi/plan"]
@@ -575,7 +552,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_confidence_vote ["ds:action:confidence-vote"]
-        direction LR
+
         src_ds_action_confidence_vote["Submit PI confidence vote"]
         evt_EVENT_CONFIDENCE_VOTE(("EVENT_CONFIDENCE_VOTE"))
         api_ds_action_confidence_vote["POST /api/pi/confidence-vote"]
@@ -589,7 +566,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_view_doc ["ds:action:view-doc"]
-        direction LR
+
         src_ds_action_view_doc["Open document viewer"]
         evt_EVENT_VIEW_DOC(("EVENT_VIEW_DOC"))
         api_ds_action_view_doc["GET /api/docs/:id"]
@@ -603,7 +580,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_view_task ["ds:action:view-task"]
-        direction LR
+
         src_ds_action_view_task["Open task detail"]
         evt_EVENT_VIEW_TASK(("EVENT_VIEW_TASK"))
         api_ds_action_view_task["GET /api/tasks/:id"]
@@ -617,7 +594,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_view_trace ["ds:action:view-trace"]
-        direction LR
+
         src_ds_action_view_trace["Open Beads trace explorer"]
         evt_EVENT_VIEW_TRACE(("EVENT_VIEW_TRACE"))
         api_ds_action_view_trace["GET /api/trace/:id?depth=full"]
@@ -631,7 +608,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_search ["ds:action:search"]
-        direction LR
+
         src_ds_action_search["Run global search"]
         evt_EVENT_SEARCH(("EVENT_SEARCH"))
         api_ds_action_search["GET /api/search?q=<query>&type=<type>"]
@@ -645,7 +622,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_hash_nav ["ds:action:hash-nav"]
-        direction LR
+
         src_ds_action_hash_nav["Update same-route or cross-route showcase hash navigation"]
         evt_EVENT_HASH_NAVIGATE(("EVENT_HASH_NAVIGATE"))
         api_ds_action_hash_nav["browser hashchange plus route component state"]
@@ -659,7 +636,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_refresh ["ds:action:refresh"]
-        direction LR
+
         src_ds_action_refresh["Refresh route data after retry or evidence update"]
         evt_EVENT_REFRESH(("EVENT_REFRESH"))
         api_ds_action_refresh["route-specific GET endpoints"]
@@ -673,7 +650,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_back ["ds:action:back"]
-        direction LR
+
         src_ds_action_back["Return from boundary state to the last safe route"]
         evt_EVENT_BACK(("EVENT_BACK"))
         api_ds_action_back["client history back or route-safe fallback to core workspace route"]
@@ -688,7 +665,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_keep_local ["ds:action:keep-local"]
-        direction LR
+
         src_ds_action_keep_local["Keep queued local edits during sync conflict resolution"]
         evt_EVENT_KEEP_LOCAL(("EVENT_KEEP_LOCAL"))
         api_ds_action_keep_local["POST /api/sync/conflicts/:id/resolve with resolution=keep_local"]
@@ -703,7 +680,7 @@ flowchart LR
 ```mermaid
 flowchart LR
     subgraph action_ds_action_use_server ["ds:action:use-server"]
-        direction LR
+
         src_ds_action_use_server["Replace queued local edits with the server version during sync conflict resolution"]
         evt_EVENT_USE_SERVER(("EVENT_USE_SERVER"))
         api_ds_action_use_server["POST /api/sync/conflicts/:id/resolve with resolution=use_server"]

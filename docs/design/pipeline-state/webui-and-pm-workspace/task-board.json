@@ -3,8 +3,11 @@
   "status": {
     "gen_contracts": "DONE",
     "gen_flows": "DONE",
-    "gen_wireframes": "DONE"
+    "gen_wireframes": "DONE",
+    "build_layout": "DONE",
+    "build_components": "DONE",
+    "build_states": "DONE"
   },
-  "last_updated_by": "gen_flows",
-  "last_iteration": 3
+  "last_updated_by": "build_states",
+  "last_iteration": 1
 }

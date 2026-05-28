@@ -6,7 +6,7 @@
   ],
   "mermaid_machine": "ui-contract.md fenced mermaid block",
   "coverage": {
-    "trajectories": 13,
+    "trajectories": 20,
     "routes": [
       "/",
       "/approval",
@@ -31,7 +31,7 @@
     {
       "trajectory_id": "core-navigate-task",
       "title": "PM navigates from dashboard to task detail",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "ROUTE_ENTER",
         "EVENT_VIEW_TASK",
@@ -47,7 +47,7 @@
         {
           "order": 1,
           "route": "/",
-          "screen_id": "screen:rtm-dashboard",
+          "screen": "screen:rtm-dashboard",
           "screen_ds_id": "ds:screen:rtm-dashboard-001",
           "state": "default",
           "event": "ROUTE_ENTER",
@@ -61,7 +61,7 @@
         {
           "order": 2,
           "route": "/tasks",
-          "screen_id": "screen:task-list",
+          "screen": "screen:task-list",
           "screen_ds_id": "ds:screen:task-list-001",
           "state": "default",
           "event": "EVENT_VIEW_TASK",
@@ -75,7 +75,7 @@
         {
           "order": 3,
           "route": "/tasks/:id",
-          "screen_id": "screen:task-detail",
+          "screen": "screen:task-detail",
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "default",
           "event": "API_SUCCESS_CORE",
@@ -92,7 +92,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "core-navigate-task",
-      "prd_journey": "PRD-04 §8.1A route coverage — PM navigates from dashboard to task detail",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM navigates from dashboard to task detail",
       "action": [
         "ROUTE_ENTER",
         "EVENT_VIEW_TASK",
@@ -116,7 +116,7 @@
     {
       "trajectory_id": "core-explore-trace",
       "title": "PM opens trace from task graph",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_VIEW_TRACE",
         "API_SUCCESS_CORE",
@@ -132,7 +132,7 @@
         {
           "order": 1,
           "route": "/tasks/:id",
-          "screen_id": "screen:task-detail",
+          "screen": "screen:task-detail",
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "default",
           "event": "EVENT_VIEW_TRACE",
@@ -146,7 +146,7 @@
         {
           "order": 2,
           "route": "/trace/:id",
-          "screen_id": "screen:trace-explorer",
+          "screen": "screen:trace-explorer",
           "screen_ds_id": "ds:screen:trace-explorer-001",
           "state": "partial",
           "event": "API_SUCCESS_CORE",
@@ -160,7 +160,7 @@
         {
           "order": 3,
           "route": "/docs",
-          "screen_id": "screen:doc-viewer",
+          "screen": "screen:doc-viewer",
           "screen_ds_id": "ds:screen:core-doc-viewer-001",
           "state": "default",
           "event": "EVENT_VIEW_DOC",
@@ -177,7 +177,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "core-explore-trace",
-      "prd_journey": "PRD-04 §8.1A route coverage — PM opens trace from task graph",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM opens trace from task graph",
       "action": [
         "EVENT_VIEW_TRACE",
         "API_SUCCESS_CORE",
@@ -201,7 +201,7 @@
     {
       "trajectory_id": "core-quick-search",
       "title": "PM uses global search",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_SEARCH",
         "API_SUCCESS_CORE",
@@ -217,7 +217,7 @@
         {
           "order": 1,
           "route": "/",
-          "screen_id": "screen:rtm-dashboard",
+          "screen": "screen:rtm-dashboard",
           "screen_ds_id": "ds:screen:rtm-dashboard-001",
           "state": "default",
           "event": "EVENT_SEARCH",
@@ -231,7 +231,7 @@
         {
           "order": 2,
           "route": "/search",
-          "screen_id": "screen:search-results",
+          "screen": "screen:search-results",
           "screen_ds_id": "ds:screen:search-results-001",
           "state": "default",
           "event": "API_SUCCESS_CORE",
@@ -245,7 +245,7 @@
         {
           "order": 3,
           "route": "/tasks/:id",
-          "screen_id": "screen:task-detail",
+          "screen": "screen:task-detail",
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "default",
           "event": "EVENT_VIEW_TASK",
@@ -262,7 +262,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "core-quick-search",
-      "prd_journey": "PRD-04 §8.1A route coverage — PM uses global search",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM uses global search",
       "action": [
         "EVENT_SEARCH",
         "API_SUCCESS_CORE",
@@ -286,7 +286,7 @@
     {
       "trajectory_id": "board-drag-success",
       "title": "RTE moves kanban card",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_MOVE_CARD",
         "API_SUCCESS",
@@ -301,7 +301,7 @@
         {
           "order": 1,
           "route": "/board",
-          "screen_id": "screen:safe-board",
+          "screen": "screen:safe-board",
           "screen_ds_id": "ds:screen:safe-board-001",
           "state": "default",
           "event": "EVENT_MOVE_CARD",
@@ -315,7 +315,7 @@
         {
           "order": 2,
           "route": "/tasks/:id",
-          "screen_id": "screen:task-detail",
+          "screen": "screen:task-detail",
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "saving",
           "event": "API_SUCCESS",
@@ -332,7 +332,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "board-drag-success",
-      "prd_journey": "PRD-04 §8.1A route coverage — RTE moves kanban card",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 RTE moves kanban card",
       "action": [
         "EVENT_MOVE_CARD",
         "API_SUCCESS",
@@ -355,7 +355,7 @@
     {
       "trajectory_id": "pi-planning-vote",
       "title": "RTE submits PI confidence vote",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_PI_PLAN_SAVE",
         "EVENT_CONFIDENCE_VOTE",
@@ -369,7 +369,7 @@
         {
           "order": 1,
           "route": "/design-system/pi-planning",
-          "screen_id": "screen:ds-pi-planning",
+          "screen": "screen:ds-pi-planning",
           "screen_ds_id": "ds:screen:pi-planning-showcase-001",
           "state": "default",
           "event": "EVENT_PI_PLAN_SAVE",
@@ -386,7 +386,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "pi-planning-vote",
-      "prd_journey": "PRD-04 §8.1A route coverage — RTE submits PI confidence vote",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 RTE submits PI confidence vote",
       "action": [
         "EVENT_PI_PLAN_SAVE",
         "EVENT_CONFIDENCE_VOTE",
@@ -408,7 +408,7 @@
     {
       "trajectory_id": "approval-approve",
       "title": "Human approves sufficient evidence",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_APPROVAL_DECISION",
         "API_APPROVAL_SUCCESS",
@@ -423,7 +423,7 @@
         {
           "order": 1,
           "route": "/approval",
-          "screen_id": "screen:approval-gates",
+          "screen": "screen:approval-gates",
           "screen_ds_id": "ds:screen:approval-gates-001",
           "state": "default",
           "event": "EVENT_APPROVAL_DECISION",
@@ -437,7 +437,7 @@
         {
           "order": 2,
           "route": "/design-system/approval",
-          "screen_id": "screen:ds-approval",
+          "screen": "screen:ds-approval",
           "screen_ds_id": "ds:screen:approval-showcase-001",
           "state": "default",
           "event": "API_APPROVAL_SUCCESS",
@@ -454,7 +454,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "approval-approve",
-      "prd_journey": "PRD-04 §8.1A route coverage — Human approves sufficient evidence",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Human approves sufficient evidence",
       "action": [
         "EVENT_APPROVAL_DECISION",
         "API_APPROVAL_SUCCESS",
@@ -477,7 +477,7 @@
     {
       "trajectory_id": "approval-insufficient-evidence",
       "title": "Human refreshes insufficient evidence",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "API_ERROR",
         "EVENT_REFRESH",
@@ -491,7 +491,7 @@
         {
           "order": 1,
           "route": "/approval",
-          "screen_id": "screen:approval-gates",
+          "screen": "screen:approval-gates",
           "screen_ds_id": "ds:screen:approval-gates-001",
           "state": "error",
           "event": "API_ERROR",
@@ -508,7 +508,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "approval-insufficient-evidence",
-      "prd_journey": "PRD-04 §8.1A route coverage — Human refreshes insufficient evidence",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Human refreshes insufficient evidence",
       "action": [
         "API_ERROR",
         "EVENT_REFRESH",
@@ -530,7 +530,7 @@
     {
       "trajectory_id": "offline-rehydrate-conflict",
       "title": "Offline edit rehydrates with conflict",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_DISCONNECT",
         "EVENT_RECONNECT",
@@ -547,7 +547,7 @@
         {
           "order": 1,
           "route": "/tasks/:id",
-          "screen_id": "screen:task-detail",
+          "screen": "screen:task-detail",
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "offline",
           "event": "EVENT_DISCONNECT",
@@ -561,7 +561,7 @@
         {
           "order": 2,
           "route": "/design-system/webui-pm-workspace",
-          "screen_id": "screen:ds-webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
           "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
           "state": "offline",
           "event": "EVENT_RECONNECT",
@@ -578,7 +578,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "offline-rehydrate-conflict",
-      "prd_journey": "PRD-04 §8.1A route coverage — Offline edit rehydrates with conflict",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Offline edit rehydrates with conflict",
       "action": [
         "EVENT_DISCONNECT",
         "EVENT_RECONNECT",
@@ -603,7 +603,7 @@
     {
       "trajectory_id": "doc-to-trace",
       "title": "PM opens Beads ID from document viewer",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_VIEW_TRACE",
         "API_SUCCESS_CORE"
@@ -617,7 +617,7 @@
         {
           "order": 1,
           "route": "/docs",
-          "screen_id": "screen:doc-viewer",
+          "screen": "screen:doc-viewer",
           "screen_ds_id": "ds:screen:core-doc-viewer-001",
           "state": "default",
           "event": "EVENT_VIEW_TRACE",
@@ -631,7 +631,7 @@
         {
           "order": 2,
           "route": "/trace/:id",
-          "screen_id": "screen:trace-explorer",
+          "screen": "screen:trace-explorer",
           "screen_ds_id": "ds:screen:trace-explorer-001",
           "state": "default",
           "event": "API_SUCCESS_CORE",
@@ -648,7 +648,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "doc-to-trace",
-      "prd_journey": "PRD-04 §8.1A route coverage — PM opens Beads ID from document viewer",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM opens Beads ID from document viewer",
       "action": [
         "EVENT_VIEW_TRACE",
         "API_SUCCESS_CORE"
@@ -670,7 +670,7 @@
     {
       "trajectory_id": "showcase-hash-navigation",
       "title": "Reviewer changes showcase hash scenarios",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "EVENT_HASH_NAVIGATE",
         "EVENT_HASH_NAVIGATE",
@@ -686,7 +686,7 @@
         {
           "order": 1,
           "route": "/design-system/git-graph",
-          "screen_id": "screen:ds-git-graph",
+          "screen": "screen:ds-git-graph",
           "screen_ds_id": "ds:screen:git-graph-showcase-001",
           "state": "default",
           "event": "EVENT_HASH_NAVIGATE",
@@ -700,7 +700,7 @@
         {
           "order": 2,
           "route": "/design-system/kanban",
-          "screen_id": "screen:ds-kanban",
+          "screen": "screen:ds-kanban",
           "screen_ds_id": "ds:screen:kanban-showcase-001",
           "state": "default",
           "event": "EVENT_HASH_NAVIGATE",
@@ -714,7 +714,7 @@
         {
           "order": 3,
           "route": "/design-system/knowledge-graph",
-          "screen_id": "screen:ds-knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
           "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
           "state": "default",
           "event": "EVENT_REFRESH",
@@ -731,7 +731,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "showcase-hash-navigation",
-      "prd_journey": "PRD-04 §8.1A route coverage — Reviewer changes showcase hash scenarios",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Reviewer changes showcase hash scenarios",
       "action": [
         "EVENT_HASH_NAVIGATE",
         "EVENT_HASH_NAVIGATE",
@@ -755,7 +755,7 @@
     {
       "trajectory_id": "storyboard-detail-alignment",
       "title": "Reviewer opens storyboard and detail route",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "ROUTE_ENTER",
         "API_SUCCESS_SHOWCASE",
@@ -770,7 +770,7 @@
         {
           "order": 1,
           "route": "/design-system/storyboard",
-          "screen_id": "screen:ds-storyboard",
+          "screen": "screen:ds-storyboard",
           "screen_ds_id": "ds:screen:storyboard-showcase-001",
           "state": "default",
           "event": "ROUTE_ENTER",
@@ -784,7 +784,7 @@
         {
           "order": 2,
           "route": "/design-system/storyboard/:id",
-          "screen_id": "screen:ds-storyboard-detail",
+          "screen": "screen:ds-storyboard-detail",
           "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
           "state": "default",
           "event": "API_SUCCESS_SHOWCASE",
@@ -801,7 +801,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "storyboard-detail-alignment",
-      "prd_journey": "PRD-04 §8.1A route coverage — Reviewer opens storyboard and detail route",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Reviewer opens storyboard and detail route",
       "action": [
         "ROUTE_ENTER",
         "API_SUCCESS_SHOWCASE",
@@ -824,7 +824,7 @@
     {
       "trajectory_id": "permission-denied-recovery",
       "title": "User returns from forbidden route",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "API_FORBIDDEN",
         "EVENT_BACK",
@@ -838,7 +838,7 @@
         {
           "order": 1,
           "route": "/design-system/webui-pm-workspace",
-          "screen_id": "screen:ds-webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
           "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
           "state": "forbidden",
           "event": "API_FORBIDDEN",
@@ -855,7 +855,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "permission-denied-recovery",
-      "prd_journey": "PRD-04 §8.1A route coverage — User returns from forbidden route",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 User returns from forbidden route",
       "action": [
         "API_FORBIDDEN",
         "EVENT_BACK",
@@ -877,7 +877,7 @@
     {
       "trajectory_id": "not-found-recovery",
       "title": "User returns from missing storyboard detail",
-      "source": "PRD-04 user journeys and §8.1A route coverage",
+      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
       "events": [
         "API_NOT_FOUND",
         "EVENT_BACK",
@@ -892,7 +892,7 @@
         {
           "order": 1,
           "route": "/design-system/storyboard/:id",
-          "screen_id": "screen:ds-storyboard-detail",
+          "screen": "screen:ds-storyboard-detail",
           "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
           "state": "not_found",
           "event": "API_NOT_FOUND",
@@ -906,7 +906,7 @@
         {
           "order": 2,
           "route": "/design-system/storyboard",
-          "screen_id": "screen:ds-storyboard",
+          "screen": "screen:ds-storyboard",
           "screen_ds_id": "ds:screen:storyboard-showcase-001",
           "state": "default",
           "event": "EVENT_BACK",
@@ -923,7 +923,7 @@
         "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
       },
       "id": "not-found-recovery",
-      "prd_journey": "PRD-04 §8.1A route coverage — User returns from missing storyboard detail",
+      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 User returns from missing storyboard detail",
       "action": [
         "API_NOT_FOUND",
         "EVENT_BACK",
@@ -934,6 +934,349 @@
       "ds_targets": [
         "ds:screen:storyboard-detail-showcase-001",
         "ds:screen:storyboard-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-beads-traversal",
+      "title": "Navigate to ds-beads-traversal",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/beads-traversal"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-beads-traversal",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:beads-traversal-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-components",
+      "title": "Navigate to ds-components",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/components"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-components",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:components-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-doc-viewer",
+      "title": "Navigate to ds-doc-viewer",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/doc-viewer"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-doc-viewer",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:doc-viewer-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-explorer",
+      "title": "Navigate to ds-explorer",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/explorer"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-explorer",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:explorer-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-portfolio",
+      "title": "Navigate to ds-portfolio",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/portfolio"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-portfolio",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:portfolio-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-terminal",
+      "title": "Navigate to ds-terminal",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/terminal"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-terminal",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:terminal-showcase-001"
+      ],
+      "schema_adapter": {
+        "trajectory_id": "id",
+        "source": "prd_journey",
+        "events[0] or events[]": "action",
+        "expected_outcome": "assertion",
+        "screen_ds_id": "ds_targets[]"
+      }
+    },
+    {
+      "trajectory_id": "showcase-ds-timeline",
+      "title": "Navigate to ds-timeline",
+      "source": "Missing coverage fix",
+      "events": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "routes": [
+        "/design-system/timeline"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "showcase page loaded",
+          "action": "EVENT_HASH_NAVIGATE",
+          "assertion": "showcase page loaded",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Showcase page works",
+        "investigation_guidance": "Assert showcase rendering"
+      },
+      "id": "showcase-ds-timeline",
+      "prd_journey": "Showcase rendering",
+      "action": [
+        "EVENT_HASH_NAVIGATE"
+      ],
+      "assertion": "Showcase page works",
+      "state": "default",
+      "ds_targets": [
+        "ds:screen:timeline-showcase-001"
       ],
       "schema_adapter": {
         "trajectory_id": "id",

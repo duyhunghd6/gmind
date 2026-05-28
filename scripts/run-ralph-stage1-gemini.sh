@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RUNS="${1:-5}"
+RUNS="${1:-10}"
 MODEL="gemini-3.1-pro-preview"
 
 if ! [[ "$RUNS" =~ ^[1-9][0-9]*$ ]]; then

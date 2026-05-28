@@ -33,7 +33,7 @@ def main():
         for screen in data.get('screens', []):
             screen_id = screen.get('id', '').replace(':', '_').replace('-', '_')
             f.write(f"    subgraph hierarchy_{screen_id} [Screen Component Hierarchy: {screen.get('title', '')}]\n")
-            f.write("        direction TD\n")
+
             comp = screen.get('component_tree', {})
             root_id = comp.get('ds_id', 'root').replace(':', '_').replace('-', '_')
             f.write(f'        {root_id}["{comp.get("label", "")} ({comp.get("type", "")})<br/>{comp.get("ds_id", "")}"]\n')
@@ -86,7 +86,7 @@ def main():
         for screen in data.get('screens', []):
             screen_id = screen.get('id', '').replace(':', '_').replace('-', '_')
             f.write(f"    subgraph responsive_{screen_id} [Responsive Layout: {screen.get('title', '')}]\n")
-            f.write("        direction TD\n")
+
             f.write(f'        root_resp_{screen_id}["Viewport Intents"]\n')
             for rc in screen.get('responsive_constraints', []):
                 vp = rc.get('viewport', '')

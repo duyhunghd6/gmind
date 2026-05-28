@@ -1,7 +1,7 @@
 {
   "generator_beads_id": "br-chat-20260522-contract-to-ui-ralph-ssot-preview",
-  "source_contract": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-  "contract_dir": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace",
+  "source_contract": "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+  "contract_dir": "docs/design/contracts/webui-and-pm-workspace",
   "screens": [
     {
       "id": "screen:rtm-dashboard",
@@ -3724,7 +3724,7 @@
         "br-design-review-diagrams-webui-pm-workspace"
       ],
       "mermaid_block_count": 46,
-      "line_count": 999
+      "line_count": 976
     },
     "prd-ds-conflicts.md": {
       "exists": true,
@@ -3747,7 +3747,7 @@
     "storyboards.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 35234
+      "size_bytes": 45567
     },
     "layout-rules.json": {
       "exists": true,
@@ -3782,139 +3782,139 @@
       "source": "review-diagrams.md",
       "index": 1,
       "heading": "screen:rtm-dashboard — ds:screen:rtm-dashboard-001",
-      "line_count": 13
+      "line_count": 12
     },
     {
       "source": "review-diagrams.md",
       "index": 2,
       "heading": "screen:safe-board — ds:screen:safe-board-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 3,
       "heading": "screen:task-list — ds:screen:task-list-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 4,
       "heading": "screen:task-detail — ds:screen:task-detail-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 5,
       "heading": "screen:trace-explorer — ds:screen:trace-explorer-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 6,
       "heading": "screen:doc-viewer — ds:screen:core-doc-viewer-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 7,
       "heading": "screen:approval-gates — ds:screen:approval-gates-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 8,
       "heading": "screen:search-results — ds:screen:search-results-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 9,
       "heading": "screen:ds-terminal — ds:screen:terminal-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 10,
       "heading": "screen:ds-portfolio — ds:screen:portfolio-showcase-001",
-      "line_count": 9
+      "line_count": 8
     },
     {
       "source": "review-diagrams.md",
       "index": 11,
       "heading": "screen:ds-pi-planning — ds:screen:pi-planning-showcase-001",
-      "line_count": 13
+      "line_count": 12
     },
     {
       "source": "review-diagrams.md",
       "index": 12,
       "heading": "screen:ds-git-graph — ds:screen:git-graph-showcase-001",
-      "line_count": 9
+      "line_count": 8
     },
     {
       "source": "review-diagrams.md",
       "index": 13,
       "heading": "screen:ds-kanban — ds:screen:kanban-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 14,
       "heading": "screen:ds-knowledge-graph — ds:screen:knowledge-graph-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 15,
       "heading": "screen:ds-approval — ds:screen:approval-showcase-001",
-      "line_count": 13
+      "line_count": 12
     },
     {
       "source": "review-diagrams.md",
       "index": 16,
       "heading": "screen:ds-timeline — ds:screen:timeline-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 17,
       "heading": "screen:ds-components — ds:screen:components-showcase-001",
-      "line_count": 7
+      "line_count": 6
     },
     {
       "source": "review-diagrams.md",
       "index": 18,
       "heading": "screen:ds-doc-viewer — ds:screen:doc-viewer-showcase-001",
-      "line_count": 9
+      "line_count": 8
     },
     {
       "source": "review-diagrams.md",
       "index": 19,
       "heading": "screen:ds-explorer — ds:screen:explorer-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 20,
       "heading": "screen:ds-beads-traversal — ds:screen:beads-traversal-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 21,
       "heading": "screen:ds-storyboard — ds:screen:storyboard-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 22,
       "heading": "screen:ds-storyboard-detail — ds:screen:storyboard-detail-showcase-001",
-      "line_count": 11
+      "line_count": 10
     },
     {
       "source": "review-diagrams.md",
       "index": 23,
       "heading": "screen:ds-webui-pm-workspace — ds:screen:webui-pm-workspace-showcase-001",
-      "line_count": 15
+      "line_count": 14
     },
     {
       "source": "review-diagrams.md",
@@ -4050,7 +4050,7 @@
     }
   ],
   "storyboards": {
-    "trajectories_total": 13,
+    "trajectories_total": 20,
     "trajectory_ids": [
       "core-navigate-task",
       "core-explore-trace",
@@ -4064,7 +4064,14 @@
       "showcase-hash-navigation",
       "storyboard-detail-alignment",
       "permission-denied-recovery",
-      "not-found-recovery"
+      "not-found-recovery",
+      "showcase-ds-beads-traversal",
+      "showcase-ds-components",
+      "showcase-ds-doc-viewer",
+      "showcase-ds-explorer",
+      "showcase-ds-portfolio",
+      "showcase-ds-terminal",
+      "showcase-ds-timeline"
     ]
   },
   "layout_rules": {
@@ -4218,95 +4225,95 @@
     "screens": {
       "screen:approval-gates": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:doc-viewer": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-approval": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-beads-traversal": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-components": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-doc-viewer": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-explorer": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-git-graph": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-kanban": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-knowledge-graph": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-pi-planning": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-portfolio": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-storyboard": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-storyboard-detail": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-terminal": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-timeline": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:ds-webui-pm-workspace": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:rtm-dashboard": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:safe-board": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:search-results": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:task-detail": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:task-list": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       },
       "screen:trace-explorer": {
         "in_contract": true,
-        "in_storyboards": false
+        "in_storyboards": true
       }
     },
     "events": {
