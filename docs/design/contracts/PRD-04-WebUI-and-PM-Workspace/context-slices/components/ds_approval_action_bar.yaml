@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:approval_action_bar
-layout_type: layout.stack
-parent_ds_id: ds:approval_layout
-screen_id: approval_gates
-states: []
-type: toolbar.approval_actions

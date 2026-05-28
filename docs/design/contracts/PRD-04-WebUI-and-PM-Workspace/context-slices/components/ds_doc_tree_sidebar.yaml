@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:doc_tree_sidebar
-layout_type: layout.split_view
-parent_ds_id: ds:doc_viewer_layout
-screen_id: doc_viewer
-states: []
-type: sidebar.doc_tree

@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:task_filters
-layout_type: layout.table_view
-parent_ds_id: ds:task_list_layout
-screen_id: task_list
-states: []
-type: toolbar.filters

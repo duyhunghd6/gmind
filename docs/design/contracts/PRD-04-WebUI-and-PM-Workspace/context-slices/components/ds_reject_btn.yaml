@@ -1,8 +1,0 @@
-actions:
-- trigger_reject
-ds_id: ds:reject_btn
-layout_type: layout.stack
-parent_ds_id: ds:approval_action_bar
-screen_id: approval_gates
-states: []
-type: button.reject

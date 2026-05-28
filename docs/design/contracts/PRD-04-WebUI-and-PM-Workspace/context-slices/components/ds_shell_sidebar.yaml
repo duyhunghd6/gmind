@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:shell_sidebar
-layout_type: layout.shell
-parent_ds_id: ds:global_shell
-screen_id: global_shell
-states: []
-type: sidebar

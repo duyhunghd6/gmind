@@ -1,9 +1,0 @@
-actions:
-- click_task_node
-- click_doc_node
-ds_id: ds:d3_canvas
-layout_type: layout.split_view
-parent_ds_id: ds:trace_explorer_layout
-screen_id: trace_explorer
-states: []
-type: canvas.force_directed

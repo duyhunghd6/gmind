@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:task_detail_tabs
-layout_type: layout.details
-parent_ds_id: ds:task_detail_layout
-screen_id: task_detail
-states: []
-type: navigation.tabs

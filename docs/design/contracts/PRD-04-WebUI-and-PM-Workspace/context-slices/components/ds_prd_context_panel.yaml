@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:prd_context_panel
-layout_type: layout.stack
-parent_ds_id: ds:approval_layout
-screen_id: approval_gates
-states: []
-type: panel.prd_context

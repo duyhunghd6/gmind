@@ -1,8 +1,0 @@
-actions:
-- click_beads_id
-ds_id: ds:markdown_viewer
-layout_type: layout.split_view
-parent_ds_id: ds:doc_viewer_layout
-screen_id: doc_viewer
-states: []
-type: view.markdown

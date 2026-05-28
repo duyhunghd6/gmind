@@ -1,8 +1,0 @@
-actions:
-- click_task_card
-ds_id: ds:task_card
-layout_type: layout.kanban
-parent_ds_id: ds:kanban_column
-screen_id: safe_board
-states: []
-type: card.task

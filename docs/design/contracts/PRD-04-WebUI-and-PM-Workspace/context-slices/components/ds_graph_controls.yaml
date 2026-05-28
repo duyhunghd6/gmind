@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:graph_controls
-layout_type: layout.split_view
-parent_ds_id: ds:trace_explorer_layout
-screen_id: trace_explorer
-states: []
-type: toolbar.graph_controls

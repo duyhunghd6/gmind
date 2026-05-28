@@ -1,7 +1,0 @@
-actions: []
-ds_id: ds:search_filter_sidebar
-layout_type: layout.split_view
-parent_ds_id: ds:search_results_layout
-screen_id: search_results
-states: []
-type: sidebar.search_filters
