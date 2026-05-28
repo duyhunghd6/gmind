@@ -5,6 +5,8 @@ from __future__ import annotations
 import re
 from typing import Any
 
+EVENT_TOKEN_RE = re.compile(r"\b(?:EVENT|API|ROUTE)_[A-Z0-9_]+\b|\bROUTE_ENTER\b")
+
 try:
     import yaml  # type: ignore
 except ImportError:
@@ -30,6 +32,15 @@ def load_yaml(source: str) -> dict[str, Any]:
     return data
 
 
+def normalize_event_label(label: Any) -> str:
+    """Normalize Mermaid/YAML event labels for robust EVENT_* comparisons."""
+    text = str(label or "").strip()
+    match = EVENT_TOKEN_RE.search(text)
+    if match:
+        return match.group(0)
+    return text.split("/")[0].strip()
+
+
 def parse_mermaid_transitions(source: str) -> list[dict[str, str]]:
     """Extract state transitions from Mermaid stateDiagram-v2 source."""
     transitions: list[dict[str, str]] = []
@@ -40,7 +51,7 @@ def parse_mermaid_transitions(source: str) -> list[dict[str, str]]:
         match = TRANSITION_RE.match(line)
         if not match:
             continue
-        event = (match.group("event") or "").strip()
+        event = normalize_event_label(match.group("event") or "")
         transitions.append({"from": match.group("from"), "to": match.group("to"), "event": event})
     return transitions
 
@@ -67,7 +78,7 @@ def walk_nodes(value: Any) -> list[dict[str, Any]]:
             found.append(value)
         child_keys = (
             "screens", "routes", "layout", "view", "children",
-            "components", "regions", "items",
+            "components", "component_tree", "regions", "items",
         )
         for child_key in child_keys:
             for child in iter_child_nodes(value, child_key):
@@ -94,15 +105,18 @@ def collect_summary(contract: dict[str, Any], transitions: list[dict[str, str]])
     ds_ids = [str(node.get("ds_id")) for node in all_nodes if node.get("ds_id")]
     
     actions_set = set()
+    for item in as_list(contract.get("action_catalog")):
+        if isinstance(item, dict) and item.get("event"):
+            actions_set.add(normalize_event_label(item["event"]))
     for node in all_nodes:
         if node.get("action"):
-            actions_set.add(str(node["action"]))
+            actions_set.add(normalize_event_label(node["action"]))
         if node.get("actions"):
             for a in as_list(node["actions"]):
-                actions_set.add(str(a))
+                actions_set.add(normalize_event_label(a))
     actions = sorted(actions_set)
-    
-    events = sorted({t["event"] for t in transitions if t["event"]})
+
+    events = sorted({normalize_event_label(t["event"]) for t in transitions if t["event"]})
 
     duplicate_ds_ids = sorted({ds_id for ds_id in ds_ids if ds_ids.count(ds_id) > 1})
     warnings: list[str] = []

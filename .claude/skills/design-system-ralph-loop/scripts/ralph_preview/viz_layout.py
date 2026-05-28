@@ -13,6 +13,8 @@ from __future__ import annotations
 import html
 from typing import Any
 
+from .artifact_summary import layout_rules, layout_screen_ids, layout_viewports
+
 
 def _esc(text: Any) -> str:
     return html.escape(str(text))
@@ -27,15 +29,17 @@ def _viewport_mockup(screen: dict[str, Any], vp_name: str) -> str:
     width = VIEWPORT_WIDTHS.get(vp_name, 800)
     icon = VIEWPORT_ICONS.get(vp_name, "")
 
+    if screen.get("viewport") and screen.get("viewport") != vp_name:
+        return ""
+
     layout = screen.get("layout", {})
-    if not isinstance(layout, dict):
-        return ""
-
-    responsive = layout.get("responsive", {})
-    if not isinstance(responsive, dict):
-        return ""
-
-    layout_desc = responsive.get(vp_name, "No layout rule defined")
+    if isinstance(layout, dict):
+        responsive = layout.get("responsive", {})
+        if not isinstance(responsive, dict):
+            return ""
+        layout_desc = responsive.get(vp_name, "No layout rule defined")
+    else:
+        layout_desc = screen.get("responsive_constraint") or screen.get("layout_assertion") or "No layout rule defined"
 
     # Build a simple visual mock from the description
     # Parse key layout hints from text description
@@ -90,8 +94,8 @@ def _viewport_mockup(screen: dict[str, Any], vp_name: str) -> str:
 
 def _screen_layout_card(screen: dict[str, Any]) -> str:
     """Render one screen's layout rules with viewport mockups."""
-    screen_id = screen.get("id", "")
-    screen_name = screen.get("name", "")
+    screen_id = screen.get("id") or screen.get("screen_id") or screen.get("rule_id", "")
+    screen_name = screen.get("name") or screen.get("screen_id") or screen.get("rule_id", "")
     route = screen.get("route", "")
     satisfies = screen.get("satisfies", [])
     data_sources = screen.get("data_sources", [])
@@ -164,13 +168,16 @@ def render_layout_section(artifacts: dict[str, Any]) -> str:
         """
 
     # Viewports table
-    viewports = lr_data.get("viewports", [])
+    viewports = layout_viewports(lr_data)
     vp_rows = ""
     for vp in viewports:
         constraints = vp.get("constraints", {})
-        constraint_rows = "".join(
-            f"<li>{_esc(k)}: {_esc(v)}</li>" for k, v in constraints.items()
-        )
+        if isinstance(constraints, dict):
+            constraint_rows = "".join(
+                f"<li>{_esc(k)}: {_esc(v)}</li>" for k, v in constraints.items()
+            )
+        else:
+            constraint_rows = f"<li>{_esc(constraints)}</li>" if constraints else ""
         vp_rows += f"""
         <tr>
           <td>{_esc(vp.get('name', ''))}</td>
@@ -190,15 +197,14 @@ def render_layout_section(artifacts: dict[str, Any]) -> str:
     """
 
     # Per-screen layout cards
-    screens = lr_data.get("screens", [])
-    screen_cards = ""
-    if isinstance(screens, list):
-        screen_cards = "".join(_screen_layout_card(s) for s in screens)
+    rules = layout_rules(lr_data)
+    screen_cards = "".join(_screen_layout_card(s) for s in rules)
+    screen_count = len(layout_screen_ids(lr_data))
 
     return f"""
     <h2>Layout Rules</h2>
     {shell_html}
     {viewports_html}
-    <h3>Screen Layouts ({len(screens) if isinstance(screens, list) else 0} screens)</h3>
+    <h3>Screen Layouts ({screen_count} screens, {len(rules)} rules)</h3>
     <div class='grid'>{screen_cards}</div>
     """

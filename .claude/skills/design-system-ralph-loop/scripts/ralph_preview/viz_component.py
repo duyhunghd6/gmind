@@ -13,6 +13,16 @@ from __future__ import annotations
 import html
 from typing import Any
 
+from .artifact_summary import (
+    component_actions,
+    component_ds_id,
+    component_entries,
+    component_map_counts,
+    component_map_ds_ids,
+    component_screen,
+    component_type,
+)
+
 
 def _esc(text: Any) -> str:
     return html.escape(str(text))
@@ -20,12 +30,12 @@ def _esc(text: Any) -> str:
 
 def _component_tree_node(node: dict[str, Any], depth: int = 0) -> str:
     """Render a single node in the component hierarchy tree."""
-    ds_id = node.get("ds_id", "")
-    comp_type = node.get("type", "")
+    ds_id = component_ds_id(node)
+    comp_type = component_type(node)
     registry_ref = node.get("registry_ref", "")
     label = node.get("label", "")
-    action = node.get("action", "")
-    screen = node.get("screen", "")
+    action = ", ".join(component_actions(node))
+    screen = component_screen(node)
 
     children = node.get("children", [])
     if isinstance(children, list):
@@ -59,14 +69,14 @@ def render_component_trees(artifacts: dict[str, Any]) -> str:
     if not cm_data or not isinstance(cm_data, dict):
         return "<section class='card'><h2>Component Hierarchy</h2><p>No component-map data available.</p></section>"
 
-    components = cm_data.get("components", [])
-    if not isinstance(components, list):
-        return "<section class='card'><h2>Component Hierarchy</h2><p>Component list not parseable.</p></section>"
+    components = component_entries(cm_data)
+    if not components:
+        return "<section class='card'><h2>Component Hierarchy</h2><p>No components found.</p></section>"
 
     # Group by screen
     screen_groups: dict[str, list[dict[str, Any]]] = {}
     for comp in components:
-        screen = comp.get("screen", "unknown")
+        screen = component_screen(comp)
         screen_groups.setdefault(screen, []).append(comp)
 
     screen_trees: list[str] = []
@@ -79,9 +89,10 @@ def render_component_trees(artifacts: dict[str, Any]) -> str:
         </section>
         """)
 
-    total = cm_data.get("components_total", len(components))
-    ds_total = cm_data.get("ds_ids_total", 0)
-    actions_total = cm_data.get("actions_mapped_total", 0)
+    counts = component_map_counts(cm_data)
+    total = counts["components_total"]
+    ds_total = counts["ds_ids_total"]
+    actions_total = counts["actions_mapped_total"]
 
     return f"""
     <h2>Component Hierarchy ({total} components, {ds_total} ds_ids, {actions_total} actions)</h2>
@@ -95,7 +106,7 @@ def render_ds_id_inventory(artifacts: dict[str, Any]) -> str:
     if not cm_data or not isinstance(cm_data, dict):
         return ""
 
-    ds_ids = cm_data.get("ds_ids", [])
+    ds_ids = component_map_ds_ids(cm_data)
     if not ds_ids:
         return ""
 

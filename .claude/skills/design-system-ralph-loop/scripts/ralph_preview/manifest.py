@@ -7,7 +7,16 @@ from pathlib import Path
 from typing import Any
 
 from . import GENERATOR_BEADS_ID
-from .artifact_summary import summarize_artifacts, build_coverage_matrix
+from .artifact_summary import (
+    summarize_artifacts,
+    build_coverage_matrix,
+    storyboard_trajectories,
+    layout_rules,
+    layout_screen_ids,
+    layout_viewports,
+    component_map_counts,
+    component_map_ds_ids,
+)
 
 
 def build_manifest(
@@ -49,28 +58,30 @@ def build_manifest(
 
     # Storyboard summary
     sb_data = artifacts.get("storyboards.json", {}).get("data")
+    trajectories = storyboard_trajectories(sb_data)
     if sb_data and isinstance(sb_data, dict):
         manifest["storyboards"] = {
-            "trajectories_total": sb_data.get("trajectories_total", 0),
-            "trajectory_ids": [t.get("trajectory_id") for t in sb_data.get("trajectories", [])],
+            "trajectories_total": int(sb_data.get("trajectories_total") or len(trajectories)),
+            "trajectory_ids": [t.get("trajectory_id") for t in trajectories],
         }
 
     # Layout rules summary
     lr_data = artifacts.get("layout-rules.json", {}).get("data")
+    rules = layout_rules(lr_data)
     if lr_data and isinstance(lr_data, dict):
-        screens_list = lr_data.get("screens", [])
         manifest["layout_rules"] = {
-            "screen_count": len(screens_list) if isinstance(screens_list, list) else 0,
-            "viewports": lr_data.get("viewports", []),
+            "rule_count": len(rules),
+            "screen_count": len(layout_screen_ids(lr_data)),
+            "viewports": layout_viewports(lr_data),
         }
 
     # Component map summary
     cm_data = artifacts.get("component-map.json", {}).get("data")
     if cm_data and isinstance(cm_data, dict):
+        counts = component_map_counts(cm_data)
         manifest["component_map"] = {
-            "components_total": cm_data.get("components_total", 0),
-            "ds_ids_total": cm_data.get("ds_ids_total", 0),
-            "actions_mapped_total": cm_data.get("actions_mapped_total", 0),
+            **counts,
+            "ds_ids": component_map_ds_ids(cm_data),
         }
 
     # Conflicts summary
