@@ -15,7 +15,8 @@ states:
 - forbidden
 bindings:
 - GET /api/trace/:id?depth=full
-screen_actions:
+layout: layered DAG from PRD sections to plan elements, tasks, and commits
+behaviors:
 - toggle forward and reverse traversal direction
 - highlight selected and linked nodes
 - show parent and children links in detail sidebar

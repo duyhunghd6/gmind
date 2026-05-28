@@ -7,8 +7,10 @@ viewport: desktop
 width: 1440
 layout: source-type document tree and rendered content panel
 responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+state_contract: layout-matched skeletons; no standalone spinner-only screens
 assertions:
 - global shell remains reachable
 - data-screen-id and data-ds-id present
 - state copy includes recovery CTA when empty/error/forbidden/not_found
 - browser uses Go REST API mappings only
+- hash interactions update same-route or cross-route selection when specified

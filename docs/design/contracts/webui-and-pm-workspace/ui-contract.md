@@ -472,7 +472,7 @@ screens:
         - GET /api/agents/sessions
         - GET /api/ci/runs
         - GET /api/tasks/:id/activity
-        - GET /api/log-events?stream=terminal
+        - STREAM /api/log-events?stream=terminal
     component_tree:
       type: ShowcaseSurface
       ds_id: ds:terminal-showcase:surface
@@ -931,11 +931,11 @@ screens:
       - error
       - offline
       - forbidden
-    layout: integrated shell with header, search, offline indicator, and active PM surfaces
+    layout: integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces
     behaviors:
       - expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces
       - every active surface carries stable data-screen-id and data-ds-id
-      - screen selection is driven by URL hashes on the global Design System layout sidebar
+      - sidebar navigation maps showcase hashes to PM surfaces and Core routes
     assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
     data_flow:
       endpoints:
@@ -954,6 +954,13 @@ screens:
             - EVENT_SEARCH
             - EVENT_DISCONNECT
             - EVENT_RECONNECT
+        - type: WorkspaceSidebarNav
+          ds_id: ds:webui-pm-workspace-showcase:sidebar-nav
+          actions:
+            - EVENT_HASH_NAVIGATE
+            - EVENT_VIEW_TASK
+            - EVENT_VIEW_TRACE
+            - EVENT_VIEW_DOC
         - type: BoundaryActionBar
           ds_id: ds:webui-pm-workspace-showcase:boundary-actions
           actions:
@@ -979,38 +986,190 @@ stateDiagram-v2
     LoadingState --> ErrorState : API_ERROR
     LoadingState --> NotFoundState : API_NOT_FOUND
     LoadingState --> PartialState : API_PARTIAL_ENRICHMENT
-
-    CoreRoute --> TaskDetailRoute : EVENT_VIEW_TASK
-    CoreRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
-    CoreRoute --> DocViewerRoute : EVENT_VIEW_DOC
-    CoreRoute --> SearchRoute : EVENT_SEARCH
-    CoreRoute --> LoadingState : EVENT_REFRESH
-    CoreRoute --> SavingState : EVENT_SAVE_TASK
-    CoreRoute --> SavingState : EVENT_SAVE_BULK
-    CoreRoute --> SavingState : EVENT_MOVE_CARD
-    CoreRoute --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
-
-    ShowcaseRoute --> ShowcaseRoute : EVENT_HASH_NAVIGATE
-    ShowcaseRoute --> TaskDetailRoute : EVENT_VIEW_TASK
-    ShowcaseRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
-    ShowcaseRoute --> DocViewerRoute : EVENT_VIEW_DOC
-    ShowcaseRoute --> SearchRoute : EVENT_SEARCH
-    ShowcaseRoute --> LoadingState : EVENT_REFRESH
-    ShowcaseRoute --> SavingState : EVENT_MOVE_CARD
-    ShowcaseRoute --> PiPlanningSaveState : EVENT_PI_PLAN_SAVE
-    ShowcaseRoute --> PiPlanningVoteState : EVENT_CONFIDENCE_VOTE
-    ShowcaseRoute --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
-
-    TaskDetailRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
-    TaskDetailRoute --> DocViewerRoute : EVENT_VIEW_DOC
-    TraceExplorerRoute --> TaskDetailRoute : EVENT_VIEW_TASK
-    TraceExplorerRoute --> DocViewerRoute : EVENT_VIEW_DOC
-    DocViewerRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
-    SearchRoute --> TaskDetailRoute : EVENT_VIEW_TASK
-    SearchRoute --> DocViewerRoute : EVENT_VIEW_DOC
-    SearchRoute --> TraceExplorerRoute : EVENT_VIEW_TRACE
-
-    SavingState --> CoreRoute : API_SUCCESS
+    CoreRoute --> RtmDashboard : ROUTE_
+    RtmDashboard --> LoadingState : EVENT_REFRESH
+    RtmDashboard --> OfflineState : EVENT_DISCONNECT
+    RtmDashboard --> EmptyState : API_EMPTY
+    RtmDashboard --> ErrorState : API_ERROR
+    RtmDashboard --> PermissionDenied : API_FORBIDDEN
+    RtmDashboard --> TraceExplorer : EVENT_VIEW_TRACE
+    RtmDashboard --> TaskDetail : EVENT_VIEW_TASK
+    CoreRoute --> SafeBoard : ROUTE_board
+    SafeBoard --> LoadingState : EVENT_REFRESH
+    SafeBoard --> OfflineState : EVENT_DISCONNECT
+    SafeBoard --> EmptyState : API_EMPTY
+    SafeBoard --> ErrorState : API_ERROR
+    SafeBoard --> PermissionDenied : API_FORBIDDEN
+    SafeBoard --> SavingState : EVENT_MOVE_CARD
+    SafeBoard --> TaskDetail : EVENT_VIEW_TASK
+    CoreRoute --> TaskList : ROUTE_tasks
+    TaskList --> LoadingState : EVENT_REFRESH
+    TaskList --> OfflineState : EVENT_DISCONNECT
+    TaskList --> EmptyState : API_EMPTY
+    TaskList --> ErrorState : API_ERROR
+    TaskList --> PermissionDenied : API_FORBIDDEN
+    TaskList --> TaskDetail : EVENT_VIEW_TASK
+    TaskList --> SavingState : EVENT_SAVE_BULK
+    CoreRoute --> TaskDetail : ROUTE_tasks__id
+    TaskDetail --> LoadingState : EVENT_REFRESH
+    TaskDetail --> OfflineState : EVENT_DISCONNECT
+    TaskDetail --> EmptyState : API_EMPTY
+    TaskDetail --> ErrorState : API_ERROR
+    TaskDetail --> PermissionDenied : API_FORBIDDEN
+    TaskDetail --> NotFoundState : API_NOT_FOUND
+    TaskDetail --> SavingState : EVENT_SAVE_TASK
+    TaskDetail --> TraceExplorer : EVENT_VIEW_TRACE
+    TaskDetail --> DocViewer : EVENT_VIEW_DOC
+    CoreRoute --> TraceExplorer : ROUTE_trace__id
+    TraceExplorer --> LoadingState : EVENT_REFRESH
+    TraceExplorer --> OfflineState : EVENT_DISCONNECT
+    TraceExplorer --> EmptyState : API_EMPTY
+    TraceExplorer --> ErrorState : API_ERROR
+    TraceExplorer --> PermissionDenied : API_FORBIDDEN
+    TraceExplorer --> PartialState : API_PARTIAL_ENRICHMENT
+    TraceExplorer --> TaskDetail : EVENT_VIEW_TASK
+    TraceExplorer --> DocViewer : EVENT_VIEW_DOC
+    CoreRoute --> DocViewer : ROUTE_docs
+    DocViewer --> LoadingState : EVENT_REFRESH
+    DocViewer --> OfflineState : EVENT_DISCONNECT
+    DocViewer --> EmptyState : API_EMPTY
+    DocViewer --> ErrorState : API_ERROR
+    DocViewer --> PermissionDenied : API_FORBIDDEN
+    DocViewer --> TraceExplorer : EVENT_VIEW_TRACE
+    CoreRoute --> ApprovalGates : ROUTE_approval
+    ApprovalGates --> LoadingState : EVENT_REFRESH
+    ApprovalGates --> OfflineState : EVENT_DISCONNECT
+    ApprovalGates --> EmptyState : API_EMPTY
+    ApprovalGates --> ErrorState : API_ERROR
+    ApprovalGates --> PermissionDenied : API_FORBIDDEN
+    ApprovalGates --> ApprovalDecisionState : EVENT_APPROVAL_DECISION
+    CoreRoute --> SearchResults : ROUTE_search
+    SearchResults --> LoadingState : EVENT_REFRESH
+    SearchResults --> OfflineState : EVENT_DISCONNECT
+    SearchResults --> EmptyState : API_EMPTY
+    SearchResults --> ErrorState : API_ERROR
+    SearchResults --> PermissionDenied : API_FORBIDDEN
+    SearchResults --> SearchResults : EVENT_SEARCH
+    SearchResults --> TaskDetail : EVENT_VIEW_TASK
+    SearchResults --> DocViewer : EVENT_VIEW_DOC
+    SearchResults --> TraceExplorer : EVENT_VIEW_TRACE
+    ShowcaseRoute --> DsTerminal : ROUTE_design_system_terminal
+    DsTerminal --> LoadingState : EVENT_REFRESH
+    DsTerminal --> OfflineState : EVENT_DISCONNECT
+    DsTerminal --> EmptyState : API_EMPTY
+    DsTerminal --> ErrorState : API_ERROR
+    DsTerminal --> PermissionDenied : API_FORBIDDEN
+    ShowcaseRoute --> DsPortfolio : ROUTE_design_system_portfolio
+    DsPortfolio --> LoadingState : EVENT_REFRESH
+    DsPortfolio --> OfflineState : EVENT_DISCONNECT
+    DsPortfolio --> EmptyState : API_EMPTY
+    DsPortfolio --> ErrorState : API_ERROR
+    DsPortfolio --> PermissionDenied : API_FORBIDDEN
+    ShowcaseRoute --> DsPiPlanning : ROUTE_design_system_pi_planning
+    DsPiPlanning --> LoadingState : EVENT_REFRESH
+    DsPiPlanning --> OfflineState : EVENT_DISCONNECT
+    DsPiPlanning --> EmptyState : API_EMPTY
+    DsPiPlanning --> ErrorState : API_ERROR
+    DsPiPlanning --> PermissionDenied : API_FORBIDDEN
+    DsPiPlanning --> PiPlanningSaveState : EVENT_PI_PLAN_SAVE
+    DsPiPlanning --> PiPlanningVoteState : EVENT_CONFIDENCE_VOTE
+    ShowcaseRoute --> DsGitGraph : ROUTE_design_system_git_graph
+    DsGitGraph --> LoadingState : EVENT_REFRESH
+    DsGitGraph --> OfflineState : EVENT_DISCONNECT
+    DsGitGraph --> EmptyState : API_EMPTY
+    DsGitGraph --> ErrorState : API_ERROR
+    DsGitGraph --> PermissionDenied : API_FORBIDDEN
+    DsGitGraph --> DsGitGraph : EVENT_HASH_NAVIGATE
+    ShowcaseRoute --> DsKanban : ROUTE_design_system_kanban
+    DsKanban --> LoadingState : EVENT_REFRESH
+    DsKanban --> OfflineState : EVENT_DISCONNECT
+    DsKanban --> EmptyState : API_EMPTY
+    DsKanban --> ErrorState : API_ERROR
+    DsKanban --> PermissionDenied : API_FORBIDDEN
+    DsKanban --> DsKanban : EVENT_HASH_NAVIGATE
+    DsKanban --> SavingState : EVENT_MOVE_CARD
+    DsKanban --> TaskDetail : EVENT_VIEW_TASK
+    ShowcaseRoute --> DsKnowledgeGraph : ROUTE_design_system_knowledge_graph
+    DsKnowledgeGraph --> LoadingState : EVENT_REFRESH
+    DsKnowledgeGraph --> OfflineState : EVENT_DISCONNECT
+    DsKnowledgeGraph --> EmptyState : API_EMPTY
+    DsKnowledgeGraph --> ErrorState : API_ERROR
+    DsKnowledgeGraph --> PermissionDenied : API_FORBIDDEN
+    DsKnowledgeGraph --> PartialState : API_PARTIAL_ENRICHMENT
+    DsKnowledgeGraph --> DsKnowledgeGraph : EVENT_HASH_NAVIGATE
+    ShowcaseRoute --> DsApproval : ROUTE_design_system_approval
+    DsApproval --> LoadingState : EVENT_REFRESH
+    DsApproval --> OfflineState : EVENT_DISCONNECT
+    DsApproval --> EmptyState : API_EMPTY
+    DsApproval --> ErrorState : API_ERROR
+    DsApproval --> PermissionDenied : API_FORBIDDEN
+    DsApproval --> DsApproval : EVENT_HASH_NAVIGATE
+    ShowcaseRoute --> DsTimeline : ROUTE_design_system_timeline
+    DsTimeline --> LoadingState : EVENT_REFRESH
+    DsTimeline --> OfflineState : EVENT_DISCONNECT
+    DsTimeline --> EmptyState : API_EMPTY
+    DsTimeline --> ErrorState : API_ERROR
+    DsTimeline --> PermissionDenied : API_FORBIDDEN
+    ShowcaseRoute --> DsComponents : ROUTE_design_system_components
+    DsComponents --> LoadingState : EVENT_REFRESH
+    DsComponents --> OfflineState : EVENT_DISCONNECT
+    DsComponents --> EmptyState : API_EMPTY
+    DsComponents --> ErrorState : API_ERROR
+    DsComponents --> PermissionDenied : API_FORBIDDEN
+    DsComponents --> DsComponents : EVENT_HASH_NAVIGATE
+    ShowcaseRoute --> DsDocViewer : ROUTE_design_system_doc_viewer
+    DsDocViewer --> LoadingState : EVENT_REFRESH
+    DsDocViewer --> OfflineState : EVENT_DISCONNECT
+    DsDocViewer --> EmptyState : API_EMPTY
+    DsDocViewer --> ErrorState : API_ERROR
+    DsDocViewer --> PermissionDenied : API_FORBIDDEN
+    DsDocViewer --> TraceExplorer : EVENT_VIEW_TRACE
+    ShowcaseRoute --> DsExplorer : ROUTE_design_system_explorer
+    DsExplorer --> LoadingState : EVENT_REFRESH
+    DsExplorer --> OfflineState : EVENT_DISCONNECT
+    DsExplorer --> EmptyState : API_EMPTY
+    DsExplorer --> ErrorState : API_ERROR
+    DsExplorer --> PermissionDenied : API_FORBIDDEN
+    DsExplorer --> SearchResults : EVENT_SEARCH
+    DsExplorer --> DsExplorer : EVENT_HASH_NAVIGATE
+    DsExplorer --> TraceExplorer : EVENT_VIEW_TRACE
+    DsExplorer --> DocViewer : EVENT_VIEW_DOC
+    DsExplorer --> TaskDetail : EVENT_VIEW_TASK
+    ShowcaseRoute --> DsBeadsTraversal : ROUTE_design_system_beads_traversal
+    DsBeadsTraversal --> LoadingState : EVENT_REFRESH
+    DsBeadsTraversal --> OfflineState : EVENT_DISCONNECT
+    DsBeadsTraversal --> EmptyState : API_EMPTY
+    DsBeadsTraversal --> ErrorState : API_ERROR
+    DsBeadsTraversal --> PermissionDenied : API_FORBIDDEN
+    ShowcaseRoute --> DsStoryboard : ROUTE_design_system_storyboard
+    DsStoryboard --> LoadingState : EVENT_REFRESH
+    DsStoryboard --> OfflineState : EVENT_DISCONNECT
+    DsStoryboard --> EmptyState : API_EMPTY
+    DsStoryboard --> ErrorState : API_ERROR
+    DsStoryboard --> PermissionDenied : API_FORBIDDEN
+    ShowcaseRoute --> DsStoryboardDetail : ROUTE_design_system_storyboard__id
+    DsStoryboardDetail --> LoadingState : EVENT_REFRESH
+    DsStoryboardDetail --> OfflineState : EVENT_DISCONNECT
+    DsStoryboardDetail --> EmptyState : API_EMPTY
+    DsStoryboardDetail --> ErrorState : API_ERROR
+    DsStoryboardDetail --> PermissionDenied : API_FORBIDDEN
+    DsStoryboardDetail --> NotFoundState : API_NOT_FOUND
+    ShowcaseRoute --> DsWebuiPmWorkspace : ROUTE_design_system_webui_pm_workspace
+    DsWebuiPmWorkspace --> LoadingState : EVENT_REFRESH
+    DsWebuiPmWorkspace --> OfflineState : EVENT_DISCONNECT
+    DsWebuiPmWorkspace --> EmptyState : API_EMPTY
+    DsWebuiPmWorkspace --> ErrorState : API_ERROR
+    DsWebuiPmWorkspace --> PermissionDenied : API_FORBIDDEN
+    DsWebuiPmWorkspace --> SearchResults : EVENT_SEARCH
+    DsWebuiPmWorkspace --> RehydratingState : EVENT_RECONNECT
+    DsWebuiPmWorkspace --> DsWebuiPmWorkspace : EVENT_HASH_NAVIGATE
+    DsWebuiPmWorkspace --> TaskDetail : EVENT_VIEW_TASK
+    DsWebuiPmWorkspace --> TraceExplorer : EVENT_VIEW_TRACE
+    DsWebuiPmWorkspace --> DocViewer : EVENT_VIEW_DOC
+    DsWebuiPmWorkspace --> GlobalShell : EVENT_BACK
+    DsWebuiPmWorkspace --> RehydratingState : EVENT_KEEP_LOCAL
+    DsWebuiPmWorkspace --> RehydratingState : EVENT_USE_SERVER
+    SavingState --> SuccessState : API_SUCCESS
     SavingState --> ErrorState : API_ERROR_ROLLBACK
     SavingState --> OfflineState : API_OFFLINE_QUEUE
     ApprovalDecisionState --> SuccessState : API_APPROVAL_SUCCESS
@@ -1020,7 +1179,6 @@ stateDiagram-v2
     PiPlanningSaveState --> ErrorState : API_PI_SAVE_ERROR
     PiPlanningVoteState --> SuccessState : API_VOTE_SUCCESS
     PiPlanningVoteState --> ErrorState : API_VOTE_ERROR
-
     GlobalShell --> OfflineState : EVENT_DISCONNECT
     CoreRoute --> OfflineState : EVENT_DISCONNECT
     ShowcaseRoute --> OfflineState : EVENT_DISCONNECT
@@ -1030,7 +1188,6 @@ stateDiagram-v2
     ConflictResolution --> RehydratingState : EVENT_USE_SERVER
     RehydratingState --> GlobalShell : API_SYNC_SUCCESS
     RehydratingState --> ErrorState : API_SYNC_ERROR
-
     EmptyState --> LoadingState : EVENT_REFRESH
     ErrorState --> LoadingState : EVENT_REFRESH
     PartialState --> LoadingState : EVENT_REFRESH

@@ -15,7 +15,9 @@ states:
 - forbidden
 bindings:
 - GET /api/storyboards
-screen_actions:
+layout: journey filter, horizontal use-case flow, guidance panel, and CTA to real
+  screen
+behaviors:
 - filter journeys and preserve selected route state
 - show Mechanism and Action, Considerations, and Investigating guidance
 - CTA opens the corresponding implementation screen

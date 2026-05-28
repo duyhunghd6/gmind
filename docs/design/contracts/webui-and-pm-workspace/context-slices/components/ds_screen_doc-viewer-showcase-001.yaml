@@ -16,7 +16,8 @@ states:
 bindings:
 - GET /api/docs?group=source_type
 - GET /api/docs/:id
-screen_actions:
+layout: GitHub-like file tree with selected document panel and Beads badges
+behaviors:
 - expand folders and select documents
 - show section status covered, partial, or gap
 - link to Explorer and Knowledge Graph

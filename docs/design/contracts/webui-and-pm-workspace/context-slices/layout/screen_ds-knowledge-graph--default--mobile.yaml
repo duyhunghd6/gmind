@@ -9,8 +9,10 @@ layout: client-only Sigma graph viewer with preset tabs, selected-node banner, l
   and stats
 responsive_constraint: single-column flow, sidebar as overlay, drawers as full-screen
   overlays, tables become cards
+state_contract: render live data with interactive controls
 assertions:
 - global shell remains reachable
 - data-screen-id and data-ds-id present
 - state copy includes recovery CTA when empty/error/forbidden/not_found
 - browser uses Go REST API mappings only
+- hash interactions update same-route or cross-route selection when specified

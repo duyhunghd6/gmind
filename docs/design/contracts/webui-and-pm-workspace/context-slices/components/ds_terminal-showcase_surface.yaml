@@ -5,6 +5,7 @@ actions: []
 screen_id: screen:ds-terminal
 screen_route: /design-system/terminal
 screen_ds_id: ds:screen:terminal-showcase-001
+prd_ds_id: ds:screen:terminal-001
 states:
 - default
 - loading
@@ -16,8 +17,11 @@ bindings:
 - GET /api/agents/sessions
 - GET /api/ci/runs
 - GET /api/tasks/:id/activity
-- GET /api/log-events?stream=terminal
-screen_actions:
+- STREAM /api/log-events?stream=terminal
+layout: scenario tabs with 2x2 terminal mosaic
+behaviors:
 - Agent Console, Deploy, Debug, and CI/CD scenario tabs
 - command, output, success, and error line types
 - mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer
+api_gateway: gmind serve Go REST API
+hash_route_interactions: []

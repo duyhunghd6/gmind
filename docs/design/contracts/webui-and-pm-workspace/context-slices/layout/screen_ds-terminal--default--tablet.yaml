@@ -8,8 +8,10 @@ width: 1024
 layout: scenario tabs with 2x2 terminal mosaic
 responsive_constraint: condensed sidebar, stacked secondary panels, horizontal scroll
   where boards overflow
+state_contract: render live data with interactive controls
 assertions:
 - global shell remains reachable
 - data-screen-id and data-ds-id present
 - state copy includes recovery CTA when empty/error/forbidden/not_found
 - browser uses Go REST API mappings only
+- hash interactions update same-route or cross-route selection when specified

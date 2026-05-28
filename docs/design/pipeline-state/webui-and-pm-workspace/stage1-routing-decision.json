@@ -1,39 +1,39 @@
 {
   "ba_agent": "stage1_ba",
-  "iteration_analyzed": 3,
+  "iteration_analyzed": 1,
   "action": "CONTINUE",
-  "current_score": 96,
-  "delta": "+2",
-  "convergence_reason": "Latest evaluator scorecard is PASS/GATE_A_READY at 96 with no P0/P1 and no standalone .mmd files, but the available independent QA result is from the previous iteration and still records failed T5/T8 suites. Do not respawn a generator; rerun independent Stage 1 QA to validate the evaluator-confirmed fixes before Gate A.",
-  "agents_to_respawn": [],
+  "current_score": 85,
+  "delta": "+0",
+  "convergence_reason": "Iteration 1 score is 85, below the 90 Gate A threshold; evaluator status is CONTINUE with two P1 drift issues and no P0 issues.",
+  "agents_to_respawn": [
+    "gen_contracts",
+    "gen_flows"
+  ],
   "fix_queue_per_agent": {
     "gen_contracts": [
       {
-        "fix": "ui-contract.md is 1044 lines, slightly above the repository documentation guideline. Trim non-SSOT prose or rely on indexed summaries for review context when convenient.",
-        "priority": "P2",
-        "pillar": "derived_artifact_consistency"
+        "fix": "Resolve the legacy normalized-path violation at docs/design/contracts/PRD-04-WebUI-and-PM-Workspace using a non-destructive approach unless explicit user approval is given for deletion; keep the canonical package at docs/design/contracts/webui-and-pm-workspace.",
+        "priority": "P1",
+        "pillar": "conflict_preview_readiness"
       }
     ],
     "gen_flows": [
       {
-        "fix": "artifact-index.json is a large machine-readable artifact and remains load_policy='load directly'. Add a compact artifact-index summary slice to improve context-budget hygiene when convenient.",
-        "priority": "P2",
-        "pillar": "conflict_preview_readiness"
+        "fix": "Remove or regenerate the stale component context slice for ds:webui-pm-workspace-showcase:sidebar and align it to the canonical ui-contract.md ds_id ds:webui-pm-workspace-showcase:sidebar-nav; update contract-summary component counts to match component-map.json.",
+        "priority": "P1",
+        "pillar": "derived_artifact_consistency"
       }
     ]
   },
   "skip_agents": [
-    "gen_contracts",
-    "gen_flows",
     "gen_wireframes",
     "preview_script",
     "prd_writer"
   ],
-  "qa_required": true,
+  "qa_required": false,
   "warnings": [
-    "Previous QA result is stale for iteration 3: it records T5/T8 failures that the latest evaluator scorecard reports as fixed.",
     "No standalone .mmd files were found under /Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace.",
-    "P2 context-budget issues remain non-blocking for Gate A unless independent QA promotes them."
+    "Do not delete or overwrite legacy contract artifacts without explicit user approval; route gen_contracts toward non-destructive archival, ignore-listing, or approval-gated cleanup."
   ],
   "gate_a_summary": null
 }

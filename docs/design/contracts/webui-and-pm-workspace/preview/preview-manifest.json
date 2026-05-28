@@ -1,7 +1,7 @@
 {
   "generator_beads_id": "br-chat-20260522-contract-to-ui-ralph-ssot-preview",
-  "source_contract": "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-  "contract_dir": "docs/design/contracts/webui-and-pm-workspace",
+  "source_contract": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+  "contract_dir": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace",
   "screens": [
     {
       "id": "screen:rtm-dashboard",
@@ -451,7 +451,7 @@
           "GET /api/agents/sessions",
           "GET /api/ci/runs",
           "GET /api/tasks/:id/activity",
-          "GET /api/log-events?stream=terminal"
+          "STREAM /api/log-events?stream=terminal"
         ]
       },
       "component_tree": {
@@ -1111,11 +1111,11 @@
         "offline",
         "forbidden"
       ],
-      "layout": "integrated shell with header, search, offline indicator, sidebar nav, and active PM surfaces",
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
       "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ],
       "assertion_hooks": "assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen",
       "data_flow": {
@@ -1141,8 +1141,14 @@
             ]
           },
           {
-            "type": "WorkspaceSidebar",
-            "ds_id": "ds:webui-pm-workspace-showcase:sidebar"
+            "type": "WorkspaceSidebarNav",
+            "ds_id": "ds:webui-pm-workspace-showcase:sidebar-nav",
+            "actions": [
+              "EVENT_HASH_NAVIGATE",
+              "EVENT_VIEW_TASK",
+              "EVENT_VIEW_TRACE",
+              "EVENT_VIEW_DOC"
+            ]
           },
           {
             "type": "BoundaryActionBar",
@@ -1958,7 +1964,7 @@
           "GET /api/agents/sessions",
           "GET /api/ci/runs",
           "GET /api/tasks/:id/activity",
-          "GET /api/log-events?stream=terminal"
+          "STREAM /api/log-events?stream=terminal"
         ]
       },
       "component_tree": {
@@ -3092,11 +3098,11 @@
         "offline",
         "forbidden"
       ],
-      "layout": "integrated shell with header, search, offline indicator, sidebar nav, and active PM surfaces",
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
       "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ],
       "assertion_hooks": "assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen",
       "data_flow": {
@@ -3122,8 +3128,14 @@
             ]
           },
           {
-            "type": "WorkspaceSidebar",
-            "ds_id": "ds:webui-pm-workspace-showcase:sidebar"
+            "type": "WorkspaceSidebarNav",
+            "ds_id": "ds:webui-pm-workspace-showcase:sidebar-nav",
+            "actions": [
+              "EVENT_HASH_NAVIGATE",
+              "EVENT_VIEW_TASK",
+              "EVENT_VIEW_TRACE",
+              "EVENT_VIEW_DOC"
+            ]
           },
           {
             "type": "BoundaryActionBar",
@@ -3161,8 +3173,14 @@
           ]
         },
         {
-          "type": "WorkspaceSidebar",
-          "ds_id": "ds:webui-pm-workspace-showcase:sidebar"
+          "type": "WorkspaceSidebarNav",
+          "ds_id": "ds:webui-pm-workspace-showcase:sidebar-nav",
+          "actions": [
+            "EVENT_HASH_NAVIGATE",
+            "EVENT_VIEW_TASK",
+            "EVENT_VIEW_TRACE",
+            "EVENT_VIEW_DOC"
+          ]
         },
         {
           "type": "BoundaryActionBar",
@@ -3195,8 +3213,14 @@
       ]
     },
     {
-      "type": "WorkspaceSidebar",
-      "ds_id": "ds:webui-pm-workspace-showcase:sidebar"
+      "type": "WorkspaceSidebarNav",
+      "ds_id": "ds:webui-pm-workspace-showcase:sidebar-nav",
+      "actions": [
+        "EVENT_HASH_NAVIGATE",
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_TRACE",
+        "EVENT_VIEW_DOC"
+      ]
     },
     {
       "type": "BoundaryActionBar",
@@ -3330,7 +3354,7 @@
     "ds:screen:webui-pm-workspace-showcase-001",
     "ds:webui-pm-workspace-showcase:surface",
     "ds:webui-pm-workspace-showcase:header",
-    "ds:webui-pm-workspace-showcase:sidebar",
+    "ds:webui-pm-workspace-showcase:sidebar-nav",
     "ds:webui-pm-workspace-showcase:boundary-actions",
     "ds:webui-pm-workspace-showcase:sync-conflict-banner",
     "ds:webui-pm-workspace-showcase:active-surface"
@@ -3392,7 +3416,30 @@
     "EVENT_VIEW_DOC",
     "EVENT_VIEW_TASK",
     "EVENT_VIEW_TRACE",
-    "ROUTE_ENTER"
+    "ROUTE_",
+    "ROUTE_ENTER",
+    "ROUTE_approval",
+    "ROUTE_board",
+    "ROUTE_design_system_approval",
+    "ROUTE_design_system_beads_traversal",
+    "ROUTE_design_system_components",
+    "ROUTE_design_system_doc_viewer",
+    "ROUTE_design_system_explorer",
+    "ROUTE_design_system_git_graph",
+    "ROUTE_design_system_kanban",
+    "ROUTE_design_system_knowledge_graph",
+    "ROUTE_design_system_pi_planning",
+    "ROUTE_design_system_portfolio",
+    "ROUTE_design_system_storyboard",
+    "ROUTE_design_system_storyboard__id",
+    "ROUTE_design_system_terminal",
+    "ROUTE_design_system_timeline",
+    "ROUTE_design_system_webui_pm_workspace",
+    "ROUTE_docs",
+    "ROUTE_search",
+    "ROUTE_tasks",
+    "ROUTE_tasks__id",
+    "ROUTE_trace__id"
   ],
   "transitions": [
     {
@@ -3442,142 +3489,922 @@
     },
     {
       "from": "CoreRoute",
-      "to": "TaskDetailRoute",
-      "event": "EVENT_VIEW_TASK"
+      "to": "RtmDashboard",
+      "event": "ROUTE_"
     },
     {
-      "from": "CoreRoute",
-      "to": "TraceExplorerRoute",
-      "event": "EVENT_VIEW_TRACE"
-    },
-    {
-      "from": "CoreRoute",
-      "to": "DocViewerRoute",
-      "event": "EVENT_VIEW_DOC"
-    },
-    {
-      "from": "CoreRoute",
-      "to": "SearchRoute",
-      "event": "EVENT_SEARCH"
-    },
-    {
-      "from": "CoreRoute",
+      "from": "RtmDashboard",
       "to": "LoadingState",
       "event": "EVENT_REFRESH"
     },
     {
-      "from": "CoreRoute",
-      "to": "SavingState",
-      "event": "EVENT_SAVE_TASK"
+      "from": "RtmDashboard",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "RtmDashboard",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "RtmDashboard",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "RtmDashboard",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "RtmDashboard",
+      "to": "TraceExplorer",
+      "event": "EVENT_VIEW_TRACE"
+    },
+    {
+      "from": "RtmDashboard",
+      "to": "TaskDetail",
+      "event": "EVENT_VIEW_TASK"
     },
     {
       "from": "CoreRoute",
+      "to": "SafeBoard",
+      "event": "ROUTE_board"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "SavingState",
+      "event": "EVENT_MOVE_CARD"
+    },
+    {
+      "from": "SafeBoard",
+      "to": "TaskDetail",
+      "event": "EVENT_VIEW_TASK"
+    },
+    {
+      "from": "CoreRoute",
+      "to": "TaskList",
+      "event": "ROUTE_tasks"
+    },
+    {
+      "from": "TaskList",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "TaskList",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "TaskList",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "TaskList",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TaskList",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "TaskList",
+      "to": "TaskDetail",
+      "event": "EVENT_VIEW_TASK"
+    },
+    {
+      "from": "TaskList",
       "to": "SavingState",
       "event": "EVENT_SAVE_BULK"
     },
     {
       "from": "CoreRoute",
-      "to": "SavingState",
-      "event": "EVENT_MOVE_CARD"
+      "to": "TaskDetail",
+      "event": "ROUTE_tasks__id"
     },
     {
-      "from": "CoreRoute",
-      "to": "ApprovalDecisionState",
-      "event": "EVENT_APPROVAL_DECISION"
-    },
-    {
-      "from": "ShowcaseRoute",
-      "to": "ShowcaseRoute",
-      "event": "EVENT_HASH_NAVIGATE"
-    },
-    {
-      "from": "ShowcaseRoute",
-      "to": "TaskDetailRoute",
-      "event": "EVENT_VIEW_TASK"
-    },
-    {
-      "from": "ShowcaseRoute",
-      "to": "TraceExplorerRoute",
-      "event": "EVENT_VIEW_TRACE"
-    },
-    {
-      "from": "ShowcaseRoute",
-      "to": "DocViewerRoute",
-      "event": "EVENT_VIEW_DOC"
-    },
-    {
-      "from": "ShowcaseRoute",
-      "to": "SearchRoute",
-      "event": "EVENT_SEARCH"
-    },
-    {
-      "from": "ShowcaseRoute",
+      "from": "TaskDetail",
       "to": "LoadingState",
       "event": "EVENT_REFRESH"
     },
     {
-      "from": "ShowcaseRoute",
+      "from": "TaskDetail",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "TaskDetail",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "TaskDetail",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TaskDetail",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "TaskDetail",
+      "to": "NotFoundState",
+      "event": "API_NOT_FOUND"
+    },
+    {
+      "from": "TaskDetail",
       "to": "SavingState",
-      "event": "EVENT_MOVE_CARD"
+      "event": "EVENT_SAVE_TASK"
+    },
+    {
+      "from": "TaskDetail",
+      "to": "TraceExplorer",
+      "event": "EVENT_VIEW_TRACE"
+    },
+    {
+      "from": "TaskDetail",
+      "to": "DocViewer",
+      "event": "EVENT_VIEW_DOC"
+    },
+    {
+      "from": "CoreRoute",
+      "to": "TraceExplorer",
+      "event": "ROUTE_trace__id"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "PartialState",
+      "event": "API_PARTIAL_ENRICHMENT"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "TaskDetail",
+      "event": "EVENT_VIEW_TASK"
+    },
+    {
+      "from": "TraceExplorer",
+      "to": "DocViewer",
+      "event": "EVENT_VIEW_DOC"
+    },
+    {
+      "from": "CoreRoute",
+      "to": "DocViewer",
+      "event": "ROUTE_docs"
+    },
+    {
+      "from": "DocViewer",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DocViewer",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DocViewer",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DocViewer",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DocViewer",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DocViewer",
+      "to": "TraceExplorer",
+      "event": "EVENT_VIEW_TRACE"
+    },
+    {
+      "from": "CoreRoute",
+      "to": "ApprovalGates",
+      "event": "ROUTE_approval"
+    },
+    {
+      "from": "ApprovalGates",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "ApprovalGates",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "ApprovalGates",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "ApprovalGates",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "ApprovalGates",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "ApprovalGates",
+      "to": "ApprovalDecisionState",
+      "event": "EVENT_APPROVAL_DECISION"
+    },
+    {
+      "from": "CoreRoute",
+      "to": "SearchResults",
+      "event": "ROUTE_search"
+    },
+    {
+      "from": "SearchResults",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "SearchResults",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "SearchResults",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "SearchResults",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "SearchResults",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "SearchResults",
+      "to": "SearchResults",
+      "event": "EVENT_SEARCH"
+    },
+    {
+      "from": "SearchResults",
+      "to": "TaskDetail",
+      "event": "EVENT_VIEW_TASK"
+    },
+    {
+      "from": "SearchResults",
+      "to": "DocViewer",
+      "event": "EVENT_VIEW_DOC"
+    },
+    {
+      "from": "SearchResults",
+      "to": "TraceExplorer",
+      "event": "EVENT_VIEW_TRACE"
     },
     {
       "from": "ShowcaseRoute",
+      "to": "DsTerminal",
+      "event": "ROUTE_design_system_terminal"
+    },
+    {
+      "from": "DsTerminal",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsTerminal",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsTerminal",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsTerminal",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsTerminal",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsPortfolio",
+      "event": "ROUTE_design_system_portfolio"
+    },
+    {
+      "from": "DsPortfolio",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsPortfolio",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsPortfolio",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsPortfolio",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsPortfolio",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsPiPlanning",
+      "event": "ROUTE_design_system_pi_planning"
+    },
+    {
+      "from": "DsPiPlanning",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsPiPlanning",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsPiPlanning",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsPiPlanning",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsPiPlanning",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsPiPlanning",
       "to": "PiPlanningSaveState",
       "event": "EVENT_PI_PLAN_SAVE"
     },
     {
-      "from": "ShowcaseRoute",
+      "from": "DsPiPlanning",
       "to": "PiPlanningVoteState",
       "event": "EVENT_CONFIDENCE_VOTE"
     },
     {
       "from": "ShowcaseRoute",
-      "to": "ApprovalDecisionState",
-      "event": "EVENT_APPROVAL_DECISION"
+      "to": "DsGitGraph",
+      "event": "ROUTE_design_system_git_graph"
     },
     {
-      "from": "TaskDetailRoute",
-      "to": "TraceExplorerRoute",
-      "event": "EVENT_VIEW_TRACE"
+      "from": "DsGitGraph",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
     },
     {
-      "from": "TaskDetailRoute",
-      "to": "DocViewerRoute",
-      "event": "EVENT_VIEW_DOC"
+      "from": "DsGitGraph",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
     },
     {
-      "from": "TraceExplorerRoute",
-      "to": "TaskDetailRoute",
+      "from": "DsGitGraph",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsGitGraph",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsGitGraph",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsGitGraph",
+      "to": "DsGitGraph",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsKanban",
+      "event": "ROUTE_design_system_kanban"
+    },
+    {
+      "from": "DsKanban",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsKanban",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsKanban",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsKanban",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsKanban",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsKanban",
+      "to": "DsKanban",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "DsKanban",
+      "to": "SavingState",
+      "event": "EVENT_MOVE_CARD"
+    },
+    {
+      "from": "DsKanban",
+      "to": "TaskDetail",
       "event": "EVENT_VIEW_TASK"
     },
     {
-      "from": "TraceExplorerRoute",
-      "to": "DocViewerRoute",
-      "event": "EVENT_VIEW_DOC"
+      "from": "ShowcaseRoute",
+      "to": "DsKnowledgeGraph",
+      "event": "ROUTE_design_system_knowledge_graph"
     },
     {
-      "from": "DocViewerRoute",
-      "to": "TraceExplorerRoute",
+      "from": "DsKnowledgeGraph",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsKnowledgeGraph",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsKnowledgeGraph",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsKnowledgeGraph",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsKnowledgeGraph",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsKnowledgeGraph",
+      "to": "PartialState",
+      "event": "API_PARTIAL_ENRICHMENT"
+    },
+    {
+      "from": "DsKnowledgeGraph",
+      "to": "DsKnowledgeGraph",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsApproval",
+      "event": "ROUTE_design_system_approval"
+    },
+    {
+      "from": "DsApproval",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsApproval",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsApproval",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsApproval",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsApproval",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsApproval",
+      "to": "DsApproval",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsTimeline",
+      "event": "ROUTE_design_system_timeline"
+    },
+    {
+      "from": "DsTimeline",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsTimeline",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsTimeline",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsTimeline",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsTimeline",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsComponents",
+      "event": "ROUTE_design_system_components"
+    },
+    {
+      "from": "DsComponents",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsComponents",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsComponents",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsComponents",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsComponents",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsComponents",
+      "to": "DsComponents",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsDocViewer",
+      "event": "ROUTE_design_system_doc_viewer"
+    },
+    {
+      "from": "DsDocViewer",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsDocViewer",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsDocViewer",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsDocViewer",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsDocViewer",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsDocViewer",
+      "to": "TraceExplorer",
       "event": "EVENT_VIEW_TRACE"
     },
     {
-      "from": "SearchRoute",
-      "to": "TaskDetailRoute",
+      "from": "ShowcaseRoute",
+      "to": "DsExplorer",
+      "event": "ROUTE_design_system_explorer"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "SearchResults",
+      "event": "EVENT_SEARCH"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "DsExplorer",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "TraceExplorer",
+      "event": "EVENT_VIEW_TRACE"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "DocViewer",
+      "event": "EVENT_VIEW_DOC"
+    },
+    {
+      "from": "DsExplorer",
+      "to": "TaskDetail",
       "event": "EVENT_VIEW_TASK"
     },
     {
-      "from": "SearchRoute",
-      "to": "DocViewerRoute",
+      "from": "ShowcaseRoute",
+      "to": "DsBeadsTraversal",
+      "event": "ROUTE_design_system_beads_traversal"
+    },
+    {
+      "from": "DsBeadsTraversal",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsBeadsTraversal",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsBeadsTraversal",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsBeadsTraversal",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsBeadsTraversal",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsStoryboard",
+      "event": "ROUTE_design_system_storyboard"
+    },
+    {
+      "from": "DsStoryboard",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsStoryboard",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsStoryboard",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsStoryboard",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsStoryboard",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsStoryboardDetail",
+      "event": "ROUTE_design_system_storyboard__id"
+    },
+    {
+      "from": "DsStoryboardDetail",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsStoryboardDetail",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsStoryboardDetail",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsStoryboardDetail",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsStoryboardDetail",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsStoryboardDetail",
+      "to": "NotFoundState",
+      "event": "API_NOT_FOUND"
+    },
+    {
+      "from": "ShowcaseRoute",
+      "to": "DsWebuiPmWorkspace",
+      "event": "ROUTE_design_system_webui_pm_workspace"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "LoadingState",
+      "event": "EVENT_REFRESH"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "OfflineState",
+      "event": "EVENT_DISCONNECT"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "EmptyState",
+      "event": "API_EMPTY"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "ErrorState",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "PermissionDenied",
+      "event": "API_FORBIDDEN"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "SearchResults",
+      "event": "EVENT_SEARCH"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "RehydratingState",
+      "event": "EVENT_RECONNECT"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "DsWebuiPmWorkspace",
+      "event": "EVENT_HASH_NAVIGATE"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "TaskDetail",
+      "event": "EVENT_VIEW_TASK"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "TraceExplorer",
+      "event": "EVENT_VIEW_TRACE"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "DocViewer",
       "event": "EVENT_VIEW_DOC"
     },
     {
-      "from": "SearchRoute",
-      "to": "TraceExplorerRoute",
-      "event": "EVENT_VIEW_TRACE"
+      "from": "DsWebuiPmWorkspace",
+      "to": "GlobalShell",
+      "event": "EVENT_BACK"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "RehydratingState",
+      "event": "EVENT_KEEP_LOCAL"
+    },
+    {
+      "from": "DsWebuiPmWorkspace",
+      "to": "RehydratingState",
+      "event": "EVENT_USE_SERVER"
     },
     {
       "from": "SavingState",
-      "to": "CoreRoute",
+      "to": "SuccessState",
       "event": "API_SUCCESS"
     },
     {
@@ -3715,7 +4542,7 @@
         "br-design-flow-webui-pm-workspace"
       ],
       "mermaid_block_count": 1,
-      "line_count": 75
+      "line_count": 225
     },
     "review-diagrams.md": {
       "exists": true,
@@ -3723,8 +4550,8 @@
       "beads_ids": [
         "br-design-review-diagrams-webui-pm-workspace"
       ],
-      "mermaid_block_count": 46,
-      "line_count": 976
+      "mermaid_block_count": 30,
+      "line_count": 635
     },
     "prd-ds-conflicts.md": {
       "exists": true,
@@ -3747,22 +4574,22 @@
     "storyboards.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 45567
+      "size_bytes": 136996
     },
     "layout-rules.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 320156
+      "size_bytes": 394964
     },
     "component-map.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 95561
+      "size_bytes": 120011
     },
     "artifact-index.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 342504
+      "size_bytes": 344223
     }
   },
   "mermaid_blocks": [
@@ -3770,7 +4597,7 @@
       "source": "flow.md",
       "index": 0,
       "heading": "Flow: WebUI PM Workspace",
-      "line_count": 70
+      "line_count": 220
     },
     {
       "source": "review-diagrams.md",
@@ -3919,159 +4746,78 @@
     {
       "source": "review-diagrams.md",
       "index": 24,
-      "heading": "3. State Coverage Per Screen",
-      "line_count": 29
+      "heading": "3. State Coverage per Screen",
+      "line_count": 54
     },
     {
       "source": "review-diagrams.md",
       "index": 25,
-      "heading": "ds:action:disconnect → EVENT_DISCONNECT",
-      "line_count": 9
+      "heading": "4. Action-to-Event Links",
+      "line_count": 19
     },
     {
       "source": "review-diagrams.md",
       "index": 26,
-      "heading": "ds:action:reconnect → EVENT_RECONNECT",
-      "line_count": 9
+      "heading": "4. Action-to-Event Links",
+      "line_count": 19
     },
     {
       "source": "review-diagrams.md",
       "index": 27,
-      "heading": "ds:action:save-task → EVENT_SAVE_TASK",
-      "line_count": 9
+      "heading": "4. Action-to-Event Links",
+      "line_count": 19
     },
     {
       "source": "review-diagrams.md",
       "index": 28,
-      "heading": "ds:action:save-bulk → EVENT_SAVE_BULK",
-      "line_count": 9
+      "heading": "5. Responsive Layout Intent by Viewport",
+      "line_count": 60
     },
     {
       "source": "review-diagrams.md",
       "index": 29,
-      "heading": "ds:action:save-board → EVENT_MOVE_CARD",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 30,
-      "heading": "ds:action:approval-decision → EVENT_APPROVAL_DECISION",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 31,
-      "heading": "ds:action:pi-plan-save → EVENT_PI_PLAN_SAVE",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 32,
-      "heading": "ds:action:confidence-vote → EVENT_CONFIDENCE_VOTE",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 33,
-      "heading": "ds:action:view-doc → EVENT_VIEW_DOC",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 34,
-      "heading": "ds:action:view-task → EVENT_VIEW_TASK",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 35,
-      "heading": "ds:action:view-trace → EVENT_VIEW_TRACE",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 36,
-      "heading": "ds:action:search → EVENT_SEARCH",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 37,
-      "heading": "ds:action:hash-nav → EVENT_HASH_NAVIGATE",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 38,
-      "heading": "ds:action:refresh → EVENT_REFRESH",
-      "line_count": 9
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 39,
-      "heading": "ds:action:back → EVENT_BACK",
-      "line_count": 10
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 40,
-      "heading": "ds:action:keep-local → EVENT_KEEP_LOCAL",
-      "line_count": 10
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 41,
-      "heading": "ds:action:use-server → EVENT_USE_SERVER",
-      "line_count": 10
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 42,
-      "heading": "5. Responsive Layout Intent by Viewport",
-      "line_count": 84
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 43,
-      "heading": "6. Mermaid Logic Machine States and Transitions",
-      "line_count": 70
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 44,
-      "heading": "7. Required Showcase Route and DS ID Coverage",
-      "line_count": 32
-    },
-    {
-      "source": "review-diagrams.md",
-      "index": 45,
-      "heading": "8. Core API Boundary Mapping for Gate A",
-      "line_count": 75
+      "heading": "6. Source Logic Machine Event Coverage",
+      "line_count": 27
     }
   ],
   "storyboards": {
-    "trajectories_total": 20,
+    "trajectories_total": 35,
     "trajectory_ids": [
-      "core-navigate-task",
-      "core-explore-trace",
-      "core-quick-search",
-      "board-drag-success",
-      "pi-planning-vote",
-      "approval-approve",
-      "approval-insufficient-evidence",
-      "offline-rehydrate-conflict",
-      "doc-to-trace",
-      "showcase-hash-navigation",
-      "storyboard-detail-alignment",
-      "permission-denied-recovery",
-      "not-found-recovery",
-      "showcase-ds-beads-traversal",
-      "showcase-ds-components",
-      "showcase-ds-doc-viewer",
-      "showcase-ds-explorer",
-      "showcase-ds-portfolio",
-      "showcase-ds-terminal",
-      "showcase-ds-timeline"
+      "journey-board-navigation",
+      "journey-pi-planning-vote",
+      "journey-approval-approve",
+      "journey-approval-insufficient-evidence",
+      "journey-dashboard-coverage-drill",
+      "journey-dashboard-gap-resolution",
+      "journey-task-edit",
+      "journey-trace-from-task",
+      "journey-doc-browse-prd",
+      "journey-global-search",
+      "journey-bulk-assign",
+      "journey-offline-rehydrate",
+      "route-proof-",
+      "route-proof-board",
+      "route-proof-tasks",
+      "route-proof-tasks-id",
+      "route-proof-trace-id",
+      "route-proof-docs",
+      "route-proof-approval",
+      "route-proof-search",
+      "route-proof-design-system-terminal",
+      "route-proof-design-system-portfolio",
+      "route-proof-design-system-pi-planning",
+      "route-proof-design-system-git-graph",
+      "route-proof-design-system-kanban",
+      "route-proof-design-system-knowledge-graph",
+      "route-proof-design-system-approval",
+      "route-proof-design-system-timeline",
+      "route-proof-design-system-components",
+      "route-proof-design-system-doc-viewer",
+      "route-proof-design-system-explorer",
+      "route-proof-design-system-beads-traversal",
+      "route-proof-design-system-storyboard",
+      "route-proof-design-system-storyboard-id",
+      "route-proof-design-system-webui-pm-workspace"
     ]
   },
   "layout_rules": {
@@ -4209,7 +4955,7 @@
       "ds:webui-pm-workspace-showcase:active-surface",
       "ds:webui-pm-workspace-showcase:boundary-actions",
       "ds:webui-pm-workspace-showcase:header",
-      "ds:webui-pm-workspace-showcase:sidebar",
+      "ds:webui-pm-workspace-showcase:sidebar-nav",
       "ds:webui-pm-workspace-showcase:surface",
       "ds:webui-pm-workspace-showcase:sync-conflict-banner"
     ]
@@ -4465,7 +5211,99 @@
         "in_contract": true,
         "in_flow": true
       },
+      "ROUTE_": {
+        "in_contract": true,
+        "in_flow": true
+      },
       "ROUTE_ENTER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_approval": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_board": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_approval": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_beads_traversal": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_components": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_doc_viewer": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_explorer": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_git_graph": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_kanban": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_knowledge_graph": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_pi_planning": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_portfolio": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_storyboard": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_storyboard__id": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_terminal": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_timeline": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_design_system_webui_pm_workspace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_docs": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_search": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_tasks": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_tasks__id": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_trace__id": {
         "in_contract": true,
         "in_flow": true
       }
@@ -4919,7 +5757,7 @@
         "in_contract": true,
         "in_component_map": true
       },
-      "ds:webui-pm-workspace-showcase:sidebar": {
+      "ds:webui-pm-workspace-showcase:sidebar-nav": {
         "in_contract": true,
         "in_component_map": true
       },

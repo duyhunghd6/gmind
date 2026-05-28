@@ -15,7 +15,9 @@ states:
 - forbidden
 bindings:
 - GET /api/design-system/components
-screen_actions:
+layout: catalog of 18 shared design-system sections with hash scroll and interactive
+  examples
+behaviors:
 - cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel,
   Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots,
   Skeleton, Empty State, and Error Banner

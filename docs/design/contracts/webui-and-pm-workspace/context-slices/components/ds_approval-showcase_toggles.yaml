@@ -6,6 +6,7 @@ actions:
 screen_id: screen:ds-approval
 screen_route: /design-system/approval
 screen_ds_id: ds:screen:approval-showcase-001
+prd_ds_id: ds:screen:approval-001
 states:
 - default
 - loading
@@ -18,7 +19,12 @@ bindings:
 - GET /api/coverage
 - GET /api/approval/:id/evidence
 - POST /api/approval/:id/decision
-screen_actions:
+layout: approval panels with status toggles, evidence blocks, RTM matrix, and coverage
+  heatmap
+behaviors:
 - pending, approved, and rejected toggles
 - evidence blocks for Tests, Diff, Beads ID, PRD, and CI
+- hash anchors for panels, RTM, and heatmap
+api_gateway: gmind serve Go REST API
+hash_route_interactions:
 - hash anchors for panels, RTM, and heatmap

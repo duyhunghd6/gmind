@@ -1,0 +1,91 @@
+trajectory_id: route-proof-docs
+title: Route proof /docs
+source: PRD-04 §8.1A required route coverage
+events:
+- ROUTE_ENTER
+- API_SUCCESS_CORE
+- API_EMPTY
+- API_ERROR
+- EVENT_DISCONNECT
+- API_FORBIDDEN
+routes:
+- /docs
+recovery_path: true
+steps:
+- order: 1
+  route: /docs
+  screen: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: default
+  event: ROUTE_ENTER
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+- order: 2
+  route: /docs
+  screen: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: default
+  event: API_SUCCESS_CORE
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+- order: 3
+  route: /docs
+  screen: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: default
+  event: API_EMPTY
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+- order: 4
+  route: /docs
+  screen: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: error
+  event: API_ERROR
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+- order: 5
+  route: /docs
+  screen: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: offline
+  event: EVENT_DISCONNECT
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+- order: 6
+  route: /docs
+  screen: screen:doc-viewer
+  screen_ds_id: ds:screen:core-doc-viewer-001
+  state: default
+  event: API_FORBIDDEN
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:core-doc-viewer-001
+e2e_alignment:
+  expected_outcome: Required loading, empty, error, offline, forbidden and hash/API
+    interactions are represented where specified.
+  investigation_guidance: Use this route proof as targeted context slice for review
+    and Stage 2 implementation.

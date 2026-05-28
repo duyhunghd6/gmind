@@ -16,7 +16,9 @@ states:
 - not_found
 bindings:
 - GET /api/storyboards/:id
-screen_actions:
+layout: dynamic storyboard detail with role, journey, step timeline, and related use
+  cases
+behaviors:
 - map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation
   guidance
 - navigate related use cases without losing sidebar context

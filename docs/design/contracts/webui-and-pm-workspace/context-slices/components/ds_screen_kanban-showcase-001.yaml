@@ -16,7 +16,8 @@ states:
 bindings:
 - GET /api/tasks?view=board&board=<id>
 - PUT /api/tasks/:id/status
-screen_actions:
+layout: board selector with draggable cards, WIP badges, and board stats
+behaviors:
 - hash routes for sprint, release, and bug-triage boards
 - drag cards across WIP-limited columns
 - show total, done, and progress stats

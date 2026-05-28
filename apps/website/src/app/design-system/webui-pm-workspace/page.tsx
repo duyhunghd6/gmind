@@ -138,7 +138,7 @@ export default function WebUIPMWorkspacePage({
   const [connected, setConnected] = useState(true);
   const [query, setQuery] = useState("br-prd04 approval evidence");
   const [notice, setNotice] = useState("Ready: workspace routes render API-mapped data only.");
-  
+
   const [taskActiveTab, setTaskActiveTab] = useState("detail");
   const [approvalStatus, setApprovalStatus] = useState("Pending Review");
 
@@ -160,7 +160,7 @@ export default function WebUIPMWorkspacePage({
         "#surface-approval": "screen:approval-gates",
         "#surface-search": "screen:search-results",
       };
-      
+
       if (pathname === "/design-system/webui-pm-workspace" || pathname === "/") {
         const targetId = hashToScreenIdMap[hash] || "screen:rtm-dashboard";
         setActiveId(targetId);
@@ -169,7 +169,7 @@ export default function WebUIPMWorkspacePage({
       }
       setState("default");
     };
-    
+
     handleHash();
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);

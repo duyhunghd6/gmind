@@ -8,8 +8,11 @@ width: 1440
 layout: client-only Sigma graph viewer with preset tabs, selected-node banner, legend,
   and stats
 responsive_constraint: persistent shell, expanded sidebar, multi-panel layouts
+state_contract: clear message plus actionable CTA such as create, clear filters, reindex,
+  or retry
 assertions:
 - global shell remains reachable
 - data-screen-id and data-ds-id present
 - state copy includes recovery CTA when empty/error/forbidden/not_found
 - browser uses Go REST API mappings only
+- hash interactions update same-route or cross-route selection when specified

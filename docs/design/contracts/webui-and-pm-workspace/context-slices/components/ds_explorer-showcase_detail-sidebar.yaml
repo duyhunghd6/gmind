@@ -8,6 +8,7 @@ actions:
 screen_id: screen:ds-explorer
 screen_route: /design-system/explorer
 screen_ds_id: ds:screen:explorer-showcase-001
+prd_ds_id: ds:screen:explorer-001
 states:
 - default
 - loading
@@ -17,7 +18,11 @@ states:
 - forbidden
 bindings:
 - GET /api/search?q=<query>&type=<type>
-screen_actions:
+layout: unified search, type filters, result list, and detail sidebar
+behaviors:
 - filter all, doc, commit, task, adr, chat, and spike via hash
 - show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer
 - preserve detail sidebar on desktop and convert to drawer on smaller viewports
+api_gateway: gmind serve Go REST API
+hash_route_interactions:
+- filter all, doc, commit, task, adr, chat, and spike via hash

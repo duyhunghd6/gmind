@@ -17,8 +17,9 @@ bindings:
 - GET /api/agents/sessions
 - GET /api/ci/runs
 - GET /api/tasks/:id/activity
-- GET /api/log-events?stream=terminal
-screen_actions:
+- STREAM /api/log-events?stream=terminal
+layout: scenario tabs with 2x2 terminal mosaic
+behaviors:
 - Agent Console, Deploy, Debug, and CI/CD scenario tabs
 - command, output, success, and error line types
 - mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer

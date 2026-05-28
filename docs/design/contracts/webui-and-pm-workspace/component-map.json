@@ -25,6 +25,31 @@
       "EVENT_VIEW_DOC",
       "EVENT_VIEW_TASK",
       "EVENT_VIEW_TRACE"
+    ],
+    "routes": [
+      "/",
+      "/board",
+      "/tasks",
+      "/tasks/:id",
+      "/trace/:id",
+      "/docs",
+      "/approval",
+      "/search",
+      "/design-system/terminal",
+      "/design-system/portfolio",
+      "/design-system/pi-planning",
+      "/design-system/git-graph",
+      "/design-system/kanban",
+      "/design-system/knowledge-graph",
+      "/design-system/approval",
+      "/design-system/timeline",
+      "/design-system/components",
+      "/design-system/doc-viewer",
+      "/design-system/explorer",
+      "/design-system/beads-traversal",
+      "/design-system/storyboard",
+      "/design-system/storyboard/:id",
+      "/design-system/webui-pm-workspace"
     ]
   },
   "components": [
@@ -51,7 +76,8 @@
         "GET /api/trace/:id?depth=2",
         "GET /api/gaps"
       ],
-      "screen_actions": [
+      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
+      "behaviors": [
         "drill into PRD and section coverage",
         "click graph nodes to show trace details",
         "resolve gaps with create or source navigation action"
@@ -65,6 +91,7 @@
       "screen_id": "screen:rtm-dashboard",
       "screen_route": "/",
       "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -79,11 +106,14 @@
         "GET /api/trace/:id?depth=2",
         "GET /api/gaps"
       ],
-      "screen_actions": [
+      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
+      "behaviors": [
         "drill into PRD and section coverage",
         "click graph nodes to show trace details",
         "resolve gaps with create or source navigation action"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:rtm-dashboard:coverage-heatmap",
@@ -95,6 +125,7 @@
       "screen_id": "screen:rtm-dashboard",
       "screen_route": "/",
       "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -109,11 +140,14 @@
         "GET /api/trace/:id?depth=2",
         "GET /api/gaps"
       ],
-      "screen_actions": [
+      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
+      "behaviors": [
         "drill into PRD and section coverage",
         "click graph nodes to show trace details",
         "resolve gaps with create or source navigation action"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:rtm-dashboard:task-progress",
@@ -125,6 +159,7 @@
       "screen_id": "screen:rtm-dashboard",
       "screen_route": "/",
       "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -139,11 +174,14 @@
         "GET /api/trace/:id?depth=2",
         "GET /api/gaps"
       ],
-      "screen_actions": [
+      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
+      "behaviors": [
         "drill into PRD and section coverage",
         "click graph nodes to show trace details",
         "resolve gaps with create or source navigation action"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:rtm-dashboard:knowledge-graph",
@@ -155,6 +193,7 @@
       "screen_id": "screen:rtm-dashboard",
       "screen_route": "/",
       "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -169,11 +208,14 @@
         "GET /api/trace/:id?depth=2",
         "GET /api/gaps"
       ],
-      "screen_actions": [
+      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
+      "behaviors": [
         "drill into PRD and section coverage",
         "click graph nodes to show trace details",
         "resolve gaps with create or source navigation action"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:rtm-dashboard:gap-analysis",
@@ -185,6 +227,7 @@
       "screen_id": "screen:rtm-dashboard",
       "screen_route": "/",
       "screen_ds_id": "ds:screen:rtm-dashboard-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -199,11 +242,14 @@
         "GET /api/trace/:id?depth=2",
         "GET /api/gaps"
       ],
-      "screen_actions": [
+      "layout": "four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge graph, and gap analysis",
+      "behaviors": [
         "drill into PRD and section coverage",
         "click graph nodes to show trace details",
         "resolve gaps with create or source navigation action"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:safe-board-001",
@@ -227,7 +273,8 @@
         "PUT /api/tasks/:id/status",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
+      "behaviors": [
         "switch Portfolio, ART, and Team board scopes",
         "drag task cards across statuses",
         "open RTE drawer from escalation badge"
@@ -241,6 +288,7 @@
       "screen_id": "screen:safe-board",
       "screen_route": "/board",
       "screen_ds_id": "ds:screen:safe-board-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -254,11 +302,14 @@
         "PUT /api/tasks/:id/status",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
+      "behaviors": [
         "switch Portfolio, ART, and Team board scopes",
         "drag task cards across statuses",
         "open RTE drawer from escalation badge"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:safe-board:view-switcher",
@@ -268,6 +319,7 @@
       "screen_id": "screen:safe-board",
       "screen_route": "/board",
       "screen_ds_id": "ds:screen:safe-board-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -281,11 +333,14 @@
         "PUT /api/tasks/:id/status",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
+      "behaviors": [
         "switch Portfolio, ART, and Team board scopes",
         "drag task cards across statuses",
         "open RTE drawer from escalation badge"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:safe-board:kanban",
@@ -298,6 +353,7 @@
       "screen_id": "screen:safe-board",
       "screen_route": "/board",
       "screen_ds_id": "ds:screen:safe-board-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -311,11 +367,14 @@
         "PUT /api/tasks/:id/status",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
+      "behaviors": [
         "switch Portfolio, ART, and Team board scopes",
         "drag task cards across statuses",
         "open RTE drawer from escalation badge"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:safe-board:rte-escalation-badge",
@@ -325,6 +384,7 @@
       "screen_id": "screen:safe-board",
       "screen_route": "/board",
       "screen_ds_id": "ds:screen:safe-board-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -338,11 +398,14 @@
         "PUT /api/tasks/:id/status",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "portfolio, ART, and team kanban views with WIP and RTE escalation badges",
+      "behaviors": [
         "switch Portfolio, ART, and Team board scopes",
         "drag task cards across statuses",
         "open RTE drawer from escalation badge"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:task-list-001",
@@ -366,7 +429,8 @@
         "GET /api/tasks?format=list",
         "PUT /api/tasks/bulk"
       ],
-      "screen_actions": [
+      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
+      "behaviors": [
         "combine status, priority, assignee, PRD, and QA filters",
         "select visible rows and bulk assign, status, or priority",
         "switch between list and board presentation"
@@ -380,6 +444,7 @@
       "screen_id": "screen:task-list",
       "screen_route": "/tasks",
       "screen_ds_id": "ds:screen:task-list-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -393,11 +458,14 @@
         "GET /api/tasks?format=list",
         "PUT /api/tasks/bulk"
       ],
-      "screen_actions": [
+      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
+      "behaviors": [
         "combine status, priority, assignee, PRD, and QA filters",
         "select visible rows and bulk assign, status, or priority",
         "switch between list and board presentation"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:task-list:filters",
@@ -407,6 +475,7 @@
       "screen_id": "screen:task-list",
       "screen_route": "/tasks",
       "screen_ds_id": "ds:screen:task-list-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -420,11 +489,14 @@
         "GET /api/tasks?format=list",
         "PUT /api/tasks/bulk"
       ],
-      "screen_actions": [
+      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
+      "behaviors": [
         "combine status, priority, assignee, PRD, and QA filters",
         "select visible rows and bulk assign, status, or priority",
         "switch between list and board presentation"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:task-list:table",
@@ -436,6 +508,7 @@
       "screen_id": "screen:task-list",
       "screen_route": "/tasks",
       "screen_ds_id": "ds:screen:task-list-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -449,11 +522,14 @@
         "GET /api/tasks?format=list",
         "PUT /api/tasks/bulk"
       ],
-      "screen_actions": [
+      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
+      "behaviors": [
         "combine status, priority, assignee, PRD, and QA filters",
         "select visible rows and bulk assign, status, or priority",
         "switch between list and board presentation"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:task-list:bulk-actions",
@@ -465,6 +541,7 @@
       "screen_id": "screen:task-list",
       "screen_route": "/tasks",
       "screen_ds_id": "ds:screen:task-list-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -478,11 +555,14 @@
         "GET /api/tasks?format=list",
         "PUT /api/tasks/bulk"
       ],
-      "screen_actions": [
+      "layout": "sortable data table with filters, pagination, CSV export, and bulk action bar",
+      "behaviors": [
         "combine status, priority, assignee, PRD, and QA filters",
         "select visible rows and bulk assign, status, or priority",
         "switch between list and board presentation"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:task-detail-001",
@@ -509,7 +589,8 @@
         "GET /api/trace/:id?depth=2",
         "PUT /api/tasks/:id"
       ],
-      "screen_actions": [
+      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
+      "behaviors": [
         "edit first-class PM fields through optimistic API writes",
         "open dependency links in Trace Explorer",
         "show activity timeline and code-touch context"
@@ -523,6 +604,7 @@
       "screen_id": "screen:task-detail",
       "screen_route": "/tasks/:id",
       "screen_ds_id": "ds:screen:task-detail-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -539,11 +621,14 @@
         "GET /api/trace/:id?depth=2",
         "PUT /api/tasks/:id"
       ],
-      "screen_actions": [
+      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
+      "behaviors": [
         "edit first-class PM fields through optimistic API writes",
         "open dependency links in Trace Explorer",
         "show activity timeline and code-touch context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:task-detail:editable-fields",
@@ -555,6 +640,7 @@
       "screen_id": "screen:task-detail",
       "screen_route": "/tasks/:id",
       "screen_ds_id": "ds:screen:task-detail-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -571,11 +657,14 @@
         "GET /api/trace/:id?depth=2",
         "PUT /api/tasks/:id"
       ],
-      "screen_actions": [
+      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
+      "behaviors": [
         "edit first-class PM fields through optimistic API writes",
         "open dependency links in Trace Explorer",
         "show activity timeline and code-touch context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:task-detail:tabs",
@@ -588,6 +677,7 @@
       "screen_id": "screen:task-detail",
       "screen_route": "/tasks/:id",
       "screen_ds_id": "ds:screen:task-detail-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -604,11 +694,14 @@
         "GET /api/trace/:id?depth=2",
         "PUT /api/tasks/:id"
       ],
-      "screen_actions": [
+      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
+      "behaviors": [
         "edit first-class PM fields through optimistic API writes",
         "open dependency links in Trace Explorer",
         "show activity timeline and code-touch context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:task-detail:activity",
@@ -618,6 +711,7 @@
       "screen_id": "screen:task-detail",
       "screen_route": "/tasks/:id",
       "screen_ds_id": "ds:screen:task-detail-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -634,11 +728,14 @@
         "GET /api/trace/:id?depth=2",
         "PUT /api/tasks/:id"
       ],
-      "screen_actions": [
+      "layout": "editable task header with Detail, Activity, Graph, and Code tabs",
+      "behaviors": [
         "edit first-class PM fields through optimistic API writes",
         "open dependency links in Trace Explorer",
         "show activity timeline and code-touch context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:trace-explorer-001",
@@ -662,7 +759,8 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/impact/:section"
       ],
-      "screen_actions": [
+      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
+      "behaviors": [
         "change root Beads ID and depth",
         "click node for detail, double-click to route, right-click for context menu",
         "show partial local data when enrichment times out"
@@ -676,6 +774,7 @@
       "screen_id": "screen:trace-explorer",
       "screen_route": "/trace/:id",
       "screen_ds_id": "ds:screen:trace-explorer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -689,11 +788,14 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/impact/:section"
       ],
-      "screen_actions": [
+      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
+      "behaviors": [
         "change root Beads ID and depth",
         "click node for detail, double-click to route, right-click for context menu",
         "show partial local data when enrichment times out"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:trace-explorer:toolbar",
@@ -703,6 +805,7 @@
       "screen_id": "screen:trace-explorer",
       "screen_route": "/trace/:id",
       "screen_ds_id": "ds:screen:trace-explorer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -716,11 +819,14 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/impact/:section"
       ],
-      "screen_actions": [
+      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
+      "behaviors": [
         "change root Beads ID and depth",
         "click node for detail, double-click to route, right-click for context menu",
         "show partial local data when enrichment times out"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:trace-explorer:graph",
@@ -733,6 +839,7 @@
       "screen_id": "screen:trace-explorer",
       "screen_route": "/trace/:id",
       "screen_ds_id": "ds:screen:trace-explorer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -746,11 +853,14 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/impact/:section"
       ],
-      "screen_actions": [
+      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
+      "behaviors": [
         "change root Beads ID and depth",
         "click node for detail, double-click to route, right-click for context menu",
         "show partial local data when enrichment times out"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:trace-explorer:detail-panel",
@@ -760,6 +870,7 @@
       "screen_id": "screen:trace-explorer",
       "screen_route": "/trace/:id",
       "screen_ds_id": "ds:screen:trace-explorer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -773,11 +884,14 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/impact/:section"
       ],
-      "screen_actions": [
+      "layout": "full-page graph canvas with toolbar, filters, legend, and detail panel",
+      "behaviors": [
         "change root Beads ID and depth",
         "click node for detail, double-click to route, right-click for context menu",
         "show partial local data when enrichment times out"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:core-doc-viewer-001",
@@ -801,7 +915,8 @@
         "GET /api/docs/:id",
         "GET /api/coverage?prd=<beads-id>"
       ],
-      "screen_actions": [
+      "layout": "source-type document tree and rendered content panel",
+      "behaviors": [
         "browse indexed documents by source type",
         "auto-link Beads IDs to trace routes",
         "show coverage indicator for PRD documents"
@@ -815,6 +930,7 @@
       "screen_id": "screen:doc-viewer",
       "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -828,11 +944,14 @@
         "GET /api/docs/:id",
         "GET /api/coverage?prd=<beads-id>"
       ],
-      "screen_actions": [
+      "layout": "source-type document tree and rendered content panel",
+      "behaviors": [
         "browse indexed documents by source type",
         "auto-link Beads IDs to trace routes",
         "show coverage indicator for PRD documents"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:core-doc-viewer:tree",
@@ -842,6 +961,7 @@
       "screen_id": "screen:doc-viewer",
       "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -855,11 +975,14 @@
         "GET /api/docs/:id",
         "GET /api/coverage?prd=<beads-id>"
       ],
-      "screen_actions": [
+      "layout": "source-type document tree and rendered content panel",
+      "behaviors": [
         "browse indexed documents by source type",
         "auto-link Beads IDs to trace routes",
         "show coverage indicator for PRD documents"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:core-doc-viewer:content",
@@ -871,6 +994,7 @@
       "screen_id": "screen:doc-viewer",
       "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -884,11 +1008,14 @@
         "GET /api/docs/:id",
         "GET /api/coverage?prd=<beads-id>"
       ],
-      "screen_actions": [
+      "layout": "source-type document tree and rendered content panel",
+      "behaviors": [
         "browse indexed documents by source type",
         "auto-link Beads IDs to trace routes",
         "show coverage indicator for PRD documents"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:core-doc-viewer:beads-links",
@@ -898,6 +1025,7 @@
       "screen_id": "screen:doc-viewer",
       "screen_route": "/docs",
       "screen_ds_id": "ds:screen:core-doc-viewer-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -911,11 +1039,14 @@
         "GET /api/docs/:id",
         "GET /api/coverage?prd=<beads-id>"
       ],
-      "screen_actions": [
+      "layout": "source-type document tree and rendered content panel",
+      "behaviors": [
         "browse indexed documents by source type",
         "auto-link Beads IDs to trace routes",
         "show coverage indicator for PRD documents"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:approval-gates-001",
@@ -940,7 +1071,8 @@
         "POST /api/approval/:id/decision",
         "GET /api/coverage"
       ],
-      "screen_actions": [
+      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
+      "behaviors": [
         "disable approval when evidence is insufficient",
         "show RTE execution context for approved escalations",
         "require audit reason for manual override paths"
@@ -954,6 +1086,7 @@
       "screen_id": "screen:approval-gates",
       "screen_route": "/approval",
       "screen_ds_id": "ds:screen:approval-gates-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -968,11 +1101,14 @@
         "POST /api/approval/:id/decision",
         "GET /api/coverage"
       ],
-      "screen_actions": [
+      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
+      "behaviors": [
         "disable approval when evidence is insufficient",
         "show RTE execution context for approved escalations",
         "require audit reason for manual override paths"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:approval-gates:queue",
@@ -982,6 +1118,7 @@
       "screen_id": "screen:approval-gates",
       "screen_route": "/approval",
       "screen_ds_id": "ds:screen:approval-gates-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -996,11 +1133,14 @@
         "POST /api/approval/:id/decision",
         "GET /api/coverage"
       ],
-      "screen_actions": [
+      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
+      "behaviors": [
         "disable approval when evidence is insufficient",
         "show RTE execution context for approved escalations",
         "require audit reason for manual override paths"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:approval-gates:evidence",
@@ -1010,6 +1150,7 @@
       "screen_id": "screen:approval-gates",
       "screen_route": "/approval",
       "screen_ds_id": "ds:screen:approval-gates-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1024,11 +1165,14 @@
         "POST /api/approval/:id/decision",
         "GET /api/coverage"
       ],
-      "screen_actions": [
+      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
+      "behaviors": [
         "disable approval when evidence is insufficient",
         "show RTE execution context for approved escalations",
         "require audit reason for manual override paths"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:approval-gates:decision-controls",
@@ -1040,6 +1184,7 @@
       "screen_id": "screen:approval-gates",
       "screen_route": "/approval",
       "screen_ds_id": "ds:screen:approval-gates-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1054,11 +1199,14 @@
         "POST /api/approval/:id/decision",
         "GET /api/coverage"
       ],
-      "screen_actions": [
+      "layout": "Level 3 approval workspace with queue, evidence, PRD context, and decision controls",
+      "behaviors": [
         "disable approval when evidence is insufficient",
         "show RTE execution context for approved escalations",
         "require audit reason for manual override paths"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:search-results-001",
@@ -1080,7 +1228,8 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
+      "behaviors": [
         "focus global search with Ctrl+K or slash",
         "group results by task, doc, commit, PR, chat, and RTE approval",
         "navigate result clicks to task, doc, trace, or external PR target"
@@ -1094,6 +1243,7 @@
       "screen_id": "screen:search-results",
       "screen_route": "/search",
       "screen_ds_id": "ds:screen:search-results-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1105,11 +1255,14 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
+      "behaviors": [
         "focus global search with Ctrl+K or slash",
         "group results by task, doc, commit, PR, chat, and RTE approval",
         "navigate result clicks to task, doc, trace, or external PR target"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:search-results:input",
@@ -1121,6 +1274,7 @@
       "screen_id": "screen:search-results",
       "screen_route": "/search",
       "screen_ds_id": "ds:screen:search-results-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1132,11 +1286,14 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
+      "behaviors": [
         "focus global search with Ctrl+K or slash",
         "group results by task, doc, commit, PR, chat, and RTE approval",
         "navigate result clicks to task, doc, trace, or external PR target"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:search-results:filters",
@@ -1146,6 +1303,7 @@
       "screen_id": "screen:search-results",
       "screen_route": "/search",
       "screen_ds_id": "ds:screen:search-results-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1157,11 +1315,14 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
+      "behaviors": [
         "focus global search with Ctrl+K or slash",
         "group results by task, doc, commit, PR, chat, and RTE approval",
         "navigate result clicks to task, doc, trace, or external PR target"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:search-results:results",
@@ -1175,6 +1336,7 @@
       "screen_id": "screen:search-results",
       "screen_route": "/search",
       "screen_ds_id": "ds:screen:search-results-001",
+      "prd_ds_id": null,
       "states": [
         "default",
         "loading",
@@ -1186,11 +1348,14 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "global search input, filter sidebar, grouped results, and instant suggestions",
+      "behaviors": [
         "focus global search with Ctrl+K or slash",
         "group results by task, doc, commit, PR, chat, and RTE approval",
         "navigate result clicks to task, doc, trace, or external PR target"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:terminal-showcase-001",
@@ -1213,9 +1378,10 @@
         "GET /api/agents/sessions",
         "GET /api/ci/runs",
         "GET /api/tasks/:id/activity",
-        "GET /api/log-events?stream=terminal"
+        "STREAM /api/log-events?stream=terminal"
       ],
-      "screen_actions": [
+      "layout": "scenario tabs with 2x2 terminal mosaic",
+      "behaviors": [
         "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
         "command, output, success, and error line types",
         "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
@@ -1229,6 +1395,7 @@
       "screen_id": "screen:ds-terminal",
       "screen_route": "/design-system/terminal",
       "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "prd_ds_id": "ds:screen:terminal-001",
       "states": [
         "default",
         "loading",
@@ -1241,13 +1408,16 @@
         "GET /api/agents/sessions",
         "GET /api/ci/runs",
         "GET /api/tasks/:id/activity",
-        "GET /api/log-events?stream=terminal"
+        "STREAM /api/log-events?stream=terminal"
       ],
-      "screen_actions": [
+      "layout": "scenario tabs with 2x2 terminal mosaic",
+      "behaviors": [
         "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
         "command, output, success, and error line types",
         "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:terminal-showcase:scenario-tabs",
@@ -1257,6 +1427,7 @@
       "screen_id": "screen:ds-terminal",
       "screen_route": "/design-system/terminal",
       "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "prd_ds_id": "ds:screen:terminal-001",
       "states": [
         "default",
         "loading",
@@ -1269,13 +1440,16 @@
         "GET /api/agents/sessions",
         "GET /api/ci/runs",
         "GET /api/tasks/:id/activity",
-        "GET /api/log-events?stream=terminal"
+        "STREAM /api/log-events?stream=terminal"
       ],
-      "screen_actions": [
+      "layout": "scenario tabs with 2x2 terminal mosaic",
+      "behaviors": [
         "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
         "command, output, success, and error line types",
         "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:terminal-showcase:mosaic",
@@ -1285,6 +1459,7 @@
       "screen_id": "screen:ds-terminal",
       "screen_route": "/design-system/terminal",
       "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "prd_ds_id": "ds:screen:terminal-001",
       "states": [
         "default",
         "loading",
@@ -1297,13 +1472,16 @@
         "GET /api/agents/sessions",
         "GET /api/ci/runs",
         "GET /api/tasks/:id/activity",
-        "GET /api/log-events?stream=terminal"
+        "STREAM /api/log-events?stream=terminal"
       ],
-      "screen_actions": [
+      "layout": "scenario tabs with 2x2 terminal mosaic",
+      "behaviors": [
         "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
         "command, output, success, and error line types",
         "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:terminal-showcase:lines",
@@ -1313,6 +1491,7 @@
       "screen_id": "screen:ds-terminal",
       "screen_route": "/design-system/terminal",
       "screen_ds_id": "ds:screen:terminal-showcase-001",
+      "prd_ds_id": "ds:screen:terminal-001",
       "states": [
         "default",
         "loading",
@@ -1325,13 +1504,16 @@
         "GET /api/agents/sessions",
         "GET /api/ci/runs",
         "GET /api/tasks/:id/activity",
-        "GET /api/log-events?stream=terminal"
+        "STREAM /api/log-events?stream=terminal"
       ],
-      "screen_actions": [
+      "layout": "scenario tabs with 2x2 terminal mosaic",
+      "behaviors": [
         "Agent Console, Deploy, Debug, and CI/CD scenario tabs",
         "command, output, success, and error line types",
         "mosaic panels for Claude-01 Storage, Claude-02 CLI, Claude-03 CI, and QA-Reviewer"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:portfolio-showcase-001",
@@ -1354,7 +1536,8 @@
         "GET /api/portfolio/epics",
         "GET /api/tasks?issue_type=epic"
       ],
-      "screen_actions": [
+      "layout": "executive portfolio table with roadmap quarters",
+      "behaviors": [
         "show Epic ID, owner, progress, budget, status, and forecast",
         "render Q1, Q2, and Q3 2026 roadmap",
         "preserve specified PRD DS badge value as display metadata"
@@ -1368,6 +1551,7 @@
       "screen_id": "screen:ds-portfolio",
       "screen_route": "/design-system/portfolio",
       "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "prd_ds_id": "br-ds-portfolio-view",
       "states": [
         "default",
         "loading",
@@ -1380,11 +1564,14 @@
         "GET /api/portfolio/epics",
         "GET /api/tasks?issue_type=epic"
       ],
-      "screen_actions": [
+      "layout": "executive portfolio table with roadmap quarters",
+      "behaviors": [
         "show Epic ID, owner, progress, budget, status, and forecast",
         "render Q1, Q2, and Q3 2026 roadmap",
         "preserve specified PRD DS badge value as display metadata"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:portfolio-showcase:table",
@@ -1394,6 +1581,7 @@
       "screen_id": "screen:ds-portfolio",
       "screen_route": "/design-system/portfolio",
       "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "prd_ds_id": "br-ds-portfolio-view",
       "states": [
         "default",
         "loading",
@@ -1406,11 +1594,14 @@
         "GET /api/portfolio/epics",
         "GET /api/tasks?issue_type=epic"
       ],
-      "screen_actions": [
+      "layout": "executive portfolio table with roadmap quarters",
+      "behaviors": [
         "show Epic ID, owner, progress, budget, status, and forecast",
         "render Q1, Q2, and Q3 2026 roadmap",
         "preserve specified PRD DS badge value as display metadata"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:portfolio-showcase:roadmap",
@@ -1420,6 +1611,7 @@
       "screen_id": "screen:ds-portfolio",
       "screen_route": "/design-system/portfolio",
       "screen_ds_id": "ds:screen:portfolio-showcase-001",
+      "prd_ds_id": "br-ds-portfolio-view",
       "states": [
         "default",
         "loading",
@@ -1432,11 +1624,14 @@
         "GET /api/portfolio/epics",
         "GET /api/tasks?issue_type=epic"
       ],
-      "screen_actions": [
+      "layout": "executive portfolio table with roadmap quarters",
+      "behaviors": [
         "show Epic ID, owner, progress, budget, status, and forecast",
         "render Q1, Q2, and Q3 2026 roadmap",
         "preserve specified PRD DS badge value as display metadata"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:pi-planning-showcase-001",
@@ -1461,7 +1656,8 @@
         "GET /api/risks?view=roam",
         "POST /api/pi/confidence-vote"
       ],
-      "screen_actions": [
+      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
+      "behaviors": [
         "drag and drop strategic sandbox capacity items",
         "capture business value scoring and confidence vote one through five",
         "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
@@ -1475,6 +1671,7 @@
       "screen_id": "screen:ds-pi-planning",
       "screen_route": "/design-system/pi-planning",
       "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "prd_ds_id": "br-ds-pi-planning",
       "states": [
         "default",
         "loading",
@@ -1489,11 +1686,14 @@
         "GET /api/risks?view=roam",
         "POST /api/pi/confidence-vote"
       ],
-      "screen_actions": [
+      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
+      "behaviors": [
         "drag and drop strategic sandbox capacity items",
         "capture business value scoring and confidence vote one through five",
         "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:pi-planning-showcase:sandbox",
@@ -1505,6 +1705,7 @@
       "screen_id": "screen:ds-pi-planning",
       "screen_route": "/design-system/pi-planning",
       "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "prd_ds_id": "br-ds-pi-planning",
       "states": [
         "default",
         "loading",
@@ -1519,11 +1720,14 @@
         "GET /api/risks?view=roam",
         "POST /api/pi/confidence-vote"
       ],
-      "screen_actions": [
+      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
+      "behaviors": [
         "drag and drop strategic sandbox capacity items",
         "capture business value scoring and confidence vote one through five",
         "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:pi-planning-showcase:value-scoring",
@@ -1533,6 +1737,7 @@
       "screen_id": "screen:ds-pi-planning",
       "screen_route": "/design-system/pi-planning",
       "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "prd_ds_id": "br-ds-pi-planning",
       "states": [
         "default",
         "loading",
@@ -1547,11 +1752,14 @@
         "GET /api/risks?view=roam",
         "POST /api/pi/confidence-vote"
       ],
-      "screen_actions": [
+      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
+      "behaviors": [
         "drag and drop strategic sandbox capacity items",
         "capture business value scoring and confidence vote one through five",
         "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:pi-planning-showcase:confidence-vote",
@@ -1563,6 +1771,7 @@
       "screen_id": "screen:ds-pi-planning",
       "screen_route": "/design-system/pi-planning",
       "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "prd_ds_id": "br-ds-pi-planning",
       "states": [
         "default",
         "loading",
@@ -1577,11 +1786,14 @@
         "GET /api/risks?view=roam",
         "POST /api/pi/confidence-vote"
       ],
-      "screen_actions": [
+      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
+      "behaviors": [
         "drag and drop strategic sandbox capacity items",
         "capture business value scoring and confidence vote one through five",
         "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:pi-planning-showcase:roam-board",
@@ -1591,6 +1803,7 @@
       "screen_id": "screen:ds-pi-planning",
       "screen_route": "/design-system/pi-planning",
       "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+      "prd_ds_id": "br-ds-pi-planning",
       "states": [
         "default",
         "loading",
@@ -1605,11 +1818,14 @@
         "GET /api/risks?view=roam",
         "POST /api/pi/confidence-vote"
       ],
-      "screen_actions": [
+      "layout": "two-column PI planning sandbox, scoring, vote, and ROAM board",
+      "behaviors": [
         "drag and drop strategic sandbox capacity items",
         "capture business value scoring and confidence vote one through five",
         "classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:git-graph-showcase-001",
@@ -1632,7 +1848,8 @@
         "GET /api/git/graph?scenario=<id>",
         "GET /api/trace/:id?include=git"
       ],
-      "screen_actions": [
+      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
+      "behaviors": [
         "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
         "render backend-aggregated git and Beads trailer lineage"
       ]
@@ -1645,6 +1862,7 @@
       "screen_id": "screen:ds-git-graph",
       "screen_route": "/design-system/git-graph",
       "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "prd_ds_id": "ds:screen:git-graph-001",
       "states": [
         "default",
         "loading",
@@ -1657,10 +1875,13 @@
         "GET /api/git/graph?scenario=<id>",
         "GET /api/trace/:id?include=git"
       ],
-      "screen_actions": [
+      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
+      "behaviors": [
         "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
         "render backend-aggregated git and Beads trailer lineage"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:git-graph-showcase:scenario-selector",
@@ -1672,6 +1893,7 @@
       "screen_id": "screen:ds-git-graph",
       "screen_route": "/design-system/git-graph",
       "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "prd_ds_id": "ds:screen:git-graph-001",
       "states": [
         "default",
         "loading",
@@ -1684,9 +1906,14 @@
         "GET /api/git/graph?scenario=<id>",
         "GET /api/trace/:id?include=git"
       ],
-      "screen_actions": [
+      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
+      "behaviors": [
         "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
         "render backend-aggregated git and Beads trailer lineage"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash navigation updates route component state"
       ]
     },
     {
@@ -1697,6 +1924,7 @@
       "screen_id": "screen:ds-git-graph",
       "screen_route": "/design-system/git-graph",
       "screen_ds_id": "ds:screen:git-graph-showcase-001",
+      "prd_ds_id": "ds:screen:git-graph-001",
       "states": [
         "default",
         "loading",
@@ -1709,10 +1937,13 @@
         "GET /api/git/graph?scenario=<id>",
         "GET /api/trace/:id?include=git"
       ],
-      "screen_actions": [
+      "layout": "hash-selected git graph scenarios with branches, commits, connections, tags, and stats",
+      "behaviors": [
         "support gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, and beads-sprint-review scenarios",
         "render backend-aggregated git and Beads trailer lineage"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:kanban-showcase-001",
@@ -1735,7 +1966,8 @@
         "GET /api/tasks?view=board&board=<id>",
         "PUT /api/tasks/:id/status"
       ],
-      "screen_actions": [
+      "layout": "board selector with draggable cards, WIP badges, and board stats",
+      "behaviors": [
         "hash routes for sprint, release, and bug-triage boards",
         "drag cards across WIP-limited columns",
         "show total, done, and progress stats"
@@ -1749,6 +1981,7 @@
       "screen_id": "screen:ds-kanban",
       "screen_route": "/design-system/kanban",
       "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "prd_ds_id": "ds:screen:kanban-001",
       "states": [
         "default",
         "loading",
@@ -1761,10 +1994,15 @@
         "GET /api/tasks?view=board&board=<id>",
         "PUT /api/tasks/:id/status"
       ],
-      "screen_actions": [
+      "layout": "board selector with draggable cards, WIP badges, and board stats",
+      "behaviors": [
         "hash routes for sprint, release, and bug-triage boards",
         "drag cards across WIP-limited columns",
         "show total, done, and progress stats"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash routes for sprint, release, and bug-triage boards"
       ]
     },
     {
@@ -1777,6 +2015,7 @@
       "screen_id": "screen:ds-kanban",
       "screen_route": "/design-system/kanban",
       "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "prd_ds_id": "ds:screen:kanban-001",
       "states": [
         "default",
         "loading",
@@ -1789,10 +2028,15 @@
         "GET /api/tasks?view=board&board=<id>",
         "PUT /api/tasks/:id/status"
       ],
-      "screen_actions": [
+      "layout": "board selector with draggable cards, WIP badges, and board stats",
+      "behaviors": [
         "hash routes for sprint, release, and bug-triage boards",
         "drag cards across WIP-limited columns",
         "show total, done, and progress stats"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash routes for sprint, release, and bug-triage boards"
       ]
     },
     {
@@ -1806,6 +2050,7 @@
       "screen_id": "screen:ds-kanban",
       "screen_route": "/design-system/kanban",
       "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "prd_ds_id": "ds:screen:kanban-001",
       "states": [
         "default",
         "loading",
@@ -1818,10 +2063,15 @@
         "GET /api/tasks?view=board&board=<id>",
         "PUT /api/tasks/:id/status"
       ],
-      "screen_actions": [
+      "layout": "board selector with draggable cards, WIP badges, and board stats",
+      "behaviors": [
         "hash routes for sprint, release, and bug-triage boards",
         "drag cards across WIP-limited columns",
         "show total, done, and progress stats"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash routes for sprint, release, and bug-triage boards"
       ]
     },
     {
@@ -1832,6 +2082,7 @@
       "screen_id": "screen:ds-kanban",
       "screen_route": "/design-system/kanban",
       "screen_ds_id": "ds:screen:kanban-showcase-001",
+      "prd_ds_id": "ds:screen:kanban-001",
       "states": [
         "default",
         "loading",
@@ -1844,10 +2095,15 @@
         "GET /api/tasks?view=board&board=<id>",
         "PUT /api/tasks/:id/status"
       ],
-      "screen_actions": [
+      "layout": "board selector with draggable cards, WIP badges, and board stats",
+      "behaviors": [
         "hash routes for sprint, release, and bug-triage boards",
         "drag cards across WIP-limited columns",
         "show total, done, and progress stats"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash routes for sprint, release, and bug-triage boards"
       ]
     },
     {
@@ -1872,7 +2128,8 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/graph/presets"
       ],
-      "screen_actions": [
+      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
+      "behaviors": [
         "hash presets simple, ecosystem, and sprint",
         "show node and edge legends with selected-node details",
         "use tree or simplified fallback on constrained mobile viewports"
@@ -1886,6 +2143,7 @@
       "screen_id": "screen:ds-knowledge-graph",
       "screen_route": "/design-system/knowledge-graph",
       "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "prd_ds_id": "ds:screen:knowledge-graph-001",
       "states": [
         "default",
         "loading",
@@ -1899,10 +2157,15 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/graph/presets"
       ],
-      "screen_actions": [
+      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
+      "behaviors": [
         "hash presets simple, ecosystem, and sprint",
         "show node and edge legends with selected-node details",
         "use tree or simplified fallback on constrained mobile viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash presets simple, ecosystem, and sprint"
       ]
     },
     {
@@ -1915,6 +2178,7 @@
       "screen_id": "screen:ds-knowledge-graph",
       "screen_route": "/design-system/knowledge-graph",
       "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "prd_ds_id": "ds:screen:knowledge-graph-001",
       "states": [
         "default",
         "loading",
@@ -1928,10 +2192,15 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/graph/presets"
       ],
-      "screen_actions": [
+      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
+      "behaviors": [
         "hash presets simple, ecosystem, and sprint",
         "show node and edge legends with selected-node details",
         "use tree or simplified fallback on constrained mobile viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash presets simple, ecosystem, and sprint"
       ]
     },
     {
@@ -1942,6 +2211,7 @@
       "screen_id": "screen:ds-knowledge-graph",
       "screen_route": "/design-system/knowledge-graph",
       "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "prd_ds_id": "ds:screen:knowledge-graph-001",
       "states": [
         "default",
         "loading",
@@ -1955,10 +2225,15 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/graph/presets"
       ],
-      "screen_actions": [
+      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
+      "behaviors": [
         "hash presets simple, ecosystem, and sprint",
         "show node and edge legends with selected-node details",
         "use tree or simplified fallback on constrained mobile viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash presets simple, ecosystem, and sprint"
       ]
     },
     {
@@ -1969,6 +2244,7 @@
       "screen_id": "screen:ds-knowledge-graph",
       "screen_route": "/design-system/knowledge-graph",
       "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+      "prd_ds_id": "ds:screen:knowledge-graph-001",
       "states": [
         "default",
         "loading",
@@ -1982,10 +2258,15 @@
         "GET /api/trace/:id?depth=full",
         "GET /api/graph/presets"
       ],
-      "screen_actions": [
+      "layout": "client-only Sigma graph viewer with preset tabs, selected-node banner, legend, and stats",
+      "behaviors": [
         "hash presets simple, ecosystem, and sprint",
         "show node and edge legends with selected-node details",
         "use tree or simplified fallback on constrained mobile viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash presets simple, ecosystem, and sprint"
       ]
     },
     {
@@ -2011,7 +2292,8 @@
         "GET /api/approval/:id/evidence",
         "POST /api/approval/:id/decision"
       ],
-      "screen_actions": [
+      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
+      "behaviors": [
         "pending, approved, and rejected toggles",
         "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
         "hash anchors for panels, RTM, and heatmap"
@@ -2025,6 +2307,7 @@
       "screen_id": "screen:ds-approval",
       "screen_route": "/design-system/approval",
       "screen_ds_id": "ds:screen:approval-showcase-001",
+      "prd_ds_id": "ds:screen:approval-001",
       "states": [
         "default",
         "loading",
@@ -2039,9 +2322,14 @@
         "GET /api/approval/:id/evidence",
         "POST /api/approval/:id/decision"
       ],
-      "screen_actions": [
+      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
+      "behaviors": [
         "pending, approved, and rejected toggles",
         "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
         "hash anchors for panels, RTM, and heatmap"
       ]
     },
@@ -2055,6 +2343,7 @@
       "screen_id": "screen:ds-approval",
       "screen_route": "/design-system/approval",
       "screen_ds_id": "ds:screen:approval-showcase-001",
+      "prd_ds_id": "ds:screen:approval-001",
       "states": [
         "default",
         "loading",
@@ -2069,9 +2358,14 @@
         "GET /api/approval/:id/evidence",
         "POST /api/approval/:id/decision"
       ],
-      "screen_actions": [
+      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
+      "behaviors": [
         "pending, approved, and rejected toggles",
         "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
         "hash anchors for panels, RTM, and heatmap"
       ]
     },
@@ -2083,6 +2377,7 @@
       "screen_id": "screen:ds-approval",
       "screen_route": "/design-system/approval",
       "screen_ds_id": "ds:screen:approval-showcase-001",
+      "prd_ds_id": "ds:screen:approval-001",
       "states": [
         "default",
         "loading",
@@ -2097,9 +2392,14 @@
         "GET /api/approval/:id/evidence",
         "POST /api/approval/:id/decision"
       ],
-      "screen_actions": [
+      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
+      "behaviors": [
         "pending, approved, and rejected toggles",
         "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
         "hash anchors for panels, RTM, and heatmap"
       ]
     },
@@ -2111,6 +2411,7 @@
       "screen_id": "screen:ds-approval",
       "screen_route": "/design-system/approval",
       "screen_ds_id": "ds:screen:approval-showcase-001",
+      "prd_ds_id": "ds:screen:approval-001",
       "states": [
         "default",
         "loading",
@@ -2125,9 +2426,14 @@
         "GET /api/approval/:id/evidence",
         "POST /api/approval/:id/decision"
       ],
-      "screen_actions": [
+      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
+      "behaviors": [
         "pending, approved, and rejected toggles",
         "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
         "hash anchors for panels, RTM, and heatmap"
       ]
     },
@@ -2139,6 +2445,7 @@
       "screen_id": "screen:ds-approval",
       "screen_route": "/design-system/approval",
       "screen_ds_id": "ds:screen:approval-showcase-001",
+      "prd_ds_id": "ds:screen:approval-001",
       "states": [
         "default",
         "loading",
@@ -2153,9 +2460,14 @@
         "GET /api/approval/:id/evidence",
         "POST /api/approval/:id/decision"
       ],
-      "screen_actions": [
+      "layout": "approval panels with status toggles, evidence blocks, RTM matrix, and coverage heatmap",
+      "behaviors": [
         "pending, approved, and rejected toggles",
         "evidence blocks for Tests, Diff, Beads ID, PRD, and CI",
+        "hash anchors for panels, RTM, and heatmap"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
         "hash anchors for panels, RTM, and heatmap"
       ]
     },
@@ -2181,7 +2493,8 @@
         "GET /api/file-leases",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "file lease indicators, activity feed, and sprint day timeline",
+      "behaviors": [
         "show unlocked, locked, expiring, and expired lease states",
         "hash anchors for file-lease, activity-feed, and sprint-day",
         "update from activity polling every 3 to 5 seconds"
@@ -2195,6 +2508,7 @@
       "screen_id": "screen:ds-timeline",
       "screen_route": "/design-system/timeline",
       "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "prd_ds_id": "ds:screen:timeline-001",
       "states": [
         "default",
         "loading",
@@ -2208,10 +2522,15 @@
         "GET /api/file-leases",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "file lease indicators, activity feed, and sprint day timeline",
+      "behaviors": [
         "show unlocked, locked, expiring, and expired lease states",
         "hash anchors for file-lease, activity-feed, and sprint-day",
         "update from activity polling every 3 to 5 seconds"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash anchors for file-lease, activity-feed, and sprint-day"
       ]
     },
     {
@@ -2222,6 +2541,7 @@
       "screen_id": "screen:ds-timeline",
       "screen_route": "/design-system/timeline",
       "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "prd_ds_id": "ds:screen:timeline-001",
       "states": [
         "default",
         "loading",
@@ -2235,10 +2555,15 @@
         "GET /api/file-leases",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "file lease indicators, activity feed, and sprint day timeline",
+      "behaviors": [
         "show unlocked, locked, expiring, and expired lease states",
         "hash anchors for file-lease, activity-feed, and sprint-day",
         "update from activity polling every 3 to 5 seconds"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash anchors for file-lease, activity-feed, and sprint-day"
       ]
     },
     {
@@ -2249,6 +2574,7 @@
       "screen_id": "screen:ds-timeline",
       "screen_route": "/design-system/timeline",
       "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "prd_ds_id": "ds:screen:timeline-001",
       "states": [
         "default",
         "loading",
@@ -2262,10 +2588,15 @@
         "GET /api/file-leases",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "file lease indicators, activity feed, and sprint day timeline",
+      "behaviors": [
         "show unlocked, locked, expiring, and expired lease states",
         "hash anchors for file-lease, activity-feed, and sprint-day",
         "update from activity polling every 3 to 5 seconds"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash anchors for file-lease, activity-feed, and sprint-day"
       ]
     },
     {
@@ -2276,6 +2607,7 @@
       "screen_id": "screen:ds-timeline",
       "screen_route": "/design-system/timeline",
       "screen_ds_id": "ds:screen:timeline-showcase-001",
+      "prd_ds_id": "ds:screen:timeline-001",
       "states": [
         "default",
         "loading",
@@ -2289,10 +2621,15 @@
         "GET /api/file-leases",
         "GET /api/tasks/:id/activity"
       ],
-      "screen_actions": [
+      "layout": "file lease indicators, activity feed, and sprint day timeline",
+      "behaviors": [
         "show unlocked, locked, expiring, and expired lease states",
         "hash anchors for file-lease, activity-feed, and sprint-day",
         "update from activity polling every 3 to 5 seconds"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash anchors for file-lease, activity-feed, and sprint-day"
       ]
     },
     {
@@ -2315,7 +2652,8 @@
       "bindings": [
         "GET /api/design-system/components"
       ],
-      "screen_actions": [
+      "layout": "catalog of 18 shared design-system sections with hash scroll and interactive examples",
+      "behaviors": [
         "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
         "production screens compose these primitives instead of one-off styling"
       ]
@@ -2328,6 +2666,7 @@
       "screen_id": "screen:ds-components",
       "screen_route": "/design-system/components",
       "screen_ds_id": "ds:screen:components-showcase-001",
+      "prd_ds_id": "ds:screen:components-001",
       "states": [
         "default",
         "loading",
@@ -2339,10 +2678,13 @@
       "bindings": [
         "GET /api/design-system/components"
       ],
-      "screen_actions": [
+      "layout": "catalog of 18 shared design-system sections with hash scroll and interactive examples",
+      "behaviors": [
         "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
         "production screens compose these primitives instead of one-off styling"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:components-showcase:sections",
@@ -2354,6 +2696,7 @@
       "screen_id": "screen:ds-components",
       "screen_route": "/design-system/components",
       "screen_ds_id": "ds:screen:components-showcase-001",
+      "prd_ds_id": "ds:screen:components-001",
       "states": [
         "default",
         "loading",
@@ -2365,9 +2708,14 @@
       "bindings": [
         "GET /api/design-system/components"
       ],
-      "screen_actions": [
+      "layout": "catalog of 18 shared design-system sections with hash scroll and interactive examples",
+      "behaviors": [
         "cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner",
         "production screens compose these primitives instead of one-off styling"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "hash navigation updates route component state"
       ]
     },
     {
@@ -2391,7 +2739,8 @@
         "GET /api/docs?group=source_type",
         "GET /api/docs/:id"
       ],
-      "screen_actions": [
+      "layout": "GitHub-like file tree with selected document panel and Beads badges",
+      "behaviors": [
         "expand folders and select documents",
         "show section status covered, partial, or gap",
         "link to Explorer and Knowledge Graph"
@@ -2405,6 +2754,7 @@
       "screen_id": "screen:ds-doc-viewer",
       "screen_route": "/design-system/doc-viewer",
       "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "prd_ds_id": "ds:screen:doc-viewer-001",
       "states": [
         "default",
         "loading",
@@ -2417,11 +2767,14 @@
         "GET /api/docs?group=source_type",
         "GET /api/docs/:id"
       ],
-      "screen_actions": [
+      "layout": "GitHub-like file tree with selected document panel and Beads badges",
+      "behaviors": [
         "expand folders and select documents",
         "show section status covered, partial, or gap",
         "link to Explorer and Knowledge Graph"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:doc-viewer-showcase:tree",
@@ -2431,6 +2784,7 @@
       "screen_id": "screen:ds-doc-viewer",
       "screen_route": "/design-system/doc-viewer",
       "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "prd_ds_id": "ds:screen:doc-viewer-001",
       "states": [
         "default",
         "loading",
@@ -2443,11 +2797,14 @@
         "GET /api/docs?group=source_type",
         "GET /api/docs/:id"
       ],
-      "screen_actions": [
+      "layout": "GitHub-like file tree with selected document panel and Beads badges",
+      "behaviors": [
         "expand folders and select documents",
         "show section status covered, partial, or gap",
         "link to Explorer and Knowledge Graph"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:doc-viewer-showcase:panel",
@@ -2459,6 +2816,7 @@
       "screen_id": "screen:ds-doc-viewer",
       "screen_route": "/design-system/doc-viewer",
       "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+      "prd_ds_id": "ds:screen:doc-viewer-001",
       "states": [
         "default",
         "loading",
@@ -2471,11 +2829,14 @@
         "GET /api/docs?group=source_type",
         "GET /api/docs/:id"
       ],
-      "screen_actions": [
+      "layout": "GitHub-like file tree with selected document panel and Beads badges",
+      "behaviors": [
         "expand folders and select documents",
         "show section status covered, partial, or gap",
         "link to Explorer and Knowledge Graph"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:explorer-showcase-001",
@@ -2497,7 +2858,8 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "unified search, type filters, result list, and detail sidebar",
+      "behaviors": [
         "filter all, doc, commit, task, adr, chat, and spike via hash",
         "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
         "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
@@ -2511,6 +2873,7 @@
       "screen_id": "screen:ds-explorer",
       "screen_route": "/design-system/explorer",
       "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "prd_ds_id": "ds:screen:explorer-001",
       "states": [
         "default",
         "loading",
@@ -2522,10 +2885,15 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "unified search, type filters, result list, and detail sidebar",
+      "behaviors": [
         "filter all, doc, commit, task, adr, chat, and spike via hash",
         "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
         "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash"
       ]
     },
     {
@@ -2538,6 +2906,7 @@
       "screen_id": "screen:ds-explorer",
       "screen_route": "/design-system/explorer",
       "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "prd_ds_id": "ds:screen:explorer-001",
       "states": [
         "default",
         "loading",
@@ -2549,10 +2918,15 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "unified search, type filters, result list, and detail sidebar",
+      "behaviors": [
         "filter all, doc, commit, task, adr, chat, and spike via hash",
         "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
         "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash"
       ]
     },
     {
@@ -2565,6 +2939,7 @@
       "screen_id": "screen:ds-explorer",
       "screen_route": "/design-system/explorer",
       "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "prd_ds_id": "ds:screen:explorer-001",
       "states": [
         "default",
         "loading",
@@ -2576,10 +2951,15 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "unified search, type filters, result list, and detail sidebar",
+      "behaviors": [
         "filter all, doc, commit, task, adr, chat, and spike via hash",
         "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
         "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash"
       ]
     },
     {
@@ -2594,6 +2974,7 @@
       "screen_id": "screen:ds-explorer",
       "screen_route": "/design-system/explorer",
       "screen_ds_id": "ds:screen:explorer-showcase-001",
+      "prd_ds_id": "ds:screen:explorer-001",
       "states": [
         "default",
         "loading",
@@ -2605,10 +2986,15 @@
       "bindings": [
         "GET /api/search?q=<query>&type=<type>"
       ],
-      "screen_actions": [
+      "layout": "unified search, type filters, result list, and detail sidebar",
+      "behaviors": [
         "filter all, doc, commit, task, adr, chat, and spike via hash",
         "show cross-links to Knowledge Graph, Beads Traversal, and Doc Viewer",
         "preserve detail sidebar on desktop and convert to drawer on smaller viewports"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "filter all, doc, commit, task, adr, chat, and spike via hash"
       ]
     },
     {
@@ -2631,7 +3017,8 @@
       "bindings": [
         "GET /api/trace/:id?depth=full"
       ],
-      "screen_actions": [
+      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
+      "behaviors": [
         "toggle forward and reverse traversal direction",
         "highlight selected and linked nodes",
         "show parent and children links in detail sidebar"
@@ -2645,6 +3032,7 @@
       "screen_id": "screen:ds-beads-traversal",
       "screen_route": "/design-system/beads-traversal",
       "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "prd_ds_id": "ds:screen:beads-traversal-001",
       "states": [
         "default",
         "loading",
@@ -2656,11 +3044,14 @@
       "bindings": [
         "GET /api/trace/:id?depth=full"
       ],
-      "screen_actions": [
+      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
+      "behaviors": [
         "toggle forward and reverse traversal direction",
         "highlight selected and linked nodes",
         "show parent and children links in detail sidebar"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:beads-traversal-showcase:layers",
@@ -2670,6 +3061,7 @@
       "screen_id": "screen:ds-beads-traversal",
       "screen_route": "/design-system/beads-traversal",
       "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "prd_ds_id": "ds:screen:beads-traversal-001",
       "states": [
         "default",
         "loading",
@@ -2681,11 +3073,14 @@
       "bindings": [
         "GET /api/trace/:id?depth=full"
       ],
-      "screen_actions": [
+      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
+      "behaviors": [
         "toggle forward and reverse traversal direction",
         "highlight selected and linked nodes",
         "show parent and children links in detail sidebar"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:beads-traversal-showcase:direction-toggle",
@@ -2695,6 +3090,7 @@
       "screen_id": "screen:ds-beads-traversal",
       "screen_route": "/design-system/beads-traversal",
       "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "prd_ds_id": "ds:screen:beads-traversal-001",
       "states": [
         "default",
         "loading",
@@ -2706,11 +3102,14 @@
       "bindings": [
         "GET /api/trace/:id?depth=full"
       ],
-      "screen_actions": [
+      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
+      "behaviors": [
         "toggle forward and reverse traversal direction",
         "highlight selected and linked nodes",
         "show parent and children links in detail sidebar"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:beads-traversal-showcase:detail-sidebar",
@@ -2720,6 +3119,7 @@
       "screen_id": "screen:ds-beads-traversal",
       "screen_route": "/design-system/beads-traversal",
       "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+      "prd_ds_id": "ds:screen:beads-traversal-001",
       "states": [
         "default",
         "loading",
@@ -2731,11 +3131,14 @@
       "bindings": [
         "GET /api/trace/:id?depth=full"
       ],
-      "screen_actions": [
+      "layout": "layered DAG from PRD sections to plan elements, tasks, and commits",
+      "behaviors": [
         "toggle forward and reverse traversal direction",
         "highlight selected and linked nodes",
         "show parent and children links in detail sidebar"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:storyboard-showcase-001",
@@ -2757,7 +3160,8 @@
       "bindings": [
         "GET /api/storyboards"
       ],
-      "screen_actions": [
+      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
+      "behaviors": [
         "filter journeys and preserve selected route state",
         "show Mechanism and Action, Considerations, and Investigating guidance",
         "CTA opens the corresponding implementation screen"
@@ -2771,6 +3175,7 @@
       "screen_id": "screen:ds-storyboard",
       "screen_route": "/design-system/storyboard",
       "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2782,11 +3187,14 @@
       "bindings": [
         "GET /api/storyboards"
       ],
-      "screen_actions": [
+      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
+      "behaviors": [
         "filter journeys and preserve selected route state",
         "show Mechanism and Action, Considerations, and Investigating guidance",
         "CTA opens the corresponding implementation screen"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:storyboard-showcase:filter",
@@ -2796,6 +3204,7 @@
       "screen_id": "screen:ds-storyboard",
       "screen_route": "/design-system/storyboard",
       "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2807,11 +3216,14 @@
       "bindings": [
         "GET /api/storyboards"
       ],
-      "screen_actions": [
+      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
+      "behaviors": [
         "filter journeys and preserve selected route state",
         "show Mechanism and Action, Considerations, and Investigating guidance",
         "CTA opens the corresponding implementation screen"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:storyboard-showcase:flow",
@@ -2821,6 +3233,7 @@
       "screen_id": "screen:ds-storyboard",
       "screen_route": "/design-system/storyboard",
       "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2832,11 +3245,14 @@
       "bindings": [
         "GET /api/storyboards"
       ],
-      "screen_actions": [
+      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
+      "behaviors": [
         "filter journeys and preserve selected route state",
         "show Mechanism and Action, Considerations, and Investigating guidance",
         "CTA opens the corresponding implementation screen"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:storyboard-showcase:guidance",
@@ -2846,6 +3262,7 @@
       "screen_id": "screen:ds-storyboard",
       "screen_route": "/design-system/storyboard",
       "screen_ds_id": "ds:screen:storyboard-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2857,11 +3274,14 @@
       "bindings": [
         "GET /api/storyboards"
       ],
-      "screen_actions": [
+      "layout": "journey filter, horizontal use-case flow, guidance panel, and CTA to real screen",
+      "behaviors": [
         "filter journeys and preserve selected route state",
         "show Mechanism and Action, Considerations, and Investigating guidance",
         "CTA opens the corresponding implementation screen"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:storyboard-detail-showcase-001",
@@ -2884,7 +3304,8 @@
       "bindings": [
         "GET /api/storyboards/:id"
       ],
-      "screen_actions": [
+      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
+      "behaviors": [
         "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
         "navigate related use cases without losing sidebar context"
       ]
@@ -2897,6 +3318,7 @@
       "screen_id": "screen:ds-storyboard-detail",
       "screen_route": "/design-system/storyboard/:id",
       "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2909,10 +3331,13 @@
       "bindings": [
         "GET /api/storyboards/:id"
       ],
-      "screen_actions": [
+      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
+      "behaviors": [
         "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
         "navigate related use cases without losing sidebar context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:storyboard-detail-showcase:role",
@@ -2922,6 +3347,7 @@
       "screen_id": "screen:ds-storyboard-detail",
       "screen_route": "/design-system/storyboard/:id",
       "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2934,10 +3360,13 @@
       "bindings": [
         "GET /api/storyboards/:id"
       ],
-      "screen_actions": [
+      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
+      "behaviors": [
         "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
         "navigate related use cases without losing sidebar context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:storyboard-detail-showcase:steps",
@@ -2947,6 +3376,7 @@
       "screen_id": "screen:ds-storyboard-detail",
       "screen_route": "/design-system/storyboard/:id",
       "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2959,10 +3389,13 @@
       "bindings": [
         "GET /api/storyboards/:id"
       ],
-      "screen_actions": [
+      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
+      "behaviors": [
         "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
         "navigate related use cases without losing sidebar context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:storyboard-detail-showcase:related",
@@ -2972,6 +3405,7 @@
       "screen_id": "screen:ds-storyboard-detail",
       "screen_route": "/design-system/storyboard/:id",
       "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+      "prd_ds_id": "ds:screen:storyboard-001",
       "states": [
         "default",
         "loading",
@@ -2984,10 +3418,13 @@
       "bindings": [
         "GET /api/storyboards/:id"
       ],
-      "screen_actions": [
+      "layout": "dynamic storyboard detail with role, journey, step timeline, and related use cases",
+      "behaviors": [
         "map use-case journeys to screen paths, state names, expected outcomes, and E2E investigation guidance",
         "navigate related use cases without losing sidebar context"
-      ]
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": []
     },
     {
       "ds_id": "ds:screen:webui-pm-workspace-showcase-001",
@@ -3013,10 +3450,11 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     },
     {
@@ -3027,6 +3465,7 @@
       "screen_id": "screen:ds-webui-pm-workspace",
       "screen_route": "/design-system/webui-pm-workspace",
       "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
       "states": [
         "default",
         "loading",
@@ -3042,10 +3481,15 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     },
     {
@@ -3060,6 +3504,7 @@
       "screen_id": "screen:ds-webui-pm-workspace",
       "screen_route": "/design-system/webui-pm-workspace",
       "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
       "states": [
         "default",
         "loading",
@@ -3075,20 +3520,31 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     },
     {
-      "ds_id": "ds:webui-pm-workspace-showcase:sidebar",
-      "type": "WorkspaceSidebar",
+      "ds_id": "ds:webui-pm-workspace-showcase:sidebar-nav",
+      "type": "WorkspaceSidebarNav",
       "parent_ds_id": "ds:webui-pm-workspace-showcase:surface",
-      "actions": [],
+      "actions": [
+        "EVENT_HASH_NAVIGATE",
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_TRACE",
+        "EVENT_VIEW_DOC"
+      ],
       "screen_id": "screen:ds-webui-pm-workspace",
       "screen_route": "/design-system/webui-pm-workspace",
       "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
       "states": [
         "default",
         "loading",
@@ -3104,10 +3560,15 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     },
     {
@@ -3120,6 +3581,7 @@
       "screen_id": "screen:ds-webui-pm-workspace",
       "screen_route": "/design-system/webui-pm-workspace",
       "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
       "states": [
         "default",
         "loading",
@@ -3135,10 +3597,15 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     },
     {
@@ -3152,6 +3619,7 @@
       "screen_id": "screen:ds-webui-pm-workspace",
       "screen_route": "/design-system/webui-pm-workspace",
       "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
       "states": [
         "default",
         "loading",
@@ -3167,10 +3635,15 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     },
     {
@@ -3181,6 +3654,7 @@
       "screen_id": "screen:ds-webui-pm-workspace",
       "screen_route": "/design-system/webui-pm-workspace",
       "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+      "prd_ds_id": "ds:global_shell",
       "states": [
         "default",
         "loading",
@@ -3196,10 +3670,15 @@
         "GET /api/docs",
         "GET /api/search"
       ],
-      "screen_actions": [
+      "layout": "integrated shell with header logo, global search, offline indicator, sidebar navigation, and active PM surfaces",
+      "behaviors": [
         "expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces",
         "every active surface carries stable data-screen-id and data-ds-id",
-        "sidebar categories match Design System, Screens, Explorer, and Storyboard"
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
+      ],
+      "api_gateway": "gmind serve Go REST API",
+      "hash_route_interactions": [
+        "sidebar navigation maps showcase hashes to PM surfaces and Core routes"
       ]
     }
   ]

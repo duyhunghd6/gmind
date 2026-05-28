@@ -17,7 +17,9 @@ states:
 bindings:
 - GET /api/tasks?format=list
 - PUT /api/tasks/bulk
-screen_actions:
+layout: sortable data table with filters, pagination, CSV export, and bulk action
+  bar
+behaviors:
 - combine status, priority, assignee, PRD, and QA filters
 - select visible rows and bulk assign, status, or priority
 - switch between list and board presentation

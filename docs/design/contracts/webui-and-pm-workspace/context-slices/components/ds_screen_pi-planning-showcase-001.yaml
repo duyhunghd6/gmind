@@ -18,7 +18,8 @@ bindings:
 - PUT /api/pi/plan
 - GET /api/risks?view=roam
 - POST /api/pi/confidence-vote
-screen_actions:
+layout: two-column PI planning sandbox, scoring, vote, and ROAM board
+behaviors:
 - drag and drop strategic sandbox capacity items
 - capture business value scoring and confidence vote one through five
 - classify risks as Resolved, Owned, Accepted, Mitigated, or Unassigned

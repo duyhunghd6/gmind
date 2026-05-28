@@ -7,6 +7,7 @@ actions:
 screen_id: screen:trace-explorer
 screen_route: /trace/:id
 screen_ds_id: ds:screen:trace-explorer-001
+prd_ds_id: null
 states:
 - default
 - loading
@@ -18,7 +19,10 @@ states:
 bindings:
 - GET /api/trace/:id?depth=full
 - GET /api/impact/:section
-screen_actions:
+layout: full-page graph canvas with toolbar, filters, legend, and detail panel
+behaviors:
 - change root Beads ID and depth
 - click node for detail, double-click to route, right-click for context menu
 - show partial local data when enrichment times out
+api_gateway: gmind serve Go REST API
+hash_route_interactions: []

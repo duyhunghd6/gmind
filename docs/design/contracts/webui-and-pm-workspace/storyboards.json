@@ -6,18 +6,25 @@
   ],
   "mermaid_machine": "ui-contract.md fenced mermaid block",
   "coverage": {
-    "trajectories": 20,
+    "trajectories": 35,
     "routes": [
       "/",
       "/approval",
       "/board",
       "/design-system/approval",
+      "/design-system/beads-traversal",
+      "/design-system/components",
+      "/design-system/doc-viewer",
+      "/design-system/explorer",
       "/design-system/git-graph",
       "/design-system/kanban",
       "/design-system/knowledge-graph",
       "/design-system/pi-planning",
+      "/design-system/portfolio",
       "/design-system/storyboard",
       "/design-system/storyboard/:id",
+      "/design-system/terminal",
+      "/design-system/timeline",
       "/design-system/webui-pm-workspace",
       "/docs",
       "/search",
@@ -25,22 +32,271 @@
       "/tasks/:id",
       "/trace/:id"
     ],
-    "error_or_recovery_trajectories": 4
+    "error_or_recovery_trajectories": 25
   },
   "trajectories": [
     {
-      "trajectory_id": "core-navigate-task",
-      "title": "PM navigates from dashboard to task detail",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "journey-board-navigation",
+      "title": "Board Navigation",
+      "source": "PRD-04 user journeys",
       "events": [
         "ROUTE_ENTER",
-        "EVENT_VIEW_TASK",
+        "EVENT_MOVE_CARD",
+        "API_SUCCESS"
+      ],
+      "routes": [
+        "/board"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "EVENT_MOVE_CARD",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "API_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
+      }
+    },
+    {
+      "trajectory_id": "journey-pi-planning-vote",
+      "title": "PI Planning Vote",
+      "source": "PRD-04 user journeys",
+      "events": [
+        "ROUTE_ENTER",
+        "EVENT_PI_PLAN_SAVE",
+        "EVENT_CONFIDENCE_VOTE",
+        "API_VOTE_SUCCESS"
+      ],
+      "routes": [
+        "/design-system/pi-planning"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "EVENT_PI_PLAN_SAVE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "EVENT_CONFIDENCE_VOTE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "API_VOTE_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
+      }
+    },
+    {
+      "trajectory_id": "journey-approval-approve",
+      "title": "Review and Approve",
+      "source": "PRD-04 user journeys",
+      "events": [
+        "ROUTE_ENTER",
+        "EVENT_APPROVAL_DECISION",
+        "API_APPROVAL_SUCCESS"
+      ],
+      "routes": [
+        "/approval"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "EVENT_APPROVAL_DECISION",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "API_APPROVAL_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
+      }
+    },
+    {
+      "trajectory_id": "journey-approval-insufficient-evidence",
+      "title": "Insufficient Evidence Recovery",
+      "source": "PRD-04 user journeys",
+      "events": [
+        "API_ERROR",
+        "EVENT_REFRESH",
+        "EVENT_APPROVAL_DECISION"
+      ],
+      "routes": [
+        "/approval"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "EVENT_REFRESH",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "EVENT_APPROVAL_DECISION",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
+      }
+    },
+    {
+      "trajectory_id": "journey-dashboard-coverage-drill",
+      "title": "Coverage Drilling",
+      "source": "PRD-04 user journeys",
+      "events": [
+        "ROUTE_ENTER",
+        "EVENT_VIEW_TRACE",
         "API_SUCCESS_CORE"
       ],
       "routes": [
         "/",
-        "/tasks",
-        "/tasks/:id"
+        "/trace/:id"
       ],
       "recovery_path": false,
       "steps": [
@@ -51,25 +307,141 @@
           "screen_ds_id": "ds:screen:rtm-dashboard-001",
           "state": "default",
           "event": "ROUTE_ENTER",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "ROUTE_ENTER",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:rtm-dashboard-001"
           ]
         },
         {
           "order": 2,
-          "route": "/tasks",
-          "screen": "screen:task-list",
-          "screen_ds_id": "ds:screen:task-list-001",
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
           "state": "default",
-          "event": "EVENT_VIEW_TASK",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_VIEW_TASK",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "EVENT_VIEW_TRACE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:task-list-001"
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
+      }
+    },
+    {
+      "trajectory_id": "journey-dashboard-gap-resolution",
+      "title": "Gap Resolution",
+      "source": "PRD-04 user journeys",
+      "events": [
+        "ROUTE_ENTER",
+        "EVENT_REFRESH",
+        "API_SUCCESS_CORE"
+      ],
+      "routes": [
+        "/"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "EVENT_REFRESH",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
+      }
+    },
+    {
+      "trajectory_id": "journey-task-edit",
+      "title": "Edit Task",
+      "source": "PRD-04 user journeys",
+      "events": [
+        "ROUTE_ENTER",
+        "EVENT_SAVE_TASK",
+        "API_SUCCESS"
+      ],
+      "routes": [
+        "/tasks/:id"
+      ],
+      "recovery_path": false,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "EVENT_SAVE_TASK",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
           ]
         },
         {
@@ -78,48 +450,26 @@
           "screen": "screen:task-detail",
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "default",
-          "event": "API_SUCCESS_CORE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_SUCCESS_CORE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "API_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:task-detail-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "core-navigate-task",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM navigates from dashboard to task detail",
-      "action": [
-        "ROUTE_ENTER",
-        "EVENT_VIEW_TASK",
-        "API_SUCCESS_CORE"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:rtm-dashboard-001",
-        "ds:screen:task-list-001",
-        "ds:screen:task-detail-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
       }
     },
     {
-      "trajectory_id": "core-explore-trace",
-      "title": "PM opens trace from task graph",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "journey-trace-from-task",
+      "title": "Trace from Task",
+      "source": "PRD-04 user journeys",
       "events": [
         "EVENT_VIEW_TRACE",
-        "API_SUCCESS_CORE",
+        "API_PARTIAL_ENRICHMENT",
         "EVENT_VIEW_DOC"
       ],
       "routes": [
@@ -136,9 +486,8 @@
           "screen_ds_id": "ds:screen:task-detail-001",
           "state": "default",
           "event": "EVENT_VIEW_TRACE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_VIEW_TRACE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:task-detail-001"
           ]
@@ -149,10 +498,9 @@
           "screen": "screen:trace-explorer",
           "screen_ds_id": "ds:screen:trace-explorer-001",
           "state": "partial",
-          "event": "API_SUCCESS_CORE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_SUCCESS_CORE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "API_PARTIAL_ENRICHMENT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:trace-explorer-001"
           ]
@@ -164,447 +512,24 @@
           "screen_ds_id": "ds:screen:core-doc-viewer-001",
           "state": "default",
           "event": "EVENT_VIEW_DOC",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_VIEW_DOC",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:core-doc-viewer-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "core-explore-trace",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM opens trace from task graph",
-      "action": [
-        "EVENT_VIEW_TRACE",
-        "API_SUCCESS_CORE",
-        "EVENT_VIEW_DOC"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:task-detail-001",
-        "ds:screen:trace-explorer-001",
-        "ds:screen:core-doc-viewer-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
       }
     },
     {
-      "trajectory_id": "core-quick-search",
-      "title": "PM uses global search",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "journey-doc-browse-prd",
+      "title": "Browse PRDs",
+      "source": "PRD-04 user journeys",
       "events": [
-        "EVENT_SEARCH",
-        "API_SUCCESS_CORE",
-        "EVENT_VIEW_TASK"
-      ],
-      "routes": [
-        "/",
-        "/search",
-        "/tasks/:id"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/",
-          "screen": "screen:rtm-dashboard",
-          "screen_ds_id": "ds:screen:rtm-dashboard-001",
-          "state": "default",
-          "event": "EVENT_SEARCH",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_SEARCH",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:rtm-dashboard-001"
-          ]
-        },
-        {
-          "order": 2,
-          "route": "/search",
-          "screen": "screen:search-results",
-          "screen_ds_id": "ds:screen:search-results-001",
-          "state": "default",
-          "event": "API_SUCCESS_CORE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_SUCCESS_CORE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:search-results-001"
-          ]
-        },
-        {
-          "order": 3,
-          "route": "/tasks/:id",
-          "screen": "screen:task-detail",
-          "screen_ds_id": "ds:screen:task-detail-001",
-          "state": "default",
-          "event": "EVENT_VIEW_TASK",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_VIEW_TASK",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:task-detail-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "core-quick-search",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM uses global search",
-      "action": [
-        "EVENT_SEARCH",
-        "API_SUCCESS_CORE",
-        "EVENT_VIEW_TASK"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:rtm-dashboard-001",
-        "ds:screen:search-results-001",
-        "ds:screen:task-detail-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "board-drag-success",
-      "title": "RTE moves kanban card",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
-      "events": [
-        "EVENT_MOVE_CARD",
-        "API_SUCCESS",
-        "EVENT_VIEW_TASK"
-      ],
-      "routes": [
-        "/board",
-        "/tasks/:id"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/board",
-          "screen": "screen:safe-board",
-          "screen_ds_id": "ds:screen:safe-board-001",
-          "state": "default",
-          "event": "EVENT_MOVE_CARD",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_MOVE_CARD",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:safe-board-001"
-          ]
-        },
-        {
-          "order": 2,
-          "route": "/tasks/:id",
-          "screen": "screen:task-detail",
-          "screen_ds_id": "ds:screen:task-detail-001",
-          "state": "saving",
-          "event": "API_SUCCESS",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_SUCCESS",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:task-detail-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "board-drag-success",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 RTE moves kanban card",
-      "action": [
-        "EVENT_MOVE_CARD",
-        "API_SUCCESS",
-        "EVENT_VIEW_TASK"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "saving",
-      "ds_targets": [
-        "ds:screen:safe-board-001",
-        "ds:screen:task-detail-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "pi-planning-vote",
-      "title": "RTE submits PI confidence vote",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
-      "events": [
-        "EVENT_PI_PLAN_SAVE",
-        "EVENT_CONFIDENCE_VOTE",
-        "API_VOTE_SUCCESS"
-      ],
-      "routes": [
-        "/design-system/pi-planning"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/design-system/pi-planning",
-          "screen": "screen:ds-pi-planning",
-          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
-          "state": "default",
-          "event": "EVENT_PI_PLAN_SAVE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_PI_PLAN_SAVE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:pi-planning-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "pi-planning-vote",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 RTE submits PI confidence vote",
-      "action": [
-        "EVENT_PI_PLAN_SAVE",
-        "EVENT_CONFIDENCE_VOTE",
-        "API_VOTE_SUCCESS"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:pi-planning-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "approval-approve",
-      "title": "Human approves sufficient evidence",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
-      "events": [
-        "EVENT_APPROVAL_DECISION",
-        "API_APPROVAL_SUCCESS",
-        "EVENT_REFRESH"
-      ],
-      "routes": [
-        "/approval",
-        "/design-system/approval"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/approval",
-          "screen": "screen:approval-gates",
-          "screen_ds_id": "ds:screen:approval-gates-001",
-          "state": "default",
-          "event": "EVENT_APPROVAL_DECISION",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_APPROVAL_DECISION",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:approval-gates-001"
-          ]
-        },
-        {
-          "order": 2,
-          "route": "/design-system/approval",
-          "screen": "screen:ds-approval",
-          "screen_ds_id": "ds:screen:approval-showcase-001",
-          "state": "default",
-          "event": "API_APPROVAL_SUCCESS",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_APPROVAL_SUCCESS",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:approval-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "approval-approve",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Human approves sufficient evidence",
-      "action": [
-        "EVENT_APPROVAL_DECISION",
-        "API_APPROVAL_SUCCESS",
-        "EVENT_REFRESH"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:approval-gates-001",
-        "ds:screen:approval-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "approval-insufficient-evidence",
-      "title": "Human refreshes insufficient evidence",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
-      "events": [
-        "API_ERROR",
-        "EVENT_REFRESH",
-        "API_SUCCESS_CORE"
-      ],
-      "routes": [
-        "/approval"
-      ],
-      "recovery_path": true,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/approval",
-          "screen": "screen:approval-gates",
-          "screen_ds_id": "ds:screen:approval-gates-001",
-          "state": "error",
-          "event": "API_ERROR",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_ERROR",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:approval-gates-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "approval-insufficient-evidence",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Human refreshes insufficient evidence",
-      "action": [
-        "API_ERROR",
-        "EVENT_REFRESH",
-        "API_SUCCESS_CORE"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "error",
-      "ds_targets": [
-        "ds:screen:approval-gates-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "offline-rehydrate-conflict",
-      "title": "Offline edit rehydrates with conflict",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
-      "events": [
-        "EVENT_DISCONNECT",
-        "EVENT_RECONNECT",
-        "API_CONFLICT",
-        "EVENT_KEEP_LOCAL",
-        "API_SYNC_SUCCESS"
-      ],
-      "routes": [
-        "/tasks/:id",
-        "/design-system/webui-pm-workspace"
-      ],
-      "recovery_path": true,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/tasks/:id",
-          "screen": "screen:task-detail",
-          "screen_ds_id": "ds:screen:task-detail-001",
-          "state": "offline",
-          "event": "EVENT_DISCONNECT",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_DISCONNECT",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:task-detail-001"
-          ]
-        },
-        {
-          "order": 2,
-          "route": "/design-system/webui-pm-workspace",
-          "screen": "screen:ds-webui-pm-workspace",
-          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-          "state": "offline",
-          "event": "EVENT_RECONNECT",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_RECONNECT",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "ds_targets": [
-            "ds:screen:webui-pm-workspace-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "offline-rehydrate-conflict",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Offline edit rehydrates with conflict",
-      "action": [
-        "EVENT_DISCONNECT",
-        "EVENT_RECONNECT",
-        "API_CONFLICT",
-        "EVENT_KEEP_LOCAL",
-        "API_SYNC_SUCCESS"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "offline",
-      "ds_targets": [
-        "ds:screen:task-detail-001",
-        "ds:screen:webui-pm-workspace-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "doc-to-trace",
-      "title": "PM opens Beads ID from document viewer",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
-      "events": [
+        "ROUTE_ENTER",
         "EVENT_VIEW_TRACE",
         "API_SUCCESS_CORE"
       ],
@@ -620,10 +545,9 @@
           "screen": "screen:doc-viewer",
           "screen_ds_id": "ds:screen:core-doc-viewer-001",
           "state": "default",
-          "event": "EVENT_VIEW_TRACE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_VIEW_TRACE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:core-doc-viewer-001"
           ]
@@ -634,201 +558,178 @@
           "screen": "screen:trace-explorer",
           "screen_ds_id": "ds:screen:trace-explorer-001",
           "state": "default",
+          "event": "EVENT_VIEW_TRACE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
           "event": "API_SUCCESS_CORE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_SUCCESS_CORE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:trace-explorer-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "doc-to-trace",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 PM opens Beads ID from document viewer",
-      "action": [
-        "EVENT_VIEW_TRACE",
-        "API_SUCCESS_CORE"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:core-doc-viewer-001",
-        "ds:screen:trace-explorer-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
       }
     },
     {
-      "trajectory_id": "showcase-hash-navigation",
-      "title": "Reviewer changes showcase hash scenarios",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "journey-global-search",
+      "title": "Quick Search",
+      "source": "PRD-04 user journeys",
       "events": [
-        "EVENT_HASH_NAVIGATE",
-        "EVENT_HASH_NAVIGATE",
-        "EVENT_REFRESH"
+        "EVENT_SEARCH",
+        "EVENT_VIEW_TASK",
+        "EVENT_VIEW_DOC",
+        "EVENT_VIEW_TRACE"
       ],
       "routes": [
-        "/design-system/git-graph",
-        "/design-system/kanban",
-        "/design-system/knowledge-graph"
+        "/search",
+        "/tasks/:id",
+        "/docs",
+        "/trace/:id"
       ],
       "recovery_path": false,
       "steps": [
         {
           "order": 1,
-          "route": "/design-system/git-graph",
-          "screen": "screen:ds-git-graph",
-          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
           "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "EVENT_SEARCH",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:git-graph-showcase-001"
+            "ds:screen:search-results-001"
           ]
         },
         {
           "order": 2,
-          "route": "/design-system/kanban",
-          "screen": "screen:ds-kanban",
-          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
           "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "EVENT_VIEW_TASK",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:kanban-showcase-001"
+            "ds:screen:task-detail-001"
           ]
         },
         {
           "order": 3,
-          "route": "/design-system/knowledge-graph",
-          "screen": "screen:ds-knowledge-graph",
-          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
           "state": "default",
-          "event": "EVENT_REFRESH",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_REFRESH",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "EVENT_VIEW_DOC",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:knowledge-graph-showcase-001"
+            "ds:screen:core-doc-viewer-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "EVENT_VIEW_TRACE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "showcase-hash-navigation",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Reviewer changes showcase hash scenarios",
-      "action": [
-        "EVENT_HASH_NAVIGATE",
-        "EVENT_HASH_NAVIGATE",
-        "EVENT_REFRESH"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:git-graph-showcase-001",
-        "ds:screen:kanban-showcase-001",
-        "ds:screen:knowledge-graph-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
       }
     },
     {
-      "trajectory_id": "storyboard-detail-alignment",
-      "title": "Reviewer opens storyboard and detail route",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "journey-bulk-assign",
+      "title": "Bulk Assign",
+      "source": "PRD-04 user journeys",
       "events": [
         "ROUTE_ENTER",
-        "API_SUCCESS_SHOWCASE",
-        "EVENT_VIEW_TRACE"
+        "EVENT_SAVE_BULK",
+        "API_SUCCESS"
       ],
       "routes": [
-        "/design-system/storyboard",
-        "/design-system/storyboard/:id"
+        "/tasks"
       ],
       "recovery_path": false,
       "steps": [
         {
           "order": 1,
-          "route": "/design-system/storyboard",
-          "screen": "screen:ds-storyboard",
-          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
           "state": "default",
           "event": "ROUTE_ENTER",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "ROUTE_ENTER",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:storyboard-showcase-001"
+            "ds:screen:task-list-001"
           ]
         },
         {
           "order": 2,
-          "route": "/design-system/storyboard/:id",
-          "screen": "screen:ds-storyboard-detail",
-          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
           "state": "default",
-          "event": "API_SUCCESS_SHOWCASE",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_SUCCESS_SHOWCASE",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "EVENT_SAVE_BULK",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:storyboard-detail-showcase-001"
+            "ds:screen:task-list-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "default",
+          "event": "API_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "storyboard-detail-alignment",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 Reviewer opens storyboard and detail route",
-      "action": [
-        "ROUTE_ENTER",
-        "API_SUCCESS_SHOWCASE",
-        "EVENT_VIEW_TRACE"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:storyboard-showcase-001",
-        "ds:screen:storyboard-detail-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
       }
     },
     {
-      "trajectory_id": "permission-denied-recovery",
-      "title": "User returns from forbidden route",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "journey-offline-rehydrate",
+      "title": "Offline Rehydration",
+      "source": "PRD-04 user journeys",
       "events": [
-        "API_FORBIDDEN",
-        "EVENT_BACK",
-        "ROUTE_ENTER"
+        "EVENT_DISCONNECT",
+        "EVENT_RECONNECT",
+        "API_CONFLICT",
+        "EVENT_KEEP_LOCAL",
+        "EVENT_USE_SERVER",
+        "API_SYNC_SUCCESS"
       ],
       "routes": [
         "/design-system/webui-pm-workspace"
@@ -840,67 +741,2203 @@
           "route": "/design-system/webui-pm-workspace",
           "screen": "screen:ds-webui-pm-workspace",
           "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
-          "state": "forbidden",
-          "event": "API_FORBIDDEN",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_FORBIDDEN",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "EVENT_RECONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "API_CONFLICT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "EVENT_KEEP_LOCAL",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "EVENT_USE_SERVER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "API_SYNC_SUCCESS",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:webui-pm-workspace-showcase-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "permission-denied-recovery",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 User returns from forbidden route",
-      "action": [
-        "API_FORBIDDEN",
-        "EVENT_BACK",
-        "ROUTE_ENTER"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "forbidden",
-      "ds_targets": [
-        "ds:screen:webui-pm-workspace-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Expected journey outcome is observable without forbidden browser data access.",
+        "investigation_guidance": "Assert route navigation, state transition, hash state where applicable, optimistic write or recovery copy, and API mapping."
       }
     },
     {
-      "trajectory_id": "not-found-recovery",
-      "title": "User returns from missing storyboard detail",
-      "source": "PRD-04 user journeys and \u00a78.1A route coverage",
+      "trajectory_id": "route-proof-",
+      "title": "Route proof /",
+      "source": "PRD-04 §8.1A required route coverage",
       "events": [
-        "API_NOT_FOUND",
-        "EVENT_BACK",
-        "ROUTE_ENTER"
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
       ],
       "routes": [
-        "/design-system/storyboard/:id",
+        "/"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/",
+          "screen": "screen:rtm-dashboard",
+          "screen_ds_id": "ds:screen:rtm-dashboard-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:rtm-dashboard-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-board",
+      "title": "Route proof /board",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/board"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/board",
+          "screen": "screen:safe-board",
+          "screen_ds_id": "ds:screen:safe-board-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:safe-board-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-tasks",
+      "title": "Route proof /tasks",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/tasks"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/tasks",
+          "screen": "screen:task-list",
+          "screen_ds_id": "ds:screen:task-list-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-list-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-tasks-id",
+      "title": "Route proof /tasks/:id",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/tasks/:id"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/tasks/:id",
+          "screen": "screen:task-detail",
+          "screen_ds_id": "ds:screen:task-detail-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:task-detail-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-trace-id",
+      "title": "Route proof /trace/:id",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/trace/:id"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/trace/:id",
+          "screen": "screen:trace-explorer",
+          "screen_ds_id": "ds:screen:trace-explorer-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:trace-explorer-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-docs",
+      "title": "Route proof /docs",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/docs"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/docs",
+          "screen": "screen:doc-viewer",
+          "screen_ds_id": "ds:screen:core-doc-viewer-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:core-doc-viewer-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-approval",
+      "title": "Route proof /approval",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/approval"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/approval",
+          "screen": "screen:approval-gates",
+          "screen_ds_id": "ds:screen:approval-gates-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-gates-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-search",
+      "title": "Route proof /search",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_CORE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/search"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "default",
+          "event": "API_SUCCESS_CORE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/search",
+          "screen": "screen:search-results",
+          "screen_ds_id": "ds:screen:search-results-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:search-results-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-terminal",
+      "title": "Route proof /design-system/terminal",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/terminal"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/terminal",
+          "screen": "screen:ds-terminal",
+          "screen_ds_id": "ds:screen:terminal-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:terminal-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-portfolio",
+      "title": "Route proof /design-system/portfolio",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/portfolio"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/portfolio",
+          "screen": "screen:ds-portfolio",
+          "screen_ds_id": "ds:screen:portfolio-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:portfolio-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-pi-planning",
+      "title": "Route proof /design-system/pi-planning",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/pi-planning"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/pi-planning",
+          "screen": "screen:ds-pi-planning",
+          "screen_ds_id": "ds:screen:pi-planning-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:pi-planning-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-git-graph",
+      "title": "Route proof /design-system/git-graph",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/git-graph"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/git-graph",
+          "screen": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/git-graph",
+          "screen": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/git-graph",
+          "screen": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/git-graph",
+          "screen": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/git-graph",
+          "screen": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/git-graph",
+          "screen": "screen:ds-git-graph",
+          "screen_ds_id": "ds:screen:git-graph-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:git-graph-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-kanban",
+      "title": "Route proof /design-system/kanban",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_HASH_NAVIGATE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/kanban"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        },
+        {
+          "order": 7,
+          "route": "/design-system/kanban",
+          "screen": "screen:ds-kanban",
+          "screen_ds_id": "ds:screen:kanban-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:kanban-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-knowledge-graph",
+      "title": "Route proof /design-system/knowledge-graph",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_HASH_NAVIGATE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/knowledge-graph"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        },
+        {
+          "order": 7,
+          "route": "/design-system/knowledge-graph",
+          "screen": "screen:ds-knowledge-graph",
+          "screen_ds_id": "ds:screen:knowledge-graph-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:knowledge-graph-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-approval",
+      "title": "Route proof /design-system/approval",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_HASH_NAVIGATE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/approval"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        },
+        {
+          "order": 7,
+          "route": "/design-system/approval",
+          "screen": "screen:ds-approval",
+          "screen_ds_id": "ds:screen:approval-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:approval-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-timeline",
+      "title": "Route proof /design-system/timeline",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_HASH_NAVIGATE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/timeline"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        },
+        {
+          "order": 7,
+          "route": "/design-system/timeline",
+          "screen": "screen:ds-timeline",
+          "screen_ds_id": "ds:screen:timeline-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:timeline-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-components",
+      "title": "Route proof /design-system/components",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/components"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/components",
+          "screen": "screen:ds-components",
+          "screen_ds_id": "ds:screen:components-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:components-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-doc-viewer",
+      "title": "Route proof /design-system/doc-viewer",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/doc-viewer"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/doc-viewer",
+          "screen": "screen:ds-doc-viewer",
+          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:doc-viewer-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-explorer",
+      "title": "Route proof /design-system/explorer",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_HASH_NAVIGATE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/explorer"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "default",
+          "event": "EVENT_HASH_NAVIGATE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        },
+        {
+          "order": 7,
+          "route": "/design-system/explorer",
+          "screen": "screen:ds-explorer",
+          "screen_ds_id": "ds:screen:explorer-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:explorer-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-beads-traversal",
+      "title": "Route proof /design-system/beads-traversal",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
+        "/design-system/beads-traversal"
+      ],
+      "recovery_path": true,
+      "steps": [
+        {
+          "order": 1,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/beads-traversal",
+          "screen": "screen:ds-beads-traversal",
+          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:beads-traversal-showcase-001"
+          ]
+        }
+      ],
+      "e2e_alignment": {
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
+      }
+    },
+    {
+      "trajectory_id": "route-proof-design-system-storyboard",
+      "title": "Route proof /design-system/storyboard",
+      "source": "PRD-04 §8.1A required route coverage",
+      "events": [
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
+      ],
+      "routes": [
         "/design-system/storyboard"
       ],
       "recovery_path": true,
       "steps": [
         {
           "order": 1,
-          "route": "/design-system/storyboard/:id",
-          "screen": "screen:ds-storyboard-detail",
-          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
-          "state": "not_found",
-          "event": "API_NOT_FOUND",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "API_NOT_FOUND",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "route": "/design-system/storyboard",
+          "screen": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:storyboard-detail-showcase-001"
+            "ds:screen:storyboard-showcase-001"
           ]
         },
         {
@@ -909,381 +2946,285 @@
           "screen": "screen:ds-storyboard",
           "screen_ds_id": "ds:screen:storyboard-showcase-001",
           "state": "default",
-          "event": "EVENT_BACK",
-          "expected_outcome": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
-          "action": "EVENT_BACK",
-          "assertion": "route, state, data-screen-id, data-ds-id, and API boundary remain traceable",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/storyboard",
+          "screen": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/storyboard",
+          "screen": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/storyboard",
+          "screen": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/storyboard",
+          "screen": "screen:ds-storyboard",
+          "screen_ds_id": "ds:screen:storyboard-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
             "ds:screen:storyboard-showcase-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-        "investigation_guidance": "Assert route navigation, state transition, optimistic write or recovery copy, and API mapping."
-      },
-      "id": "not-found-recovery",
-      "prd_journey": "PRD-04 \u00a78.1A route coverage \u2014 User returns from missing storyboard detail",
-      "action": [
-        "API_NOT_FOUND",
-        "EVENT_BACK",
-        "ROUTE_ENTER"
-      ],
-      "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all writes go through Go REST API",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:storyboard-detail-showcase-001",
-        "ds:screen:storyboard-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
       }
     },
     {
-      "trajectory_id": "showcase-ds-beads-traversal",
-      "title": "Navigate to ds-beads-traversal",
-      "source": "Missing coverage fix",
+      "trajectory_id": "route-proof-design-system-storyboard-id",
+      "title": "Route proof /design-system/storyboard/:id",
+      "source": "PRD-04 §8.1A required route coverage",
       "events": [
-        "EVENT_HASH_NAVIGATE"
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
       ],
       "routes": [
-        "/design-system/beads-traversal"
+        "/design-system/storyboard/:id"
       ],
-      "recovery_path": false,
+      "recovery_path": true,
       "steps": [
         {
           "order": 1,
-          "route": "/design-system/beads-traversal",
-          "screen": "screen:ds-beads-traversal",
-          "screen_ds_id": "ds:screen:beads-traversal-showcase-001",
+          "route": "/design-system/storyboard/:id",
+          "screen": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
           "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:beads-traversal-showcase-001"
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/storyboard/:id",
+          "screen": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/storyboard/:id",
+          "screen": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/storyboard/:id",
+          "screen": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/storyboard/:id",
+          "screen": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/storyboard/:id",
+          "screen": "screen:ds-storyboard-detail",
+          "screen_ds_id": "ds:screen:storyboard-detail-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:storyboard-detail-showcase-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-beads-traversal",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:beads-traversal-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
       }
     },
     {
-      "trajectory_id": "showcase-ds-components",
-      "title": "Navigate to ds-components",
-      "source": "Missing coverage fix",
+      "trajectory_id": "route-proof-design-system-webui-pm-workspace",
+      "title": "Route proof /design-system/webui-pm-workspace",
+      "source": "PRD-04 §8.1A required route coverage",
       "events": [
-        "EVENT_HASH_NAVIGATE"
+        "ROUTE_ENTER",
+        "API_SUCCESS_SHOWCASE",
+        "EVENT_HASH_NAVIGATE",
+        "API_EMPTY",
+        "API_ERROR",
+        "EVENT_DISCONNECT",
+        "API_FORBIDDEN"
       ],
       "routes": [
-        "/design-system/components"
+        "/design-system/webui-pm-workspace"
       ],
-      "recovery_path": false,
+      "recovery_path": true,
       "steps": [
         {
           "order": 1,
-          "route": "/design-system/components",
-          "screen": "screen:ds-components",
-          "screen_ds_id": "ds:screen:components-showcase-001",
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "ROUTE_ENTER",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 2,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "API_SUCCESS_SHOWCASE",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 3,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
           "state": "default",
           "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
           "ds_targets": [
-            "ds:screen:components-showcase-001"
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 4,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "API_EMPTY",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 5,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "error",
+          "event": "API_ERROR",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 6,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "offline",
+          "event": "EVENT_DISCONNECT",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
+          ]
+        },
+        {
+          "order": 7,
+          "route": "/design-system/webui-pm-workspace",
+          "screen": "screen:ds-webui-pm-workspace",
+          "screen_ds_id": "ds:screen:webui-pm-workspace-showcase-001",
+          "state": "default",
+          "event": "API_FORBIDDEN",
+          "expected_outcome": "route, state, data-screen-id, data-ds-id, hash behavior, and Core WebUI API boundary remain traceable",
+          "assertion": "No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes go through Go REST API",
+          "ds_targets": [
+            "ds:screen:webui-pm-workspace-showcase-001"
           ]
         }
       ],
       "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-components",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:components-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "showcase-ds-doc-viewer",
-      "title": "Navigate to ds-doc-viewer",
-      "source": "Missing coverage fix",
-      "events": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "routes": [
-        "/design-system/doc-viewer"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/design-system/doc-viewer",
-          "screen": "screen:ds-doc-viewer",
-          "screen_ds_id": "ds:screen:doc-viewer-showcase-001",
-          "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
-          "ds_targets": [
-            "ds:screen:doc-viewer-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-doc-viewer",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:doc-viewer-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "showcase-ds-explorer",
-      "title": "Navigate to ds-explorer",
-      "source": "Missing coverage fix",
-      "events": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "routes": [
-        "/design-system/explorer"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/design-system/explorer",
-          "screen": "screen:ds-explorer",
-          "screen_ds_id": "ds:screen:explorer-showcase-001",
-          "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
-          "ds_targets": [
-            "ds:screen:explorer-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-explorer",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:explorer-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "showcase-ds-portfolio",
-      "title": "Navigate to ds-portfolio",
-      "source": "Missing coverage fix",
-      "events": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "routes": [
-        "/design-system/portfolio"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/design-system/portfolio",
-          "screen": "screen:ds-portfolio",
-          "screen_ds_id": "ds:screen:portfolio-showcase-001",
-          "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
-          "ds_targets": [
-            "ds:screen:portfolio-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-portfolio",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:portfolio-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "showcase-ds-terminal",
-      "title": "Navigate to ds-terminal",
-      "source": "Missing coverage fix",
-      "events": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "routes": [
-        "/design-system/terminal"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/design-system/terminal",
-          "screen": "screen:ds-terminal",
-          "screen_ds_id": "ds:screen:terminal-showcase-001",
-          "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
-          "ds_targets": [
-            "ds:screen:terminal-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-terminal",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:terminal-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
-      }
-    },
-    {
-      "trajectory_id": "showcase-ds-timeline",
-      "title": "Navigate to ds-timeline",
-      "source": "Missing coverage fix",
-      "events": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "routes": [
-        "/design-system/timeline"
-      ],
-      "recovery_path": false,
-      "steps": [
-        {
-          "order": 1,
-          "route": "/design-system/timeline",
-          "screen": "screen:ds-timeline",
-          "screen_ds_id": "ds:screen:timeline-showcase-001",
-          "state": "default",
-          "event": "EVENT_HASH_NAVIGATE",
-          "expected_outcome": "showcase page loaded",
-          "action": "EVENT_HASH_NAVIGATE",
-          "assertion": "showcase page loaded",
-          "ds_targets": [
-            "ds:screen:timeline-showcase-001"
-          ]
-        }
-      ],
-      "e2e_alignment": {
-        "expected_outcome": "Showcase page works",
-        "investigation_guidance": "Assert showcase rendering"
-      },
-      "id": "showcase-ds-timeline",
-      "prd_journey": "Showcase rendering",
-      "action": [
-        "EVENT_HASH_NAVIGATE"
-      ],
-      "assertion": "Showcase page works",
-      "state": "default",
-      "ds_targets": [
-        "ds:screen:timeline-showcase-001"
-      ],
-      "schema_adapter": {
-        "trajectory_id": "id",
-        "source": "prd_journey",
-        "events[0] or events[]": "action",
-        "expected_outcome": "assertion",
-        "screen_ds_id": "ds_targets[]"
+        "expected_outcome": "Required loading, empty, error, offline, forbidden and hash/API interactions are represented where specified.",
+        "investigation_guidance": "Use this route proof as targeted context slice for review and Stage 2 implementation."
       }
     }
   ]

@@ -5,6 +5,7 @@ actions: []
 screen_id: screen:ds-portfolio
 screen_route: /design-system/portfolio
 screen_ds_id: ds:screen:portfolio-showcase-001
+prd_ds_id: br-ds-portfolio-view
 states:
 - default
 - loading
@@ -15,7 +16,10 @@ states:
 bindings:
 - GET /api/portfolio/epics
 - GET /api/tasks?issue_type=epic
-screen_actions:
+layout: executive portfolio table with roadmap quarters
+behaviors:
 - show Epic ID, owner, progress, budget, status, and forecast
 - render Q1, Q2, and Q3 2026 roadmap
 - preserve specified PRD DS badge value as display metadata
+api_gateway: gmind serve Go REST API
+hash_route_interactions: []

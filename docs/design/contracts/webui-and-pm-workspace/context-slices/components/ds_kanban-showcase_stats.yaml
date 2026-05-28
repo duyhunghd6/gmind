@@ -5,6 +5,7 @@ actions: []
 screen_id: screen:ds-kanban
 screen_route: /design-system/kanban
 screen_ds_id: ds:screen:kanban-showcase-001
+prd_ds_id: ds:screen:kanban-001
 states:
 - default
 - loading
@@ -15,7 +16,11 @@ states:
 bindings:
 - GET /api/tasks?view=board&board=<id>
 - PUT /api/tasks/:id/status
-screen_actions:
+layout: board selector with draggable cards, WIP badges, and board stats
+behaviors:
 - hash routes for sprint, release, and bug-triage boards
 - drag cards across WIP-limited columns
 - show total, done, and progress stats
+api_gateway: gmind serve Go REST API
+hash_route_interactions:
+- hash routes for sprint, release, and bug-triage boards

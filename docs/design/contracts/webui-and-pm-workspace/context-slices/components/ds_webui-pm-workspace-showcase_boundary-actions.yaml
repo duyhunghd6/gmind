@@ -6,6 +6,7 @@ actions:
 screen_id: screen:ds-webui-pm-workspace
 screen_route: /design-system/webui-pm-workspace
 screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+prd_ds_id: ds:global_shell
 states:
 - default
 - loading
@@ -19,8 +20,13 @@ bindings:
 - GET /api/trace/:id
 - GET /api/docs
 - GET /api/search
-screen_actions:
+layout: integrated shell with header logo, global search, offline indicator, sidebar
+  navigation, and active PM surfaces
+behaviors:
 - expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer,
   Approval Gates, and Search Results surfaces
 - every active surface carries stable data-screen-id and data-ds-id
-- sidebar categories match Design System, Screens, Explorer, and Storyboard
+- sidebar navigation maps showcase hashes to PM surfaces and Core routes
+api_gateway: gmind serve Go REST API
+hash_route_interactions:
+- sidebar navigation maps showcase hashes to PM surfaces and Core routes

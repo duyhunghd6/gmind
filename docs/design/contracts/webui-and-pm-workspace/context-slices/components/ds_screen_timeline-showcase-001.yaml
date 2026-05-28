@@ -17,7 +17,8 @@ bindings:
 - GET /api/activity
 - GET /api/file-leases
 - GET /api/tasks/:id/activity
-screen_actions:
+layout: file lease indicators, activity feed, and sprint day timeline
+behaviors:
 - show unlocked, locked, expiring, and expired lease states
 - hash anchors for file-lease, activity-feed, and sprint-day
 - update from activity polling every 3 to 5 seconds

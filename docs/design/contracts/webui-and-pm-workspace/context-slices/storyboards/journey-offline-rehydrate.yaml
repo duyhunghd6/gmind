@@ -1,0 +1,91 @@
+trajectory_id: journey-offline-rehydrate
+title: Offline Rehydration
+source: PRD-04 user journeys
+events:
+- EVENT_DISCONNECT
+- EVENT_RECONNECT
+- API_CONFLICT
+- EVENT_KEEP_LOCAL
+- EVENT_USE_SERVER
+- API_SYNC_SUCCESS
+routes:
+- /design-system/webui-pm-workspace
+recovery_path: true
+steps:
+- order: 1
+  route: /design-system/webui-pm-workspace
+  screen: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: offline
+  event: EVENT_DISCONNECT
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+- order: 2
+  route: /design-system/webui-pm-workspace
+  screen: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: default
+  event: EVENT_RECONNECT
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+- order: 3
+  route: /design-system/webui-pm-workspace
+  screen: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: default
+  event: API_CONFLICT
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+- order: 4
+  route: /design-system/webui-pm-workspace
+  screen: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: default
+  event: EVENT_KEEP_LOCAL
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+- order: 5
+  route: /design-system/webui-pm-workspace
+  screen: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: default
+  event: EVENT_USE_SERVER
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+- order: 6
+  route: /design-system/webui-pm-workspace
+  screen: screen:ds-webui-pm-workspace
+  screen_ds_id: ds:screen:webui-pm-workspace-showcase-001
+  state: default
+  event: API_SYNC_SUCCESS
+  expected_outcome: route, state, data-screen-id, data-ds-id, hash behavior, and Core
+    WebUI API boundary remain traceable
+  assertion: No browser direct DB/Zvec/git/gh/FastCode/shell access; all reads/writes
+    go through Go REST API
+  ds_targets:
+  - ds:screen:webui-pm-workspace-showcase-001
+e2e_alignment:
+  expected_outcome: Expected journey outcome is observable without forbidden browser
+    data access.
+  investigation_guidance: Assert route navigation, state transition, hash state where
+    applicable, optimistic write or recovery copy, and API mapping.

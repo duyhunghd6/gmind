@@ -17,7 +17,8 @@ bindings:
 - GET /api/tasks?view=board&level=<level>
 - PUT /api/tasks/:id/status
 - GET /api/tasks/:id/activity
-screen_actions:
+layout: portfolio, ART, and team kanban views with WIP and RTE escalation badges
+behaviors:
 - switch Portfolio, ART, and Team board scopes
 - drag task cards across statuses
 - open RTE drawer from escalation badge

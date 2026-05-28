@@ -18,7 +18,9 @@ bindings:
 - GET /api/approval/:id/evidence
 - POST /api/approval/:id/decision
 - GET /api/coverage
-screen_actions:
+layout: Level 3 approval workspace with queue, evidence, PRD context, and decision
+  controls
+behaviors:
 - disable approval when evidence is insufficient
 - show RTE execution context for approved escalations
 - require audit reason for manual override paths

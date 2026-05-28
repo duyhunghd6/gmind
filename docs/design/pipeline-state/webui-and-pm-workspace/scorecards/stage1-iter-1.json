@@ -7,32 +7,32 @@
     "container_validity": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses and Mermaid contains meaningful stateDiagram-v2 transitions."
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses, is not serialized JSON, and Mermaid has 218 meaningful transitions."
     },
     "prd_coverage": {
       "score": 18,
       "max": 20,
-      "tool_evidence": "23 screens/routes mapped; all 15 PRD-04 §8.1A showcase routes present including storyboard/:id and webui-pm-workspace; metadata.satisfies has 16 PRD IDs and Core WebUI API boundaries are represented."
+      "tool_evidence": "23 screens/routes mapped; all required Core WebUI and 15 showcase routes are present, including terminal, portfolio, pi-planning, git-graph, kanban, knowledge-graph, approval, timeline, components, doc-viewer, explorer, beads-traversal, storyboard, storyboard/:id, and webui-pm-workspace; metadata.satisfies has 16 PRD IDs."
     },
     "component_traceability": {
       "score": 18,
       "max": 20,
-      "tool_evidence": "115 ds_id values are unique; component-map.json has 115 components, 70 component types, 0 YAML-to-map gaps, and 17 action events mapped."
+      "tool_evidence": "115 YAML ds_id values are unique; component-map.json has 115 mapped contract ds_ids, 0 missing map IDs, 0 extra map IDs, and 70 component types; context-slices/components has 1 extra non-contract slice."
     },
     "logic_coverage": {
-      "score": 13,
+      "score": 14,
       "max": 15,
-      "tool_evidence": "17/17 YAML EVENT_* actions are covered by Mermaid; 0 extra Mermaid events; API success/error/rollback/offline/conflict/retry/back paths are modeled."
+      "tool_evidence": "17/17 YAML EVENT_* actions are covered by Mermaid; 0 extra EVENT_* Mermaid events; API success/error/empty/forbidden/not-found/partial/offline/conflict/retry/back outcomes are modeled."
     },
     "derived_artifact_consistency": {
       "score": 12,
       "max": 15,
-      "tool_evidence": "flow.md validator PASS with 1 Mermaid block; review-diagrams.md validator PASS with 46 blocks; storyboards/layout/component/index JSON parse; 562 context slices parse; no standalone .mmd files; artifact-index has 572 entries and 0 missing indexed paths."
+      "tool_evidence": "flow.md Mermaid validator PASS with exactly 1 block; review-diagrams.md validator PASS with 30 blocks; storyboards/layout/component/index JSON parse; 599 YAML context slices found; no standalone .mmd files; drift remains in one extra component slice and summary component count."
     },
     "conflict_preview_readiness": {
-      "score": 9,
+      "score": 8,
       "max": 15,
-      "tool_evidence": "preview generated OK with 0 warnings and expected flow/storyboard/component/layout/conflict/review sections; prd-ds-conflicts.md has no unresolved conflicts, but artifact-index omits present preview outputs so Gate A packaging still needs repair."
+      "tool_evidence": "contract_to_ui preview generated OK with 0 warnings; preview contains contract screens, logic machine, flow walk-through, storyboard trajectories, component hierarchy, layout rules, review diagrams, conflicts, and cross-artifact coverage; prd-ds-conflicts.md has no unresolved conflicts; legacy PRD-04 contract directory still exists outside the canonical normalized feature path."
     }
   },
   "schema_checks": {
@@ -45,16 +45,38 @@
     "required_artifacts_present": true,
     "json_artifacts_valid": true,
     "showcase_routes_missing": [],
-    "context_slice_count": 562,
-    "invalid_context_slices": [],
-    "artifact_index_entries": 572,
-    "artifact_index_missing_paths": 0,
-    "artifact_index_missing_required_entries": [
-      "docs/design/contracts/webui-and-pm-workspace/preview/index.html",
-      "docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json"
+    "core_routes_missing": [],
+    "metadata_satisfies_count": 16,
+    "screens_defined": 23,
+    "contract_ds_ids": 115,
+    "component_map_ids": 115,
+    "component_map_missing_ids": [],
+    "component_map_extra_ids": [],
+    "context_slice_count": 599,
+    "component_context_slice_count": 116,
+    "component_context_slice_extra_ids": [
+      "ds:webui-pm-workspace-showcase:sidebar"
     ],
+    "component_context_slice_missing_ids": [],
+    "storyboard_trajectories": 35,
+    "layout_rules_count": 432,
+    "layout_invalid_rows": 0,
+    "artifact_index_entries": 611,
+    "artifact_index_missing_required_entries": [],
     "preview_warnings": 0,
+    "preview_sections_verified": [
+      "Contract Screens",
+      "Mermaid Logic Machine",
+      "Flow Walk-Through",
+      "Storyboard Trajectories",
+      "Component Hierarchy",
+      "Layout Rules",
+      "Review Diagrams",
+      "PRD/DS Conflicts",
+      "Cross-Artifact Coverage"
+    ],
     "mermaid_markdown_validator_status": "PASS",
+    "legacy_prd04_contract_path_exists": true,
     "baseline_features_processed": 0,
     "iteration_one_cap_applied": true
   },
@@ -62,21 +84,21 @@
     {
       "priority": "P1",
       "pillar": "conflict_preview_readiness",
-      "responsible_generator": "gen_flows",
-      "detail": "artifact-index.json omits present preview review outputs preview/index.html and preview/preview-manifest.json. Add these entries so Gate A reviewers can discover the complete review package without raw directory inspection."
+      "responsible_generator": "gen_contracts",
+      "detail": "Legacy normalized-path violation remains at docs/design/contracts/PRD-04-WebUI-and-PM-Workspace. The current package correctly uses docs/design/contracts/webui-and-pm-workspace, but the obsolete directory can misroute Stage 1 reviewers or generators and should be archived or removed by the owning pipeline step."
     },
     {
-      "priority": "P2",
+      "priority": "P1",
       "pillar": "derived_artifact_consistency",
-      "responsible_generator": "gen_contracts",
-      "detail": "ui-contract.md is 1044 lines, slightly over the repository documentation guideline of 1000 lines. Consider moving non-SSOT explanatory content into indexed review artifacts while preserving the single YAML and Mermaid source blocks."
+      "responsible_generator": "gen_flows",
+      "detail": "context-slices/components contains extra slice ds:webui-pm-workspace-showcase:sidebar that is not a ds_id in ui-contract.md; the contract uses ds:webui-pm-workspace-showcase:sidebar-nav. Regenerate or delete the stale slice and align contract-summary components count with component-map.json."
     }
   ],
   "baseline_regression": false,
-  "recommended_ba_route": "Do not respawn all generators. Route to gen_flows for artifact-index preview entries, then re-run Stage 1 evaluator. No gen_contracts respawn is required unless the team wants to trim ui-contract.md below the doc line guideline.",
+  "recommended_ba_route": "Do not respawn all generators. Route to gen_contracts only for legacy PRD-04 contract path cleanup/archival and to gen_flows for the stale component context-slice/count drift, then re-run Stage 1 evaluator. No P0 issues were found; current score is capped at 85 for iteration 1.",
   "issues": [
-    "PASS on schema container, PRD-04 §8.1A route coverage, unique DS ID traceability, action/event matching, Mermaid Markdown validation, JSON artifact parse, and preview generation.",
-    "FAIL for Gate A readiness only because score is iteration-1 capped at 85 and a P1 review-package indexing defect remains.",
-    "No P0 issues found."
+    "PASS: canonical container, block-style YAML, single Mermaid Logic Machine, PRD-04 route coverage, Core WebUI API boundary mapping, unique DS IDs, action/event matching, Mermaid Markdown validation, JSON artifact parsing, preview generation, and conflict report readiness.",
+    "P1: stale legacy contract directory exists under docs/design/contracts/PRD-04-WebUI-and-PM-Workspace despite canonical normalization to webui-and-pm-workspace.",
+    "P1: one stale component context slice is not derived from the canonical ui-contract.md ds_id inventory."
   ]
 }

@@ -16,7 +16,8 @@ states:
 bindings:
 - GET /api/portfolio/epics
 - GET /api/tasks?issue_type=epic
-screen_actions:
+layout: executive portfolio table with roadmap quarters
+behaviors:
 - show Epic ID, owner, progress, budget, status, and forecast
 - render Q1, Q2, and Q3 2026 roadmap
 - preserve specified PRD DS badge value as display metadata

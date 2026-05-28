@@ -6,6 +6,7 @@ actions:
 screen_id: screen:rtm-dashboard
 screen_route: /
 screen_ds_id: ds:screen:rtm-dashboard-001
+prd_ds_id: null
 states:
 - default
 - loading
@@ -18,7 +19,11 @@ bindings:
 - GET /api/tasks
 - GET /api/trace/:id?depth=2
 - GET /api/gaps
-screen_actions:
+layout: four-panel RTM dashboard with KPI row, coverage heatmap, task progress, knowledge
+  graph, and gap analysis
+behaviors:
 - drill into PRD and section coverage
 - click graph nodes to show trace details
 - resolve gaps with create or source navigation action
+api_gateway: gmind serve Go REST API
+hash_route_interactions: []

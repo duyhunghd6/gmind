@@ -6,6 +6,7 @@ actions:
 screen_id: screen:ds-components
 screen_route: /design-system/components
 screen_ds_id: ds:screen:components-showcase-001
+prd_ds_id: ds:screen:components-001
 states:
 - default
 - loading
@@ -15,8 +16,13 @@ states:
 - forbidden
 bindings:
 - GET /api/design-system/components
-screen_actions:
+layout: catalog of 18 shared design-system sections with hash scroll and interactive
+  examples
+behaviors:
 - cover Buttons, Badges, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel,
   Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots,
   Skeleton, Empty State, and Error Banner
 - production screens compose these primitives instead of one-off styling
+api_gateway: gmind serve Go REST API
+hash_route_interactions:
+- hash navigation updates route component state

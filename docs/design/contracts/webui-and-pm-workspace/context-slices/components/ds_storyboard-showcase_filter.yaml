@@ -5,6 +5,7 @@ actions: []
 screen_id: screen:ds-storyboard
 screen_route: /design-system/storyboard
 screen_ds_id: ds:screen:storyboard-showcase-001
+prd_ds_id: ds:screen:storyboard-001
 states:
 - default
 - loading
@@ -14,7 +15,11 @@ states:
 - forbidden
 bindings:
 - GET /api/storyboards
-screen_actions:
+layout: journey filter, horizontal use-case flow, guidance panel, and CTA to real
+  screen
+behaviors:
 - filter journeys and preserve selected route state
 - show Mechanism and Action, Considerations, and Investigating guidance
 - CTA opens the corresponding implementation screen
+api_gateway: gmind serve Go REST API
+hash_route_interactions: []

@@ -13,7 +13,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
 PROMPT=$(cat <<'EOF'
-/project:ralph-loop stage2 for @docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md , and note that the Stage 2 output for @docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md must be written to ./docs/design/contracts/webui-and-pm-workspace . You can edit these subagents for Gemini extension also. These stage2 result must coverages all these routes::: |
+/project:ralph-loop stage2 for @docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md , and note that the Stage 2 output for @docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md must be written to ./docs/design/contracts/webui-and-pm-workspace . You can edit these subagents for Gemini extension also. This is the hi-fi UI version: an interactable UI with separated screens and separated URLs. These stage2 result must coverages all these routes::: |
    URL | Icon / DS ID | UI/UX bắt buộc | Data flow tương ứng trong Core WebUI |
    | --- | --- | --- | --- |
    | `/design-system/terminal` | 💻 `ds:screen:terminal-001` | Terminal scenario tabs: Agent Console, Deploy, Debug, CI/CD; terminal line types command/output/success/error; 2x2 Mosaic Layout cho Claude-01 Storage, Claude-02 CLI, Claude-03 CI, QA-Reviewer; states loading/empty/error/offline/forbidden. | Showcase dùng static terminal lines; Core dùng `GET /api/agents/sessions`, `GET /api/ci/runs`, `GET /api/tasks/:id/activity`, stream log events qua API, không gọi shell trực tiếp từ browser. |
