@@ -1,11 +1,19 @@
 ---
 name: ralph_stage2_build_components
-description: >
-  Stage 2 Component Builder — fills the page.tsx skeleton with component internals,
-  data, bindings, and actions from ui-contract.md, Mermaid logic, and targeted
-  component/storyboard slices. Runs AFTER build_layout.
-max_turns: 25
+description: "Stage 2 Component Builder \u2014 fills the page.tsx skeleton with component\
+  \ internals, data, bindings, and actions from ui-contract.md, Mermaid logic, and\
+  \ targeted component/storyboard slices. Runs AFTER build_layout."
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-build-components -->

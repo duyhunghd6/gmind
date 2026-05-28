@@ -1,11 +1,19 @@
 ---
 name: ralph_stage1_qa
-description: >
-  Stage 1 QA Tester for the Ralph Loop pipeline. Runs after evaluator convergence
+description: Stage 1 QA Tester for the Ralph Loop pipeline. Runs after evaluator convergence
   and independently verifies ui-contract.md, Mermaid review diagrams, derived JSON
   artifacts, layout rules, and preview output before Gate A.
-max_turns: 25
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-qa -->

@@ -1,11 +1,19 @@
 ---
 name: ralph_stage2_qa
-description: >
-  Stage 2 QA Acceptance Tester for the Ralph Loop pipeline. Verifies page.tsx
-  source and live showcase behavior against ui-contract.md, sliced storyboard
-  evidence, DS manifest, preview output, and browser render artifacts.
-max_turns: 25
+description: Stage 2 QA Acceptance Tester for the Ralph Loop pipeline. Verifies page.tsx
+  source and live showcase behavior against ui-contract.md, sliced storyboard evidence,
+  DS manifest, preview output, and browser render artifacts.
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-qa -->

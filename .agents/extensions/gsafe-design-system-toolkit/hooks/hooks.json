@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "AfterTool": [
+      {
+        "matcher": "replace|write_file",
+        "hooks": [
+          {
+            "name": "validate-mermaid",
+            "type": "command",
+            "command": "${extensionPath}/hooks/validate-mermaid.sh",
+            "timeout": 15000,
+            "description": "Validates Mermaid syntax in Markdown files to prevent UI parsing errors."
+          }
+        ]
+      }
+    ]
+  }
+}

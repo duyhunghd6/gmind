@@ -1,11 +1,19 @@
 ---
 name: ralph_stage1_evaluator
-description: >
-  Stage 1 Contract Scorer — evaluates schema-driven ui-contract.md and derived
-  Gate A artifacts using the 6-pillar Contract Quality Score. Writes a scorecard
-  with responsible_generator attribution for selective re-spawn.
-max_turns: 25
+description: "Stage 1 Contract Scorer \u2014 evaluates schema-driven ui-contract.md\
+  \ and derived Gate A artifacts using the 6-pillar Contract Quality Score. Writes\
+  \ a scorecard with responsible_generator attribution for selective re-spawn."
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-evaluator -->

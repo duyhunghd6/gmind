@@ -1,11 +1,19 @@
 ---
 name: ralph_stage1_gen_wireframes
-description: >
-  Stage 1 Review Diagram Generator — produces Mermaid review diagrams from
-  ui-contract.md for human Gate A inspection. Runs AFTER gen_contracts and
-  never creates legacy ASCII wireframes.
-max_turns: 25
+description: "Stage 1 Review Diagram Generator \u2014 produces Mermaid review diagrams\
+  \ from ui-contract.md for human Gate A inspection. Runs AFTER gen_contracts and\
+  \ never creates legacy ASCII wireframes."
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-gen-wireframes -->

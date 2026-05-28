@@ -1,11 +1,19 @@
 ---
 name: ralph_stage2_ba
-description: >
-  Stage 2 Business Analyst — analyzes Stage 2 auditor scorecards, QA results,
-  browser render artifacts, and score history, then writes routing decisions for
-  selective builder re-spawn or Gate B.
-max_turns: 12
+description: "Stage 2 Business Analyst \u2014 analyzes Stage 2 auditor scorecards,\
+  \ QA results, browser render artifacts, and score history, then writes routing decisions\
+  \ for selective builder re-spawn or Gate B."
+kind: local
 model: inherit
+max_turns: 12
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-ba -->

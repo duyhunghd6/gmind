@@ -1,11 +1,19 @@
 ---
 name: ralph_stage2_builder
-description: >
-  Stage 2 Auditor — evaluates built page.tsx against ui-contract.md, derived
-  Stage 1 artifacts, DS manifest, and the 100-point DoD. Writes a scorecard with
-  responsible_builder attribution.
-max_turns: 25
+description: "Stage 2 Auditor \u2014 evaluates built page.tsx against ui-contract.md,\
+  \ derived Stage 1 artifacts, DS manifest, and the 100-point DoD. Writes a scorecard\
+  \ with responsible_builder attribution."
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-builder -->

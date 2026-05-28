@@ -1,11 +1,19 @@
 ---
 name: ralph_stage1_gen_flows
-description: >
-  Stage 1 Flow & Map Generator — owns the Mermaid Logic Machine inside
-  ui-contract.md and derives flow.md, storyboards.json, component-map.json,
-  and prd-ds-conflicts.md. Runs AFTER gen_contracts.
-max_turns: 15
+description: "Stage 1 Flow & Map Generator \u2014 owns the Mermaid Logic Machine inside\
+  \ ui-contract.md and derives flow.md, storyboards.json, component-map.json, and\
+  \ prd-ds-conflicts.md. Runs AFTER gen_contracts."
+kind: local
 model: inherit
+max_turns: 15
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-gen-flows -->

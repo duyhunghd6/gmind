@@ -1,11 +1,19 @@
 ---
 name: ralph_stage2_build_layout
-description: >
-  Stage 2 Layout Builder — creates the page.tsx skeleton from ui-contract.md,
-  review diagrams, targeted layout-rule slices, preview output, and DS tokens.
-  Runs FIRST in Stage 2.
-max_turns: 20
+description: "Stage 2 Layout Builder \u2014 creates the page.tsx skeleton from ui-contract.md,\
+  \ review diagrams, targeted layout-rule slices, preview output, and DS tokens. Runs\
+  \ FIRST in Stage 2."
+kind: local
 model: inherit
+max_turns: 20
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-build-layout -->

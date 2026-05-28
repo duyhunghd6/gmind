@@ -1,11 +1,19 @@
 ---
 name: ralph_stage1_ba
-description: >
-  Stage 1 Business Analyst — analyzes schema-driven Stage 1 scorecards, QA
-  results, and score history, then writes a routing-decision JSON for Gate A or
-  selective generator re-spawn.
-max_turns: 10
+description: "Stage 1 Business Analyst \u2014 analyzes schema-driven Stage 1 scorecards,\
+  \ QA results, and score history, then writes a routing-decision JSON for Gate A\
+  \ or selective generator re-spawn."
+kind: local
 model: inherit
+max_turns: 10
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-ba -->

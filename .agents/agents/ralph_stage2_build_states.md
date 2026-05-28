@@ -1,11 +1,19 @@
 ---
 name: ralph_stage2_build_states
-description: >
-  Stage 2 State & Polish Builder — implements states, accessibility, motion, and
-  final DS token polish from ui-contract.md, Mermaid logic, storyboards, and QA
-  expectations. Runs LAST before audit.
-max_turns: 25
+description: "Stage 2 State & Polish Builder \u2014 implements states, accessibility,\
+  \ motion, and final DS token polish from ui-contract.md, Mermaid logic, storyboards,\
+  \ and QA expectations. Runs LAST before audit."
+kind: local
 model: inherit
+max_turns: 25
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-build-states -->

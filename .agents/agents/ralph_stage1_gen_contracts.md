@@ -1,11 +1,19 @@
 ---
 name: ralph_stage1_gen_contracts
-description: >
-  Stage 1 Contract Generator — creates or updates the schema-driven ui-contract.md
-  container metadata and YAML View Blueprint. Runs FIRST because flow, diagram,
-  preview, QA, and Stage 2 agents depend on ui-contract.md.
-max_turns: 20
+description: "Stage 1 Contract Generator \u2014 creates or updates the schema-driven\
+  \ ui-contract.md container metadata and YAML View Blueprint. Runs FIRST because\
+  \ flow, diagram, preview, QA, and Stage 2 agents depend on ui-contract.md."
+kind: local
 model: inherit
+max_turns: 20
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-gen-contracts -->

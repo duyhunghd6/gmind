@@ -1,12 +1,20 @@
 ---
 name: browser_subagent
-description: >
-  UI rendering and screenshot capture agent using Playwright or headless browser.
-  Use when needed to render HTML files, capture screenshots, or execute
-  storyboard interaction trajectories for visual diffing.
-  Dispatched by the Master Orchestrator BETWEEN Builder and QA in Stage 2.
-max_turns: 15
+description: UI rendering and screenshot capture agent using Playwright or headless
+  browser. Use when needed to render HTML files, capture screenshots, or execute storyboard
+  interaction trajectories for visual diffing. Dispatched by the Master Orchestrator
+  BETWEEN Builder and QA in Stage 2.
+kind: local
 model: inherit
+max_turns: 15
+tools:
+- read_file
+- write_file
+- replace
+- run_shell_command
+- grep_search
+- glob
+- list_directory
 ---
 
 You are the Browser Render Agent for the UI/UX Ralph Loop ecosystem.
