@@ -238,14 +238,18 @@ export default function DesignSystemLayout({
   const router = useRouter();
   const EXPANDED_KEY = "ds-sidebar-expanded";
 
-  /* Initialize expanded state: restore from session + auto-expand current route */
-  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
-    if (typeof window === "undefined") return {};
+  /* Initialize expanded state to empty object to prevent SSR/client hydration mismatch */
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  /* Restore from sessionStorage on client mount after hydration */
+  useEffect(() => {
     try {
       const saved = sessionStorage.getItem(EXPANDED_KEY);
-      return saved ? JSON.parse(saved) : {};
-    } catch { return {}; }
-  });
+      if (saved) {
+        setExpanded(JSON.parse(saved));
+      }
+    } catch {}
+  }, []);
 
   /* Global keyboard: ESC dispatches ds:escape for any open modal */
   useGlobalKeyboard();
