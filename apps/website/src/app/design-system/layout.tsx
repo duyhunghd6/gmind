@@ -121,11 +121,14 @@ const menu: Category[] = [
         label: "PM Workspace",
         icon: "🧭",
         subs: [
-          { href: "/design-system/webui-pm-workspace#surface-dashboard", label: "Dashboard" },
-          { href: "/design-system/webui-pm-workspace#surface-board", label: "Board" },
-          { href: "/design-system/webui-pm-workspace#surface-pi-planning", label: "PI Planning" },
-          { href: "/design-system/webui-pm-workspace#surface-approval", label: "Approval" },
-          { href: "/design-system/webui-pm-workspace#surface-graph", label: "Graph" },
+          { href: "/design-system/webui-pm-workspace", label: "RTM Dashboard" },
+          { href: "/design-system/webui-pm-workspace#surface-board", label: "SAFe Board" },
+          { href: "/design-system/webui-pm-workspace#surface-tasks", label: "Task List" },
+          { href: "/design-system/webui-pm-workspace#surface-tasks-detail", label: "Task Detail" },
+          { href: "/design-system/webui-pm-workspace#surface-trace", label: "Trace Explorer" },
+          { href: "/design-system/webui-pm-workspace#surface-docs", label: "Core Doc Viewer" },
+          { href: "/design-system/webui-pm-workspace#surface-approval", label: "Approval Gates" },
+          { href: "/design-system/webui-pm-workspace#surface-search", label: "Search Results" },
         ],
       },
       {
@@ -272,6 +275,24 @@ export default function DesignSystemLayout({
 
   const isActive = (href: string) => pathname === href;
 
+  const [currentHash, setCurrentHash] = useState("");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setCurrentHash(window.location.hash);
+    const handleHashChange = () => setCurrentHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const isSubActive = (subHref: string) => {
+    const { path, hash } = parseSubHref(subHref);
+    if (pathname !== path) return false;
+    if (!hash) {
+      return currentHash === "" || currentHash === "#surface-dashboard";
+    }
+    return currentHash === hash;
+  };
+
   /* Persist sidebar scroll position across navigation */
   const sidebarRef = useRef<HTMLElement>(null);
   const isRestoringScroll = useRef(false);
@@ -334,11 +355,11 @@ export default function DesignSystemLayout({
                   {/* Level 2: Menu Item */}
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Link
-                      href={item.href}
-                      className={`docs-sidebar__item${itemActive ? " active" : ""}`}
-                      onClick={() => hasSubs && toggle(item.href)}
-                      aria-current={itemActive ? "page" : undefined}
-                      aria-expanded={hasSubs ? isOpen : undefined}
+                       href={item.href}
+                       className={`docs-sidebar__item${itemActive ? " active" : ""}`}
+                       onClick={() => hasSubs && toggle(item.href)}
+                       aria-current={itemActive ? "page" : undefined}
+                       aria-expanded={hasSubs ? isOpen : undefined}
                     >
                       <span style={{ marginRight: "8px" }} aria-hidden="true">{item.icon}</span>
                       {item.label}
@@ -363,7 +384,7 @@ export default function DesignSystemLayout({
                         <a
                           key={sub.href}
                           href={sub.href}
-                          className="docs-sidebar__subitem"
+                          className={`docs-sidebar__subitem${isSubActive(sub.href) ? " active" : ""}`}
                           role="listitem"
                           onClick={(e) => handleSubClick(e, sub.href)}
                         >

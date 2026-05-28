@@ -931,11 +931,11 @@ screens:
       - error
       - offline
       - forbidden
-    layout: integrated shell with header, search, offline indicator, sidebar nav, and active PM surfaces
+    layout: integrated shell with header, search, offline indicator, and active PM surfaces
     behaviors:
       - expose Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, and Search Results surfaces
       - every active surface carries stable data-screen-id and data-ds-id
-      - sidebar categories match Design System, Screens, Explorer, and Storyboard
+      - screen selection is driven by URL hashes on the global Design System layout sidebar
     assertion_hooks: assert route, data-screen-id, data-ds-id, required states, core API mapping, interactions, responsive behavior, and boundary copy for this screen
     data_flow:
       endpoints:
@@ -954,8 +954,6 @@ screens:
             - EVENT_SEARCH
             - EVENT_DISCONNECT
             - EVENT_RECONNECT
-        - type: WorkspaceSidebar
-          ds_id: ds:webui-pm-workspace-showcase:sidebar
         - type: BoundaryActionBar
           ds_id: ds:webui-pm-workspace-showcase:boundary-actions
           actions:

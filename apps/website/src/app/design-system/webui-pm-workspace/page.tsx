@@ -1,6 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { RTMDashboard, SafeBoard, ApprovalGates, SearchResults } from "./components/DashboardScreens";
+import { TaskList, TaskDetail, TraceExplorer, DocViewer } from "./components/TaskScreens";
+import { TerminalShowcase } from "./components/showcase/TerminalShowcase";
+import { PortfolioShowcase } from "./components/showcase/PortfolioShowcase";
+import { PiPlanningShowcase } from "./components/showcase/PiPlanningShowcase";
+import { GitGraphShowcase } from "./components/showcase/GitGraphShowcase";
+import { KanbanShowcase } from "./components/showcase/KanbanShowcase";
+import { KnowledgeGraphShowcase } from "./components/showcase/KnowledgeGraphShowcase";
+import { ApprovalShowcase } from "./components/showcase/ApprovalShowcase";
+import { TimelineShowcase } from "./components/showcase/TimelineShowcase";
+import { ComponentsShowcase } from "./components/showcase/ComponentsShowcase";
+import { DocViewerShowcase } from "./components/showcase/DocViewerShowcase";
+import { ExplorerShowcase } from "./components/showcase/ExplorerShowcase";
+import { BeadsTraversalShowcase } from "./components/showcase/BeadsTraversalShowcase";
+import { StoryboardShowcase } from "./components/showcase/StoryboardShowcase";
 
 type Group = "Core WebUI" | "Showcase" | "Composite";
 type ViewState = "default" | "loading" | "empty" | "error" | "offline" | "forbidden" | "partial" | "saving" | "not_found" | "success";
@@ -45,7 +61,9 @@ const showcaseScreens: Screen[] = [
   screen("screen:ds-storyboard", "Storyboard", "/design-system/storyboard", "ds:screen:storyboard-showcase-001", "ds:storyboard-showcase:surface", "Showcase", "Journey filter, horizontal use-case flow, guidance panel, and CTA shell.", ["ds:storyboard-showcase:filter", "ds:storyboard-showcase:flow", "ds:storyboard-showcase:guidance"], ["GET /api/storyboards"], [], "ds:screen:storyboard-001"),
   screen("screen:ds-storyboard-detail", "Storyboard Detail", "/design-system/storyboard/:id", "ds:screen:storyboard-detail-showcase-001", "ds:storyboard-detail-showcase:surface", "Showcase", "Dynamic storyboard detail shell with role panel, journey steps, and related use cases.", ["ds:storyboard-detail-showcase:role", "ds:storyboard-detail-showcase:steps", "ds:storyboard-detail-showcase:related"], ["GET /api/storyboards/:id"], ["not_found"]),
 ];
+
 const workspace = screen("screen:ds-webui-pm-workspace", "WebUI PM Workspace", "/design-system/webui-pm-workspace", "ds:screen:webui-pm-workspace-showcase-001", "ds:webui-pm-workspace-showcase:surface", "Composite", "Integrated shell with header, search, offline indicator, sidebar nav, boundary actions, sync banner, and active PM surfaces.", ["ds:webui-pm-workspace-showcase:header", "ds:webui-pm-workspace-showcase:sidebar", "ds:webui-pm-workspace-showcase:boundary-actions", "ds:webui-pm-workspace-showcase:sync-conflict-banner", "ds:webui-pm-workspace-showcase:active-surface"], ["GET /api/coverage", "GET /api/tasks", "GET /api/trace/:id", "GET /api/docs", "GET /api/search"], ["saving"], "ds:global_shell");
+
 const routeMarkers: Record<string, string> = {
   "/design-system/terminal": "TERM",
   "/design-system/portfolio": "PORT",
@@ -63,18 +81,117 @@ const routeMarkers: Record<string, string> = {
   "/design-system/storyboard/:id": "STORY-ID",
   "/design-system/webui-pm-workspace": "SHELL",
 };
+
 const routeScreens = [...coreScreens, ...showcaseScreens, workspace];
 
-export default function WebUIPMWorkspacePage() {
-  const [activeId, setActiveId] = useState(workspace.id);
+const screenIdToHash: Record<string, string> = {
+  "screen:rtm-dashboard": "", "screen:safe-board": "#surface-board", "screen:task-list": "#surface-tasks", "screen:task-detail": "#surface-tasks-detail", "screen:trace-explorer": "#surface-trace", "screen:doc-viewer": "#surface-docs", "screen:approval-gates": "#surface-approval", "screen:search-results": "#surface-search",
+  "rtm_dashboard": "", "safe_board": "#surface-board", "task_list": "#surface-tasks", "task_detail": "#surface-tasks-detail", "trace_explorer": "#surface-trace", "doc_viewer": "#surface-docs", "approval_gates": "#surface-approval", "search_results": "#surface-search",
+  "rtm": "", "board": "#surface-board", "tasks": "#surface-tasks", "detail": "#surface-tasks-detail", "trace": "#surface-trace", "docs": "#surface-docs", "approval": "#surface-approval", "search": "#surface-search",
+};
+
+const pathnameToScreenIdMap: Record<string, string> = {
+  "/design-system/terminal": "screen:ds-terminal",
+  "/design-system/portfolio": "screen:ds-portfolio",
+  "/design-system/pi-planning": "screen:ds-pi-planning",
+  "/design-system/git-graph": "screen:ds-git-graph",
+  "/design-system/kanban": "screen:ds-kanban",
+  "/design-system/knowledge-graph": "screen:ds-knowledge-graph",
+  "/design-system/approval": "screen:ds-approval",
+  "/design-system/timeline": "screen:ds-timeline",
+  "/design-system/components": "screen:ds-components",
+  "/design-system/doc-viewer": "screen:ds-doc-viewer",
+  "/design-system/explorer": "screen:ds-explorer",
+  "/design-system/beads-traversal": "screen:ds-beads-traversal",
+  "/design-system/storyboard": "screen:ds-storyboard",
+  "/design-system/webui-pm-workspace": "screen:ds-webui-pm-workspace",
+};
+
+interface WorkspaceProps {
+  initialActiveId?: string;
+  storyboardId?: string;
+}
+
+export default function WebUIPMWorkspacePage({
+  initialActiveId,
+  storyboardId,
+}: WorkspaceProps = {}) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const currentScreenId = useMemo(() => {
+    if (pathname.startsWith("/design-system/storyboard/") && pathname !== "/design-system/storyboard") {
+      return "screen:ds-storyboard-detail";
+    }
+    return pathnameToScreenIdMap[pathname] || initialActiveId || workspace.id;
+  }, [pathname, initialActiveId]);
+
+  const currentStoryboardId = useMemo(() => {
+    if (pathname.startsWith("/design-system/storyboard/") && pathname !== "/design-system/storyboard") {
+      return pathname.split("/").pop();
+    }
+    return storyboardId;
+  }, [pathname, storyboardId]);
+
+  const [activeId, setActiveId] = useState(currentScreenId);
   const [state, setState] = useState<ViewState>("default");
   const [connected, setConnected] = useState(true);
   const [query, setQuery] = useState("br-prd04 approval evidence");
   const [notice, setNotice] = useState("Ready: workspace routes render API-mapped data only.");
+  
+  const [taskActiveTab, setTaskActiveTab] = useState("detail");
+  const [approvalStatus, setApprovalStatus] = useState("Pending Review");
+
   const activeScreen = useMemo(() => routeScreens.find((item) => item.id === activeId) ?? workspace, [activeId]);
   const activeState: ViewState = connected ? state : "offline";
   const supportedStates = stateOptions.filter((item) => activeScreen.states.includes(item));
-  function selectScreen(id: string) { const target = routeScreens.find((item) => item.id === id) ?? workspace; setActiveId(target.id); setState("default"); setNotice(`Navigated to ${target.route}; data resolves through route-scoped REST endpoints.`); }
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      const hashToScreenIdMap: Record<string, string> = {
+        "": "screen:rtm-dashboard",
+        "#surface-dashboard": "screen:rtm-dashboard",
+        "#surface-board": "screen:safe-board",
+        "#surface-tasks": "screen:task-list",
+        "#surface-tasks-detail": "screen:task-detail",
+        "#surface-trace": "screen:trace-explorer",
+        "#surface-docs": "screen:doc-viewer",
+        "#surface-approval": "screen:approval-gates",
+        "#surface-search": "screen:search-results",
+      };
+      
+      if (pathname === "/design-system/webui-pm-workspace" || pathname === "/") {
+        const targetId = hashToScreenIdMap[hash] || "screen:rtm-dashboard";
+        setActiveId(targetId);
+      } else {
+        setActiveId(currentScreenId);
+      }
+      setState("default");
+    };
+    
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, [pathname, currentScreenId]);
+
+  function selectScreen(id: string) {
+    const target = routeScreens.find((item) => item.id === id) ?? workspace;
+    const hash = screenIdToHash[id];
+    if (hash !== undefined) {
+      if (pathname !== "/design-system/webui-pm-workspace") {
+        router.push(`/design-system/webui-pm-workspace${hash}`);
+      } else {
+        window.location.hash = hash;
+      }
+    } else {
+      router.push(target.route);
+    }
+    setState("default");
+  }
+
+  const navigateTo = (id: string) => selectScreen(id);
+
   function setPreviewState(next: ViewState) { setState(next); setNotice(`${next} state selected for ${activeScreen.route}; ${noDirect}`); }
   function action(event: string, target?: string) {
     const map: Record<string, () => void> = {
@@ -82,26 +199,64 @@ export default function WebUIPMWorkspacePage() {
     };
     map[event]?.(); setNotice(`${event} uses ${target ?? "route-scoped"} REST mapping; ${noDirect}`);
   }
+
   return <main data-screen-id={workspace.id} data-ds-id={workspace.dsId} data-prd-ds-id={workspace.prdDsId} data-state={activeState} data-contract-state={activeState === "not_found" ? "not_found" : activeState} className="min-h-[100dvh] bg-[var(--bg)] text-[var(--text)]">
     <a href="#active-surface" className={`sr-only focus:not-sr-only focus:fixed focus:left-[var(--space-md)] focus:top-[var(--space-md)] focus:z-50 focus:rounded-[var(--radius)] focus:bg-[var(--surface-elevated)] focus:p-[var(--space-sm)] ${focusRing}`}>Skip to workspace surface</a>
     <section data-ds-id={workspace.surfaceId} aria-label="WebUI PM Workspace composite shell" className="mx-auto flex min-h-[100dvh] max-w-[1500px] flex-col border-x border-[var(--border)] bg-[var(--surface)]">
       <header role="banner" data-ds-id="ds:webui-pm-workspace-showcase:header" className="border-b border-[var(--border)] p-[var(--space-md)]"><div className="grid gap-[var(--space-md)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,520px)_auto] lg:items-end"><div><p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-dim)]">gmind serve REST workspace</p><h1 className="mt-[var(--space-xs)] text-2xl font-semibold tracking-tight">WebUI PM Workspace</h1><p className="mt-[var(--space-xs)] max-w-3xl text-sm text-[var(--text-dim)]">Integrated Core WebUI and PRD-04 showcase shell. {noDirect}</p></div><form role="search" aria-label="Search PM workspace" onSubmit={(event) => { event.preventDefault(); action("EVENT_SEARCH", query); }} className="grid gap-[var(--space-sm)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end"><label htmlFor="workspace-search" className="text-xs text-[var(--text-dim)]">Search tasks, docs, commits, and Beads IDs<input id="workspace-search" value={query} onChange={(event) => setQuery(event.target.value)} className={`mt-[var(--space-xs)] w-full rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] px-[var(--space-md)] py-[var(--space-sm)] text-sm text-[var(--text)] ${focusRing}`} /></label><button type="submit" className={`btn-primary ${focusRing}`}>Search</button></form><button type="button" aria-label={connected ? "Switch workspace to offline read-only state" : "Reconnect and rehydrate queued workspace edits"} aria-pressed={!connected} onClick={() => action(connected ? "EVENT_DISCONNECT" : "EVENT_RECONNECT", connected ? "GET /api/health" : "POST /api/sync/rehydrate")} className={`btn-secondary ${focusRing}`}>{connected ? "API connected" : "Offline read-only"}</button></div></header>
       <p className="sr-only" aria-live="polite" aria-atomic="true">{activeScreen.label} route is in {activeState.replace(/[-_]/g, " ")} state. {notice}</p>
       {!connected && <aside data-ds-id="ds:webui-pm-workspace-showcase:sync-conflict-banner" data-state="offline" aria-label="Offline sync conflict" className="grid gap-[var(--space-sm)] border-b border-[var(--border)] bg-[var(--accent-amber-dim)] p-[var(--space-md)] text-sm md:grid-cols-[1fr_auto_auto]"><span><strong>Status: offline conflict.</strong> Local edit br-plan-04 differs from server version. Resolve via REST conflict endpoint.</span><button type="button" onClick={() => action("EVENT_KEEP_LOCAL", "POST /api/sync/conflicts/rlp-482/resolve")} className={`btn-secondary btn-sm ${focusRing}`}>Keep local</button><button type="button" onClick={() => action("EVENT_USE_SERVER", "POST /api/sync/conflicts/rlp-482/resolve")} className={`btn-secondary btn-sm ${focusRing}`}>Use server</button></aside>}
-      <div className="grid flex-1 overflow-hidden lg:grid-cols-[300px_minmax(0,1fr)]"><aside data-ds-id="ds:webui-pm-workspace-showcase:sidebar" aria-label="Workspace route navigation" className="border-b border-[var(--border)] bg-[var(--surface)] lg:border-b-0 lg:border-r"><RouteNav title="Core WebUI" screens={coreScreens} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Screens" screens={showcaseScreens.slice(0, 9)} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Explorer" screens={showcaseScreens.slice(9, 12)} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Storyboard" screens={showcaseScreens.slice(12)} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Composite" screens={[workspace]} activeId={activeId} onSelect={selectScreen} /></aside>
-        <section id="active-surface" data-ds-id="ds:webui-pm-workspace-showcase:active-surface" aria-labelledby="active-screen-title" className="overflow-auto bg-[var(--bg)] p-[var(--space-md)] md:p-[var(--space-lg)]" tabIndex={-1}><section aria-labelledby="state-preview-title" className="mb-[var(--space-md)] rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)]"><h2 id="state-preview-title" className="text-base font-semibold">Declared state anchors</h2><p className="mt-[var(--space-xs)] text-xs text-[var(--text-dim)]">{notice}</p><div className="mt-[var(--space-sm)] flex flex-wrap gap-[var(--space-sm)]" role="toolbar" aria-label="Preview available states">{supportedStates.map((item) => <button key={item} type="button" data-state={item} aria-pressed={activeState === item} disabled={!connected && item !== "offline"} onClick={() => setPreviewState(item)} className={`badge ${activeState === item ? "badge-teal" : "badge-cyan"} ${focusRing}`}>{item.replace(/[-_]/g, " ")}</button>)}</div></section><ScreenSurface screen={activeScreen} state={activeState} featured onAction={action} query={query} setQuery={setQuery} />
-          <section aria-labelledby="route-coverage-title" className="mt-[var(--space-lg)]"><header className="mb-[var(--space-md)] flex flex-col gap-[var(--space-xs)] sm:flex-row sm:items-end sm:justify-between"><div><h2 id="route-coverage-title" className="text-xl font-semibold">Route coverage map</h2><p className="text-sm text-[var(--text-dim)]">PRD-04 §8.1A Core WebUI, showcase, and composite route shells with stable anchors.</p></div><p className="font-mono text-xs text-[var(--text-dim)]">{routeScreens.length} screens scaffolded</p></header><div className="grid grid-cols-1 gap-[var(--space-md)] xl:grid-cols-2">{routeScreens.map((item) => <ScreenSurface key={item.id} screen={item} state="default" onAction={action} query={query} setQuery={setQuery} />)}</div></section></section></div>
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <section id="active-surface" data-ds-id="ds:webui-pm-workspace-showcase:active-surface" aria-labelledby="active-screen-title" className="overflow-auto bg-[var(--bg)] p-[var(--space-md)] md:p-[var(--space-lg)]" tabIndex={-1}><section aria-labelledby="state-preview-title" className="mb-[var(--space-md)] rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)]"><h2 id="state-preview-title" className="text-base font-semibold">Declared state anchors</h2><p className="mt-[var(--space-xs)] text-xs text-[var(--text-dim)]">{notice}</p><div className="mt-[var(--space-sm)] flex flex-wrap gap-[var(--space-sm)]" role="toolbar" aria-label="Preview available states">{supportedStates.map((item) => <button key={item} type="button" data-state={item} aria-pressed={activeState === item} disabled={!connected && item !== "offline"} onClick={() => setPreviewState(item)} className={`badge ${activeState === item ? "badge-teal" : "badge-cyan"} ${focusRing}`}>{item.replace(/[-_]/g, " ")}</button>)}</div></section>
+          <ScreenSurface screen={activeScreen} state={activeState} featured onAction={action} query={query} setQuery={setQuery} taskActiveTab={taskActiveTab} setTaskActiveTab={setTaskActiveTab} approvalStatus={approvalStatus} setApprovalStatus={setApprovalStatus} navigateTo={navigateTo} storyboardId={currentStoryboardId} />
+          <section aria-labelledby="route-coverage-title" className="mt-[var(--space-lg)]"><header className="mb-[var(--space-md)] flex flex-col gap-[var(--space-xs)] sm:flex-row sm:items-end sm:justify-between"><div><h2 id="route-coverage-title" className="text-xl font-semibold">Route coverage map</h2><p className="text-sm text-[var(--text-dim)]">PRD-04 §8.1A Core WebUI, showcase, and composite route shells with stable anchors.</p></div><p className="font-mono text-xs text-[var(--text-dim)]">{routeScreens.length} screens scaffolded</p></header><div className="grid grid-cols-1 gap-[var(--space-md)] xl:grid-cols-2">{routeScreens.map((item) => <ScreenSurface key={item.id} screen={item} state="default" onAction={action} query={query} setQuery={setQuery} taskActiveTab={taskActiveTab} setTaskActiveTab={setTaskActiveTab} approvalStatus={approvalStatus} setApprovalStatus={setApprovalStatus} navigateTo={navigateTo} storyboardId={currentStoryboardId} />)}</div></section></section></div>
       <footer data-ds-id="ds:webui-pm-workspace-showcase:boundary-actions" className="flex flex-col gap-[var(--space-sm)] border-t border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)] text-xs text-[var(--text-dim)] sm:flex-row sm:items-center sm:justify-between"><span>{noDirect}</span><button type="button" data-state="forbidden" onClick={() => action("EVENT_BACK")} className={`btn-secondary btn-sm ${focusRing}`}>Return to dashboard</button></footer>
     </section>
   </main>;
 }
 
-function RouteNav({ title, screens, activeId, onSelect }: { title: string; screens: Screen[]; activeId: string; onSelect: (id: string) => void }) {
-  return <nav aria-label={`${title} routes`} className="max-h-[44dvh] overflow-auto p-[var(--space-md)] lg:max-h-none"><h2 className="mb-[var(--space-sm)] font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-dim)]">{title}</h2><ul className="space-y-[var(--space-xs)]">{screens.map((item) => <li key={item.id}><button type="button" aria-current={activeId === item.id ? "page" : undefined} onClick={() => onSelect(item.id)} className={`w-full rounded-[var(--radius)] border px-[var(--space-sm)] py-[var(--space-sm)] text-left hover:opacity-90 active:scale-[0.99] ${motion} ${focusRing} ${activeId === item.id ? "border-[var(--border-highlight)] bg-[var(--accent-cyan-dim)] text-[var(--text)]" : "border-transparent text-[var(--text-dim)]"}`}><span className="block text-sm font-medium">{item.label}</span><span className="block font-mono text-[0.68rem]">{item.route}</span></button></li>)}</ul></nav>;
-}
+function ScreenSurface({
+  screen, state, featured = false, onAction, query, setQuery, taskActiveTab, setTaskActiveTab, approvalStatus, setApprovalStatus, navigateTo, storyboardId
+}: {
+  screen: Screen; state: ViewState; featured?: boolean; onAction: (event: string, target?: string) => void; query: string; setQuery: (value: string) => void; taskActiveTab: string; setTaskActiveTab: (tab: string) => void; approvalStatus: string; setApprovalStatus: (status: string) => void; navigateTo: (id: string) => void; storyboardId?: string;
+}) {
+  const renderCoreComponent = (id: string) => {
+    switch (id) {
+      case "screen:rtm-dashboard": return <RTMDashboard navigateTo={navigateTo} />;
+      case "screen:safe-board": return <SafeBoard navigateTo={navigateTo} />;
+      case "screen:task-list": return <TaskList navigateTo={navigateTo} />;
+      case "screen:task-detail": return <TaskDetail navigateTo={navigateTo} activeTab={taskActiveTab} setActiveTab={setTaskActiveTab} state={state === "offline" ? "saving" : state === "saving" ? "saving" : undefined} />;
+      case "screen:trace-explorer": return <TraceExplorer navigateTo={navigateTo} state={state === "offline" ? "partial" : state === "partial" ? "partial" : undefined} />;
+      case "screen:doc-viewer": return <DocViewer navigateTo={navigateTo} />;
+      case "screen:approval-gates": return <ApprovalGates approvalStatus={approvalStatus} setApprovalStatus={setApprovalStatus} state={state === "offline" ? "insufficient_evidence" : undefined} />;
+      case "screen:search-results": return <SearchResults navigateTo={navigateTo} searchQuery={query} />;
+      default: return null;
+    }
+  };
 
-function ScreenSurface({ screen, state, featured = false, onAction, query, setQuery }: { screen: Screen; state: ViewState; featured?: boolean; onAction: (event: string, target?: string) => void; query: string; setQuery: (value: string) => void }) {
-  return <article data-screen-id={screen.id} data-ds-id={screen.dsId} data-prd-ds-id={screen.prdDsId} data-state={state} data-contract-state={state === "not_found" ? "not_found" : state} className={`rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)] ${motion} ${featured ? "min-h-[440px]" : ""}`}><header className="border-b border-[var(--border)] pb-[var(--space-md)]"><p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-dim)]">{screen.group}</p><h3 id={featured ? "active-screen-title" : undefined} className="mt-[var(--space-xs)] flex flex-wrap items-center gap-[var(--space-xs)] text-xl font-semibold">{screen.label}{routeMarkers[screen.route] && <span className="badge badge-teal font-mono" aria-label={`PRD-04 route marker ${routeMarkers[screen.route]}`}>{routeMarkers[screen.route]}</span>}</h3><p className="mt-[var(--space-xs)] font-mono text-xs text-[var(--text-dim)]">{screen.route}</p><p className="mt-[var(--space-xs)] font-mono text-[0.68rem] text-[var(--text-dim)]">contract {screen.dsId}{screen.prdDsId ? ` / PRD alias ${screen.prdDsId}` : ""}</p><p className="mt-[var(--space-sm)] text-sm text-[var(--text-dim)]">{screen.layout}</p></header>{state !== "default" ? <StatePanel screen={screen} state={state} onAction={onAction} /> : <section data-ds-id={screen.surfaceId} aria-label={`${screen.label} layout regions`} className="mt-[var(--space-md)] grid gap-[var(--space-sm)] md:grid-cols-2 xl:grid-cols-3">{screen.regions.map((region) => <Region key={region} screen={screen} region={region} onAction={onAction} query={query} setQuery={setQuery} />)}</section>}<aside aria-label={`${screen.label} state and API summary`} className="mt-[var(--space-md)] grid gap-[var(--space-sm)] lg:grid-cols-2"><section className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs uppercase text-[var(--text-dim)]">States</h4><div className="mt-[var(--space-sm)] flex flex-wrap gap-[var(--space-xs)]">{screen.states.map((item) => <span key={item} data-state={item} className="badge badge-cyan">{item.replace(/[-_]/g, " ")}</span>)}</div></section><section className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs uppercase text-[var(--text-dim)]">REST data flow</h4>{screen.endpoints.map((endpoint) => <p key={endpoint} className="font-mono text-[0.7rem] text-[var(--text)]">{endpoint}</p>)}<p className="mt-[var(--space-xs)] text-[0.68rem] text-[var(--text-dim)]">{noDirect}</p></section></aside></article>;
+  const renderShowcaseComponent = (id: string) => {
+    switch (id) {
+      case "screen:ds-terminal": return <TerminalShowcase state={state} onAction={onAction} />;
+      case "screen:ds-portfolio": return <PortfolioShowcase state={state} onAction={onAction} />;
+      case "screen:ds-pi-planning": return <PiPlanningShowcase state={state} onAction={onAction} />;
+      case "screen:ds-git-graph": return <GitGraphShowcase state={state} onAction={onAction} />;
+      case "screen:ds-kanban": return <KanbanShowcase state={state} onAction={onAction} />;
+      case "screen:ds-knowledge-graph": return <KnowledgeGraphShowcase state={state} onAction={onAction} />;
+      case "screen:ds-approval": return <ApprovalShowcase state={state} onAction={onAction} />;
+      case "screen:ds-timeline": return <TimelineShowcase state={state} onAction={onAction} />;
+      case "screen:ds-components": return <ComponentsShowcase state={state} onAction={onAction} />;
+      case "screen:ds-doc-viewer": return <DocViewerShowcase state={state} onAction={onAction} />;
+      case "screen:ds-explorer": return <ExplorerShowcase state={state} onAction={onAction} />;
+      case "screen:ds-beads-traversal": return <BeadsTraversalShowcase state={state} onAction={onAction} />;
+      case "screen:ds-storyboard": return <StoryboardShowcase state={state} onAction={onAction} />;
+      case "screen:ds-storyboard-detail": return <StoryboardShowcase state={state} storyboardId={storyboardId} onAction={onAction} />;
+      default: return null;
+    }
+  };
+
+  const renderFeaturedComponent = (id: string, group: string) => group === "Core WebUI" ? renderCoreComponent(id) : group === "Showcase" ? renderShowcaseComponent(id) : null;
+
+  return <article data-screen-id={screen.id} data-ds-id={screen.dsId} data-prd-ds-id={screen.prdDsId} data-state={state} data-contract-state={state === "not_found" ? "not_found" : state} className={`rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)] ${motion} ${featured ? "min-h-[440px]" : ""}`}><header className="border-b border-[var(--border)] pb-[var(--space-md)]"><p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-dim)]">{screen.group}</p><h3 id={featured ? "active-screen-title" : undefined} className="mt-[var(--space-xs)] flex flex-wrap items-center gap-[var(--space-xs)] text-xl font-semibold">{screen.label}{routeMarkers[screen.route] && <span className="badge badge-teal font-mono" aria-label={`PRD-04 route marker ${routeMarkers[screen.route]}`}>{routeMarkers[screen.route]}</span>}</h3><p className="mt-[var(--space-xs)] font-mono text-xs text-[var(--text-dim)]">{screen.route}</p><p className="mt-[var(--space-xs)] font-mono text-[0.68rem] text-[var(--text-dim)]">contract {screen.dsId}{screen.prdDsId ? ` / PRD alias ${screen.prdDsId}` : ""}</p><p className="mt-[var(--space-sm)] text-sm text-[var(--text-dim)]">{screen.layout}</p></header>{state !== "default" && state !== "offline" && state !== "partial" && state !== "saving" ? <StatePanel screen={screen} state={state} onAction={onAction} /> : featured && (screen.group === "Core WebUI" || screen.group === "Showcase") ? <div className="mt-[var(--space-md)] flex flex-col gap-[var(--space-md)]">{renderFeaturedComponent(screen.id, screen.group)}</div> : <section data-ds-id={screen.surfaceId} aria-label={`${screen.label} layout regions`} className="mt-[var(--space-md)] grid gap-[var(--space-sm)] md:grid-cols-2 xl:grid-cols-3">{screen.regions.map((region) => <Region key={region} screen={screen} region={region} onAction={onAction} query={query} setQuery={setQuery} />)}</section>}<aside aria-label={`${screen.label} state and API summary`} className="mt-[var(--space-md)] grid gap-[var(--space-sm)] lg:grid-cols-2"><section className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs uppercase text-[var(--text-dim)]">States</h4><div className="mt-[var(--space-sm)] flex flex-wrap gap-[var(--space-xs)]">{screen.states.map((item) => <span key={item} data-state={item} className="badge badge-cyan">{item.replace(/[-_]/g, " ")}</span>)}</div></section><section className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs uppercase text-[var(--text-dim)]">REST data flow</h4>{screen.endpoints.map((endpoint) => <p key={endpoint} className="font-mono text-[0.7rem] text-[var(--text)]">{endpoint}</p>)}<p className="mt-[var(--space-xs)] text-[0.68rem] text-[var(--text-dim)]">{noDirect}</p></section></aside></article>;
 }
 
 function Region({ screen, region, onAction, query, setQuery }: { screen: Screen; region: string; onAction: (event: string, target?: string) => void; query: string; setQuery: (value: string) => void }) {
