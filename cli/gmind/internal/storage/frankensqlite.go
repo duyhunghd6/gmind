@@ -18,19 +18,24 @@ type SQLiteDB struct {
 }
 
 type Issue struct {
-	ID            string   `db:"id" json:"id"`
-	Title         string   `db:"title" json:"title"`
-	Description   string   `db:"description" json:"description"`
-	Status        string   `db:"status" json:"status"`
-	Priority      int      `db:"priority" json:"priority"`
-	Type          string   `db:"issue_type" json:"issue_type"`
-	Assignee      string   `db:"assignee" json:"assignee"`
-	Labels        []string `json:"labels"`
-	RTEStatus     string   `db:"rte_status" json:"rte_status"`
-	RTERisk       string   `db:"rte_risk" json:"rte_risk"`
-	RTEResolution string   `db:"rte_resolution" json:"rte_resolution"`
-	RTEApprovedAt string   `db:"rte_approved_at" json:"rte_approved_at"`
-	RTEApprovedBy string   `db:"rte_approved_by" json:"rte_approved_by"`
+	ID              string   `db:"id" json:"id"`
+	Title           string   `db:"title" json:"title"`
+	Description     string   `db:"description" json:"description"`
+	Status          string   `db:"status" json:"status"`
+	Priority        int      `db:"priority" json:"priority"`
+	Type            string   `db:"issue_type" json:"issue_type"`
+	Assignee        string   `db:"assignee" json:"assignee"`
+	Labels          []string `json:"labels"`
+	RTEStatus       string   `db:"rte_status" json:"rte_status"`
+	RTERisk         string   `db:"rte_risk" json:"rte_risk"`
+	RTEResolution   string   `db:"rte_resolution" json:"rte_resolution"`
+	RTEApprovedAt   string   `db:"rte_approved_at" json:"rte_approved_at"`
+	RTEApprovedBy   string   `db:"rte_approved_by" json:"rte_approved_by"`
+	QAStatus        string   `db:"qa_status" json:"qa_status"`
+	QAVerifiedBy    string   `db:"qa_verified_by" json:"qa_verified_by"`
+	TestLogsRef     string   `db:"test_logs_ref" json:"test_logs_ref"`
+	Coverage        string   `db:"coverage" json:"coverage"`
+	EscalationLevel int      `db:"escalation_level" json:"escalation_level"`
 }
 
 // FindDBPath searches for .beads/beads.db starting from current directory up to root.
@@ -45,7 +50,7 @@ func FindDBPath(name string) (string, error) {
 		if _, err := os.Stat(path); err == nil {
 			return path, nil
 		}
-		
+
 		// If looking for gmind.db and not found, return where it SHOULD be
 		if name == "gmind.db" {
 			// Check if .beads exists
@@ -101,7 +106,7 @@ func NewSQLiteDB(dsn string, readOnly bool) (*SQLiteDB, error) {
 		gmindPath = filepath.Join(".beads", "gmind.db")
 	}
 	gmindUri := fmt.Sprintf("file:%s?mode=rw&cache=shared&_journal=WAL", gmindPath)
-	
+
 	// Create gmind.db if it doesn't exist
 	if _, err := os.Stat(gmindPath); os.IsNotExist(err) {
 		f, err := os.Create(gmindPath)
@@ -150,6 +155,20 @@ func (db *SQLiteDB) InitSchema() error {
 			score REAL,
 			timestamp TEXT,
 			author TEXT
+		);`,
+		`CREATE TABLE IF NOT EXISTS pm_metadata (
+			id TEXT PRIMARY KEY,
+			qa_status TEXT DEFAULT '',
+			qa_verified_by TEXT DEFAULT '',
+			test_logs_ref TEXT DEFAULT '',
+			coverage TEXT DEFAULT '',
+			escalation_level INTEGER DEFAULT 0
+		);`,
+		`CREATE TABLE IF NOT EXISTS dependencies (
+			issue_id TEXT NOT NULL,
+			depends_on_id TEXT NOT NULL,
+			type TEXT NOT NULL DEFAULT 'blocks',
+			PRIMARY KEY (issue_id, depends_on_id)
 		);`,
 	}
 	for _, q := range queries {
@@ -292,7 +311,39 @@ func (db *SQLiteDB) GetAllIssues() ([]Issue, error) {
 			issues[i].RTEApprovedAt = metadata.ApprovedAt
 			issues[i].RTEApprovedBy = metadata.ApprovedBy
 		}
+
+		// PM metadata
+		var pmMetadata struct {
+			QAStatus        string `db:"qa_status"`
+			QAVerifiedBy    string `db:"qa_verified_by"`
+			TestLogsRef     string `db:"test_logs_ref"`
+			Coverage        string `db:"coverage"`
+			EscalationLevel int    `db:"escalation_level"`
+		}
+		query = "SELECT qa_status, qa_verified_by, test_logs_ref, coverage, escalation_level FROM pm_metadata WHERE id = ?"
+		err = db.GmindDB.Get(&pmMetadata, query, issues[i].ID)
+		if err == nil {
+			issues[i].QAStatus = pmMetadata.QAStatus
+			issues[i].QAVerifiedBy = pmMetadata.QAVerifiedBy
+			issues[i].TestLogsRef = pmMetadata.TestLogsRef
+			issues[i].Coverage = pmMetadata.Coverage
+			issues[i].EscalationLevel = pmMetadata.EscalationLevel
+		}
 	}
 
 	return issues, nil
+}
+
+// UpdateIssuePM updates the PM fields of an issue.
+func (db *SQLiteDB) UpdateIssuePM(id string, qaStatus, qaVerifiedBy, testLogsRef, coverage string, escalationLevel int) error {
+	query := `INSERT INTO pm_metadata (id, qa_status, qa_verified_by, test_logs_ref, coverage, escalation_level)
+		VALUES (?, ?, ?, ?, ?, ?)
+		ON CONFLICT(id) DO UPDATE SET
+		qa_status = excluded.qa_status,
+		qa_verified_by = excluded.qa_verified_by,
+		test_logs_ref = excluded.test_logs_ref,
+		coverage = excluded.coverage,
+		escalation_level = excluded.escalation_level;`
+	_, err := db.GmindDB.Exec(query, id, qaStatus, qaVerifiedBy, testLogsRef, coverage, escalationLevel)
+	return err
 }

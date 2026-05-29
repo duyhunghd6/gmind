@@ -90,11 +90,62 @@ func StartServer(port int) error {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		jsonResponse(w, issues)
+		
+		issueType := r.URL.Query().Get("issue_type")
+		status := r.URL.Query().Get("status")
+		view := r.URL.Query().Get("view")
+		board := r.URL.Query().Get("board")
+		
+		var filtered []storage.Issue
+		for _, issue := range issues {
+			if issueType != "" && issue.Type != issueType {
+				continue
+			}
+			if status != "" {
+				if status == "pending-approval" && issue.RTEStatus != "escalated" {
+					continue
+				} else if status != "pending-approval" && issue.Status != status {
+					continue
+				}
+			}
+			if view == "board" && board != "" {
+				// Simple mock filtering for board
+				labelsStr := strings.Join(issue.Labels, ",")
+				if !strings.Contains(labelsStr, board) && issue.Type != "task" {
+					// In a real app we'd filter by sprint or release labels
+				}
+			}
+			filtered = append(filtered, issue)
+		}
+		jsonResponse(w, filtered)
 	})
 
 	mux.HandleFunc("/api/tasks/", func(w http.ResponseWriter, r *http.Request) {
 		id := strings.TrimPrefix(r.URL.Path, "/api/tasks/")
+		
+		if r.Method == http.MethodPut {
+			var payload struct {
+				QAStatus        string `json:"qa_status"`
+				QAVerifiedBy    string `json:"qa_verified_by"`
+				TestLogsRef     string `json:"test_logs_ref"`
+				Coverage        string `json:"coverage"`
+				EscalationLevel int    `json:"escalation_level"`
+				Status          string `json:"status"`
+			}
+			if err := json.NewDecoder(r.Body).Decode(&payload); err != nil {
+				http.Error(w, err.Error(), http.StatusBadRequest)
+				return
+			}
+			// In a full implementation, you'd also call 'bd' CLI to update standard fields like Status
+			err := sqlite.UpdateIssuePM(id, payload.QAStatus, payload.QAVerifiedBy, payload.TestLogsRef, payload.Coverage, payload.EscalationLevel)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			jsonResponse(w, map[string]string{"status": "success"})
+			return
+		}
+
 		issue, err := sqlite.GetIssueDetails(id)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -106,6 +157,9 @@ func StartServer(port int) error {
 		}
 		jsonResponse(w, issue)
 	})
+
+	// Register WebUI specific endpoints
+	RegisterWebUIEndpoints(mux, sqlite)
 
 	// Web UI
 	mux.Handle("/", http.FileServer(http.FS(webuiFS)))
