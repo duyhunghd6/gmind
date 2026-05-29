@@ -101,11 +101,11 @@ type CoverageResult struct {
 }
 
 type CoverageReport struct {
-	Mode           string           `json:"mode"`
-	TotalElements  int              `json:"total_elements"`
-	CoveredCount   int              `json:"covered_count"`
-	Percentage     float64          `json:"percentage"`
-	Results        []CoverageResult `json:"results"`
+	Mode          string           `json:"mode"`
+	TotalElements int              `json:"total_elements"`
+	CoveredCount  int              `json:"covered_count"`
+	Percentage    float64          `json:"percentage"`
+	Results       []CoverageResult `json:"results"`
 }
 
 func (s *SyncManager) GetCoverageData(mode string) (*CoverageReport, error) {

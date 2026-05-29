@@ -138,7 +138,7 @@ func findIssueByExternalRef(ref string) *Issue {
 		if i.ExternalRef == ref {
 			return &i
 		}
-		
+
 		// Check labels (e.g., "beads-id:br-plan-01" or "implements:br-plan-01")
 		for _, l := range i.Labels {
 			if l == "beads-id:"+ref || l == "implements:"+ref || l == "satisfies:"+ref {

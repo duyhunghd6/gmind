@@ -40,7 +40,7 @@ func (z *ZvecDB) SemanticSearch(query string, limit int) ([]ZvecSearchResult, er
 	      WHERE content LIKE ? 
 	      ORDER BY timestamp DESC 
 	      LIMIT ?`
-	
+
 	rows, err := z.DB.Queryx(q, searchQuery, limit)
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (z *ZvecDB) SearchByBeadsID(id string) ([]ZvecSearchResult, error) {
 	      FROM zvec_chunks 
 	      WHERE beads_ids LIKE ? 
 	      ORDER BY timestamp DESC`
-	
+
 	rows, err := z.DB.Queryx(q, searchStr)
 	if err != nil {
 		return nil, err
@@ -133,19 +133,19 @@ func (z *ZvecDB) SearchByBeadsID(id string) ([]ZvecSearchResult, error) {
 // UpsertChunk adds or updates a chunk in the vector database.
 func (z *ZvecDB) UpsertChunk(chunk ZvecSearchResult) error {
 	beadsJson, _ := json.Marshal(chunk.BeadsIDs)
-	
+
 	q := `INSERT OR REPLACE INTO zvec_chunks 
 	      (chunk_id, source_type, source_ref, beads_ids, content, score, timestamp, author) 
 	      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-	
-	_, err := z.DB.Exec(q, 
-		chunk.ChunkID, 
-		chunk.SourceType, 
-		chunk.SourceRef, 
-		string(beadsJson), 
-		chunk.Content, 
-		chunk.Score, 
-		chunk.Timestamp, 
+
+	_, err := z.DB.Exec(q,
+		chunk.ChunkID,
+		chunk.SourceType,
+		chunk.SourceRef,
+		string(beadsJson),
+		chunk.Content,
+		chunk.Score,
+		chunk.Timestamp,
 		chunk.Author,
 	)
 	return err

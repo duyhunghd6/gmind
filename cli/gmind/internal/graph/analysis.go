@@ -45,7 +45,7 @@ func (a *Assembler) BuildGraph(includeGitHub bool) (map[string]*Node, error) {
 			RTEApprovedBy: iss.RTEApprovedBy,
 			RTEApprovedAt: iss.RTEApprovedAt,
 		}
-nodeMap[iss.ID] = node
+		nodeMap[iss.ID] = node
 
 		// Link Task to Plan/PRD via labels
 		for _, label := range iss.Labels {
