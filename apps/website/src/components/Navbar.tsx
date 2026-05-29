@@ -10,7 +10,13 @@ const navLinks = [
   { href: "/prompts", label: "Prompt Palettes" },
   { href: "/research", label: "Nghiên cứu" },
   { href: "/design-system", label: "Design System" },
+  { href: "/webui-pm-workspace", label: "PM Space" },
 ];
+
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") return pathname === href;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -38,18 +44,21 @@ export default function Navbar() {
         </Link>
 
         <ul id="mobile-nav" className={`navbar-links ${isOpen ? "open" : ""}`}>
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={pathname === link.href ? "active" : ""}
-                aria-current={pathname === link.href ? "page" : undefined}
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const active = isActivePath(pathname, link.href);
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={active ? "active" : ""}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
           <li>
             <a
               href="https://github.com/duyhunghd6/gmind"

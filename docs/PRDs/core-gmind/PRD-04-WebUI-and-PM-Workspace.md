@@ -661,6 +661,8 @@ Khi Agent escalate rủi ro, Web UI cần hiển thị **RTE Approval Panel** tr
 
 Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng để chuẩn hóa UI/UX trước khi đưa vào Core WebUI qua `gmind serve`. Route map không tách riêng showcase và Core: mỗi dòng phải nêu rõ showcase URL, DS identity, interaction contract, và data flow tương ứng trong Core WebUI.
 
+**Website header rule:** Showcase Website phải có header menu cấp 1 **PM Space** đặt ngay bên phải **Design System**. Menu này trỏ đến canonical showcase route `/webui-pm-workspace`; route `/design-system/webui-pm-workspace` không còn là canonical và chỉ được giữ làm redirect/legacy alias nếu cần.
+
 **Quy tắc bắt buộc cho mọi route:** giữ nguyên icon, route path, hash navigation, state matrix, `DsIdBadge`/`data-ds-id`, keyboard interaction, offline/forbidden handling, và interaction model như implementation showcase hiện tại. Browser chỉ consume Go REST API; mọi truy cập FrankenSQLite, Zvec, local git, GitHub `gh`, FastCode, CI, hoặc shell phải được backend tổng hợp.
 
 | Showcase URL | Icon / DS ID | Core Route(s) | UI/UX bắt buộc | Data flow tương ứng trong Core WebUI |
@@ -679,9 +681,9 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 | `/design-system/beads-traversal` | 🔗 `ds:screen:beads-traversal-001` | `/trace/:id`, `/trace/:id?mode=dag` | Layered DAG PRD Sections → Plan Elements → Tasks → Commits; forward/reverse direction toggle; selected/linked node highlighting; detail sidebar with parent/children links; legends and stats; hash scroll by layer. | Showcase uses `beadsNodes`/`beadsEdges`; Core uses `GET /api/trace/:id?depth=full` and graph edge types `satisfies`, `implements`, `committed-for`. |
 | `/design-system/storyboard` | 🗺️ `ds:screen:storyboard-001` | `/storyboards` | Journey filter, horizontal use-case flow nodes, Guidance Panel with Mechanism & Action, Considerations, Investigating, CTA to real screen. | Showcase uses `usecases`; Core uses PRD-derived storyboards from Ralph Loop artifacts and E2E alignment metadata via `GET /api/storyboards`. |
 | `/design-system/storyboard/:id` | 🗺️ `ds:screen:storyboard-detail-001` | `/storyboards/:id` | Dynamic detail route shows role, journey, step timeline, related usecases, expected state names, and CTA to the corresponding Core route. | Showcase uses selected `usecase`; Core uses `GET /api/storyboards/:id` with screen-path alignment metadata. |
-| `/design-system/webui-pm-workspace` | 🧭 `ds:global_shell` | `/`, `/board`, `/tasks`, `/tasks/:id`, `/trace/:id`, `/docs`, `/approval`, `/search` | Integrated PM Workspace shell: header logo/search/offline indicator, active surfaces RTM Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, Search Results; each surface carries stable `data-screen-id` and `data-ds-id`. In showcase mode, the workspace sidebar is merged with the global Design System layout sidebar. | Showcase is the Ralph Loop Hi-Fi composite; Core maps the same surfaces through `gmind serve` routes and preserves shell state across navigation. |
+| `/webui-pm-workspace` | 🧭 `ds:global_shell` | `/`, `/board`, `/tasks`, `/tasks/:id`, `/trace/:id`, `/docs`, `/approval`, `/search` | Integrated PM Workspace shell opened from the top-level **PM Space** header menu: header logo/search/offline indicator, active surfaces RTM Dashboard, SAFe Board, Task List, Task Detail, Trace Explorer, Doc Viewer, Approval Gates, Search Results; each surface carries stable `data-screen-id` and `data-ds-id`. In showcase mode, Design System sidebar taxonomy stays matched to this PRD route map, while PM Workspace is exposed as header sibling rather than nested under `/design-system`. | Showcase is the Ralph Loop Hi-Fi composite; Core maps the same surfaces through `gmind serve` routes and preserves shell state across navigation. Legacy `/design-system/webui-pm-workspace` may redirect here but must not be advertised as canonical. |
 
-**Showcase sidebar & navigation rules:** Sidebar categories must match implementation (**Design System**, **Screens**, **Explorer**, **Storyboard**). In showcase mode, PM Workspace surfaces are reached via hash-based sub-items on the main showcase sidebar (for example `/design-system/webui-pm-workspace#surface-rtm-dashboard`) rather than a second inner sidebar. Global keyboard behavior must dispatch Escape handling for modals/dropdowns through the shared keyboard hook.
+**Showcase sidebar & navigation rules:** Sidebar categories must match implementation (**Design System**, **Screens**, **Explorer**, **Storyboard**) and remain aligned with the route taxonomy in this PRD. In showcase mode, PM Workspace is reached from the top-level **PM Space** header item at `/webui-pm-workspace`; its surfaces are reached via hash-based sub-items (for example `/webui-pm-workspace#surface-rtm-dashboard`) rather than a second inner sidebar. Global keyboard behavior must dispatch Escape handling for modals/dropdowns through the shared keyboard hook.
 
 **Route family layout:**
 
@@ -724,9 +726,12 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
 │  Header Bar                                                      │
-│  ┌────────┐  ┌───────────────────────────────────────┐  ┌─────┐ │
-│  │ ☰ Logo │  │ 🔍 Global Search Bar...               │  │ 🔔  │ │
-│  └────────┘  └───────────────────────────────────────┘  └─────┘ │
+│  ┌────────┐  ┌──────────────────────┐  ┌──────────┐ ┌─────┐    │
+│  │ ☰ Logo │  │ Design System        │  │ PM Space │ │ 🔔  │    │
+│  └────────┘  └──────────────────────┘  └──────────┘ └─────┘    │
+│             ┌───────────────────────────────────────┐          │
+│             │ 🔍 Global Search Bar...               │          │
+│             └───────────────────────────────────────┘          │
 ├──────────┬───────────────────────────────────────────────────────┤
 │ Sidebar  │  Main Content Area                                    │
 │          │                                                       │
@@ -1405,7 +1410,7 @@ Route: `/storyboards`
 - **AC12 (Task Detail):** Task Detail phải hiển thị 4 tabs; editable fields phải save qua API; Activity timeline phải cập nhật real-time; dependency links clickable sang Trace Explorer.
 - **AC13 (Search):** Global search bar phải có instant suggestions (< 500ms); search results phải grouped by type; filter sidebar phải hoạt động; Ctrl+K shortcut focus vào search bar.
 - **AC14 (Task List):** Task List phải support sort/filter/pagination; bulk select + bulk actions (assign, status change) phải hoạt động; CSV export phải tải file; Board/List toggle phải seamless.
-- **AC15 (Showcase Route Coverage):** PRD-04 phải liệt kê đầy đủ các URL showcase: `/design-system/terminal`, `/portfolio`, `/pi-planning`, `/git-graph`, `/kanban`, `/knowledge-graph`, `/approval`, `/timeline`, `/components`, `/doc-viewer`, `/explorer`, `/beads-traversal`, `/storyboard`, và `/webui-pm-workspace`.
+- **AC15 (Showcase Route Coverage):** PRD-04 phải liệt kê đầy đủ các URL showcase: `/design-system/terminal`, `/portfolio`, `/pi-planning`, `/git-graph`, `/kanban`, `/knowledge-graph`, `/approval`, `/timeline`, `/components`, `/doc-viewer`, `/explorer`, `/beads-traversal`, `/storyboard`, và canonical PM Space route `/webui-pm-workspace`. Header menu **PM Space** phải đứng ngay bên phải **Design System** và không quảng bá `/design-system/webui-pm-workspace` làm canonical.
 - **AC16 (Showcase Fidelity):** Mỗi route showcase phải giữ icon, `DsIdBadge`/`data-ds-id`, hash anchors, state variants, role gate, offline banner, empty/error copy, và interaction model như implementation hiện tại trước khi port sang Core WebUI.
 - **AC17 (Showcase-to-Core Data Flow):** Mọi data mock/static trong showcase phải có mapping Core WebUI qua Go REST API; browser không được gọi trực tiếp FrankenSQLite, Zvec, local git, `gh`, FastCode, hoặc shell commands.
 - **AC18 (Storyboard E2E Alignment):** Storyboard overview và `/design-system/storyboard/:id` phải map use-case journeys sang screen paths, state names, expected outcomes, and E2E investigation guidance; mỗi CTA phải mở đúng screen thực tế.

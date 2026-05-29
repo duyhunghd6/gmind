@@ -37,7 +37,7 @@ sections:
 
 <!-- beads-id: br-prd-web-structure-s1 -->
 
-Website Gmind Showcase gồm **5 trang cấp 1** (top-level pages) được liên kết bởi thanh điều hướng chính (Navbar) và 1 liên kết ngoài.
+Website Gmind Showcase gồm **6 trang cấp 1** (top-level pages) được liên kết bởi thanh điều hướng chính (Navbar) và 1 liên kết ngoài. Trên header, menu **PM Space** đứng ngay bên phải **Design System** và mở route canonical `/webui-pm-workspace`.
 
 ```mermaid
 graph TD
@@ -51,6 +51,7 @@ graph TD
     Navbar --> Prompts["Prompt Palettes (/prompts)"]
     Navbar --> Research["Nghiên cứu (/research)"]
     Navbar --> Design["Design System (/design-system)"]
+    Navbar --> PMSpace["PM Space (/webui-pm-workspace)"]
     Navbar -.-> GitHub["GitHub Link ↗"]
 ```
 
@@ -67,6 +68,8 @@ apps/website/src/app/
 │   └── page.tsx ................ /prompts (client-side, sidebar + viewer)
 ├── research/
 │   └── page.tsx ................ /research
+├── webui-pm-workspace/
+│   └── page.tsx ................ /webui-pm-workspace (PM Space, PRD-04 Hi-Fi)
 └── design-system/
     ├── layout.tsx .............. DesignSystemLayout (sidebar 3 cấp)
     ├── page.tsx ................ /design-system (Hub)
@@ -82,8 +85,6 @@ apps/website/src/app/
     ├── beads-traversal/page.tsx  /design-system/beads-traversal
     ├── portfolio/page.tsx ...... /design-system/portfolio
     ├── pi-planning/page.tsx .... /design-system/pi-planning
-    ├── webui-pm-workspace/
-    │   └── page.tsx ............ /design-system/webui-pm-workspace (PRD-04 Hi-Fi)
     └── storyboard/
         ├── page.tsx ............ /design-system/storyboard (Tổng quan)
         └── [uc-xx]/page.tsx .... 10 trang use-case con
@@ -506,11 +507,13 @@ graph TD
 
 <!-- beads-id: br-prd-web-structure-s6 -->
 
-Trang Design System có layout riêng (`DesignSystemLayout`) với sidebar 3 cấp (Danh mục → Mục chính → Mục con) và 13+ trang con.
+Trang Design System có layout riêng (`DesignSystemLayout`) với sidebar 3 cấp (Danh mục → Mục chính → Mục con) và 13+ trang con. Sidebar trái của Design System phải giữ cấu trúc danh mục và các hash sub-item khớp với route map trong **[PRD-04 §8](../../core-gmind/PRD-04-WebUI-and-PM-Workspace.md#8-điều-hướng--bản-đồ-route-navigation--route-map)** để showcase và Core WebUI dùng cùng taxonomy màn hình.
 
-> **PRD Mapping:** Trang `/design-system/webui-pm-workspace` là bản Hi-Fi HTML implement trực tiếp từ **[PRD-04: WebUI & PM Workspace](../../core-gmind/PRD-04-WebUI-and-PM-Workspace.md)**. Khi cần mở rộng/thay đổi UI này, quy trình là: **Edit PRD-04 → Chạy Ralph Loop (`/design-system-ralph-loop`)** → Stage 2 sẽ tự động sinh/cập nhật Hi-Fi HTML tại route `/design-system/webui-pm-workspace`.
+> **PRD Mapping:** Trang **PM Space** tại `/webui-pm-workspace` là bản Hi-Fi HTML implement trực tiếp từ **[PRD-04: WebUI & PM Workspace](../../core-gmind/PRD-04-WebUI-and-PM-Workspace.md)**. Khi cần mở rộng/thay đổi UI này, quy trình là: **Edit PRD-04 → Chạy Ralph Loop (`/design-system-ralph-loop`)** → Stage 2 sẽ tự động sinh/cập nhật Hi-Fi HTML tại route `/webui-pm-workspace`.
 >
-> **Canonical URL:** `http://localhost:9993/design-system/webui-pm-workspace`
+> **Header Navigation:** Navbar phải hiển thị menu **PM Space** ngay bên phải **Design System**. Menu này trỏ đến `/webui-pm-workspace`; route `/design-system/webui-pm-workspace` không còn là canonical và chỉ được dùng làm redirect/legacy compatibility nếu cần.
+>
+> **Canonical URL:** `http://localhost:9993/webui-pm-workspace`
 > ~~URL cũ `PRD-04-WebUI-and-PM-Workspace` đã được thay thế hoàn toàn.~~
 
 ```mermaid
@@ -526,7 +529,7 @@ graph TD
         subgraph DS_Content["VÙNG NỘI DUNG"]
             Hub["Trang Hub (/design-system) - Tokens, Thành phần, Trạng thái, Luồng và 11 Thẻ màn hình"]
             DetailPages["Trang con chi tiết - Hiển thị UI mẫu & interactive tools"]
-            PMWorkspace["PM Workspace (/webui-pm-workspace) - Hi-Fi HTML từ PRD-04 via Ralph Loop"]
+            PMWorkspace["PM Space (/webui-pm-workspace) - Header menu riêng, Hi-Fi HTML từ PRD-04 via Ralph Loop"]
         end
 
         DS_Sidebar -->|Chọn mục| DS_Content
@@ -545,13 +548,22 @@ graph TD
 |                 | Kanban              | #sprint, #release, #bug-triage                                                                                                                                                            |
 |                 | Knowledge Graph     | #simple, #ecosystem, #sprint                                                                                                                                                              |
 |                 | Phê duyệt & RTM     | #panels, #rtm, #heatmap                                                                                                                                                                   |
-|                 | **PM Workspace**    | #surface-dashboard, #surface-board, #surface-pi-planning, #surface-approval, #surface-graph _(PRD-04 Hi-Fi via Ralph Loop)_                                                               |
+|                 | **PM Workspace**    | Header route `/webui-pm-workspace`; hash surfaces #surface-dashboard, #surface-board, #surface-pi-planning, #surface-approval, #surface-graph _(PRD-04 Hi-Fi via Ralph Loop)_              |
 |                 | Timeline            | #file-lease, #activity-feed, #sprint-day                                                                                                                                                  |
 |                 | Components          | #buttons, #badges, #progress, #avatar, #modal, #dropdown, #accordion, #tabs, #table, #tooltip, #codeblock, #cards, #promptcard, #labels, #statusdot, #skeleton, #emptystate, #errorbanner |
 | **Khám phá**    | Doc Viewer          | —                                                                                                                                                                                         |
 |                 | Gmind Explorer      | #doc, #commit, #task, #adr, #chat, #spike                                                                                                                                                 |
 |                 | Beads Traversal     | #prd-section, #plan, #task, #commit                                                                                                                                                       |
 | **Kịch bản**    | Tổng quan           | UC-01 → UC-10 (10 kịch bản sử dụng)                                                                                                                                                       |
+
+### 6.2. PM Space Header Route
+
+<!-- beads-id: br-prd-web-structure-s6.2 -->
+
+- Header navigation phải hiển thị **PM Space** ngay bên phải **Design System**.
+- **PM Space** mở route canonical `/webui-pm-workspace` và render Hi-Fi composite từ PRD-04/Ralph Loop.
+- Design System sidebar vẫn hiển thị taxonomy showcase (**Design System**, **Screens**, **Explorer**, **Storyboard**) khớp với PRD-04 §8 route map; PM Space không được lồng như canonical child của `/design-system`.
+- Nếu route cũ `/design-system/webui-pm-workspace` còn tồn tại, nó chỉ là redirect/legacy alias về `/webui-pm-workspace`.
 
 ---
 
@@ -567,6 +579,7 @@ graph TD
     Arch["KIẾN TRÚC (/architecture)"]
     Prompts["PROMPT PALETTES (/prompts)"]
     Research["NGHIÊN CỨU (/research)"]
+    PMSpace["PM SPACE (/webui-pm-workspace)"]
     
     subgraph DS["DESIGN SYSTEM (/design-system)"]
         direction TB
@@ -581,8 +594,11 @@ graph TD
     Prompts --> Research
     Prompts --> DS
     Research --> DS
+    DS -->|header sibling| PMSpace
+    Research --> PMSpace
 
     style DS fill:#1e293b,stroke:#0ea5e9,stroke-width:1px
+    style PMSpace fill:#1e293b,stroke:#22c55e,stroke-width:1px
 ```
 
 ### 7.2. Mối liên kết Logic giữa các Nội dung
@@ -629,6 +645,7 @@ graph TD
 | `/prompts`                       | AI Workflows    | `/design-system/storyboard`          | Demo kịch bản tương tác     |
 | `/research`                      | Thẻ Spike       | `/design-system/doc-viewer`          | Duyệt nội dung file gốc     |
 | `/design-system`                 | Thẻ Hub         | `/design-system/*`                   | Các trang con chi tiết      |
+| `/design-system`                 | Header sibling  | `/webui-pm-workspace`                | PM Space Hi-Fi từ PRD-04    |
 | `/design-system/storyboard`      | UC-01..UC-10    | `/design-system/kanban`, `/approval` | Trình diễn luồng đầu-cuối   |
 | `/design-system/beads-traversal` | Truy vết        | `/design-system/approval#heatmap`    | Tổng quan độ phủ            |
 

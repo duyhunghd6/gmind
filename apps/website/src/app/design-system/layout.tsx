@@ -7,7 +7,7 @@ import { useGlobalKeyboard } from "@/components/useGlobalKeyboard";
 import { menu } from "./design-system-menu";
 
 /** Parse a sub-item href into pathname + hash */
-const PM_WORKSPACE_PATH = "/design-system/webui-pm-workspace";
+const PM_WORKSPACE_PATH = "/webui-pm-workspace";
 const pmSurfaceHashes = new Set([
   "#surface-rtm-dashboard",
   "#surface-board",
