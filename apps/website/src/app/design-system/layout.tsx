@@ -101,12 +101,12 @@ export default function DesignSystemLayout({
     return () => window.removeEventListener("hashchange", routeWorkspaceHash);
   }, [pathname, router]);
 
-  const [currentHash, setCurrentHash] = useState(() => typeof window === "undefined" ? "" : window.location.hash);
+  const [currentHash, setCurrentHash] = useState("");
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handleHashChange = () => setCurrentHash(window.location.hash);
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    const syncCurrentHash = () => setCurrentHash(window.location.hash);
+    syncCurrentHash();
+    window.addEventListener("hashchange", syncCurrentHash);
+    return () => window.removeEventListener("hashchange", syncCurrentHash);
   }, []);
 
   const isSubActive = (subHref: string) => {

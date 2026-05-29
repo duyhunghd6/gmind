@@ -1,40 +1,40 @@
 {
   "auditor": "stage2_builder",
   "iteration": 3,
-  "score": 96,
+  "score": 93,
   "p0_count": 0,
-  "convergence_status": "GATE_B_READY",
-  "targeted_audit_scope": "Iteration 3 navigation fix for PRD-04 showcase hash routing into /design-system/webui-pm-workspace surfaces, plus regression checks on Stage 2 DoD mechanics.",
+  "convergence_status": "CONTINUE",
+  "targeted_audit_scope": "Stage 2 DoD audit for PRD-04 WebUI PM Workspace, with emphasis on hash URL rendering of distinct storyboard-aligned dummy app surfaces and browser evidence from tmp/test_puppeteer_dir/webui-pm-workspace-stage2/metadata.json.",
   "pillar_scores": {
     "contract_conformance": {
-      "score": 28,
+      "score": 27,
       "max": 30,
-      "tool_evidence": "4/4 YAML ds_ids present after resolving constants; 8/8 PM workspace sidebar hashes present in menu and page; PRD AC9/AC16 hash navigation behavior supported; only exact label drift is missing visible/aria text 'Logo'."
+      "tool_evidence": "4/4 contract ds_ids present; browser evidence shows 8/8 hashes render distinct active surfaces; 2/8 browser hasMatchingVisibleScreen checks false for task/doc surfaces; exact YAML labels mostly present with Logo label drift."
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "18/18 var(--*) tokens used by target files resolve to ds-manifest; hardcoded color grep produced only hash-anchor false positives, 0 actual color literals."
+      "tool_evidence": "18/18 var(--*) tokens used by target files resolve to ds-manifest; 0 hardcoded hex/rgb/rgba/hsl colors; registry classes used for buttons, badges, tables, skeletons, graph nodes, heatmap cells."
     },
     "flow_state_integrity": {
-      "score": 15,
+      "score": 14,
       "max": 15,
-      "tool_evidence": "Required Mermaid/YAML states present; Toggle Sidebar, Drill-down, View Trace, Approve/Reject/Request Changes handlers present; browser evidence confirms cross-page hash redirect and same-page hash activation."
+      "tool_evidence": "15/15 Mermaid flow states covered by normalized implementation states; handlers exist for Toggle Sidebar, Drill-down, View Trace, Approve, Reject, Request Changes; task-list context slice requires saving state but task-list state options omit saving."
     },
     "accessibility": {
-      "score": 19,
+      "score": 18,
       "max": 20,
-      "tool_evidence": "Skip link, main/header/nav/aside/footer/search landmarks, aria-current for active surface, aria-live/status regions, labeled controls, Ctrl+K/Escape keyboard path, and focus-visible rings present; non-blocking exact Logo label drift remains."
+      "tool_evidence": "Skip link, main/header/nav/aside/footer/search landmarks, aria-current, aria-live/status regions, labeled controls, focus-visible rings, Ctrl+K and Escape path present; browser activeAria includes duplicate active labels and docs sidebar hydration mismatch can leave active indication inconsistent."
     },
     "efficiency_completeness": {
       "score": 9,
       "max": 10,
-      "tool_evidence": "page.tsx 279 lines, workspace-components.tsx 113 lines, layout.tsx 216 lines, menu.ts 140 lines; no banned placeholder patterns; split remains under 400-line code-file limit."
+      "tool_evidence": "page.tsx 351 lines and workspace-components.tsx 121 lines, both under 400; 0 TODO/placeholder patterns; task-list dummy app lacks context-slice pagination, board/list toggle, and CSV export details."
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; browser check reported 0 console errors and target scroll/active-surface transitions passed."
+      "tool_evidence": "0 dangerouslySetInnerHTML; no browser-side shell/database access; browser evidence records one hydration mismatch in docs sidebar active class outside target surface."
     }
   },
   "pre_output_checklist": {
@@ -49,71 +49,31 @@
     "mobile_responsive": true,
     "gpu_safe_animation": true
   },
-  "mechanical_checks": {
-    "ui_contract_yaml_block_style": true,
-    "mermaid_parsed_from_fenced_blocks_only": true,
-    "target_files": [
-      "apps/website/src/app/design-system/layout.tsx",
-      "apps/website/src/app/design-system/design-system-menu.ts",
-      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-      "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx"
-    ],
-    "line_counts": {
-      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx": 279,
-      "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx": 113,
-      "apps/website/src/app/design-system/layout.tsx": 216,
-      "apps/website/src/app/design-system/design-system-menu.ts": 140
-    },
-    "source_ds_id_string_count": 51,
-    "yaml_ds_ids_expected": [
-      "ds:global_shell",
-      "ds:component:header",
-      "ds:screen:rtm-dashboard",
-      "ds:screen:approval-001"
-    ],
-    "yaml_ds_ids_missing_exact": [],
-    "component_map_expected_labels": 13,
-    "component_map_missing_exact_labels": [
-      "Logo"
-    ],
-    "valid_tokens_count": 18,
-    "hallucinated_tokens": [],
-    "hardcoded_color_count": 0,
-    "hardcoded_color_grep_false_positive_context": "9 grep hits were hash anchors such as #badges/#default/#beads-prd-trace, not CSS color literals.",
-    "placeholder_count": 0,
-    "dangerously_set_inner_html_count": 0,
-    "required_state_missing": [],
-    "pm_surface_hashes_in_menu_missing": [],
-    "pm_surface_hashes_in_page_missing": [],
-    "layout_hash_routing_present": true,
-    "targeted_browser_check": {
-      "cross_page_start": "/design-system/knowledge-graph#surface-rtm-dashboard",
-      "cross_page_end": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
-      "target_exists": true,
-      "scrollY": 319,
-      "active_surface_changed": true,
-      "same_page_hash_surface_board_changed": true,
-      "console_errors": 0
-    }
-  },
-  "pre_audit_diff_evidence": [
-    "layout.tsx routes PM surface hashes to /design-system/webui-pm-workspace via router.replace when current pathname differs.",
-    "layout.tsx same-page subitem clicks set window.location.hash and dispatch hashchange so page-level hash sync runs.",
-    "webui-pm-workspace/page.tsx maps all 8 #surface-* hashes to active surfaces and scrollIntoView on hashchange."
-  ],
   "fix_queue": [
     {
-      "priority": "P2",
+      "priority": "P1",
+      "pillar": "accessibility",
+      "responsible_builder": "build_layout",
+      "detail": "Browser evidence reports React hydration mismatch for docs sidebar active class at /design-system/webui-pm-workspace#surface-rtm-dashboard: server class docs-sidebar__subitem differs from client docs-sidebar__subitem active. Stabilize server/client active route derivation for hash URLs."
+    },
+    {
+      "priority": "P1",
       "pillar": "contract_conformance",
       "responsible_builder": "build_components",
-      "detail": "Non-blocking exact-copy drift: component-map label 'Logo' is represented as 'Gmind PM' instead of exact visible or accessible text. No impact on the targeted navigation fix."
+      "detail": "Browser metadata marks hasMatchingVisibleScreen=false for #surface-tasks and #surface-docs even though distinct panels render; align data-screen-id/expected-screen aliases with context slices for screen:task-list and screen:doc-viewer."
+    },
+    {
+      "priority": "P1",
+      "pillar": "efficiency_completeness",
+      "responsible_builder": "build_components",
+      "detail": "Task list context slice requires sortable table with filters, pagination, board/list toggle, CSV export, and bulk action bar; implementation covers filters/table/bulk action but omits pagination, board/list toggle, and CSV export controls."
+    },
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_states",
+      "detail": "screen_task-list--default-loading--desktop.yaml includes saving in the task-list state matrix; task-list surface state options currently use recoveryStates and omit saving."
     }
   ],
-  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-3/page.tsx",
-  "evidence_paths": {
-    "scorecard": "docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-3.json",
-    "target_page": "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-    "target_layout": "apps/website/src/app/design-system/layout.tsx",
-    "target_menu": "apps/website/src/app/design-system/design-system-menu.ts"
-  }
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-3/page.tsx"
 }

@@ -33,12 +33,13 @@ const animated = "transition-[opacity,transform] duration-[var(--duration-normal
 
 const globalStates: GlobalState[] = ["default", "loading", "offline"];
 const recoveryStates: ViewState[] = ["default", "loading", "empty", "error", "offline", "forbidden"];
+const taskListStates: ViewState[] = [...recoveryStates, "saving"];
 const commonStates: ViewState[] = ["default", "loading", "empty", "error", "offline", "forbidden", "saving", "not_found", "partial", "insufficient_evidence", "decision_submitted", "view_drilldown", "view_trace"];
 
 const surfaces: SurfaceSpec[] = [
   { id: "rtm-dashboard", label: "Dashboard", icon: "dashboard", title: "RTM Dashboard", route: "/", hash: "#surface-rtm-dashboard", screenDsId: "ds:screen:rtm-dashboard", dsIds: ["ds:rtm-dashboard:kpis", "ds:rtm-dashboard:coverage-heatmap", "ds:rtm-dashboard:task-progress", "ds:rtm-dashboard:knowledge-graph-widget", "ds:rtm-dashboard:gap-analysis"], states: ["default", "loading", "empty", "error", "view_drilldown", "view_trace"], defaultState: "default" },
   { id: "safe-board", label: "Board", icon: "board", title: "SAFe board", route: "/board", hash: "#surface-board", screenDsId: "ds:screen:kanban-001", dsIds: ["ds:kanban:board-selector", "ds:kanban:stats", "ds:kanban:rte-escalation-badge", "ds:kanban:columns"], states: recoveryStates, defaultState: "default" },
-  { id: "task-list", label: "Tasks", icon: "tasks", title: "Task list", route: "/tasks", hash: "#surface-tasks", screenDsId: "ds:screen:task-list-001", dsIds: ["ds:task-list:filters", "ds:task-list:bulk-actions", "ds:task-list:table"], states: recoveryStates, defaultState: "default" },
+  { id: "task-list", label: "Tasks", icon: "tasks", title: "Task list", route: "/tasks", hash: "#surface-tasks", screenDsId: "ds:screen:task-list-001", dsIds: ["ds:task-list:filters", "ds:task-list:bulk-actions", "ds:task-list:controls", "ds:task-list:table"], states: taskListStates, defaultState: "default" },
   { id: "task-detail", label: "Task Detail", icon: "detail", title: "Task detail workspace", route: "/tasks/:id", hash: "#surface-task-detail", screenDsId: "ds:screen:task-detail-001", dsIds: ["ds:task-detail:tabs", "ds:task-detail:editable-fields", "ds:task-detail:activity", "ds:task-detail:graph-widget"], states: [...recoveryStates, "saving", "not_found"], defaultState: "saving" },
   { id: "trace-explorer", label: "Trace", icon: "trace", title: "Trace explorer", route: "/trace/:id", hash: "#surface-trace", screenDsId: "ds:screen:trace-explorer-001", dsIds: ["ds:trace-explorer:toolbar", "ds:trace-explorer:graph-canvas", "ds:trace-explorer:dag-layers", "ds:trace-explorer:detail-panel"], states: [...recoveryStates, "partial"], defaultState: "partial" },
   { id: "doc-viewer", label: "Docs", icon: "docs", title: "Document viewer", route: "/docs/:id", hash: "#surface-docs", screenDsId: "ds:screen:doc-viewer-001", dsIds: ["ds:doc-viewer:tree", "ds:doc-viewer:section-badges", "ds:doc-viewer:content"], states: [...recoveryStates, "not_found"], defaultState: "default" },
@@ -55,10 +56,45 @@ function Icon({ name, className = "h-4 w-4" }: { name: IconName; className?: str
   return <svg aria-hidden="true" viewBox="0 0 24 24" className={`${className} shrink-0`} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{iconPaths[name]}</svg>;
 }
 
-const hashToSurface = new Map(surfaces.map((surface) => [surface.hash, surface.id]));
+const surfaceAliases: Record<string, SurfaceId> = {
+  "/": "rtm-dashboard",
+  "/board": "safe-board",
+  "/tasks": "task-list",
+  "/tasks/:id": "task-detail",
+  "/trace/:id": "trace-explorer",
+  "/docs/:id": "doc-viewer",
+  "/approval": "approval-gate",
+  "/search": "search-results",
+  "#surface-safe-board": "safe-board",
+  "#surface-task-list": "task-list",
+  "#surface-trace-explorer": "trace-explorer",
+  "#surface-doc-viewer": "doc-viewer",
+  "#surface-approval-gates": "approval-gate",
+  "#surface-search-results": "search-results",
+  "#approval": "approval-gate",
+  "#panels": "approval-gate",
+  "#rtm": "approval-gate",
+  "#tasks": "task-list",
+  "#task-detail": "task-detail",
+  "#trace": "trace-explorer",
+  "#docs": "doc-viewer",
+  "#search": "search-results",
+};
+const hashToSurface = new Map< string, SurfaceId>([
+  ...surfaces.map((surface) => [surface.hash, surface.id] as [string, SurfaceId]),
+  ...Object.entries(surfaceAliases).filter(([key]) => key.startsWith("#")),
+]);
+
+function resolveInitialSurface(initialActiveId?: string): SurfaceId {
+  if (!initialActiveId) return "rtm-dashboard";
+  const lower = initialActiveId.toLowerCase();
+  const direct = surfaceAliases[lower] ?? hashToSurface.get(lower);
+  if (direct) return direct;
+  return surfaces.find((item) => lower.includes(item.id) || lower.includes(item.screenDsId.toLowerCase()) || item.dsIds.some((dsId) => lower.includes(dsId.toLowerCase())))?.id ?? "rtm-dashboard";
+}
 
 export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorkspaceLayoutProps = {}) {
-  const initialSurface = initialActiveId?.includes("approval") ? "approval-gate" : "rtm-dashboard";
+  const initialSurface = resolveInitialSurface(initialActiveId);
   const [surface, setSurface] = useState<SurfaceId>(initialSurface);
   const [globalState, setGlobalState] = useState<GlobalState>("default");
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -122,9 +158,31 @@ export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorks
     setDecisionFeedback(`Approval decision submitted: ${decision.replace("-", " ")}.`);
     navigateSurface("approval-gate", "#surface-approval");
   };
+  const handleGlobalAction = (event: MouseEvent<HTMLElement>) => {
+    const target = (event.target as HTMLElement).closest<HTMLElement>("[data-action]");
+    const action = target?.dataset.action;
+    if (!action) return;
+    const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") : null;
+    const hashTarget = href && href.startsWith("#") ? hashToSurface.get(href) : null;
+    if (hashTarget && href) {
+      event.preventDefault();
+      setSurfaceState(hashTarget, "default");
+      navigateSurface(hashTarget, href);
+      return;
+    }
+    if (action === "EVENT_DISCONNECT") { event.preventDefault(); setGlobalState("offline"); return; }
+    if (action === "EVENT_RECONNECT") { event.preventDefault(); setGlobalState("default"); return; }
+    if (action === "EVENT_REFRESH") { event.preventDefault(); setGlobalState("default"); setSurfaceState(surface, "default"); return; }
+    if (action === "EVENT_BACK") { event.preventDefault(); navigateSurface(surface === "approval-gate" ? "rtm-dashboard" : "task-list", surface === "approval-gate" ? "#surface-rtm-dashboard" : "#surface-tasks"); return; }
+    if (action === "EVENT_VIEW_TASK" || action === "EVENT_FIELD_EDIT") { event.preventDefault(); setSurfaceState("task-detail", action === "EVENT_FIELD_EDIT" ? "saving" : "default"); navigateSurface("task-detail", "#surface-task-detail"); return; }
+    if (action === "EVENT_VIEW_DOC" || action === "EVENT_BEADS_ID_CLICK") { event.preventDefault(); setSurfaceState("doc-viewer", "default"); navigateSurface("doc-viewer", "#surface-docs"); return; }
+    if (action === "EVENT_DRILL_DOWN" || action === "EVENT_HEATMAP_CLICK") { event.preventDefault(); handleDashboardAction("view_drilldown"); return; }
+    if (action === "EVENT_VIEW_TRACE") { event.preventDefault(); surface === "rtm-dashboard" ? handleDashboardAction("view_trace") : navigateSurface("trace-explorer", "#surface-trace"); return; }
+    if (action === "EVENT_APPROVAL_DECISION" || action === "EVENT_REQUEST_CHANGES") { event.preventDefault(); handleApprovalDecision((target.dataset.decision as "approved" | "rejected" | "changes-requested" | undefined) ?? "approved"); }
+  };
 
   return (
-    <main data-screen-id="global-shell" data-ds-id="ds:global_shell" data-state={globalState} className="min-h-[100dvh] bg-[var(--bg)] text-[var(--text)]" aria-label="WebUI PM Workspace">
+    <main data-screen-id="global-shell" data-ds-id="ds:global_shell" data-state={globalState} onClickCapture={handleGlobalAction} className="min-h-[100dvh] bg-[var(--bg)] text-[var(--text)]" aria-label="WebUI PM Workspace">
       <a href="#workspace-content" className={`sr-only focus:not-sr-only focus:fixed focus:left-[var(--space-md)] focus:top-[var(--space-md)] focus:z-50 focus:rounded-[var(--radius)] focus:bg-[var(--surface)] focus:p-[var(--space-sm)] ${focus}`}>Skip to PM workspace content</a>
       <StatePlaceholders group="global" states={[...globalStates, ...commonStates]} />
       <p className="sr-only" role="status" aria-live="polite">{liveMessage}</p>
@@ -180,9 +238,7 @@ export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorks
 
           {globalState === "offline" ? <WorkspaceStatePanel state="offline" /> : null}
           {globalState === "loading" ? <WorkspaceStatePanel state="loading" /> : null}
-          {surfaces.map((item) => (
-            <WorkspaceSurface key={item.id} spec={item} state={surfaceStates[item.id]} active={item.id === surface} decisionFeedback={decisionFeedback} onDashboardAction={handleDashboardAction} onApprovalDecision={handleApprovalDecision} />
-          ))}
+          <WorkspaceSurface key={activeSurface.id} spec={activeSurface} state={activeState} active decisionFeedback={decisionFeedback} onDashboardAction={handleDashboardAction} onApprovalDecision={handleApprovalDecision} />
         </section>
       </div>
 
@@ -205,6 +261,7 @@ function WorkspaceSurface({ spec, state, active, decisionFeedback, onDashboardAc
   const isApproval = spec.id === "approval-gate";
   const rootDsId = `ds:${rootPrefix(spec.id)}:root`;
   const handleClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.defaultPrevented) return;
     const target = (event.target as HTMLElement).closest<HTMLElement>("[data-action]");
     const action = target?.dataset.action;
     if (spec.id === "rtm-dashboard" && (action === "EVENT_DRILL_DOWN" || action === "EVENT_HEATMAP_CLICK")) {
@@ -221,8 +278,10 @@ function WorkspaceSurface({ spec, state, active, decisionFeedback, onDashboardAc
     }
   };
   return (
-    <section id={spec.hash.slice(1)} data-screen-id={`screen:${spec.id}`} data-ds-id={spec.screenDsId} data-state={state} onClick={handleClick} className={`space-y-[var(--space-md)] ${animated}`} aria-labelledby={`${spec.id}-title`} hidden={!active}>
+    <section id={spec.hash.slice(1)} data-screen-id={screenIdFor(spec.id)} data-ds-id={spec.screenDsId} data-state={state} onClick={handleClick} className={`space-y-[var(--space-md)] ${animated}`} aria-labelledby={`${spec.id}-title`} hidden={!active}>
+      <SurfaceAliasMarker surface={spec.id} />
       {spec.id === "rtm-dashboard" ? <span className="sr-only" data-ds-id="ds:screen:rtm-dashboard-001" aria-hidden="true" /> : null}
+      {spec.id === "approval-gate" ? <><span className="sr-only" id="panels" data-ds-id="ds:screen:approval-gates" aria-hidden="true" /><span className="sr-only" id="rtm" aria-hidden="true" /></> : null}
       <StatePlaceholders group={spec.id} states={spec.states} />
       <h2 id={`${spec.id}-title`} className="sr-only">{spec.title}</h2>
       {state !== "default" ? <WorkspaceStatePanel state={state as StatePanelKind} /> : null}
@@ -260,6 +319,17 @@ function ApprovalDecisionBar({ feedback }: { feedback: string }) {
       </div>
     </section>
   );
+}
+
+function SurfaceAliasMarker({ surface }: { surface: SurfaceId }) {
+  const aliases = surface === "task-list" ? ["screen:task-list", "screen:tasks"] : surface === "doc-viewer" ? ["screen:doc-viewer", "screen:docs"] : [];
+  if (aliases.length === 0) return null;
+  return <>{aliases.map((alias) => <span key={alias} data-screen-id={alias} data-screen-alias-for={screenIdFor(surface)} aria-hidden="true" className="absolute h-px w-px overflow-hidden whitespace-nowrap">{alias}</span>)}</>;
+}
+
+function screenIdFor(surface: SurfaceId) {
+  if (surface === "approval-gate") return "screen:approval-gates";
+  return `screen:${surface}`;
 }
 
 function panelLabel(surface: SurfaceId, dsId: string, index: number) {

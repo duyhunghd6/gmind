@@ -5,37 +5,41 @@
   "auditor_score": 97,
   "qa_status": "QA_PASS",
   "p0_count": 0,
-  "delta": "+1",
-  "convergence_reason": "Gate B criteria are met for the icon iteration: auditor score is 97, P0 count is 0, QA passed T1-T7 with no blockers or regressions, block-style YAML is intact, and browser render/hash navigation evidence passed.",
+  "delta": "+4",
+  "convergence_reason": "Gate B clean: iteration 4 auditor score is 97 with 0 P0 and 0 P1 findings, QA acceptance is QA_PASS with an empty fix queue, and browser evidence confirms no console errors, 8/8 distinct hash surfaces, and task-list dummy webapp controls.",
   "builders_to_respawn": [],
-  "fix_queue_per_builder": {},
+  "fix_queue_per_builder": {
+    "build_layout": [],
+    "build_components": [],
+    "build_states": []
+  },
   "skip_builders": [
     "build_layout",
     "build_components",
     "build_states"
   ],
   "browser_render_needed": false,
-  "qa_retry_count": 0,
+  "qa_retry_count": 1,
   "warnings": [
-    "Non-blocking P2 remains: component-map label 'Logo' is represented as branded text 'Gmind PM' rather than exact visible/accessibility text 'Logo'. It does not block the icon iteration Gate B decision.",
-    "Task board still records iteration 3, but build_layout, build_components, and build_states are DONE and iteration 4 auditor/QA/browser evidence is clean."
+    "Residual non-blocking risk: literal contract label Logo is implemented as visible brand text Gmind PM; QA accepted this as non-blocking.",
+    "Browser render evidence was supplied through orchestrator metadata at /Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json rather than a new QA browser session."
   ],
   "gate_b_summary": {
     "score_history": [
       {
         "iter": 1,
         "score": 80,
-        "qa": "FAIL"
+        "qa": "NOT_RUN"
       },
       {
         "iter": 2,
         "score": 93,
-        "qa": "FAIL"
+        "qa": "NOT_RUN"
       },
       {
         "iter": 3,
-        "score": 96,
-        "qa": "PASS"
+        "score": 93,
+        "qa": "FAIL"
       },
       {
         "iter": 4,
@@ -63,23 +67,28 @@
       "T7": "PASS"
     },
     "warnings": [
-      "Optional future cleanup: exact component-map label drift for 'Logo' only; no icon, accessibility, QA, or hash-navigation impact.",
-      "Task board iteration metadata is stale at 3 while iteration 4 scorecard and QA evidence are current."
+      "Residual non-blocking risk: literal contract label Logo is implemented as visible brand text Gmind PM; QA accepted this as non-blocking.",
+      "Browser render evidence was supplied through orchestrator metadata at /Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json rather than a new QA browser session."
     ],
     "screenshot_paths": [
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-icons.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/knowledge-graph-hash-routes-rtm.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/same-page-hash-board.png"
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-rtm-dashboard.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-board.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-tasks.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-task-detail.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-trace.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-docs.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-approval.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-search.png"
     ],
     "artifacts_for_review": [
       "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/context-slices/summary/contract-summary.yaml",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards-review.html",
+      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards-review.md",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/index.html",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/artifact-index.json",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-icons.png"
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json"
     ],
     "machine_evidence": [
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",

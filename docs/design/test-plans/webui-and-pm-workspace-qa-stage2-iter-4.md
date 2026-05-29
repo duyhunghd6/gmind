@@ -1,33 +1,26 @@
-# Stage 2 QA Test Plan Iteration 4: webui-and-pm-workspace
-<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan -->
+# Stage 2 QA Test Plan: webui-and-pm-workspace Iteration 4
+
+<!-- beads-id: br-qa-stage2-webui-pm-workspace-iter4-plan -->
 
 ## Scope
-<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan-scope -->
 
-Independent QA for the WebUI PM Workspace icon iteration at `/design-system/webui-pm-workspace`.
-
-Inputs:
-- Contract: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace`
-- Source: `/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx`
-- Components: `/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx`
-- Live URL: `http://localhost:9993/design-system/webui-pm-workspace`
-- Browser screenshot: `/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-icons.png`
-- Builder audit: `/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-4.json`
+Acceptance target includes `apps/website/src/app/design-system/webui-pm-workspace/page.tsx`, sibling split files in the same route directory, and `apps/website/src/app/design-system/layout.tsx` for the hash hydration fix. Contract evidence is sourced from `docs/design/contracts/webui-and-pm-workspace/`, latest browser metadata from `tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json`, and the iteration 4 builder scorecard.
 
 ## Test Mapping
-<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan-tests -->
 
-| Test | Contract evidence | Source/live evidence to verify |
-| --- | --- | --- |
-| T1 Storyboard Replay | `storyboards.json`; Mermaid events in `ui-contract.md` and `flow.md` | Dashboard and approval trajectories implement hash navigation, state exposure, Drill-down, View Trace, Approve/Reject/Request Changes handlers. |
-| T2 Contract Component Completeness | YAML View Blueprint and `component-map.json` | All `ds_id` entries and labels/bindings appear in source; YAML block remains block-style YAML. |
-| T3 State Matrix | YAML states and fenced Mermaid transitions | Default/loading/error/empty/offline/permission/validation-success variants are reachable via state controls or deterministic branches. |
-| T4 DS Token/Class Audit | DS manifest token and class list | `var(--*)` references resolve; no hardcoded colors or raw font-family declarations; DS classes reused for buttons, badges, tables, heatmap, graph, skeleton. |
-| T5 Accessibility Structural | Contract labels plus icon iteration scope | Landmarks, one visible h1, navigations, search label, live regions, focus-visible styles, icon labels, collapsed icon-only sidebar aria-labels. |
-| T6 Preview/Browser Consistency | `artifact-index.json`, preview manifest, preview HTML tabs, browser screenshot metadata | No preview warnings; all 9 preview tabs present; screenshot/browser render confirms icon counts and hash navigation. |
-| T7 Live Render | Live route | `curl` returns 200 and source renders expected `data-ds-id` elements. |
+| Suite | Contract source | Implementation source | Acceptance check |
+| --- | --- | --- | --- |
+| T1 Storyboard Replay | `storyboards.json`; storyboard context slices where applicable | `page.tsx`, `workspace-components.tsx`, `layout.tsx` | Target screens, ds ids, states, and actions are reachable through hash navigation, buttons, links, and forms. |
+| T2 Contract Component Completeness | `ui-contract.md`, `component-map.json` | route source and browser metadata | YAML is block-style; all contract ds ids and labels/bindings/actions are implemented without legacy ASCII assumptions. |
+| T3 State Matrix | YAML states and fenced Mermaid blocks in `ui-contract.md` and `flow.md` | `data-state`, state selectors, state panels | Required default/loading/error/empty/offline/permission/approval/dashboard states are represented. |
+| T4 DS Token/Class Audit | DS manifest under pipeline state | route split files and design-system layout | CSS variables resolve to DS tokens; no hardcoded colors or raw font-family; DS utility classes reused. |
+| T5 Accessibility Structural | YAML shell and screen expectations | rendered source structure | Landmarks, heading hierarchy, labels, aria-live/status, focus-visible, and keyboard paths exist. |
+| T6 Preview/Browser Consistency | `artifact-index.json`, `preview/preview-manifest.json`, `preview/index.html`, browser metadata | latest capture metadata | Preview warnings do not expose gaps; 9 tabs exist; hash screens, aliases, console errors, and previous QA blockers are resolved. |
+| T7 Live Render | live route `http://localhost:9993/design-system/webui-pm-workspace` | dev server response and source ds ids | Route returns 200 and expected elements can render. |
 
-## Acceptance Criteria
-<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan-criteria -->
+## Prior Blocking Issues to Recheck
 
-Pass requires no P0/P1 blockers for the icon iteration, no hash-navigation regression, visible icons paired with accessible labels or aria-labels, status icons with text/live semantics, valid DS token usage, and a live 200 route.
+1. Browser console hydration mismatch on hash URLs.
+2. Individual hash URLs must render distinct storyboard-aligned screens and panels.
+3. Task-list pagination, board/list toggle, CSV export, and saving state coverage.
+4. Screen aliases for tasks/docs must align to task-list/doc-viewer.

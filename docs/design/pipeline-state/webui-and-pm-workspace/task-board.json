@@ -1,12 +1,13 @@
 {
   "feature": "webui-and-pm-workspace",
   "stage": 2,
-  "iteration": 3,
+  "iteration": 4,
   "tasks": {
     "build_layout": {
       "status": "DONE",
       "artifacts_written": [
-        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+        "apps/website/src/app/design-system/layout.tsx"
       ],
       "screens_scaffolded": 8,
       "semantic_elements": [
@@ -20,10 +21,15 @@
       ],
       "checks": {
         "target_page_eslint": "PASS",
+        "individual_hash_surface_render_path": true,
+        "shell_state_preserved": true,
         "contract_sidebar_restored": true,
         "toggle_sidebar_behavior": true,
         "global_shell_ds_id_exact": true,
-        "line_count_under_400": true
+        "line_count_under_400": true,
+        "hash_url_hydration_stabilized": true,
+        "docs_sidebar_active_hash_deferred_until_mount": true,
+        "target_layout_eslint": "PASS"
       }
     },
     "build_components": {
@@ -43,16 +49,18 @@
         "root_wrappers_added": true,
         "selected_composite_surfaces_covered": true,
         "exact_contract_panel_labels": true,
-        "online_status_accessible_name": true
+        "online_status_accessible_name": true,
+        "individual_hash_surface_render_path": true,
+        "storyboard_aligned_dummy_webapp": true,
+        "component_builder_rerun_after_layout": true
       }
     },
     "build_states": {
       "status": "DONE",
       "artifacts_written": [
         "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-        "apps/website/src/app/design-system/layout.tsx",
-        "apps/website/src/app/design-system/design-system-menu.ts",
-        "docs/design/screens/webui-and-pm-workspace/snapshot-iter-3/page.tsx"
+        "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx",
+        "docs/design/screens/webui-and-pm-workspace/snapshot-iter-4/page.tsx"
       ],
       "states_implemented": [
         "default",
@@ -65,7 +73,9 @@
         "saving",
         "not_found",
         "insufficient_evidence",
-        "decision_submitted"
+        "decision_submitted",
+        "view_drilldown",
+        "view_trace"
       ],
       "a11y_features": [
         "skip-link",
@@ -74,12 +84,22 @@
         "focus-indicators",
         "aria-live",
         "ctrl-k-search",
-        "escape-search-blur"
+        "escape-search-blur",
+        "hash-panel-aliases",
+        "event-recovery-actions",
+        "named-pagination-controls",
+        "named-view-toggle",
+        "named-csv-export"
       ],
       "checks": {
         "target_files_eslint": "PASS",
         "typescript_no_emit": "PASS",
-        "hash_navigation": "PASS"
+        "task_list_saving_state_option": true,
+        "task_list_saving_rendered_state_coverage": true,
+        "task_list_controls_accessible_names": true,
+        "task_list_controls_stable_ds_ids": true,
+        "surface_tasks_docs_distinct_panels": true,
+        "line_count_under_400": true
       }
     }
   }
