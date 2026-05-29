@@ -1,4 +1,4 @@
-import WebUIPMWorkspacePage from "../../../webui-pm-workspace/page";
+import WebUIPMWorkspacePage from "../../../webui-pm-workspace/WebUIPMWorkspacePage";
 import { usecases, USECASE_MAP } from "@/data/usecase-data";
 import { notFound } from "next/navigation";
 

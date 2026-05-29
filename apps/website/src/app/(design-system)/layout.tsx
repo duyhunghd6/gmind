@@ -93,7 +93,9 @@ export default function DesignSystemLayout({
     const routeWorkspaceHash = () => {
       const hash = window.location.hash;
       const currentPath = pathname.replace(/\/$/, '');
+      console.log("[LAYOUT DEBUG] pathname:", pathname, "currentPath:", currentPath, "hash:", hash, "window.location.pathname:", window.location.pathname);
       if (pmSurfaceHashes.has(hash) && currentPath !== PM_WORKSPACE_PATH) {
+        console.log("[LAYOUT DEBUG] Redirecting to:", `${PM_WORKSPACE_PATH}${hash}`);
         router.replace(`${PM_WORKSPACE_PATH}${hash}`, { scroll: false });
       }
     };
