@@ -1,0 +1,73 @@
+{
+  "status": "success",
+  "requested_url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "rendered_url": "http://localhost:3001/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "paths": {
+    "desktop_screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-final2-desktop.png",
+    "post_interaction_screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-final2-post-interaction.png",
+    "metadata": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-final2-metadata.json"
+  },
+  "console_errors": [],
+  "runtime_errors": [],
+  "request_errors": [],
+  "selector_evidence": {
+    "total_data_ds_id_nodes": 161,
+    "unique_data_ds_ids": 161,
+    "sample_data_ds_ids": [
+      "ds:screen:webui-pm-workspace-001",
+      "ds:global-shell:root",
+      "ds:global-shell:header",
+      "ds:global-shell:sync-banner",
+      "ds:global-shell:sidebar",
+      "ds:global-shell:active-surface",
+      "ds:screen:rtm-dashboard-001",
+      "ds:rtm-dashboard:root",
+      "ds:rtm-dashboard:kpis",
+      "ds:rtm-dashboard:coverage-heatmap",
+      "ds:rtm-dashboard:task-progress",
+      "ds:rtm-dashboard:knowledge-graph-widget",
+      "ds:rtm-dashboard:gap-analysis",
+      "ds:screen:kanban-001",
+      "ds:kanban:root",
+      "ds:kanban:board-selector",
+      "ds:kanban:columns",
+      "ds:kanban:stats",
+      "ds:kanban:rte-escalation-badge",
+      "ds:screen:task-list-001",
+      "ds:task-list:root",
+      "ds:task-list:filters",
+      "ds:task-list:table",
+      "ds:task-list:bulk-actions",
+      "ds:screen:task-detail-001",
+      "ds:task-detail:root",
+      "ds:task-detail:editable-fields",
+      "ds:task-detail:tabs",
+      "ds:task-detail:activity",
+      "ds:task-detail:graph-widget",
+      "ds:screen:approval-001",
+      "ds:approval:root",
+      "ds:approval:queue",
+      "ds:approval:evidence-hub",
+      "ds:approval:rtm-matrix",
+      "ds:approval:decision-controls",
+      "ds:screen:doc-viewer-001",
+      "ds:doc-viewer:root",
+      "ds:doc-viewer:tree",
+      "ds:doc-viewer:content"
+    ]
+  },
+  "interactions": [
+    {
+      "target": "ds:screen:task-detail-001",
+      "found": true,
+      "clicked": true
+    }
+  ],
+  "blockers": [
+    "Requested route unavailable at http://localhost:9993/design-system/webui-pm-workspace: TypeError: fetch failed"
+  ]
+}

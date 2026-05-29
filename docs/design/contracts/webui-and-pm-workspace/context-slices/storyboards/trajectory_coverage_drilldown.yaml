@@ -1,0 +1,9 @@
+id: trajectory:coverage_drilldown
+name: Coverage Drilldown
+steps:
+  - state: Dashboard.Default
+    action: EVENT_HEATMAP_CLICK
+    target: Doc_Viewer.Doc_Loading
+  - state: Doc_Viewer.Doc_Loading
+    action: API_SUCCESS
+    target: Doc_Viewer.Doc_Default

@@ -1,0 +1,89 @@
+{
+  "feature": "webui-and-pm-workspace",
+  "pass_type": "Stage 2 browser render evidence",
+  "status": "success",
+  "server_status": "dev server available on port 9993",
+  "rendered_url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "http_status": 200,
+  "timestamp": "2026-05-28T17:22:49.460Z",
+  "source_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+  "screenshots": {
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260528-desktop.png",
+    "desktop_post_interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260528-desktop-post-interaction.png",
+    "tablet": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260528-tablet.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260528-mobile.png"
+  },
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "viewports": {
+    "desktop": {
+      "width": 1440,
+      "height": 900
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    }
+  },
+  "attribute_counts": {
+    "[data-screen-id]": 18,
+    "[data-ds-id]": 95,
+    "[data-state]": 185,
+    "[data-contract-state]": 0
+  },
+  "route_presence": {
+    "screen:ds-webui-pm-workspace": {
+      "exists": false,
+      "visible": false
+    },
+    "screen:task-detail": {
+      "exists": true,
+      "visible": true
+    },
+    "screen:ds-terminal": {
+      "exists": false,
+      "visible": false
+    }
+  },
+  "interactions": [
+    {
+      "probe": "global_search_focus_shortcut",
+      "status": "pass",
+      "focusedTag": "input",
+      "focusedRole": null
+    },
+    {
+      "probe": "surface_selection_task_detail",
+      "status": "skipped",
+      "reason": "not found"
+    },
+    {
+      "probe": "surface_selection_terminal",
+      "status": "skipped",
+      "reason": "not found"
+    },
+    {
+      "probe": "state_selector_loading",
+      "status": "pass",
+      "method": "button"
+    },
+    {
+      "probe": "state_selector_offline",
+      "status": "pass",
+      "method": "button"
+    },
+    {
+      "probe": "state_selector_saving",
+      "status": "pass",
+      "method": "button"
+    }
+  ],
+  "console_errors": [],
+  "errors": []
+}

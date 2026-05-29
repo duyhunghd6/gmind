@@ -1,0 +1,3 @@
+screen: ds:screen:task-list
+state: default
+viewport: desktop

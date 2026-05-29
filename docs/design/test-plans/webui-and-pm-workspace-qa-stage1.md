@@ -1,41 +1,59 @@
-# Stage 1 QA Test Plan: WebUI PM Workspace
+# Stage 1 QA Test Plan: webui-and-pm-workspace
 
-<!-- beads-id: br-agent-ralph-stage1-qa -->
+<!-- beads-id: br-plan-qa-stage1-webui-and-pm-workspace | satisfies: br-prd04-s18 -->
 
-## Files under test
-- `docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`
+## Overview
+This plan defines the Stage 1 QA validation for the 'webui-and-pm-workspace' feature. It ensures that the design contracts (Markdown and JSON) are consistent with PRD-04, traceably linked, and mechanically valid for the Ralph Loop pipeline.
+
+## Files Under Test
 - `docs/design/contracts/webui-and-pm-workspace/ui-contract.md`
 - `docs/design/contracts/webui-and-pm-workspace/flow.md`
-- `docs/design/contracts/webui-and-pm-workspace/review-diagrams.md` and optional split diagram Markdown files
+- `docs/design/contracts/webui-and-pm-workspace/component-map.json`
 - `docs/design/contracts/webui-and-pm-workspace/storyboards.json`
 - `docs/design/contracts/webui-and-pm-workspace/layout-rules.json`
-- `docs/design/contracts/webui-and-pm-workspace/component-map.json`
-- `docs/design/contracts/webui-and-pm-workspace/preview/index.html`
-- `docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json`
+- `docs/design/contracts/webui-and-pm-workspace/review-diagrams.md`
+- `docs/design/contracts/webui-and-pm-workspace/prd-ds-conflicts.md`
 - `docs/design/contracts/webui-and-pm-workspace/artifact-index.json`
-- `docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage1-iter-2.json`
-- `docs/design/pipeline-state/webui-and-pm-workspace/stage1-routing-decision.json`
 
-## T1 Contract Container Integrity
-Pass if `ui-contract.md` exists, contains exactly one block-style YAML fence and one Mermaid fence, and preview parsing has no fatal errors.
+## Test Suites
 
-## T2 YAML View Blueprint Schema
-Pass if metadata, viewports, screens, screen routes/states/layout, component `type`, and stable DS IDs exist where applicable.
+### T1: Contract Container Integrity
+- Verify `ui-contract.md` exists.
+- Verify exactly one fenced YAML block and one fenced Mermaid block.
+- Verify the fenced YAML block is block-style YAML.
+- Pass if container is parseable and block counts are correct.
 
-## T3 Component and DS ID Traceability
-Pass if every YAML `ds_id` appears in `component-map.json`, no duplicates exist, entries reference valid screens, and DS types are present.
+### T2: YAML View Blueprint Schema
+- Verify `metadata.feature`, `metadata.satisfies`, `viewports[]`, and `screens[]` exist in YAML.
+- Verify each screen has `id`, `route`, `states`, and `layout`.
+- Pass if required schema fields exist for every declared screen.
 
-## T4 Mermaid Logic Coverage
-Pass if `flow.md` contains exactly one Mermaid block matching/faithefully extracting the UI contract logic, actions/events round-trip, required success/error/retry/cancel/back paths exist, validator passes, and no standalone `.mmd` exists.
+### T3: Component and ds_id Traceability
+- Verify all `ds_id` in YAML appear in `component-map.json`.
+- Verify no duplicate `ds_id`s.
+- Pass if all YAML components are mapped once.
 
-## T5 Storyboard Trajectory Validation
-Pass if `storyboards.json` parses and each trajectory has ID, PRD journey reference, ordered steps, state/action/assertion fields, and `ds:` targets where applicable, with route-family/error recovery coverage.
+### T4: Mermaid Logic Coverage
+- Verify `flow.md` Mermaid block matches `ui-contract.md` logic or is a faithful extraction.
+- Verify `EVENT_*` values map back to YAML actions.
+- Verify behavioral graph covers all required journeys from PRD.
+- Run `validate_mermaid_markdown.py` on `flow.md`.
 
-## T6 Layout Rules and Review Diagrams
-Pass if `layout-rules.json` parses, viewport names match YAML, review diagrams contain required Mermaid blocks, split-subgraph check reports no pending changes, validator passes, and no standalone `.mmd` exists.
+### T5: Storyboard Trajectory Validation
+- Validate `storyboards.json` syntax and trajectory shape.
+- Verify at least one trajectory per PRD journey.
+- Pass if trajectories are replayable from YAML/Mermaid source.
 
-## T7 Conflict Report and Preview Output
-Pass if conflicts are resolved/assigned/deferred and preview artifacts exist with OK status and zero warnings.
+### T6: Layout Rules and Review Diagrams
+- Verify viewport names in `layout-rules.json` match YAML.
+- Run `split_mermaid_subgraphs.py` on `review-diagrams.md`.
+- Run `validate_mermaid_markdown.py` on `review-diagrams.md`.
+- Pass if layout and diagrams are consistent and Mermaid validates.
 
-## T8 Artifact Budget and Slice Availability
-Pass if `artifact-index.json` separates human review artifacts from machine evidence and machine evidence has lookup/summary load policies or context-slice refs; required context slices exist and Gate A review does not require raw JSON review.
+### T7: Conflict Report and Preview Output
+- Verify `prd-ds-conflicts.md` resolutions are documented.
+- Verify `preview/index.html` and `preview/preview-manifest.json` exist.
+
+### T8: Artifact Budget and Slice Availability
+- Verify large machine artifacts are marked `machine_evidence` in `artifact-index.json`.
+- Verify `context-slices/` directory structure exists.

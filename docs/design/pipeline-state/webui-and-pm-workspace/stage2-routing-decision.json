@@ -1,108 +1,99 @@
 {
   "ba_agent": "stage2_ba",
-  "iteration_analyzed": 5,
-  "action": "GATE_B_READY",
-  "auditor_score": 97,
-  "qa_status": "QA_PASS",
-  "p0_count": 0,
-  "delta": "+3",
-  "convergence_reason": "Gate B criteria are satisfied after final browser evidence: auditor score is 97, P0=0, P1=0, QA is PASS, and the final port 9993 browser pass resolved the prior T7 skip/evidence concerns.",
-  "builders_to_respawn": [],
-  "fix_queue_per_builder": {
-    "build_components": [
-      {
-        "fix": "Optional formatting/splitting of dense JSX branches to improve future diff reviewability without changing behavior.",
-        "priority": "P2",
-        "source": "auditor_efficiency_completeness",
-        "responsible_builder": "build_components"
-      }
-    ]
-  },
-  "skip_builders": [
+  "iteration_analyzed": 11,
+  "action": "TIMEOUT",
+  "auditor_score": 49,
+  "qa_status": "QA_FAIL",
+  "p0_count": 1,
+  "delta": "-47",
+  "convergence_reason": "Stage 2 has reached iteration 11, triggering the iteration>=10 TIMEOUT rule. Gate B is blocked by auditor score 49, 1 P0, 6 P1 issues, QA_FAIL with only T7 passing, unresolved browser failures for Tasks/Trace/Docs, missing Go REST API boundary copy, placeholder RTM panels, incomplete state coverage, DS token non-compliance, and accessibility gaps.",
+  "builders_to_respawn": [
     "build_layout",
     "build_components",
     "build_states"
   ],
-  "browser_render_needed": false,
-  "qa_retry_count": 0,
-  "warnings": [
-    "QA iteration 4 recorded T7 as SKIP because port 9993 was unavailable, but final browser evidence supersedes that skip with HTTP 200 on http://localhost:9993/design-system/webui-pm-workspace.",
-    "One non-blocking P2 maintainability item remains: dense JSX formatting in page.tsx reduces reviewability but does not affect Gate B readiness.",
-    "Final browser evidence notes data-contract-state='not_found' was not visible in the default rendered page, while source and state controls represent the state; this is non-blocking because QA T3 and auditor flow/state checks passed."
-  ],
-  "gate_b_summary": {
-    "score_history": [
+  "fix_queue_per_builder": {
+    "build_layout": [
       {
-        "iter": 1,
-        "score": 98,
-        "qa": "PASS"
+        "fix": "Add root data-ds-id=\"ds:global_shell\" and restore contracted shell including Header Bar, Sidebar, Main Content Area, and Footer landmark/content.",
+        "priority": "P1",
+        "source": "audit_contract_conformance",
+        "responsible_builder": "build_layout"
       },
       {
-        "iter": 2,
-        "score": 92,
-        "qa": "FAIL"
+        "fix": "Replace hardcoded Tailwind palette utilities in page.tsx with DS manifest tokens/classes so page source meets token policy.",
+        "priority": "P1",
+        "source": "audit_visual_token_fidelity;qa_t4",
+        "responsible_builder": "build_layout"
       },
       {
-        "iter": 3,
-        "score": 99,
-        "qa": "PASS"
-      },
-      {
-        "iter": 4,
-        "score": 94,
-        "qa": "PASS"
-      },
-      {
-        "iter": 5,
-        "score": 97,
-        "qa": "PASS"
+        "fix": "After functional fixes, narrow the route client-only boundary so mostly static shell content is not unnecessarily client-rendered.",
+        "priority": "P2",
+        "source": "audit_safety_self_verification",
+        "responsible_builder": "build_layout"
       }
     ],
-    "final_score": 97,
-    "p0_count": 0,
-    "pillar_breakdown": {
-      "contract_conformance": 29,
-      "visual_token_fidelity": 20,
-      "flow_state_integrity": 15,
-      "accessibility": 19,
-      "efficiency_completeness": 9,
-      "safety_self_verification": 5
-    },
-    "qa_results": {
-      "T1": "PASS",
-      "T2": "PASS",
-      "T3": "PASS",
-      "T4": "PASS",
-      "T5": "PASS",
-      "T6": "PASS",
-      "T7": "PASS"
-    },
-    "warnings": [
-      "T7 is treated as PASS for final routing based on final browser evidence status=success, rendered_url matching the required port 9993 URL, and HTTP 200.",
-      "Residual P2 maintainability cleanup can be scheduled after Gate B; no source-builder respawn is required for approval."
+    "build_components": [
+      {
+        "fix": "Replace visible RTM dashboard placeholder panels with real contract-backed components/data for Coverage Heatmap, Task Progress, Knowledge Graph, and Gap Analysis.",
+        "priority": "P0",
+        "source": "audit_efficiency_completeness",
+        "responsible_builder": "build_components"
+      },
+      {
+        "fix": "Wire page.tsx to the richer DS-token workspace-components.tsx implementation, or render equivalent reachable components in the page target.",
+        "priority": "P0",
+        "source": "audit_contract_conformance;qa_fix_queue",
+        "responsible_builder": "build_components"
+      },
+      {
+        "fix": "Add routable/hash-navigable Tasks, Trace, Docs, Board/Kanban, terminal, portfolio, timeline, and other storyboard/context-slice surfaces with matching data-ds-id values and data-action events.",
+        "priority": "P0",
+        "source": "qa_t1;qa_t2;browser_evidence",
+        "responsible_builder": "build_components"
+      },
+      {
+        "fix": "Ensure the Go REST API boundary copy is present in rendered body text and browser-detectable across viewports.",
+        "priority": "P1",
+        "source": "browser_evidence;qa_t6",
+        "responsible_builder": "build_components"
+      }
     ],
-    "screenshot_paths": [
-      "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-desktop-post-interaction.png",
-      "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-desktop.png",
-      "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-tablet.png",
-      "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-mobile.png",
-      "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-evidence.json"
-    ],
-    "artifacts_for_review": [
-      "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/context-slices/summary/contract-summary.yaml",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards-review.html",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/index.html",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/artifact-index.json",
-      "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-evidence.json"
-    ],
-    "machine_evidence": [
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json"
+    "build_states": [
+      {
+        "fix": "Implement required state matrix with deterministic data-state coverage and ARIA live/alert semantics for loading, empty, error, offline, forbidden, saving, partial, not_found, success, insufficient-evidence, and decision-submitted states.",
+        "priority": "P0",
+        "source": "qa_t3;qa_fix_queue",
+        "responsible_builder": "build_states"
+      },
+      {
+        "fix": "Model storyboard and Mermaid transitions for Drill-down, View Trace, Tasks, Trace, and Docs so browser interactions reveal target surfaces instead of remaining on RTM dashboard content.",
+        "priority": "P1",
+        "source": "audit_flow_state_integrity;browser_evidence",
+        "responsible_builder": "build_states"
+      },
+      {
+        "fix": "Add handlers for Approve, Reject, and Request Changes so approval gate transitions to decision-submitted with visible state feedback.",
+        "priority": "P1",
+        "source": "audit_flow_state_integrity;qa_t3",
+        "responsible_builder": "build_states"
+      },
+      {
+        "fix": "Resolve accessibility gaps: stable single h1, skip-to-content link, explicit global search label or aria-label, focus-visible styling, aria labels, live regions, and footer landmark.",
+        "priority": "P1",
+        "source": "audit_accessibility;qa_t5",
+        "responsible_builder": "build_states"
+      }
     ]
-  }
+  },
+  "skip_builders": [],
+  "browser_render_needed": true,
+  "qa_retry_count": 1,
+  "warnings": [
+    "Gate B is blocked: auditor score is below 95, p0_count is 1, and QA status is QA_FAIL.",
+    "Current score dropped from 96 to 49 after a previous Gate B-ready decision; treat as a major regression even though the mandatory convergence rule routes iteration 11 to TIMEOUT before REGRESSION.",
+    "The Stage 2 audit scorecard confirms ui-contract.md YAML is block-style; no Stage 1 YAML/minified-JSON rerun warning is required.",
+    "Because action is TIMEOUT, orchestrator or PM approval is needed before executing another selective builder respawn. If approved, respawn build_components first, then build_layout and build_states, followed by browser render and QA."
+  ],
+  "gate_b_summary": null
 }

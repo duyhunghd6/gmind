@@ -1,0 +1,7 @@
+id: journey-3
+name: Quick Search
+role: User
+steps:
+- action: Enter query in Global Search
+  next_screen: explorer
+  screen: shell

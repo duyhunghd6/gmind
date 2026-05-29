@@ -1,0 +1,6 @@
+ds_id: ds:kpi:coverage
+type: ds:component:kpi_card
+label: PRD Coverage
+binding: coverage.total_percent
+screen: screen:dashboard
+state: default

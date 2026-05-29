@@ -1,48 +1,11 @@
 feature: webui-and-pm-workspace
-screens: 23
-components: 115
-storyboards: 13
-layout_rules: 432
-showcase_routes:
-- /design-system/terminal
-- /design-system/portfolio
-- /design-system/pi-planning
-- /design-system/git-graph
-- /design-system/kanban
-- /design-system/knowledge-graph
-- /design-system/approval
-- /design-system/timeline
-- /design-system/components
-- /design-system/doc-viewer
-- /design-system/explorer
-- /design-system/beads-traversal
-- /design-system/storyboard
-- /design-system/storyboard/:id
-- /design-system/webui-pm-workspace
-core_routes:
-- /
-- /board
-- /tasks
-- /tasks/:id
-- /trace/:id
-- /docs
-- /approval
-- /search
-required_events:
-- EVENT_APPROVAL_DECISION
-- EVENT_BACK
-- EVENT_CONFIDENCE_VOTE
-- EVENT_DISCONNECT
-- EVENT_HASH_NAVIGATE
-- EVENT_KEEP_LOCAL
-- EVENT_MOVE_CARD
-- EVENT_PI_PLAN_SAVE
-- EVENT_RECONNECT
-- EVENT_REFRESH
-- EVENT_SAVE_BULK
-- EVENT_SAVE_TASK
-- EVENT_SEARCH
-- EVENT_USE_SERVER
-- EVENT_VIEW_DOC
-- EVENT_VIEW_TASK
-- EVENT_VIEW_TRACE
+satisfies:
+  - br-prd04
+viewports:
+  - Desktop
+  - Tablet
+  - Mobile
+screens:
+  - global-shell
+  - rtm-dashboard
+  - approval-gate

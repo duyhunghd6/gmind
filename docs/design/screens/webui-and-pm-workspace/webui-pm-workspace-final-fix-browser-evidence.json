@@ -1,0 +1,50 @@
+{
+  "status": "failure",
+  "url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "screenshots": {
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/webui-pm-workspace-final-fix-desktop.png",
+    "post_interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/webui-pm-workspace-final-fix-post-interaction.png"
+  },
+  "actions": [
+    {
+      "action": "inspect_data_ds_surface",
+      "result": {
+        "count": 157,
+        "firstIds": [
+          "ds:screen:webui-pm-workspace-001",
+          "ds:global-shell:root",
+          "ds:global-shell:header",
+          "ds:global-shell:sync-banner",
+          "ds:global-shell:sidebar",
+          "ds:global-shell:active-surface",
+          "ds:screen:rtm-dashboard-001",
+          "ds:rtm-dashboard:root",
+          "ds:rtm-dashboard:kpis",
+          "ds:rtm-dashboard:coverage-heatmap",
+          "ds:rtm-dashboard:task-progress",
+          "ds:rtm-dashboard:knowledge-graph-widget",
+          "ds:rtm-dashboard:gap-analysis",
+          "ds:screen:kanban-001",
+          "ds:kanban:root",
+          "ds:kanban:board-selector",
+          "ds:kanban:columns",
+          "ds:kanban:stats",
+          "ds:kanban:rte-escalation-badge",
+          "ds:screen:task-list-001"
+        ],
+        "interactive": []
+      }
+    }
+  ],
+  "errors": [
+    "ReferenceError: CSS is not defined\n    at /Users/steve/duyhunghd6/gmind/tmp/capture-webui-pm-final-fix.js:57:40"
+  ],
+  "console_errors": [],
+  "page_errors": [],
+  "console_message_count": 2,
+  "captured_at": "2026-05-29T01:54:30.896Z"
+}

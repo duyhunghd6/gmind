@@ -1,0 +1,7 @@
+id: journey-5
+name: Approve Escalation
+role: RTE
+steps:
+- action: Click Approve Resolution
+  next_screen: task-detail-drawer
+  screen: task-detail-drawer

@@ -1,0 +1,10 @@
+id: journey-1
+name: Navigate to Task
+role: User
+steps:
+- action: Click Tasks
+  next_screen: task-list
+  screen: dashboard
+- action: Click Task row
+  next_screen: task-detail
+  screen: task-list

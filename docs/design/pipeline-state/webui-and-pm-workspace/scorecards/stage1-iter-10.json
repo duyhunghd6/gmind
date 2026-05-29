@@ -1,0 +1,116 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 10,
+  "score": 98,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses as multi-line YAML and does not start as JSON."
+    },
+    "prd_coverage": {
+      "score": 19,
+      "max": 20,
+      "tool_evidence": "18 screens, 15 showcase route families, 18 core route families, and 21 metadata.satisfies IDs map PRD-04 route/state/data-boundary requirements including PRD §8 showcase coverage."
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "95 YAML ds_id values are unique; component-map.json has 95 matching unique ds_id values with 0 missing and 0 extra across 77 component types."
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "21/21 YAML EVENT_* actions are present in the contract Mermaid with 0 extra EVENT_* Mermaid events; API success, empty, error, forbidden/not_found, conflict, sync, retry, refresh, back, and partial-enrichment outcomes are represented."
+    },
+    "derived_artifact_consistency": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "validate_mermaid_markdown.py PASS: flow.md has exactly 1 Mermaid block and review-diagrams.md has 26 valid blocks; review event coverage now includes EVENT_RETRY; flow.md matches contract Mermaid; storyboards/component-map/layout-rules/artifact-index JSON parse; no standalone .mmd files."
+    },
+    "conflict_preview_readiness": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "contract_to_ui.py preview regeneration returned OK with 0 warnings; preview HTML contains overview, screens, flow, storyboards, components, layout, review-diagrams, conflicts, and coverage sections; prd-ds-conflicts.md has 2 assigned/resolved conflict rows; artifact-index has 184 entries and 168 context-slice files."
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_block_style": true,
+    "yaml_starts_json": false,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "standalone_mmd_files_under_contract_path": 0,
+    "metadata_satisfies_count": 21,
+    "screens_defined": 18,
+    "showcase_routes_defined": 15,
+    "yaml_actions_defined": 21,
+    "yaml_ds_ids": 95,
+    "component_map_ds_ids": 95,
+    "component_map_missing_ids": 0,
+    "component_map_extra_ids": 0,
+    "component_types_count": 77,
+    "api_outcomes": [
+      "API_CONFLICT",
+      "API_EMPTY",
+      "API_ENRICHMENT_SUCCESS",
+      "API_ERROR",
+      "API_ERROR_ROLLBACK_OR_POLICY_OR_INSUFFICIENT_EVIDENCE",
+      "API_FORBIDDEN",
+      "API_NOT_FOUND",
+      "API_PARTIAL_ENRICHMENT",
+      "API_SUCCESS",
+      "API_SUCCESS_CORE",
+      "API_SUCCESS_SHOWCASE",
+      "API_SYNC_SUCCESS"
+    ],
+    "storyboard_trajectories": 16,
+    "storyboard_steps": 35,
+    "layout_rules_count": 54,
+    "artifact_index_entries": 184,
+    "artifact_index_missing_paths": 0,
+    "context_slice_files": 168,
+    "context_slices_by_dir": {
+      "storyboards": 16,
+      "layout": 54,
+      "components": 95,
+      "summary": 3
+    },
+    "json_artifacts_valid": true,
+    "missing_load_policy_count": 0,
+    "invalid_load_policy_count": 0,
+    "mermaid_markdown_validator_status": "PASS",
+    "flow_mermaid_blocks": 1,
+    "flow_matches_contract_mermaid": true,
+    "review_diagrams_mermaid_blocks": 26,
+    "review_diagrams_missing_yaml_events": [],
+    "preview_status": "OK",
+    "preview_warnings": 0,
+    "preview_sections_verified": [
+      "overview",
+      "screens",
+      "flow",
+      "storyboards",
+      "components",
+      "layout",
+      "review-diagrams",
+      "conflicts",
+      "coverage"
+    ],
+    "prd_ds_conflict_rows": 2,
+    "baseline_features_processed": 0,
+    "baseline_regression_check_applicable": false
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "recommended_ba_route": "GATE_A_READY; no selective respawn required. The prior gen_wireframes EVENT_RETRY drift is verified fixed in review-diagrams.md and Mermaid validation passes.",
+  "issues": [
+    "PASS: canonical feature normalization is webui-and-pm-workspace and the evaluated contract root is docs/design/contracts/webui-and-pm-workspace.",
+    "PASS: no duplicate ds_id values, no unmatched YAML/Mermaid EVENT_* actions, and no standalone .mmd files under the contract path.",
+    "PASS: review-diagrams.md now includes EVENT_RETRY links for EmptyState, ErrorState, and RecoveryState back to RouteLoading, matching ui-contract.md and flow.md.",
+    "PASS: preview regenerated successfully with 0 warnings and all expected Gate A review sections are present."
+  ]
+}

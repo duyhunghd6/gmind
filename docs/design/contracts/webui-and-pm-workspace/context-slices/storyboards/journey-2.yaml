@@ -1,0 +1,10 @@
+id: journey-2
+name: Explore Trace
+role: User
+steps:
+- action: Click Graph tab
+  next_screen: task-detail
+  screen: task-detail
+- action: Click Open Full Page
+  next_screen: trace-explorer
+  screen: task-detail

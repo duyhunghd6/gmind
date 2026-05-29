@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "route": "http://localhost:9993/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "screenshot_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-final-desktop.png",
+  "post_interaction_screenshot_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-final-desktop-post-interaction.png",
+  "metadata_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-final-metadata.json",
+  "interaction": {
+    "requestedHash": "#surface-trace-explorer",
+    "found": true,
+    "method": "id"
+  },
+  "final_url": "http://localhost:9993/design-system/webui-pm-workspace#surface-trace-explorer",
+  "console_errors": [],
+  "runtime_errors": [],
+  "request_failures": [],
+  "captured_at": "2026-05-29T01:57:07.362Z"
+}

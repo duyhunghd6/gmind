@@ -1,0 +1,5 @@
+id: storyboard:rtm_dashboard_drilldown
+steps:
+  - action: Navigate to Dashboard
+  - action: LOAD_SUCCESS
+  - action: Drill-down

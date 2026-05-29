@@ -1,0 +1,6 @@
+id: global-shell
+components:
+  - Header Bar
+  - Sidebar
+  - Main Content Area
+  - Footer

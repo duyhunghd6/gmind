@@ -1,0 +1,109 @@
+{
+  "auditor": "stage2_builder",
+  "iteration": 11,
+  "score": 49,
+  "p0_count": 1,
+  "p1_count": 6,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "contract_conformance": {
+      "score": 18,
+      "max": 30,
+      "tool_evidence": "ui-contract YAML is block-style; page source contains 4/5 contract ds_id values and is missing ds:global_shell; browser evidence passes shell/RTM/approval but Tasks/Trace/Docs hash surfaces remain dashboard content."
+    },
+    "visual_token_fidelity": {
+      "score": 8,
+      "max": 20,
+      "tool_evidence": "page.tsx uses 0 var(--*) DS tokens while workspace-components.tsx has 16/16 valid tokens but is not imported; page skeleton uses Tailwind palette classes instead of manifest tokens; grep-style color scan found 1 # fragment false-positive (#decision), 0 CSS hex/rgb/hsl literals."
+    },
+    "flow_state_integrity": {
+      "score": 7,
+      "max": 15,
+      "tool_evidence": "YAML state literals are present, but Mermaid drill-down/view-trace states are not implemented; approval decision buttons do not transition to decision-submitted; Tasks/Trace/Docs interactions failed in browser evidence."
+    },
+    "accessibility": {
+      "score": 8,
+      "max": 20,
+      "tool_evidence": "page has main and nav landmarks, but 0 aria-label refs, no skip-to-content link, no footer landmark, unlabeled search input, no live region on state changes, and no focus-visible token utility in page.tsx."
+    },
+    "efficiency_completeness": {
+      "score": 4,
+      "max": 10,
+      "tool_evidence": "page.tsx is 198 lines and component file is 277 lines, but richer workspace-components.tsx is unused and RTM panels render visible bracket placeholders."
+    },
+    "safety_self_verification": {
+      "score": 4,
+      "max": 5,
+      "tool_evidence": "0 dangerouslySetInnerHTML and browser console_errors/errors are empty; whole page is client-only despite mostly static shell, with no self-verification hooks for failed surfaces."
+    }
+  },
+  "pre_output_checklist": {
+    "no_hallucinated_tokens": true,
+    "no_hardcoded_colors": false,
+    "all_contract_states_present": false,
+    "skip_to_content": false,
+    "heading_hierarchy": true,
+    "aria_landmarks": false,
+    "focus_indicators": false,
+    "no_placeholders": false,
+    "mobile_responsive": false,
+    "gpu_safe_animation": true
+  },
+  "mechanical_checks": {
+    "ui_contract_yaml_block_style": true,
+    "mermaid_parsed_from_fenced_blocks_only": true,
+    "page_line_count": 198,
+    "component_line_count": 277,
+    "contract_ds_ids": ["ds:global_shell", "ds:component:header", "ds:component:sidebar", "ds:screen:rtm-dashboard", "ds:screen:approval-001"],
+    "page_ds_ids_found": ["ds:component:header", "ds:component:sidebar", "ds:screen:rtm-dashboard", "ds:screen:approval-001"],
+    "component_map_ids_found": "4/5",
+    "missing_contract_ds_ids": ["ds:global_shell"],
+    "extra_page_ds_ids": [],
+    "page_var_tokens": [],
+    "component_var_tokens_valid": ["--accent-amber-dim", "--accent-cyan", "--accent-cyan-dim", "--accent-rose-dim", "--accent-teal", "--bg", "--border", "--border-highlight", "--duration-normal", "--ease-out", "--radius", "--space-md", "--space-sm", "--space-xs", "--surface", "--text-dim"],
+    "hallucinated_tokens": [],
+    "hardcoded_color_grep_hits": ["#dec from href fragment /approval#decision, not a CSS color literal"],
+    "page_uses_manifest_token_classes": false,
+    "placeholder_patterns_count": 0,
+    "visible_placeholder_text": ["[Panel 1: Coverage Heatmap]", "[Panel 2: Task Progress]", "[Panel 3: Knowledge Graph]", "[Panel 4: Gap Analysis]"],
+    "dangerously_set_inner_html_count": 0,
+    "required_yaml_states": ["default", "offline", "loading", "empty", "error", "insufficient-evidence", "decision-submitted"],
+    "missing_mermaid_state_handlers": ["view_drilldown", "view_trace", "shell_offline transition controls", "app_decision_submitted action handlers"],
+    "browser_surface_failures": ["tasks", "trace", "docs"],
+    "browser_go_rest_api_boundary_copy": false,
+    "browser_console_errors": 0,
+    "browser_errors": 0,
+    "a11y_counts_page": {"aria_label": 0, "aria_live_or_status_alert": 0, "main": 1, "nav": 1, "footer": 0, "skip_link": 0}
+  },
+  "fix_queue": [
+    {"priority": "P0", "pillar": "efficiency_completeness", "responsible_builder": "build_components", "detail": "RTM dashboard panels render visible placeholder bodies instead of the contract components/data: [Panel 1: Coverage Heatmap], [Panel 2: Task Progress], [Panel 3: Knowledge Graph], [Panel 4: Gap Analysis]."},
+    {"priority": "P1", "pillar": "contract_conformance", "responsible_builder": "build_layout", "detail": "Root global shell lacks data-ds-id=\"ds:global_shell\" and no footer landmark/content is rendered despite the contract labels Header Bar, Sidebar, Main Content Area, and Footer."},
+    {"priority": "P1", "pillar": "contract_conformance", "responsible_builder": "build_components", "detail": "The richer workspace-components.tsx implementation containing DS-token components is unused by page.tsx, leaving task, trace, docs, API-boundary, and detailed dashboard surfaces unreachable."},
+    {"priority": "P1", "pillar": "flow_state_integrity", "responsible_builder": "build_states", "detail": "Mermaid/storyboard drill-down and View Trace outcomes are not modeled; Tasks/Trace/Docs browser interactions stayed on RTM dashboard content."},
+    {"priority": "P1", "pillar": "flow_state_integrity", "responsible_builder": "build_states", "detail": "Approve, Reject, and Request Changes buttons do not update screenState to decision-submitted, so the approval_gate storyboard decision transition is not executable."},
+    {"priority": "P1", "pillar": "visual_token_fidelity", "responsible_builder": "build_layout", "detail": "page.tsx uses Tailwind palette classes such as bg-slate-50, text-blue-600, bg-red-50, and bg-emerald-50 instead of manifest DS tokens/classes; page source contains 0 var(--*) token references."},
+    {"priority": "P1", "pillar": "accessibility", "responsible_builder": "build_states", "detail": "No skip-to-content link, no aria-labels in page.tsx, unlabeled search input, no live region for state changes, and no footer landmark."},
+    {"priority": "P2", "pillar": "safety_self_verification", "responsible_builder": "build_layout", "detail": "The entire route is marked use client even though most content is static; isolate interactive state controls after restoring contract-complete rendered surfaces."}
+  ],
+  "issues_by_priority": {
+    "P0": [{"pillar": "efficiency_completeness", "responsible_builder": "build_components", "detail": "Visible RTM panel placeholders remain in rendered output."}],
+    "P1": [
+      {"pillar": "contract_conformance", "responsible_builder": "build_layout", "detail": "Missing ds:global_shell root id and Footer label implementation."},
+      {"pillar": "contract_conformance", "responsible_builder": "build_components", "detail": "workspace-components.tsx DS-token surface components are not wired into page.tsx."},
+      {"pillar": "flow_state_integrity", "responsible_builder": "build_states", "detail": "Drill-down, View Trace, Tasks, Trace, and Docs surfaces are not reachable in browser evidence."},
+      {"pillar": "flow_state_integrity", "responsible_builder": "build_states", "detail": "Approval decision actions do not transition to decision-submitted."},
+      {"pillar": "visual_token_fidelity", "responsible_builder": "build_layout", "detail": "Page skeleton does not use DS manifest tokens/classes."},
+      {"pillar": "accessibility", "responsible_builder": "build_states", "detail": "Missing skip link, page aria labels, live regions, input label, and footer landmark."}
+    ],
+    "P2": [{"pillar": "safety_self_verification", "responsible_builder": "build_layout", "detail": "Client-only route should be narrowed after functional fixes."}]
+  },
+  "browser_evidence": {
+    "path": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-browser-evidence.json",
+    "http_200_viewports": ["desktop", "tablet", "mobile"],
+    "approval_surface": "pass",
+    "failed_surfaces": ["tasks", "trace", "docs"],
+    "go_rest_api_boundary_copy": false,
+    "console_errors": 0
+  },
+  "snapshot_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/snapshot-iter-11/page.tsx"
+}

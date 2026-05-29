@@ -1,0 +1,198 @@
+{
+  "auditor": "stage2_builder",
+  "iteration": 7,
+  "score": 85,
+  "p0_count": 0,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "contract_conformance": {
+      "score": 20,
+      "max": 30,
+      "tool_evidence": "ui-contract YAML is block-style; component-map.json is not a component map (0 ds_id rows; contains storyboard journeys), so authoritative component-map id match cannot pass; fallback context-slice check found 96/115 component slice ids and page source has 95 ds ids"
+    },
+    "visual_token_fidelity": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "18/18 var(--*) tokens resolve from packages/design-system CSS/globals.css; 0 hardcoded #/rgb/rgba/hsl color literals; browser evidence has 0 console/page errors"
+    },
+    "flow_state_integrity": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "8/9 YAML states represented after hyphen normalization; missing explicit bulk_action_processing data-state; 21 EVENT_* handlers cover route/search/save/retry/offline/reconnect/conflict paths"
+    },
+    "accessibility": {
+      "score": 19,
+      "max": 20,
+      "tool_evidence": "skip link present; main/nav/header/footer/search/dialog/status/alert semantics present; counts: aria-label 18, aria-live 4, role=status 2, role=alert 3, h1 1, focus-visible references 5"
+    },
+    "efficiency_completeness": {
+      "score": 8,
+      "max": 10,
+      "tool_evidence": "122 lines under 400-line cap; 0 TODO/ellipsis/implement-later placeholders; dense single-file JSX remains hard to diff but no stub content detected"
+    },
+    "safety_self_verification": {
+      "score": 5,
+      "max": 5,
+      "tool_evidence": "0 dangerouslySetInnerHTML; browser copy states REST-only boundary and forbids direct DB/shell/git/CI provider access"
+    }
+  },
+  "pre_output_checklist": {
+    "no_hallucinated_tokens": true,
+    "no_hardcoded_colors": true,
+    "all_contract_states_present": false,
+    "skip_to_content": true,
+    "heading_hierarchy": true,
+    "aria_landmarks": true,
+    "focus_indicators": true,
+    "no_placeholders": true,
+    "mobile_responsive": true,
+    "gpu_safe_animation": true
+  },
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "component-map.json is not usable for the mandated data-ds-id audit: it contains five storyboard journey objects and 0 ds_id component rows, while storyboards.json contains the legacy component list. Reconcile artifact naming/content with gen_contracts, then re-run id matching."
+    },
+    {
+      "priority": "P1",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Against context-slices/components fallback, 19 legacy required ds_ids are absent from page.tsx, including ds:terminal:agent-console, ds:terminal:deploy, ds:terminal:debug, ds:terminal:ci-cd, ds:table:portfolio, ds:roadmap:main, ds:dnd:strategic-sandbox, ds:board:roam, ds:list:scenarios, ds:canvas:git-graph, ds:selector:board, ds:columns:kanban, ds:list:presets, ds:canvas:knowledge-graph, ds:panel:queue, ds:hub:evidence, ds:box:decision, ds:list:file-leases, and ds:feed:activity."
+    },
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_states",
+      "detail": "ui-contract task-list declares bulk-action-processing, but page.tsx exposes saving for EVENT_SAVE_BULK and no explicit bulk_action_processing data-state/control state."
+    },
+    {
+      "priority": "P2",
+      "pillar": "efficiency_completeness",
+      "responsible_builder": "build_components",
+      "detail": "page.tsx is complete and under the line cap, but most JSX is compressed into very long lines; split or format leaf regions for future audit readability."
+    }
+  ],
+  "issues_by_priority": {
+    "P0": [],
+    "P1": [
+      {
+        "pillar": "contract_conformance",
+        "responsible_builder": "build_components",
+        "detail": "component-map.json has 0 ds_id component rows and appears swapped/misaligned with storyboards.json; mandated component-map id conformance cannot be verified as passing."
+      },
+      {
+        "pillar": "contract_conformance",
+        "responsible_builder": "build_components",
+        "detail": "19 legacy context-slice/component ids remain missing from page.tsx fallback id comparison."
+      },
+      {
+        "pillar": "flow_state_integrity",
+        "responsible_builder": "build_states",
+        "detail": "bulk-action-processing state from ui-contract is not implemented as an explicit page data-state."
+      }
+    ],
+    "P2": [
+      {
+        "pillar": "efficiency_completeness",
+        "responsible_builder": "build_components",
+        "detail": "Dense long-line JSX reduces reviewability despite satisfying the line cap and completeness checks."
+      }
+    ]
+  },
+  "mechanical_checks": {
+    "ui_contract_yaml_block_style": true,
+    "component_map_shape": "invalid_for_id_audit: JSON array with storyboard journey objects, 0 ds_id rows",
+    "component_map_ids_found": "0/0 usable rows",
+    "context_slice_ids_found": "96/115",
+    "missing_context_slice_ids": [
+      "ds:board:roam",
+      "ds:terminal:debug",
+      "ds:hub:evidence",
+      "ds:box:decision",
+      "ds:terminal:ci-cd",
+      "ds:terminal:deploy",
+      "ds:list:presets",
+      "ds:roadmap:main",
+      "ds:feed:activity",
+      "ds:list:file-leases",
+      "ds:panel:queue",
+      "ds:canvas:knowledge-graph",
+      "ds:columns:kanban",
+      "ds:selector:board",
+      "ds:table:portfolio",
+      "ds:dnd:strategic-sandbox",
+      "ds:canvas:git-graph",
+      "ds:terminal:agent-console",
+      "ds:list:scenarios"
+    ],
+    "ui_contract_layout_ds_ids_found": "4/21",
+    "missing_ui_contract_layout_ds_ids": [
+      "header-panel",
+      "task-table",
+      "detail-layout",
+      "task-info",
+      "search-layout",
+      "filter-sidebar",
+      "results-list",
+      "result-item",
+      "terminal-view",
+      "console-pane",
+      "timeline-view",
+      "git-graph-view",
+      "scenario-list",
+      "storyboard-view",
+      "journey-filter",
+      "usecase-flow",
+      "step-node"
+    ],
+    "screen_ids_found": "7/7 YAML screen ids by suffix/name match",
+    "tokens_valid": "18/18",
+    "invalid_tokens": [],
+    "hardcoded_colors_count": 0,
+    "placeholder_patterns_count": 0,
+    "dangerously_set_inner_html_count": 0,
+    "implemented_states": [
+      "decision_submitted",
+      "default",
+      "empty",
+      "error",
+      "forbidden",
+      "insufficient_evidence",
+      "loading",
+      "not_found",
+      "offline",
+      "partial",
+      "pending",
+      "rehydrating",
+      "saving",
+      "success",
+      "sync_conflict"
+    ],
+    "missing_contract_state_values": [
+      "bulk_action_processing"
+    ],
+    "event_handlers_found": 21,
+    "source_line_count": 122,
+    "a11y_counts": {
+      "aria_label": 18,
+      "aria_live": 4,
+      "role_status": 2,
+      "role_alert": 3,
+      "focus_visible_references": 5,
+      "h1_count": 1,
+      "h2_count": 2,
+      "h3_count": 1,
+      "h4_count": 3
+    }
+  },
+  "browser_evidence": {
+    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop.png",
+    "desktop_post_interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop-post-interaction.png",
+    "evidence_json": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-evidence-20260529.json",
+    "console_errors": 0,
+    "page_errors": 0
+  },
+  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+}

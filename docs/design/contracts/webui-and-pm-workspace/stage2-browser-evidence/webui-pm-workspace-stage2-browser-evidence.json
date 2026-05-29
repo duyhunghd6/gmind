@@ -1,0 +1,146 @@
+{
+  "status": "success",
+  "url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "captured_at": "2026-05-29T05:28:05.754Z",
+  "results": [
+    {
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 900
+      },
+      "status": "partial",
+      "http_status": 200,
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-desktop.png",
+      "checks": {
+        "global_shell": true,
+        "route_sidebar_hash_links": true,
+        "rtm_dashboard_components": true,
+        "state_panels": true,
+        "go_rest_api_boundary_copy": false
+      },
+      "route_anchors": [
+        {
+          "text": "🧭\nPM Workspace\n▶",
+          "href": "/design-system/webui-pm-workspace"
+        },
+        {
+          "text": "RTM Dashboard",
+          "href": "/design-system/webui-pm-workspace"
+        },
+        {
+          "text": "Task List",
+          "href": "/design-system/webui-pm-workspace#surface-tasks"
+        },
+        {
+          "text": "Task Detail",
+          "href": "/design-system/webui-pm-workspace#surface-tasks-detail"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "name": "tablet",
+        "width": 1024,
+        "height": 1024
+      },
+      "status": "partial",
+      "http_status": 200,
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-tablet.png",
+      "checks": {
+        "global_shell": true,
+        "route_sidebar_hash_links": true,
+        "rtm_dashboard_components": true,
+        "state_panels": true,
+        "go_rest_api_boundary_copy": false
+      },
+      "route_anchors": [
+        {
+          "text": "🧭\nPM Workspace\n▶",
+          "href": "/design-system/webui-pm-workspace"
+        },
+        {
+          "text": "RTM Dashboard",
+          "href": "/design-system/webui-pm-workspace"
+        },
+        {
+          "text": "Task List",
+          "href": "/design-system/webui-pm-workspace#surface-tasks"
+        },
+        {
+          "text": "Task Detail",
+          "href": "/design-system/webui-pm-workspace#surface-tasks-detail"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844
+      },
+      "status": "partial",
+      "http_status": 200,
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-mobile.png",
+      "checks": {
+        "global_shell": true,
+        "route_sidebar_hash_links": true,
+        "rtm_dashboard_components": true,
+        "state_panels": true,
+        "go_rest_api_boundary_copy": false
+      },
+      "route_anchors": [
+        {
+          "text": "🧭\nPM Workspace\n▶",
+          "href": "/design-system/webui-pm-workspace"
+        },
+        {
+          "text": "RTM Dashboard",
+          "href": "/design-system/webui-pm-workspace"
+        },
+        {
+          "text": "Task List",
+          "href": "/design-system/webui-pm-workspace#surface-tasks"
+        },
+        {
+          "text": "Task Detail",
+          "href": "/design-system/webui-pm-workspace#surface-tasks-detail"
+        }
+      ]
+    }
+  ],
+  "surface_results": [
+    {
+      "surface": "tasks",
+      "status": "fail",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-surface-tasks-desktop.png",
+      "text_sample": "Coverage Heatmap\n[Panel 1: Coverage Heatmap]\nTask Progress\n[Panel 2: Task Progress]\nKnowledge Graph\n[Panel 3: Knowledge Graph]\nGap Analysis\n[Panel 4: Gap Analysis]"
+    },
+    {
+      "surface": "trace",
+      "status": "fail",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-surface-trace-desktop.png",
+      "text_sample": "Coverage Heatmap\n[Panel 1: Coverage Heatmap]\nTask Progress\n[Panel 2: Task Progress]\nKnowledge Graph\n[Panel 3: Knowledge Graph]\nGap Analysis\n[Panel 4: Gap Analysis]"
+    },
+    {
+      "surface": "docs",
+      "status": "fail",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-surface-docs-desktop.png",
+      "text_sample": "Coverage Heatmap\n[Panel 1: Coverage Heatmap]\nTask Progress\n[Panel 2: Task Progress]\nKnowledge Graph\n[Panel 3: Knowledge Graph]\nGap Analysis\n[Panel 4: Gap Analysis]"
+    },
+    {
+      "surface": "approval",
+      "status": "pass",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/apps/website/docs/design/contracts/webui-and-pm-workspace/stage2-browser-evidence/webui-pm-workspace-stage2-surface-approval-desktop.png",
+      "text_sample": "Queue Panel\nPRD-04 WebUI Review\nPending Gate B\nAuth Flow Spike\nPending Gate A\nEvidence Hub\nUI Contract Coverage\n\nAll requested tokens are mapped to active components.\n\nTest Plan Execution\n\n100% tests passed. Automated E2E logs attached.\n\nDecision Box\nProvide final determination\nRequest Changes\nReject\nApprove"
+    }
+  ],
+  "blockers": [
+    "Go REST API boundary copy not present in rendered body text.",
+    "tasks surface tab did not reveal matching surface content during browser interaction.",
+    "trace surface tab did not reveal matching surface content during browser interaction.",
+    "docs surface tab did not reveal matching surface content during browser interaction."
+  ],
+  "console_errors": [],
+  "errors": []
+}

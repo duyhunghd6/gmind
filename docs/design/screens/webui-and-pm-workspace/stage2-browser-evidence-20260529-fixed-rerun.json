@@ -1,0 +1,50 @@
+{
+  "status": "success",
+  "url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "screenshot_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-fixed-rerun-desktop.png",
+  "post_interaction_screenshot_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-fixed-rerun-desktop-post-interaction.png",
+  "evidence_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-evidence-20260529-fixed-rerun.json",
+  "captured_at": "2026-05-29T01:39:35.204Z",
+  "interactions": [
+    {
+      "label": "focus global search with slash shortcut and submit query",
+      "status": "success"
+    },
+    {
+      "label": "navigate hash surface to Approval Gates",
+      "status": "success"
+    },
+    {
+      "label": "exercise offline state via Disconnect",
+      "status": "success"
+    },
+    {
+      "label": "exercise rehydrate/conflict state via Reconnect",
+      "status": "success"
+    },
+    {
+      "label": "resolve conflict with Keep local",
+      "status": "success"
+    },
+    {
+      "label": "restore default state for editable decision controls",
+      "status": "success"
+    },
+    {
+      "label": "submit audited approval decision",
+      "status": "success"
+    }
+  ],
+  "final_hash": "#surface-approval-gates",
+  "final_root_state": "decision_submitted",
+  "assertions": {
+    "approvalDecisionControlsVisible": true
+  },
+  "console_errors": [],
+  "runtime_errors": [],
+  "console_messages_count": 2
+}

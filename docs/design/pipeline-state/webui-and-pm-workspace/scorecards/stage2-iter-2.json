@@ -1,39 +1,47 @@
 {
   "auditor": "stage2_builder",
   "iteration": 2,
-  "score": 92,
+  "score": 96,
   "p0_count": 0,
-  "convergence_status": "CONTINUE",
+  "convergence_status": "GATE_B_READY",
+  "gate_b_bar": {
+    "score_required": 95,
+    "zero_p0_required": true,
+    "qa_pass_required": true,
+    "qa_passed": true,
+    "gate_b_ready": true,
+    "recommended_ba_routing": "Gate B ready. Optional nonblocking BA follow-up: route to build_layout/build_states for explicit mobile overlay open-control evidence if PM wants strict overlay demonstration beyond responsive stacked navigation."
+  },
   "pillar_scores": {
     "contract_conformance": {
-      "score": 25,
+      "score": 28,
       "max": 30,
-      "tool_evidence": "101/115 component-map ids found; all 23 PRD-04 route strings present; 14 showcase screen ds_id mismatches remain"
+      "tool_evidence": "95/95 component-map ds_id strings found; browser renders 95 total and 95 unique data-ds-id; 18/18 unique data-screen-id; no missing or extra ds ids."
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "19/19 var(--*) references resolve to design-system CSS tokens; 0 hardcoded color literals in target page"
+      "tool_evidence": "14/14 var(--*) tokens are present in ds-manifest; 0 hardcoded hex/rgb/hsl color literals."
     },
     "flow_state_integrity": {
       "score": 14,
       "max": 15,
-      "tool_evidence": "All contract states represented via data-state/data-contract-state; browser metadata confirms board, error, offline, reconnect interactions; extra success state is Mermaid-derived"
+      "tool_evidence": "12/12 required state literals implemented; browser confirms insufficient_evidence and decision_submitted persistence; Mermaid EVENT_OPEN_OVERLAY is not explicitly implemented."
     },
     "accessibility": {
-      "score": 19,
+      "score": 20,
       "max": 20,
-      "tool_evidence": "skip link present; 17 aria-label refs; 2 aria-live refs; semantic main/header/nav/footer/search/toolbar present; focusRing applied to controls"
+      "tool_evidence": "skip link present; main/header/nav/footer/form/aside landmarks present; 8 aria-label and 2 aria-live refs; focus-visible ring utility applied to keyboard controls."
     },
     "efficiency_completeness": {
       "score": 9,
       "max": 10,
-      "tool_evidence": "144 lines, no placeholder patterns, complete route coverage; JSX is highly compressed into dense lines, raising maintainability risk"
+      "tool_evidence": "186-line page under 400-line limit; 0 placeholder patterns; all screens generated, but dense one-file JSX remains harder to audit than split components."
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; browser boundary copy states REST-only data flow; target direct ESLint reported as passed by state builder"
+      "tool_evidence": "0 dangerouslySetInnerHTML; focused eslint passed per routed evidence; browser evidence success with 0 console_errors and 0 errors."
     }
   },
   "pre_output_checklist": {
@@ -48,26 +56,83 @@
     "mobile_responsive": true,
     "gpu_safe_animation": true
   },
+  "mechanical_checks": {
+    "ui_contract_yaml_block_style": true,
+    "mermaid_parsed_from_fenced_blocks_only": true,
+    "component_map_unique_ids": 95,
+    "page_ds_id_strings_found": 95,
+    "browser_data_ds_id_total": 95,
+    "browser_data_ds_id_unique": 95,
+    "browser_data_screen_id_total": 18,
+    "browser_data_screen_id_unique": 18,
+    "browser_duplicate_data_ds_ids": {},
+    "browser_duplicate_data_screen_ids": {},
+    "missing_contract_ds_ids": [],
+    "extra_page_ds_ids": [],
+    "valid_tokens": [
+      "--accent-cyan",
+      "--bg",
+      "--border",
+      "--border-highlight",
+      "--radius",
+      "--radius-lg",
+      "--space-lg",
+      "--space-md",
+      "--space-sm",
+      "--space-xs",
+      "--surface",
+      "--surface-elevated",
+      "--text",
+      "--text-dim"
+    ],
+    "hallucinated_tokens": [],
+    "hardcoded_color_count": 0,
+    "placeholder_count": 0,
+    "dangerously_set_inner_html_count": 0,
+    "required_states": [
+      "decision_submitted",
+      "default",
+      "empty",
+      "error",
+      "forbidden",
+      "insufficient_evidence",
+      "loading",
+      "not_found",
+      "offline",
+      "partial",
+      "saving",
+      "sync_conflict"
+    ],
+    "missing_state_literals": [],
+    "contract_actions_missing_from_page": [
+      "EVENT_OPEN_OVERLAY"
+    ],
+    "browser_interactions_ok": true,
+    "insufficient_evidence_persisted": true,
+    "decision_submitted_persisted": true,
+    "browser_console_errors": 0,
+    "browser_errors": 0,
+    "page_line_count": 186
+  },
   "fix_queue": [
     {
       "priority": "P1",
-      "pillar": "contract_conformance",
-      "responsible_builder": "build_components",
-      "detail": "Showcase screen constants still use PRD/legacy ids as data-ds-id instead of component-map screen ids: expected ds:screen:terminal-showcase-001, portfolio-showcase-001, pi-planning-showcase-001, git-graph-showcase-001, kanban-showcase-001, knowledge-graph-showcase-001, approval-showcase-001, timeline-showcase-001, components-showcase-001, doc-viewer-showcase-001, explorer-showcase-001, beads-traversal-showcase-001, storyboard-showcase-001, webui-pm-workspace-showcase-001. Found corresponding legacy/prd ids including ds:screen:terminal-001, br-ds-portfolio-view, br-ds-pi-planning, ds:global_shell."
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_states",
+      "detail": "EVENT_OPEN_OVERLAY appears in the Mermaid shell self-transition but is not explicitly implemented in page event handlers; mobile screenshot shows responsive stacked navigation rather than a demonstrable hamburger-triggered overlay."
     },
     {
       "priority": "P2",
       "pillar": "efficiency_completeness",
       "responsible_builder": "build_layout",
-      "detail": "Target file is under 400 lines but many JSX branches are compressed into single long lines, making future Stage 2 diffs and targeted audits harder to review."
+      "detail": "Page remains under 400 lines, but compressed JSX branches make future per-component audits less direct; split only if this surface grows further."
     }
   ],
-  "browser_evidence": {
-    "metadata_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-render-metadata.json",
-    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-desktop.png",
-    "desktop_interactions": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-desktop-interactions.png",
-    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-1-mobile.png",
-    "summary": "Render metadata reports success, no browser or console errors, visible required shell/route/state controls, and post-interaction offline=true error=true board=true."
-  },
-  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+  "evidence_paths": {
+    "browser_evidence_json": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/evidence.json",
+    "desktop": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/desktop.png",
+    "mobile": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/mobile.png",
+    "desktop_post_interactions": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/desktop-post-interactions.png"
+  }
 }

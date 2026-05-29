@@ -1,16 +1,48 @@
 {
   "auditor": "stage2_builder",
   "iteration": 1,
-  "score": 98,
+  "score": 90,
   "p0_count": 0,
-  "convergence_status": "GATE_B_READY",
+  "convergence_status": "CONTINUE",
+  "gate_b_bar": {
+    "score_required": 95,
+    "zero_p0_required": true,
+    "qa_pass_required": true,
+    "qa_passed": true,
+    "gate_b_ready": false,
+    "recommended_ba_routing": "Route to build_components for data-ds-id uniqueness cleanup, then build_states for final state evidence pass; retain QA browser/lint checks for next audit."
+  },
   "pillar_scores": {
-    "contract_conformance": { "score": 30, "max": 30, "tool_evidence": "14/14 component-map ids found" },
-    "visual_token_fidelity": { "score": 20, "max": 20, "tool_evidence": "All tokens valid" },
-    "flow_state_integrity": { "score": 15, "max": 15, "tool_evidence": "All required states implemented" },
-    "accessibility": { "score": 18, "max": 20, "tool_evidence": "aria present, focus rings ok" },
-    "efficiency_completeness": { "score": 10, "max": 10, "tool_evidence": "no stubs, perfectly complete" },
-    "safety_self_verification": { "score": 5, "max": 5, "tool_evidence": "0 dangerouslySetInnerHTML" }
+    "contract_conformance": {
+      "score": 25,
+      "max": 30,
+      "tool_evidence": "95/95 contract ds_id strings present in page constants; browser renders 97 data-ds-id instances across 18 screens; duplicate/misplaced ids remain for global search/sync banner."
+    },
+    "visual_token_fidelity": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "14/14 page var(--*) tokens are in ds-manifest; 0 hardcoded hex/rgb/hsl colors."
+    },
+    "flow_state_integrity": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "12/12 required state literals implemented and 17/17 contract action events present; browser interactions 4/4 ok with 0 console errors, but final evidence settles back to default after interaction chain."
+    },
+    "accessibility": {
+      "score": 18,
+      "max": 20,
+      "tool_evidence": "main/nav/header landmarks present; h1/h2 hierarchy present; 8 aria-label, 2 aria-live, visible focus classes; skip link targets active PM surface rather than generic content."
+    },
+    "efficiency_completeness": {
+      "score": 8,
+      "max": 10,
+      "tool_evidence": "177-line single page under 400-line limit, 0 placeholder patterns, all screens generated; dense one-file implementation makes per-component verification indirect."
+    },
+    "safety_self_verification": {
+      "score": 5,
+      "max": 5,
+      "tool_evidence": "0 dangerouslySetInnerHTML; focused eslint passed; browser evidence status success."
+    }
   },
   "pre_output_checklist": {
     "no_hallucinated_tokens": true,
@@ -24,6 +56,78 @@
     "mobile_responsive": true,
     "gpu_safe_animation": true
   },
-  "fix_queue": [],
-  "snapshot_path": "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  "mechanical_checks": {
+    "ui_contract_yaml_block_style": true,
+    "mermaid_parsed_from_fenced_blocks_only": true,
+    "component_map_unique_ids": 95,
+    "page_ds_id_strings_found": 95,
+    "browser_data_ds_id_instances": 97,
+    "browser_data_screen_instances": 18,
+    "missing_contract_ds_ids": [],
+    "extra_page_ds_ids": [],
+    "valid_tokens": [
+      "--accent-cyan",
+      "--bg",
+      "--border",
+      "--border-highlight",
+      "--radius",
+      "--radius-lg",
+      "--space-lg",
+      "--space-md",
+      "--space-sm",
+      "--space-xs",
+      "--surface",
+      "--surface-elevated",
+      "--text",
+      "--text-dim"
+    ],
+    "hallucinated_tokens": [],
+    "hardcoded_color_count": 0,
+    "placeholder_count": 0,
+    "dangerously_set_inner_html_count": 0,
+    "required_states": [
+      "decision_submitted",
+      "default",
+      "empty",
+      "error",
+      "forbidden",
+      "insufficient_evidence",
+      "loading",
+      "not_found",
+      "offline",
+      "partial",
+      "saving",
+      "sync_conflict"
+    ],
+    "missing_state_literals": [],
+    "browser_interactions_ok": true,
+    "browser_console_errors": 0
+  },
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Rendered browser evidence shows 97 data-ds-id instances against 95 component-map ids; avoid reusing ds:search-explorer:input for global shell search and ds:global-shell:sync-banner for both header and footer unless the component-map explicitly allows repeated instances."
+    },
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_states",
+      "detail": "Browser after-interactions evidence reports mainState=default after the sequence; add focused evidence or state persistence for insufficient_evidence and decision_submitted so Gate B can verify final state trajectories directly."
+    },
+    {
+      "priority": "P2",
+      "pillar": "accessibility",
+      "responsible_builder": "build_layout",
+      "detail": "Skip link exists and is keyboard visible, but its label targets active PM surface; align label/target with the shared skip-to-content convention used by the shell."
+    }
+  ],
+  "snapshot_path": "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+  "evidence_paths": {
+    "browser_evidence_json": "tmp/webui-pm-workspace-evidence/evidence.json",
+    "desktop_initial": "tmp/webui-pm-workspace-evidence/webui-pm-workspace-desktop-initial.png",
+    "desktop_after_interactions": "tmp/webui-pm-workspace-evidence/webui-pm-workspace-desktop-after-interactions.png",
+    "mobile_initial": "tmp/webui-pm-workspace-evidence/webui-pm-workspace-mobile-initial.png"
+  }
 }

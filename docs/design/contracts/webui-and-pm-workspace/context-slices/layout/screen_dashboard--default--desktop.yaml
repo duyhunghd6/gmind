@@ -1,0 +1,12 @@
+screen: screen:dashboard
+state: default
+viewport: desktop
+layout:
+  type: ds:layout:grid
+  columns: 2
+  regions:
+    - id: kpi_row
+    - id: panel_1
+    - id: panel_2
+    - id: panel_3
+    - id: panel_4

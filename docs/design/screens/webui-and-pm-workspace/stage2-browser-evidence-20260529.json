@@ -1,0 +1,23 @@
+{
+  "status": "success",
+  "feature": "webui-and-pm-workspace",
+  "url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "screenshots": {
+    "initial": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop.png",
+    "postInteraction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop-post-interaction.png"
+  },
+  "interaction": {
+    "kind": "hash-navigation",
+    "selector": "a[href=\"/design-system/webui-pm-workspace#surface-tasks\"]",
+    "href": "/design-system/webui-pm-workspace#surface-tasks",
+    "text": "Task List"
+  },
+  "finalUrl": "http://localhost:9993/design-system/webui-pm-workspace#surface-tasks",
+  "console_errors": [],
+  "page_errors": [],
+  "capturedAt": "2026-05-29T01:22:26.792Z"
+}
