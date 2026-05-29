@@ -18,15 +18,8 @@
         "ds_id": "ds:global_shell",
         "labels": [
           "Header Bar",
-          "Sidebar",
           "Main Content Area",
           "Footer"
-        ],
-        "bindings": [
-          "Global Navigation"
-        ],
-        "actions": [
-          "Toggle Sidebar"
         ],
         "children": [
           {
@@ -36,18 +29,6 @@
               "Logo",
               "Global Search Bar",
               "Online Status"
-            ]
-          },
-          {
-            "type": "sidebar",
-            "ds_id": "ds:component:sidebar",
-            "labels": [
-              "Dash",
-              "Board",
-              "Tasks",
-              "Trace",
-              "Docs",
-              "Appvl"
             ]
           }
         ]
@@ -116,15 +97,8 @@
       "ds_id": "ds:global_shell",
       "labels": [
         "Header Bar",
-        "Sidebar",
         "Main Content Area",
         "Footer"
-      ],
-      "bindings": [
-        "Global Navigation"
-      ],
-      "actions": [
-        "Toggle Sidebar"
       ],
       "children": [
         {
@@ -134,18 +108,6 @@
             "Logo",
             "Global Search Bar",
             "Online Status"
-          ]
-        },
-        {
-          "type": "sidebar",
-          "ds_id": "ds:component:sidebar",
-          "labels": [
-            "Dash",
-            "Board",
-            "Tasks",
-            "Trace",
-            "Docs",
-            "Appvl"
           ]
         }
       ]
@@ -157,18 +119,6 @@
         "Logo",
         "Global Search Bar",
         "Online Status"
-      ]
-    },
-    {
-      "type": "sidebar",
-      "ds_id": "ds:component:sidebar",
-      "labels": [
-        "Dash",
-        "Board",
-        "Tasks",
-        "Trace",
-        "Docs",
-        "Appvl"
       ]
     },
     {
@@ -209,7 +159,6 @@
   "ds_ids": [
     "ds:global_shell",
     "ds:component:header",
-    "ds:component:sidebar",
     "ds:screen:rtm-dashboard",
     "ds:screen:approval-001"
   ],
@@ -218,7 +167,6 @@
     "Drill-down",
     "Reject",
     "Request Changes",
-    "Toggle Sidebar",
     "View Trace"
   ],
   "events": [
@@ -586,10 +534,6 @@
     },
     "ds_ids": {
       "ds:component:header": {
-        "in_contract": true,
-        "in_component_map": false
-      },
-      "ds:component:sidebar": {
         "in_contract": true,
         "in_component_map": false
       },

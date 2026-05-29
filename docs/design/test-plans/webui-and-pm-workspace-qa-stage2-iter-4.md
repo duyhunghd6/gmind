@@ -1,25 +1,33 @@
-# Stage 2 QA Test Plan — WebUI PM Workspace Iteration 4
-
-<!-- beads-id: br-qa-stage2-webui-pm-workspace-iter4-plan -->
+# Stage 2 QA Test Plan Iteration 4: webui-and-pm-workspace
+<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan -->
 
 ## Scope
+<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan-scope -->
 
-Independent QA acceptance for `apps/website/src/app/design-system/webui-pm-workspace/page.tsx` against `docs/design/contracts/webui-and-pm-workspace/ui-contract.md`, PRD-04 §8.1A route coverage, sliced storyboard/component evidence, DS manifest, preview output, and browser evidence.
+Independent QA for the WebUI PM Workspace icon iteration at `/design-system/webui-pm-workspace`.
+
+Inputs:
+- Contract: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace`
+- Source: `/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx`
+- Components: `/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx`
+- Live URL: `http://localhost:9993/design-system/webui-pm-workspace`
+- Browser screenshot: `/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-icons.png`
+- Builder audit: `/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-4.json`
 
 ## Test Mapping
+<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan-tests -->
 
-| Suite | Contract evidence | Implementation evidence | Acceptance |
-| --- | --- | --- | --- |
-| T1 Storyboard Replay | `storyboards.json`, `context-slices/storyboards/*.yaml` when present, Mermaid events | `data-ds-id`, `data-state`, event handlers in page source | All trajectory targets, states, and events implementable |
-| T2 Contract Components | YAML block in `ui-contract.md`, `component-map.json`, component slices | DS IDs, screen IDs, routes, labels, bindings in source | All mapped IDs and routes present; YAML is block-style |
-| T3 State Matrix | `ui-contract.md` state contracts, fenced Mermaid in `flow.md` | `ViewState`, state controls, `StatePanel`, `data-state`/`data-contract-state` | Required default/loading/empty/error/offline/forbidden/partial/saving/not_found/success states represented |
-| T4 DS Token Audit | `ds-manifest.txt` tokens/classes | `var(--*)`, DS classes, absence of hardcoded colors/font-family | Token usage rate >= 90%; no conflicting invented tokens |
-| T5 Accessibility | Contract assertion hooks and structural a11y expectations | landmarks, heading, forms, buttons, aria-live, focus-visible | Structural checks pass |
-| T6 Preview/Browser Consistency | `artifact-index.json`, `preview/preview-manifest.json`, `preview/index.html`, browser evidence | warning counts, nine preview tabs, screenshot metadata, probes | Preview warnings resolved and browser artifact exists; probe misses triaged |
-| T7 Live Render | `http://localhost:9993/design-system/webui-pm-workspace` | curl status and source-renderability checks | 200 = pass; 404/app error = fail; unavailable server = skip |
+| Test | Contract evidence | Source/live evidence to verify |
+| --- | --- | --- |
+| T1 Storyboard Replay | `storyboards.json`; Mermaid events in `ui-contract.md` and `flow.md` | Dashboard and approval trajectories implement hash navigation, state exposure, Drill-down, View Trace, Approve/Reject/Request Changes handlers. |
+| T2 Contract Component Completeness | YAML View Blueprint and `component-map.json` | All `ds_id` entries and labels/bindings appear in source; YAML block remains block-style YAML. |
+| T3 State Matrix | YAML states and fenced Mermaid transitions | Default/loading/error/empty/offline/permission/validation-success variants are reachable via state controls or deterministic branches. |
+| T4 DS Token/Class Audit | DS manifest token and class list | `var(--*)` references resolve; no hardcoded colors or raw font-family declarations; DS classes reused for buttons, badges, tables, heatmap, graph, skeleton. |
+| T5 Accessibility Structural | Contract labels plus icon iteration scope | Landmarks, one visible h1, navigations, search label, live regions, focus-visible styles, icon labels, collapsed icon-only sidebar aria-labels. |
+| T6 Preview/Browser Consistency | `artifact-index.json`, preview manifest, preview HTML tabs, browser screenshot metadata | No preview warnings; all 9 preview tabs present; screenshot/browser render confirms icon counts and hash navigation. |
+| T7 Live Render | Live route | `curl` returns 200 and source renders expected `data-ds-id` elements. |
 
-## QA Focus
+## Acceptance Criteria
+<!-- beads-id: br-design-qa-stage2-webui-pm-workspace-iter4-plan-criteria -->
 
-- Determine whether audit interaction-probe misses are source/UI defects or probe/evidence selector issues.
-- Confirm PRD-04 §8.1A Core WebUI plus showcase route coverage is present with stable attributes.
-- Confirm no P0 issue blocks Gate B.
+Pass requires no P0/P1 blockers for the icon iteration, no hash-navigation regression, visible icons paired with accessible labels or aria-labels, status icons with text/live semantics, valid DS token usage, and a live 200 route.

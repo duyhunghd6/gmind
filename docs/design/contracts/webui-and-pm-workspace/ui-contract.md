@@ -31,13 +31,8 @@ screens:
       ds_id: ds:global_shell
       labels:
         - "Header Bar"
-        - "Sidebar"
         - "Main Content Area"
         - "Footer"
-      bindings:
-        - "Global Navigation"
-      actions:
-        - "Toggle Sidebar"
       children:
         - type: header
           ds_id: ds:component:header
@@ -45,15 +40,6 @@ screens:
             - "Logo"
             - "Global Search Bar"
             - "Online Status"
-        - type: sidebar
-          ds_id: ds:component:sidebar
-          labels:
-            - "Dash"
-            - "Board"
-            - "Tasks"
-            - "Trace"
-            - "Docs"
-            - "Appvl"
   - id: rtm-dashboard
     route: /
     states:

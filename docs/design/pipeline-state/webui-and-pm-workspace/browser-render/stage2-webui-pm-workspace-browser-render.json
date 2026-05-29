@@ -1,0 +1,127 @@
+{
+  "status": "success",
+  "render_url": "http://localhost:3000/design-system/webui-pm-workspace",
+  "screenshot_path": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-desktop.png",
+  "screenshots": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-rtm-dashboard.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-board.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-tasks.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-task-detail.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-trace.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-docs.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-approval.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-search.png"
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "surface_results": [
+    {
+      "hash": "surface-rtm-dashboard",
+      "status": "success",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-rtm-dashboard.png"
+    },
+    {
+      "hash": "surface-board",
+      "status": "missing-anchor",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-board.png"
+    },
+    {
+      "hash": "surface-tasks",
+      "status": "missing-anchor",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-tasks.png"
+    },
+    {
+      "hash": "surface-task-detail",
+      "status": "success",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-task-detail.png"
+    },
+    {
+      "hash": "surface-trace",
+      "status": "missing-anchor",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-trace.png"
+    },
+    {
+      "hash": "surface-docs",
+      "status": "missing-anchor",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-docs.png"
+    },
+    {
+      "hash": "surface-approval",
+      "status": "missing-anchor",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-approval.png"
+    },
+    {
+      "hash": "surface-search",
+      "status": "missing-anchor",
+      "screenshot": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-surface-search.png"
+    }
+  ],
+  "metadata": {
+    "title": "Gmind — Nền tảng Kỹ thuật Phần mềm Tác tử",
+    "url": "http://localhost:3000/design-system/webui-pm-workspace#surface-search",
+    "bodyTextLength": 2883,
+    "h1": [
+      "Dashboard"
+    ],
+    "h2": [
+      "RTM Dashboard"
+    ],
+    "dataDsIds": [
+      "ds:screen:webui-pm-workspace-001",
+      "ds:component:header",
+      "ds:global-shell:root",
+      "ds:global-shell:header",
+      "ds:global-shell:sync-banner",
+      "ds:global-shell:active-surface",
+      "ds:screen:rtm-dashboard-001",
+      "ds:rtm-dashboard:kpis",
+      "ds:rtm-dashboard:coverage-heatmap",
+      "ds:rtm-dashboard:task-progress",
+      "ds:rtm-dashboard:knowledge-graph-widget",
+      "ds:rtm-dashboard:gap-analysis"
+    ]
+  },
+  "console_errors": [
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. default"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. loading"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. offline"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. default"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. loading"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. offline"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. default"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. loading"
+    },
+    {
+      "type": "error",
+      "text": "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. offline"
+    }
+  ],
+  "page_errors": [],
+  "failed_responses": []
+}

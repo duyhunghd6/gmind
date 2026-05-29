@@ -1,0 +1,20 @@
+{
+  "qa_type": "stage2",
+  "feature_name": "webui-and-pm-workspace",
+  "iteration": 1,
+  "convergence_status": "QA_FAIL",
+  "routing_recommendation": "Return to build_components and build_states; not Gate B ready.",
+  "blocking_issues": [
+    "Exact storyboard/browser hash anchors missing for surface-board, surface-tasks, surface-trace, surface-docs, surface-approval, and surface-search.",
+    "Sidebar and Toggle Sidebar behavior required by component-map/Mermaid are absent.",
+    "Explicit Drill-down, View Trace, Approve, Reject, and Request Changes state handlers are absent.",
+    "StatePlaceholders emits duplicate React keys for default/loading/offline.",
+    "Exact contract ds_id ds:global_shell is missing and ds:screen:rtm-dashboard is suffixed as ds:screen:rtm-dashboard-001.",
+    "Heading hierarchy skips from h2 to h5 panel headings."
+  ],
+  "artifacts_written": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-1.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-1.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-results/stage2-qa-iter-1.json"
+  ]
+}

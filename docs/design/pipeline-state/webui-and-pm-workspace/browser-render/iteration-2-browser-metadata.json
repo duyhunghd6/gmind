@@ -1,0 +1,44 @@
+{
+  "status": "success",
+  "captured_at": "2026-05-29T08:31:37.440Z",
+  "iteration": 2,
+  "target_url": "http://localhost:9993/design-system/webui-pm-workspace",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "screenshots": {
+    "default": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-desktop-default.png",
+    "surface-rtm-dashboard": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-rtm-dashboard.png",
+    "surface-board": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-board.png",
+    "surface-tasks": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-tasks.png",
+    "surface-task-detail": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-task-detail.png",
+    "surface-trace": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-trace.png",
+    "surface-docs": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-docs.png",
+    "surface-approval": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-approval.png",
+    "surface-search": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-surface-search.png"
+  },
+  "exact_anchor_results": {
+    "surface-rtm-dashboard": true,
+    "surface-board": true,
+    "surface-tasks": true,
+    "surface-task-detail": true,
+    "surface-trace": true,
+    "surface-docs": true,
+    "surface-approval": true,
+    "surface-search": true
+  },
+  "missing_anchors": [],
+  "console_errors": [],
+  "page_errors": [],
+  "console_messages": [
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "log",
+      "text": "[HMR] connected"
+    }
+  ]
+}

@@ -1,39 +1,40 @@
 {
   "auditor": "stage2_builder",
   "iteration": 3,
-  "score": 99,
+  "score": 96,
   "p0_count": 0,
   "convergence_status": "GATE_B_READY",
+  "targeted_audit_scope": "Iteration 3 navigation fix for PRD-04 showcase hash routing into /design-system/webui-pm-workspace surfaces, plus regression checks on Stage 2 DoD mechanics.",
   "pillar_scores": {
     "contract_conformance": {
-      "score": 30,
+      "score": 28,
       "max": 30,
-      "tool_evidence": "115/115 component-map ids found; 23/23 screen ids found; 0 missing routes; PRD-facing aliases preserved with data-prd-ds-id and visible PRD alias copy"
+      "tool_evidence": "4/4 YAML ds_ids present after resolving constants; 8/8 PM workspace sidebar hashes present in menu and page; PRD AC9/AC16 hash navigation behavior supported; only exact label drift is missing visible/aria text 'Logo'."
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "19/19 var(--*) references resolve to design-system CSS tokens; 0 hardcoded color literals in target page"
+      "tool_evidence": "18/18 var(--*) tokens used by target files resolve to ds-manifest; hardcoded color grep produced only hash-anchor false positives, 0 actual color literals."
     },
     "flow_state_integrity": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "All 9 contract states represented through data-state/data-contract-state; 0 Mermaid event gaps; browser metadata confirms route, state, offline, and reconnect interactions"
+      "tool_evidence": "Required Mermaid/YAML states present; Toggle Sidebar, Drill-down, View Trace, Approve/Reject/Request Changes handlers present; browser evidence confirms cross-page hash redirect and same-page hash activation."
     },
     "accessibility": {
-      "score": 20,
+      "score": 19,
       "max": 20,
-      "tool_evidence": "skip link present; 14 aria-label refs; 2 aria-live refs; semantic main/header/nav/footer/search/toolbar present; focusRing applied to controls"
+      "tool_evidence": "Skip link, main/header/nav/aside/footer/search landmarks, aria-current for active surface, aria-live/status regions, labeled controls, Ctrl+K/Escape keyboard path, and focus-visible rings present; non-blocking exact Logo label drift remains."
     },
     "efficiency_completeness": {
       "score": 9,
       "max": 10,
-      "tool_evidence": "143 lines, no placeholder patterns, Components 18-section enumeration and terminal command/output/success/error copy present; JSX remains dense but under line budget"
+      "tool_evidence": "page.tsx 279 lines, workspace-components.tsx 113 lines, layout.tsx 216 lines, menu.ts 140 lines; no banned placeholder patterns; split remains under 400-line code-file limit."
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; REST-only browser boundary copy present; browser metadata reports 0 console errors and 0 runtime errors"
+      "tool_evidence": "0 dangerouslySetInnerHTML; browser check reported 0 console errors and target scroll/active-surface transitions passed."
     }
   },
   "pre_output_checklist": {
@@ -48,20 +49,71 @@
     "mobile_responsive": true,
     "gpu_safe_animation": true
   },
+  "mechanical_checks": {
+    "ui_contract_yaml_block_style": true,
+    "mermaid_parsed_from_fenced_blocks_only": true,
+    "target_files": [
+      "apps/website/src/app/design-system/layout.tsx",
+      "apps/website/src/app/design-system/design-system-menu.ts",
+      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+      "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx"
+    ],
+    "line_counts": {
+      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx": 279,
+      "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx": 113,
+      "apps/website/src/app/design-system/layout.tsx": 216,
+      "apps/website/src/app/design-system/design-system-menu.ts": 140
+    },
+    "source_ds_id_string_count": 51,
+    "yaml_ds_ids_expected": [
+      "ds:global_shell",
+      "ds:component:header",
+      "ds:screen:rtm-dashboard",
+      "ds:screen:approval-001"
+    ],
+    "yaml_ds_ids_missing_exact": [],
+    "component_map_expected_labels": 13,
+    "component_map_missing_exact_labels": [
+      "Logo"
+    ],
+    "valid_tokens_count": 18,
+    "hallucinated_tokens": [],
+    "hardcoded_color_count": 0,
+    "hardcoded_color_grep_false_positive_context": "9 grep hits were hash anchors such as #badges/#default/#beads-prd-trace, not CSS color literals.",
+    "placeholder_count": 0,
+    "dangerously_set_inner_html_count": 0,
+    "required_state_missing": [],
+    "pm_surface_hashes_in_menu_missing": [],
+    "pm_surface_hashes_in_page_missing": [],
+    "layout_hash_routing_present": true,
+    "targeted_browser_check": {
+      "cross_page_start": "/design-system/knowledge-graph#surface-rtm-dashboard",
+      "cross_page_end": "/design-system/webui-pm-workspace#surface-rtm-dashboard",
+      "target_exists": true,
+      "scrollY": 319,
+      "active_surface_changed": true,
+      "same_page_hash_surface_board_changed": true,
+      "console_errors": 0
+    }
+  },
+  "pre_audit_diff_evidence": [
+    "layout.tsx routes PM surface hashes to /design-system/webui-pm-workspace via router.replace when current pathname differs.",
+    "layout.tsx same-page subitem clicks set window.location.hash and dispatch hashchange so page-level hash sync runs.",
+    "webui-pm-workspace/page.tsx maps all 8 #surface-* hashes to active surfaces and scrollIntoView on hashchange."
+  ],
   "fix_queue": [
     {
       "priority": "P2",
-      "pillar": "efficiency_completeness",
-      "responsible_builder": "build_layout",
-      "detail": "Target file is under 400 lines but many JSX branches remain compressed into long lines, making future targeted diffs harder to review. Non-blocking for Gate B."
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Non-blocking exact-copy drift: component-map label 'Logo' is represented as 'Gmind PM' instead of exact visible or accessible text. No impact on the targeted navigation fix."
     }
   ],
-  "browser_evidence": {
-    "metadata_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-render-metadata.json",
-    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-desktop.png",
-    "desktop_interactions": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-desktop-interactions.png",
-    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-iter-3-mobile.png",
-    "summary": "Render metadata reports success, visible integrated shell, complete route and state controls, no missing PRD-facing DS ID aliases, successful route/state/offline/reconnect interactions, and no console or runtime errors."
-  },
-  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-3/page.tsx",
+  "evidence_paths": {
+    "scorecard": "docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-3.json",
+    "target_page": "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+    "target_layout": "apps/website/src/app/design-system/layout.tsx",
+    "target_menu": "apps/website/src/app/design-system/design-system-menu.ts"
+  }
 }

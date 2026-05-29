@@ -1,47 +1,45 @@
 {
   "auditor": "stage2_builder",
   "iteration": 1,
-  "score": 90,
+  "score": 80,
   "p0_count": 0,
   "convergence_status": "CONTINUE",
   "gate_b_bar": {
     "score_required": 95,
     "zero_p0_required": true,
-    "qa_pass_required": true,
-    "qa_passed": true,
     "gate_b_ready": false,
-    "recommended_ba_routing": "Route to build_components for data-ds-id uniqueness cleanup, then build_states for final state evidence pass; retain QA browser/lint checks for next audit."
+    "recommendation": "Not Gate B ready. Re-run build_components for exact route/hash and ds-id conformance, then build_states for state transition handlers and React key cleanup."
   },
   "pillar_scores": {
     "contract_conformance": {
-      "score": 25,
+      "score": 23,
       "max": 30,
-      "tool_evidence": "95/95 contract ds_id strings present in page constants; browser renders 97 data-ds-id instances across 18 screens; duplicate/misplaced ids remain for global search/sync banner."
+      "tool_evidence": "48 ds:* strings in source; exact YAML ds_id mismatch for ds:global_shell and ds:screen:rtm-dashboard; browser found only active 12 data-ds-id instances; 6/8 storyboard hash anchors missing in render evidence."
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "14/14 page var(--*) tokens are in ds-manifest; 0 hardcoded hex/rgb/hsl colors."
+      "tool_evidence": "18/18 var(--*) tokens are in ds-manifest; 0 hardcoded hex/rgb/rgba/hsl colors."
     },
     "flow_state_integrity": {
-      "score": 14,
+      "score": 9,
       "max": 15,
-      "tool_evidence": "12/12 required state literals implemented and 17/17 contract action events present; browser interactions 4/4 ok with 0 console errors, but final evidence settles back to default after interaction chain."
+      "tool_evidence": "7/7 YAML states present after hyphen/underscore normalization, but sidebar toggle is absent, storyboard hash checks pass only 2/8, and approval/drilldown actions do not transition state without manual select."
     },
     "accessibility": {
-      "score": 18,
+      "score": 16,
       "max": 20,
-      "tool_evidence": "main/nav/header landmarks present; h1/h2 hierarchy present; 8 aria-label, 2 aria-live, visible focus classes; skip link targets active PM surface rather than generic content."
+      "tool_evidence": "Skip link, main/header/nav/footer landmarks, 14 aria-label occurrences, live status, and focus rings present; h5 component headings skip levels after h2 and some navigation targets are non-existent hash anchors."
     },
     "efficiency_completeness": {
       "score": 8,
       "max": 10,
-      "tool_evidence": "177-line single page under 400-line limit, 0 placeholder patterns, all screens generated; dense one-file implementation makes per-component verification indirect."
+      "tool_evidence": "page.tsx 157 lines and workspace-components.tsx 112 lines, both under 400; 0 banned placeholder patterns; implementation split is efficient but console duplicate-key errors remain."
     },
     "safety_self_verification": {
-      "score": 5,
+      "score": 4,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; focused eslint passed; browser evidence status success."
+      "tool_evidence": "0 dangerouslySetInnerHTML and 0 failed browser responses, but browser console reports repeated duplicate React key errors for default/loading/offline."
     }
   },
   "pre_output_checklist": {
@@ -49,7 +47,7 @@
     "no_hardcoded_colors": true,
     "all_contract_states_present": true,
     "skip_to_content": true,
-    "heading_hierarchy": true,
+    "heading_hierarchy": false,
     "aria_landmarks": true,
     "focus_indicators": true,
     "no_placeholders": true,
@@ -59,25 +57,42 @@
   "mechanical_checks": {
     "ui_contract_yaml_block_style": true,
     "mermaid_parsed_from_fenced_blocks_only": true,
-    "component_map_unique_ids": 95,
-    "page_ds_id_strings_found": 95,
-    "browser_data_ds_id_instances": 97,
-    "browser_data_screen_instances": 18,
-    "missing_contract_ds_ids": [],
-    "extra_page_ds_ids": [],
+    "page_data_ds_id_attribute_count": 7,
+    "source_ds_id_string_count": 48,
+    "browser_default_data_ds_id_count": 12,
+    "component_map_expected_labels": 11,
+    "component_map_missing_labels": [
+      "Sidebar"
+    ],
+    "yaml_ds_ids_expected": [
+      "ds:global_shell",
+      "ds:component:header",
+      "ds:screen:rtm-dashboard",
+      "ds:screen:approval-001"
+    ],
+    "yaml_ds_ids_missing_exact": [
+      "ds:global_shell"
+    ],
+    "yaml_ds_ids_suffix_or_slug_mismatches": [
+      "ds:screen:rtm-dashboard implemented as ds:screen:rtm-dashboard-001"
+    ],
     "valid_tokens": [
+      "--accent-amber-dim",
       "--accent-cyan",
+      "--accent-cyan-dim",
+      "--accent-rose-dim",
+      "--accent-teal",
       "--bg",
       "--border",
       "--border-highlight",
+      "--duration-normal",
+      "--ease-out",
       "--radius",
       "--radius-lg",
-      "--space-lg",
       "--space-md",
       "--space-sm",
       "--space-xs",
       "--surface",
-      "--surface-elevated",
       "--text",
       "--text-dim"
     ],
@@ -85,49 +100,81 @@
     "hardcoded_color_count": 0,
     "placeholder_count": 0,
     "dangerously_set_inner_html_count": 0,
-    "required_states": [
-      "decision_submitted",
-      "default",
-      "empty",
-      "error",
-      "forbidden",
-      "insufficient_evidence",
-      "loading",
-      "not_found",
-      "offline",
-      "partial",
-      "saving",
-      "sync_conflict"
+    "required_yaml_states_present_normalized": true,
+    "mermaid_states": [
+      "app_decision_submitted",
+      "app_default",
+      "app_empty",
+      "app_error",
+      "app_insufficient_evidence",
+      "app_loading",
+      "dash_default",
+      "dash_empty",
+      "dash_error",
+      "dash_loading",
+      "shell_default",
+      "shell_loading",
+      "shell_offline",
+      "view_drilldown",
+      "view_trace"
     ],
-    "missing_state_literals": [],
-    "browser_interactions_ok": true,
-    "browser_console_errors": 0
+    "browser_surface_hashes_success": [
+      "surface-rtm-dashboard",
+      "surface-task-detail"
+    ],
+    "browser_surface_hashes_missing_anchor": [
+      "surface-board",
+      "surface-tasks",
+      "surface-trace",
+      "surface-docs",
+      "surface-approval",
+      "surface-search"
+    ],
+    "browser_console_error_count": 9,
+    "browser_page_error_count": 0,
+    "browser_failed_response_count": 0
   },
   "fix_queue": [
     {
       "priority": "P1",
       "pillar": "contract_conformance",
       "responsible_builder": "build_components",
-      "detail": "Rendered browser evidence shows 97 data-ds-id instances against 95 component-map ids; avoid reusing ds:search-explorer:input for global shell search and ds:global-shell:sync-banner for both header and footer unless the component-map explicitly allows repeated instances."
+      "detail": "Storyboard/browser evidence expects exact anchors #surface-board, #surface-tasks, #surface-trace, #surface-docs, #surface-approval, and #surface-search, but source uses #surface-safe-board, #surface-task-list, #surface-trace-explorer, #surface-doc-viewer, #surface-approval-gates, and #surface-search-results."
+    },
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_layout",
+      "detail": "component-map and layout-rules require a Sidebar plus Toggle Sidebar behavior; the rendered shell has top navigation only and no sidebar toggle action."
     },
     {
       "priority": "P1",
       "pillar": "flow_state_integrity",
       "responsible_builder": "build_states",
-      "detail": "Browser after-interactions evidence reports mainState=default after the sequence; add focused evidence or state persistence for insufficient_evidence and decision_submitted so Gate B can verify final state trajectories directly."
+      "detail": "Contract actions Drill-down, View Trace, Approve, Reject, and Request Changes are present as links/select options but do not drive Mermaid states view_drilldown, view_trace, or app_decision_submitted through explicit handlers."
+    },
+    {
+      "priority": "P1",
+      "pillar": "safety_self_verification",
+      "responsible_builder": "build_states",
+      "detail": "StatePlaceholders renders duplicate React keys for default, loading, and offline when combining globalStates with commonStates, matching 9 browser console errors."
     },
     {
       "priority": "P2",
       "pillar": "accessibility",
-      "responsible_builder": "build_layout",
-      "detail": "Skip link exists and is keyboard visible, but its label targets active PM surface; align label/target with the shared skip-to-content convention used by the shell."
+      "responsible_builder": "build_states",
+      "detail": "Component internals use h5 headings under the page h1/h2 path, skipping h3/h4 levels across panels."
+    },
+    {
+      "priority": "P2",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Exact YAML ds_id values are not fully preserved: ds:global_shell is represented as ds:global-shell:* and ds:screen:rtm-dashboard is represented as ds:screen:rtm-dashboard-001."
     }
   ],
-  "snapshot_path": "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-1/page.tsx",
   "evidence_paths": {
-    "browser_evidence_json": "tmp/webui-pm-workspace-evidence/evidence.json",
-    "desktop_initial": "tmp/webui-pm-workspace-evidence/webui-pm-workspace-desktop-initial.png",
-    "desktop_after_interactions": "tmp/webui-pm-workspace-evidence/webui-pm-workspace-desktop-after-interactions.png",
-    "mobile_initial": "tmp/webui-pm-workspace-evidence/webui-pm-workspace-mobile-initial.png"
+    "browser_render_json": "docs/design/pipeline-state/webui-and-pm-workspace/browser-render/stage2-webui-pm-workspace-browser-render.json",
+    "browser_render_screenshots_dir": "docs/design/pipeline-state/webui-and-pm-workspace/browser-render/"
   }
 }

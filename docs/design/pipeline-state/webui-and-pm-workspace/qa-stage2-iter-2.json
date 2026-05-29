@@ -1,0 +1,63 @@
+{
+  "qa_type": "stage2",
+  "feature_name": "webui-and-pm-workspace",
+  "iteration": 2,
+  "total_tests": 7,
+  "passed": 5,
+  "failed": 1,
+  "skipped": 1,
+  "convergence_status": "QA_FAIL",
+  "test_results": {
+    "T1_storyboard_replay": {
+      "status": "PASS",
+      "evidence": "2/2 storyboards implementable; required handlers and states present"
+    },
+    "T2_contract_components": {
+      "status": "FAIL",
+      "evidence": "Exact component-map/YAML labels missing: Online Status; Panel 1: Coverage Heatmap; Panel 2: Task Progress; Panel 3: Knowledge Graph; Panel 4: Gap Analysis; Queue Panel; Evidence Hub; Decision Box",
+      "fix_items": [
+        "Add exact panel/status labels as rendered or accessible names"
+      ]
+    },
+    "T3_state_matrix": {
+      "status": "PASS",
+      "evidence": "All contract and Mermaid states represented after hyphen/underscore normalization"
+    },
+    "T4_ds_token_audit": {
+      "status": "PASS",
+      "evidence": "18/18 source tokens valid against DS manifest; no hardcoded colors or raw font-family declarations"
+    },
+    "T5_a11y_structural": {
+      "status": "PASS",
+      "evidence": "Landmarks, heading, labels, aria-live, keyboard handlers, and focus-visible styles present"
+    },
+    "T6_preview_browser_consistency": {
+      "status": "PASS",
+      "evidence": "Preview warnings empty; 9 tabs present; browser metadata has 9 screenshots, 8/8 anchors, 0 console/page errors"
+    },
+    "T7_live_render": {
+      "status": "SKIP",
+      "evidence": "Dev server unavailable: curl returned status 000 / exit 7"
+    }
+  },
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "test": "T2",
+      "responsible_builder": "build_components",
+      "detail": "Exact contract/component-map labels are missing from source/rendered accessible names: Online Status, Panel 1: Coverage Heatmap, Panel 2: Task Progress, Panel 3: Knowledge Graph, Panel 4: Gap Analysis, Queue Panel, Evidence Hub, Decision Box"
+    },
+    {
+      "priority": "P2",
+      "test": "T2/T5",
+      "responsible_builder": "build_components",
+      "detail": "Expose exact panel labels through aria-label or aria-labelledby for dashboard and approval panels"
+    }
+  ],
+  "artifacts_written": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-2.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-2.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-stage2-iter-2.json"
+  ],
+  "routing_recommendation": "Return to build_components for exact panel-label fidelity; not Gate B ready until score >=95 and label drift is resolved."
+}

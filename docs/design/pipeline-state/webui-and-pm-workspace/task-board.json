@@ -1,1 +1,86 @@
-{"feature":"webui-and-pm-workspace", "stage":1, "iteration":1}
+{
+  "feature": "webui-and-pm-workspace",
+  "stage": 2,
+  "iteration": 3,
+  "tasks": {
+    "build_layout": {
+      "status": "DONE",
+      "artifacts_written": [
+        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+      ],
+      "screens_scaffolded": 8,
+      "semantic_elements": [
+        "main",
+        "nav",
+        "aside",
+        "section",
+        "article",
+        "header",
+        "footer"
+      ],
+      "checks": {
+        "target_page_eslint": "PASS",
+        "contract_sidebar_restored": true,
+        "toggle_sidebar_behavior": true,
+        "global_shell_ds_id_exact": true,
+        "line_count_under_400": true
+      }
+    },
+    "build_components": {
+      "status": "DONE",
+      "artifacts_written": [
+        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+        "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx"
+      ],
+      "components_built": 35,
+      "data_ds_ids_added": 43,
+      "interactive_handlers": 31,
+      "checks": {
+        "target_files_eslint": "PASS",
+        "typescript_no_emit": "PASS",
+        "exact_hash_anchors": true,
+        "rtm_contract_ds_id_exact": true,
+        "root_wrappers_added": true,
+        "selected_composite_surfaces_covered": true,
+        "exact_contract_panel_labels": true,
+        "online_status_accessible_name": true
+      }
+    },
+    "build_states": {
+      "status": "DONE",
+      "artifacts_written": [
+        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+        "apps/website/src/app/design-system/layout.tsx",
+        "apps/website/src/app/design-system/design-system-menu.ts",
+        "docs/design/screens/webui-and-pm-workspace/snapshot-iter-3/page.tsx"
+      ],
+      "states_implemented": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial",
+        "saving",
+        "not_found",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "a11y_features": [
+        "skip-link",
+        "aria-landmarks",
+        "heading-hierarchy",
+        "focus-indicators",
+        "aria-live",
+        "ctrl-k-search",
+        "escape-search-blur"
+      ],
+      "checks": {
+        "target_files_eslint": "PASS",
+        "typescript_no_emit": "PASS",
+        "hash_navigation": "PASS"
+      }
+    }
+  }
+}

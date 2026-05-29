@@ -1,143 +1,279 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { WorkspaceComponent, WorkspaceStatePanel } from "./workspace-components";
 
-type Group = "Core WebUI" | "Showcase" | "Composite";
-type ViewState = "default" | "loading" | "empty" | "error" | "offline" | "forbidden" | "partial" | "saving" | "not-found" | "success";
-type Screen = { id: string; label: string; route: string; dsId: string; surfaceId: string; group: Group; layout: string; states: ViewState[]; regions: string[]; endpoints: string[]; prdDsId?: string };
+type SurfaceId = "rtm-dashboard" | "safe-board" | "task-list" | "task-detail" | "trace-explorer" | "doc-viewer" | "approval-gate" | "search-results";
+type GlobalState = "default" | "loading" | "offline";
+type ViewState = "default" | "loading" | "empty" | "error" | "offline" | "forbidden" | "saving" | "not_found" | "partial" | "insufficient_evidence" | "decision_submitted" | "view_drilldown" | "view_trace";
+type StatePanelKind = Exclude<ViewState, "default">;
 
-const noDirect = "Browser boundary: Go REST API only; no direct shell, FrankenSQLite, Zvec, local git, gh, or FastCode access.";
-const baseStates: ViewState[] = ["default", "loading", "empty", "error", "offline", "forbidden", "success"];
-const stateOptions: ViewState[] = ["default", "loading", "empty", "error", "offline", "forbidden", "partial", "saving", "not-found", "success"];
-const tasks = ["br-prd04-s8.1A WebUI route coverage", "br-plan-04 Approval gate evidence", "bd-agent-ralph-stage2-build-components"];
-const people = ["Mina Patel", "Oskar Venn", "Linh Calder", "Priya Okafor"];
-const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]";
-const motion = "transition-[opacity,transform] duration-[var(--duration-fast)] ease-[var(--ease-out)]";
-
-function screen(id: string, label: string, route: string, dsId: string, surfaceId: string, group: Group, layout: string, regions: string[], endpoints: string[], extraStates: ViewState[] = [], prdDsId?: string): Screen {
-  return { id, label, route, dsId, surfaceId, group, layout, regions, endpoints, prdDsId, states: Array.from(new Set([...baseStates, ...extraStates])) };
-}
-
-const coreScreens: Screen[] = [
-  screen("screen:rtm-dashboard", "RTM Dashboard", "/", "ds:screen:rtm-dashboard-001", "ds:rtm-dashboard:surface", "Core WebUI", "Four-panel RTM dashboard with KPI row, heatmap, progress, graph, and gap analysis.", ["ds:rtm-dashboard:coverage-heatmap", "ds:rtm-dashboard:task-progress", "ds:rtm-dashboard:knowledge-graph", "ds:rtm-dashboard:gap-analysis"], ["GET /api/coverage", "GET /api/tasks", "GET /api/trace/:id?depth=2", "GET /api/gaps"]),
-  screen("screen:safe-board", "SAFe Board", "/board", "ds:screen:safe-board-001", "ds:safe-board:surface", "Core WebUI", "Portfolio, ART, and team kanban views with WIP and RTE escalation regions.", ["ds:safe-board:view-switcher", "ds:safe-board:kanban", "ds:safe-board:rte-escalation-badge"], ["GET /api/tasks?view=board&level=<level>", "PUT /api/tasks/:id/status", "GET /api/tasks/:id/activity"], ["saving"]),
-  screen("screen:task-list", "Task List", "/tasks", "ds:screen:task-list-001", "ds:task-list:surface", "Core WebUI", "Sortable table shell with filters, pagination, CSV export, and bulk action bar.", ["ds:task-list:filters", "ds:task-list:table", "ds:task-list:bulk-actions"], ["GET /api/tasks?format=list", "PUT /api/tasks/bulk"], ["saving"]),
-  screen("screen:task-detail", "Task Detail", "/tasks/:id", "ds:screen:task-detail-001", "ds:task-detail:surface", "Core WebUI", "Editable task header with Detail, Activity, Graph, and Code tab slots.", ["ds:task-detail:editable-fields", "ds:task-detail:tabs", "ds:task-detail:activity"], ["GET /api/tasks/:id", "GET /api/tasks/:id/activity", "PUT /api/tasks/:id"], ["saving", "not-found"]),
-  screen("screen:trace-explorer", "Trace Explorer", "/trace/:id", "ds:screen:trace-explorer-001", "ds:trace-explorer:surface", "Core WebUI", "Full-page graph canvas shell with toolbar, filters, legend, and detail panel.", ["ds:trace-explorer:toolbar", "ds:trace-explorer:graph", "ds:trace-explorer:detail-panel"], ["GET /api/trace/:id?depth=full", "GET /api/impact/:section"], ["partial"]),
-  screen("screen:doc-viewer", "Core Doc Viewer", "/docs", "ds:screen:core-doc-viewer-001", "ds:core-doc-viewer:surface", "Core WebUI", "Source-type document tree beside rendered content and Beads auto-link slots.", ["ds:core-doc-viewer:tree", "ds:core-doc-viewer:content", "ds:core-doc-viewer:beads-links"], ["GET /api/docs?group=source_type", "GET /api/docs/:id", "GET /api/coverage?prd=<beads-id>"]),
-  screen("screen:approval-gates", "Approval Gates", "/approval", "ds:screen:approval-gates-001", "ds:approval-gates:surface", "Core WebUI", "Level 3 approval workspace with queue, evidence, PRD context, and decision controls.", ["ds:approval-gates:queue", "ds:approval-gates:evidence", "ds:approval-gates:decision-controls"], ["GET /api/tasks?status=pending-approval", "GET /api/approval/:id/evidence", "POST /api/approval/:id/decision"], ["saving"]),
-  screen("screen:search-results", "Search Results", "/search", "ds:screen:search-results-001", "ds:search-results:surface", "Core WebUI", "Global search input, filter sidebar, grouped results, and suggestion areas.", ["ds:search-results:input", "ds:search-results:filters", "ds:search-results:results"], ["GET /api/search?q=<query>&type=<type>"]),
-];
-
-const showcaseScreens: Screen[] = [
-  screen("screen:ds-terminal", "Terminal", "/design-system/terminal", "ds:screen:terminal-showcase-001", "ds:terminal-showcase:surface", "Showcase", "Scenario tabs Agent Console, Deploy, Debug, CI/CD with command/output/success/error terminal line types; log events stream through the API.", ["ds:terminal-showcase:scenario-tabs", "ds:terminal-showcase:mosaic", "ds:terminal-showcase:lines"], ["GET /api/agents/sessions", "GET /api/ci/runs", "GET /api/tasks/:id/activity", "GET /api/log-events?stream=terminal"], [], "ds:screen:terminal-001"),
-  screen("screen:ds-portfolio", "Portfolio", "/design-system/portfolio", "ds:screen:portfolio-showcase-001", "ds:portfolio-showcase:surface", "Showcase", "Executive portfolio table paired with roadmap quarters.", ["ds:portfolio-showcase:table", "ds:portfolio-showcase:roadmap"], ["GET /api/portfolio/epics", "GET /api/tasks?issue_type=epic"], [], "br-ds-portfolio-view"),
-  screen("screen:ds-pi-planning", "PI Planning", "/design-system/pi-planning", "ds:screen:pi-planning-showcase-001", "ds:pi-planning-showcase:surface", "Showcase", "Two-column sandbox with scoring, confidence vote, and ROAM board regions.", ["ds:pi-planning-showcase:sandbox", "ds:pi-planning-showcase:value-scoring", "ds:pi-planning-showcase:confidence-vote", "ds:pi-planning-showcase:roam-board"], ["GET /api/pi/features", "PUT /api/pi/plan", "POST /api/pi/confidence-vote"], ["saving"], "br-ds-pi-planning"),
-  screen("screen:ds-git-graph", "Git Graph", "/design-system/git-graph", "ds:screen:git-graph-showcase-001", "ds:git-graph-showcase:surface", "Showcase", "Hash-selected graph scenarios with canvas, branches, commits, tags, and stats.", ["ds:git-graph-showcase:scenario-selector", "ds:git-graph-showcase:canvas"], ["GET /api/git/graph?scenario=<id>", "GET /api/trace/:id?include=git"], ["partial"], "ds:screen:git-graph-001"),
-  screen("screen:ds-kanban", "Kanban", "/design-system/kanban", "ds:screen:kanban-showcase-001", "ds:kanban-showcase:surface", "Showcase", "Board selector with horizontal columns, card slots, WIP badges, and board stats.", ["ds:kanban-showcase:board-selector", "ds:kanban-showcase:columns", "ds:kanban-showcase:stats"], ["GET /api/tasks?view=board&board=<id>", "PUT /api/tasks/:id/status"], ["saving"], "ds:screen:kanban-001"),
-  screen("screen:ds-knowledge-graph", "Knowledge Graph", "/design-system/knowledge-graph", "ds:screen:knowledge-graph-showcase-001", "ds:knowledge-graph-showcase:surface", "Showcase", "Graph preset tabs, client graph viewport, selected-node banner, legend, and stats.", ["ds:knowledge-graph-showcase:presets", "ds:knowledge-graph-showcase:viewer", "ds:knowledge-graph-showcase:legend"], ["GET /api/trace/:id?depth=full", "GET /api/graph/presets"], ["partial"], "ds:screen:knowledge-graph-001"),
-  screen("screen:ds-approval", "Approval", "/design-system/approval", "ds:screen:approval-showcase-001", "ds:approval-showcase:surface", "Showcase", "Approval panels with status toggles, evidence blocks, RTM matrix, and heatmap.", ["ds:approval-showcase:toggles", "ds:approval-showcase:evidence", "ds:approval-showcase:rtm", "ds:approval-showcase:heatmap"], ["GET /api/approval/:id/evidence", "GET /api/coverage", "POST /api/approval/:id/decision"], ["saving"], "ds:screen:approval-001"),
-  screen("screen:ds-timeline", "Timeline", "/design-system/timeline", "ds:screen:timeline-showcase-001", "ds:timeline-showcase:surface", "Showcase", "File lease indicators, activity feed, and sprint day timeline regions.", ["ds:timeline-showcase:file-lease", "ds:timeline-showcase:activity-feed", "ds:timeline-showcase:sprint-day"], ["GET /api/activity", "GET /api/file-leases"], [], "ds:screen:timeline-001"),
-  screen("screen:ds-components", "Components", "/design-system/components", "ds:screen:components-showcase-001", "ds:components-showcase:surface", "Showcase", "Catalog visibly enumerates Buttons, Badges/Status, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, and Error Banner.", ["ds:components-showcase:sections"], ["GET /api/design-system/components"], [], "ds:screen:components-001"),
-  screen("screen:ds-doc-viewer", "DS Doc Viewer", "/design-system/doc-viewer", "ds:screen:doc-viewer-showcase-001", "ds:doc-viewer-showcase:surface", "Showcase", "File tree beside selected document panel and Beads badge anchors.", ["ds:doc-viewer-showcase:tree", "ds:doc-viewer-showcase:panel"], ["GET /api/docs?group=source_type", "GET /api/docs/:id"], [], "ds:screen:doc-viewer-001"),
-  screen("screen:ds-explorer", "Explorer", "/design-system/explorer", "ds:screen:explorer-showcase-001", "ds:explorer-showcase:surface", "Showcase", "Unified search, type filters, result list, and responsive detail sidebar.", ["ds:explorer-showcase:query", "ds:explorer-showcase:type-filters", "ds:explorer-showcase:detail-sidebar"], ["GET /api/search?q=<query>&type=<type>"], [], "ds:screen:explorer-001"),
-  screen("screen:ds-beads-traversal", "Beads Traversal", "/design-system/beads-traversal", "ds:screen:beads-traversal-showcase-001", "ds:beads-traversal-showcase:surface", "Showcase", "Layered DAG from PRD sections to plan elements, tasks, and commits.", ["ds:beads-traversal-showcase:layers", "ds:beads-traversal-showcase:direction-toggle", "ds:beads-traversal-showcase:detail-sidebar"], ["GET /api/trace/:id?depth=full"], ["partial"], "ds:screen:beads-traversal-001"),
-  screen("screen:ds-storyboard", "Storyboard", "/design-system/storyboard", "ds:screen:storyboard-showcase-001", "ds:storyboard-showcase:surface", "Showcase", "Journey filter, horizontal use-case flow, guidance panel, and CTA shell.", ["ds:storyboard-showcase:filter", "ds:storyboard-showcase:flow", "ds:storyboard-showcase:guidance"], ["GET /api/storyboards"], [], "ds:screen:storyboard-001"),
-  screen("screen:ds-storyboard-detail", "Storyboard Detail", "/design-system/storyboard/:id", "ds:screen:storyboard-detail-showcase-001", "ds:storyboard-detail-showcase:surface", "Showcase", "Dynamic storyboard detail shell with role panel, journey steps, and related use cases.", ["ds:storyboard-detail-showcase:role", "ds:storyboard-detail-showcase:steps", "ds:storyboard-detail-showcase:related"], ["GET /api/storyboards/:id"], ["not-found"]),
-];
-const workspace = screen("screen:ds-webui-pm-workspace", "WebUI PM Workspace", "/design-system/webui-pm-workspace", "ds:screen:webui-pm-workspace-showcase-001", "ds:webui-pm-workspace-showcase:surface", "Composite", "Integrated shell with header, search, offline indicator, sidebar nav, boundary actions, sync banner, and active PM surfaces.", ["ds:webui-pm-workspace-showcase:header", "ds:webui-pm-workspace-showcase:sidebar", "ds:webui-pm-workspace-showcase:boundary-actions", "ds:webui-pm-workspace-showcase:sync-conflict-banner", "ds:webui-pm-workspace-showcase:active-surface"], ["GET /api/coverage", "GET /api/tasks", "GET /api/trace/:id", "GET /api/docs", "GET /api/search"], ["saving"], "ds:global_shell");
-const routeMarkers: Record<string, string> = {
-  "/design-system/terminal": "TERM",
-  "/design-system/portfolio": "PORT",
-  "/design-system/pi-planning": "PI",
-  "/design-system/git-graph": "GIT",
-  "/design-system/kanban": "KAN",
-  "/design-system/knowledge-graph": "KG",
-  "/design-system/approval": "APPR",
-  "/design-system/timeline": "TIME",
-  "/design-system/components": "COMP",
-  "/design-system/doc-viewer": "DOC",
-  "/design-system/explorer": "EXPL",
-  "/design-system/beads-traversal": "BEADS",
-  "/design-system/storyboard": "STORY",
-  "/design-system/webui-pm-workspace": "SHELL",
+type SurfaceSpec = {
+  id: SurfaceId;
+  label: string;
+  title: string;
+  route: string;
+  hash: string;
+  screenDsId: string;
+  dsIds: string[];
+  states: ViewState[];
+  defaultState: ViewState;
 };
-const routeScreens = [...coreScreens, ...showcaseScreens, workspace];
 
-export default function WebUIPMWorkspacePage() {
-  const [activeId, setActiveId] = useState(workspace.id);
-  const [state, setState] = useState<ViewState>("default");
-  const [connected, setConnected] = useState(true);
-  const [query, setQuery] = useState("br-prd04 approval evidence");
-  const [notice, setNotice] = useState("Ready: workspace routes render API-mapped data only.");
-  const activeScreen = useMemo(() => routeScreens.find((item) => item.id === activeId) ?? workspace, [activeId]);
-  const activeState: ViewState = connected ? state : "offline";
-  const supportedStates = stateOptions.filter((item) => activeScreen.states.includes(item));
-  function selectScreen(id: string) { const target = routeScreens.find((item) => item.id === id) ?? workspace; setActiveId(target.id); setState("default"); setNotice(`Navigated to ${target.route}; data resolves through route-scoped REST endpoints.`); }
-  function setPreviewState(next: ViewState) { setState(next); setNotice(`${next} state selected for ${activeScreen.route}; ${noDirect}`); }
-  function action(event: string, target?: string) {
-    const map: Record<string, () => void> = {
-      EVENT_SEARCH: () => selectScreen("screen:search-results"), EVENT_VIEW_TASK: () => selectScreen("screen:task-detail"), EVENT_VIEW_TRACE: () => selectScreen("screen:trace-explorer"), EVENT_VIEW_DOC: () => selectScreen("screen:doc-viewer"), EVENT_REFRESH: () => setState("loading"), EVENT_MOVE_CARD: () => setState("saving"), EVENT_SAVE_TASK: () => setState("saving"), EVENT_SAVE_BULK: () => setState("saving"), EVENT_APPROVAL_DECISION: () => setState("saving"), EVENT_PI_PLAN_SAVE: () => setState("saving"), EVENT_CONFIDENCE_VOTE: () => setState("saving"), API_SUCCESS: () => setState("success"), EVENT_HASH_NAVIGATE: () => setNotice(`Hash scenario selected: ${target ?? "default"}`), EVENT_DISCONNECT: () => setConnected(false), EVENT_RECONNECT: () => setConnected(true), EVENT_KEEP_LOCAL: () => { setConnected(true); setState("success"); }, EVENT_USE_SERVER: () => { setConnected(true); setState("success"); }, EVENT_BACK: () => selectScreen(state === "not-found" ? "screen:ds-storyboard" : "screen:rtm-dashboard")
+interface WebUIPMWorkspaceLayoutProps {
+  initialActiveId?: string;
+  storyboardId?: string;
+}
+
+const focus = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-cyan)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]";
+const panel = "rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)]";
+const muted = "text-[var(--text-dim)]";
+const animated = "transition-[opacity,transform] duration-[var(--duration-normal)] ease-[var(--ease-out)] motion-reduce:transition-none";
+
+const globalStates: GlobalState[] = ["default", "loading", "offline"];
+const recoveryStates: ViewState[] = ["default", "loading", "empty", "error", "offline", "forbidden"];
+const commonStates: ViewState[] = ["default", "loading", "empty", "error", "offline", "forbidden", "saving", "not_found", "partial", "insufficient_evidence", "decision_submitted", "view_drilldown", "view_trace"];
+
+const surfaces: SurfaceSpec[] = [
+  { id: "rtm-dashboard", label: "Dashboard", title: "RTM Dashboard", route: "/", hash: "#surface-rtm-dashboard", screenDsId: "ds:screen:rtm-dashboard", dsIds: ["ds:rtm-dashboard:kpis", "ds:rtm-dashboard:coverage-heatmap", "ds:rtm-dashboard:task-progress", "ds:rtm-dashboard:knowledge-graph-widget", "ds:rtm-dashboard:gap-analysis"], states: ["default", "loading", "empty", "error", "view_drilldown", "view_trace"], defaultState: "default" },
+  { id: "safe-board", label: "Board", title: "SAFe board", route: "/board", hash: "#surface-board", screenDsId: "ds:screen:kanban-001", dsIds: ["ds:kanban:board-selector", "ds:kanban:stats", "ds:kanban:rte-escalation-badge", "ds:kanban:columns"], states: recoveryStates, defaultState: "default" },
+  { id: "task-list", label: "Tasks", title: "Task list", route: "/tasks", hash: "#surface-tasks", screenDsId: "ds:screen:task-list-001", dsIds: ["ds:task-list:filters", "ds:task-list:bulk-actions", "ds:task-list:table"], states: recoveryStates, defaultState: "default" },
+  { id: "task-detail", label: "Task Detail", title: "Task detail workspace", route: "/tasks/:id", hash: "#surface-task-detail", screenDsId: "ds:screen:task-detail-001", dsIds: ["ds:task-detail:tabs", "ds:task-detail:editable-fields", "ds:task-detail:activity", "ds:task-detail:graph-widget"], states: [...recoveryStates, "saving", "not_found"], defaultState: "saving" },
+  { id: "trace-explorer", label: "Trace", title: "Trace explorer", route: "/trace/:id", hash: "#surface-trace", screenDsId: "ds:screen:trace-explorer-001", dsIds: ["ds:trace-explorer:toolbar", "ds:trace-explorer:graph-canvas", "ds:trace-explorer:dag-layers", "ds:trace-explorer:detail-panel"], states: [...recoveryStates, "partial"], defaultState: "partial" },
+  { id: "doc-viewer", label: "Docs", title: "Document viewer", route: "/docs/:id", hash: "#surface-docs", screenDsId: "ds:screen:doc-viewer-001", dsIds: ["ds:doc-viewer:tree", "ds:doc-viewer:section-badges", "ds:doc-viewer:content"], states: [...recoveryStates, "not_found"], defaultState: "default" },
+  { id: "approval-gate", label: "Approval", title: "Approval Gate", route: "/approval", hash: "#surface-approval", screenDsId: "ds:screen:approval-001", dsIds: ["ds:approval:queue", "ds:approval:evidence-hub", "ds:approval:decision-controls", "ds:approval:rtm-matrix"], states: ["default", "loading", "insufficient_evidence", "empty", "decision_submitted", "error", "offline", "forbidden"], defaultState: "default" },
+  { id: "search-results", label: "Search", title: "Search results", route: "/search", hash: "#surface-search", screenDsId: "ds:screen:explorer-001", dsIds: ["ds:search-explorer:input", "ds:search-explorer:type-filters", "ds:search-explorer:results"], states: recoveryStates, defaultState: "default" },
+];
+
+const hashToSurface = new Map(surfaces.map((surface) => [surface.hash, surface.id]));
+
+export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorkspaceLayoutProps = {}) {
+  const initialSurface = initialActiveId?.includes("approval") ? "approval-gate" : "rtm-dashboard";
+  const [surface, setSurface] = useState<SurfaceId>(initialSurface);
+  const [globalState, setGlobalState] = useState<GlobalState>("default");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [surfaceStates, setSurfaceStates] = useState<Record<SurfaceId, ViewState>>(() => Object.fromEntries(surfaces.map((item) => [item.id, item.defaultState])) as Record<SurfaceId, ViewState>);
+  const [decisionFeedback, setDecisionFeedback] = useState("Awaiting approval decision.");
+  const [globalQuery, setGlobalQuery] = useState("approval evidence");
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const scrollToHash = (hash: string) => {
+      if (!hashToSurface.has(hash)) return;
+      requestAnimationFrame(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
+      });
     };
-    map[event]?.(); setNotice(`${event} uses ${target ?? "route-scoped"} REST mapping; ${noDirect}`);
-  }
-  return <main data-screen-id={workspace.id} data-ds-id={workspace.dsId} data-prd-ds-id={workspace.prdDsId} data-state={activeState} data-contract-state={activeState === "not-found" ? "not_found" : activeState} className="min-h-[100dvh] bg-[var(--bg)] text-[var(--text)]">
-    <a href="#active-surface" className={`sr-only focus:not-sr-only focus:fixed focus:left-[var(--space-md)] focus:top-[var(--space-md)] focus:z-50 focus:rounded-[var(--radius)] focus:bg-[var(--surface-elevated)] focus:p-[var(--space-sm)] ${focusRing}`}>Skip to workspace surface</a>
-    <section data-ds-id={workspace.surfaceId} aria-label="WebUI PM Workspace composite shell" className="mx-auto flex min-h-[100dvh] max-w-[1500px] flex-col border-x border-[var(--border)] bg-[var(--surface)]">
-      <header role="banner" data-ds-id="ds:webui-pm-workspace-showcase:header" className="border-b border-[var(--border)] p-[var(--space-md)]"><div className="grid gap-[var(--space-md)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,520px)_auto] lg:items-end"><div><p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--text-dim)]">gmind serve REST workspace</p><h1 className="mt-[var(--space-xs)] text-2xl font-semibold tracking-tight">WebUI PM Workspace</h1><p className="mt-[var(--space-xs)] max-w-3xl text-sm text-[var(--text-dim)]">Integrated Core WebUI and PRD-04 showcase shell. {noDirect}</p></div><form role="search" aria-label="Search PM workspace" onSubmit={(event) => { event.preventDefault(); action("EVENT_SEARCH", query); }} className="grid gap-[var(--space-sm)] sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end"><label htmlFor="workspace-search" className="text-xs text-[var(--text-dim)]">Search tasks, docs, commits, and Beads IDs<input id="workspace-search" value={query} onChange={(event) => setQuery(event.target.value)} className={`mt-[var(--space-xs)] w-full rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] px-[var(--space-md)] py-[var(--space-sm)] text-sm text-[var(--text)] ${focusRing}`} /></label><button type="submit" className={`btn-primary ${focusRing}`}>Search</button></form><button type="button" aria-label={connected ? "Switch workspace to offline read-only state" : "Reconnect and rehydrate queued workspace edits"} aria-pressed={!connected} onClick={() => action(connected ? "EVENT_DISCONNECT" : "EVENT_RECONNECT", connected ? "GET /api/health" : "POST /api/sync/rehydrate")} className={`btn-secondary ${focusRing}`}>{connected ? "API connected" : "Offline read-only"}</button></div></header>
-      <p className="sr-only" aria-live="polite" aria-atomic="true">{activeScreen.label} route is in {activeState.replace("-", " ")} state. {notice}</p>
-      {!connected && <aside data-ds-id="ds:webui-pm-workspace-showcase:sync-conflict-banner" data-state="offline" aria-label="Offline sync conflict" className="grid gap-[var(--space-sm)] border-b border-[var(--border)] bg-[var(--accent-amber-dim)] p-[var(--space-md)] text-sm md:grid-cols-[1fr_auto_auto]"><span><strong>Status: offline conflict.</strong> Local edit br-plan-04 differs from server version. Resolve via REST conflict endpoint.</span><button type="button" onClick={() => action("EVENT_KEEP_LOCAL", "POST /api/sync/conflicts/rlp-482/resolve")} className={`btn-secondary btn-sm ${focusRing}`}>Keep local</button><button type="button" onClick={() => action("EVENT_USE_SERVER", "POST /api/sync/conflicts/rlp-482/resolve")} className={`btn-secondary btn-sm ${focusRing}`}>Use server</button></aside>}
-      <div className="grid flex-1 overflow-hidden lg:grid-cols-[300px_minmax(0,1fr)]"><aside data-ds-id="ds:webui-pm-workspace-showcase:sidebar" aria-label="Workspace route navigation" className="border-b border-[var(--border)] bg-[var(--surface)] lg:border-b-0 lg:border-r"><RouteNav title="Core WebUI" screens={coreScreens} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Screens" screens={showcaseScreens.slice(0, 9)} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Explorer" screens={showcaseScreens.slice(9, 12)} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Storyboard" screens={showcaseScreens.slice(12)} activeId={activeId} onSelect={selectScreen} /><RouteNav title="Composite" screens={[workspace]} activeId={activeId} onSelect={selectScreen} /></aside>
-        <section id="active-surface" data-ds-id="ds:webui-pm-workspace-showcase:active-surface" aria-labelledby="active-screen-title" className="overflow-auto bg-[var(--bg)] p-[var(--space-md)] md:p-[var(--space-lg)]" tabIndex={-1}><section aria-labelledby="state-preview-title" className="mb-[var(--space-md)] rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)]"><h2 id="state-preview-title" className="text-base font-semibold">Declared state anchors</h2><p className="mt-[var(--space-xs)] text-xs text-[var(--text-dim)]">{notice}</p><div className="mt-[var(--space-sm)] flex flex-wrap gap-[var(--space-sm)]" role="toolbar" aria-label="Preview available states">{supportedStates.map((item) => <button key={item} type="button" data-state={item} aria-pressed={activeState === item} disabled={!connected && item !== "offline"} onClick={() => setPreviewState(item)} className={`badge ${activeState === item ? "badge-teal" : "badge-cyan"} ${focusRing}`}>{item.replace("-", " ")}</button>)}</div></section><ScreenSurface screen={activeScreen} state={activeState} featured onAction={action} query={query} setQuery={setQuery} />
-          <section aria-labelledby="route-coverage-title" className="mt-[var(--space-lg)]"><header className="mb-[var(--space-md)] flex flex-col gap-[var(--space-xs)] sm:flex-row sm:items-end sm:justify-between"><div><h2 id="route-coverage-title" className="text-xl font-semibold">Route coverage map</h2><p className="text-sm text-[var(--text-dim)]">PRD-04 §8.1A Core WebUI, showcase, and composite route shells with stable anchors.</p></div><p className="font-mono text-xs text-[var(--text-dim)]">{routeScreens.length} screens scaffolded</p></header><div className="grid grid-cols-1 gap-[var(--space-md)] xl:grid-cols-2">{routeScreens.map((item) => <ScreenSurface key={item.id} screen={item} state="default" onAction={action} query={query} setQuery={setQuery} />)}</div></section></section></div>
-      <footer data-ds-id="ds:webui-pm-workspace-showcase:boundary-actions" className="flex flex-col gap-[var(--space-sm)] border-t border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)] text-xs text-[var(--text-dim)] sm:flex-row sm:items-center sm:justify-between"><span>{noDirect}</span><button type="button" data-state="forbidden" onClick={() => action("EVENT_BACK")} className={`btn-secondary btn-sm ${focusRing}`}>Return to dashboard</button></footer>
-    </section>
-  </main>;
-}
+    const syncFromHash = () => {
+      const hash = window.location.hash || "#surface-rtm-dashboard";
+      setSurface(hashToSurface.get(hash) ?? "rtm-dashboard");
+      scrollToHash(hash);
+    };
+    const handleKeydown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        searchRef.current?.focus();
+      }
+      if (event.key === "Escape") searchRef.current?.blur();
+    };
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+    window.addEventListener("keydown", handleKeydown);
+    return () => {
+      window.removeEventListener("hashchange", syncFromHash);
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, []);
 
-function RouteNav({ title, screens, activeId, onSelect }: { title: string; screens: Screen[]; activeId: string; onSelect: (id: string) => void }) {
-  return <nav aria-label={`${title} routes`} className="max-h-[44dvh] overflow-auto p-[var(--space-md)] lg:max-h-none"><h2 className="mb-[var(--space-sm)] font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-dim)]">{title}</h2><ul className="space-y-[var(--space-xs)]">{screens.map((item) => <li key={item.id}><button type="button" aria-current={activeId === item.id ? "page" : undefined} onClick={() => onSelect(item.id)} className={`w-full rounded-[var(--radius)] border px-[var(--space-sm)] py-[var(--space-sm)] text-left hover:opacity-90 active:scale-[0.99] ${motion} ${focusRing} ${activeId === item.id ? "border-[var(--border-highlight)] bg-[var(--accent-cyan-dim)] text-[var(--text)]" : "border-transparent text-[var(--text-dim)]"}`}><span className="block text-sm font-medium">{item.label}</span><span className="block font-mono text-[0.68rem]">{item.route}</span></button></li>)}</ul></nav>;
-}
+  const activeSurface = surfaces.find((item) => item.id === surface) ?? surfaces[0];
+  const activeState = surfaceStates[surface];
+  const liveMessage = globalState === "offline" ? "Workspace is offline and read-only" : `${activeSurface.title} state is ${activeState.replaceAll("_", " ")}`;
+  const stateOptions = useMemo(() => activeSurface.states, [activeSurface]);
 
-function ScreenSurface({ screen, state, featured = false, onAction, query, setQuery }: { screen: Screen; state: ViewState; featured?: boolean; onAction: (event: string, target?: string) => void; query: string; setQuery: (value: string) => void }) {
-  return <article data-screen-id={screen.id} data-ds-id={screen.dsId} data-prd-ds-id={screen.prdDsId} data-state={state} data-contract-state={state === "not-found" ? "not_found" : state} className={`rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-md)] ${motion} ${featured ? "min-h-[440px]" : ""}`}><header className="border-b border-[var(--border)] pb-[var(--space-md)]"><p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-dim)]">{screen.group}</p><h3 id={featured ? "active-screen-title" : undefined} className="mt-[var(--space-xs)] flex flex-wrap items-center gap-[var(--space-xs)] text-xl font-semibold">{screen.label}{routeMarkers[screen.route] && <span className="badge badge-teal font-mono" aria-label={`PRD-04 route marker ${routeMarkers[screen.route]}`}>{routeMarkers[screen.route]}</span>}</h3><p className="mt-[var(--space-xs)] font-mono text-xs text-[var(--text-dim)]">{screen.route}</p><p className="mt-[var(--space-xs)] font-mono text-[0.68rem] text-[var(--text-dim)]">contract {screen.dsId}{screen.prdDsId ? ` / PRD alias ${screen.prdDsId}` : ""}</p><p className="mt-[var(--space-sm)] text-sm text-[var(--text-dim)]">{screen.layout}</p></header>{state !== "default" ? <StatePanel screen={screen} state={state} onAction={onAction} /> : <section data-ds-id={screen.surfaceId} aria-label={`${screen.label} layout regions`} className="mt-[var(--space-md)] grid gap-[var(--space-sm)] md:grid-cols-2 xl:grid-cols-3">{screen.regions.map((region) => <Region key={region} screen={screen} region={region} onAction={onAction} query={query} setQuery={setQuery} />)}</section>}<aside aria-label={`${screen.label} state and API summary`} className="mt-[var(--space-md)] grid gap-[var(--space-sm)] lg:grid-cols-2"><section className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs uppercase text-[var(--text-dim)]">States</h4><div className="mt-[var(--space-sm)] flex flex-wrap gap-[var(--space-xs)]">{screen.states.map((item) => <span key={item} data-state={item} className="badge badge-cyan">{item.replace("-", " ")}</span>)}</div></section><section className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs uppercase text-[var(--text-dim)]">REST data flow</h4>{screen.endpoints.map((endpoint) => <p key={endpoint} className="font-mono text-[0.7rem] text-[var(--text)]">{endpoint}</p>)}<p className="mt-[var(--space-xs)] text-[0.68rem] text-[var(--text-dim)]">{noDirect}</p></section></aside></article>;
-}
-
-function Region({ screen, region, onAction, query, setQuery }: { screen: Screen; region: string; onAction: (event: string, target?: string) => void; query: string; setQuery: (value: string) => void }) {
-  const accent = region.includes("heatmap") || region.includes("approval") ? "badge-amber" : region.includes("graph") || region.includes("trace") ? "badge-teal" : "badge-cyan";
-  return <article data-ds-id={region} className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-sm)]"><h4 className="font-mono text-xs text-[var(--accent-teal)]">{region}</h4><div className="mt-[var(--space-sm)]"><RegionContent screen={screen} region={region} onAction={onAction} query={query} setQuery={setQuery} /></div><span className={`badge ${accent} mt-[var(--space-sm)]`}>{screen.label}</span></article>;
-}
-
-function RegionContent({ screen, region, onAction, query, setQuery }: { screen: Screen; region: string; onAction: (event: string, target?: string) => void; query: string; setQuery: (value: string) => void }) {
-  if (region.includes("search") || region.includes("query") || region.includes("input")) return <form onSubmit={(event) => { event.preventDefault(); onAction("EVENT_SEARCH", query); }} className="grid gap-[var(--space-xs)]"><label className="text-xs text-[var(--text-dim)]">Controlled query<input value={query} onChange={(event) => setQuery(event.target.value)} className={`mt-[var(--space-xs)] w-full rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface)] px-[var(--space-sm)] py-[var(--space-xs)] text-xs ${focusRing}`} /></label><button className={`btn-secondary btn-sm ${focusRing}`} type="submit">Run search</button></form>;
-  if (region.includes("kanban") || region.includes("columns")) return <div className="kanban-board__columns grid gap-[var(--space-sm)] md:grid-cols-3">{["Ready 4", "Build 6/7", "Review 3"].map((col) => <section key={col} className="kanban-column"><div className="kanban-column__header"><span className="kanban-column__title">{col}</span></div><button type="button" onClick={() => onAction("EVENT_MOVE_CARD", "PUT /api/tasks/:id/status")} className={`mt-[var(--space-sm)] w-full rounded-[var(--radius)] border border-[var(--border)] p-[var(--space-sm)] text-left text-xs ${focusRing}`}>{tasks[col.length % tasks.length]}</button></section>)}</div>;
-  if (region.includes("heatmap") || region.includes("coverage")) return <div className="grid grid-cols-4 gap-[var(--space-xs)]">{[75, 50, 100, 25, 75, 75, 50, 100].map((n, i) => <button key={`${n}-${i}`} type="button" aria-label={`${n} percent coverage; open trace`} onClick={() => onAction("EVENT_VIEW_TRACE", `coverage ${n}`)} className={`heatmap-cell heatmap-cell--${n} ${focusRing}`}>{n}<span className="sr-only"> percent covered</span></button>)}</div>;
-  if (region.includes("table")) return <table className="data-table w-full text-xs"><thead><tr><th><button type="button" className={focusRing} onClick={() => onAction("EVENT_HASH_NAVIGATE", "sort:id")}>Epic ID</button></th><th>Owner</th><th>Status</th></tr></thead><tbody>{["EPIC-PRD04-17", "EPIC-TRACE-29"].map((id, i) => <tr key={id}><td>{id}</td><td>{people[i]}</td><td><span className={i ? "badge badge-amber" : "badge badge-teal"}>{i ? "Forecast risk" : "On track"}</span></td></tr>)}</tbody></table>;
-  if (region.includes("vote")) return <div className="flex flex-wrap gap-[var(--space-xs)]" role="radiogroup" aria-label="PI confidence vote">{[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" aria-label={`Submit confidence vote ${n}`} onClick={() => onAction("EVENT_CONFIDENCE_VOTE", `vote ${n}`)} className={`btn-secondary btn-sm ${focusRing}`}>{n}</button>)}</div>;
-  if (region.includes("approval") || region.includes("decision") || region.includes("toggles")) return <div className="approval-panel" data-state="pending"><p className="text-xs"><span className="badge badge-amber">Status: evidence pending</span> 7 checks passed, 1 owner note required.</p><button type="button" onClick={() => onAction("EVENT_APPROVAL_DECISION", "POST /api/approval/:id/decision")} className={`btn-primary btn-sm mt-[var(--space-sm)] ${focusRing}`}>Submit decision</button></div>;
-  if (region.includes("graph") || region.includes("viewer") || region.includes("layers")) return <div className="grid gap-[var(--space-sm)]">{["br-prd04-s8", "br-plan-webui", "bd-agent-ralph-stage2-build-components"].map((node, i) => <button type="button" key={node} onClick={() => onAction(i === 1 ? "EVENT_VIEW_TASK" : "EVENT_VIEW_TRACE", node)} className={`graph-node graph-node--${i === 2 ? "commit" : i ? "task" : "prd"} ${focusRing}`}><span className="graph-node__label">{node}</span></button>)}</div>;
-  if (region.includes("doc") || region.includes("tree") || region.includes("panel") || region.includes("content") || region.includes("beads")) return <div className="path-tree text-xs"><strong>docs/PRDs/core-gmind/PRD-04</strong><button type="button" onClick={() => onAction("EVENT_VIEW_TRACE", "br-prd04-s8.1A")} className={`badge badge-teal ml-[var(--space-xs)] ${focusRing}`}>br-prd04-s8.1A</button><p className="mt-[var(--space-sm)]">Rendered document sections link to trace routes through REST lookups.</p></div>;
-  if (region.includes("terminal") || region.includes("lines") || region.includes("mosaic")) return <div className="terminal terminal--scanline text-xs"><div className="terminal__titlebar">Agent Console, Deploy, Debug, CI/CD</div><p><strong>command</strong> GET /api/agents/sessions --active</p><p><strong>output</strong> GET /api/ci/runs shows deploy train rlp-47 green.</p><p><strong>success</strong> GET /api/tasks/:id/activity linked bd-agent handoff.</p><p><strong>error</strong> API stream /api/log-events?stream=terminal lost one debug frame and resumed through REST polling.</p></div>;
-  if (region.includes("file-lease")) return <div className="grid gap-[var(--space-xs)]">{["unlocked", "locked", "expiring", "expired"].map((s) => <span key={s} className={`file-lease file-lease--${s}`}>Status: PRD-04 section lease {s}</span>)}</div>;
-  if (region.includes("components") || region.includes("sections")) return <div className="flex flex-wrap gap-[var(--space-xs)]">{["Buttons", "Badges/Status", "Progress", "Avatar Stack", "Modal", "Dropdown", "Accordion", "Tab Panel", "Data Table", "Tooltip", "Code Block", "Cards", "Prompt Card", "Section Labels", "Status Dots", "Skeleton", "Empty State", "Error Banner"].map((x) => <button type="button" key={x} onClick={() => onAction("EVENT_HASH_NAVIGATE", x)} className={`badge badge-cyan ${focusRing}`}>{x}</button>)}</div>;
-  if (region.includes("storyboard") || region.includes("flow") || region.includes("guidance") || region.includes("role") || region.includes("related")) return <ol className="space-y-[var(--space-xs)] text-xs"><li>1. PM opens dashboard and selects a Beads gap.</li><li>2. Trace explorer confirms PRD, plan, task, and commit lineage.</li><li><button type="button" onClick={() => onAction("EVENT_VIEW_TRACE", "storyboard-detail-alignment")} className={`btn-secondary btn-sm ${focusRing}`}>Open implementation screen</button></li></ol>;
-  if (region.includes("sandbox") || region.includes("scoring") || region.includes("roam")) return <div className="grid gap-[var(--space-xs)] text-xs"><p>Feature capacity: 31.4 points assigned, 6.7 points unplanned.</p><button type="button" onClick={() => onAction("EVENT_PI_PLAN_SAVE", "PUT /api/pi/plan")} className={`btn-secondary btn-sm ${focusRing}`}>Save PI plan</button><span className="badge badge-amber">Status: risk owned by {people[2]}</span></div>;
-  return <div className="space-y-[var(--space-sm)] text-xs"><p>{tasks[region.length % tasks.length]}</p><p>Owner: {people[region.length % people.length]}; status: API mapped.</p><button type="button" onClick={() => onAction(region.includes("task") ? "EVENT_VIEW_TASK" : "EVENT_HASH_NAVIGATE", region)} className={`btn-secondary btn-sm ${focusRing}`}>Open linked view</button></div>;
-}
-
-function StatePanel({ screen, state, onAction }: { screen: Screen; state: ViewState; onAction: (event: string, target?: string) => void }) {
-  if (state === "loading") return <section className="skeleton-group mt-[var(--space-md)] grid gap-[var(--space-sm)] md:grid-cols-2" aria-label={`Loading ${screen.label} skeleton`} aria-busy="true"><div className="md:col-span-2"><div className="skeleton skeleton--text-full" /><div className="skeleton skeleton--text-short mt-[var(--space-xs)]" /></div><div className="skeleton skeleton--card" /><div className="skeleton skeleton--card" /><button type="button" onClick={() => onAction("EVENT_REFRESH")} className={`btn-secondary btn-sm md:col-span-2 ${focusRing}`}>Retry refresh</button></section>;
-  const copy: Record<Exclude<ViewState, "loading">, { title: string; body: string; cta: string; event: string; target?: string; tone: string }> = {
-    default: { title: "Live data", body: "The route is rendering API-mapped data with active controls.", cta: "Refresh route data", event: "EVENT_REFRESH", tone: "badge-cyan" },
-    empty: { title: "No matching records", body: "Clear filters or reindex this route through the Go REST API to populate the workspace.", cta: "Clear filters and refresh", event: "EVENT_REFRESH", tone: "badge-cyan" },
-    error: { title: "Evidence request failed", body: "The request did not complete. Retry keeps the user in the same safe route and preserves API boundary traceability.", cta: "Retry route data", event: "EVENT_REFRESH", tone: "badge-rose" },
-    offline: { title: "Offline read-only", body: "Cached data remains visible. Writes are queued until health checks recover, then conflict resolution offers keep-local or use-server choices.", cta: "Reconnect and rehydrate", event: "EVENT_RECONNECT", target: "POST /api/sync/rehydrate", tone: "badge-amber" },
-    forbidden: { title: "Permission denied", body: "Current role cannot approve this gate or access the route. Return to a safe dashboard route.", cta: "Back to dashboard", event: "EVENT_BACK", tone: "badge-rose" },
-    partial: { title: "Partial enrichment", body: "Local graph rows are visible while backend enrichment catches up. Refresh to request missing impact data.", cta: "Refresh enrichment", event: "EVENT_REFRESH", tone: "badge-amber" },
-    saving: { title: "Saving optimistic edit", body: "Edited controls are disabled until REST confirmation, rollback, or offline queue response.", cta: "Simulate save success", event: "API_SUCCESS", tone: "badge-teal" },
-    "not-found": { title: "Record not found", body: "The requested entity was not returned by the API. Return to the parent route and choose another record.", cta: "Back to parent list", event: "EVENT_BACK", tone: "badge-rose" },
-    success: { title: "Update confirmed", body: "The API accepted the transition. Refresh to revalidate route data and dependent evidence.", cta: "Refresh route data", event: "EVENT_REFRESH", tone: "badge-teal" },
+  const setSurfaceState = (target: SurfaceId, state: ViewState) => setSurfaceStates((current) => ({ ...current, [target]: state }));
+  const navigateSurface = (target: SurfaceId, hash: string) => {
+    setSurface(target);
+    if (window.location.hash === hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
+    } else {
+      window.location.hash = hash;
+    }
   };
-  const item = copy[state];
-  return <section className="mt-[var(--space-md)] rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] p-[var(--space-md)]" aria-live="polite"><span className={`badge ${item.tone}`}>Status: {state.replace("-", " ")}</span><h4 className="mt-[var(--space-sm)] font-semibold">{item.title}</h4><p className="mt-[var(--space-xs)] text-sm text-[var(--text-dim)]">{item.body}</p>{state === "saving" && <fieldset disabled aria-describedby={`${screen.id}-saving-help`} className="mt-[var(--space-sm)] grid gap-[var(--space-xs)] opacity-70"><label className="text-xs text-[var(--text-dim)]">Audit reason<input value="Waiting for REST confirmation" readOnly className="mt-[var(--space-xs)] w-full rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface)] px-[var(--space-sm)] py-[var(--space-xs)]" /></label><p id={`${screen.id}-saving-help`} className="text-xs text-[var(--text-dim)]">Controls disabled during optimistic save.</p></fieldset>}<button type="button" onClick={() => onAction(item.event, item.target)} className={`btn-secondary btn-sm mt-[var(--space-md)] ${focusRing}`}>{item.cta}</button></section>;
+  const handleSurfaceLink = (event: MouseEvent<HTMLAnchorElement>, target: SurfaceId, hash: string) => {
+    event.preventDefault();
+    navigateSurface(target, hash);
+  };
+  const handleDashboardAction = (nextState: "view_drilldown" | "view_trace") => {
+    setSurfaceState("rtm-dashboard", nextState);
+    navigateSurface("rtm-dashboard", "#surface-rtm-dashboard");
+  };
+  const handleApprovalDecision = (decision: "approved" | "rejected" | "changes-requested") => {
+    setSurfaceState("approval-gate", "decision_submitted");
+    setDecisionFeedback(`Approval decision submitted: ${decision.replace("-", " ")}.`);
+    navigateSurface("approval-gate", "#surface-approval");
+  };
+
+  return (
+    <main data-screen-id="global-shell" data-ds-id="ds:global_shell" data-state={globalState} className="min-h-[100dvh] bg-[var(--bg)] text-[var(--text)]" aria-label="WebUI PM Workspace">
+      <a href="#workspace-content" className={`sr-only focus:not-sr-only focus:fixed focus:left-[var(--space-md)] focus:top-[var(--space-md)] focus:z-50 focus:rounded-[var(--radius)] focus:bg-[var(--surface)] focus:p-[var(--space-sm)] ${focus}`}>Skip to PM workspace content</a>
+      <StatePlaceholders group="global" states={[...globalStates, ...commonStates]} />
+      <p className="sr-only" role="status" aria-live="polite">{liveMessage}</p>
+      <header data-ds-id="ds:component:header" className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--surface)]/95 px-[var(--space-md)] py-[var(--space-sm)]">
+        <section data-ds-id="ds:global-shell:header" className="mx-auto grid max-w-7xl gap-[var(--space-sm)] lg:grid-cols-[auto_minmax(18rem,1fr)_auto] lg:items-center" aria-label="Header Bar">
+          <div className="flex items-center gap-[var(--space-sm)]">
+            <button type="button" aria-controls="workspace-sidebar" aria-expanded={sidebarOpen} data-action="EVENT_TOGGLE_SIDEBAR" onClick={() => setSidebarOpen((open) => !open)} className={`btn-secondary btn-sm ${focus}`}>{sidebarOpen ? "Hide sidebar" : "Show sidebar"}</button>
+            <a href="#surface-rtm-dashboard" data-action="EVENT_HASH_NAVIGATE" onClick={(event) => handleSurfaceLink(event, "rtm-dashboard", "#surface-rtm-dashboard")} className={`font-mono text-sm font-semibold uppercase tracking-[0.16em] ${focus}`}>Gmind PM</a>
+          </div>
+          <form data-ds-id="ds:global-shell:search" data-action="EVENT_SEARCH" role="search" onSubmit={(event) => { event.preventDefault(); navigateSurface("search-results", "#surface-search"); }}>
+            <label className="block" htmlFor="global-search">
+              <span className="sr-only">Global Search Bar. Press Control K or Command K to focus, Escape to leave search.</span>
+              <input ref={searchRef} id="global-search" value={globalQuery} onChange={(event) => setGlobalQuery(event.target.value)} className={`w-full rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg)] px-[var(--space-sm)] py-[var(--space-xs)] text-sm ${focus}`} placeholder="Search PRDs, tasks, docs, and traces" />
+            </label>
+          </form>
+          <div data-ds-id="ds:global-shell:sync-banner" className="flex flex-wrap items-center gap-[var(--space-xs)] text-sm">
+            <span className="rounded-full border border-[var(--border)] px-[var(--space-sm)] py-[var(--space-xs)] font-mono" aria-label="Online Status" aria-live="polite"><span className="sr-only">Online Status: </span>{globalState === "offline" ? "Offline, read-only" : globalState === "loading" ? "Loading shell" : "Online"}</span>
+            <StateSelect label="Shell state" value={globalState} states={globalStates} onChange={(value) => setGlobalState(value as GlobalState)} />
+          </div>
+        </section>
+        <nav className="mx-auto mt-[var(--space-sm)] max-w-7xl overflow-x-auto" aria-label="Workspace surfaces quick navigation">
+          <ul className="flex min-w-max gap-[var(--space-xs)]">
+            {surfaces.map((item) => <li key={item.id}><a href={item.hash} data-action="EVENT_HASH_NAVIGATE" onClick={(event) => handleSurfaceLink(event, item.id, item.hash)} aria-current={surface === item.id ? "page" : undefined} className={`block rounded-[var(--radius)] border border-[var(--border)] px-[var(--space-sm)] py-[var(--space-xs)] text-sm ${animated} hover:-translate-y-0.5 hover:bg-[var(--bg)] ${focus}`}>{item.label}</a></li>)}
+          </ul>
+        </nav>
+      </header>
+
+      <div data-ds-id="ds:global-shell:root" className={`mx-auto grid max-w-7xl gap-[var(--space-md)] px-[var(--space-md)] py-[var(--space-md)] ${sidebarOpen ? "lg:grid-cols-[16rem_minmax(0,1fr)]" : "lg:grid-cols-[4.75rem_minmax(0,1fr)]"}`}>
+        <aside id="workspace-sidebar" data-ds-id="ds:component:sidebar" data-state={sidebarOpen ? "expanded" : "collapsed"} className={`${sidebarOpen ? "block" : "hidden lg:block"} rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-sm)]`} aria-label="Sidebar">
+          <nav aria-label="Workspace sidebar surfaces">
+            <p className={`px-[var(--space-xs)] pb-[var(--space-xs)] font-mono text-xs uppercase tracking-[0.14em] ${muted}`}>{sidebarOpen ? "PM surfaces" : "PM"}</p>
+            <ul className="grid gap-[var(--space-xs)]">
+              {surfaces.filter((item) => item.id !== "task-detail").map((item) => (
+                <li key={item.id}>
+                  <a href={item.hash} data-action="EVENT_HASH_NAVIGATE" onClick={(event) => handleSurfaceLink(event, item.id, item.hash)} aria-label={item.label} aria-current={surface === item.id ? "page" : undefined} className={`block rounded-[var(--radius)] border border-[var(--border)] px-[var(--space-sm)] py-[var(--space-xs)] text-sm ${surface === item.id ? "bg-[var(--bg)]" : ""} ${focus}`}>
+                    {sidebarOpen ? item.label : item.label.slice(0, 2)}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+
+        <section id="workspace-content" data-ds-id="ds:global-shell:active-surface" className="space-y-[var(--space-md)]" aria-label="Main Content Area">
+          <header className="grid gap-[var(--space-sm)] lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div>
+              <p className={`font-mono text-xs uppercase tracking-[0.14em] ${muted}`}>Route {activeSurface.route}</p>
+              <h1>{activeSurface.label}</h1>
+              <p className={`mt-[var(--space-xs)] text-sm ${muted}`}>Keyboard: Ctrl+K focuses search. Escape exits search or transient controls.</p>
+            </div>
+            <StateSelect label="Screen state" value={activeState} states={stateOptions} onChange={(value) => setSurfaceState(surface, value as ViewState)} />
+          </header>
+
+          {globalState === "offline" ? <WorkspaceStatePanel state="offline" /> : null}
+          {globalState === "loading" ? <WorkspaceStatePanel state="loading" /> : null}
+          {surfaces.map((item) => (
+            <WorkspaceSurface key={item.id} spec={item} state={surfaceStates[item.id]} active={item.id === surface} decisionFeedback={decisionFeedback} onDashboardAction={handleDashboardAction} onApprovalDecision={handleApprovalDecision} />
+          ))}
+        </section>
+      </div>
+
+      <footer className="border-t border-[var(--border)] px-[var(--space-md)] py-[var(--space-sm)]">
+        <section className={`mx-auto max-w-7xl text-sm ${muted}`} aria-label="Footer">Sync status is exposed through the shell; browser actions stay inside route navigation and API-ready component hooks.</section>
+      </footer>
+    </main>
+  );
+}
+
+function StateSelect({ label, value, states, onChange }: { label: string; value: string; states: readonly string[]; onChange: (value: string) => void }) {
+  return <label className="flex items-center gap-[var(--space-xs)] text-sm"><span className="sr-only">{label}</span><select aria-label={label} value={value} onChange={(event) => onChange(event.target.value)} className={`rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface)] px-[var(--space-sm)] py-[var(--space-xs)] ${focus}`}>{states.map((state) => <option key={state} value={state}>{state.replaceAll("_", "-")}</option>)}</select></label>;
+}
+
+function StatePlaceholders({ states, group }: { states: readonly string[]; group: string }) {
+  return <div className="sr-only" aria-hidden="true">{[...new Set(states)].map((state) => <span key={`${group}:${state}`} data-state={state} />)}</div>;
+}
+
+function WorkspaceSurface({ spec, state, active, decisionFeedback, onDashboardAction, onApprovalDecision }: { spec: SurfaceSpec; state: ViewState; active: boolean; decisionFeedback: string; onDashboardAction: (nextState: "view_drilldown" | "view_trace") => void; onApprovalDecision: (decision: "approved" | "rejected" | "changes-requested") => void }) {
+  const isApproval = spec.id === "approval-gate";
+  const rootDsId = `ds:${rootPrefix(spec.id)}:root`;
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    const target = (event.target as HTMLElement).closest<HTMLElement>("[data-action]");
+    const action = target?.dataset.action;
+    if (spec.id === "rtm-dashboard" && (action === "EVENT_DRILL_DOWN" || action === "EVENT_HEATMAP_CLICK")) {
+      event.preventDefault();
+      onDashboardAction("view_drilldown");
+    }
+    if (spec.id === "rtm-dashboard" && action === "EVENT_VIEW_TRACE") {
+      event.preventDefault();
+      onDashboardAction("view_trace");
+    }
+    if (spec.id === "approval-gate" && (action === "EVENT_APPROVAL_DECISION" || action === "EVENT_REQUEST_CHANGES")) {
+      event.preventDefault();
+      onApprovalDecision((target?.dataset.decision as "approved" | "rejected" | "changes-requested" | undefined) ?? "approved");
+    }
+  };
+  return (
+    <section id={spec.hash.slice(1)} data-screen-id={`screen:${spec.id}`} data-ds-id={spec.screenDsId} data-state={state} onClick={handleClick} className={`space-y-[var(--space-md)] ${animated}`} aria-labelledby={`${spec.id}-title`} hidden={!active}>
+      {spec.id === "rtm-dashboard" ? <span className="sr-only" data-ds-id="ds:screen:rtm-dashboard-001" aria-hidden="true" /> : null}
+      <StatePlaceholders group={spec.id} states={spec.states} />
+      <h2 id={`${spec.id}-title`} className="sr-only">{spec.title}</h2>
+      {state !== "default" ? <WorkspaceStatePanel state={state as StatePanelKind} /> : null}
+      {spec.id === "rtm-dashboard" ? <DashboardActionBar /> : null}
+      {isApproval ? <ApprovalDecisionBar feedback={decisionFeedback} /> : null}
+      <section data-ds-id={rootDsId} className={gridFor(spec.id)} aria-label={isApproval ? "Approval Data" : spec.id === "rtm-dashboard" ? "Dashboard Panels" : `${spec.title} components`}>
+        {spec.dsIds.map((dsId, index) => {
+          const exactLabel = panelLabel(spec.id, dsId, index);
+          return <article key={dsId} className={`${panel} ${spec.id === "rtm-dashboard" && index === 0 ? "md:col-span-2" : ""}`} aria-label={exactLabel}><WorkspaceComponent dsId={dsId} /></article>;
+        })}
+      </section>
+    </section>
+  );
+}
+
+function DashboardActionBar() {
+  return (
+    <section className={`${panel} flex flex-wrap items-center gap-[var(--space-xs)]`} aria-label="Dashboard storyboard actions">
+      <h3 className="sr-only">Dashboard actions</h3>
+      <button type="button" data-action="EVENT_DRILL_DOWN" className={`btn-primary btn-sm ${focus}`}>Drill-down</button>
+      <button type="button" data-action="EVENT_VIEW_TRACE" className={`btn-secondary btn-sm ${focus}`}>View Trace</button>
+    </section>
+  );
+}
+
+function ApprovalDecisionBar({ feedback }: { feedback: string }) {
+  return (
+    <section className={`${panel} space-y-[var(--space-xs)]`} aria-label="Approval decision actions">
+      <h3 className="font-semibold">Approval decision</h3>
+      <p className={`text-sm ${muted}`} role="status" aria-live="polite">{feedback}</p>
+      <div className="flex flex-wrap gap-[var(--space-xs)]">
+        <button type="button" data-action="EVENT_APPROVAL_DECISION" data-decision="approved" className={`btn-primary btn-sm ${focus}`}>Approve</button>
+        <button type="button" data-action="EVENT_APPROVAL_DECISION" data-decision="rejected" className={`btn-danger btn-sm ${focus}`}>Reject</button>
+        <button type="button" data-action="EVENT_REQUEST_CHANGES" data-decision="changes-requested" className={`btn-secondary btn-sm ${focus}`}>Request Changes</button>
+      </div>
+    </section>
+  );
+}
+
+function panelLabel(surface: SurfaceId, dsId: string, index: number) {
+  const labels: Partial<Record<string, string>> = {
+    "ds:rtm-dashboard:kpis": "Dashboard KPIs",
+    "ds:rtm-dashboard:coverage-heatmap": "Panel 1: Coverage Heatmap",
+    "ds:rtm-dashboard:task-progress": "Panel 2: Task Progress",
+    "ds:rtm-dashboard:knowledge-graph-widget": "Panel 3: Knowledge Graph",
+    "ds:rtm-dashboard:gap-analysis": "Panel 4: Gap Analysis",
+    "ds:approval:queue": "Queue Panel",
+    "ds:approval:evidence-hub": "Evidence Hub",
+    "ds:approval:decision-controls": "Decision Box",
+  };
+  return labels[dsId] ?? `${surface} panel ${index + 1}`;
+}
+
+function rootPrefix(surface: SurfaceId) {
+  if (surface === "safe-board") return "kanban";
+  if (surface === "search-results") return "search-explorer";
+  return surface;
+}
+
+function gridFor(surface: SurfaceId) {
+  if (surface === "approval-gate") return "grid gap-[var(--space-md)] lg:grid-cols-[minmax(14rem,0.8fr)_minmax(0,1.4fr)_minmax(16rem,0.8fr)]";
+  if (surface === "rtm-dashboard") return "grid gap-[var(--space-md)] md:grid-cols-2";
+  return "grid gap-[var(--space-md)] lg:grid-cols-2";
 }

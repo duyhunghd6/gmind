@@ -1,0 +1,134 @@
+{
+  "status": "success",
+  "rendered_at": "2026-05-29T08:47:20.861Z",
+  "target_route": "http://localhost:9993/design-system/webui-pm-workspace",
+  "initial_port_9993_reachable": false,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/148.0.7778.96 Safari/537.36",
+  "playwright_version": "1.60.0",
+  "screenshots": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-default-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-rtm-dashboard-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-board-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-tasks-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-task-detail-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-trace-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-docs-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-approval-desktop.png",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration3-surface-search-desktop.png"
+  ],
+  "anchor_results": {
+    "surface-rtm-dashboard": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-board": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-tasks": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-task-detail": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-trace": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-docs": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-approval": {
+      "exists": true,
+      "count": 1
+    },
+    "surface-search": {
+      "exists": true,
+      "count": 1
+    }
+  },
+  "label_results": {
+    "Online Status": {
+      "present": true,
+      "exactTextMatches": 0
+    },
+    "Panel 1: Coverage Heatmap": {
+      "present": true,
+      "exactTextMatches": 1
+    },
+    "Panel 2: Task Progress": {
+      "present": true,
+      "exactTextMatches": 1
+    },
+    "Panel 3: Knowledge Graph": {
+      "present": true,
+      "exactTextMatches": 1
+    },
+    "Panel 4: Gap Analysis": {
+      "present": true,
+      "exactTextMatches": 1
+    },
+    "Queue Panel": {
+      "present": true,
+      "exactTextMatches": 1
+    },
+    "Evidence Hub": {
+      "present": true,
+      "exactTextMatches": 1
+    },
+    "Decision Box": {
+      "present": true,
+      "exactTextMatches": 1
+    }
+  },
+  "accessibility_text_results": {
+    "Online Status": {
+      "ariaLabelMatches": 1
+    },
+    "Panel 1: Coverage Heatmap": {
+      "ariaLabelMatches": 2
+    },
+    "Panel 2: Task Progress": {
+      "ariaLabelMatches": 2
+    },
+    "Panel 3: Knowledge Graph": {
+      "ariaLabelMatches": 2
+    },
+    "Panel 4: Gap Analysis": {
+      "ariaLabelMatches": 2
+    },
+    "Queue Panel": {
+      "ariaLabelMatches": 2
+    },
+    "Evidence Hub": {
+      "ariaLabelMatches": 2
+    },
+    "Decision Box": {
+      "ariaLabelMatches": 2
+    }
+  },
+  "console_summary": {
+    "total": 2,
+    "errors": 0,
+    "warnings": 0,
+    "duplicate_react_keys": 0,
+    "runtime_errors": 0
+  },
+  "duplicate_react_key_messages": [],
+  "console_errors": [],
+  "console_warnings": [],
+  "runtime_errors": [],
+  "server_started_by_renderer": true,
+  "route_used": "http://localhost:9993/design-system/webui-pm-workspace",
+  "capture_notes": [
+    "Port 9993 was initially refused; renderer started apps/website dev server and used the requested route once reachable.",
+    "Playwright 1.60.0 in this environment rejected image/webp screenshot output, so evidence screenshots were captured as PNG."
+  ]
+}

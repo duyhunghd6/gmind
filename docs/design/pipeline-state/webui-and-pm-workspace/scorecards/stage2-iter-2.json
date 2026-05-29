@@ -1,47 +1,45 @@
 {
   "auditor": "stage2_builder",
   "iteration": 2,
-  "score": 96,
+  "score": 93,
   "p0_count": 0,
-  "convergence_status": "GATE_B_READY",
+  "convergence_status": "CONTINUE",
   "gate_b_bar": {
     "score_required": 95,
     "zero_p0_required": true,
-    "qa_pass_required": true,
-    "qa_passed": true,
-    "gate_b_ready": true,
-    "recommended_ba_routing": "Gate B ready. Optional nonblocking BA follow-up: route to build_layout/build_states for explicit mobile overlay open-control evidence if PM wants strict overlay demonstration beyond responsive stacked navigation."
+    "gate_b_ready": false,
+    "recommendation": "Not Gate B ready yet. Iteration 2 fixed browser anchors and console/runtime errors, but exact contract/component-map label fidelity should be tightened before Gate B."
   },
   "pillar_scores": {
     "contract_conformance": {
-      "score": 28,
+      "score": 27,
       "max": 30,
-      "tool_evidence": "95/95 component-map ds_id strings found; browser renders 95 total and 95 unique data-ds-id; 18/18 unique data-screen-id; no missing or extra ds ids."
+      "tool_evidence": "51 ds:* source strings; exact YAML ds_ids present for ds:global_shell, ds:component:header, ds:screen:rtm-dashboard, and ds:screen:approval-001; browser reports 8/8 surface anchors present; 8/13 component-map labels are not exact text matches."
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "14/14 var(--*) tokens are present in ds-manifest; 0 hardcoded hex/rgb/hsl color literals."
+      "tool_evidence": "18/18 var(--*) tokens are in the DS manifest; 0 hardcoded hex/rgb/rgba/hsl colors."
     },
     "flow_state_integrity": {
       "score": 14,
       "max": 15,
-      "tool_evidence": "12/12 required state literals implemented; browser confirms insufficient_evidence and decision_submitted persistence; Mermaid EVENT_OPEN_OVERLAY is not explicitly implemented."
+      "tool_evidence": "All contract states are implemented after hyphen/underscore normalization; Toggle Sidebar, Drill-down, View Trace, Approve, Reject, and Request Changes have handlers; browser evidence shows all exact anchors present."
     },
     "accessibility": {
-      "score": 20,
+      "score": 18,
       "max": 20,
-      "tool_evidence": "skip link present; main/header/nav/footer/form/aside landmarks present; 8 aria-label and 2 aria-live refs; focus-visible ring utility applied to keyboard controls."
+      "tool_evidence": "Skip link, main/header/nav/aside/footer landmarks, 19 aria-label occurrences, role status/alert regions, labeled controls, keyboard Ctrl+K/Escape handling, and focus-visible rings present; exact panel labels are not consistently exposed as accessible names."
     },
     "efficiency_completeness": {
       "score": 9,
       "max": 10,
-      "tool_evidence": "186-line page under 400-line limit; 0 placeholder patterns; all screens generated, but dense one-file JSX remains harder to audit than split components."
+      "tool_evidence": "page.tsx 243 lines and workspace-components.tsx 114 lines, both under 400; 0 banned placeholder patterns; implementation is split and complete, with minor exact-copy contract drift."
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; focused eslint passed per routed evidence; browser evidence success with 0 console_errors and 0 errors."
+      "tool_evidence": "0 dangerouslySetInnerHTML; iteration 2 browser metadata reports 0 console errors, 0 page errors, and reachable port 9993."
     }
   },
   "pre_output_checklist": {
@@ -59,29 +57,45 @@
   "mechanical_checks": {
     "ui_contract_yaml_block_style": true,
     "mermaid_parsed_from_fenced_blocks_only": true,
-    "component_map_unique_ids": 95,
-    "page_ds_id_strings_found": 95,
-    "browser_data_ds_id_total": 95,
-    "browser_data_ds_id_unique": 95,
-    "browser_data_screen_id_total": 18,
-    "browser_data_screen_id_unique": 18,
-    "browser_duplicate_data_ds_ids": {},
-    "browser_duplicate_data_screen_ids": {},
-    "missing_contract_ds_ids": [],
-    "extra_page_ds_ids": [],
+    "page_line_count": 243,
+    "workspace_components_line_count": 114,
+    "page_literal_data_ds_id_attribute_count": 9,
+    "source_ds_id_string_count": 51,
+    "yaml_ds_ids_expected": [
+      "ds:global_shell",
+      "ds:component:header",
+      "ds:screen:rtm-dashboard",
+      "ds:screen:approval-001"
+    ],
+    "yaml_ds_ids_missing_exact": [],
+    "component_map_expected_labels": 13,
+    "component_map_missing_exact_labels": [
+      "Online Status",
+      "Panel 1: Coverage Heatmap",
+      "Panel 2: Task Progress",
+      "Panel 3: Knowledge Graph",
+      "Panel 4: Gap Analysis",
+      "Queue Panel",
+      "Evidence Hub",
+      "Decision Box"
+    ],
     "valid_tokens": [
+      "--accent-amber-dim",
       "--accent-cyan",
+      "--accent-cyan-dim",
+      "--accent-rose-dim",
+      "--accent-teal",
       "--bg",
       "--border",
       "--border-highlight",
+      "--duration-normal",
+      "--ease-out",
       "--radius",
       "--radius-lg",
-      "--space-lg",
       "--space-md",
       "--space-sm",
       "--space-xs",
       "--surface",
-      "--surface-elevated",
       "--text",
       "--text-dim"
     ],
@@ -89,11 +103,13 @@
     "hardcoded_color_count": 0,
     "placeholder_count": 0,
     "dangerously_set_inner_html_count": 0,
-    "required_states": [
+    "implemented_data_state_values": [
+      "collapsed",
       "decision_submitted",
       "default",
       "empty",
       "error",
+      "expanded",
       "forbidden",
       "insufficient_evidence",
       "loading",
@@ -101,38 +117,58 @@
       "offline",
       "partial",
       "saving",
-      "sync_conflict"
+      "view_drilldown",
+      "view_trace"
     ],
-    "missing_state_literals": [],
-    "contract_actions_missing_from_page": [
-      "EVENT_OPEN_OVERLAY"
+    "required_yaml_states_present_normalized": true,
+    "mermaid_states": [
+      "app_decision_submitted",
+      "app_default",
+      "app_empty",
+      "app_error",
+      "app_insufficient_evidence",
+      "app_loading",
+      "dash_default",
+      "dash_empty",
+      "dash_error",
+      "dash_loading",
+      "shell_default",
+      "shell_loading",
+      "shell_offline",
+      "view_drilldown",
+      "view_trace"
     ],
-    "browser_interactions_ok": true,
-    "insufficient_evidence_persisted": true,
-    "decision_submitted_persisted": true,
-    "browser_console_errors": 0,
-    "browser_errors": 0,
-    "page_line_count": 186
+    "browser_surface_hashes_success": [
+      "surface-rtm-dashboard",
+      "surface-board",
+      "surface-tasks",
+      "surface-task-detail",
+      "surface-trace",
+      "surface-docs",
+      "surface-approval",
+      "surface-search"
+    ],
+    "browser_surface_hashes_missing_anchor": [],
+    "browser_console_error_count": 0,
+    "browser_page_error_count": 0
   },
   "fix_queue": [
     {
       "priority": "P1",
-      "pillar": "flow_state_integrity",
-      "responsible_builder": "build_states",
-      "detail": "EVENT_OPEN_OVERLAY appears in the Mermaid shell self-transition but is not explicitly implemented in page event handlers; mobile screenshot shows responsive stacked navigation rather than a demonstrable hamburger-triggered overlay."
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Exact component-map/YAML labels are not all preserved in rendered/accessibility text: Online Status, Panel 1: Coverage Heatmap, Panel 2: Task Progress, Panel 3: Knowledge Graph, Panel 4: Gap Analysis, Queue Panel, Evidence Hub, and Decision Box are represented by semantically similar copy instead of exact contract labels."
     },
     {
       "priority": "P2",
-      "pillar": "efficiency_completeness",
-      "responsible_builder": "build_layout",
-      "detail": "Page remains under 400 lines, but compressed JSX branches make future per-component audits less direct; split only if this surface grows further."
+      "pillar": "accessibility",
+      "responsible_builder": "build_components",
+      "detail": "Use the exact contract panel names as aria-label/aria-labelledby text for RTM dashboard and approval gate panels so assistive technology exposes the same names as the contract."
     }
   ],
-  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-1/page.tsx",
   "evidence_paths": {
-    "browser_evidence_json": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/evidence.json",
-    "desktop": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/desktop.png",
-    "mobile": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/mobile.png",
-    "desktop_post_interactions": "/Users/steve/duyhunghd6/gmind/tmp/webui-pm-workspace-evidence/desktop-post-interactions.png"
+    "browser_render_json": "docs/design/pipeline-state/webui-and-pm-workspace/browser-render/iteration-2-browser-metadata.json",
+    "browser_render_screenshots_dir": "docs/design/pipeline-state/webui-and-pm-workspace/browser-render/"
   }
 }

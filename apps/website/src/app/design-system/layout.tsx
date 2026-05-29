@@ -4,220 +4,32 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useGlobalKeyboard } from "@/components/useGlobalKeyboard";
-
-
-/* ---- 3-Level Menu Data ---- */
-interface SubItem {
-  href: string;
-  label: string;
-}
-
-interface MenuItem {
-  href: string;
-  label: string;
-  icon: string;
-  subs?: SubItem[];
-}
-
-interface Category {
-  title: string;
-  items: MenuItem[];
-}
-
-const menu: Category[] = [
-  {
-    title: "Design System",
-    items: [
-      {
-        href: "/design-system",
-        label: "Hub",
-        icon: "🏠",
-        subs: [
-          { href: "/design-system#colors", label: "Màu sắc" },
-          { href: "/design-system#spacing", label: "Thang Khoảng cách" },
-          { href: "/design-system#typography", label: "Font" },
-          { href: "/design-system#animations", label: "Hiệu ứng Chuyển động" },
-          { href: "/design-system#cards", label: "Các biến thể Thẻ" },
-          { href: "/design-system#buttons", label: "Nút (Buttons)" },
-          { href: "/design-system#badges", label: "Nhãn trạng thái" },
-          { href: "/design-system#grid-layout", label: "Bố cục Lưới" },
-          { href: "/design-system#states", label: "Ma trận Trạng thái" },
-          { href: "/design-system#flows", label: "Luồng Người dùng" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Screens",
-    items: [
-      {
-        href: "/design-system/terminal",
-        label: "Terminal",
-        icon: "💻",
-        subs: [
-          { href: "/design-system/terminal#default", label: "Mặc định" },
-          { href: "/design-system/terminal#mosaic", label: "Mosaic Layout" },
-        ],
-      },
-      {
-        href: "/design-system/portfolio",
-        label: "Portfolio View",
-        icon: "📈",
-      },
-      {
-        href: "/design-system/pi-planning",
-        label: "PI Planning Sandbox",
-        icon: "🎯",
-      },
-      {
-        href: "/design-system/git-graph",
-        label: "Beads: Đồ thị Git",
-        icon: "🌿",
-        subs: [
-          { href: "/design-system/git-graph#gitflow", label: "Gitflow Chuẩn" },
-          { href: "/design-system/git-graph#multi-agent", label: "Multi-Agent Worktree" },
-          { href: "/design-system/git-graph#hotfix", label: "Hotfix Khẩn Cấp" },
-          { href: "/design-system/git-graph#release-train", label: "Release Train" },
-          { href: "/design-system/git-graph#monorepo", label: "Monorepo" },
-          { href: "/design-system/git-graph#beads-prd-trace", label: "PRD Trace" },
-          { href: "/design-system/git-graph#beads-deadlock", label: "Deadlock Fix" },
-          { href: "/design-system/git-graph#beads-ds-comp", label: "DS Components" },
-          { href: "/design-system/git-graph#beads-traversal", label: "Full Traversal" },
-          { href: "/design-system/git-graph#beads-sprint-review", label: "Sprint Review" },
-        ],
-      },
-      {
-        href: "/design-system/kanban",
-        label: "Kanban",
-        icon: "📋",
-        subs: [
-          { href: "/design-system/kanban#sprint", label: "Sprint Board" },
-          { href: "/design-system/kanban#release", label: "Release Board" },
-          { href: "/design-system/kanban#bug-triage", label: "Bug Triage" },
-        ],
-      },
-      {
-        href: "/design-system/knowledge-graph",
-        label: "Knowledge Graph",
-        icon: "🧠",
-        subs: [
-          { href: "/design-system/knowledge-graph#simple", label: "Đơn giản" },
-          { href: "/design-system/knowledge-graph#ecosystem", label: "Hệ sinh thái" },
-          { href: "/design-system/knowledge-graph#sprint", label: "Sprint View" },
-        ],
-      },
-      {
-        href: "/design-system/approval",
-        label: "Phê duyệt & RTM",
-        icon: "✅",
-        subs: [
-          { href: "/design-system/approval#panels", label: "Approval Panels" },
-          { href: "/design-system/approval#rtm", label: "RTM Matrix" },
-          { href: "/design-system/approval#heatmap", label: "Coverage Heatmap" },
-        ],
-      },
-      {
-        href: "/design-system/webui-pm-workspace",
-        label: "PM Workspace",
-        icon: "🧭",
-        subs: [
-          { href: "/design-system/webui-pm-workspace", label: "RTM Dashboard" },
-          { href: "/design-system/webui-pm-workspace#surface-tasks", label: "Task List" },
-          { href: "/design-system/webui-pm-workspace#surface-tasks-detail", label: "Task Detail" },
-        ],
-      },
-      {
-        href: "/design-system/timeline",
-        label: "Timeline",
-        icon: "📅",
-        subs: [
-          { href: "/design-system/timeline#file-lease", label: "File Lease" },
-          { href: "/design-system/timeline#activity-feed", label: "Activity Feed" },
-          { href: "/design-system/timeline#sprint-day", label: "Sprint Day" },
-        ],
-      },
-      {
-        href: "/design-system/components",
-        label: "Components",
-        icon: "🧩",
-        subs: [
-          { href: "/design-system/components#buttons", label: "Buttons" },
-          { href: "/design-system/components#badges", label: "Badges & Status" },
-          { href: "/design-system/components#progress", label: "Progress Bars" },
-          { href: "/design-system/components#avatar", label: "Avatar Stack" },
-          { href: "/design-system/components#modal", label: "Modal" },
-          { href: "/design-system/components#dropdown", label: "Dropdown" },
-          { href: "/design-system/components#accordion", label: "Accordion" },
-          { href: "/design-system/components#tabs", label: "Tab Panel" },
-          { href: "/design-system/components#table", label: "Data Table" },
-          { href: "/design-system/components#tooltip", label: "Tooltip" },
-          { href: "/design-system/components#codeblock", label: "Code Block" },
-          { href: "/design-system/components#cards", label: "Cards" },
-          { href: "/design-system/components#promptcard", label: "Prompt Card" },
-          { href: "/design-system/components#labels", label: "Section Labels" },
-          { href: "/design-system/components#statusdot", label: "Status Dots" },
-          { href: "/design-system/components#skeleton", label: "Skeleton" },
-          { href: "/design-system/components#emptystate", label: "Empty State" },
-          { href: "/design-system/components#errorbanner", label: "Error Banner" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Explorer",
-    items: [
-      { href: "/design-system/doc-viewer", label: "Doc Viewer", icon: "📄" },
-      {
-        href: "/design-system/explorer",
-        label: "Gmind Explorer",
-        icon: "🔍",
-        subs: [
-          { href: "/design-system/explorer#doc", label: "📄 Docs" },
-          { href: "/design-system/explorer#commit", label: "⏺ Commits" },
-          { href: "/design-system/explorer#task", label: "📋 Tasks" },
-          { href: "/design-system/explorer#adr", label: "📐 ADR" },
-          { href: "/design-system/explorer#chat", label: "💬 Chat" },
-          { href: "/design-system/explorer#spike", label: "🔬 Spike" },
-        ],
-      },
-      {
-        href: "/design-system/beads-traversal",
-        label: "Beads Traversal",
-        icon: "🔗",
-        subs: [
-          { href: "/design-system/beads-traversal#prd-section", label: "PRD Sections" },
-          { href: "/design-system/beads-traversal#plan", label: "Plan Elements" },
-          { href: "/design-system/beads-traversal#task", label: "Tasks" },
-          { href: "/design-system/beads-traversal#commit", label: "Commits" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Storyboard",
-    items: [
-      {
-        href: "/design-system/storyboard",
-        label: "Overview",
-        icon: "🗺️",
-        subs: [
-          { href: "/design-system/storyboard/uc-01-pm-sprint-review", label: "UC-01: PM Sprint Review" },
-          { href: "/design-system/storyboard/uc-02-pm-trace-approve", label: "UC-02: PM Trace & Approve" },
-          { href: "/design-system/storyboard/uc-03-dev-code-search", label: "UC-03: Dev Code Search" },
-          { href: "/design-system/storyboard/uc-04-dev-pick-task", label: "UC-04: Dev Pick Task" },
-          { href: "/design-system/storyboard/uc-05-qa-bug-detection", label: "UC-05: QA Bug Detection" },
-          { href: "/design-system/storyboard/uc-06-qa-code-review", label: "UC-06: QA Code Review" },
-          { href: "/design-system/storyboard/uc-07-architect-spike", label: "UC-07: Architect Spike" },
-          { href: "/design-system/storyboard/uc-08-release-deploy", label: "UC-08: Release Deploy" },
-          { href: "/design-system/storyboard/uc-09-bug-triage-fix", label: "UC-09: Bug Triage Fix" },
-          { href: "/design-system/storyboard/uc-10-bug-hotfix-verify", label: "UC-10: Hotfix Verify" },
-        ],
-      },
-    ],
-  },
-];
+import { menu } from "./design-system-menu";
 
 /** Parse a sub-item href into pathname + hash */
+const PM_WORKSPACE_PATH = "/design-system/webui-pm-workspace";
+const pmSurfaceHashes = new Set([
+  "#surface-rtm-dashboard",
+  "#surface-board",
+  "#surface-tasks",
+  "#surface-task-detail",
+  "#surface-trace",
+  "#surface-docs",
+  "#surface-approval",
+  "#surface-search",
+]);
+
+
+const menuIconPaths: Record<string, React.ReactNode> = {
+  hub: <><path d="M4 11 12 4l8 7" /><path d="M6 10v10h12V10" /></>, terminal: <><path d="m4 7 5 5-5 5" /><path d="M11 17h9" /></>, portfolio: <><path d="M4 18V6" /><path d="M4 18h16" /><path d="m7 15 4-4 3 2 5-6" /></>, planning: <><circle cx="12" cy="12" r="8" /><circle cx="12" cy="12" r="3" /></>, git: <><circle cx="7" cy="7" r="2" /><circle cx="17" cy="17" r="2" /><path d="M8.5 8.5 15.5 15.5" /><path d="M7 9v8" /></>, kanban: <><path d="M4 5h16" /><path d="M8 5v15M16 5v15" /></>, graph: <><circle cx="5" cy="12" r="2" /><circle cx="12" cy="6" r="2" /><circle cx="19" cy="12" r="2" /><circle cx="12" cy="18" r="2" /><path d="m7 11 3.5-3M13.5 7 17 11M17 13l-3.5 3M10.5 17 7 13" /></>, approval: <path d="m4 12 5 5L20 6" />, workspace: <><path d="M4 13h6V4H4z" /><path d="M14 20h6V4h-6z" /><path d="M4 20h6v-3H4z" /></>, timeline: <><path d="M5 5v14" /><path d="M9 7h10M9 12h7M9 17h10" /></>, components: <><path d="M4 4h7v7H4z" /><path d="M13 4h7v7h-7z" /><path d="M4 13h7v7H4z" /><path d="M13 13h7v7h-7z" /></>, docs: <><path d="M6 3h9l3 3v15H6z" /><path d="M9 12h6M9 16h6" /></>, search: <><circle cx="11" cy="11" r="6" /><path d="m16 16 4 4" /></>, link: <><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1" /><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" /></>, storyboard: <><path d="M4 5h16v14H4z" /><path d="M8 5v14M16 5v14M4 10h16M4 15h16" /></>,
+};
+function MenuIcon({ name }: { name: string }) {
+  return <svg aria-hidden="true" viewBox="0 0 24 24" className="mr-[8px] h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{menuIconPaths[name] ?? menuIconPaths.components}</svg>;
+}
+function Chevron({ open }: { open: boolean }) {
+  return <svg aria-hidden="true" viewBox="0 0 24 24" className={`docs-sidebar__chevron${open ? " open" : ""} h-3 w-3`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6" /></svg>;
+}
+
 function parseSubHref(href: string): { path: string; hash: string } {
   const idx = href.indexOf("#");
   if (idx === -1) return { path: href, hash: "" };
@@ -233,17 +45,16 @@ export default function DesignSystemLayout({
   const router = useRouter();
   const EXPANDED_KEY = "ds-sidebar-expanded";
 
-  /* Initialize expanded state to empty object to prevent SSR/client hydration mismatch */
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  /* Restore from sessionStorage on client mount after hydration */
   useEffect(() => {
-    try {
-      const saved = sessionStorage.getItem(EXPANDED_KEY);
-      if (saved) {
-        setExpanded(JSON.parse(saved));
-      }
-    } catch {}
+    const timer = window.setTimeout(() => {
+      try {
+        const saved = sessionStorage.getItem(EXPANDED_KEY);
+        if (saved) setExpanded(JSON.parse(saved));
+      } catch {}
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   /* Global keyboard: ESC dispatches ds:escape for any open modal */
@@ -251,18 +62,21 @@ export default function DesignSystemLayout({
 
   /* Auto-expand the menu item matching current route (additive, never collapse) */
   useEffect(() => {
-    setExpanded((prev) => {
-      const next = { ...prev };
-      for (const cat of menu) {
-        for (const item of cat.items) {
-          if (pathname === item.href || pathname.startsWith(item.href + "/")) {
-            next[item.href] = true;
+    const timer = window.setTimeout(() => {
+      setExpanded((prev) => {
+        const next = { ...prev };
+        for (const cat of menu) {
+          for (const item of cat.items) {
+            if (pathname === item.href || pathname.startsWith(item.href + "/")) {
+              next[item.href] = true;
+            }
           }
         }
-      }
-      sessionStorage.setItem(EXPANDED_KEY, JSON.stringify(next));
-      return next;
-    });
+        sessionStorage.setItem(EXPANDED_KEY, JSON.stringify(next));
+        return next;
+      });
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [pathname]);
 
   const toggle = (key: string) =>
@@ -274,10 +88,22 @@ export default function DesignSystemLayout({
 
   const isActive = (href: string) => pathname === href;
 
-  const [currentHash, setCurrentHash] = useState("");
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setCurrentHash(window.location.hash);
+    const routeWorkspaceHash = () => {
+      const hash = window.location.hash;
+      if (pmSurfaceHashes.has(hash) && pathname !== PM_WORKSPACE_PATH) {
+        router.replace(`${PM_WORKSPACE_PATH}${hash}`, { scroll: false });
+      }
+    };
+    routeWorkspaceHash();
+    window.addEventListener("hashchange", routeWorkspaceHash);
+    return () => window.removeEventListener("hashchange", routeWorkspaceHash);
+  }, [pathname, router]);
+
+  const [currentHash, setCurrentHash] = useState(() => typeof window === "undefined" ? "" : window.location.hash);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     const handleHashChange = () => setCurrentHash(window.location.hash);
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
@@ -323,11 +149,10 @@ export default function DesignSystemLayout({
     const { path, hash } = parseSubHref(href);
 
     if (pathname === path && hash) {
-      /* Same page: set hash natively so hashchange event fires */
       window.location.hash = hash;
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
     } else {
-      /* Different page: use Next.js router for SPA navigation */
-      router.push(href);
+      router.push(href, { scroll: !pmSurfaceHashes.has(hash) });
     }
   }, [pathname, router]);
 
@@ -351,7 +176,6 @@ export default function DesignSystemLayout({
 
               return (
                 <div key={item.href}>
-                  {/* Level 2: Menu Item */}
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <Link
                        href={item.href}
@@ -360,20 +184,12 @@ export default function DesignSystemLayout({
                        aria-current={itemActive ? "page" : undefined}
                        aria-expanded={hasSubs ? isOpen : undefined}
                     >
-                      <span style={{ marginRight: "8px" }} aria-hidden="true">{item.icon}</span>
+                      <MenuIcon name={item.icon} />
                       {item.label}
-                      {hasSubs && (
-                        <span
-                          className={`docs-sidebar__chevron${isOpen ? " open" : ""}`}
-                          aria-hidden="true"
-                        >
-                          ▶
-                        </span>
-                      )}
+                      {hasSubs && <Chevron open={isOpen} />}
                     </Link>
                   </div>
 
-                  {/* Level 3: Sub Items */}
                   {hasSubs && (
                     <div
                       className={`docs-sidebar__subitems${isOpen ? " open" : ""}`}
