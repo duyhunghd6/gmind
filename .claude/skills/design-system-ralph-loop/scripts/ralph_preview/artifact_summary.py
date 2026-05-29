@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .contract_summary import extract_event_labels
+
 
 def storyboard_trajectories(data: Any) -> list[dict[str, Any]]:
     if not isinstance(data, dict):
@@ -136,7 +138,7 @@ def build_coverage_matrix(
                 storyboard_screens.add(str(screen_id))
         for step in traj.get("steps", []):
             if isinstance(step, dict):
-                scr = step.get("screen") or step.get("state", "").split(".")[0]
+                scr = step.get("screen_id") or step.get("screen") or step.get("data_screen_id") or step.get("state", "").split(".")[0]
                 if scr and str(scr).startswith("screen:"):
                     storyboard_screens.add(str(scr))
 
@@ -152,11 +154,8 @@ def build_coverage_matrix(
         for line in source.splitlines():
             line = line.strip()
             if ":" in line and "-->" in line:
-                parts = line.split(":")
-                if len(parts) > 1:
-                    evt = parts[-1].strip().split("/")[0].strip()
-                    if evt:
-                        flow_events.add(evt)
+                event_label = line.split(":", 1)[1].strip()
+                flow_events.update(extract_event_labels(event_label))
 
     screen_matrix = {
         screen: {
