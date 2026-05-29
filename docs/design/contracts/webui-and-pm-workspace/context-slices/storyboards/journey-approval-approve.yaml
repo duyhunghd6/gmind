@@ -1,0 +1,25 @@
+trajectory_id: journey-approval-approve
+role: Human manager
+journey: Level 3 approval
+start_screen: approval-gates
+steps:
+- index: 1
+  screen_or_state: Approval queue
+  path_or_signal: /approval#panels
+  expected_state: default
+- index: 2
+  screen_or_state: Evidence
+  path_or_signal: GET /api/approval/:id/evidence
+  expected_state: default
+- index: 3
+  screen_or_state: Decision submitted
+  path_or_signal: POST decision
+  expected_state: default
+actions:
+- action-approval-select-task
+- action-approval-approve
+success_signal: Audit receipt with decision id
+error_recovery_included: false
+machine_evidence:
+- action-approval-select-task
+- action-approval-approve

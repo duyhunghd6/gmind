@@ -6,10 +6,9 @@
     "build_layout": {
       "status": "DONE",
       "artifacts_written": [
-        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-        "apps/website/src/app/design-system/layout.tsx"
+        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
       ],
-      "screens_scaffolded": 8,
+      "screens_scaffolded": 18,
       "semantic_elements": [
         "main",
         "nav",
@@ -21,15 +20,11 @@
       ],
       "checks": {
         "target_page_eslint": "PASS",
-        "individual_hash_surface_render_path": true,
-        "shell_state_preserved": true,
-        "contract_sidebar_restored": true,
-        "toggle_sidebar_behavior": true,
-        "global_shell_ds_id_exact": true,
         "line_count_under_400": true,
-        "hash_url_hydration_stabilized": true,
-        "docs_sidebar_active_hash_deferred_until_mount": true,
-        "target_layout_eslint": "PASS"
+        "block_style_yaml_source": true,
+        "contract_shell_scaffolded": true,
+        "all_contract_screens_scaffolded": true,
+        "ds_tokens_only": true
       }
     },
     "build_components": {
@@ -100,6 +95,54 @@
         "task_list_controls_stable_ds_ids": true,
         "surface_tasks_docs_distinct_panels": true,
         "line_count_under_400": true
+      }
+    },
+    "gen_flows": {
+      "status": "DONE",
+      "artifacts_written": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/design/contracts/webui-and-pm-workspace/flow.md",
+        "docs/design/contracts/webui-and-pm-workspace/artifact-index.json",
+        "docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json",
+        "docs/design/contracts/webui-and-pm-workspace/preview/index.html"
+      ],
+      "mermaid_transitions": 287,
+      "storyboard_trajectories": 12,
+      "components_mapped": 84,
+      "conflicts_found": 2,
+      "context_slices_written": 417,
+      "checks": {
+        "flow_mermaid_block_exactly_one": true,
+        "contract_yaml_block_exactly_one": true,
+        "contract_mermaid_block_exactly_one": true,
+        "action_event_coverage": {
+          "yaml_screen_actions": 71,
+          "action_catalog_events": 91,
+          "mermaid_events_covered": 91,
+          "preview_warnings": 0
+        },
+        "mermaid_validator": "PASS",
+        "mermaid_blocks": 1,
+        "mermaid_starts_with": "stateDiagram-v2",
+        "direction_lr": true
+      }
+    },
+    "gen_wireframes": {
+      "status": "DONE",
+      "artifacts_written": [
+        "docs/design/contracts/webui-and-pm-workspace/review-diagrams.md"
+      ],
+      "review_diagrams_count": 10,
+      "screens_diagrammed": 18,
+      "checks": {
+        "splitter": "PASS",
+        "validator": "PASS",
+        "markdown_mermaid_blocks": 10,
+        "standalone_mmd_files": 0,
+        "block_style_yaml_source": true,
+        "ascii_artifacts_created": false,
+        "derived_artifact_consistency_fix": "PASS",
+        "unique_screen_inventory_node_ids": true
       }
     }
   }

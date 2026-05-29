@@ -1,0 +1,29 @@
+trajectory_id: journey-pi-confidence-vote
+role: RTE approver
+journey: PI confidence vote
+start_screen: pi-planning
+steps:
+- index: 1
+  screen_or_state: PI Planning
+  path_or_signal: /pi-planning
+  expected_state: default
+- index: 2
+  screen_or_state: ROAM
+  path_or_signal: anchor
+  expected_state: default
+- index: 3
+  screen_or_state: Saving
+  path_or_signal: POST confidence-vote
+  expected_state: saving
+- index: 4
+  screen_or_state: PI Planning
+  path_or_signal: accepted
+  expected_state: default
+actions:
+- action-pi-open-roam
+- action-pi-submit-confidence-vote
+success_signal: Vote recorded
+error_recovery_included: false
+machine_evidence:
+- action-pi-open-roam
+- action-pi-submit-confidence-vote

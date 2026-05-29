@@ -1,7 +1,0 @@
-id: journey-4
-name: Review Escalated Risk
-role: RTE
-steps:
-- action: Click Escalated Task
-  next_screen: task-detail-drawer
-  screen: kanban

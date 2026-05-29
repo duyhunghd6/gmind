@@ -1,0 +1,37 @@
+screen_id: portfolio-view
+route: /portfolio
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.portfolio.root
+parent_ds_id: null
+ds_type: portfolio_dashboard
+labels:
+  title: Executive Portfolio
+bindings:
+  epics: GET /api/portfolio/epics
+  epic_tasks: GET /api/tasks?issue_type=epic
+actions:
+- id: action-portfolio-open-epic-tasks
+  label: Open blocked epic tasks
+  target_route: /tasks?epic=:id
+  event: EVENT_PORTFOLIO_OPEN_EPIC_TASKS
+- id: action-portfolio-open-budget-trace
+  label: Open budget lineage
+  target_route: /trace/:epic-id
+  event: EVENT_PORTFOLIO_OPEN_BUDGET_TRACE
+machine_states:
+- PortfolioDefault
+- PortfolioLoading
+- PortfolioEmpty
+- PortfolioError
+- PortfolioOffline
+- PortfolioForbidden
+satisfies:
+- br-prd04-s3
+- br-prd04-s8

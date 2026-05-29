@@ -1,0 +1,38 @@
+screen_id: terminal-console
+route: /terminal
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.terminal.root
+parent_ds_id: null
+ds_type: terminal_mosaic
+labels:
+  title: Agent and CI Terminal Console
+  tabs: agent-console, deploy, debug, ci-cd
+bindings:
+  sessions: GET /api/agents/sessions
+  ci_runs: GET /api/ci/runs
+  task_activity: GET /api/tasks/:id/activity
+actions:
+- id: action-terminal-select-tab
+  label: Select terminal scenario tab
+  target_route: null
+  event: EVENT_TERMINAL_SELECT_TAB
+- id: action-terminal-refresh-stream
+  label: Refresh log stream
+  target_route: null
+  event: EVENT_TERMINAL_REFRESH_STREAM
+machine_states:
+- TerminalDefault
+- TerminalLoading
+- TerminalEmpty
+- TerminalError
+- TerminalOffline
+- TerminalForbidden
+satisfies:
+- br-prd04-s14

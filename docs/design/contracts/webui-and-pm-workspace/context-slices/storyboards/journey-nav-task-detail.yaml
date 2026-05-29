@@ -1,0 +1,25 @@
+trajectory_id: journey-nav-task-detail
+role: PMO reviewer
+journey: Navigate to task
+start_screen: global-shell
+steps:
+- index: 1
+  screen_or_state: Dashboard
+  path_or_signal: /
+  expected_state: default
+- index: 2
+  screen_or_state: Task List
+  path_or_signal: /tasks
+  expected_state: default
+- index: 3
+  screen_or_state: Task Detail
+  path_or_signal: /tasks/:id
+  expected_state: default
+actions:
+- action-shell-header-pm-space
+- action-tasks-open-detail
+success_signal: Task detail default rendered
+error_recovery_included: false
+machine_evidence:
+- action-shell-header-pm-space
+- action-tasks-open-detail

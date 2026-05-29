@@ -1,0 +1,23 @@
+screen_id: storyboards-overview
+route: /storyboards
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+ds_id: ds:webui.storyboards.guidance-panel
+parent_ds_id: ds:webui.storyboards.root
+ds_type: guidance_panel
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- StoryboardsDefault
+- StoryboardsLoading
+- StoryboardsEmpty
+- StoryboardsError
+- StoryboardsOffline
+satisfies:
+- br-prd04-s17

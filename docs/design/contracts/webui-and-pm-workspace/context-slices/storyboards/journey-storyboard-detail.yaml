@@ -1,0 +1,25 @@
+trajectory_id: journey-storyboard-detail
+role: QA reviewer
+journey: Storyboard to screen CTA
+start_screen: storyboards-overview
+steps:
+- index: 1
+  screen_or_state: Storyboards
+  path_or_signal: /storyboards
+  expected_state: default
+- index: 2
+  screen_or_state: Storyboard detail
+  path_or_signal: /storyboards/:id
+  expected_state: default
+- index: 3
+  screen_or_state: Aligned screen
+  path_or_signal: canonical route
+  expected_state: default
+actions:
+- action-storyboards-open-detail
+- action-storyboard-detail-open-screen
+success_signal: CTA opens non-placeholder screen
+error_recovery_included: false
+machine_evidence:
+- action-storyboards-open-detail
+- action-storyboard-detail-open-screen

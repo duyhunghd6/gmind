@@ -1,0 +1,37 @@
+screen_id: storyboards-overview
+route: /storyboards
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+ds_id: ds:webui.storyboards.root
+parent_ds_id: null
+ds_type: storyboard_overview
+labels:
+  title: Storyboard Journey Map
+bindings:
+  storyboards: GET /api/storyboards
+actions:
+- id: action-storyboards-filter-journey
+  label: Filter by role module outcome
+  target_route: null
+  event: EVENT_STORYBOARDS_FILTER_JOURNEY
+- id: action-storyboards-open-detail
+  label: Open storyboard detail
+  target_route: /storyboards/:id
+  event: EVENT_STORYBOARDS_OPEN_DETAIL
+- id: action-storyboards-open-screen
+  label: Open CTA screen path
+  target_route: null
+  event: EVENT_STORYBOARDS_OPEN_SCREEN
+machine_states:
+- StoryboardsDefault
+- StoryboardsLoading
+- StoryboardsEmpty
+- StoryboardsError
+- StoryboardsOffline
+satisfies:
+- br-prd04-s17

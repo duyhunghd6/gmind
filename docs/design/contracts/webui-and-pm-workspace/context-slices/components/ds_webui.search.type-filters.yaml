@@ -1,0 +1,25 @@
+screen_id: search-results
+route: /search
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.search.type-filters
+parent_ds_id: ds:webui.search.root
+ds_type: type_filters
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- SearchDefault
+- SearchLoading
+- SearchEmpty
+- SearchError
+- SearchOffline
+- SearchForbidden
+satisfies:
+- br-prd04-s12

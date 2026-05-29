@@ -1,0 +1,25 @@
+trajectory_id: journey-board-drag-success
+role: RTE approver
+journey: Board status update
+start_screen: safe-board
+steps:
+- index: 1
+  screen_or_state: Board
+  path_or_signal: /board#sprint
+  expected_state: default
+- index: 2
+  screen_or_state: Saving
+  path_or_signal: PUT /api/tasks/:id/status
+  expected_state: saving
+- index: 3
+  screen_or_state: Board
+  path_or_signal: /board#sprint
+  expected_state: default
+actions:
+- action-board-select-board
+- action-board-drag-card
+success_signal: Card moved with WIP policy honored
+error_recovery_included: false
+machine_evidence:
+- action-board-select-board
+- action-board-drag-card

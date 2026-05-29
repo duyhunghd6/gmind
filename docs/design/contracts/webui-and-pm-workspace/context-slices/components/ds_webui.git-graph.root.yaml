@@ -1,0 +1,42 @@
+screen_id: git-graph-explorer
+route: /git-graph
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.git-graph.root
+parent_ds_id: null
+ds_type: git_graph_workspace
+labels:
+  title: Git Graph Explorer
+  scenarios: gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace,
+    beads-deadlock, beads-ds-comp, beads-traversal, beads-sprint-review
+bindings:
+  graph: GET /api/git/graph?scenario=<id>
+  trace_overlay: GET /api/trace/:id?include=git
+actions:
+- id: action-git-graph-select-scenario
+  label: Select scenario hash
+  target_route: null
+  event: EVENT_GIT_GRAPH_SELECT_SCENARIO
+- id: action-git-graph-select-commit
+  label: Select commit detail
+  target_route: null
+  event: EVENT_GIT_GRAPH_SELECT_COMMIT
+- id: action-git-graph-open-trace
+  label: Open Beads trace
+  target_route: /trace/:id
+  event: EVENT_GIT_GRAPH_OPEN_TRACE
+machine_states:
+- GitGraphDefault
+- GitGraphLoading
+- GitGraphEmpty
+- GitGraphError
+- GitGraphOffline
+- GitGraphForbidden
+satisfies:
+- br-prd04-s16

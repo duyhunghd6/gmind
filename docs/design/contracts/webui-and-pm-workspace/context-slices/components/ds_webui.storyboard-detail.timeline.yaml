@@ -1,0 +1,25 @@
+screen_id: storyboard-detail
+route: /storyboards/:id
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- not_found
+ds_id: ds:webui.storyboard-detail.timeline
+parent_ds_id: ds:webui.storyboard-detail.root
+ds_type: step_timeline
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- StoryboardDetailDefault
+- StoryboardDetailLoading
+- StoryboardDetailEmpty
+- StoryboardDetailError
+- StoryboardDetailOffline
+- StoryboardDetailNotFound
+satisfies:
+- br-prd04-s17

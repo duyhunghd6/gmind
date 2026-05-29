@@ -1,0 +1,21 @@
+screen_id: trace-explorer
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- partial
+- forbidden
+viewport: Mobile
+width: 390
+layout_type: graph_explorer
+ds_id: ds:webui.trace.root
+responsive_assertion: simplified tree view with full-screen node detail overlay
+boundary_assertions:
+  loading: Graph canvas and detail panel skeletons with API progress text
+  empty: Không tìm thấy liên kết nào cho Beads ID này with ID check hint
+  error: Lỗi truy vấn graph từ gmind trace with retry action
+  partial: Local graph visible with enrichment still loading badge
+must_preserve_shell: true
+state_name: error

@@ -1,22 +1,53 @@
 {
   "ba_agent": "stage1_ba",
-  "iteration_analyzed": 1,
-  "action": "GATE_A_READY",
-  "current_score": 90,
-  "delta": "+0",
-  "convergence_reason": "Bypassing loop for YOLO execution.",
-  "agents_to_respawn": [],
-  "fix_queue_per_agent": {},
-  "skip_agents": ["gen_contracts", "gen_flows", "gen_wireframes"],
+  "iteration_analyzed": 12,
+  "action": "CONTINUE",
+  "current_score": 96,
+  "delta": "+13",
+  "convergence_reason": "Evaluator score is 96 with convergence_status GATE_A_READY, but the latest dispatcher Stage 1 QA failed 2 of 8 tests. Convergence rule 2 applies: QA has run and at least one QA test failed, so Gate A is blocked until the flow generator fixes storyboard step schema and artifact-index machine-evidence coverage.",
+  "agents_to_respawn": [
+    "gen_flows"
+  ],
+  "fix_queue_per_agent": {
+    "gen_flows": [
+      {
+        "fix": "T5 Storyboards: update storyboards.json trajectory steps to use required state, action, and assertion fields instead of screen_or_state, path_or_signal, and expected_state aliases.",
+        "priority": "P0",
+        "pillar": "derived_artifact_consistency"
+      },
+      {
+        "fix": "T8 Artifact budget/slices: mark storyboards.json as machine_evidence in artifact-index.json.",
+        "priority": "P0",
+        "pillar": "conflict_preview_readiness"
+      },
+      {
+        "fix": "T8 Artifact budget/slices: mark layout-rules.json as machine_evidence in artifact-index.json.",
+        "priority": "P0",
+        "pillar": "conflict_preview_readiness"
+      },
+      {
+        "fix": "T8 Artifact budget/slices: mark component-map.json as machine_evidence in artifact-index.json.",
+        "priority": "P0",
+        "pillar": "conflict_preview_readiness"
+      },
+      {
+        "fix": "T8 Artifact budget/slices: add preview/preview-manifest.json to artifact-index.json with machine-evidence/index-only treatment.",
+        "priority": "P0",
+        "pillar": "conflict_preview_readiness"
+      }
+    ]
+  },
+  "skip_agents": [
+    "gen_contracts",
+    "gen_wireframes",
+    "preview_script",
+    "prd_writer"
+  ],
   "qa_required": true,
-  "warnings": [],
-  "gate_a_summary": {
-    "score_history": [{"iter": 1, "score": 90}],
-    "final_score": 90,
-    "pillar_breakdown": {"container_validity": 15, "prd_coverage": 18, "component_traceability": 15, "logic_coverage": 10, "derived_artifact_consistency": 14, "conflict_preview_readiness": 10},
-    "qa_summary": null,
-    "warnings": [],
-    "artifacts_for_review": ["ui-contract.md", "context-slices/summary/contract-summary.yaml", "review-diagrams.md", "review-diagrams/*.md", "flow.md", "storyboards-review.html", "prd-ds-conflicts.md", "preview/index.html", "artifact-index.json"],
-    "machine_evidence": ["storyboards.json", "layout-rules.json", "component-map.json", "preview/preview-manifest.json"]
-  }
+  "warnings": [
+    "Dispatcher owners gen_storyboards and gen_artifact_index were normalized to gen_flows per Stage 1 BA owner taxonomy because storyboards, component map, layout rules, and artifact index are flow-generator responsibilities.",
+    "No standalone Mermaid .mmd files were found under /Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace.",
+    "The previously persisted qa-stage1-latest.json in pipeline state reports QA_PASS, but the dispatcher-provided latest QA result and docs/design/test-plans/webui-and-pm-workspace-qa-stage1-results.md report QA_FAIL; routing follows the latest dispatcher failure."
+  ],
+  "gate_a_summary": null
 }

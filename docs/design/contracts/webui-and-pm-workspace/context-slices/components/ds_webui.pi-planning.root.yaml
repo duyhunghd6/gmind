@@ -1,0 +1,49 @@
+screen_id: pi-planning
+route: /pi-planning
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+ds_id: ds:webui.pi-planning.root
+parent_ds_id: null
+ds_type: pi_planning_workspace
+labels:
+  title: PI Planning Interactive UI
+bindings:
+  features: GET /api/pi/features
+  plan_update: PUT /api/pi/plan
+  risks: GET /api/risks?view=roam
+  confidence_vote: POST /api/pi/confidence-vote
+actions:
+- id: action-pi-drag-feature
+  label: Drag feature from strategic pool to capacity plan
+  target_route: null
+  event: EVENT_PI_DRAG_FEATURE
+- id: action-pi-score-business-value
+  label: Score business value
+  target_route: null
+  event: EVENT_PI_SCORE_BUSINESS_VALUE
+- id: action-pi-submit-confidence-vote
+  label: Submit confidence vote
+  target_route: null
+  event: EVENT_PI_SUBMIT_CONFIDENCE_VOTE
+- id: action-pi-open-roam
+  label: Open ROAM board anchor
+  target_route: null
+  event: EVENT_PI_OPEN_ROAM
+machine_states:
+- PIPlanningDefault
+- PIPlanningLoading
+- PIPlanningEmpty
+- PIPlanningError
+- PIPlanningOffline
+- PIPlanningForbidden
+- PIPlanningSaving
+satisfies:
+- br-prd04-s3
+- br-prd04-s8

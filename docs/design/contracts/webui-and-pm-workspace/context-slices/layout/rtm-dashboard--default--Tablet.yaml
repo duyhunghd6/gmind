@@ -1,0 +1,18 @@
+screen_id: rtm-dashboard
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+viewport: Tablet
+width: 1024
+layout_type: dashboard_grid
+ds_id: ds:webui.rtm.root
+responsive_assertion: two stacked rows or one panel per row as space requires
+boundary_assertions:
+  loading: Skeleton KPI cards and panel skeletons
+  empty: Chưa có dữ liệu theo dõi with guide CTA
+  error: Không thể kết nối đến gmind serve with retry action
+must_preserve_shell: true
+state_name: default

@@ -1,0 +1,35 @@
+screen_id: storyboard-detail
+route: /storyboards/:id
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- not_found
+ds_id: ds:webui.storyboard-detail.root
+parent_ds_id: null
+ds_type: storyboard_detail
+labels:
+  title: Storyboard Detail
+bindings:
+  storyboard: GET /api/storyboards/:id
+actions:
+- id: action-storyboard-detail-open-screen
+  label: Open aligned screen path
+  target_route: null
+  event: EVENT_STORYBOARD_DETAIL_OPEN_SCREEN
+- id: action-storyboard-detail-back
+  label: Back to storyboards
+  target_route: /storyboards
+  event: EVENT_STORYBOARD_DETAIL_BACK
+machine_states:
+- StoryboardDetailDefault
+- StoryboardDetailLoading
+- StoryboardDetailEmpty
+- StoryboardDetailError
+- StoryboardDetailOffline
+- StoryboardDetailNotFound
+satisfies:
+- br-prd04-s17

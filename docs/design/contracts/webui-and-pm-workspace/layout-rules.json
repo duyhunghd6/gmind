@@ -1,13 +1,1259 @@
 {
   "feature": "webui-and-pm-workspace",
-  "viewports": [
-    {"name": "Desktop", "width": 1440},
-    {"name": "Tablet", "width": 1024},
-    {"name": "Mobile", "width": 390}
+  "generated_from": [
+    "ui-contract.md"
   ],
-  "rules": {
-    "global-shell": "Sidebar expands/collapses based on Toggle Sidebar action. Banner shown when offline.",
-    "rtm-dashboard": "Grid layout adjusting to viewports. 4 panels visible on Desktop, stacked on Mobile.",
-    "approval-gate": "Split view for evidence and decision. Stacked on Mobile."
-  }
+  "viewports": [
+    {
+      "name": "Desktop",
+      "width": 1440,
+      "constraints": {
+        "shell": "header plus expanded PM nav plus two-column or grid content",
+        "graph_detail": "side panel fixed at right"
+      }
+    },
+    {
+      "name": "Tablet",
+      "width": 1024,
+      "constraints": {
+        "shell": "compact PM nav with labels available by tooltip or disclosure",
+        "detail_panels": "side panels may become bottom sheets"
+      }
+    },
+    {
+      "name": "Mobile",
+      "width": 390,
+      "constraints": {
+        "shell": "PM nav hidden behind header menu",
+        "data_dense_views": "tables become cards or accordions",
+        "graph_detail": "full-screen detail overlay after node selection"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "screen_id": "global-shell",
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "shell",
+      "ds_id": "ds:webui.shell.root",
+      "responsive_assertion": "expanded 240px PM nav",
+      "boundary_assertions": {
+        "loading": "Layout-matched shell skeleton with nav placeholders",
+        "offline": "Read-only banner with queued write count and retry sync action",
+        "forbidden": "Permission banner with route-safe back action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "global-shell",
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "shell",
+      "ds_id": "ds:webui.shell.root",
+      "responsive_assertion": "compact icon nav",
+      "boundary_assertions": {
+        "loading": "Layout-matched shell skeleton with nav placeholders",
+        "offline": "Read-only banner with queued write count and retry sync action",
+        "forbidden": "Permission banner with route-safe back action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "global-shell",
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "shell",
+      "ds_id": "ds:webui.shell.root",
+      "responsive_assertion": "header menu opens full-screen PM nav",
+      "boundary_assertions": {
+        "loading": "Layout-matched shell skeleton with nav placeholders",
+        "offline": "Read-only banner with queued write count and retry sync action",
+        "forbidden": "Permission banner with route-safe back action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "dashboard_grid",
+      "ds_id": "ds:webui.rtm.root",
+      "responsive_assertion": "2 by 2 panel grid below KPI cards",
+      "boundary_assertions": {
+        "loading": "Skeleton KPI cards and panel skeletons",
+        "empty": "Chưa có dữ liệu theo dõi with guide CTA",
+        "error": "Không thể kết nối đến gmind serve with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "dashboard_grid",
+      "ds_id": "ds:webui.rtm.root",
+      "responsive_assertion": "two stacked rows or one panel per row as space requires",
+      "boundary_assertions": {
+        "loading": "Skeleton KPI cards and panel skeletons",
+        "empty": "Chưa có dữ liệu theo dõi with guide CTA",
+        "error": "Không thể kết nối đến gmind serve with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "dashboard_grid",
+      "ds_id": "ds:webui.rtm.root",
+      "responsive_assertion": "single-column panels with graph touch pan and zoom",
+      "boundary_assertions": {
+        "loading": "Skeleton KPI cards and panel skeletons",
+        "empty": "Chưa có dữ liệu theo dõi with guide CTA",
+        "error": "Không thể kết nối đến gmind serve with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "safe-board",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "kanban_board",
+      "ds_id": "ds:webui.board.root",
+      "responsive_assertion": "horizontal columns with WIP badges and stats strip",
+      "boundary_assertions": {
+        "loading": "Skeleton task cards inside each column",
+        "empty": "Chưa có task trong board này with clear filter CTA",
+        "error": "Không thể tải dữ liệu Board with retry action",
+        "offline": "Drag and drop disabled, cached cards remain readable"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "safe-board",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "kanban_board",
+      "ds_id": "ds:webui.board.root",
+      "responsive_assertion": "horizontal scroll columns",
+      "boundary_assertions": {
+        "loading": "Skeleton task cards inside each column",
+        "empty": "Chưa có task trong board này with clear filter CTA",
+        "error": "Không thể tải dữ liệu Board with retry action",
+        "offline": "Drag and drop disabled, cached cards remain readable"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "safe-board",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "kanban_board",
+      "ds_id": "ds:webui.board.root",
+      "responsive_assertion": "vertical task card list instead of full kanban",
+      "boundary_assertions": {
+        "loading": "Skeleton task cards inside each column",
+        "empty": "Chưa có task trong board này with clear filter CTA",
+        "error": "Không thể tải dữ liệu Board with retry action",
+        "offline": "Drag and drop disabled, cached cards remain readable"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "task-list",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "data_table",
+      "ds_id": "ds:webui.tasks.root",
+      "responsive_assertion": "full table with bulk action bar",
+      "boundary_assertions": {
+        "loading": "Ten skeleton rows",
+        "empty": "Không tìm thấy task phù hợp filter with clear filters CTA",
+        "error": "Không thể tải danh sách task từ FrankenSQLite with retry action",
+        "saving": "Bulk action bar disabled with row-level pending markers"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "task-list",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "data_table",
+      "ds_id": "ds:webui.tasks.root",
+      "responsive_assertion": "hide QA and PRD columns into expandable row detail",
+      "boundary_assertions": {
+        "loading": "Ten skeleton rows",
+        "empty": "Không tìm thấy task phù hợp filter with clear filters CTA",
+        "error": "Không thể tải danh sách task từ FrankenSQLite with retry action",
+        "saving": "Bulk action bar disabled with row-level pending markers"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "task-list",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "data_table",
+      "ds_id": "ds:webui.tasks.root",
+      "responsive_assertion": "task cards with tap-to-expand details",
+      "boundary_assertions": {
+        "loading": "Ten skeleton rows",
+        "empty": "Không tìm thấy task phù hợp filter with clear filters CTA",
+        "error": "Không thể tải danh sách task từ FrankenSQLite with retry action",
+        "saving": "Bulk action bar disabled with row-level pending markers"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "task-detail",
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "detail_page",
+      "ds_id": "ds:webui.task-detail.root",
+      "responsive_assertion": "task summary header above tab panel",
+      "boundary_assertions": {
+        "loading": "Header field skeleton and tab content skeleton",
+        "not_found": "Task không tồn tại hoặc đã bị xóa with link back to Tasks",
+        "offline": "Read-only fields and queued edit messaging",
+        "saving": "Inline saving marker beside edited field"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "task-detail",
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "detail_page",
+      "ds_id": "ds:webui.task-detail.root",
+      "responsive_assertion": "horizontally scrollable tabs",
+      "boundary_assertions": {
+        "loading": "Header field skeleton and tab content skeleton",
+        "not_found": "Task không tồn tại hoặc đã bị xóa with link back to Tasks",
+        "offline": "Read-only fields and queued edit messaging",
+        "saving": "Inline saving marker beside edited field"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "task-detail",
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "detail_page",
+      "ds_id": "ds:webui.task-detail.root",
+      "responsive_assertion": "field groups stack and tabs become accordion sections",
+      "boundary_assertions": {
+        "loading": "Header field skeleton and tab content skeleton",
+        "not_found": "Task không tồn tại hoặc đã bị xóa with link back to Tasks",
+        "offline": "Read-only fields and queued edit messaging",
+        "saving": "Inline saving marker beside edited field"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "trace-explorer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "graph_explorer",
+      "ds_id": "ds:webui.trace.root",
+      "responsive_assertion": "graph canvas 70 percent and detail panel 30 percent",
+      "boundary_assertions": {
+        "loading": "Graph canvas and detail panel skeletons with API progress text",
+        "empty": "Không tìm thấy liên kết nào cho Beads ID này with ID check hint",
+        "error": "Lỗi truy vấn graph từ gmind trace with retry action",
+        "partial": "Local graph visible with enrichment still loading badge"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "trace-explorer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "graph_explorer",
+      "ds_id": "ds:webui.trace.root",
+      "responsive_assertion": "detail panel as bottom sheet",
+      "boundary_assertions": {
+        "loading": "Graph canvas and detail panel skeletons with API progress text",
+        "empty": "Không tìm thấy liên kết nào cho Beads ID này with ID check hint",
+        "error": "Lỗi truy vấn graph từ gmind trace with retry action",
+        "partial": "Local graph visible with enrichment still loading badge"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "trace-explorer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "graph_explorer",
+      "ds_id": "ds:webui.trace.root",
+      "responsive_assertion": "simplified tree view with full-screen node detail overlay",
+      "boundary_assertions": {
+        "loading": "Graph canvas and detail panel skeletons with API progress text",
+        "empty": "Không tìm thấy liên kết nào cho Beads ID này with ID check hint",
+        "error": "Lỗi truy vấn graph từ gmind trace with retry action",
+        "partial": "Local graph visible with enrichment still loading badge"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "document-viewer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "document_viewer",
+      "ds_id": "ds:webui.docs.root",
+      "responsive_assertion": "document tree 280px and content panel",
+      "boundary_assertions": {
+        "loading": "Skeleton doc tree and content panel",
+        "empty": "Chưa có tài liệu nào được index with run reindex CTA",
+        "error": "Không thể tải tài liệu từ Zvec with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "document-viewer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "document_viewer",
+      "ds_id": "ds:webui.docs.root",
+      "responsive_assertion": "document tree becomes top selector",
+      "boundary_assertions": {
+        "loading": "Skeleton doc tree and content panel",
+        "empty": "Chưa có tài liệu nào được index with run reindex CTA",
+        "error": "Không thể tải tài liệu từ Zvec with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "document-viewer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "document_viewer",
+      "ds_id": "ds:webui.docs.root",
+      "responsive_assertion": "content-first with back-to-list control",
+      "boundary_assertions": {
+        "loading": "Skeleton doc tree and content panel",
+        "empty": "Chưa có tài liệu nào được index with run reindex CTA",
+        "error": "Không thể tải tài liệu từ Zvec with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "approval-gates",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "approval_workspace",
+      "ds_id": "ds:webui.approval.root",
+      "responsive_assertion": "queue, evidence, and decision columns",
+      "boundary_assertions": {
+        "loading": "Evidence aggregation skeletons",
+        "empty": "Không có yêu cầu phê duyệt nào đang chờ with history toggles",
+        "insufficient_evidence": "Approve disabled with missing evidence reason and refresh CTA",
+        "decision_submitted": "Audit receipt with decision ID actor timestamp and task link",
+        "error": "CI or GitHub evidence connection failure with retry and admin override policy"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "approval-gates",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "approval_workspace",
+      "ds_id": "ds:webui.approval.root",
+      "responsive_assertion": "stacked evidence and decision with sticky decision bar",
+      "boundary_assertions": {
+        "loading": "Evidence aggregation skeletons",
+        "empty": "Không có yêu cầu phê duyệt nào đang chờ with history toggles",
+        "insufficient_evidence": "Approve disabled with missing evidence reason and refresh CTA",
+        "decision_submitted": "Audit receipt with decision ID actor timestamp and task link",
+        "error": "CI or GitHub evidence connection failure with retry and admin override policy"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "approval-gates",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "approval_workspace",
+      "ds_id": "ds:webui.approval.root",
+      "responsive_assertion": "single-column review with bottom decision controls",
+      "boundary_assertions": {
+        "loading": "Evidence aggregation skeletons",
+        "empty": "Không có yêu cầu phê duyệt nào đang chờ with history toggles",
+        "insufficient_evidence": "Approve disabled with missing evidence reason and refresh CTA",
+        "decision_submitted": "Audit receipt with decision ID actor timestamp and task link",
+        "error": "CI or GitHub evidence connection failure with retry and admin override policy"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "search-results",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "search_workspace",
+      "ds_id": "ds:webui.search.root",
+      "responsive_assertion": "filter column, results list, detail sidebar",
+      "boundary_assertions": {
+        "loading": "Result card skeletons with searching backends message",
+        "empty": "Không tìm thấy kết quả cho query with query adjustment hint",
+        "error": "Lỗi kết nối Zvec hoặc FrankenSQLite with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "search-results",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "search_workspace",
+      "ds_id": "ds:webui.search.root",
+      "responsive_assertion": "filters collapse above results",
+      "boundary_assertions": {
+        "loading": "Result card skeletons with searching backends message",
+        "empty": "Không tìm thấy kết quả cho query with query adjustment hint",
+        "error": "Lỗi kết nối Zvec hoặc FrankenSQLite with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "search-results",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "search_workspace",
+      "ds_id": "ds:webui.search.root",
+      "responsive_assertion": "filters hidden behind dropdown and results full width",
+      "boundary_assertions": {
+        "loading": "Result card skeletons with searching backends message",
+        "empty": "Không tìm thấy kết quả cho query with query adjustment hint",
+        "error": "Lỗi kết nối Zvec hoặc FrankenSQLite with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "terminal-console",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "terminal_mosaic",
+      "ds_id": "ds:webui.terminal.root",
+      "responsive_assertion": "2 by 2 mosaic panes",
+      "boundary_assertions": {
+        "loading": "Stream connection skeleton panes",
+        "empty": "Chưa có session nào hoạt động with Task List CTA",
+        "error": "Không thể tải log stream with retry action",
+        "offline": "Cached read-only logs and controlled actions disabled"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "terminal-console",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "terminal_mosaic",
+      "ds_id": "ds:webui.terminal.root",
+      "responsive_assertion": "two-pane stack",
+      "boundary_assertions": {
+        "loading": "Stream connection skeleton panes",
+        "empty": "Chưa có session nào hoạt động with Task List CTA",
+        "error": "Không thể tải log stream with retry action",
+        "offline": "Cached read-only logs and controlled actions disabled"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "terminal-console",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "terminal_mosaic",
+      "ds_id": "ds:webui.terminal.root",
+      "responsive_assertion": "one pane at a time with scenario tabs",
+      "boundary_assertions": {
+        "loading": "Stream connection skeleton panes",
+        "empty": "Chưa có session nào hoạt động with Task List CTA",
+        "error": "Không thể tải log stream with retry action",
+        "offline": "Cached read-only logs and controlled actions disabled"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "timeline_workspace",
+      "ds_id": "ds:webui.timeline.root",
+      "responsive_assertion": "three-column file leases, activity feed, sprint day",
+      "boundary_assertions": {
+        "loading": "Timeline and lease card skeletons",
+        "empty": "Chưa có hoạt động trong khoảng thời gian này with clear filters CTA",
+        "error": "Không thể tải activity hoặc file leases with retry action",
+        "offline": "Stale data label and read-only controls"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "timeline_workspace",
+      "ds_id": "ds:webui.timeline.root",
+      "responsive_assertion": "two-column with sprint day below",
+      "boundary_assertions": {
+        "loading": "Timeline and lease card skeletons",
+        "empty": "Chưa có hoạt động trong khoảng thời gian này with clear filters CTA",
+        "error": "Không thể tải activity hoặc file leases with retry action",
+        "offline": "Stale data label and read-only controls"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "timeline_workspace",
+      "ds_id": "ds:webui.timeline.root",
+      "responsive_assertion": "stacked accordion sections",
+      "boundary_assertions": {
+        "loading": "Timeline and lease card skeletons",
+        "empty": "Chưa có hoạt động trong khoảng thời gian này with clear filters CTA",
+        "error": "Không thể tải activity hoặc file leases with retry action",
+        "offline": "Stale data label and read-only controls"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "git_graph_workspace",
+      "ds_id": "ds:webui.git-graph.root",
+      "responsive_assertion": "scenario list beside graph canvas and commit detail",
+      "boundary_assertions": {
+        "loading": "Progress bar while API analyzes git history",
+        "empty": "Không có commit phù hợp scenario or filter with reset CTA",
+        "error": "Không thể đọc dữ liệu local git with retry action",
+        "offline": "Cached graph visible and refresh disabled"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "git_graph_workspace",
+      "ds_id": "ds:webui.git-graph.root",
+      "responsive_assertion": "scenario list collapses above graph",
+      "boundary_assertions": {
+        "loading": "Progress bar while API analyzes git history",
+        "empty": "Không có commit phù hợp scenario or filter with reset CTA",
+        "error": "Không thể đọc dữ liệu local git with retry action",
+        "offline": "Cached graph visible and refresh disabled"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "git_graph_workspace",
+      "ds_id": "ds:webui.git-graph.root",
+      "responsive_assertion": "scenario selector and simplified vertical commit list",
+      "boundary_assertions": {
+        "loading": "Progress bar while API analyzes git history",
+        "empty": "Không có commit phù hợp scenario or filter with reset CTA",
+        "error": "Không thể đọc dữ liệu local git with retry action",
+        "offline": "Cached graph visible and refresh disabled"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "preset_graph_viewer",
+      "ds_id": "ds:webui.knowledge-graph.root",
+      "responsive_assertion": "preset list, graph canvas, selected-node banner",
+      "boundary_assertions": {
+        "loading": "Graph canvas skeleton and preset loading label",
+        "empty": "Chưa có liên kết tài liệu hoặc biểu đồ trống with link PRD CTA",
+        "error": "Lỗi truy xuất đồ thị từ gmind with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "preset_graph_viewer",
+      "ds_id": "ds:webui.knowledge-graph.root",
+      "responsive_assertion": "banner becomes bottom sheet",
+      "boundary_assertions": {
+        "loading": "Graph canvas skeleton and preset loading label",
+        "empty": "Chưa có liên kết tài liệu hoặc biểu đồ trống with link PRD CTA",
+        "error": "Lỗi truy xuất đồ thị từ gmind with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "preset_graph_viewer",
+      "ds_id": "ds:webui.knowledge-graph.root",
+      "responsive_assertion": "preset picker above touch graph and full-screen selected-node detail",
+      "boundary_assertions": {
+        "loading": "Graph canvas skeleton and preset loading label",
+        "empty": "Chưa có liên kết tài liệu hoặc biểu đồ trống with link PRD CTA",
+        "error": "Lỗi truy xuất đồ thị từ gmind with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "portfolio-view",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "portfolio_dashboard",
+      "ds_id": "ds:webui.portfolio.root",
+      "responsive_assertion": "portfolio table beside roadmap",
+      "boundary_assertions": {
+        "loading": "Portfolio row and roadmap skeletons",
+        "empty": "Chưa có epic trong portfolio with create or import CTA",
+        "error": "Không thể tải portfolio with retry action",
+        "forbidden": "Budget and private forecast fields hidden with role message"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "portfolio-view",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "portfolio_dashboard",
+      "ds_id": "ds:webui.portfolio.root",
+      "responsive_assertion": "roadmap stacks below table",
+      "boundary_assertions": {
+        "loading": "Portfolio row and roadmap skeletons",
+        "empty": "Chưa có epic trong portfolio with create or import CTA",
+        "error": "Không thể tải portfolio with retry action",
+        "forbidden": "Budget and private forecast fields hidden with role message"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "portfolio-view",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "portfolio_dashboard",
+      "ds_id": "ds:webui.portfolio.root",
+      "responsive_assertion": "epic summary cards with roadmap accordion",
+      "boundary_assertions": {
+        "loading": "Portfolio row and roadmap skeletons",
+        "empty": "Chưa có epic trong portfolio with create or import CTA",
+        "error": "Không thể tải portfolio with retry action",
+        "forbidden": "Budget and private forecast fields hidden with role message"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "pi-planning",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "pi_planning_workspace",
+      "ds_id": "ds:webui.pi-planning.root",
+      "responsive_assertion": "strategic pool and capacity plan side by side with scoring and ROAM below",
+      "boundary_assertions": {
+        "loading": "Feature pool and capacity skeletons",
+        "empty": "Chưa có feature cho PI này with import feature CTA",
+        "error": "Không thể tải PI planning data with retry action",
+        "offline": "Planning edits disabled and cached plan visible",
+        "saving": "Confidence vote and plan update show pending state"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "pi-planning",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "pi_planning_workspace",
+      "ds_id": "ds:webui.pi-planning.root",
+      "responsive_assertion": "pool and plan stack with drag handles preserved",
+      "boundary_assertions": {
+        "loading": "Feature pool and capacity skeletons",
+        "empty": "Chưa có feature cho PI này with import feature CTA",
+        "error": "Không thể tải PI planning data with retry action",
+        "offline": "Planning edits disabled and cached plan visible",
+        "saving": "Confidence vote and plan update show pending state"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "pi-planning",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "pi_planning_workspace",
+      "ds_id": "ds:webui.pi-planning.root",
+      "responsive_assertion": "PI sections become accordions with controlled drag alternative",
+      "boundary_assertions": {
+        "loading": "Feature pool and capacity skeletons",
+        "empty": "Chưa có feature cho PI này with import feature CTA",
+        "error": "Không thể tải PI planning data with retry action",
+        "offline": "Planning edits disabled and cached plan visible",
+        "saving": "Confidence vote and plan update show pending state"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "storyboard_overview",
+      "ds_id": "ds:webui.storyboards.root",
+      "responsive_assertion": "journey filter beside horizontal use-case flow and guidance panel",
+      "boundary_assertions": {
+        "loading": "Flow row and guidance panel skeletons",
+        "empty": "Không tìm thấy Storyboard cho module này with show all CTA",
+        "error": "Không thể tải storyboard metadata with retry action",
+        "offline": "Cached storyboard read-only and local CTAs remain active"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "storyboard_overview",
+      "ds_id": "ds:webui.storyboards.root",
+      "responsive_assertion": "filters collapse above flow",
+      "boundary_assertions": {
+        "loading": "Flow row and guidance panel skeletons",
+        "empty": "Không tìm thấy Storyboard cho module này with show all CTA",
+        "error": "Không thể tải storyboard metadata with retry action",
+        "offline": "Cached storyboard read-only and local CTAs remain active"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "storyboard_overview",
+      "ds_id": "ds:webui.storyboards.root",
+      "responsive_assertion": "flow nodes become vertical stepper",
+      "boundary_assertions": {
+        "loading": "Flow row and guidance panel skeletons",
+        "empty": "Không tìm thấy Storyboard cho module này with show all CTA",
+        "error": "Không thể tải storyboard metadata with retry action",
+        "offline": "Cached storyboard read-only and local CTAs remain active"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "storyboard_detail",
+      "ds_id": "ds:webui.storyboard-detail.root",
+      "responsive_assertion": "role and journey summary beside step timeline",
+      "boundary_assertions": {
+        "loading": "Storyboard detail skeleton",
+        "empty": "Storyboard has no steps with back CTA",
+        "not_found": "Storyboard ID not found with back CTA",
+        "error": "Không thể tải storyboard detail with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "storyboard_detail",
+      "ds_id": "ds:webui.storyboard-detail.root",
+      "responsive_assertion": "summary above timeline",
+      "boundary_assertions": {
+        "loading": "Storyboard detail skeleton",
+        "empty": "Storyboard has no steps with back CTA",
+        "not_found": "Storyboard ID not found with back CTA",
+        "error": "Không thể tải storyboard detail with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "storyboard_detail",
+      "ds_id": "ds:webui.storyboard-detail.root",
+      "responsive_assertion": "vertical timeline cards",
+      "boundary_assertions": {
+        "loading": "Storyboard detail skeleton",
+        "empty": "Storyboard has no steps with back CTA",
+        "not_found": "Storyboard ID not found with back CTA",
+        "error": "Không thể tải storyboard detail with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "components-catalog",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "viewport": "Desktop",
+      "width": 1440,
+      "layout_type": "component_catalog",
+      "ds_id": "ds:webui.components.root",
+      "responsive_assertion": "section navigation beside examples grid",
+      "boundary_assertions": {
+        "loading": "Component example skeletons",
+        "empty": "No component sections registered with registry review CTA",
+        "error": "Component catalog failed to load with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "components-catalog",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "viewport": "Tablet",
+      "width": 1024,
+      "layout_type": "component_catalog",
+      "ds_id": "ds:webui.components.root",
+      "responsive_assertion": "section navigation becomes sticky top list",
+      "boundary_assertions": {
+        "loading": "Component example skeletons",
+        "empty": "No component sections registered with registry review CTA",
+        "error": "Component catalog failed to load with retry action"
+      },
+      "must_preserve_shell": true
+    },
+    {
+      "screen_id": "components-catalog",
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "viewport": "Mobile",
+      "width": 390,
+      "layout_type": "component_catalog",
+      "ds_id": "ds:webui.components.root",
+      "responsive_assertion": "single-column anchored examples",
+      "boundary_assertions": {
+        "loading": "Component example skeletons",
+        "empty": "No component sections registered with registry review CTA",
+        "error": "Component catalog failed to load with retry action"
+      },
+      "must_preserve_shell": true
+    }
+  ]
 }

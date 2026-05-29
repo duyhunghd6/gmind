@@ -1,0 +1,25 @@
+trajectory_id: journey-doc-trace
+role: QA reviewer
+journey: Document trace
+start_screen: document-viewer
+steps:
+- index: 1
+  screen_or_state: Docs
+  path_or_signal: /docs
+  expected_state: default
+- index: 2
+  screen_or_state: PRD doc
+  path_or_signal: /docs/:id
+  expected_state: default
+- index: 3
+  screen_or_state: Trace
+  path_or_signal: /trace/:id
+  expected_state: default
+actions:
+- action-docs-select-document
+- action-docs-open-trace
+success_signal: Beads id opens trace
+error_recovery_included: false
+machine_evidence:
+- action-docs-select-document
+- action-docs-open-trace

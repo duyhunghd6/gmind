@@ -1,0 +1,24 @@
+screen_id: approval-gates
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- insufficient_evidence
+- decision_submitted
+viewport: Tablet
+width: 1024
+layout_type: approval_workspace
+ds_id: ds:webui.approval.root
+responsive_assertion: stacked evidence and decision with sticky decision bar
+boundary_assertions:
+  loading: Evidence aggregation skeletons
+  empty: Không có yêu cầu phê duyệt nào đang chờ with history toggles
+  insufficient_evidence: Approve disabled with missing evidence reason and refresh
+    CTA
+  decision_submitted: Audit receipt with decision ID actor timestamp and task link
+  error: CI or GitHub evidence connection failure with retry and admin override policy
+must_preserve_shell: true
+state_name: loading

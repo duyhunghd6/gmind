@@ -1,0 +1,48 @@
+screen_id: search-results
+route: /search
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.search.root
+parent_ds_id: null
+ds_type: search_workspace
+labels:
+  title: Search Results
+  filters: all, doc, commit, task, adr, chat, spike
+bindings:
+  results: GET /api/search?q=<query>&type=<type>
+actions:
+- id: action-search-submit-query
+  label: Submit query
+  target_route: null
+  event: EVENT_SEARCH_SUBMIT_QUERY
+- id: action-search-select-filter
+  label: Select type filter hash
+  target_route: null
+  event: EVENT_SEARCH_SELECT_FILTER
+- id: action-search-open-result-task
+  label: Open task result
+  target_route: /tasks/:id
+  event: EVENT_SEARCH_OPEN_RESULT_TASK
+- id: action-search-open-result-doc
+  label: Open document result
+  target_route: /docs/:id
+  event: EVENT_SEARCH_OPEN_RESULT_DOC
+- id: action-search-open-result-trace
+  label: Open trace result
+  target_route: /trace/:id
+  event: EVENT_SEARCH_OPEN_RESULT_TRACE
+machine_states:
+- SearchDefault
+- SearchLoading
+- SearchEmpty
+- SearchError
+- SearchOffline
+- SearchForbidden
+satisfies:
+- br-prd04-s12

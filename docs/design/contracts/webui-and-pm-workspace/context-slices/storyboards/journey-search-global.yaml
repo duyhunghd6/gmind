@@ -1,0 +1,27 @@
+trajectory_id: journey-search-global
+role: Feature team agent
+journey: Quick search
+start_screen: global-shell
+steps:
+- index: 1
+  screen_or_state: Shell
+  path_or_signal: Ctrl+K
+  expected_state: default
+- index: 2
+  screen_or_state: Search
+  path_or_signal: /search?q=<query>
+  expected_state: default
+- index: 3
+  screen_or_state: Task Detail
+  path_or_signal: /tasks/:id
+  expected_state: default
+actions:
+- action-shell-open-search
+- action-shell-submit-search
+- action-search-open-result-task
+success_signal: Grouped search result opens target
+error_recovery_included: false
+machine_evidence:
+- action-shell-open-search
+- action-shell-submit-search
+- action-search-open-result-task

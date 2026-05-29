@@ -1,0 +1,17 @@
+screen_id: components-catalog
+state_names:
+- default
+- loading
+- empty
+- error
+viewport: Tablet
+width: 1024
+layout_type: component_catalog
+ds_id: ds:webui.components.root
+responsive_assertion: section navigation becomes sticky top list
+boundary_assertions:
+  loading: Component example skeletons
+  empty: No component sections registered with registry review CTA
+  error: Component catalog failed to load with retry action
+must_preserve_shell: true
+state_name: default

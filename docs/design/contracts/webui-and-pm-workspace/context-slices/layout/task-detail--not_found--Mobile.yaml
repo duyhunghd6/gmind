@@ -1,0 +1,20 @@
+screen_id: task-detail
+state_names:
+- default
+- loading
+- error
+- offline
+- saving
+- not_found
+viewport: Mobile
+width: 390
+layout_type: detail_page
+ds_id: ds:webui.task-detail.root
+responsive_assertion: field groups stack and tabs become accordion sections
+boundary_assertions:
+  loading: Header field skeleton and tab content skeleton
+  not_found: Task không tồn tại hoặc đã bị xóa with link back to Tasks
+  offline: Read-only fields and queued edit messaging
+  saving: Inline saving marker beside edited field
+must_preserve_shell: true
+state_name: not_found

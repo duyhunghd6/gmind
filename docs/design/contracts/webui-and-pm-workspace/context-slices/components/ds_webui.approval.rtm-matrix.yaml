@@ -1,0 +1,31 @@
+screen_id: approval-gates
+route: /approval
+route_variants:
+- /tasks/:id#approval
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- insufficient_evidence
+- decision_submitted
+ds_id: ds:webui.approval.rtm-matrix
+parent_ds_id: ds:webui.approval.root
+ds_type: rtm_matrix
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- ApprovalDefault
+- ApprovalLoading
+- ApprovalEmpty
+- ApprovalError
+- ApprovalOffline
+- ApprovalForbidden
+- ApprovalInsufficientEvidence
+- ApprovalDecisionSubmitted
+satisfies:
+- br-prd04-s4
+- br-prd04-s7

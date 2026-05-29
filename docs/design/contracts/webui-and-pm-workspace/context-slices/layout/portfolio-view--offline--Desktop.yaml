@@ -1,0 +1,20 @@
+screen_id: portfolio-view
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Desktop
+width: 1440
+layout_type: portfolio_dashboard
+ds_id: ds:webui.portfolio.root
+responsive_assertion: portfolio table beside roadmap
+boundary_assertions:
+  loading: Portfolio row and roadmap skeletons
+  empty: Chưa có epic trong portfolio with create or import CTA
+  error: Không thể tải portfolio with retry action
+  forbidden: Budget and private forecast fields hidden with role message
+must_preserve_shell: true
+state_name: offline

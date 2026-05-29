@@ -1,0 +1,61 @@
+screen_id: approval-gates
+route: /approval
+route_variants:
+- /tasks/:id#approval
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- insufficient_evidence
+- decision_submitted
+ds_id: ds:webui.approval.root
+parent_ds_id: null
+ds_type: approval_workspace
+labels:
+  title: Level 3 Approval Gates
+  anchors: '#panels, #rtm, #heatmap'
+bindings:
+  queue: GET /api/tasks?status=pending-approval
+  evidence: GET /api/approval/:id/evidence
+  coverage: GET /api/coverage
+  decision: POST /api/approval/:id/decision
+actions:
+- id: action-approval-select-task
+  label: Select approval task
+  target_route: null
+  event: EVENT_APPROVAL_SELECT_TASK
+- id: action-approval-refresh-evidence
+  label: Refresh evidence
+  target_route: null
+  event: EVENT_APPROVAL_REFRESH_EVIDENCE
+- id: action-approval-approve
+  label: Approve with valid evidence
+  target_route: null
+  event: EVENT_APPROVAL_APPROVE
+- id: action-approval-reject
+  label: Reject with reason
+  target_route: null
+  event: EVENT_APPROVAL_REJECT
+- id: action-approval-request-changes
+  label: Request changes
+  target_route: null
+  event: EVENT_APPROVAL_REQUEST_CHANGES
+- id: action-approval-open-trace
+  label: Open RTM lineage
+  target_route: /trace/:id
+  event: EVENT_APPROVAL_OPEN_TRACE
+machine_states:
+- ApprovalDefault
+- ApprovalLoading
+- ApprovalEmpty
+- ApprovalError
+- ApprovalOffline
+- ApprovalForbidden
+- ApprovalInsufficientEvidence
+- ApprovalDecisionSubmitted
+satisfies:
+- br-prd04-s4
+- br-prd04-s7

@@ -1,0 +1,27 @@
+trajectory_id: journey-board-drag-conflict
+role: RTE approver
+journey: Board conflict recovery
+start_screen: safe-board
+steps:
+- index: 1
+  screen_or_state: Board
+  path_or_signal: /board
+  expected_state: default
+- index: 2
+  screen_or_state: Saving
+  path_or_signal: PUT status
+  expected_state: saving
+- index: 3
+  screen_or_state: Error
+  path_or_signal: API conflict rollback
+  expected_state: default
+- index: 4
+  screen_or_state: Board
+  path_or_signal: retry after policy fix
+  expected_state: default
+actions:
+- action-board-drag-card
+success_signal: Rollback and retry shown
+error_recovery_included: true
+machine_evidence:
+- action-board-drag-card

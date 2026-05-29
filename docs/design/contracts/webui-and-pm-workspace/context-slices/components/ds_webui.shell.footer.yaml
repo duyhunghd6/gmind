@@ -1,0 +1,22 @@
+screen_id: global-shell
+route: /webui-pm-workspace
+route_variants: []
+state_names:
+- default
+- loading
+- offline
+- forbidden
+ds_id: ds:webui.shell.footer
+parent_ds_id: ds:webui.shell.root
+ds_type: footer
+labels:
+  text: gmind version, FrankenSQLite sync status, API uptime
+bindings: {}
+actions: []
+machine_states:
+- ShellDefault
+- ShellLoading
+- ShellOffline
+- ShellForbidden
+satisfies:
+- br-prd04-s8

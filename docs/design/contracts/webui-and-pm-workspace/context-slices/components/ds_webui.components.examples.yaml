@@ -1,0 +1,22 @@
+screen_id: components-catalog
+route: /components
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+ds_id: ds:webui.components.examples
+parent_ds_id: ds:webui.components.root
+ds_type: examples_region
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- ComponentsDefault
+- ComponentsLoading
+- ComponentsEmpty
+- ComponentsError
+satisfies:
+- br-prd04-s8
+- br-prd04-s18

@@ -1,0 +1,27 @@
+screen_id: global-shell
+route: /webui-pm-workspace
+route_variants: []
+state_names:
+- default
+- loading
+- offline
+- forbidden
+ds_id: ds:webui.shell.global-search
+parent_ds_id: ds:webui.shell.root
+ds_type: search_combobox
+labels:
+  placeholder: Tìm tasks, tài liệu, commits, code... (Ctrl+K)
+bindings:
+  suggestions: GET /api/search?q=<query>&type=all&limit=5
+actions:
+- id: action-shell-submit-search
+  label: Search
+  target_route: /search?q=<query>
+  event: EVENT_SHELL_SUBMIT_SEARCH
+machine_states:
+- ShellDefault
+- ShellLoading
+- ShellOffline
+- ShellForbidden
+satisfies:
+- br-prd04-s8

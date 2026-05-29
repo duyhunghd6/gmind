@@ -1,0 +1,88 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 12,
+  "score": 96,
+  "convergence_status": "GATE_A_READY",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses as multi-line YAML, not JSON; Mermaid has 287 transitions and direction LR."
+    },
+    "prd_coverage": {
+      "score": 19,
+      "max": 20,
+      "tool_evidence": "18 screens define 19 discovered routes and 11 state names; metadata.satisfies has 17 PRD-04/root IDs covering the WebUI PM Workspace route families, approval, trace, docs, task, search, terminal, timeline, git graph, storyboard, and acceptance scope."
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "84 YAML ds_id values are unique; component-map.json has 84 matching ds_id values with 0 missing and 0 extra across 82 DS/layout component types."
+    },
+    "logic_coverage": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "71 YAML screen actions plus 91 action_catalog EVENT_* IDs are covered by 91 Mermaid EVENT_* tokens; 0 unmatched YAML events and 0 unmatched Mermaid events; state machine includes retry, back/navigation, offline, forbidden, not_found, partial, saving, conflict, and submitted outcomes."
+    },
+    "derived_artifact_consistency": {
+      "score": 14,
+      "max": 15,
+      "tool_evidence": "validate_mermaid_markdown.py PASS; flow.md has exactly 1 non-empty Mermaid stateDiagram-v2 block with direction LR; review-diagrams.md has 10 valid non-empty Mermaid blocks; storyboards/layout-rules/component-map/artifact-index/preview-manifest JSON parse; storyboards=12 trajectories, layout rules=54, artifact index=422 entries, context slices=417 valid YAML files; no standalone .mmd files."
+    },
+    "conflict_preview_readiness": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "contract_to_ui.py returned status OK with 0 warnings; preview HTML contains SSOT, Mermaid, flow, storyboard, component, layout, conflict, and review sections; prd-ds-conflicts.md records 2 conflicts with severities, proposed resolutions, and owners; large artifacts are indexed and covered by context slices/review HTML."
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_block_style": true,
+    "yaml_starts_json": false,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [],
+    "standalone_mmd_files_under_contract_path": 0,
+    "metadata_satisfies_count": 17,
+    "screens_defined": 18,
+    "routes_discovered": 19,
+    "states_discovered": 11,
+    "yaml_actions_defined": 71,
+    "action_catalog_events": 91,
+    "yaml_ds_ids": 84,
+    "component_map_ds_ids": 84,
+    "component_map_missing_ids": 0,
+    "component_map_extra_ids": 0,
+    "component_types_count": 82,
+    "mermaid_transitions": 287,
+    "mermaid_event_tokens": 91,
+    "mermaid_direction_lr": true,
+    "storyboard_trajectories": 12,
+    "layout_rules": 54,
+    "artifact_index_entries": 422,
+    "context_slice_files": 417,
+    "context_slice_valid_parse_count": 417,
+    "json_artifacts_valid": true,
+    "invalid_load_policy_count": 0,
+    "mermaid_markdown_validator_status": "PASS",
+    "flow_mermaid_blocks": 1,
+    "review_diagrams_mermaid_blocks": 10,
+    "review_diagrams_duplicate_node_ids": [],
+    "preview_status": "OK",
+    "preview_warnings": 0,
+    "preview_html_expected_sections_present": true,
+    "prd_ds_conflict_rows": 2,
+    "baseline_features_processed": 0,
+    "baseline_regression_check_applicable": false
+  },
+  "fix_queue": [],
+  "baseline_regression": false,
+  "issues": [
+    "PASS: canonical feature normalization is webui-and-pm-workspace and all evaluated Stage 1 artifacts are under docs/design/contracts/webui-and-pm-workspace.",
+    "PASS: prior P0 logic gap is resolved by action_catalog coverage: every Mermaid EVENT_* now has a YAML action source and every YAML EVENT_* appears in Mermaid.",
+    "PASS: preview warning regression is resolved; regenerated preview reports status OK and 0 warnings.",
+    "PASS: prior review-diagrams duplicate node id is resolved; Mermaid Markdown validator passes with no warnings/errors.",
+    "NOTE: PRD coverage is strong but not perfect because metadata.satisfies is concise rather than listing every PRD subsection individually; no P0 remains."
+  ]
+}

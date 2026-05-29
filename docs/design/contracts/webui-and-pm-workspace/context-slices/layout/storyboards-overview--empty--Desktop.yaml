@@ -1,0 +1,20 @@
+screen_id: storyboards-overview
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+viewport: Desktop
+width: 1440
+layout_type: storyboard_overview
+ds_id: ds:webui.storyboards.root
+responsive_assertion: journey filter beside horizontal use-case flow and guidance
+  panel
+boundary_assertions:
+  loading: Flow row and guidance panel skeletons
+  empty: Không tìm thấy Storyboard cho module này with show all CTA
+  error: Không thể tải storyboard metadata with retry action
+  offline: Cached storyboard read-only and local CTAs remain active
+must_preserve_shell: true
+state_name: empty

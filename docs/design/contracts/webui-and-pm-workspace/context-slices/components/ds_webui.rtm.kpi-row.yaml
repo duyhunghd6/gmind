@@ -1,0 +1,24 @@
+screen_id: rtm-dashboard
+route: /
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+ds_id: ds:webui.rtm.kpi-row
+parent_ds_id: ds:webui.rtm.root
+ds_type: kpi_row
+labels:
+  cards: Coverage percent, Tasks done, Gaps found
+bindings: {}
+actions: []
+machine_states:
+- DashboardDefault
+- DashboardLoading
+- DashboardEmpty
+- DashboardError
+- DashboardOffline
+satisfies:
+- br-prd04-s6

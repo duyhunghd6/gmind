@@ -1,0 +1,25 @@
+trajectory_id: journey-rtm-gap-resolution
+role: PMO reviewer
+journey: RTM gap resolution
+start_screen: rtm-dashboard
+steps:
+- index: 1
+  screen_or_state: Dashboard
+  path_or_signal: /
+  expected_state: default
+- index: 2
+  screen_or_state: Gap panel
+  path_or_signal: create gap plan
+  expected_state: default
+- index: 3
+  screen_or_state: Task List
+  path_or_signal: /tasks?status=open
+  expected_state: default
+actions:
+- action-rtm-create-gap-plan
+- action-rtm-filter-tasks
+success_signal: Gap plan action traceable
+error_recovery_included: false
+machine_evidence:
+- action-rtm-create-gap-plan
+- action-rtm-filter-tasks

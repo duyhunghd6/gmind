@@ -1,0 +1,19 @@
+screen_id: search-results
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Desktop
+width: 1440
+layout_type: search_workspace
+ds_id: ds:webui.search.root
+responsive_assertion: filter column, results list, detail sidebar
+boundary_assertions:
+  loading: Result card skeletons with searching backends message
+  empty: Không tìm thấy kết quả cho query with query adjustment hint
+  error: Lỗi kết nối Zvec hoặc FrankenSQLite with retry action
+must_preserve_shell: true
+state_name: default

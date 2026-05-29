@@ -1,0 +1,25 @@
+screen_id: git-graph-explorer
+route: /git-graph
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.git-graph.commit-detail
+parent_ds_id: ds:webui.git-graph.root
+ds_type: commit_detail
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- GitGraphDefault
+- GitGraphLoading
+- GitGraphEmpty
+- GitGraphError
+- GitGraphOffline
+- GitGraphForbidden
+satisfies:
+- br-prd04-s16

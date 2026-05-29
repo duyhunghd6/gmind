@@ -1,8 +1,3158 @@
 {
   "feature": "webui-and-pm-workspace",
-  "components": {
-    "global-shell": ["Header Bar", "Sidebar", "Main Content Area", "Footer", "Global Search Bar", "Online Status"],
-    "rtm-dashboard": ["Panel 1: Coverage Heatmap", "Panel 2: Task Progress", "Panel 3: Knowledge Graph", "Panel 4: Gap Analysis"],
-    "approval-gate": ["Queue Panel", "Evidence Hub", "Decision Box"]
+  "generated_from": [
+    "ui-contract.md",
+    "PRD-04-WebUI-and-PM-Workspace.md"
+  ],
+  "component_count": 84,
+  "components": [
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.shell.root",
+      "parent_ds_id": null,
+      "ds_type": "shell",
+      "labels": {
+        "title": "PM Workspace Shell",
+        "purpose": "Persistent header, global search, route nav, status, and footer for all PM screens"
+      },
+      "bindings": {
+        "route_state": "active core route or hash surface",
+        "sync_status": "API health and offline queue state",
+        "user_role": "permission policy from Go REST API"
+      },
+      "actions": [
+        {
+          "id": "action-shell-open-search",
+          "label": "Focus global search",
+          "target_route": "/search",
+          "event": "EVENT_SHELL_OPEN_SEARCH"
+        },
+        {
+          "id": "action-shell-toggle-nav",
+          "label": "Toggle PM navigation",
+          "target_route": null,
+          "event": "EVENT_SHELL_TOGGLE_NAV"
+        },
+        {
+          "id": "action-shell-retry-sync",
+          "label": "Retry sync",
+          "target_route": null,
+          "event": "EVENT_SHELL_RETRY_SYNC"
+        }
+      ],
+      "machine_states": [
+        "ShellDefault",
+        "ShellLoading",
+        "ShellOffline",
+        "ShellForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.shell.header",
+      "parent_ds_id": "ds:webui.shell.root",
+      "ds_type": "header",
+      "labels": {
+        "title": "Website header",
+        "active_item": "PM Space"
+      },
+      "bindings": {},
+      "actions": [
+        {
+          "id": "action-shell-header-pm-space",
+          "label": "Open /webui-pm-workspace",
+          "target_route": "/webui-pm-workspace",
+          "event": "EVENT_SHELL_HEADER_PM_SPACE"
+        }
+      ],
+      "machine_states": [
+        "ShellDefault",
+        "ShellLoading",
+        "ShellOffline",
+        "ShellForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.shell.global-search",
+      "parent_ds_id": "ds:webui.shell.root",
+      "ds_type": "search_combobox",
+      "labels": {
+        "placeholder": "Tìm tasks, tài liệu, commits, code... (Ctrl+K)"
+      },
+      "bindings": {
+        "suggestions": "GET /api/search?q=<query>&type=all&limit=5"
+      },
+      "actions": [
+        {
+          "id": "action-shell-submit-search",
+          "label": "Search",
+          "target_route": "/search?q=<query>",
+          "event": "EVENT_SHELL_SUBMIT_SEARCH"
+        }
+      ],
+      "machine_states": [
+        "ShellDefault",
+        "ShellLoading",
+        "ShellOffline",
+        "ShellForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.shell.pm-nav",
+      "parent_ds_id": "ds:webui.shell.root",
+      "ds_type": "nav",
+      "labels": {
+        "items": "Dashboard, Board, Tasks, Trace, Docs, Approval, Search, Terminal, Timeline, Git Graph, Knowledge Graph, Portfolio, PI Planning, Storyboards, Components"
+      },
+      "bindings": {
+        "active_route": "client route path and hash"
+      },
+      "actions": [],
+      "machine_states": [
+        "ShellDefault",
+        "ShellLoading",
+        "ShellOffline",
+        "ShellForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.shell.main-region",
+      "parent_ds_id": "ds:webui.shell.root",
+      "ds_type": "main_region",
+      "labels": {},
+      "bindings": {
+        "content": "active screen layout"
+      },
+      "actions": [],
+      "machine_states": [
+        "ShellDefault",
+        "ShellLoading",
+        "ShellOffline",
+        "ShellForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.shell.footer",
+      "parent_ds_id": "ds:webui.shell.root",
+      "ds_type": "footer",
+      "labels": {
+        "text": "gmind version, FrankenSQLite sync status, API uptime"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ShellDefault",
+        "ShellLoading",
+        "ShellOffline",
+        "ShellForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "route": "/",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.rtm.root",
+      "parent_ds_id": null,
+      "ds_type": "dashboard_grid",
+      "labels": {
+        "title": "RTM Dashboard",
+        "structure": "KPI row above four review panels"
+      },
+      "bindings": {
+        "coverage": "GET /api/coverage",
+        "gaps": "GET /api/gaps",
+        "tasks": "GET /api/tasks",
+        "trace": "GET /api/trace/:id?depth=full"
+      },
+      "actions": [
+        {
+          "id": "action-rtm-open-trace",
+          "label": "Open section trace",
+          "target_route": "/trace/:id",
+          "event": "EVENT_RTM_OPEN_TRACE"
+        },
+        {
+          "id": "action-rtm-filter-tasks",
+          "label": "Filter tasks by status",
+          "target_route": "/tasks?status=<status>",
+          "event": "EVENT_RTM_FILTER_TASKS"
+        },
+        {
+          "id": "action-rtm-open-doc",
+          "label": "Open linked document",
+          "target_route": "/docs/:id",
+          "event": "EVENT_RTM_OPEN_DOC"
+        },
+        {
+          "id": "action-rtm-create-gap-plan",
+          "label": "Create plan for gap",
+          "target_route": null,
+          "event": "EVENT_RTM_CREATE_GAP_PLAN"
+        }
+      ],
+      "machine_states": [
+        "DashboardDefault",
+        "DashboardLoading",
+        "DashboardEmpty",
+        "DashboardError",
+        "DashboardOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s6"
+      ]
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "route": "/",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.rtm.kpi-row",
+      "parent_ds_id": "ds:webui.rtm.root",
+      "ds_type": "kpi_row",
+      "labels": {
+        "cards": "Coverage percent, Tasks done, Gaps found"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DashboardDefault",
+        "DashboardLoading",
+        "DashboardEmpty",
+        "DashboardError",
+        "DashboardOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s6"
+      ]
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "route": "/",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.rtm.coverage-heatmap",
+      "parent_ds_id": "ds:webui.rtm.root",
+      "ds_type": "heatmap_panel",
+      "labels": {
+        "title": "Panel 1 Coverage Heatmap"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DashboardDefault",
+        "DashboardLoading",
+        "DashboardEmpty",
+        "DashboardError",
+        "DashboardOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s6"
+      ]
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "route": "/",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.rtm.task-progress",
+      "parent_ds_id": "ds:webui.rtm.root",
+      "ds_type": "progress_panel",
+      "labels": {
+        "title": "Panel 2 Task Progress"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DashboardDefault",
+        "DashboardLoading",
+        "DashboardEmpty",
+        "DashboardError",
+        "DashboardOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s6"
+      ]
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "route": "/",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.rtm.knowledge-graph-widget",
+      "parent_ds_id": "ds:webui.rtm.root",
+      "ds_type": "graph_widget",
+      "labels": {
+        "title": "Panel 3 Knowledge Graph"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DashboardDefault",
+        "DashboardLoading",
+        "DashboardEmpty",
+        "DashboardError",
+        "DashboardOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s6"
+      ]
+    },
+    {
+      "screen_id": "rtm-dashboard",
+      "route": "/",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.rtm.gap-analysis",
+      "parent_ds_id": "ds:webui.rtm.root",
+      "ds_type": "gap_panel",
+      "labels": {
+        "title": "Panel 4 Gap Analysis"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DashboardDefault",
+        "DashboardLoading",
+        "DashboardEmpty",
+        "DashboardError",
+        "DashboardOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s6"
+      ]
+    },
+    {
+      "screen_id": "safe-board",
+      "route": "/board",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.board.root",
+      "parent_ds_id": null,
+      "ds_type": "kanban_board",
+      "labels": {
+        "title": "SAFe Board",
+        "hash_routes": "#sprint, #release, #bug-triage"
+      },
+      "bindings": {
+        "board_data": "GET /api/tasks?view=board&board=<hash-board>",
+        "update_status": "PUT /api/tasks/:id/status"
+      },
+      "actions": [
+        {
+          "id": "action-board-select-board",
+          "label": "Select board hash route",
+          "target_route": null,
+          "event": "EVENT_BOARD_SELECT_BOARD"
+        },
+        {
+          "id": "action-board-drag-card",
+          "label": "Move task card across status columns",
+          "target_route": null,
+          "event": "EVENT_BOARD_DRAG_CARD"
+        },
+        {
+          "id": "action-board-open-task",
+          "label": "Open task detail",
+          "target_route": "/tasks/:id",
+          "event": "EVENT_BOARD_OPEN_TASK"
+        }
+      ],
+      "machine_states": [
+        "BoardDefault",
+        "BoardLoading",
+        "BoardEmpty",
+        "BoardError",
+        "BoardOffline",
+        "BoardForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "safe-board",
+      "route": "/board",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.board.selector",
+      "parent_ds_id": "ds:webui.board.root",
+      "ds_type": "segmented_control",
+      "labels": {
+        "options": "Sprint, Release, Bug Triage"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "BoardDefault",
+        "BoardLoading",
+        "BoardEmpty",
+        "BoardError",
+        "BoardOffline",
+        "BoardForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "safe-board",
+      "route": "/board",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.board.stats-strip",
+      "parent_ds_id": "ds:webui.board.root",
+      "ds_type": "stats_strip",
+      "labels": {
+        "metrics": "total, done, progress, blocked"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "BoardDefault",
+        "BoardLoading",
+        "BoardEmpty",
+        "BoardError",
+        "BoardOffline",
+        "BoardForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "safe-board",
+      "route": "/board",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.board.columns",
+      "parent_ds_id": "ds:webui.board.root",
+      "ds_type": "kanban_columns",
+      "labels": {
+        "columns": "Todo, In Progress, Review, Done"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "BoardDefault",
+        "BoardLoading",
+        "BoardEmpty",
+        "BoardError",
+        "BoardOffline",
+        "BoardForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "task-list",
+      "route": "/tasks",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "ds_id": "ds:webui.tasks.root",
+      "parent_ds_id": null,
+      "ds_type": "data_table",
+      "labels": {
+        "title": "Task List",
+        "columns": "id, title, status, priority, assignee, qa"
+      },
+      "bindings": {
+        "tasks": "GET /api/tasks?format=list",
+        "bulk_update": "PUT /api/tasks/bulk"
+      },
+      "actions": [
+        {
+          "id": "action-tasks-toggle-board",
+          "label": "Switch to board view",
+          "target_route": "/board",
+          "event": "EVENT_TASKS_TOGGLE_BOARD"
+        },
+        {
+          "id": "action-tasks-filter",
+          "label": "Apply status assignee priority PRD QA filters",
+          "target_route": null,
+          "event": "EVENT_TASKS_FILTER"
+        },
+        {
+          "id": "action-tasks-sort",
+          "label": "Sort table column",
+          "target_route": null,
+          "event": "EVENT_TASKS_SORT"
+        },
+        {
+          "id": "action-tasks-open-detail",
+          "label": "Open row detail",
+          "target_route": "/tasks/:id",
+          "event": "EVENT_TASKS_OPEN_DETAIL"
+        },
+        {
+          "id": "action-tasks-open-trace",
+          "label": "Open beads trace",
+          "target_route": "/trace/:id",
+          "event": "EVENT_TASKS_OPEN_TRACE"
+        },
+        {
+          "id": "action-tasks-bulk-assign",
+          "label": "Bulk assign selected tasks",
+          "target_route": null,
+          "event": "EVENT_TASKS_BULK_ASSIGN"
+        },
+        {
+          "id": "action-tasks-bulk-status",
+          "label": "Bulk change selected task status",
+          "target_route": null,
+          "event": "EVENT_TASKS_BULK_STATUS"
+        },
+        {
+          "id": "action-tasks-export-csv",
+          "label": "Export current filtered CSV",
+          "target_route": null,
+          "event": "EVENT_TASKS_EXPORT_CSV"
+        }
+      ],
+      "machine_states": [
+        "TasksDefault",
+        "TasksLoading",
+        "TasksEmpty",
+        "TasksError",
+        "TasksOffline",
+        "TasksSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s13"
+      ]
+    },
+    {
+      "screen_id": "task-list",
+      "route": "/tasks",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "ds_id": "ds:webui.tasks.view-toggle",
+      "parent_ds_id": "ds:webui.tasks.root",
+      "ds_type": "view_toggle",
+      "labels": {
+        "options": "Board, List"
+      },
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TasksDefault",
+        "TasksLoading",
+        "TasksEmpty",
+        "TasksError",
+        "TasksOffline",
+        "TasksSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s13"
+      ]
+    },
+    {
+      "screen_id": "task-list",
+      "route": "/tasks",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "ds_id": "ds:webui.tasks.filter-bar",
+      "parent_ds_id": "ds:webui.tasks.root",
+      "ds_type": "filter_bar",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TasksDefault",
+        "TasksLoading",
+        "TasksEmpty",
+        "TasksError",
+        "TasksOffline",
+        "TasksSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s13"
+      ]
+    },
+    {
+      "screen_id": "task-list",
+      "route": "/tasks",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "ds_id": "ds:webui.tasks.table",
+      "parent_ds_id": "ds:webui.tasks.root",
+      "ds_type": "table",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TasksDefault",
+        "TasksLoading",
+        "TasksEmpty",
+        "TasksError",
+        "TasksOffline",
+        "TasksSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s13"
+      ]
+    },
+    {
+      "screen_id": "task-list",
+      "route": "/tasks",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "ds_id": "ds:webui.tasks.bulk-actions",
+      "parent_ds_id": "ds:webui.tasks.root",
+      "ds_type": "bulk_action_bar",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TasksDefault",
+        "TasksLoading",
+        "TasksEmpty",
+        "TasksError",
+        "TasksOffline",
+        "TasksSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s13"
+      ]
+    },
+    {
+      "screen_id": "task-detail",
+      "route": "/tasks/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.task-detail.root",
+      "parent_ds_id": null,
+      "ds_type": "detail_page",
+      "labels": {
+        "title": "Task Detail",
+        "tabs": "detail, activity, graph, code, approval"
+      },
+      "bindings": {
+        "task": "GET /api/tasks/:id",
+        "activity": "GET /api/tasks/:id/activity",
+        "trace": "GET /api/trace/:id?depth=2",
+        "save_field": "PUT /api/tasks/:id"
+      },
+      "actions": [
+        {
+          "id": "action-task-back-to-list",
+          "label": "Back to task list",
+          "target_route": "/tasks",
+          "event": "EVENT_TASK_BACK_TO_LIST"
+        },
+        {
+          "id": "action-task-save-status",
+          "label": "Save status field",
+          "target_route": null,
+          "event": "EVENT_TASK_SAVE_STATUS"
+        },
+        {
+          "id": "action-task-save-assignee",
+          "label": "Save assignee field",
+          "target_route": null,
+          "event": "EVENT_TASK_SAVE_ASSIGNEE"
+        },
+        {
+          "id": "action-task-open-approval",
+          "label": "Open approval tab",
+          "target_route": "/tasks/:id#approval",
+          "event": "EVENT_TASK_OPEN_APPROVAL"
+        },
+        {
+          "id": "action-task-open-trace",
+          "label": "Open full trace",
+          "target_route": "/trace/:id",
+          "event": "EVENT_TASK_OPEN_TRACE"
+        }
+      ],
+      "machine_states": [
+        "TaskDetailDefault",
+        "TaskDetailLoading",
+        "TaskDetailError",
+        "TaskDetailOffline",
+        "TaskDetailSaving",
+        "TaskDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "task-detail",
+      "route": "/tasks/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.task-detail.summary-header",
+      "parent_ds_id": "ds:webui.task-detail.root",
+      "ds_type": "summary_header",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TaskDetailDefault",
+        "TaskDetailLoading",
+        "TaskDetailError",
+        "TaskDetailOffline",
+        "TaskDetailSaving",
+        "TaskDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "task-detail",
+      "route": "/tasks/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.task-detail.tabs",
+      "parent_ds_id": "ds:webui.task-detail.root",
+      "ds_type": "tab_list",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TaskDetailDefault",
+        "TaskDetailLoading",
+        "TaskDetailError",
+        "TaskDetailOffline",
+        "TaskDetailSaving",
+        "TaskDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "task-detail",
+      "route": "/tasks/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.task-detail.activity",
+      "parent_ds_id": "ds:webui.task-detail.root",
+      "ds_type": "activity_timeline",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TaskDetailDefault",
+        "TaskDetailLoading",
+        "TaskDetailError",
+        "TaskDetailOffline",
+        "TaskDetailSaving",
+        "TaskDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "task-detail",
+      "route": "/tasks/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.task-detail.graph-widget",
+      "parent_ds_id": "ds:webui.task-detail.root",
+      "ds_type": "graph_widget",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TaskDetailDefault",
+        "TaskDetailLoading",
+        "TaskDetailError",
+        "TaskDetailOffline",
+        "TaskDetailSaving",
+        "TaskDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "task-detail",
+      "route": "/tasks/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.task-detail.approval-embed",
+      "parent_ds_id": "ds:webui.task-detail.root",
+      "ds_type": "approval_embed",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TaskDetailDefault",
+        "TaskDetailLoading",
+        "TaskDetailError",
+        "TaskDetailOffline",
+        "TaskDetailSaving",
+        "TaskDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "trace-explorer",
+      "route": "/trace/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.trace.root",
+      "parent_ds_id": null,
+      "ds_type": "graph_explorer",
+      "labels": {
+        "title": "Beads Trace Explorer",
+        "modes": "graph, dag"
+      },
+      "bindings": {
+        "trace": "GET /api/trace/:id?depth=full",
+        "git_enrichment": "GET /api/trace/:id?include=git"
+      },
+      "actions": [
+        {
+          "id": "action-trace-change-root",
+          "label": "Change root Beads ID",
+          "target_route": null,
+          "event": "EVENT_TRACE_CHANGE_ROOT"
+        },
+        {
+          "id": "action-trace-toggle-direction",
+          "label": "Toggle forward reverse direction",
+          "target_route": null,
+          "event": "EVENT_TRACE_TOGGLE_DIRECTION"
+        },
+        {
+          "id": "action-trace-select-node",
+          "label": "Select graph node",
+          "target_route": null,
+          "event": "EVENT_TRACE_SELECT_NODE"
+        },
+        {
+          "id": "action-trace-open-doc",
+          "label": "Open document",
+          "target_route": "/docs/:id",
+          "event": "EVENT_TRACE_OPEN_DOC"
+        },
+        {
+          "id": "action-trace-open-task",
+          "label": "Open task",
+          "target_route": "/tasks/:id",
+          "event": "EVENT_TRACE_OPEN_TASK"
+        },
+        {
+          "id": "action-trace-open-git-graph",
+          "label": "Open Git graph scenario",
+          "target_route": "/git-graph",
+          "event": "EVENT_TRACE_OPEN_GIT_GRAPH"
+        }
+      ],
+      "machine_states": [
+        "TraceDefault",
+        "TraceLoading",
+        "TraceEmpty",
+        "TraceError",
+        "TraceOffline",
+        "TracePartial",
+        "TraceForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "trace-explorer",
+      "route": "/trace/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.trace.toolbar",
+      "parent_ds_id": "ds:webui.trace.root",
+      "ds_type": "trace_toolbar",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TraceDefault",
+        "TraceLoading",
+        "TraceEmpty",
+        "TraceError",
+        "TraceOffline",
+        "TracePartial",
+        "TraceForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "trace-explorer",
+      "route": "/trace/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.trace.canvas",
+      "parent_ds_id": "ds:webui.trace.root",
+      "ds_type": "graph_canvas",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TraceDefault",
+        "TraceLoading",
+        "TraceEmpty",
+        "TraceError",
+        "TraceOffline",
+        "TracePartial",
+        "TraceForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "trace-explorer",
+      "route": "/trace/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.trace.detail-panel",
+      "parent_ds_id": "ds:webui.trace.root",
+      "ds_type": "node_detail_panel",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TraceDefault",
+        "TraceLoading",
+        "TraceEmpty",
+        "TraceError",
+        "TraceOffline",
+        "TracePartial",
+        "TraceForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "trace-explorer",
+      "route": "/trace/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.trace.legend-stats",
+      "parent_ds_id": "ds:webui.trace.root",
+      "ds_type": "legend_stats",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TraceDefault",
+        "TraceLoading",
+        "TraceEmpty",
+        "TraceError",
+        "TraceOffline",
+        "TracePartial",
+        "TraceForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "document-viewer",
+      "route": "/docs",
+      "route_variants": [
+        "/docs/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.docs.root",
+      "parent_ds_id": null,
+      "ds_type": "document_viewer",
+      "labels": {
+        "title": "Document Viewer"
+      },
+      "bindings": {
+        "doc_tree": "GET /api/docs?group=source_type",
+        "document": "GET /api/docs/:id",
+        "coverage": "GET /api/coverage?doc=<id>"
+      },
+      "actions": [
+        {
+          "id": "action-docs-select-document",
+          "label": "Select document from tree",
+          "target_route": null,
+          "event": "EVENT_DOCS_SELECT_DOCUMENT"
+        },
+        {
+          "id": "action-docs-open-trace",
+          "label": "Open Beads trace",
+          "target_route": "/trace/:id",
+          "event": "EVENT_DOCS_OPEN_TRACE"
+        },
+        {
+          "id": "action-docs-open-search",
+          "label": "Search in Explorer",
+          "target_route": "/search#doc",
+          "event": "EVENT_DOCS_OPEN_SEARCH"
+        },
+        {
+          "id": "action-docs-open-knowledge-graph",
+          "label": "Open Knowledge Graph",
+          "target_route": "/knowledge-graph",
+          "event": "EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH"
+        }
+      ],
+      "machine_states": [
+        "DocsDefault",
+        "DocsLoading",
+        "DocsEmpty",
+        "DocsError",
+        "DocsOffline",
+        "DocsForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s9"
+      ]
+    },
+    {
+      "screen_id": "document-viewer",
+      "route": "/docs",
+      "route_variants": [
+        "/docs/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.docs.tree",
+      "parent_ds_id": "ds:webui.docs.root",
+      "ds_type": "doc_tree",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DocsDefault",
+        "DocsLoading",
+        "DocsEmpty",
+        "DocsError",
+        "DocsOffline",
+        "DocsForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s9"
+      ]
+    },
+    {
+      "screen_id": "document-viewer",
+      "route": "/docs",
+      "route_variants": [
+        "/docs/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.docs.content",
+      "parent_ds_id": "ds:webui.docs.root",
+      "ds_type": "rendered_document",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DocsDefault",
+        "DocsLoading",
+        "DocsEmpty",
+        "DocsError",
+        "DocsOffline",
+        "DocsForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s9"
+      ]
+    },
+    {
+      "screen_id": "document-viewer",
+      "route": "/docs",
+      "route_variants": [
+        "/docs/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.docs.section-badges",
+      "parent_ds_id": "ds:webui.docs.root",
+      "ds_type": "section_badges",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "DocsDefault",
+        "DocsLoading",
+        "DocsEmpty",
+        "DocsError",
+        "DocsOffline",
+        "DocsForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s9"
+      ]
+    },
+    {
+      "screen_id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "ds_id": "ds:webui.approval.root",
+      "parent_ds_id": null,
+      "ds_type": "approval_workspace",
+      "labels": {
+        "title": "Level 3 Approval Gates",
+        "anchors": "#panels, #rtm, #heatmap"
+      },
+      "bindings": {
+        "queue": "GET /api/tasks?status=pending-approval",
+        "evidence": "GET /api/approval/:id/evidence",
+        "coverage": "GET /api/coverage",
+        "decision": "POST /api/approval/:id/decision"
+      },
+      "actions": [
+        {
+          "id": "action-approval-select-task",
+          "label": "Select approval task",
+          "target_route": null,
+          "event": "EVENT_APPROVAL_SELECT_TASK"
+        },
+        {
+          "id": "action-approval-refresh-evidence",
+          "label": "Refresh evidence",
+          "target_route": null,
+          "event": "EVENT_APPROVAL_REFRESH_EVIDENCE"
+        },
+        {
+          "id": "action-approval-approve",
+          "label": "Approve with valid evidence",
+          "target_route": null,
+          "event": "EVENT_APPROVAL_APPROVE"
+        },
+        {
+          "id": "action-approval-reject",
+          "label": "Reject with reason",
+          "target_route": null,
+          "event": "EVENT_APPROVAL_REJECT"
+        },
+        {
+          "id": "action-approval-request-changes",
+          "label": "Request changes",
+          "target_route": null,
+          "event": "EVENT_APPROVAL_REQUEST_CHANGES"
+        },
+        {
+          "id": "action-approval-open-trace",
+          "label": "Open RTM lineage",
+          "target_route": "/trace/:id",
+          "event": "EVENT_APPROVAL_OPEN_TRACE"
+        }
+      ],
+      "machine_states": [
+        "ApprovalDefault",
+        "ApprovalLoading",
+        "ApprovalEmpty",
+        "ApprovalError",
+        "ApprovalOffline",
+        "ApprovalForbidden",
+        "ApprovalInsufficientEvidence",
+        "ApprovalDecisionSubmitted"
+      ],
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "ds_id": "ds:webui.approval.queue",
+      "parent_ds_id": "ds:webui.approval.root",
+      "ds_type": "queue_panel",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ApprovalDefault",
+        "ApprovalLoading",
+        "ApprovalEmpty",
+        "ApprovalError",
+        "ApprovalOffline",
+        "ApprovalForbidden",
+        "ApprovalInsufficientEvidence",
+        "ApprovalDecisionSubmitted"
+      ],
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "ds_id": "ds:webui.approval.evidence-hub",
+      "parent_ds_id": "ds:webui.approval.root",
+      "ds_type": "evidence_hub",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ApprovalDefault",
+        "ApprovalLoading",
+        "ApprovalEmpty",
+        "ApprovalError",
+        "ApprovalOffline",
+        "ApprovalForbidden",
+        "ApprovalInsufficientEvidence",
+        "ApprovalDecisionSubmitted"
+      ],
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "ds_id": "ds:webui.approval.rtm-matrix",
+      "parent_ds_id": "ds:webui.approval.root",
+      "ds_type": "rtm_matrix",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ApprovalDefault",
+        "ApprovalLoading",
+        "ApprovalEmpty",
+        "ApprovalError",
+        "ApprovalOffline",
+        "ApprovalForbidden",
+        "ApprovalInsufficientEvidence",
+        "ApprovalDecisionSubmitted"
+      ],
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "ds_id": "ds:webui.approval.coverage-heatmap",
+      "parent_ds_id": "ds:webui.approval.root",
+      "ds_type": "heatmap_panel",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ApprovalDefault",
+        "ApprovalLoading",
+        "ApprovalEmpty",
+        "ApprovalError",
+        "ApprovalOffline",
+        "ApprovalForbidden",
+        "ApprovalInsufficientEvidence",
+        "ApprovalDecisionSubmitted"
+      ],
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "ds_id": "ds:webui.approval.decision-box",
+      "parent_ds_id": "ds:webui.approval.root",
+      "ds_type": "decision_box",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ApprovalDefault",
+        "ApprovalLoading",
+        "ApprovalEmpty",
+        "ApprovalError",
+        "ApprovalOffline",
+        "ApprovalForbidden",
+        "ApprovalInsufficientEvidence",
+        "ApprovalDecisionSubmitted"
+      ],
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ]
+    },
+    {
+      "screen_id": "search-results",
+      "route": "/search",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.search.root",
+      "parent_ds_id": null,
+      "ds_type": "search_workspace",
+      "labels": {
+        "title": "Search Results",
+        "filters": "all, doc, commit, task, adr, chat, spike"
+      },
+      "bindings": {
+        "results": "GET /api/search?q=<query>&type=<type>"
+      },
+      "actions": [
+        {
+          "id": "action-search-submit-query",
+          "label": "Submit query",
+          "target_route": null,
+          "event": "EVENT_SEARCH_SUBMIT_QUERY"
+        },
+        {
+          "id": "action-search-select-filter",
+          "label": "Select type filter hash",
+          "target_route": null,
+          "event": "EVENT_SEARCH_SELECT_FILTER"
+        },
+        {
+          "id": "action-search-open-result-task",
+          "label": "Open task result",
+          "target_route": "/tasks/:id",
+          "event": "EVENT_SEARCH_OPEN_RESULT_TASK"
+        },
+        {
+          "id": "action-search-open-result-doc",
+          "label": "Open document result",
+          "target_route": "/docs/:id",
+          "event": "EVENT_SEARCH_OPEN_RESULT_DOC"
+        },
+        {
+          "id": "action-search-open-result-trace",
+          "label": "Open trace result",
+          "target_route": "/trace/:id",
+          "event": "EVENT_SEARCH_OPEN_RESULT_TRACE"
+        }
+      ],
+      "machine_states": [
+        "SearchDefault",
+        "SearchLoading",
+        "SearchEmpty",
+        "SearchError",
+        "SearchOffline",
+        "SearchForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s12"
+      ]
+    },
+    {
+      "screen_id": "search-results",
+      "route": "/search",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.search.query-input",
+      "parent_ds_id": "ds:webui.search.root",
+      "ds_type": "query_input",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "SearchDefault",
+        "SearchLoading",
+        "SearchEmpty",
+        "SearchError",
+        "SearchOffline",
+        "SearchForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s12"
+      ]
+    },
+    {
+      "screen_id": "search-results",
+      "route": "/search",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.search.type-filters",
+      "parent_ds_id": "ds:webui.search.root",
+      "ds_type": "type_filters",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "SearchDefault",
+        "SearchLoading",
+        "SearchEmpty",
+        "SearchError",
+        "SearchOffline",
+        "SearchForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s12"
+      ]
+    },
+    {
+      "screen_id": "search-results",
+      "route": "/search",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.search.results-list",
+      "parent_ds_id": "ds:webui.search.root",
+      "ds_type": "grouped_results",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "SearchDefault",
+        "SearchLoading",
+        "SearchEmpty",
+        "SearchError",
+        "SearchOffline",
+        "SearchForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s12"
+      ]
+    },
+    {
+      "screen_id": "search-results",
+      "route": "/search",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.search.detail-sidebar",
+      "parent_ds_id": "ds:webui.search.root",
+      "ds_type": "result_detail",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "SearchDefault",
+        "SearchLoading",
+        "SearchEmpty",
+        "SearchError",
+        "SearchOffline",
+        "SearchForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s12"
+      ]
+    },
+    {
+      "screen_id": "terminal-console",
+      "route": "/terminal",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.terminal.root",
+      "parent_ds_id": null,
+      "ds_type": "terminal_mosaic",
+      "labels": {
+        "title": "Agent and CI Terminal Console",
+        "tabs": "agent-console, deploy, debug, ci-cd"
+      },
+      "bindings": {
+        "sessions": "GET /api/agents/sessions",
+        "ci_runs": "GET /api/ci/runs",
+        "task_activity": "GET /api/tasks/:id/activity"
+      },
+      "actions": [
+        {
+          "id": "action-terminal-select-tab",
+          "label": "Select terminal scenario tab",
+          "target_route": null,
+          "event": "EVENT_TERMINAL_SELECT_TAB"
+        },
+        {
+          "id": "action-terminal-refresh-stream",
+          "label": "Refresh log stream",
+          "target_route": null,
+          "event": "EVENT_TERMINAL_REFRESH_STREAM"
+        }
+      ],
+      "machine_states": [
+        "TerminalDefault",
+        "TerminalLoading",
+        "TerminalEmpty",
+        "TerminalError",
+        "TerminalOffline",
+        "TerminalForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s14"
+      ]
+    },
+    {
+      "screen_id": "terminal-console",
+      "route": "/terminal",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.terminal.tabs",
+      "parent_ds_id": "ds:webui.terminal.root",
+      "ds_type": "scenario_tabs",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TerminalDefault",
+        "TerminalLoading",
+        "TerminalEmpty",
+        "TerminalError",
+        "TerminalOffline",
+        "TerminalForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s14"
+      ]
+    },
+    {
+      "screen_id": "terminal-console",
+      "route": "/terminal",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.terminal.mosaic",
+      "parent_ds_id": "ds:webui.terminal.root",
+      "ds_type": "terminal_pane_grid",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TerminalDefault",
+        "TerminalLoading",
+        "TerminalEmpty",
+        "TerminalError",
+        "TerminalOffline",
+        "TerminalForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s14"
+      ]
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "route": "/timeline",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.timeline.root",
+      "parent_ds_id": null,
+      "ds_type": "timeline_workspace",
+      "labels": {
+        "title": "Timeline and File Leases",
+        "anchors": "#file-lease, #activity-feed, #sprint-day"
+      },
+      "bindings": {
+        "activity": "GET /api/activity",
+        "file_leases": "GET /api/file-leases",
+        "task_activity": "GET /api/tasks/:id/activity"
+      },
+      "actions": [
+        {
+          "id": "action-timeline-select-anchor",
+          "label": "Select timeline anchor",
+          "target_route": null,
+          "event": "EVENT_TIMELINE_SELECT_ANCHOR"
+        },
+        {
+          "id": "action-timeline-refresh",
+          "label": "Refresh activity and file leases",
+          "target_route": null,
+          "event": "EVENT_TIMELINE_REFRESH"
+        }
+      ],
+      "machine_states": [
+        "TimelineDefault",
+        "TimelineLoading",
+        "TimelineEmpty",
+        "TimelineError",
+        "TimelineOffline",
+        "TimelineForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s15"
+      ]
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "route": "/timeline",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.timeline.file-leases",
+      "parent_ds_id": "ds:webui.timeline.root",
+      "ds_type": "file_lease_list",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TimelineDefault",
+        "TimelineLoading",
+        "TimelineEmpty",
+        "TimelineError",
+        "TimelineOffline",
+        "TimelineForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s15"
+      ]
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "route": "/timeline",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.timeline.activity-feed",
+      "parent_ds_id": "ds:webui.timeline.root",
+      "ds_type": "activity_feed",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TimelineDefault",
+        "TimelineLoading",
+        "TimelineEmpty",
+        "TimelineError",
+        "TimelineOffline",
+        "TimelineForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s15"
+      ]
+    },
+    {
+      "screen_id": "timeline-file-leases",
+      "route": "/timeline",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.timeline.sprint-day",
+      "parent_ds_id": "ds:webui.timeline.root",
+      "ds_type": "sprint_day_timeline",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "TimelineDefault",
+        "TimelineLoading",
+        "TimelineEmpty",
+        "TimelineError",
+        "TimelineOffline",
+        "TimelineForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s15"
+      ]
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "route": "/git-graph",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.git-graph.root",
+      "parent_ds_id": null,
+      "ds_type": "git_graph_workspace",
+      "labels": {
+        "title": "Git Graph Explorer",
+        "scenarios": "gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, beads-sprint-review"
+      },
+      "bindings": {
+        "graph": "GET /api/git/graph?scenario=<id>",
+        "trace_overlay": "GET /api/trace/:id?include=git"
+      },
+      "actions": [
+        {
+          "id": "action-git-graph-select-scenario",
+          "label": "Select scenario hash",
+          "target_route": null,
+          "event": "EVENT_GIT_GRAPH_SELECT_SCENARIO"
+        },
+        {
+          "id": "action-git-graph-select-commit",
+          "label": "Select commit detail",
+          "target_route": null,
+          "event": "EVENT_GIT_GRAPH_SELECT_COMMIT"
+        },
+        {
+          "id": "action-git-graph-open-trace",
+          "label": "Open Beads trace",
+          "target_route": "/trace/:id",
+          "event": "EVENT_GIT_GRAPH_OPEN_TRACE"
+        }
+      ],
+      "machine_states": [
+        "GitGraphDefault",
+        "GitGraphLoading",
+        "GitGraphEmpty",
+        "GitGraphError",
+        "GitGraphOffline",
+        "GitGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s16"
+      ]
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "route": "/git-graph",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.git-graph.scenario-list",
+      "parent_ds_id": "ds:webui.git-graph.root",
+      "ds_type": "scenario_list",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "GitGraphDefault",
+        "GitGraphLoading",
+        "GitGraphEmpty",
+        "GitGraphError",
+        "GitGraphOffline",
+        "GitGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s16"
+      ]
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "route": "/git-graph",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.git-graph.canvas",
+      "parent_ds_id": "ds:webui.git-graph.root",
+      "ds_type": "git_graph_canvas",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "GitGraphDefault",
+        "GitGraphLoading",
+        "GitGraphEmpty",
+        "GitGraphError",
+        "GitGraphOffline",
+        "GitGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s16"
+      ]
+    },
+    {
+      "screen_id": "git-graph-explorer",
+      "route": "/git-graph",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.git-graph.commit-detail",
+      "parent_ds_id": "ds:webui.git-graph.root",
+      "ds_type": "commit_detail",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "GitGraphDefault",
+        "GitGraphLoading",
+        "GitGraphEmpty",
+        "GitGraphError",
+        "GitGraphOffline",
+        "GitGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s16"
+      ]
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "route": "/knowledge-graph",
+      "route_variants": [
+        "/trace/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.knowledge-graph.root",
+      "parent_ds_id": null,
+      "ds_type": "preset_graph_viewer",
+      "labels": {
+        "title": "Knowledge Graph Presets",
+        "presets": "simple, ecosystem, sprint"
+      },
+      "bindings": {
+        "presets": "GET /api/graph/presets",
+        "enrichment": "GET /api/trace/:id?depth=full"
+      },
+      "actions": [
+        {
+          "id": "action-knowledge-select-preset",
+          "label": "Select graph preset hash",
+          "target_route": null,
+          "event": "EVENT_KNOWLEDGE_SELECT_PRESET"
+        },
+        {
+          "id": "action-knowledge-select-node",
+          "label": "Select node for banner",
+          "target_route": null,
+          "event": "EVENT_KNOWLEDGE_SELECT_NODE"
+        },
+        {
+          "id": "action-knowledge-open-trace",
+          "label": "Open full trace",
+          "target_route": "/trace/:id",
+          "event": "EVENT_KNOWLEDGE_OPEN_TRACE"
+        }
+      ],
+      "machine_states": [
+        "KnowledgeGraphDefault",
+        "KnowledgeGraphLoading",
+        "KnowledgeGraphEmpty",
+        "KnowledgeGraphError",
+        "KnowledgeGraphOffline",
+        "KnowledgeGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "route": "/knowledge-graph",
+      "route_variants": [
+        "/trace/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.knowledge-graph.preset-list",
+      "parent_ds_id": "ds:webui.knowledge-graph.root",
+      "ds_type": "preset_list",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "KnowledgeGraphDefault",
+        "KnowledgeGraphLoading",
+        "KnowledgeGraphEmpty",
+        "KnowledgeGraphError",
+        "KnowledgeGraphOffline",
+        "KnowledgeGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "route": "/knowledge-graph",
+      "route_variants": [
+        "/trace/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.knowledge-graph.canvas",
+      "parent_ds_id": "ds:webui.knowledge-graph.root",
+      "ds_type": "sigma_graph_canvas",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "KnowledgeGraphDefault",
+        "KnowledgeGraphLoading",
+        "KnowledgeGraphEmpty",
+        "KnowledgeGraphError",
+        "KnowledgeGraphOffline",
+        "KnowledgeGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "knowledge-graph",
+      "route": "/knowledge-graph",
+      "route_variants": [
+        "/trace/:id"
+      ],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.knowledge-graph.node-banner",
+      "parent_ds_id": "ds:webui.knowledge-graph.root",
+      "ds_type": "selected_node_banner",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "KnowledgeGraphDefault",
+        "KnowledgeGraphLoading",
+        "KnowledgeGraphEmpty",
+        "KnowledgeGraphError",
+        "KnowledgeGraphOffline",
+        "KnowledgeGraphForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ]
+    },
+    {
+      "screen_id": "portfolio-view",
+      "route": "/portfolio",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.portfolio.root",
+      "parent_ds_id": null,
+      "ds_type": "portfolio_dashboard",
+      "labels": {
+        "title": "Executive Portfolio"
+      },
+      "bindings": {
+        "epics": "GET /api/portfolio/epics",
+        "epic_tasks": "GET /api/tasks?issue_type=epic"
+      },
+      "actions": [
+        {
+          "id": "action-portfolio-open-epic-tasks",
+          "label": "Open blocked epic tasks",
+          "target_route": "/tasks?epic=:id",
+          "event": "EVENT_PORTFOLIO_OPEN_EPIC_TASKS"
+        },
+        {
+          "id": "action-portfolio-open-budget-trace",
+          "label": "Open budget lineage",
+          "target_route": "/trace/:epic-id",
+          "event": "EVENT_PORTFOLIO_OPEN_BUDGET_TRACE"
+        }
+      ],
+      "machine_states": [
+        "PortfolioDefault",
+        "PortfolioLoading",
+        "PortfolioEmpty",
+        "PortfolioError",
+        "PortfolioOffline",
+        "PortfolioForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "portfolio-view",
+      "route": "/portfolio",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.portfolio.table",
+      "parent_ds_id": "ds:webui.portfolio.root",
+      "ds_type": "portfolio_table",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PortfolioDefault",
+        "PortfolioLoading",
+        "PortfolioEmpty",
+        "PortfolioError",
+        "PortfolioOffline",
+        "PortfolioForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "portfolio-view",
+      "route": "/portfolio",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "ds_id": "ds:webui.portfolio.roadmap",
+      "parent_ds_id": "ds:webui.portfolio.root",
+      "ds_type": "roadmap",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PortfolioDefault",
+        "PortfolioLoading",
+        "PortfolioEmpty",
+        "PortfolioError",
+        "PortfolioOffline",
+        "PortfolioForbidden"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "pi-planning",
+      "route": "/pi-planning",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "ds_id": "ds:webui.pi-planning.root",
+      "parent_ds_id": null,
+      "ds_type": "pi_planning_workspace",
+      "labels": {
+        "title": "PI Planning Interactive UI"
+      },
+      "bindings": {
+        "features": "GET /api/pi/features",
+        "plan_update": "PUT /api/pi/plan",
+        "risks": "GET /api/risks?view=roam",
+        "confidence_vote": "POST /api/pi/confidence-vote"
+      },
+      "actions": [
+        {
+          "id": "action-pi-drag-feature",
+          "label": "Drag feature from strategic pool to capacity plan",
+          "target_route": null,
+          "event": "EVENT_PI_DRAG_FEATURE"
+        },
+        {
+          "id": "action-pi-score-business-value",
+          "label": "Score business value",
+          "target_route": null,
+          "event": "EVENT_PI_SCORE_BUSINESS_VALUE"
+        },
+        {
+          "id": "action-pi-submit-confidence-vote",
+          "label": "Submit confidence vote",
+          "target_route": null,
+          "event": "EVENT_PI_SUBMIT_CONFIDENCE_VOTE"
+        },
+        {
+          "id": "action-pi-open-roam",
+          "label": "Open ROAM board anchor",
+          "target_route": null,
+          "event": "EVENT_PI_OPEN_ROAM"
+        }
+      ],
+      "machine_states": [
+        "PIPlanningDefault",
+        "PIPlanningLoading",
+        "PIPlanningEmpty",
+        "PIPlanningError",
+        "PIPlanningOffline",
+        "PIPlanningForbidden",
+        "PIPlanningSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "pi-planning",
+      "route": "/pi-planning",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "ds_id": "ds:webui.pi-planning.strategic-sandbox",
+      "parent_ds_id": "ds:webui.pi-planning.root",
+      "ds_type": "dnd_strategic_sandbox",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PIPlanningDefault",
+        "PIPlanningLoading",
+        "PIPlanningEmpty",
+        "PIPlanningError",
+        "PIPlanningOffline",
+        "PIPlanningForbidden",
+        "PIPlanningSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "pi-planning",
+      "route": "/pi-planning",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "ds_id": "ds:webui.pi-planning.capacity-plan",
+      "parent_ds_id": "ds:webui.pi-planning.root",
+      "ds_type": "capacity_plan",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PIPlanningDefault",
+        "PIPlanningLoading",
+        "PIPlanningEmpty",
+        "PIPlanningError",
+        "PIPlanningOffline",
+        "PIPlanningForbidden",
+        "PIPlanningSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "pi-planning",
+      "route": "/pi-planning",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "ds_id": "ds:webui.pi-planning.value-scoring",
+      "parent_ds_id": "ds:webui.pi-planning.root",
+      "ds_type": "business_value_scoring",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PIPlanningDefault",
+        "PIPlanningLoading",
+        "PIPlanningEmpty",
+        "PIPlanningError",
+        "PIPlanningOffline",
+        "PIPlanningForbidden",
+        "PIPlanningSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "pi-planning",
+      "route": "/pi-planning",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "ds_id": "ds:webui.pi-planning.confidence-vote",
+      "parent_ds_id": "ds:webui.pi-planning.root",
+      "ds_type": "confidence_vote",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PIPlanningDefault",
+        "PIPlanningLoading",
+        "PIPlanningEmpty",
+        "PIPlanningError",
+        "PIPlanningOffline",
+        "PIPlanningForbidden",
+        "PIPlanningSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "pi-planning",
+      "route": "/pi-planning",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "ds_id": "ds:webui.pi-planning.roam-board",
+      "parent_ds_id": "ds:webui.pi-planning.root",
+      "ds_type": "roam_board",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "PIPlanningDefault",
+        "PIPlanningLoading",
+        "PIPlanningEmpty",
+        "PIPlanningError",
+        "PIPlanningOffline",
+        "PIPlanningForbidden",
+        "PIPlanningSaving"
+      ],
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ]
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "route": "/storyboards",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.storyboards.root",
+      "parent_ds_id": null,
+      "ds_type": "storyboard_overview",
+      "labels": {
+        "title": "Storyboard Journey Map"
+      },
+      "bindings": {
+        "storyboards": "GET /api/storyboards"
+      },
+      "actions": [
+        {
+          "id": "action-storyboards-filter-journey",
+          "label": "Filter by role module outcome",
+          "target_route": null,
+          "event": "EVENT_STORYBOARDS_FILTER_JOURNEY"
+        },
+        {
+          "id": "action-storyboards-open-detail",
+          "label": "Open storyboard detail",
+          "target_route": "/storyboards/:id",
+          "event": "EVENT_STORYBOARDS_OPEN_DETAIL"
+        },
+        {
+          "id": "action-storyboards-open-screen",
+          "label": "Open CTA screen path",
+          "target_route": null,
+          "event": "EVENT_STORYBOARDS_OPEN_SCREEN"
+        }
+      ],
+      "machine_states": [
+        "StoryboardsDefault",
+        "StoryboardsLoading",
+        "StoryboardsEmpty",
+        "StoryboardsError",
+        "StoryboardsOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "route": "/storyboards",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.storyboards.filter",
+      "parent_ds_id": "ds:webui.storyboards.root",
+      "ds_type": "journey_filter",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "StoryboardsDefault",
+        "StoryboardsLoading",
+        "StoryboardsEmpty",
+        "StoryboardsError",
+        "StoryboardsOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "route": "/storyboards",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.storyboards.flow",
+      "parent_ds_id": "ds:webui.storyboards.root",
+      "ds_type": "usecase_flow",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "StoryboardsDefault",
+        "StoryboardsLoading",
+        "StoryboardsEmpty",
+        "StoryboardsError",
+        "StoryboardsOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboards-overview",
+      "route": "/storyboards",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "ds_id": "ds:webui.storyboards.guidance-panel",
+      "parent_ds_id": "ds:webui.storyboards.root",
+      "ds_type": "guidance_panel",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "StoryboardsDefault",
+        "StoryboardsLoading",
+        "StoryboardsEmpty",
+        "StoryboardsError",
+        "StoryboardsOffline"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "route": "/storyboards/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.storyboard-detail.root",
+      "parent_ds_id": null,
+      "ds_type": "storyboard_detail",
+      "labels": {
+        "title": "Storyboard Detail"
+      },
+      "bindings": {
+        "storyboard": "GET /api/storyboards/:id"
+      },
+      "actions": [
+        {
+          "id": "action-storyboard-detail-open-screen",
+          "label": "Open aligned screen path",
+          "target_route": null,
+          "event": "EVENT_STORYBOARD_DETAIL_OPEN_SCREEN"
+        },
+        {
+          "id": "action-storyboard-detail-back",
+          "label": "Back to storyboards",
+          "target_route": "/storyboards",
+          "event": "EVENT_STORYBOARD_DETAIL_BACK"
+        }
+      ],
+      "machine_states": [
+        "StoryboardDetailDefault",
+        "StoryboardDetailLoading",
+        "StoryboardDetailEmpty",
+        "StoryboardDetailError",
+        "StoryboardDetailOffline",
+        "StoryboardDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "route": "/storyboards/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.storyboard-detail.summary",
+      "parent_ds_id": "ds:webui.storyboard-detail.root",
+      "ds_type": "journey_summary",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "StoryboardDetailDefault",
+        "StoryboardDetailLoading",
+        "StoryboardDetailEmpty",
+        "StoryboardDetailError",
+        "StoryboardDetailOffline",
+        "StoryboardDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "route": "/storyboards/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.storyboard-detail.timeline",
+      "parent_ds_id": "ds:webui.storyboard-detail.root",
+      "ds_type": "step_timeline",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "StoryboardDetailDefault",
+        "StoryboardDetailLoading",
+        "StoryboardDetailEmpty",
+        "StoryboardDetailError",
+        "StoryboardDetailOffline",
+        "StoryboardDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "storyboard-detail",
+      "route": "/storyboards/:id",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "ds_id": "ds:webui.storyboard-detail.related-usecases",
+      "parent_ds_id": "ds:webui.storyboard-detail.root",
+      "ds_type": "related_usecases",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "StoryboardDetailDefault",
+        "StoryboardDetailLoading",
+        "StoryboardDetailEmpty",
+        "StoryboardDetailError",
+        "StoryboardDetailOffline",
+        "StoryboardDetailNotFound"
+      ],
+      "satisfies": [
+        "br-prd04-s17"
+      ]
+    },
+    {
+      "screen_id": "components-catalog",
+      "route": "/components",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "ds_id": "ds:webui.components.root",
+      "parent_ds_id": null,
+      "ds_type": "component_catalog",
+      "labels": {
+        "title": "Shared Components Catalog",
+        "sections": "Buttons, Badges Status, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, Error Banner"
+      },
+      "bindings": {
+        "catalog_sections": "shared primitives and tokens"
+      },
+      "actions": [
+        {
+          "id": "action-components-scroll-section",
+          "label": "Scroll to component section hash",
+          "target_route": null,
+          "event": "EVENT_COMPONENTS_SCROLL_SECTION"
+        },
+        {
+          "id": "action-components-toggle-example",
+          "label": "Interact with component example",
+          "target_route": null,
+          "event": "EVENT_COMPONENTS_TOGGLE_EXAMPLE"
+        }
+      ],
+      "machine_states": [
+        "ComponentsDefault",
+        "ComponentsLoading",
+        "ComponentsEmpty",
+        "ComponentsError"
+      ],
+      "satisfies": [
+        "br-prd04-s8",
+        "br-prd04-s18"
+      ]
+    },
+    {
+      "screen_id": "components-catalog",
+      "route": "/components",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "ds_id": "ds:webui.components.section-nav",
+      "parent_ds_id": "ds:webui.components.root",
+      "ds_type": "section_nav",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ComponentsDefault",
+        "ComponentsLoading",
+        "ComponentsEmpty",
+        "ComponentsError"
+      ],
+      "satisfies": [
+        "br-prd04-s8",
+        "br-prd04-s18"
+      ]
+    },
+    {
+      "screen_id": "components-catalog",
+      "route": "/components",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "ds_id": "ds:webui.components.examples",
+      "parent_ds_id": "ds:webui.components.root",
+      "ds_type": "examples_region",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ComponentsDefault",
+        "ComponentsLoading",
+        "ComponentsEmpty",
+        "ComponentsError"
+      ],
+      "satisfies": [
+        "br-prd04-s8",
+        "br-prd04-s18"
+      ]
+    },
+    {
+      "screen_id": "components-catalog",
+      "route": "/components",
+      "route_variants": [],
+      "state_names": [
+        "default",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "ds_id": "ds:webui.components.tokens",
+      "parent_ds_id": "ds:webui.components.root",
+      "ds_type": "token_reference",
+      "labels": {},
+      "bindings": {},
+      "actions": [],
+      "machine_states": [
+        "ComponentsDefault",
+        "ComponentsLoading",
+        "ComponentsEmpty",
+        "ComponentsError"
+      ],
+      "satisfies": [
+        "br-prd04-s8",
+        "br-prd04-s18"
+      ]
+    },
+    {
+      "screen_id": "global-shell",
+      "route": "/webui-pm-workspace",
+      "state_names": [
+        "default"
+      ],
+      "ds_id": "ds:webui.header.top-level",
+      "ds_type": "website_header",
+      "labels": {
+        "brand": "Gmind",
+        "design_system": "Design System",
+        "pm_space": "PM Space"
+      },
+      "bindings": {},
+      "actions": [
+        {
+          "id": "action-header-open-design-system",
+          "label": "Open Design System",
+          "target_route": "/design-system",
+          "event": "EVENT_HEADER_OPEN_DESIGN_SYSTEM"
+        },
+        {
+          "id": "action-header-open-pm-space",
+          "label": "Open PM Space",
+          "target_route": "/webui-pm-workspace",
+          "event": "EVENT_HEADER_OPEN_PM_SPACE"
+        }
+      ]
+    }
+  ],
+  "action_coverage": {
+    "yaml_actions": 71,
+    "mermaid_events_covered": 71
   }
 }

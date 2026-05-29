@@ -1,0 +1,55 @@
+screen_id: trace-explorer
+route: /trace/:id
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- partial
+- forbidden
+ds_id: ds:webui.trace.root
+parent_ds_id: null
+ds_type: graph_explorer
+labels:
+  title: Beads Trace Explorer
+  modes: graph, dag
+bindings:
+  trace: GET /api/trace/:id?depth=full
+  git_enrichment: GET /api/trace/:id?include=git
+actions:
+- id: action-trace-change-root
+  label: Change root Beads ID
+  target_route: null
+  event: EVENT_TRACE_CHANGE_ROOT
+- id: action-trace-toggle-direction
+  label: Toggle forward reverse direction
+  target_route: null
+  event: EVENT_TRACE_TOGGLE_DIRECTION
+- id: action-trace-select-node
+  label: Select graph node
+  target_route: null
+  event: EVENT_TRACE_SELECT_NODE
+- id: action-trace-open-doc
+  label: Open document
+  target_route: /docs/:id
+  event: EVENT_TRACE_OPEN_DOC
+- id: action-trace-open-task
+  label: Open task
+  target_route: /tasks/:id
+  event: EVENT_TRACE_OPEN_TASK
+- id: action-trace-open-git-graph
+  label: Open Git graph scenario
+  target_route: /git-graph
+  event: EVENT_TRACE_OPEN_GIT_GRAPH
+machine_states:
+- TraceDefault
+- TraceLoading
+- TraceEmpty
+- TraceError
+- TraceOffline
+- TracePartial
+- TraceForbidden
+satisfies:
+- br-prd04-s10

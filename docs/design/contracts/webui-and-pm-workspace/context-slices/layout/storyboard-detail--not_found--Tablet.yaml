@@ -1,0 +1,20 @@
+screen_id: storyboard-detail
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- not_found
+viewport: Tablet
+width: 1024
+layout_type: storyboard_detail
+ds_id: ds:webui.storyboard-detail.root
+responsive_assertion: summary above timeline
+boundary_assertions:
+  loading: Storyboard detail skeleton
+  empty: Storyboard has no steps with back CTA
+  not_found: Storyboard ID not found with back CTA
+  error: Không thể tải storyboard detail with retry action
+must_preserve_shell: true
+state_name: not_found

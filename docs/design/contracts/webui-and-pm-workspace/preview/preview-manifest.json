@@ -7,29 +7,111 @@
   "screens": [
     {
       "id": "global-shell",
-      "route": "/*",
+      "route": "/webui-pm-workspace",
+      "alternate_core_route": "*",
+      "satisfies": [
+        "br-prd04-s8"
+      ],
       "states": [
         "default",
+        "loading",
         "offline",
-        "loading"
+        "forbidden"
       ],
       "layout": {
         "type": "shell",
-        "ds_id": "ds:global_shell",
-        "labels": [
-          "Header Bar",
-          "Main Content Area",
-          "Footer"
+        "ds_id": "ds:webui.shell.root",
+        "labels": {
+          "title": "PM Workspace Shell",
+          "purpose": "Persistent header, global search, route nav, status, and footer for all PM screens"
+        },
+        "bindings": {
+          "route_state": "active core route or hash surface",
+          "sync_status": "API health and offline queue state",
+          "user_role": "permission policy from Go REST API"
+        },
+        "actions": [
+          {
+            "id": "action-shell-open-search",
+            "label": "Focus global search",
+            "shortcut": "Ctrl+K",
+            "target_route": "/search"
+          },
+          {
+            "id": "action-shell-toggle-nav",
+            "label": "Toggle PM navigation"
+          },
+          {
+            "id": "action-shell-retry-sync",
+            "label": "Retry sync"
+          }
         ],
+        "responsive": {
+          "Desktop": "expanded 240px PM nav",
+          "Tablet": "compact icon nav",
+          "Mobile": "header menu opens full-screen PM nav"
+        },
+        "boundary_content": {
+          "loading": "Layout-matched shell skeleton with nav placeholders",
+          "offline": "Read-only banner with queued write count and retry sync action",
+          "forbidden": "Permission banner with route-safe back action"
+        },
         "children": [
           {
             "type": "header",
-            "ds_id": "ds:component:header",
-            "labels": [
-              "Logo",
-              "Global Search Bar",
-              "Online Status"
+            "ds_id": "ds:webui.shell.header",
+            "labels": {
+              "title": "Website header",
+              "active_item": "PM Space"
+            },
+            "actions": [
+              {
+                "id": "action-shell-header-pm-space",
+                "label": "Open /webui-pm-workspace",
+                "target_route": "/webui-pm-workspace"
+              }
             ]
+          },
+          {
+            "type": "search_combobox",
+            "ds_id": "ds:webui.shell.global-search",
+            "labels": {
+              "placeholder": "Tìm tasks, tài liệu, commits, code... (Ctrl+K)"
+            },
+            "bindings": {
+              "suggestions": "GET /api/search?q=<query>&type=all&limit=5"
+            },
+            "actions": [
+              {
+                "id": "action-shell-submit-search",
+                "label": "Search",
+                "target_route": "/search?q=<query>"
+              }
+            ]
+          },
+          {
+            "type": "nav",
+            "ds_id": "ds:webui.shell.pm-nav",
+            "labels": {
+              "items": "Dashboard, Board, Tasks, Trace, Docs, Approval, Search, Terminal, Timeline, Git Graph, Knowledge Graph, Portfolio, PI Planning, Storyboards, Components"
+            },
+            "bindings": {
+              "active_route": "client route path and hash"
+            }
+          },
+          {
+            "type": "main_region",
+            "ds_id": "ds:webui.shell.main-region",
+            "bindings": {
+              "content": "active screen layout"
+            }
+          },
+          {
+            "type": "footer",
+            "ds_id": "ds:webui.shell.footer",
+            "labels": {
+              "text": "gmind version, FrankenSQLite sync status, API uptime"
+            }
           }
         ]
       }
@@ -37,56 +119,1310 @@
     {
       "id": "rtm-dashboard",
       "route": "/",
+      "showcase_anchor": "/webui-pm-workspace#surface-rtm-dashboard",
+      "data_screen_id": "rtm-dashboard",
+      "satisfies": [
+        "br-prd04-s6"
+      ],
       "states": [
         "default",
         "loading",
         "empty",
-        "error"
+        "error",
+        "offline"
       ],
       "layout": {
-        "type": "grid",
-        "ds_id": "ds:screen:rtm-dashboard",
-        "labels": [
-          "Panel 1: Coverage Heatmap",
-          "Panel 2: Task Progress",
-          "Panel 3: Knowledge Graph",
-          "Panel 4: Gap Analysis"
-        ],
-        "bindings": [
-          "Dashboard Panels"
-        ],
+        "type": "dashboard_grid",
+        "ds_id": "ds:webui.rtm.root",
+        "labels": {
+          "title": "RTM Dashboard",
+          "structure": "KPI row above four review panels"
+        },
+        "bindings": {
+          "coverage": "GET /api/coverage",
+          "gaps": "GET /api/gaps",
+          "tasks": "GET /api/tasks",
+          "trace": "GET /api/trace/:id?depth=full"
+        },
         "actions": [
-          "Drill-down",
-          "View Trace"
+          {
+            "id": "action-rtm-open-trace",
+            "label": "Open section trace",
+            "target_route": "/trace/:id"
+          },
+          {
+            "id": "action-rtm-filter-tasks",
+            "label": "Filter tasks by status",
+            "target_route": "/tasks?status=<status>"
+          },
+          {
+            "id": "action-rtm-open-doc",
+            "label": "Open linked document",
+            "target_route": "/docs/:id"
+          },
+          {
+            "id": "action-rtm-create-gap-plan",
+            "label": "Create plan for gap"
+          }
+        ],
+        "responsive": {
+          "Desktop": "2 by 2 panel grid below KPI cards",
+          "Tablet": "two stacked rows or one panel per row as space requires",
+          "Mobile": "single-column panels with graph touch pan and zoom"
+        },
+        "boundary_content": {
+          "loading": "Skeleton KPI cards and panel skeletons",
+          "empty": "Chưa có dữ liệu theo dõi with guide CTA",
+          "error": "Không thể kết nối đến gmind serve with retry action"
+        },
+        "children": [
+          {
+            "type": "kpi_row",
+            "ds_id": "ds:webui.rtm.kpi-row",
+            "labels": {
+              "cards": "Coverage percent, Tasks done, Gaps found"
+            }
+          },
+          {
+            "type": "heatmap_panel",
+            "ds_id": "ds:webui.rtm.coverage-heatmap",
+            "labels": {
+              "title": "Panel 1 Coverage Heatmap"
+            }
+          },
+          {
+            "type": "progress_panel",
+            "ds_id": "ds:webui.rtm.task-progress",
+            "labels": {
+              "title": "Panel 2 Task Progress"
+            }
+          },
+          {
+            "type": "graph_widget",
+            "ds_id": "ds:webui.rtm.knowledge-graph-widget",
+            "labels": {
+              "title": "Panel 3 Knowledge Graph"
+            }
+          },
+          {
+            "type": "gap_panel",
+            "ds_id": "ds:webui.rtm.gap-analysis",
+            "labels": {
+              "title": "Panel 4 Gap Analysis"
+            }
+          }
         ]
       }
     },
     {
-      "id": "approval-gate",
-      "route": "/approval",
+      "id": "safe-board",
+      "route": "/board",
+      "data_screen_id": "safe-board",
+      "ds_ref": "ds:screen:kanban-001",
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ],
       "states": [
         "default",
         "loading",
-        "insufficient-evidence",
         "empty",
-        "decision-submitted",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "kanban_board",
+        "ds_id": "ds:webui.board.root",
+        "labels": {
+          "title": "SAFe Board",
+          "hash_routes": "#sprint, #release, #bug-triage"
+        },
+        "bindings": {
+          "board_data": "GET /api/tasks?view=board&board=<hash-board>",
+          "update_status": "PUT /api/tasks/:id/status"
+        },
+        "actions": [
+          {
+            "id": "action-board-select-board",
+            "label": "Select board hash route"
+          },
+          {
+            "id": "action-board-drag-card",
+            "label": "Move task card across status columns"
+          },
+          {
+            "id": "action-board-open-task",
+            "label": "Open task detail",
+            "target_route": "/tasks/:id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "horizontal columns with WIP badges and stats strip",
+          "Tablet": "horizontal scroll columns",
+          "Mobile": "vertical task card list instead of full kanban"
+        },
+        "boundary_content": {
+          "loading": "Skeleton task cards inside each column",
+          "empty": "Chưa có task trong board này with clear filter CTA",
+          "error": "Không thể tải dữ liệu Board with retry action",
+          "offline": "Drag and drop disabled, cached cards remain readable"
+        },
+        "children": [
+          {
+            "type": "segmented_control",
+            "ds_id": "ds:webui.board.selector",
+            "labels": {
+              "options": "Sprint, Release, Bug Triage"
+            }
+          },
+          {
+            "type": "stats_strip",
+            "ds_id": "ds:webui.board.stats-strip",
+            "labels": {
+              "metrics": "total, done, progress, blocked"
+            }
+          },
+          {
+            "type": "kanban_columns",
+            "ds_id": "ds:webui.board.columns",
+            "labels": {
+              "columns": "Todo, In Progress, Review, Done"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "task-list",
+      "route": "/tasks",
+      "data_screen_id": "task-list",
+      "satisfies": [
+        "br-prd04-s13"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "saving"
+      ],
+      "layout": {
+        "type": "data_table",
+        "ds_id": "ds:webui.tasks.root",
+        "labels": {
+          "title": "Task List",
+          "columns": "id, title, status, priority, assignee, qa"
+        },
+        "bindings": {
+          "tasks": "GET /api/tasks?format=list",
+          "bulk_update": "PUT /api/tasks/bulk"
+        },
+        "actions": [
+          {
+            "id": "action-tasks-toggle-board",
+            "label": "Switch to board view",
+            "target_route": "/board"
+          },
+          {
+            "id": "action-tasks-filter",
+            "label": "Apply status assignee priority PRD QA filters"
+          },
+          {
+            "id": "action-tasks-sort",
+            "label": "Sort table column"
+          },
+          {
+            "id": "action-tasks-open-detail",
+            "label": "Open row detail",
+            "target_route": "/tasks/:id"
+          },
+          {
+            "id": "action-tasks-open-trace",
+            "label": "Open beads trace",
+            "target_route": "/trace/:id"
+          },
+          {
+            "id": "action-tasks-bulk-assign",
+            "label": "Bulk assign selected tasks"
+          },
+          {
+            "id": "action-tasks-bulk-status",
+            "label": "Bulk change selected task status"
+          },
+          {
+            "id": "action-tasks-export-csv",
+            "label": "Export current filtered CSV"
+          }
+        ],
+        "responsive": {
+          "Desktop": "full table with bulk action bar",
+          "Tablet": "hide QA and PRD columns into expandable row detail",
+          "Mobile": "task cards with tap-to-expand details"
+        },
+        "boundary_content": {
+          "loading": "Ten skeleton rows",
+          "empty": "Không tìm thấy task phù hợp filter with clear filters CTA",
+          "error": "Không thể tải danh sách task từ FrankenSQLite with retry action",
+          "saving": "Bulk action bar disabled with row-level pending markers"
+        },
+        "children": [
+          {
+            "type": "view_toggle",
+            "ds_id": "ds:webui.tasks.view-toggle",
+            "labels": {
+              "options": "Board, List"
+            }
+          },
+          {
+            "type": "filter_bar",
+            "ds_id": "ds:webui.tasks.filter-bar"
+          },
+          {
+            "type": "table",
+            "ds_id": "ds:webui.tasks.table"
+          },
+          {
+            "type": "bulk_action_bar",
+            "ds_id": "ds:webui.tasks.bulk-actions"
+          }
+        ]
+      }
+    },
+    {
+      "id": "task-detail",
+      "route": "/tasks/:id",
+      "data_screen_id": "task-detail",
+      "satisfies": [
+        "br-prd04-s11",
+        "br-prd04-s7"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "error",
+        "offline",
+        "saving",
+        "not_found"
+      ],
+      "layout": {
+        "type": "detail_page",
+        "ds_id": "ds:webui.task-detail.root",
+        "labels": {
+          "title": "Task Detail",
+          "tabs": "detail, activity, graph, code, approval"
+        },
+        "bindings": {
+          "task": "GET /api/tasks/:id",
+          "activity": "GET /api/tasks/:id/activity",
+          "trace": "GET /api/trace/:id?depth=2",
+          "save_field": "PUT /api/tasks/:id"
+        },
+        "actions": [
+          {
+            "id": "action-task-back-to-list",
+            "label": "Back to task list",
+            "target_route": "/tasks"
+          },
+          {
+            "id": "action-task-save-status",
+            "label": "Save status field"
+          },
+          {
+            "id": "action-task-save-assignee",
+            "label": "Save assignee field"
+          },
+          {
+            "id": "action-task-open-approval",
+            "label": "Open approval tab",
+            "target_route": "/tasks/:id#approval"
+          },
+          {
+            "id": "action-task-open-trace",
+            "label": "Open full trace",
+            "target_route": "/trace/:id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "task summary header above tab panel",
+          "Tablet": "horizontally scrollable tabs",
+          "Mobile": "field groups stack and tabs become accordion sections"
+        },
+        "boundary_content": {
+          "loading": "Header field skeleton and tab content skeleton",
+          "not_found": "Task không tồn tại hoặc đã bị xóa with link back to Tasks",
+          "offline": "Read-only fields and queued edit messaging",
+          "saving": "Inline saving marker beside edited field"
+        },
+        "children": [
+          {
+            "type": "summary_header",
+            "ds_id": "ds:webui.task-detail.summary-header"
+          },
+          {
+            "type": "tab_list",
+            "ds_id": "ds:webui.task-detail.tabs"
+          },
+          {
+            "type": "activity_timeline",
+            "ds_id": "ds:webui.task-detail.activity"
+          },
+          {
+            "type": "graph_widget",
+            "ds_id": "ds:webui.task-detail.graph-widget"
+          },
+          {
+            "type": "approval_embed",
+            "ds_id": "ds:webui.task-detail.approval-embed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "trace-explorer",
+      "route": "/trace/:id",
+      "data_screen_id": "trace-explorer",
+      "ds_ref": "ds:screen:beads-traversal-001",
+      "satisfies": [
+        "br-prd04-s10"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "partial",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "graph_explorer",
+        "ds_id": "ds:webui.trace.root",
+        "labels": {
+          "title": "Beads Trace Explorer",
+          "modes": "graph, dag"
+        },
+        "bindings": {
+          "trace": "GET /api/trace/:id?depth=full",
+          "git_enrichment": "GET /api/trace/:id?include=git"
+        },
+        "actions": [
+          {
+            "id": "action-trace-change-root",
+            "label": "Change root Beads ID"
+          },
+          {
+            "id": "action-trace-toggle-direction",
+            "label": "Toggle forward reverse direction"
+          },
+          {
+            "id": "action-trace-select-node",
+            "label": "Select graph node"
+          },
+          {
+            "id": "action-trace-open-doc",
+            "label": "Open document",
+            "target_route": "/docs/:id"
+          },
+          {
+            "id": "action-trace-open-task",
+            "label": "Open task",
+            "target_route": "/tasks/:id"
+          },
+          {
+            "id": "action-trace-open-git-graph",
+            "label": "Open Git graph scenario",
+            "target_route": "/git-graph"
+          }
+        ],
+        "responsive": {
+          "Desktop": "graph canvas 70 percent and detail panel 30 percent",
+          "Tablet": "detail panel as bottom sheet",
+          "Mobile": "simplified tree view with full-screen node detail overlay"
+        },
+        "boundary_content": {
+          "loading": "Graph canvas and detail panel skeletons with API progress text",
+          "empty": "Không tìm thấy liên kết nào cho Beads ID này with ID check hint",
+          "error": "Lỗi truy vấn graph từ gmind trace with retry action",
+          "partial": "Local graph visible with enrichment still loading badge"
+        },
+        "children": [
+          {
+            "type": "trace_toolbar",
+            "ds_id": "ds:webui.trace.toolbar"
+          },
+          {
+            "type": "graph_canvas",
+            "ds_id": "ds:webui.trace.canvas"
+          },
+          {
+            "type": "node_detail_panel",
+            "ds_id": "ds:webui.trace.detail-panel"
+          },
+          {
+            "type": "legend_stats",
+            "ds_id": "ds:webui.trace.legend-stats"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document-viewer",
+      "route": "/docs",
+      "route_variants": [
+        "/docs/:id"
+      ],
+      "data_screen_id": "document-viewer",
+      "ds_ref": "ds:screen:doc-viewer-001",
+      "satisfies": [
+        "br-prd04-s9"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "document_viewer",
+        "ds_id": "ds:webui.docs.root",
+        "labels": {
+          "title": "Document Viewer"
+        },
+        "bindings": {
+          "doc_tree": "GET /api/docs?group=source_type",
+          "document": "GET /api/docs/:id",
+          "coverage": "GET /api/coverage?doc=<id>"
+        },
+        "actions": [
+          {
+            "id": "action-docs-select-document",
+            "label": "Select document from tree"
+          },
+          {
+            "id": "action-docs-open-trace",
+            "label": "Open Beads trace",
+            "target_route": "/trace/:id"
+          },
+          {
+            "id": "action-docs-open-search",
+            "label": "Search in Explorer",
+            "target_route": "/search#doc"
+          },
+          {
+            "id": "action-docs-open-knowledge-graph",
+            "label": "Open Knowledge Graph",
+            "target_route": "/knowledge-graph"
+          }
+        ],
+        "responsive": {
+          "Desktop": "document tree 280px and content panel",
+          "Tablet": "document tree becomes top selector",
+          "Mobile": "content-first with back-to-list control"
+        },
+        "boundary_content": {
+          "loading": "Skeleton doc tree and content panel",
+          "empty": "Chưa có tài liệu nào được index with run reindex CTA",
+          "error": "Không thể tải tài liệu từ Zvec with retry action"
+        },
+        "children": [
+          {
+            "type": "doc_tree",
+            "ds_id": "ds:webui.docs.tree"
+          },
+          {
+            "type": "rendered_document",
+            "ds_id": "ds:webui.docs.content"
+          },
+          {
+            "type": "section_badges",
+            "ds_id": "ds:webui.docs.section-badges"
+          }
+        ]
+      }
+    },
+    {
+      "id": "approval-gates",
+      "route": "/approval",
+      "route_variants": [
+        "/tasks/:id#approval"
+      ],
+      "data_screen_id": "approval-gates",
+      "ds_ref": "ds:screen:approval-001",
+      "satisfies": [
+        "br-prd04-s4",
+        "br-prd04-s7"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "layout": {
+        "type": "approval_workspace",
+        "ds_id": "ds:webui.approval.root",
+        "labels": {
+          "title": "Level 3 Approval Gates",
+          "anchors": "#panels, #rtm, #heatmap"
+        },
+        "bindings": {
+          "queue": "GET /api/tasks?status=pending-approval",
+          "evidence": "GET /api/approval/:id/evidence",
+          "coverage": "GET /api/coverage",
+          "decision": "POST /api/approval/:id/decision"
+        },
+        "actions": [
+          {
+            "id": "action-approval-select-task",
+            "label": "Select approval task"
+          },
+          {
+            "id": "action-approval-refresh-evidence",
+            "label": "Refresh evidence"
+          },
+          {
+            "id": "action-approval-approve",
+            "label": "Approve with valid evidence"
+          },
+          {
+            "id": "action-approval-reject",
+            "label": "Reject with reason"
+          },
+          {
+            "id": "action-approval-request-changes",
+            "label": "Request changes"
+          },
+          {
+            "id": "action-approval-open-trace",
+            "label": "Open RTM lineage",
+            "target_route": "/trace/:id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "queue, evidence, and decision columns",
+          "Tablet": "stacked evidence and decision with sticky decision bar",
+          "Mobile": "single-column review with bottom decision controls"
+        },
+        "boundary_content": {
+          "loading": "Evidence aggregation skeletons",
+          "empty": "Không có yêu cầu phê duyệt nào đang chờ with history toggles",
+          "insufficient_evidence": "Approve disabled with missing evidence reason and refresh CTA",
+          "decision_submitted": "Audit receipt with decision ID actor timestamp and task link",
+          "error": "CI or GitHub evidence connection failure with retry and admin override policy"
+        },
+        "children": [
+          {
+            "type": "queue_panel",
+            "ds_id": "ds:webui.approval.queue"
+          },
+          {
+            "type": "evidence_hub",
+            "ds_id": "ds:webui.approval.evidence-hub"
+          },
+          {
+            "type": "rtm_matrix",
+            "ds_id": "ds:webui.approval.rtm-matrix"
+          },
+          {
+            "type": "heatmap_panel",
+            "ds_id": "ds:webui.approval.coverage-heatmap"
+          },
+          {
+            "type": "decision_box",
+            "ds_id": "ds:webui.approval.decision-box"
+          }
+        ]
+      }
+    },
+    {
+      "id": "search-results",
+      "route": "/search",
+      "data_screen_id": "search-results",
+      "ds_ref": "ds:screen:explorer-001",
+      "satisfies": [
+        "br-prd04-s12"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "search_workspace",
+        "ds_id": "ds:webui.search.root",
+        "labels": {
+          "title": "Search Results",
+          "filters": "all, doc, commit, task, adr, chat, spike"
+        },
+        "bindings": {
+          "results": "GET /api/search?q=<query>&type=<type>"
+        },
+        "actions": [
+          {
+            "id": "action-search-submit-query",
+            "label": "Submit query"
+          },
+          {
+            "id": "action-search-select-filter",
+            "label": "Select type filter hash"
+          },
+          {
+            "id": "action-search-open-result-task",
+            "label": "Open task result",
+            "target_route": "/tasks/:id"
+          },
+          {
+            "id": "action-search-open-result-doc",
+            "label": "Open document result",
+            "target_route": "/docs/:id"
+          },
+          {
+            "id": "action-search-open-result-trace",
+            "label": "Open trace result",
+            "target_route": "/trace/:id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "filter column, results list, detail sidebar",
+          "Tablet": "filters collapse above results",
+          "Mobile": "filters hidden behind dropdown and results full width"
+        },
+        "boundary_content": {
+          "loading": "Result card skeletons with searching backends message",
+          "empty": "Không tìm thấy kết quả cho query with query adjustment hint",
+          "error": "Lỗi kết nối Zvec hoặc FrankenSQLite with retry action"
+        },
+        "children": [
+          {
+            "type": "query_input",
+            "ds_id": "ds:webui.search.query-input"
+          },
+          {
+            "type": "type_filters",
+            "ds_id": "ds:webui.search.type-filters"
+          },
+          {
+            "type": "grouped_results",
+            "ds_id": "ds:webui.search.results-list"
+          },
+          {
+            "type": "result_detail",
+            "ds_id": "ds:webui.search.detail-sidebar"
+          }
+        ]
+      }
+    },
+    {
+      "id": "terminal-console",
+      "route": "/terminal",
+      "data_screen_id": "terminal-console",
+      "ds_ref": "ds:screen:terminal-001",
+      "satisfies": [
+        "br-prd04-s14"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "terminal_mosaic",
+        "ds_id": "ds:webui.terminal.root",
+        "labels": {
+          "title": "Agent and CI Terminal Console",
+          "tabs": "agent-console, deploy, debug, ci-cd"
+        },
+        "bindings": {
+          "sessions": "GET /api/agents/sessions",
+          "ci_runs": "GET /api/ci/runs",
+          "task_activity": "GET /api/tasks/:id/activity"
+        },
+        "actions": [
+          {
+            "id": "action-terminal-select-tab",
+            "label": "Select terminal scenario tab"
+          },
+          {
+            "id": "action-terminal-refresh-stream",
+            "label": "Refresh log stream"
+          }
+        ],
+        "responsive": {
+          "Desktop": "2 by 2 mosaic panes",
+          "Tablet": "two-pane stack",
+          "Mobile": "one pane at a time with scenario tabs"
+        },
+        "boundary_content": {
+          "loading": "Stream connection skeleton panes",
+          "empty": "Chưa có session nào hoạt động with Task List CTA",
+          "error": "Không thể tải log stream with retry action",
+          "offline": "Cached read-only logs and controlled actions disabled"
+        },
+        "children": [
+          {
+            "type": "scenario_tabs",
+            "ds_id": "ds:webui.terminal.tabs"
+          },
+          {
+            "type": "terminal_pane_grid",
+            "ds_id": "ds:webui.terminal.mosaic"
+          }
+        ]
+      }
+    },
+    {
+      "id": "timeline-file-leases",
+      "route": "/timeline",
+      "data_screen_id": "timeline-file-leases",
+      "ds_ref": "ds:screen:timeline-001",
+      "satisfies": [
+        "br-prd04-s15"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "timeline_workspace",
+        "ds_id": "ds:webui.timeline.root",
+        "labels": {
+          "title": "Timeline and File Leases",
+          "anchors": "#file-lease, #activity-feed, #sprint-day"
+        },
+        "bindings": {
+          "activity": "GET /api/activity",
+          "file_leases": "GET /api/file-leases",
+          "task_activity": "GET /api/tasks/:id/activity"
+        },
+        "actions": [
+          {
+            "id": "action-timeline-select-anchor",
+            "label": "Select timeline anchor"
+          },
+          {
+            "id": "action-timeline-refresh",
+            "label": "Refresh activity and file leases"
+          }
+        ],
+        "responsive": {
+          "Desktop": "three-column file leases, activity feed, sprint day",
+          "Tablet": "two-column with sprint day below",
+          "Mobile": "stacked accordion sections"
+        },
+        "boundary_content": {
+          "loading": "Timeline and lease card skeletons",
+          "empty": "Chưa có hoạt động trong khoảng thời gian này with clear filters CTA",
+          "error": "Không thể tải activity hoặc file leases with retry action",
+          "offline": "Stale data label and read-only controls"
+        },
+        "children": [
+          {
+            "type": "file_lease_list",
+            "ds_id": "ds:webui.timeline.file-leases"
+          },
+          {
+            "type": "activity_feed",
+            "ds_id": "ds:webui.timeline.activity-feed"
+          },
+          {
+            "type": "sprint_day_timeline",
+            "ds_id": "ds:webui.timeline.sprint-day"
+          }
+        ]
+      }
+    },
+    {
+      "id": "git-graph-explorer",
+      "route": "/git-graph",
+      "data_screen_id": "git-graph-explorer",
+      "ds_ref": "ds:screen:git-graph-001",
+      "satisfies": [
+        "br-prd04-s16"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "git_graph_workspace",
+        "ds_id": "ds:webui.git-graph.root",
+        "labels": {
+          "title": "Git Graph Explorer",
+          "scenarios": "gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, beads-sprint-review"
+        },
+        "bindings": {
+          "graph": "GET /api/git/graph?scenario=<id>",
+          "trace_overlay": "GET /api/trace/:id?include=git"
+        },
+        "actions": [
+          {
+            "id": "action-git-graph-select-scenario",
+            "label": "Select scenario hash"
+          },
+          {
+            "id": "action-git-graph-select-commit",
+            "label": "Select commit detail"
+          },
+          {
+            "id": "action-git-graph-open-trace",
+            "label": "Open Beads trace",
+            "target_route": "/trace/:id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "scenario list beside graph canvas and commit detail",
+          "Tablet": "scenario list collapses above graph",
+          "Mobile": "scenario selector and simplified vertical commit list"
+        },
+        "boundary_content": {
+          "loading": "Progress bar while API analyzes git history",
+          "empty": "Không có commit phù hợp scenario or filter with reset CTA",
+          "error": "Không thể đọc dữ liệu local git with retry action",
+          "offline": "Cached graph visible and refresh disabled"
+        },
+        "children": [
+          {
+            "type": "scenario_list",
+            "ds_id": "ds:webui.git-graph.scenario-list"
+          },
+          {
+            "type": "git_graph_canvas",
+            "ds_id": "ds:webui.git-graph.canvas"
+          },
+          {
+            "type": "commit_detail",
+            "ds_id": "ds:webui.git-graph.commit-detail"
+          }
+        ]
+      }
+    },
+    {
+      "id": "knowledge-graph",
+      "route": "/knowledge-graph",
+      "route_variants": [
+        "/trace/:id"
+      ],
+      "data_screen_id": "knowledge-graph",
+      "ds_ref": "ds:screen:knowledge-graph-001",
+      "satisfies": [
+        "br-prd04-s5",
+        "br-prd04-s10"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "preset_graph_viewer",
+        "ds_id": "ds:webui.knowledge-graph.root",
+        "labels": {
+          "title": "Knowledge Graph Presets",
+          "presets": "simple, ecosystem, sprint"
+        },
+        "bindings": {
+          "presets": "GET /api/graph/presets",
+          "enrichment": "GET /api/trace/:id?depth=full"
+        },
+        "actions": [
+          {
+            "id": "action-knowledge-select-preset",
+            "label": "Select graph preset hash"
+          },
+          {
+            "id": "action-knowledge-select-node",
+            "label": "Select node for banner"
+          },
+          {
+            "id": "action-knowledge-open-trace",
+            "label": "Open full trace",
+            "target_route": "/trace/:id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "preset list, graph canvas, selected-node banner",
+          "Tablet": "banner becomes bottom sheet",
+          "Mobile": "preset picker above touch graph and full-screen selected-node detail"
+        },
+        "boundary_content": {
+          "loading": "Graph canvas skeleton and preset loading label",
+          "empty": "Chưa có liên kết tài liệu hoặc biểu đồ trống with link PRD CTA",
+          "error": "Lỗi truy xuất đồ thị từ gmind with retry action"
+        },
+        "children": [
+          {
+            "type": "preset_list",
+            "ds_id": "ds:webui.knowledge-graph.preset-list"
+          },
+          {
+            "type": "sigma_graph_canvas",
+            "ds_id": "ds:webui.knowledge-graph.canvas"
+          },
+          {
+            "type": "selected_node_banner",
+            "ds_id": "ds:webui.knowledge-graph.node-banner"
+          }
+        ]
+      }
+    },
+    {
+      "id": "portfolio-view",
+      "route": "/portfolio",
+      "data_screen_id": "portfolio-view",
+      "ds_ref": "br-ds-portfolio-view",
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden"
+      ],
+      "layout": {
+        "type": "portfolio_dashboard",
+        "ds_id": "ds:webui.portfolio.root",
+        "labels": {
+          "title": "Executive Portfolio"
+        },
+        "bindings": {
+          "epics": "GET /api/portfolio/epics",
+          "epic_tasks": "GET /api/tasks?issue_type=epic"
+        },
+        "actions": [
+          {
+            "id": "action-portfolio-open-epic-tasks",
+            "label": "Open blocked epic tasks",
+            "target_route": "/tasks?epic=:id"
+          },
+          {
+            "id": "action-portfolio-open-budget-trace",
+            "label": "Open budget lineage",
+            "target_route": "/trace/:epic-id"
+          }
+        ],
+        "responsive": {
+          "Desktop": "portfolio table beside roadmap",
+          "Tablet": "roadmap stacks below table",
+          "Mobile": "epic summary cards with roadmap accordion"
+        },
+        "boundary_content": {
+          "loading": "Portfolio row and roadmap skeletons",
+          "empty": "Chưa có epic trong portfolio with create or import CTA",
+          "error": "Không thể tải portfolio with retry action",
+          "forbidden": "Budget and private forecast fields hidden with role message"
+        },
+        "children": [
+          {
+            "type": "portfolio_table",
+            "ds_id": "ds:webui.portfolio.table"
+          },
+          {
+            "type": "roadmap",
+            "ds_id": "ds:webui.portfolio.roadmap"
+          }
+        ]
+      }
+    },
+    {
+      "id": "pi-planning",
+      "route": "/pi-planning",
+      "data_screen_id": "pi-planning",
+      "ds_ref": "br-ds-pi-planning",
+      "satisfies": [
+        "br-prd04-s3",
+        "br-prd04-s8"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "saving"
+      ],
+      "layout": {
+        "type": "pi_planning_workspace",
+        "ds_id": "ds:webui.pi-planning.root",
+        "labels": {
+          "title": "PI Planning Interactive UI"
+        },
+        "bindings": {
+          "features": "GET /api/pi/features",
+          "plan_update": "PUT /api/pi/plan",
+          "risks": "GET /api/risks?view=roam",
+          "confidence_vote": "POST /api/pi/confidence-vote"
+        },
+        "actions": [
+          {
+            "id": "action-pi-drag-feature",
+            "label": "Drag feature from strategic pool to capacity plan"
+          },
+          {
+            "id": "action-pi-score-business-value",
+            "label": "Score business value"
+          },
+          {
+            "id": "action-pi-submit-confidence-vote",
+            "label": "Submit confidence vote"
+          },
+          {
+            "id": "action-pi-open-roam",
+            "label": "Open ROAM board anchor"
+          }
+        ],
+        "responsive": {
+          "Desktop": "strategic pool and capacity plan side by side with scoring and ROAM below",
+          "Tablet": "pool and plan stack with drag handles preserved",
+          "Mobile": "PI sections become accordions with controlled drag alternative"
+        },
+        "boundary_content": {
+          "loading": "Feature pool and capacity skeletons",
+          "empty": "Chưa có feature cho PI này with import feature CTA",
+          "error": "Không thể tải PI planning data with retry action",
+          "offline": "Planning edits disabled and cached plan visible",
+          "saving": "Confidence vote and plan update show pending state"
+        },
+        "children": [
+          {
+            "type": "dnd_strategic_sandbox",
+            "ds_id": "ds:webui.pi-planning.strategic-sandbox"
+          },
+          {
+            "type": "capacity_plan",
+            "ds_id": "ds:webui.pi-planning.capacity-plan"
+          },
+          {
+            "type": "business_value_scoring",
+            "ds_id": "ds:webui.pi-planning.value-scoring"
+          },
+          {
+            "type": "confidence_vote",
+            "ds_id": "ds:webui.pi-planning.confidence-vote"
+          },
+          {
+            "type": "roam_board",
+            "ds_id": "ds:webui.pi-planning.roam-board"
+          }
+        ]
+      }
+    },
+    {
+      "id": "storyboards-overview",
+      "route": "/storyboards",
+      "data_screen_id": "storyboards-overview",
+      "ds_ref": "ds:screen:storyboard-001",
+      "satisfies": [
+        "br-prd04-s17"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline"
+      ],
+      "layout": {
+        "type": "storyboard_overview",
+        "ds_id": "ds:webui.storyboards.root",
+        "labels": {
+          "title": "Storyboard Journey Map"
+        },
+        "bindings": {
+          "storyboards": "GET /api/storyboards"
+        },
+        "actions": [
+          {
+            "id": "action-storyboards-filter-journey",
+            "label": "Filter by role module outcome"
+          },
+          {
+            "id": "action-storyboards-open-detail",
+            "label": "Open storyboard detail",
+            "target_route": "/storyboards/:id"
+          },
+          {
+            "id": "action-storyboards-open-screen",
+            "label": "Open CTA screen path"
+          }
+        ],
+        "responsive": {
+          "Desktop": "journey filter beside horizontal use-case flow and guidance panel",
+          "Tablet": "filters collapse above flow",
+          "Mobile": "flow nodes become vertical stepper"
+        },
+        "boundary_content": {
+          "loading": "Flow row and guidance panel skeletons",
+          "empty": "Không tìm thấy Storyboard cho module này with show all CTA",
+          "error": "Không thể tải storyboard metadata with retry action",
+          "offline": "Cached storyboard read-only and local CTAs remain active"
+        },
+        "children": [
+          {
+            "type": "journey_filter",
+            "ds_id": "ds:webui.storyboards.filter"
+          },
+          {
+            "type": "usecase_flow",
+            "ds_id": "ds:webui.storyboards.flow"
+          },
+          {
+            "type": "guidance_panel",
+            "ds_id": "ds:webui.storyboards.guidance-panel"
+          }
+        ]
+      }
+    },
+    {
+      "id": "storyboard-detail",
+      "route": "/storyboards/:id",
+      "data_screen_id": "storyboard-detail",
+      "ds_ref": "ds:screen:storyboard-detail-001",
+      "satisfies": [
+        "br-prd04-s17"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "not_found"
+      ],
+      "layout": {
+        "type": "storyboard_detail",
+        "ds_id": "ds:webui.storyboard-detail.root",
+        "labels": {
+          "title": "Storyboard Detail"
+        },
+        "bindings": {
+          "storyboard": "GET /api/storyboards/:id"
+        },
+        "actions": [
+          {
+            "id": "action-storyboard-detail-open-screen",
+            "label": "Open aligned screen path"
+          },
+          {
+            "id": "action-storyboard-detail-back",
+            "label": "Back to storyboards",
+            "target_route": "/storyboards"
+          }
+        ],
+        "responsive": {
+          "Desktop": "role and journey summary beside step timeline",
+          "Tablet": "summary above timeline",
+          "Mobile": "vertical timeline cards"
+        },
+        "boundary_content": {
+          "loading": "Storyboard detail skeleton",
+          "empty": "Storyboard has no steps with back CTA",
+          "not_found": "Storyboard ID not found with back CTA",
+          "error": "Không thể tải storyboard detail with retry action"
+        },
+        "children": [
+          {
+            "type": "journey_summary",
+            "ds_id": "ds:webui.storyboard-detail.summary"
+          },
+          {
+            "type": "step_timeline",
+            "ds_id": "ds:webui.storyboard-detail.timeline"
+          },
+          {
+            "type": "related_usecases",
+            "ds_id": "ds:webui.storyboard-detail.related-usecases"
+          }
+        ]
+      }
+    },
+    {
+      "id": "components-catalog",
+      "route": "/components",
+      "data_screen_id": "components-catalog",
+      "ds_ref": "ds:screen:components-001",
+      "satisfies": [
+        "br-prd04-s8",
+        "br-prd04-s18"
+      ],
+      "states": [
+        "default",
+        "loading",
+        "empty",
         "error"
       ],
       "layout": {
-        "type": "layout",
-        "ds_id": "ds:screen:approval-001",
-        "labels": [
-          "Queue Panel",
-          "Evidence Hub",
-          "Decision Box"
-        ],
-        "bindings": [
-          "Approval Data"
-        ],
+        "type": "component_catalog",
+        "ds_id": "ds:webui.components.root",
+        "labels": {
+          "title": "Shared Components Catalog",
+          "sections": "Buttons, Badges Status, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, Error Banner"
+        },
+        "bindings": {
+          "catalog_sections": "shared primitives and tokens"
+        },
         "actions": [
-          "Approve",
-          "Reject",
-          "Request Changes"
+          {
+            "id": "action-components-scroll-section",
+            "label": "Scroll to component section hash"
+          },
+          {
+            "id": "action-components-toggle-example",
+            "label": "Interact with component example"
+          }
+        ],
+        "responsive": {
+          "Desktop": "section navigation beside examples grid",
+          "Tablet": "section navigation becomes sticky top list",
+          "Mobile": "single-column anchored examples"
+        },
+        "boundary_content": {
+          "loading": "Component example skeletons",
+          "empty": "No component sections registered with registry review CTA",
+          "error": "Component catalog failed to load with retry action"
+        },
+        "children": [
+          {
+            "type": "section_nav",
+            "ds_id": "ds:webui.components.section-nav"
+          },
+          {
+            "type": "examples_region",
+            "ds_id": "ds:webui.components.examples"
+          },
+          {
+            "type": "token_reference",
+            "ds_id": "ds:webui.components.tokens"
+          }
         ]
       }
     }
@@ -94,215 +1430,3319 @@
   "components": [
     {
       "type": "shell",
-      "ds_id": "ds:global_shell",
-      "labels": [
-        "Header Bar",
-        "Main Content Area",
-        "Footer"
+      "ds_id": "ds:webui.shell.root",
+      "labels": {
+        "title": "PM Workspace Shell",
+        "purpose": "Persistent header, global search, route nav, status, and footer for all PM screens"
+      },
+      "bindings": {
+        "route_state": "active core route or hash surface",
+        "sync_status": "API health and offline queue state",
+        "user_role": "permission policy from Go REST API"
+      },
+      "actions": [
+        {
+          "id": "action-shell-open-search",
+          "label": "Focus global search",
+          "shortcut": "Ctrl+K",
+          "target_route": "/search"
+        },
+        {
+          "id": "action-shell-toggle-nav",
+          "label": "Toggle PM navigation"
+        },
+        {
+          "id": "action-shell-retry-sync",
+          "label": "Retry sync"
+        }
       ],
+      "responsive": {
+        "Desktop": "expanded 240px PM nav",
+        "Tablet": "compact icon nav",
+        "Mobile": "header menu opens full-screen PM nav"
+      },
+      "boundary_content": {
+        "loading": "Layout-matched shell skeleton with nav placeholders",
+        "offline": "Read-only banner with queued write count and retry sync action",
+        "forbidden": "Permission banner with route-safe back action"
+      },
       "children": [
         {
           "type": "header",
-          "ds_id": "ds:component:header",
-          "labels": [
-            "Logo",
-            "Global Search Bar",
-            "Online Status"
+          "ds_id": "ds:webui.shell.header",
+          "labels": {
+            "title": "Website header",
+            "active_item": "PM Space"
+          },
+          "actions": [
+            {
+              "id": "action-shell-header-pm-space",
+              "label": "Open /webui-pm-workspace",
+              "target_route": "/webui-pm-workspace"
+            }
           ]
+        },
+        {
+          "type": "search_combobox",
+          "ds_id": "ds:webui.shell.global-search",
+          "labels": {
+            "placeholder": "Tìm tasks, tài liệu, commits, code... (Ctrl+K)"
+          },
+          "bindings": {
+            "suggestions": "GET /api/search?q=<query>&type=all&limit=5"
+          },
+          "actions": [
+            {
+              "id": "action-shell-submit-search",
+              "label": "Search",
+              "target_route": "/search?q=<query>"
+            }
+          ]
+        },
+        {
+          "type": "nav",
+          "ds_id": "ds:webui.shell.pm-nav",
+          "labels": {
+            "items": "Dashboard, Board, Tasks, Trace, Docs, Approval, Search, Terminal, Timeline, Git Graph, Knowledge Graph, Portfolio, PI Planning, Storyboards, Components"
+          },
+          "bindings": {
+            "active_route": "client route path and hash"
+          }
+        },
+        {
+          "type": "main_region",
+          "ds_id": "ds:webui.shell.main-region",
+          "bindings": {
+            "content": "active screen layout"
+          }
+        },
+        {
+          "type": "footer",
+          "ds_id": "ds:webui.shell.footer",
+          "labels": {
+            "text": "gmind version, FrankenSQLite sync status, API uptime"
+          }
         }
       ]
     },
     {
       "type": "header",
-      "ds_id": "ds:component:header",
-      "labels": [
-        "Logo",
-        "Global Search Bar",
-        "Online Status"
+      "ds_id": "ds:webui.shell.header",
+      "labels": {
+        "title": "Website header",
+        "active_item": "PM Space"
+      },
+      "actions": [
+        {
+          "id": "action-shell-header-pm-space",
+          "label": "Open /webui-pm-workspace",
+          "target_route": "/webui-pm-workspace"
+        }
       ]
     },
     {
-      "type": "grid",
-      "ds_id": "ds:screen:rtm-dashboard",
-      "labels": [
-        "Panel 1: Coverage Heatmap",
-        "Panel 2: Task Progress",
-        "Panel 3: Knowledge Graph",
-        "Panel 4: Gap Analysis"
-      ],
-      "bindings": [
-        "Dashboard Panels"
-      ],
+      "type": "search_combobox",
+      "ds_id": "ds:webui.shell.global-search",
+      "labels": {
+        "placeholder": "Tìm tasks, tài liệu, commits, code... (Ctrl+K)"
+      },
+      "bindings": {
+        "suggestions": "GET /api/search?q=<query>&type=all&limit=5"
+      },
       "actions": [
-        "Drill-down",
-        "View Trace"
+        {
+          "id": "action-shell-submit-search",
+          "label": "Search",
+          "target_route": "/search?q=<query>"
+        }
       ]
     },
     {
-      "type": "layout",
-      "ds_id": "ds:screen:approval-001",
-      "labels": [
-        "Queue Panel",
-        "Evidence Hub",
-        "Decision Box"
-      ],
-      "bindings": [
-        "Approval Data"
-      ],
+      "type": "nav",
+      "ds_id": "ds:webui.shell.pm-nav",
+      "labels": {
+        "items": "Dashboard, Board, Tasks, Trace, Docs, Approval, Search, Terminal, Timeline, Git Graph, Knowledge Graph, Portfolio, PI Planning, Storyboards, Components"
+      },
+      "bindings": {
+        "active_route": "client route path and hash"
+      }
+    },
+    {
+      "type": "main_region",
+      "ds_id": "ds:webui.shell.main-region",
+      "bindings": {
+        "content": "active screen layout"
+      }
+    },
+    {
+      "type": "footer",
+      "ds_id": "ds:webui.shell.footer",
+      "labels": {
+        "text": "gmind version, FrankenSQLite sync status, API uptime"
+      }
+    },
+    {
+      "type": "dashboard_grid",
+      "ds_id": "ds:webui.rtm.root",
+      "labels": {
+        "title": "RTM Dashboard",
+        "structure": "KPI row above four review panels"
+      },
+      "bindings": {
+        "coverage": "GET /api/coverage",
+        "gaps": "GET /api/gaps",
+        "tasks": "GET /api/tasks",
+        "trace": "GET /api/trace/:id?depth=full"
+      },
       "actions": [
-        "Approve",
-        "Reject",
-        "Request Changes"
+        {
+          "id": "action-rtm-open-trace",
+          "label": "Open section trace",
+          "target_route": "/trace/:id"
+        },
+        {
+          "id": "action-rtm-filter-tasks",
+          "label": "Filter tasks by status",
+          "target_route": "/tasks?status=<status>"
+        },
+        {
+          "id": "action-rtm-open-doc",
+          "label": "Open linked document",
+          "target_route": "/docs/:id"
+        },
+        {
+          "id": "action-rtm-create-gap-plan",
+          "label": "Create plan for gap"
+        }
+      ],
+      "responsive": {
+        "Desktop": "2 by 2 panel grid below KPI cards",
+        "Tablet": "two stacked rows or one panel per row as space requires",
+        "Mobile": "single-column panels with graph touch pan and zoom"
+      },
+      "boundary_content": {
+        "loading": "Skeleton KPI cards and panel skeletons",
+        "empty": "Chưa có dữ liệu theo dõi with guide CTA",
+        "error": "Không thể kết nối đến gmind serve with retry action"
+      },
+      "children": [
+        {
+          "type": "kpi_row",
+          "ds_id": "ds:webui.rtm.kpi-row",
+          "labels": {
+            "cards": "Coverage percent, Tasks done, Gaps found"
+          }
+        },
+        {
+          "type": "heatmap_panel",
+          "ds_id": "ds:webui.rtm.coverage-heatmap",
+          "labels": {
+            "title": "Panel 1 Coverage Heatmap"
+          }
+        },
+        {
+          "type": "progress_panel",
+          "ds_id": "ds:webui.rtm.task-progress",
+          "labels": {
+            "title": "Panel 2 Task Progress"
+          }
+        },
+        {
+          "type": "graph_widget",
+          "ds_id": "ds:webui.rtm.knowledge-graph-widget",
+          "labels": {
+            "title": "Panel 3 Knowledge Graph"
+          }
+        },
+        {
+          "type": "gap_panel",
+          "ds_id": "ds:webui.rtm.gap-analysis",
+          "labels": {
+            "title": "Panel 4 Gap Analysis"
+          }
+        }
       ]
+    },
+    {
+      "type": "kpi_row",
+      "ds_id": "ds:webui.rtm.kpi-row",
+      "labels": {
+        "cards": "Coverage percent, Tasks done, Gaps found"
+      }
+    },
+    {
+      "type": "heatmap_panel",
+      "ds_id": "ds:webui.rtm.coverage-heatmap",
+      "labels": {
+        "title": "Panel 1 Coverage Heatmap"
+      }
+    },
+    {
+      "type": "progress_panel",
+      "ds_id": "ds:webui.rtm.task-progress",
+      "labels": {
+        "title": "Panel 2 Task Progress"
+      }
+    },
+    {
+      "type": "graph_widget",
+      "ds_id": "ds:webui.rtm.knowledge-graph-widget",
+      "labels": {
+        "title": "Panel 3 Knowledge Graph"
+      }
+    },
+    {
+      "type": "gap_panel",
+      "ds_id": "ds:webui.rtm.gap-analysis",
+      "labels": {
+        "title": "Panel 4 Gap Analysis"
+      }
+    },
+    {
+      "type": "kanban_board",
+      "ds_id": "ds:webui.board.root",
+      "labels": {
+        "title": "SAFe Board",
+        "hash_routes": "#sprint, #release, #bug-triage"
+      },
+      "bindings": {
+        "board_data": "GET /api/tasks?view=board&board=<hash-board>",
+        "update_status": "PUT /api/tasks/:id/status"
+      },
+      "actions": [
+        {
+          "id": "action-board-select-board",
+          "label": "Select board hash route"
+        },
+        {
+          "id": "action-board-drag-card",
+          "label": "Move task card across status columns"
+        },
+        {
+          "id": "action-board-open-task",
+          "label": "Open task detail",
+          "target_route": "/tasks/:id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "horizontal columns with WIP badges and stats strip",
+        "Tablet": "horizontal scroll columns",
+        "Mobile": "vertical task card list instead of full kanban"
+      },
+      "boundary_content": {
+        "loading": "Skeleton task cards inside each column",
+        "empty": "Chưa có task trong board này with clear filter CTA",
+        "error": "Không thể tải dữ liệu Board with retry action",
+        "offline": "Drag and drop disabled, cached cards remain readable"
+      },
+      "children": [
+        {
+          "type": "segmented_control",
+          "ds_id": "ds:webui.board.selector",
+          "labels": {
+            "options": "Sprint, Release, Bug Triage"
+          }
+        },
+        {
+          "type": "stats_strip",
+          "ds_id": "ds:webui.board.stats-strip",
+          "labels": {
+            "metrics": "total, done, progress, blocked"
+          }
+        },
+        {
+          "type": "kanban_columns",
+          "ds_id": "ds:webui.board.columns",
+          "labels": {
+            "columns": "Todo, In Progress, Review, Done"
+          }
+        }
+      ]
+    },
+    {
+      "type": "segmented_control",
+      "ds_id": "ds:webui.board.selector",
+      "labels": {
+        "options": "Sprint, Release, Bug Triage"
+      }
+    },
+    {
+      "type": "stats_strip",
+      "ds_id": "ds:webui.board.stats-strip",
+      "labels": {
+        "metrics": "total, done, progress, blocked"
+      }
+    },
+    {
+      "type": "kanban_columns",
+      "ds_id": "ds:webui.board.columns",
+      "labels": {
+        "columns": "Todo, In Progress, Review, Done"
+      }
+    },
+    {
+      "type": "data_table",
+      "ds_id": "ds:webui.tasks.root",
+      "labels": {
+        "title": "Task List",
+        "columns": "id, title, status, priority, assignee, qa"
+      },
+      "bindings": {
+        "tasks": "GET /api/tasks?format=list",
+        "bulk_update": "PUT /api/tasks/bulk"
+      },
+      "actions": [
+        {
+          "id": "action-tasks-toggle-board",
+          "label": "Switch to board view",
+          "target_route": "/board"
+        },
+        {
+          "id": "action-tasks-filter",
+          "label": "Apply status assignee priority PRD QA filters"
+        },
+        {
+          "id": "action-tasks-sort",
+          "label": "Sort table column"
+        },
+        {
+          "id": "action-tasks-open-detail",
+          "label": "Open row detail",
+          "target_route": "/tasks/:id"
+        },
+        {
+          "id": "action-tasks-open-trace",
+          "label": "Open beads trace",
+          "target_route": "/trace/:id"
+        },
+        {
+          "id": "action-tasks-bulk-assign",
+          "label": "Bulk assign selected tasks"
+        },
+        {
+          "id": "action-tasks-bulk-status",
+          "label": "Bulk change selected task status"
+        },
+        {
+          "id": "action-tasks-export-csv",
+          "label": "Export current filtered CSV"
+        }
+      ],
+      "responsive": {
+        "Desktop": "full table with bulk action bar",
+        "Tablet": "hide QA and PRD columns into expandable row detail",
+        "Mobile": "task cards with tap-to-expand details"
+      },
+      "boundary_content": {
+        "loading": "Ten skeleton rows",
+        "empty": "Không tìm thấy task phù hợp filter with clear filters CTA",
+        "error": "Không thể tải danh sách task từ FrankenSQLite with retry action",
+        "saving": "Bulk action bar disabled with row-level pending markers"
+      },
+      "children": [
+        {
+          "type": "view_toggle",
+          "ds_id": "ds:webui.tasks.view-toggle",
+          "labels": {
+            "options": "Board, List"
+          }
+        },
+        {
+          "type": "filter_bar",
+          "ds_id": "ds:webui.tasks.filter-bar"
+        },
+        {
+          "type": "table",
+          "ds_id": "ds:webui.tasks.table"
+        },
+        {
+          "type": "bulk_action_bar",
+          "ds_id": "ds:webui.tasks.bulk-actions"
+        }
+      ]
+    },
+    {
+      "type": "view_toggle",
+      "ds_id": "ds:webui.tasks.view-toggle",
+      "labels": {
+        "options": "Board, List"
+      }
+    },
+    {
+      "type": "filter_bar",
+      "ds_id": "ds:webui.tasks.filter-bar"
+    },
+    {
+      "type": "table",
+      "ds_id": "ds:webui.tasks.table"
+    },
+    {
+      "type": "bulk_action_bar",
+      "ds_id": "ds:webui.tasks.bulk-actions"
+    },
+    {
+      "type": "detail_page",
+      "ds_id": "ds:webui.task-detail.root",
+      "labels": {
+        "title": "Task Detail",
+        "tabs": "detail, activity, graph, code, approval"
+      },
+      "bindings": {
+        "task": "GET /api/tasks/:id",
+        "activity": "GET /api/tasks/:id/activity",
+        "trace": "GET /api/trace/:id?depth=2",
+        "save_field": "PUT /api/tasks/:id"
+      },
+      "actions": [
+        {
+          "id": "action-task-back-to-list",
+          "label": "Back to task list",
+          "target_route": "/tasks"
+        },
+        {
+          "id": "action-task-save-status",
+          "label": "Save status field"
+        },
+        {
+          "id": "action-task-save-assignee",
+          "label": "Save assignee field"
+        },
+        {
+          "id": "action-task-open-approval",
+          "label": "Open approval tab",
+          "target_route": "/tasks/:id#approval"
+        },
+        {
+          "id": "action-task-open-trace",
+          "label": "Open full trace",
+          "target_route": "/trace/:id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "task summary header above tab panel",
+        "Tablet": "horizontally scrollable tabs",
+        "Mobile": "field groups stack and tabs become accordion sections"
+      },
+      "boundary_content": {
+        "loading": "Header field skeleton and tab content skeleton",
+        "not_found": "Task không tồn tại hoặc đã bị xóa with link back to Tasks",
+        "offline": "Read-only fields and queued edit messaging",
+        "saving": "Inline saving marker beside edited field"
+      },
+      "children": [
+        {
+          "type": "summary_header",
+          "ds_id": "ds:webui.task-detail.summary-header"
+        },
+        {
+          "type": "tab_list",
+          "ds_id": "ds:webui.task-detail.tabs"
+        },
+        {
+          "type": "activity_timeline",
+          "ds_id": "ds:webui.task-detail.activity"
+        },
+        {
+          "type": "graph_widget",
+          "ds_id": "ds:webui.task-detail.graph-widget"
+        },
+        {
+          "type": "approval_embed",
+          "ds_id": "ds:webui.task-detail.approval-embed"
+        }
+      ]
+    },
+    {
+      "type": "summary_header",
+      "ds_id": "ds:webui.task-detail.summary-header"
+    },
+    {
+      "type": "tab_list",
+      "ds_id": "ds:webui.task-detail.tabs"
+    },
+    {
+      "type": "activity_timeline",
+      "ds_id": "ds:webui.task-detail.activity"
+    },
+    {
+      "type": "graph_widget",
+      "ds_id": "ds:webui.task-detail.graph-widget"
+    },
+    {
+      "type": "approval_embed",
+      "ds_id": "ds:webui.task-detail.approval-embed"
+    },
+    {
+      "type": "graph_explorer",
+      "ds_id": "ds:webui.trace.root",
+      "labels": {
+        "title": "Beads Trace Explorer",
+        "modes": "graph, dag"
+      },
+      "bindings": {
+        "trace": "GET /api/trace/:id?depth=full",
+        "git_enrichment": "GET /api/trace/:id?include=git"
+      },
+      "actions": [
+        {
+          "id": "action-trace-change-root",
+          "label": "Change root Beads ID"
+        },
+        {
+          "id": "action-trace-toggle-direction",
+          "label": "Toggle forward reverse direction"
+        },
+        {
+          "id": "action-trace-select-node",
+          "label": "Select graph node"
+        },
+        {
+          "id": "action-trace-open-doc",
+          "label": "Open document",
+          "target_route": "/docs/:id"
+        },
+        {
+          "id": "action-trace-open-task",
+          "label": "Open task",
+          "target_route": "/tasks/:id"
+        },
+        {
+          "id": "action-trace-open-git-graph",
+          "label": "Open Git graph scenario",
+          "target_route": "/git-graph"
+        }
+      ],
+      "responsive": {
+        "Desktop": "graph canvas 70 percent and detail panel 30 percent",
+        "Tablet": "detail panel as bottom sheet",
+        "Mobile": "simplified tree view with full-screen node detail overlay"
+      },
+      "boundary_content": {
+        "loading": "Graph canvas and detail panel skeletons with API progress text",
+        "empty": "Không tìm thấy liên kết nào cho Beads ID này with ID check hint",
+        "error": "Lỗi truy vấn graph từ gmind trace with retry action",
+        "partial": "Local graph visible with enrichment still loading badge"
+      },
+      "children": [
+        {
+          "type": "trace_toolbar",
+          "ds_id": "ds:webui.trace.toolbar"
+        },
+        {
+          "type": "graph_canvas",
+          "ds_id": "ds:webui.trace.canvas"
+        },
+        {
+          "type": "node_detail_panel",
+          "ds_id": "ds:webui.trace.detail-panel"
+        },
+        {
+          "type": "legend_stats",
+          "ds_id": "ds:webui.trace.legend-stats"
+        }
+      ]
+    },
+    {
+      "type": "trace_toolbar",
+      "ds_id": "ds:webui.trace.toolbar"
+    },
+    {
+      "type": "graph_canvas",
+      "ds_id": "ds:webui.trace.canvas"
+    },
+    {
+      "type": "node_detail_panel",
+      "ds_id": "ds:webui.trace.detail-panel"
+    },
+    {
+      "type": "legend_stats",
+      "ds_id": "ds:webui.trace.legend-stats"
+    },
+    {
+      "type": "document_viewer",
+      "ds_id": "ds:webui.docs.root",
+      "labels": {
+        "title": "Document Viewer"
+      },
+      "bindings": {
+        "doc_tree": "GET /api/docs?group=source_type",
+        "document": "GET /api/docs/:id",
+        "coverage": "GET /api/coverage?doc=<id>"
+      },
+      "actions": [
+        {
+          "id": "action-docs-select-document",
+          "label": "Select document from tree"
+        },
+        {
+          "id": "action-docs-open-trace",
+          "label": "Open Beads trace",
+          "target_route": "/trace/:id"
+        },
+        {
+          "id": "action-docs-open-search",
+          "label": "Search in Explorer",
+          "target_route": "/search#doc"
+        },
+        {
+          "id": "action-docs-open-knowledge-graph",
+          "label": "Open Knowledge Graph",
+          "target_route": "/knowledge-graph"
+        }
+      ],
+      "responsive": {
+        "Desktop": "document tree 280px and content panel",
+        "Tablet": "document tree becomes top selector",
+        "Mobile": "content-first with back-to-list control"
+      },
+      "boundary_content": {
+        "loading": "Skeleton doc tree and content panel",
+        "empty": "Chưa có tài liệu nào được index with run reindex CTA",
+        "error": "Không thể tải tài liệu từ Zvec with retry action"
+      },
+      "children": [
+        {
+          "type": "doc_tree",
+          "ds_id": "ds:webui.docs.tree"
+        },
+        {
+          "type": "rendered_document",
+          "ds_id": "ds:webui.docs.content"
+        },
+        {
+          "type": "section_badges",
+          "ds_id": "ds:webui.docs.section-badges"
+        }
+      ]
+    },
+    {
+      "type": "doc_tree",
+      "ds_id": "ds:webui.docs.tree"
+    },
+    {
+      "type": "rendered_document",
+      "ds_id": "ds:webui.docs.content"
+    },
+    {
+      "type": "section_badges",
+      "ds_id": "ds:webui.docs.section-badges"
+    },
+    {
+      "type": "approval_workspace",
+      "ds_id": "ds:webui.approval.root",
+      "labels": {
+        "title": "Level 3 Approval Gates",
+        "anchors": "#panels, #rtm, #heatmap"
+      },
+      "bindings": {
+        "queue": "GET /api/tasks?status=pending-approval",
+        "evidence": "GET /api/approval/:id/evidence",
+        "coverage": "GET /api/coverage",
+        "decision": "POST /api/approval/:id/decision"
+      },
+      "actions": [
+        {
+          "id": "action-approval-select-task",
+          "label": "Select approval task"
+        },
+        {
+          "id": "action-approval-refresh-evidence",
+          "label": "Refresh evidence"
+        },
+        {
+          "id": "action-approval-approve",
+          "label": "Approve with valid evidence"
+        },
+        {
+          "id": "action-approval-reject",
+          "label": "Reject with reason"
+        },
+        {
+          "id": "action-approval-request-changes",
+          "label": "Request changes"
+        },
+        {
+          "id": "action-approval-open-trace",
+          "label": "Open RTM lineage",
+          "target_route": "/trace/:id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "queue, evidence, and decision columns",
+        "Tablet": "stacked evidence and decision with sticky decision bar",
+        "Mobile": "single-column review with bottom decision controls"
+      },
+      "boundary_content": {
+        "loading": "Evidence aggregation skeletons",
+        "empty": "Không có yêu cầu phê duyệt nào đang chờ with history toggles",
+        "insufficient_evidence": "Approve disabled with missing evidence reason and refresh CTA",
+        "decision_submitted": "Audit receipt with decision ID actor timestamp and task link",
+        "error": "CI or GitHub evidence connection failure with retry and admin override policy"
+      },
+      "children": [
+        {
+          "type": "queue_panel",
+          "ds_id": "ds:webui.approval.queue"
+        },
+        {
+          "type": "evidence_hub",
+          "ds_id": "ds:webui.approval.evidence-hub"
+        },
+        {
+          "type": "rtm_matrix",
+          "ds_id": "ds:webui.approval.rtm-matrix"
+        },
+        {
+          "type": "heatmap_panel",
+          "ds_id": "ds:webui.approval.coverage-heatmap"
+        },
+        {
+          "type": "decision_box",
+          "ds_id": "ds:webui.approval.decision-box"
+        }
+      ]
+    },
+    {
+      "type": "queue_panel",
+      "ds_id": "ds:webui.approval.queue"
+    },
+    {
+      "type": "evidence_hub",
+      "ds_id": "ds:webui.approval.evidence-hub"
+    },
+    {
+      "type": "rtm_matrix",
+      "ds_id": "ds:webui.approval.rtm-matrix"
+    },
+    {
+      "type": "heatmap_panel",
+      "ds_id": "ds:webui.approval.coverage-heatmap"
+    },
+    {
+      "type": "decision_box",
+      "ds_id": "ds:webui.approval.decision-box"
+    },
+    {
+      "type": "search_workspace",
+      "ds_id": "ds:webui.search.root",
+      "labels": {
+        "title": "Search Results",
+        "filters": "all, doc, commit, task, adr, chat, spike"
+      },
+      "bindings": {
+        "results": "GET /api/search?q=<query>&type=<type>"
+      },
+      "actions": [
+        {
+          "id": "action-search-submit-query",
+          "label": "Submit query"
+        },
+        {
+          "id": "action-search-select-filter",
+          "label": "Select type filter hash"
+        },
+        {
+          "id": "action-search-open-result-task",
+          "label": "Open task result",
+          "target_route": "/tasks/:id"
+        },
+        {
+          "id": "action-search-open-result-doc",
+          "label": "Open document result",
+          "target_route": "/docs/:id"
+        },
+        {
+          "id": "action-search-open-result-trace",
+          "label": "Open trace result",
+          "target_route": "/trace/:id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "filter column, results list, detail sidebar",
+        "Tablet": "filters collapse above results",
+        "Mobile": "filters hidden behind dropdown and results full width"
+      },
+      "boundary_content": {
+        "loading": "Result card skeletons with searching backends message",
+        "empty": "Không tìm thấy kết quả cho query with query adjustment hint",
+        "error": "Lỗi kết nối Zvec hoặc FrankenSQLite with retry action"
+      },
+      "children": [
+        {
+          "type": "query_input",
+          "ds_id": "ds:webui.search.query-input"
+        },
+        {
+          "type": "type_filters",
+          "ds_id": "ds:webui.search.type-filters"
+        },
+        {
+          "type": "grouped_results",
+          "ds_id": "ds:webui.search.results-list"
+        },
+        {
+          "type": "result_detail",
+          "ds_id": "ds:webui.search.detail-sidebar"
+        }
+      ]
+    },
+    {
+      "type": "query_input",
+      "ds_id": "ds:webui.search.query-input"
+    },
+    {
+      "type": "type_filters",
+      "ds_id": "ds:webui.search.type-filters"
+    },
+    {
+      "type": "grouped_results",
+      "ds_id": "ds:webui.search.results-list"
+    },
+    {
+      "type": "result_detail",
+      "ds_id": "ds:webui.search.detail-sidebar"
+    },
+    {
+      "type": "terminal_mosaic",
+      "ds_id": "ds:webui.terminal.root",
+      "labels": {
+        "title": "Agent and CI Terminal Console",
+        "tabs": "agent-console, deploy, debug, ci-cd"
+      },
+      "bindings": {
+        "sessions": "GET /api/agents/sessions",
+        "ci_runs": "GET /api/ci/runs",
+        "task_activity": "GET /api/tasks/:id/activity"
+      },
+      "actions": [
+        {
+          "id": "action-terminal-select-tab",
+          "label": "Select terminal scenario tab"
+        },
+        {
+          "id": "action-terminal-refresh-stream",
+          "label": "Refresh log stream"
+        }
+      ],
+      "responsive": {
+        "Desktop": "2 by 2 mosaic panes",
+        "Tablet": "two-pane stack",
+        "Mobile": "one pane at a time with scenario tabs"
+      },
+      "boundary_content": {
+        "loading": "Stream connection skeleton panes",
+        "empty": "Chưa có session nào hoạt động with Task List CTA",
+        "error": "Không thể tải log stream with retry action",
+        "offline": "Cached read-only logs and controlled actions disabled"
+      },
+      "children": [
+        {
+          "type": "scenario_tabs",
+          "ds_id": "ds:webui.terminal.tabs"
+        },
+        {
+          "type": "terminal_pane_grid",
+          "ds_id": "ds:webui.terminal.mosaic"
+        }
+      ]
+    },
+    {
+      "type": "scenario_tabs",
+      "ds_id": "ds:webui.terminal.tabs"
+    },
+    {
+      "type": "terminal_pane_grid",
+      "ds_id": "ds:webui.terminal.mosaic"
+    },
+    {
+      "type": "timeline_workspace",
+      "ds_id": "ds:webui.timeline.root",
+      "labels": {
+        "title": "Timeline and File Leases",
+        "anchors": "#file-lease, #activity-feed, #sprint-day"
+      },
+      "bindings": {
+        "activity": "GET /api/activity",
+        "file_leases": "GET /api/file-leases",
+        "task_activity": "GET /api/tasks/:id/activity"
+      },
+      "actions": [
+        {
+          "id": "action-timeline-select-anchor",
+          "label": "Select timeline anchor"
+        },
+        {
+          "id": "action-timeline-refresh",
+          "label": "Refresh activity and file leases"
+        }
+      ],
+      "responsive": {
+        "Desktop": "three-column file leases, activity feed, sprint day",
+        "Tablet": "two-column with sprint day below",
+        "Mobile": "stacked accordion sections"
+      },
+      "boundary_content": {
+        "loading": "Timeline and lease card skeletons",
+        "empty": "Chưa có hoạt động trong khoảng thời gian này with clear filters CTA",
+        "error": "Không thể tải activity hoặc file leases with retry action",
+        "offline": "Stale data label and read-only controls"
+      },
+      "children": [
+        {
+          "type": "file_lease_list",
+          "ds_id": "ds:webui.timeline.file-leases"
+        },
+        {
+          "type": "activity_feed",
+          "ds_id": "ds:webui.timeline.activity-feed"
+        },
+        {
+          "type": "sprint_day_timeline",
+          "ds_id": "ds:webui.timeline.sprint-day"
+        }
+      ]
+    },
+    {
+      "type": "file_lease_list",
+      "ds_id": "ds:webui.timeline.file-leases"
+    },
+    {
+      "type": "activity_feed",
+      "ds_id": "ds:webui.timeline.activity-feed"
+    },
+    {
+      "type": "sprint_day_timeline",
+      "ds_id": "ds:webui.timeline.sprint-day"
+    },
+    {
+      "type": "git_graph_workspace",
+      "ds_id": "ds:webui.git-graph.root",
+      "labels": {
+        "title": "Git Graph Explorer",
+        "scenarios": "gitflow, multi-agent, hotfix, release-train, monorepo, beads-prd-trace, beads-deadlock, beads-ds-comp, beads-traversal, beads-sprint-review"
+      },
+      "bindings": {
+        "graph": "GET /api/git/graph?scenario=<id>",
+        "trace_overlay": "GET /api/trace/:id?include=git"
+      },
+      "actions": [
+        {
+          "id": "action-git-graph-select-scenario",
+          "label": "Select scenario hash"
+        },
+        {
+          "id": "action-git-graph-select-commit",
+          "label": "Select commit detail"
+        },
+        {
+          "id": "action-git-graph-open-trace",
+          "label": "Open Beads trace",
+          "target_route": "/trace/:id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "scenario list beside graph canvas and commit detail",
+        "Tablet": "scenario list collapses above graph",
+        "Mobile": "scenario selector and simplified vertical commit list"
+      },
+      "boundary_content": {
+        "loading": "Progress bar while API analyzes git history",
+        "empty": "Không có commit phù hợp scenario or filter with reset CTA",
+        "error": "Không thể đọc dữ liệu local git with retry action",
+        "offline": "Cached graph visible and refresh disabled"
+      },
+      "children": [
+        {
+          "type": "scenario_list",
+          "ds_id": "ds:webui.git-graph.scenario-list"
+        },
+        {
+          "type": "git_graph_canvas",
+          "ds_id": "ds:webui.git-graph.canvas"
+        },
+        {
+          "type": "commit_detail",
+          "ds_id": "ds:webui.git-graph.commit-detail"
+        }
+      ]
+    },
+    {
+      "type": "scenario_list",
+      "ds_id": "ds:webui.git-graph.scenario-list"
+    },
+    {
+      "type": "git_graph_canvas",
+      "ds_id": "ds:webui.git-graph.canvas"
+    },
+    {
+      "type": "commit_detail",
+      "ds_id": "ds:webui.git-graph.commit-detail"
+    },
+    {
+      "type": "preset_graph_viewer",
+      "ds_id": "ds:webui.knowledge-graph.root",
+      "labels": {
+        "title": "Knowledge Graph Presets",
+        "presets": "simple, ecosystem, sprint"
+      },
+      "bindings": {
+        "presets": "GET /api/graph/presets",
+        "enrichment": "GET /api/trace/:id?depth=full"
+      },
+      "actions": [
+        {
+          "id": "action-knowledge-select-preset",
+          "label": "Select graph preset hash"
+        },
+        {
+          "id": "action-knowledge-select-node",
+          "label": "Select node for banner"
+        },
+        {
+          "id": "action-knowledge-open-trace",
+          "label": "Open full trace",
+          "target_route": "/trace/:id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "preset list, graph canvas, selected-node banner",
+        "Tablet": "banner becomes bottom sheet",
+        "Mobile": "preset picker above touch graph and full-screen selected-node detail"
+      },
+      "boundary_content": {
+        "loading": "Graph canvas skeleton and preset loading label",
+        "empty": "Chưa có liên kết tài liệu hoặc biểu đồ trống with link PRD CTA",
+        "error": "Lỗi truy xuất đồ thị từ gmind with retry action"
+      },
+      "children": [
+        {
+          "type": "preset_list",
+          "ds_id": "ds:webui.knowledge-graph.preset-list"
+        },
+        {
+          "type": "sigma_graph_canvas",
+          "ds_id": "ds:webui.knowledge-graph.canvas"
+        },
+        {
+          "type": "selected_node_banner",
+          "ds_id": "ds:webui.knowledge-graph.node-banner"
+        }
+      ]
+    },
+    {
+      "type": "preset_list",
+      "ds_id": "ds:webui.knowledge-graph.preset-list"
+    },
+    {
+      "type": "sigma_graph_canvas",
+      "ds_id": "ds:webui.knowledge-graph.canvas"
+    },
+    {
+      "type": "selected_node_banner",
+      "ds_id": "ds:webui.knowledge-graph.node-banner"
+    },
+    {
+      "type": "portfolio_dashboard",
+      "ds_id": "ds:webui.portfolio.root",
+      "labels": {
+        "title": "Executive Portfolio"
+      },
+      "bindings": {
+        "epics": "GET /api/portfolio/epics",
+        "epic_tasks": "GET /api/tasks?issue_type=epic"
+      },
+      "actions": [
+        {
+          "id": "action-portfolio-open-epic-tasks",
+          "label": "Open blocked epic tasks",
+          "target_route": "/tasks?epic=:id"
+        },
+        {
+          "id": "action-portfolio-open-budget-trace",
+          "label": "Open budget lineage",
+          "target_route": "/trace/:epic-id"
+        }
+      ],
+      "responsive": {
+        "Desktop": "portfolio table beside roadmap",
+        "Tablet": "roadmap stacks below table",
+        "Mobile": "epic summary cards with roadmap accordion"
+      },
+      "boundary_content": {
+        "loading": "Portfolio row and roadmap skeletons",
+        "empty": "Chưa có epic trong portfolio with create or import CTA",
+        "error": "Không thể tải portfolio with retry action",
+        "forbidden": "Budget and private forecast fields hidden with role message"
+      },
+      "children": [
+        {
+          "type": "portfolio_table",
+          "ds_id": "ds:webui.portfolio.table"
+        },
+        {
+          "type": "roadmap",
+          "ds_id": "ds:webui.portfolio.roadmap"
+        }
+      ]
+    },
+    {
+      "type": "portfolio_table",
+      "ds_id": "ds:webui.portfolio.table"
+    },
+    {
+      "type": "roadmap",
+      "ds_id": "ds:webui.portfolio.roadmap"
+    },
+    {
+      "type": "pi_planning_workspace",
+      "ds_id": "ds:webui.pi-planning.root",
+      "labels": {
+        "title": "PI Planning Interactive UI"
+      },
+      "bindings": {
+        "features": "GET /api/pi/features",
+        "plan_update": "PUT /api/pi/plan",
+        "risks": "GET /api/risks?view=roam",
+        "confidence_vote": "POST /api/pi/confidence-vote"
+      },
+      "actions": [
+        {
+          "id": "action-pi-drag-feature",
+          "label": "Drag feature from strategic pool to capacity plan"
+        },
+        {
+          "id": "action-pi-score-business-value",
+          "label": "Score business value"
+        },
+        {
+          "id": "action-pi-submit-confidence-vote",
+          "label": "Submit confidence vote"
+        },
+        {
+          "id": "action-pi-open-roam",
+          "label": "Open ROAM board anchor"
+        }
+      ],
+      "responsive": {
+        "Desktop": "strategic pool and capacity plan side by side with scoring and ROAM below",
+        "Tablet": "pool and plan stack with drag handles preserved",
+        "Mobile": "PI sections become accordions with controlled drag alternative"
+      },
+      "boundary_content": {
+        "loading": "Feature pool and capacity skeletons",
+        "empty": "Chưa có feature cho PI này with import feature CTA",
+        "error": "Không thể tải PI planning data with retry action",
+        "offline": "Planning edits disabled and cached plan visible",
+        "saving": "Confidence vote and plan update show pending state"
+      },
+      "children": [
+        {
+          "type": "dnd_strategic_sandbox",
+          "ds_id": "ds:webui.pi-planning.strategic-sandbox"
+        },
+        {
+          "type": "capacity_plan",
+          "ds_id": "ds:webui.pi-planning.capacity-plan"
+        },
+        {
+          "type": "business_value_scoring",
+          "ds_id": "ds:webui.pi-planning.value-scoring"
+        },
+        {
+          "type": "confidence_vote",
+          "ds_id": "ds:webui.pi-planning.confidence-vote"
+        },
+        {
+          "type": "roam_board",
+          "ds_id": "ds:webui.pi-planning.roam-board"
+        }
+      ]
+    },
+    {
+      "type": "dnd_strategic_sandbox",
+      "ds_id": "ds:webui.pi-planning.strategic-sandbox"
+    },
+    {
+      "type": "capacity_plan",
+      "ds_id": "ds:webui.pi-planning.capacity-plan"
+    },
+    {
+      "type": "business_value_scoring",
+      "ds_id": "ds:webui.pi-planning.value-scoring"
+    },
+    {
+      "type": "confidence_vote",
+      "ds_id": "ds:webui.pi-planning.confidence-vote"
+    },
+    {
+      "type": "roam_board",
+      "ds_id": "ds:webui.pi-planning.roam-board"
+    },
+    {
+      "type": "storyboard_overview",
+      "ds_id": "ds:webui.storyboards.root",
+      "labels": {
+        "title": "Storyboard Journey Map"
+      },
+      "bindings": {
+        "storyboards": "GET /api/storyboards"
+      },
+      "actions": [
+        {
+          "id": "action-storyboards-filter-journey",
+          "label": "Filter by role module outcome"
+        },
+        {
+          "id": "action-storyboards-open-detail",
+          "label": "Open storyboard detail",
+          "target_route": "/storyboards/:id"
+        },
+        {
+          "id": "action-storyboards-open-screen",
+          "label": "Open CTA screen path"
+        }
+      ],
+      "responsive": {
+        "Desktop": "journey filter beside horizontal use-case flow and guidance panel",
+        "Tablet": "filters collapse above flow",
+        "Mobile": "flow nodes become vertical stepper"
+      },
+      "boundary_content": {
+        "loading": "Flow row and guidance panel skeletons",
+        "empty": "Không tìm thấy Storyboard cho module này with show all CTA",
+        "error": "Không thể tải storyboard metadata with retry action",
+        "offline": "Cached storyboard read-only and local CTAs remain active"
+      },
+      "children": [
+        {
+          "type": "journey_filter",
+          "ds_id": "ds:webui.storyboards.filter"
+        },
+        {
+          "type": "usecase_flow",
+          "ds_id": "ds:webui.storyboards.flow"
+        },
+        {
+          "type": "guidance_panel",
+          "ds_id": "ds:webui.storyboards.guidance-panel"
+        }
+      ]
+    },
+    {
+      "type": "journey_filter",
+      "ds_id": "ds:webui.storyboards.filter"
+    },
+    {
+      "type": "usecase_flow",
+      "ds_id": "ds:webui.storyboards.flow"
+    },
+    {
+      "type": "guidance_panel",
+      "ds_id": "ds:webui.storyboards.guidance-panel"
+    },
+    {
+      "type": "storyboard_detail",
+      "ds_id": "ds:webui.storyboard-detail.root",
+      "labels": {
+        "title": "Storyboard Detail"
+      },
+      "bindings": {
+        "storyboard": "GET /api/storyboards/:id"
+      },
+      "actions": [
+        {
+          "id": "action-storyboard-detail-open-screen",
+          "label": "Open aligned screen path"
+        },
+        {
+          "id": "action-storyboard-detail-back",
+          "label": "Back to storyboards",
+          "target_route": "/storyboards"
+        }
+      ],
+      "responsive": {
+        "Desktop": "role and journey summary beside step timeline",
+        "Tablet": "summary above timeline",
+        "Mobile": "vertical timeline cards"
+      },
+      "boundary_content": {
+        "loading": "Storyboard detail skeleton",
+        "empty": "Storyboard has no steps with back CTA",
+        "not_found": "Storyboard ID not found with back CTA",
+        "error": "Không thể tải storyboard detail with retry action"
+      },
+      "children": [
+        {
+          "type": "journey_summary",
+          "ds_id": "ds:webui.storyboard-detail.summary"
+        },
+        {
+          "type": "step_timeline",
+          "ds_id": "ds:webui.storyboard-detail.timeline"
+        },
+        {
+          "type": "related_usecases",
+          "ds_id": "ds:webui.storyboard-detail.related-usecases"
+        }
+      ]
+    },
+    {
+      "type": "journey_summary",
+      "ds_id": "ds:webui.storyboard-detail.summary"
+    },
+    {
+      "type": "step_timeline",
+      "ds_id": "ds:webui.storyboard-detail.timeline"
+    },
+    {
+      "type": "related_usecases",
+      "ds_id": "ds:webui.storyboard-detail.related-usecases"
+    },
+    {
+      "type": "component_catalog",
+      "ds_id": "ds:webui.components.root",
+      "labels": {
+        "title": "Shared Components Catalog",
+        "sections": "Buttons, Badges Status, Progress, Avatar Stack, Modal, Dropdown, Accordion, Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels, Status Dots, Skeleton, Empty State, Error Banner"
+      },
+      "bindings": {
+        "catalog_sections": "shared primitives and tokens"
+      },
+      "actions": [
+        {
+          "id": "action-components-scroll-section",
+          "label": "Scroll to component section hash"
+        },
+        {
+          "id": "action-components-toggle-example",
+          "label": "Interact with component example"
+        }
+      ],
+      "responsive": {
+        "Desktop": "section navigation beside examples grid",
+        "Tablet": "section navigation becomes sticky top list",
+        "Mobile": "single-column anchored examples"
+      },
+      "boundary_content": {
+        "loading": "Component example skeletons",
+        "empty": "No component sections registered with registry review CTA",
+        "error": "Component catalog failed to load with retry action"
+      },
+      "children": [
+        {
+          "type": "section_nav",
+          "ds_id": "ds:webui.components.section-nav"
+        },
+        {
+          "type": "examples_region",
+          "ds_id": "ds:webui.components.examples"
+        },
+        {
+          "type": "token_reference",
+          "ds_id": "ds:webui.components.tokens"
+        }
+      ]
+    },
+    {
+      "type": "section_nav",
+      "ds_id": "ds:webui.components.section-nav"
+    },
+    {
+      "type": "examples_region",
+      "ds_id": "ds:webui.components.examples"
+    },
+    {
+      "type": "token_reference",
+      "ds_id": "ds:webui.components.tokens"
     }
   ],
   "ds_ids": [
-    "ds:global_shell",
-    "ds:component:header",
-    "ds:screen:rtm-dashboard",
-    "ds:screen:approval-001"
+    "ds:webui.shell.root",
+    "ds:webui.shell.header",
+    "ds:webui.shell.global-search",
+    "ds:webui.shell.pm-nav",
+    "ds:webui.shell.main-region",
+    "ds:webui.shell.footer",
+    "ds:webui.rtm.root",
+    "ds:webui.rtm.kpi-row",
+    "ds:webui.rtm.coverage-heatmap",
+    "ds:webui.rtm.task-progress",
+    "ds:webui.rtm.knowledge-graph-widget",
+    "ds:webui.rtm.gap-analysis",
+    "ds:webui.board.root",
+    "ds:webui.board.selector",
+    "ds:webui.board.stats-strip",
+    "ds:webui.board.columns",
+    "ds:webui.tasks.root",
+    "ds:webui.tasks.view-toggle",
+    "ds:webui.tasks.filter-bar",
+    "ds:webui.tasks.table",
+    "ds:webui.tasks.bulk-actions",
+    "ds:webui.task-detail.root",
+    "ds:webui.task-detail.summary-header",
+    "ds:webui.task-detail.tabs",
+    "ds:webui.task-detail.activity",
+    "ds:webui.task-detail.graph-widget",
+    "ds:webui.task-detail.approval-embed",
+    "ds:webui.trace.root",
+    "ds:webui.trace.toolbar",
+    "ds:webui.trace.canvas",
+    "ds:webui.trace.detail-panel",
+    "ds:webui.trace.legend-stats",
+    "ds:webui.docs.root",
+    "ds:webui.docs.tree",
+    "ds:webui.docs.content",
+    "ds:webui.docs.section-badges",
+    "ds:webui.approval.root",
+    "ds:webui.approval.queue",
+    "ds:webui.approval.evidence-hub",
+    "ds:webui.approval.rtm-matrix",
+    "ds:webui.approval.coverage-heatmap",
+    "ds:webui.approval.decision-box",
+    "ds:webui.search.root",
+    "ds:webui.search.query-input",
+    "ds:webui.search.type-filters",
+    "ds:webui.search.results-list",
+    "ds:webui.search.detail-sidebar",
+    "ds:webui.terminal.root",
+    "ds:webui.terminal.tabs",
+    "ds:webui.terminal.mosaic",
+    "ds:webui.timeline.root",
+    "ds:webui.timeline.file-leases",
+    "ds:webui.timeline.activity-feed",
+    "ds:webui.timeline.sprint-day",
+    "ds:webui.git-graph.root",
+    "ds:webui.git-graph.scenario-list",
+    "ds:webui.git-graph.canvas",
+    "ds:webui.git-graph.commit-detail",
+    "ds:webui.knowledge-graph.root",
+    "ds:webui.knowledge-graph.preset-list",
+    "ds:webui.knowledge-graph.canvas",
+    "ds:webui.knowledge-graph.node-banner",
+    "ds:webui.portfolio.root",
+    "ds:webui.portfolio.table",
+    "ds:webui.portfolio.roadmap",
+    "ds:webui.pi-planning.root",
+    "ds:webui.pi-planning.strategic-sandbox",
+    "ds:webui.pi-planning.capacity-plan",
+    "ds:webui.pi-planning.value-scoring",
+    "ds:webui.pi-planning.confidence-vote",
+    "ds:webui.pi-planning.roam-board",
+    "ds:webui.storyboards.root",
+    "ds:webui.storyboards.filter",
+    "ds:webui.storyboards.flow",
+    "ds:webui.storyboards.guidance-panel",
+    "ds:webui.storyboard-detail.root",
+    "ds:webui.storyboard-detail.summary",
+    "ds:webui.storyboard-detail.timeline",
+    "ds:webui.storyboard-detail.related-usecases",
+    "ds:webui.components.root",
+    "ds:webui.components.section-nav",
+    "ds:webui.components.examples",
+    "ds:webui.components.tokens"
   ],
   "actions": [
-    "Approve",
-    "Drill-down",
-    "Reject",
-    "Request Changes",
-    "View Trace"
+    "EVENT_APPROVAL_APPROVE",
+    "EVENT_APPROVAL_OPEN_TRACE",
+    "EVENT_APPROVAL_REFRESH_EVIDENCE",
+    "EVENT_APPROVAL_REJECT",
+    "EVENT_APPROVAL_REQUEST_CHANGES",
+    "EVENT_APPROVAL_SELECT_TASK",
+    "EVENT_BACK_TO_LIST",
+    "EVENT_BACK_TO_SAFE_ROUTE",
+    "EVENT_BACK_TO_STORYBOARDS",
+    "EVENT_BACK_TO_TASK_LIST",
+    "EVENT_BOARD_DRAG_CARD",
+    "EVENT_BOARD_OPEN_TASK",
+    "EVENT_BOARD_SELECT_BOARD",
+    "EVENT_BROWSER_BACK",
+    "EVENT_CANCEL_CONFLICT_RESOLUTION",
+    "EVENT_CLEAR_FILTER_OR_GUIDE",
+    "EVENT_COMPONENTS_SCROLL_SECTION",
+    "EVENT_COMPONENTS_TOGGLE_EXAMPLE",
+    "EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH",
+    "EVENT_DOCS_OPEN_SEARCH",
+    "EVENT_DOCS_OPEN_TRACE",
+    "EVENT_DOCS_SELECT_DOCUMENT",
+    "EVENT_EXIT_PM_SPACE",
+    "EVENT_FOCUS_GLOBAL_SEARCH",
+    "EVENT_GIT_GRAPH_OPEN_TRACE",
+    "EVENT_GIT_GRAPH_SELECT_COMMIT",
+    "EVENT_GIT_GRAPH_SELECT_SCENARIO",
+    "EVENT_HEADER_OPEN_DESIGN_SYSTEM",
+    "EVENT_HEADER_OPEN_PM_SPACE",
+    "EVENT_KEEP_MINE_OR_USE_SERVER",
+    "EVENT_KNOWLEDGE_OPEN_TRACE",
+    "EVENT_KNOWLEDGE_SELECT_NODE",
+    "EVENT_KNOWLEDGE_SELECT_PRESET",
+    "EVENT_OPEN_DECISION_TASK",
+    "EVENT_OPEN_DESIGN_SYSTEM",
+    "EVENT_OPEN_PM_SPACE",
+    "EVENT_PI_DRAG_FEATURE",
+    "EVENT_PI_OPEN_ROAM",
+    "EVENT_PI_SCORE_BUSINESS_VALUE",
+    "EVENT_PI_SUBMIT_CONFIDENCE_VOTE",
+    "EVENT_PORTFOLIO_OPEN_BUDGET_TRACE",
+    "EVENT_PORTFOLIO_OPEN_EPIC_TASKS",
+    "EVENT_REFRESH_EVIDENCE",
+    "EVENT_REJECT_WITH_REASON",
+    "EVENT_RETRY_LOAD",
+    "EVENT_RETRY_SYNC_ERROR",
+    "EVENT_RETRY_SYNC_OK",
+    "EVENT_ROUTE_NORMALIZED",
+    "EVENT_RTM_CREATE_GAP_PLAN",
+    "EVENT_RTM_FILTER_TASKS",
+    "EVENT_RTM_OPEN_DOC",
+    "EVENT_RTM_OPEN_TRACE",
+    "EVENT_SEARCH_OPEN_RESULT_DOC",
+    "EVENT_SEARCH_OPEN_RESULT_TASK",
+    "EVENT_SEARCH_OPEN_RESULT_TRACE",
+    "EVENT_SEARCH_SELECT_FILTER",
+    "EVENT_SEARCH_SUBMIT_QUERY",
+    "EVENT_SHELL_HEADER_PM_SPACE",
+    "EVENT_SHELL_OPEN_SEARCH",
+    "EVENT_SHELL_RETRY_SYNC",
+    "EVENT_SHELL_SUBMIT_SEARCH",
+    "EVENT_SHELL_TOGGLE_NAV",
+    "EVENT_STORYBOARDS_FILTER_JOURNEY",
+    "EVENT_STORYBOARDS_OPEN_DETAIL",
+    "EVENT_STORYBOARDS_OPEN_SCREEN",
+    "EVENT_STORYBOARD_DETAIL_BACK",
+    "EVENT_STORYBOARD_DETAIL_OPEN_SCREEN",
+    "EVENT_TASKS_BULK_ASSIGN",
+    "EVENT_TASKS_BULK_STATUS",
+    "EVENT_TASKS_EXPORT_CSV",
+    "EVENT_TASKS_FILTER",
+    "EVENT_TASKS_OPEN_DETAIL",
+    "EVENT_TASKS_OPEN_TRACE",
+    "EVENT_TASKS_SORT",
+    "EVENT_TASKS_TOGGLE_BOARD",
+    "EVENT_TASK_BACK_TO_LIST",
+    "EVENT_TASK_OPEN_APPROVAL",
+    "EVENT_TASK_OPEN_TRACE",
+    "EVENT_TASK_SAVE_ASSIGNEE",
+    "EVENT_TASK_SAVE_STATUS",
+    "EVENT_TERMINAL_REFRESH_STREAM",
+    "EVENT_TERMINAL_SELECT_TAB",
+    "EVENT_TIMELINE_REFRESH",
+    "EVENT_TIMELINE_SELECT_ANCHOR",
+    "EVENT_TOGGLE_PM_NAV",
+    "EVENT_TRACE_CHANGE_ROOT",
+    "EVENT_TRACE_OPEN_DOC",
+    "EVENT_TRACE_OPEN_GIT_GRAPH",
+    "EVENT_TRACE_OPEN_TASK",
+    "EVENT_TRACE_SELECT_NODE",
+    "EVENT_TRACE_TOGGLE_DIRECTION",
+    "action-approval-approve",
+    "action-approval-open-trace",
+    "action-approval-refresh-evidence",
+    "action-approval-reject",
+    "action-approval-request-changes",
+    "action-approval-select-task",
+    "action-board-drag-card",
+    "action-board-open-task",
+    "action-board-select-board",
+    "action-components-scroll-section",
+    "action-components-toggle-example",
+    "action-docs-open-knowledge-graph",
+    "action-docs-open-search",
+    "action-docs-open-trace",
+    "action-docs-select-document",
+    "action-git-graph-open-trace",
+    "action-git-graph-select-commit",
+    "action-git-graph-select-scenario",
+    "action-knowledge-open-trace",
+    "action-knowledge-select-node",
+    "action-knowledge-select-preset",
+    "action-pi-drag-feature",
+    "action-pi-open-roam",
+    "action-pi-score-business-value",
+    "action-pi-submit-confidence-vote",
+    "action-portfolio-open-budget-trace",
+    "action-portfolio-open-epic-tasks",
+    "action-rtm-create-gap-plan",
+    "action-rtm-filter-tasks",
+    "action-rtm-open-doc",
+    "action-rtm-open-trace",
+    "action-search-open-result-doc",
+    "action-search-open-result-task",
+    "action-search-open-result-trace",
+    "action-search-select-filter",
+    "action-search-submit-query",
+    "action-shell-header-pm-space",
+    "action-shell-open-search",
+    "action-shell-retry-sync",
+    "action-shell-submit-search",
+    "action-shell-toggle-nav",
+    "action-storyboard-detail-back",
+    "action-storyboard-detail-open-screen",
+    "action-storyboards-filter-journey",
+    "action-storyboards-open-detail",
+    "action-storyboards-open-screen",
+    "action-task-back-to-list",
+    "action-task-open-approval",
+    "action-task-open-trace",
+    "action-task-save-assignee",
+    "action-task-save-status",
+    "action-tasks-bulk-assign",
+    "action-tasks-bulk-status",
+    "action-tasks-export-csv",
+    "action-tasks-filter",
+    "action-tasks-open-detail",
+    "action-tasks-open-trace",
+    "action-tasks-sort",
+    "action-tasks-toggle-board",
+    "action-terminal-refresh-stream",
+    "action-terminal-select-tab",
+    "action-timeline-refresh",
+    "action-timeline-select-anchor",
+    "action-trace-change-root",
+    "action-trace-open-doc",
+    "action-trace-open-git-graph",
+    "action-trace-open-task",
+    "action-trace-select-node",
+    "action-trace-toggle-direction"
   ],
   "events": [
-    "Approve",
-    "Drill-down",
-    "EVALUATED",
-    "LOADED",
-    "LOAD_FAIL",
-    "LOAD_SUCCESS",
-    "MISSING_EVIDENCE",
-    "NETWORK_DISCONNECT",
-    "NETWORK_RESTORED",
-    "NO_DATA",
-    "NO_QUEUE",
-    "Navigate to Approval",
-    "Navigate to Dashboard",
-    "Reject",
-    "Request Changes",
-    "Toggle Sidebar",
-    "View Trace"
+    "API_BULK_UPDATE_ACCEPTED",
+    "API_BULK_UPDATE_REJECTED",
+    "API_CONFIDENCE_VOTE_ACCEPTED",
+    "API_CONFLICT_ROLLBACK",
+    "API_DECISION_POSTED",
+    "API_ENRICHMENT_SUCCESS",
+    "API_ENRICHMENT_TIMEOUT",
+    "API_ERROR",
+    "API_EVIDENCE_INCOMPLETE",
+    "API_HEALTH_OK",
+    "API_HEALTH_TIMEOUT",
+    "API_NOT_FOUND",
+    "API_OFFLINE_DETECTED",
+    "API_PERMISSION_DENIED",
+    "API_PLAN_WRITE_ERROR",
+    "API_REHYDRATED",
+    "API_REQUEST_START",
+    "API_STATUS_UPDATED",
+    "API_SUCCESS",
+    "API_SUCCESS_EMPTY",
+    "API_SYNC_CONFLICT",
+    "API_WRITE_ERROR",
+    "API_WRITE_START",
+    "API_WRITE_SUCCESS",
+    "EVENT_APPROVAL_APPROVE",
+    "EVENT_APPROVAL_OPEN_TRACE",
+    "EVENT_APPROVAL_REFRESH_EVIDENCE",
+    "EVENT_APPROVAL_REJECT",
+    "EVENT_APPROVAL_REQUEST_CHANGES",
+    "EVENT_APPROVAL_SELECT_TASK",
+    "EVENT_BACK_TO_LIST",
+    "EVENT_BACK_TO_SAFE_ROUTE",
+    "EVENT_BACK_TO_STORYBOARDS",
+    "EVENT_BACK_TO_TASK_LIST",
+    "EVENT_BOARD_DRAG_CARD",
+    "EVENT_BOARD_OPEN_TASK",
+    "EVENT_BOARD_SELECT_BOARD",
+    "EVENT_BROWSER_BACK",
+    "EVENT_CANCEL_CONFLICT_RESOLUTION",
+    "EVENT_CLEAR_FILTER_OR_GUIDE",
+    "EVENT_COMPONENTS_SCROLL_SECTION",
+    "EVENT_COMPONENTS_TOGGLE_EXAMPLE",
+    "EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH",
+    "EVENT_DOCS_OPEN_SEARCH",
+    "EVENT_DOCS_OPEN_TRACE",
+    "EVENT_DOCS_SELECT_DOCUMENT",
+    "EVENT_EXIT_PM_SPACE",
+    "EVENT_FOCUS_GLOBAL_SEARCH",
+    "EVENT_GIT_GRAPH_OPEN_TRACE",
+    "EVENT_GIT_GRAPH_SELECT_COMMIT",
+    "EVENT_GIT_GRAPH_SELECT_SCENARIO",
+    "EVENT_HEADER_OPEN_DESIGN_SYSTEM",
+    "EVENT_HEADER_OPEN_PM_SPACE",
+    "EVENT_KEEP_MINE_OR_USE_SERVER",
+    "EVENT_KNOWLEDGE_OPEN_TRACE",
+    "EVENT_KNOWLEDGE_SELECT_NODE",
+    "EVENT_KNOWLEDGE_SELECT_PRESET",
+    "EVENT_OPEN_DECISION_TASK",
+    "EVENT_OPEN_DESIGN_SYSTEM",
+    "EVENT_OPEN_PM_SPACE",
+    "EVENT_PI_DRAG_FEATURE",
+    "EVENT_PI_OPEN_ROAM",
+    "EVENT_PI_SCORE_BUSINESS_VALUE",
+    "EVENT_PI_SUBMIT_CONFIDENCE_VOTE",
+    "EVENT_PORTFOLIO_OPEN_BUDGET_TRACE",
+    "EVENT_PORTFOLIO_OPEN_EPIC_TASKS",
+    "EVENT_REFRESH_EVIDENCE",
+    "EVENT_REJECT_WITH_REASON",
+    "EVENT_RETRY_LOAD",
+    "EVENT_RETRY_SYNC_ERROR",
+    "EVENT_RETRY_SYNC_OK",
+    "EVENT_ROUTE_NORMALIZED",
+    "EVENT_RTM_CREATE_GAP_PLAN",
+    "EVENT_RTM_FILTER_TASKS",
+    "EVENT_RTM_OPEN_DOC",
+    "EVENT_RTM_OPEN_TRACE",
+    "EVENT_SEARCH_OPEN_RESULT_DOC",
+    "EVENT_SEARCH_OPEN_RESULT_TASK",
+    "EVENT_SEARCH_OPEN_RESULT_TRACE",
+    "EVENT_SEARCH_SELECT_FILTER",
+    "EVENT_SEARCH_SUBMIT_QUERY",
+    "EVENT_SHELL_HEADER_PM_SPACE",
+    "EVENT_SHELL_OPEN_SEARCH",
+    "EVENT_SHELL_RETRY_SYNC",
+    "EVENT_SHELL_SUBMIT_SEARCH",
+    "EVENT_SHELL_TOGGLE_NAV",
+    "EVENT_STORYBOARDS_FILTER_JOURNEY",
+    "EVENT_STORYBOARDS_OPEN_DETAIL",
+    "EVENT_STORYBOARDS_OPEN_SCREEN",
+    "EVENT_STORYBOARD_DETAIL_BACK",
+    "EVENT_STORYBOARD_DETAIL_OPEN_SCREEN",
+    "EVENT_TASKS_BULK_ASSIGN",
+    "EVENT_TASKS_BULK_STATUS",
+    "EVENT_TASKS_EXPORT_CSV",
+    "EVENT_TASKS_FILTER",
+    "EVENT_TASKS_OPEN_DETAIL",
+    "EVENT_TASKS_OPEN_TRACE",
+    "EVENT_TASKS_SORT",
+    "EVENT_TASKS_TOGGLE_BOARD",
+    "EVENT_TASK_BACK_TO_LIST",
+    "EVENT_TASK_OPEN_APPROVAL",
+    "EVENT_TASK_OPEN_TRACE",
+    "EVENT_TASK_SAVE_ASSIGNEE",
+    "EVENT_TASK_SAVE_STATUS",
+    "EVENT_TERMINAL_REFRESH_STREAM",
+    "EVENT_TERMINAL_SELECT_TAB",
+    "EVENT_TIMELINE_REFRESH",
+    "EVENT_TIMELINE_SELECT_ANCHOR",
+    "EVENT_TOGGLE_PM_NAV",
+    "EVENT_TRACE_CHANGE_ROOT",
+    "EVENT_TRACE_OPEN_DOC",
+    "EVENT_TRACE_OPEN_GIT_GRAPH",
+    "EVENT_TRACE_OPEN_TASK",
+    "EVENT_TRACE_SELECT_NODE",
+    "EVENT_TRACE_TOGGLE_DIRECTION",
+    "ROUTE_APPROVAL_GATES",
+    "ROUTE_COMPONENTS_CATALOG",
+    "ROUTE_DOCUMENT_VIEWER",
+    "ROUTE_GIT_GRAPH_EXPLORER",
+    "ROUTE_KNOWLEDGE_GRAPH",
+    "ROUTE_PI_PLANNING",
+    "ROUTE_PORTFOLIO_VIEW",
+    "ROUTE_RTM_DASHBOARD",
+    "ROUTE_SAFE_BOARD",
+    "ROUTE_SEARCH_RESULTS",
+    "ROUTE_STORYBOARDS_OVERVIEW",
+    "ROUTE_STORYBOARD_DETAIL",
+    "ROUTE_TASK_DETAIL",
+    "ROUTE_TASK_LIST",
+    "ROUTE_TERMINAL_CONSOLE",
+    "ROUTE_TIMELINE_FILE_LEASES",
+    "ROUTE_TRACE_EXPLORER",
+    "action-approval-approve",
+    "action-approval-open-trace",
+    "action-approval-refresh-evidence",
+    "action-approval-reject",
+    "action-approval-request-changes",
+    "action-approval-select-task",
+    "action-board-drag-card",
+    "action-board-open-task",
+    "action-board-select-board",
+    "action-components-scroll-section",
+    "action-components-toggle-example",
+    "action-docs-open-knowledge-graph",
+    "action-docs-open-search",
+    "action-docs-open-trace",
+    "action-docs-select-document",
+    "action-git-graph-open-trace",
+    "action-git-graph-select-commit",
+    "action-git-graph-select-scenario",
+    "action-header-open-design-system",
+    "action-header-open-pm-space",
+    "action-knowledge-open-trace",
+    "action-knowledge-select-node",
+    "action-knowledge-select-preset",
+    "action-pi-drag-feature",
+    "action-pi-open-roam",
+    "action-pi-score-business-value",
+    "action-pi-submit-confidence-vote",
+    "action-portfolio-open-budget-trace",
+    "action-portfolio-open-epic-tasks",
+    "action-rtm-create-gap-plan",
+    "action-rtm-filter-tasks",
+    "action-rtm-open-doc",
+    "action-rtm-open-trace",
+    "action-search-open-result-doc",
+    "action-search-open-result-task",
+    "action-search-open-result-trace",
+    "action-search-select-filter",
+    "action-search-submit-query",
+    "action-shell-header-pm-space",
+    "action-shell-open-search",
+    "action-shell-retry-sync",
+    "action-shell-submit-search",
+    "action-shell-toggle-nav",
+    "action-storyboard-detail-back",
+    "action-storyboard-detail-open-screen",
+    "action-storyboards-filter-journey",
+    "action-storyboards-open-detail",
+    "action-storyboards-open-screen",
+    "action-task-back-to-list",
+    "action-task-open-approval",
+    "action-task-open-trace",
+    "action-task-save-assignee",
+    "action-task-save-status",
+    "action-tasks-bulk-assign",
+    "action-tasks-bulk-status",
+    "action-tasks-export-csv",
+    "action-tasks-filter",
+    "action-tasks-open-detail",
+    "action-tasks-open-trace",
+    "action-tasks-sort",
+    "action-tasks-toggle-board",
+    "action-terminal-refresh-stream",
+    "action-terminal-select-tab",
+    "action-timeline-refresh",
+    "action-timeline-select-anchor",
+    "action-trace-change-root",
+    "action-trace-open-doc",
+    "action-trace-open-git-graph",
+    "action-trace-open-task",
+    "action-trace-select-node",
+    "action-trace-toggle-direction"
   ],
   "transitions": [
     {
       "from": "[*]",
-      "to": "global_shell",
+      "to": "ShellLoading",
       "event": ""
     },
     {
-      "from": "[*]",
-      "to": "shell_loading",
-      "event": ""
+      "from": "ShellLoading",
+      "to": "ShellDefault",
+      "event": "API_HEALTH_OK"
     },
     {
-      "from": "shell_loading",
-      "to": "shell_default",
-      "event": "LOADED"
+      "from": "ShellLoading",
+      "to": "ShellOffline",
+      "event": "API_HEALTH_TIMEOUT"
     },
     {
-      "from": "shell_default",
-      "to": "shell_offline",
-      "event": "NETWORK_DISCONNECT"
+      "from": "ShellDefault",
+      "to": "ShellForbidden",
+      "event": "API_PERMISSION_DENIED"
     },
     {
-      "from": "shell_offline",
-      "to": "shell_default",
-      "event": "NETWORK_RESTORED"
+      "from": "ShellForbidden",
+      "to": "DashboardDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
     },
     {
-      "from": "shell_default",
-      "to": "shell_default",
-      "event": "Toggle Sidebar"
+      "from": "ShellOffline",
+      "to": "ShellDefault",
+      "event": "EVENT_RETRY_SYNC_OK"
     },
     {
-      "from": "global_shell",
-      "to": "rtm_dashboard",
-      "event": "Navigate to Dashboard"
+      "from": "ShellOffline",
+      "to": "ShellOffline",
+      "event": "EVENT_RETRY_SYNC_ERROR"
     },
     {
-      "from": "global_shell",
-      "to": "approval_gate",
-      "event": "Navigate to Approval"
+      "from": "ShellDefault",
+      "to": "SearchDefault",
+      "event": "EVENT_FOCUS_GLOBAL_SEARCH"
     },
     {
-      "from": "[*]",
-      "to": "dash_loading",
-      "event": ""
+      "from": "ShellDefault",
+      "to": "ShellDefault",
+      "event": "EVENT_TOGGLE_PM_NAV"
     },
     {
-      "from": "dash_loading",
-      "to": "dash_default",
-      "event": "LOAD_SUCCESS"
+      "from": "ShellDefault",
+      "to": "DashboardDefault",
+      "event": "EVENT_OPEN_PM_SPACE"
     },
     {
-      "from": "dash_loading",
-      "to": "dash_empty",
-      "event": "NO_DATA"
+      "from": "ShellDefault",
+      "to": "DesignSystemExternal",
+      "event": "EVENT_OPEN_DESIGN_SYSTEM"
     },
     {
-      "from": "dash_loading",
-      "to": "dash_error",
-      "event": "LOAD_FAIL"
+      "from": "ShellDefault",
+      "to": "DashboardDefault",
+      "event": "ROUTE_RTM_DASHBOARD"
     },
     {
-      "from": "dash_default",
-      "to": "view_drilldown",
-      "event": "Drill-down"
+      "from": "DashboardDefault",
+      "to": "DashboardLoading",
+      "event": "API_REQUEST_START"
     },
     {
-      "from": "dash_default",
-      "to": "view_trace",
-      "event": "View Trace"
+      "from": "DashboardLoading",
+      "to": "DashboardDefault",
+      "event": "API_SUCCESS"
     },
     {
-      "from": "[*]",
-      "to": "app_loading",
-      "event": ""
+      "from": "DashboardLoading",
+      "to": "DashboardEmpty",
+      "event": "API_SUCCESS_EMPTY"
     },
     {
-      "from": "app_loading",
-      "to": "app_default",
-      "event": "EVALUATED"
+      "from": "DashboardEmpty",
+      "to": "DashboardDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
     },
     {
-      "from": "app_loading",
-      "to": "app_empty",
-      "event": "NO_QUEUE"
+      "from": "DashboardLoading",
+      "to": "DashboardError",
+      "event": "API_ERROR"
     },
     {
-      "from": "app_loading",
-      "to": "app_error",
-      "event": "LOAD_FAIL"
+      "from": "DashboardError",
+      "to": "DashboardLoading",
+      "event": "EVENT_RETRY_LOAD"
     },
     {
-      "from": "app_default",
-      "to": "app_insufficient_evidence",
-      "event": "MISSING_EVIDENCE"
+      "from": "DashboardDefault",
+      "to": "DashboardOffline",
+      "event": "API_OFFLINE_DETECTED"
     },
     {
-      "from": "app_default",
-      "to": "app_decision_submitted",
-      "event": "Approve"
+      "from": "DashboardOffline",
+      "to": "DashboardDefault",
+      "event": "API_REHYDRATED"
     },
     {
-      "from": "app_default",
-      "to": "app_decision_submitted",
-      "event": "Reject"
+      "from": "ShellDefault",
+      "to": "BoardDefault",
+      "event": "ROUTE_SAFE_BOARD"
     },
     {
-      "from": "app_default",
-      "to": "app_decision_submitted",
-      "event": "Request Changes"
+      "from": "BoardDefault",
+      "to": "BoardLoading",
+      "event": "API_REQUEST_START"
     },
     {
-      "from": "app_insufficient_evidence",
-      "to": "app_decision_submitted",
-      "event": "Reject"
+      "from": "BoardLoading",
+      "to": "BoardDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "BoardLoading",
+      "to": "BoardEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "BoardEmpty",
+      "to": "BoardDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "BoardLoading",
+      "to": "BoardError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "BoardError",
+      "to": "BoardLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "BoardDefault",
+      "to": "BoardOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "BoardOffline",
+      "to": "BoardDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "BoardDefault",
+      "to": "BoardForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "BoardForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "TasksDefault",
+      "event": "ROUTE_TASK_LIST"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "TasksLoading",
+      "to": "TasksDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "TasksLoading",
+      "to": "TasksEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "TasksEmpty",
+      "to": "TasksDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "TasksLoading",
+      "to": "TasksError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TasksError",
+      "to": "TasksLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "TasksOffline",
+      "to": "TasksDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksSaving",
+      "event": "API_WRITE_START"
+    },
+    {
+      "from": "TasksSaving",
+      "to": "TasksDefault",
+      "event": "API_WRITE_SUCCESS"
+    },
+    {
+      "from": "TasksSaving",
+      "to": "TasksError",
+      "event": "API_WRITE_ERROR"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "TaskDetailDefault",
+      "event": "ROUTE_TASK_DETAIL"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TaskDetailLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "TaskDetailLoading",
+      "to": "TaskDetailDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "TaskDetailLoading",
+      "to": "TaskDetailError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TaskDetailError",
+      "to": "TaskDetailLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TaskDetailOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "TaskDetailOffline",
+      "to": "TaskDetailDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TaskDetailSaving",
+      "event": "API_WRITE_START"
+    },
+    {
+      "from": "TaskDetailSaving",
+      "to": "TaskDetailDefault",
+      "event": "API_WRITE_SUCCESS"
+    },
+    {
+      "from": "TaskDetailSaving",
+      "to": "TaskDetailError",
+      "event": "API_WRITE_ERROR"
+    },
+    {
+      "from": "TaskDetailLoading",
+      "to": "TaskDetailNotFound",
+      "event": "API_NOT_FOUND"
+    },
+    {
+      "from": "TaskDetailNotFound",
+      "to": "TasksDefault",
+      "event": "EVENT_BACK_TO_LIST"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "TraceDefault",
+      "event": "ROUTE_TRACE_EXPLORER"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TraceLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "TraceLoading",
+      "to": "TraceDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "TraceLoading",
+      "to": "TraceEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "TraceEmpty",
+      "to": "TraceDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "TraceLoading",
+      "to": "TraceError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TraceError",
+      "to": "TraceLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TraceOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "TraceOffline",
+      "to": "TraceDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TraceForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "TraceForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "TraceLoading",
+      "to": "TracePartial",
+      "event": "API_ENRICHMENT_TIMEOUT"
+    },
+    {
+      "from": "TracePartial",
+      "to": "TraceDefault",
+      "event": "API_ENRICHMENT_SUCCESS"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "DocsDefault",
+      "event": "ROUTE_DOCUMENT_VIEWER"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "DocsLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "DocsLoading",
+      "to": "DocsDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "DocsLoading",
+      "to": "DocsEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "DocsEmpty",
+      "to": "DocsDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "DocsLoading",
+      "to": "DocsError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "DocsError",
+      "to": "DocsLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "DocsOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "DocsOffline",
+      "to": "DocsDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "DocsForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "DocsForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ApprovalDefault",
+      "event": "ROUTE_APPROVAL_GATES"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "ApprovalLoading",
+      "to": "ApprovalDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "ApprovalLoading",
+      "to": "ApprovalEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "ApprovalEmpty",
+      "to": "ApprovalDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "ApprovalLoading",
+      "to": "ApprovalError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "ApprovalError",
+      "to": "ApprovalLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "ApprovalOffline",
+      "to": "ApprovalDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "ApprovalForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalInsufficientEvidence",
+      "event": "API_EVIDENCE_INCOMPLETE"
+    },
+    {
+      "from": "ApprovalInsufficientEvidence",
+      "to": "ApprovalLoading",
+      "event": "EVENT_REFRESH_EVIDENCE"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalDecisionSubmitted",
+      "event": "API_DECISION_POSTED"
+    },
+    {
+      "from": "ApprovalDecisionSubmitted",
+      "to": "TaskDetailDefault",
+      "event": "EVENT_OPEN_DECISION_TASK"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "SearchDefault",
+      "event": "ROUTE_SEARCH_RESULTS"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "SearchLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "SearchLoading",
+      "to": "SearchDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "SearchLoading",
+      "to": "SearchEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "SearchEmpty",
+      "to": "SearchDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "SearchLoading",
+      "to": "SearchError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "SearchError",
+      "to": "SearchLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "SearchOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "SearchOffline",
+      "to": "SearchDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "SearchForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "SearchForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "TerminalDefault",
+      "event": "ROUTE_TERMINAL_CONSOLE"
+    },
+    {
+      "from": "TerminalDefault",
+      "to": "TerminalLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "TerminalLoading",
+      "to": "TerminalDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "TerminalLoading",
+      "to": "TerminalEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "TerminalEmpty",
+      "to": "TerminalDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "TerminalLoading",
+      "to": "TerminalError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TerminalError",
+      "to": "TerminalLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "TerminalDefault",
+      "to": "TerminalOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "TerminalOffline",
+      "to": "TerminalDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "TerminalDefault",
+      "to": "TerminalForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "TerminalForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "TimelineDefault",
+      "event": "ROUTE_TIMELINE_FILE_LEASES"
+    },
+    {
+      "from": "TimelineDefault",
+      "to": "TimelineLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "TimelineLoading",
+      "to": "TimelineDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "TimelineLoading",
+      "to": "TimelineEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "TimelineEmpty",
+      "to": "TimelineDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "TimelineLoading",
+      "to": "TimelineError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "TimelineError",
+      "to": "TimelineLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "TimelineDefault",
+      "to": "TimelineOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "TimelineOffline",
+      "to": "TimelineDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "TimelineDefault",
+      "to": "TimelineForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "TimelineForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "GitGraphDefault",
+      "event": "ROUTE_GIT_GRAPH_EXPLORER"
+    },
+    {
+      "from": "GitGraphDefault",
+      "to": "GitGraphLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "GitGraphLoading",
+      "to": "GitGraphDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "GitGraphLoading",
+      "to": "GitGraphEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "GitGraphEmpty",
+      "to": "GitGraphDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "GitGraphLoading",
+      "to": "GitGraphError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "GitGraphError",
+      "to": "GitGraphLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "GitGraphDefault",
+      "to": "GitGraphOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "GitGraphOffline",
+      "to": "GitGraphDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "GitGraphDefault",
+      "to": "GitGraphForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "GitGraphForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "ROUTE_KNOWLEDGE_GRAPH"
+    },
+    {
+      "from": "KnowledgeGraphDefault",
+      "to": "KnowledgeGraphLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "KnowledgeGraphLoading",
+      "to": "KnowledgeGraphDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "KnowledgeGraphLoading",
+      "to": "KnowledgeGraphEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "KnowledgeGraphEmpty",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "KnowledgeGraphLoading",
+      "to": "KnowledgeGraphError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "KnowledgeGraphError",
+      "to": "KnowledgeGraphLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "KnowledgeGraphDefault",
+      "to": "KnowledgeGraphOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "KnowledgeGraphOffline",
+      "to": "KnowledgeGraphDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "KnowledgeGraphDefault",
+      "to": "KnowledgeGraphForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "KnowledgeGraphForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "PortfolioDefault",
+      "event": "ROUTE_PORTFOLIO_VIEW"
+    },
+    {
+      "from": "PortfolioDefault",
+      "to": "PortfolioLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "PortfolioLoading",
+      "to": "PortfolioDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "PortfolioLoading",
+      "to": "PortfolioEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "PortfolioEmpty",
+      "to": "PortfolioDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "PortfolioLoading",
+      "to": "PortfolioError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "PortfolioError",
+      "to": "PortfolioLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "PortfolioDefault",
+      "to": "PortfolioOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "PortfolioOffline",
+      "to": "PortfolioDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "PortfolioDefault",
+      "to": "PortfolioForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "PortfolioForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "PIPlanningDefault",
+      "event": "ROUTE_PI_PLANNING"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "PIPlanningLoading",
+      "to": "PIPlanningDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "PIPlanningLoading",
+      "to": "PIPlanningEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "PIPlanningEmpty",
+      "to": "PIPlanningDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "PIPlanningLoading",
+      "to": "PIPlanningError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "PIPlanningError",
+      "to": "PIPlanningLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "PIPlanningOffline",
+      "to": "PIPlanningDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningForbidden",
+      "event": "API_PERMISSION_DENIED"
+    },
+    {
+      "from": "PIPlanningForbidden",
+      "to": "ShellDefault",
+      "event": "EVENT_BACK_TO_SAFE_ROUTE"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningSaving",
+      "event": "API_WRITE_START"
+    },
+    {
+      "from": "PIPlanningSaving",
+      "to": "PIPlanningDefault",
+      "event": "API_WRITE_SUCCESS"
+    },
+    {
+      "from": "PIPlanningSaving",
+      "to": "PIPlanningError",
+      "event": "API_WRITE_ERROR"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "StoryboardsDefault",
+      "event": "ROUTE_STORYBOARDS_OVERVIEW"
+    },
+    {
+      "from": "StoryboardsDefault",
+      "to": "StoryboardsLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "StoryboardsLoading",
+      "to": "StoryboardsDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "StoryboardsLoading",
+      "to": "StoryboardsEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "StoryboardsEmpty",
+      "to": "StoryboardsDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "StoryboardsLoading",
+      "to": "StoryboardsError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "StoryboardsError",
+      "to": "StoryboardsLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "StoryboardsDefault",
+      "to": "StoryboardsOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "StoryboardsOffline",
+      "to": "StoryboardsDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "StoryboardDetailDefault",
+      "event": "ROUTE_STORYBOARD_DETAIL"
+    },
+    {
+      "from": "StoryboardDetailDefault",
+      "to": "StoryboardDetailLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "StoryboardDetailLoading",
+      "to": "StoryboardDetailDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "StoryboardDetailLoading",
+      "to": "StoryboardDetailEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "StoryboardDetailEmpty",
+      "to": "StoryboardDetailDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "StoryboardDetailLoading",
+      "to": "StoryboardDetailError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "StoryboardDetailError",
+      "to": "StoryboardDetailLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "StoryboardDetailDefault",
+      "to": "StoryboardDetailOffline",
+      "event": "API_OFFLINE_DETECTED"
+    },
+    {
+      "from": "StoryboardDetailOffline",
+      "to": "StoryboardDetailDefault",
+      "event": "API_REHYDRATED"
+    },
+    {
+      "from": "StoryboardDetailLoading",
+      "to": "StoryboardDetailNotFound",
+      "event": "API_NOT_FOUND"
+    },
+    {
+      "from": "StoryboardDetailNotFound",
+      "to": "TasksDefault",
+      "event": "EVENT_BACK_TO_LIST"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ComponentsDefault",
+      "event": "ROUTE_COMPONENTS_CATALOG"
+    },
+    {
+      "from": "ComponentsDefault",
+      "to": "ComponentsLoading",
+      "event": "API_REQUEST_START"
+    },
+    {
+      "from": "ComponentsLoading",
+      "to": "ComponentsDefault",
+      "event": "API_SUCCESS"
+    },
+    {
+      "from": "ComponentsLoading",
+      "to": "ComponentsEmpty",
+      "event": "API_SUCCESS_EMPTY"
+    },
+    {
+      "from": "ComponentsEmpty",
+      "to": "ComponentsDefault",
+      "event": "EVENT_CLEAR_FILTER_OR_GUIDE"
+    },
+    {
+      "from": "ComponentsLoading",
+      "to": "ComponentsError",
+      "event": "API_ERROR"
+    },
+    {
+      "from": "ComponentsError",
+      "to": "ComponentsLoading",
+      "event": "EVENT_RETRY_LOAD"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "SearchDefault",
+      "event": "EVENT_SHELL_OPEN_SEARCH"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ShellDefault",
+      "event": "EVENT_SHELL_TOGGLE_NAV"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ShellDefault",
+      "event": "EVENT_SHELL_RETRY_SYNC"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ShellDefault",
+      "event": "EVENT_SHELL_HEADER_PM_SPACE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "SearchDefault",
+      "event": "EVENT_SHELL_SUBMIT_SEARCH"
+    },
+    {
+      "from": "DashboardDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_RTM_OPEN_TRACE"
+    },
+    {
+      "from": "DashboardDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_RTM_FILTER_TASKS"
+    },
+    {
+      "from": "DashboardDefault",
+      "to": "DocsDefault",
+      "event": "EVENT_RTM_OPEN_DOC"
+    },
+    {
+      "from": "DashboardDefault",
+      "to": "DashboardDefault",
+      "event": "EVENT_RTM_CREATE_GAP_PLAN"
+    },
+    {
+      "from": "BoardDefault",
+      "to": "BoardDefault",
+      "event": "EVENT_BOARD_SELECT_BOARD"
+    },
+    {
+      "from": "BoardDefault",
+      "to": "BoardSaving",
+      "event": "EVENT_BOARD_DRAG_CARD"
+    },
+    {
+      "from": "BoardSaving",
+      "to": "BoardDefault",
+      "event": "API_STATUS_UPDATED"
+    },
+    {
+      "from": "BoardSaving",
+      "to": "BoardError",
+      "event": "API_CONFLICT_ROLLBACK"
+    },
+    {
+      "from": "BoardDefault",
+      "to": "TaskDetailDefault",
+      "event": "EVENT_BOARD_OPEN_TASK"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "BoardDefault",
+      "event": "EVENT_TASKS_TOGGLE_BOARD"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_TASKS_FILTER"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_TASKS_SORT"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TaskDetailDefault",
+      "event": "EVENT_TASKS_OPEN_DETAIL"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_TASKS_OPEN_TRACE"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksSaving",
+      "event": "EVENT_TASKS_BULK_ASSIGN"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksSaving",
+      "event": "EVENT_TASKS_BULK_STATUS"
+    },
+    {
+      "from": "TasksDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_TASKS_EXPORT_CSV"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_TASK_BACK_TO_LIST"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TaskDetailSaving",
+      "event": "EVENT_TASK_SAVE_STATUS"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TaskDetailSaving",
+      "event": "EVENT_TASK_SAVE_ASSIGNEE"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "ApprovalDefault",
+      "event": "EVENT_TASK_OPEN_APPROVAL"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_TASK_OPEN_TRACE"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TraceDefault",
+      "event": "EVENT_TRACE_CHANGE_ROOT"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TraceDefault",
+      "event": "EVENT_TRACE_TOGGLE_DIRECTION"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TraceDefault",
+      "event": "EVENT_TRACE_SELECT_NODE"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "DocsDefault",
+      "event": "EVENT_TRACE_OPEN_DOC"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "TaskDetailDefault",
+      "event": "EVENT_TRACE_OPEN_TASK"
+    },
+    {
+      "from": "TraceDefault",
+      "to": "GitGraphDefault",
+      "event": "EVENT_TRACE_OPEN_GIT_GRAPH"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "DocsDefault",
+      "event": "EVENT_DOCS_SELECT_DOCUMENT"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_DOCS_OPEN_TRACE"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "SearchDefault",
+      "event": "EVENT_DOCS_OPEN_SEARCH"
+    },
+    {
+      "from": "DocsDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalDefault",
+      "event": "EVENT_APPROVAL_SELECT_TASK"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalDefault",
+      "event": "EVENT_APPROVAL_REFRESH_EVIDENCE"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalDecisionSubmitted",
+      "event": "EVENT_APPROVAL_APPROVE"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalDecisionSubmitted",
+      "event": "EVENT_APPROVAL_REJECT"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "ApprovalDecisionSubmitted",
+      "event": "EVENT_APPROVAL_REQUEST_CHANGES"
+    },
+    {
+      "from": "ApprovalDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_APPROVAL_OPEN_TRACE"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "SearchDefault",
+      "event": "EVENT_SEARCH_SUBMIT_QUERY"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "SearchDefault",
+      "event": "EVENT_SEARCH_SELECT_FILTER"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "TaskDetailDefault",
+      "event": "EVENT_SEARCH_OPEN_RESULT_TASK"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "DocsDefault",
+      "event": "EVENT_SEARCH_OPEN_RESULT_DOC"
+    },
+    {
+      "from": "SearchDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_SEARCH_OPEN_RESULT_TRACE"
+    },
+    {
+      "from": "TerminalDefault",
+      "to": "TerminalDefault",
+      "event": "EVENT_TERMINAL_SELECT_TAB"
+    },
+    {
+      "from": "TerminalDefault",
+      "to": "TerminalDefault",
+      "event": "EVENT_TERMINAL_REFRESH_STREAM"
+    },
+    {
+      "from": "TimelineDefault",
+      "to": "TimelineDefault",
+      "event": "EVENT_TIMELINE_SELECT_ANCHOR"
+    },
+    {
+      "from": "TimelineDefault",
+      "to": "TimelineDefault",
+      "event": "EVENT_TIMELINE_REFRESH"
+    },
+    {
+      "from": "GitGraphDefault",
+      "to": "GitGraphDefault",
+      "event": "EVENT_GIT_GRAPH_SELECT_SCENARIO"
+    },
+    {
+      "from": "GitGraphDefault",
+      "to": "GitGraphDefault",
+      "event": "EVENT_GIT_GRAPH_SELECT_COMMIT"
+    },
+    {
+      "from": "GitGraphDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_GIT_GRAPH_OPEN_TRACE"
+    },
+    {
+      "from": "KnowledgeGraphDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_KNOWLEDGE_SELECT_PRESET"
+    },
+    {
+      "from": "KnowledgeGraphDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_KNOWLEDGE_SELECT_NODE"
+    },
+    {
+      "from": "KnowledgeGraphDefault",
+      "to": "KnowledgeGraphDefault",
+      "event": "EVENT_KNOWLEDGE_OPEN_TRACE"
+    },
+    {
+      "from": "PortfolioDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_PORTFOLIO_OPEN_EPIC_TASKS"
+    },
+    {
+      "from": "PortfolioDefault",
+      "to": "ExternalRoute",
+      "event": "EVENT_PORTFOLIO_OPEN_BUDGET_TRACE"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningSaving",
+      "event": "EVENT_PI_DRAG_FEATURE"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningSaving",
+      "event": "EVENT_PI_SCORE_BUSINESS_VALUE"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningSaving",
+      "event": "EVENT_PI_SUBMIT_CONFIDENCE_VOTE"
+    },
+    {
+      "from": "PIPlanningDefault",
+      "to": "PIPlanningDefault",
+      "event": "EVENT_PI_OPEN_ROAM"
+    },
+    {
+      "from": "StoryboardsDefault",
+      "to": "StoryboardsDefault",
+      "event": "EVENT_STORYBOARDS_FILTER_JOURNEY"
+    },
+    {
+      "from": "StoryboardsDefault",
+      "to": "StoryboardDetailDefault",
+      "event": "EVENT_STORYBOARDS_OPEN_DETAIL"
+    },
+    {
+      "from": "StoryboardsDefault",
+      "to": "StoryboardsDefault",
+      "event": "EVENT_STORYBOARDS_OPEN_SCREEN"
+    },
+    {
+      "from": "StoryboardDetailDefault",
+      "to": "StoryboardDetailDefault",
+      "event": "EVENT_STORYBOARD_DETAIL_OPEN_SCREEN"
+    },
+    {
+      "from": "StoryboardDetailDefault",
+      "to": "StoryboardsDefault",
+      "event": "EVENT_STORYBOARD_DETAIL_BACK"
+    },
+    {
+      "from": "ComponentsDefault",
+      "to": "ComponentsDefault",
+      "event": "EVENT_COMPONENTS_SCROLL_SECTION"
+    },
+    {
+      "from": "ComponentsDefault",
+      "to": "ComponentsDefault",
+      "event": "EVENT_COMPONENTS_TOGGLE_EXAMPLE"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ExternalRoute",
+      "event": "EVENT_HEADER_OPEN_DESIGN_SYSTEM"
+    },
+    {
+      "from": "ShellDefault",
+      "to": "ShellDefault",
+      "event": "EVENT_HEADER_OPEN_PM_SPACE"
+    },
+    {
+      "from": "TaskDetailDefault",
+      "to": "TasksDefault",
+      "event": "EVENT_BACK_TO_TASK_LIST"
+    },
+    {
+      "from": "StoryboardDetailDefault",
+      "to": "StoryboardsDefault",
+      "event": "EVENT_BACK_TO_STORYBOARDS"
+    },
+    {
+      "from": "ApprovalInsufficientEvidence",
+      "to": "ApprovalDefault",
+      "event": "EVENT_REJECT_WITH_REASON"
+    },
+    {
+      "from": "PIPlanningSaving",
+      "to": "PIPlanningDefault",
+      "event": "API_CONFIDENCE_VOTE_ACCEPTED"
+    },
+    {
+      "from": "PIPlanningSaving",
+      "to": "PIPlanningError",
+      "event": "API_PLAN_WRITE_ERROR"
+    },
+    {
+      "from": "TasksSaving",
+      "to": "TasksDefault",
+      "event": "API_BULK_UPDATE_ACCEPTED"
+    },
+    {
+      "from": "TasksSaving",
+      "to": "TasksError",
+      "event": "API_BULK_UPDATE_REJECTED"
+    },
+    {
+      "from": "ShellOffline",
+      "to": "SyncConflict",
+      "event": "API_SYNC_CONFLICT"
+    },
+    {
+      "from": "SyncConflict",
+      "to": "ShellDefault",
+      "event": "EVENT_KEEP_MINE_OR_USE_SERVER"
+    },
+    {
+      "from": "SyncConflict",
+      "to": "ShellOffline",
+      "event": "EVENT_CANCEL_CONFLICT_RESOLUTION"
+    },
+    {
+      "from": "DesignSystemExternal",
+      "to": "ShellDefault",
+      "event": "EVENT_BROWSER_BACK"
+    },
+    {
+      "from": "ExternalRoute",
+      "to": "ShellDefault",
+      "event": "EVENT_ROUTE_NORMALIZED"
+    },
+    {
+      "from": "DashboardDefault",
+      "to": "[*]",
+      "event": "EVENT_EXIT_PM_SPACE"
     }
   ],
   "warnings": [],
@@ -310,23 +4750,29 @@
     "flow.md": {
       "exists": true,
       "parse_ok": true,
-      "beads_ids": [],
+      "beads_ids": [
+        "br-ds-webui-pm-flow"
+      ],
       "mermaid_block_count": 1,
-      "line_count": 40
+      "line_count": 296
     },
     "review-diagrams.md": {
       "exists": true,
       "parse_ok": true,
-      "beads_ids": [],
-      "mermaid_block_count": 7,
-      "line_count": 141
+      "beads_ids": [
+        "br-ds-webui-pm-review-diagrams"
+      ],
+      "mermaid_block_count": 10,
+      "line_count": 620
     },
     "prd-ds-conflicts.md": {
       "exists": true,
       "parse_ok": true,
-      "beads_ids": [],
-      "mermaid_block_count": 1,
-      "line_count": 7
+      "beads_ids": [
+        "br-ds-webui-pm-conflicts"
+      ],
+      "mermaid_block_count": 0,
+      "line_count": 14
     },
     "assertion-checklist.md": {
       "exists": true,
@@ -340,116 +4786,253 @@
     "storyboards.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 1064
+      "size_bytes": 12966
     },
     "layout-rules.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 493
+      "size_bytes": 41371
     },
     "component-map.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 380
+      "size_bytes": 77787
     },
     "artifact-index.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 230
+      "size_bytes": 306530
     }
   },
   "mermaid_blocks": [
     {
       "source": "flow.md",
       "index": 0,
-      "heading": "Flow Definition: webui-and-pm-workspace",
-      "line_count": 36
+      "heading": "Flow: webui-and-pm-workspace",
+      "line_count": 289
     },
     {
       "source": "review-diagrams.md",
       "index": 0,
-      "heading": "1. Screen Inventory & Routes",
-      "line_count": 3
+      "heading": "1. Screen Inventory and Routes",
+      "line_count": 44
     },
     {
       "source": "review-diagrams.md",
       "index": 1,
-      "heading": "Global Shell",
-      "line_count": 14
+      "heading": "2.1 Global Shell",
+      "line_count": 7
     },
     {
       "source": "review-diagrams.md",
       "index": 2,
-      "heading": "RTM Dashboard",
-      "line_count": 5
+      "heading": "2.2 Core Route Screens",
+      "line_count": 42
     },
     {
       "source": "review-diagrams.md",
       "index": 3,
-      "heading": "Approval Gate",
-      "line_count": 4
+      "heading": "2.3 Evidence, Planning, Storyboard, and Shared Screens",
+      "line_count": 37
     },
     {
       "source": "review-diagrams.md",
       "index": 4,
-      "heading": "3. State Coverage & Transitions",
-      "line_count": 36
+      "heading": "3.1 Core route state coverage",
+      "line_count": 64
     },
     {
       "source": "review-diagrams.md",
       "index": 5,
-      "heading": "4. Action-to-Event Links",
-      "line_count": 15
+      "heading": "3.2 Evidence, planning, storyboard, and shared state coverage",
+      "line_count": 62
     },
     {
       "source": "review-diagrams.md",
       "index": 6,
-      "heading": "5. Responsive Layout Intent",
-      "line_count": 24
+      "heading": "4.1 Shell and core route actions",
+      "line_count": 142
     },
     {
-      "source": "prd-ds-conflicts.md",
-      "index": 0,
-      "heading": "PRD vs Design System Conflicts",
-      "line_count": 2
+      "source": "review-diagrams.md",
+      "index": 7,
+      "heading": "4.2 Evidence, planning, storyboard, and shared actions",
+      "line_count": 79
+    },
+    {
+      "source": "review-diagrams.md",
+      "index": 8,
+      "heading": "5.1 Core route responsive intent",
+      "line_count": 40
+    },
+    {
+      "source": "review-diagrams.md",
+      "index": 9,
+      "heading": "5.2 Evidence, planning, storyboard, and shared responsive intent",
+      "line_count": 40
     }
   ],
   "storyboards": {
-    "trajectories_total": 0,
-    "trajectory_ids": []
+    "trajectories_total": 12,
+    "trajectory_ids": [
+      "journey-nav-task-detail",
+      "journey-board-drag-success",
+      "journey-board-drag-conflict",
+      "journey-approval-approve",
+      "journey-approval-insufficient-evidence",
+      "journey-rtm-gap-resolution",
+      "journey-doc-trace",
+      "journey-task-edit-saving",
+      "journey-search-global",
+      "journey-pi-confidence-vote",
+      "journey-offline-rehydration-conflict",
+      "journey-storyboard-detail"
+    ]
   },
   "layout_rules": {
-    "rule_count": 0,
-    "screen_count": 0,
+    "rule_count": 54,
+    "screen_count": 18,
     "viewports": [
       {
         "name": "Desktop",
-        "width": 1440
+        "width": 1440,
+        "constraints": {
+          "shell": "header plus expanded PM nav plus two-column or grid content",
+          "graph_detail": "side panel fixed at right"
+        }
       },
       {
         "name": "Tablet",
-        "width": 1024
+        "width": 1024,
+        "constraints": {
+          "shell": "compact PM nav with labels available by tooltip or disclosure",
+          "detail_panels": "side panels may become bottom sheets"
+        }
       },
       {
         "name": "Mobile",
-        "width": 390
+        "width": 390,
+        "constraints": {
+          "shell": "PM nav hidden behind header menu",
+          "data_dense_views": "tables become cards or accordions",
+          "graph_detail": "full-screen detail overlay after node selection"
+        }
       }
     ]
   },
   "component_map": {
-    "components_total": 0,
-    "ds_ids_total": 0,
-    "actions_mapped_total": 0,
-    "ds_ids": []
+    "components_total": 84,
+    "ds_ids_total": 84,
+    "actions_mapped_total": 71,
+    "ds_ids": [
+      "ds:webui.approval.coverage-heatmap",
+      "ds:webui.approval.decision-box",
+      "ds:webui.approval.evidence-hub",
+      "ds:webui.approval.queue",
+      "ds:webui.approval.root",
+      "ds:webui.approval.rtm-matrix",
+      "ds:webui.board.columns",
+      "ds:webui.board.root",
+      "ds:webui.board.selector",
+      "ds:webui.board.stats-strip",
+      "ds:webui.components.examples",
+      "ds:webui.components.root",
+      "ds:webui.components.section-nav",
+      "ds:webui.components.tokens",
+      "ds:webui.docs.content",
+      "ds:webui.docs.root",
+      "ds:webui.docs.section-badges",
+      "ds:webui.docs.tree",
+      "ds:webui.git-graph.canvas",
+      "ds:webui.git-graph.commit-detail",
+      "ds:webui.git-graph.root",
+      "ds:webui.git-graph.scenario-list",
+      "ds:webui.header.top-level",
+      "ds:webui.knowledge-graph.canvas",
+      "ds:webui.knowledge-graph.node-banner",
+      "ds:webui.knowledge-graph.preset-list",
+      "ds:webui.knowledge-graph.root",
+      "ds:webui.pi-planning.capacity-plan",
+      "ds:webui.pi-planning.confidence-vote",
+      "ds:webui.pi-planning.roam-board",
+      "ds:webui.pi-planning.root",
+      "ds:webui.pi-planning.strategic-sandbox",
+      "ds:webui.pi-planning.value-scoring",
+      "ds:webui.portfolio.roadmap",
+      "ds:webui.portfolio.root",
+      "ds:webui.portfolio.table",
+      "ds:webui.rtm.coverage-heatmap",
+      "ds:webui.rtm.gap-analysis",
+      "ds:webui.rtm.knowledge-graph-widget",
+      "ds:webui.rtm.kpi-row",
+      "ds:webui.rtm.root",
+      "ds:webui.rtm.task-progress",
+      "ds:webui.search.detail-sidebar",
+      "ds:webui.search.query-input",
+      "ds:webui.search.results-list",
+      "ds:webui.search.root",
+      "ds:webui.search.type-filters",
+      "ds:webui.shell.footer",
+      "ds:webui.shell.global-search",
+      "ds:webui.shell.header",
+      "ds:webui.shell.main-region",
+      "ds:webui.shell.pm-nav",
+      "ds:webui.shell.root",
+      "ds:webui.storyboard-detail.related-usecases",
+      "ds:webui.storyboard-detail.root",
+      "ds:webui.storyboard-detail.summary",
+      "ds:webui.storyboard-detail.timeline",
+      "ds:webui.storyboards.filter",
+      "ds:webui.storyboards.flow",
+      "ds:webui.storyboards.guidance-panel",
+      "ds:webui.storyboards.root",
+      "ds:webui.task-detail.activity",
+      "ds:webui.task-detail.approval-embed",
+      "ds:webui.task-detail.graph-widget",
+      "ds:webui.task-detail.root",
+      "ds:webui.task-detail.summary-header",
+      "ds:webui.task-detail.tabs",
+      "ds:webui.tasks.bulk-actions",
+      "ds:webui.tasks.filter-bar",
+      "ds:webui.tasks.root",
+      "ds:webui.tasks.table",
+      "ds:webui.tasks.view-toggle",
+      "ds:webui.terminal.mosaic",
+      "ds:webui.terminal.root",
+      "ds:webui.terminal.tabs",
+      "ds:webui.timeline.activity-feed",
+      "ds:webui.timeline.file-leases",
+      "ds:webui.timeline.root",
+      "ds:webui.timeline.sprint-day",
+      "ds:webui.trace.canvas",
+      "ds:webui.trace.detail-panel",
+      "ds:webui.trace.legend-stats",
+      "ds:webui.trace.root",
+      "ds:webui.trace.toolbar"
+    ]
   },
   "conflicts": {
     "exists": true,
-    "beads_ids": [],
-    "line_count": 7
+    "beads_ids": [
+      "br-ds-webui-pm-conflicts"
+    ],
+    "line_count": 14
   },
   "coverage_matrix": {
     "screens": {
-      "approval-gate": {
+      "approval-gates": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "components-catalog": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "document-viewer": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "git-graph-explorer": {
         "in_contract": true,
         "in_storyboards": false
       },
@@ -457,97 +5040,1205 @@
         "in_contract": true,
         "in_storyboards": false
       },
+      "knowledge-graph": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "pi-planning": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "portfolio-view": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
       "rtm-dashboard": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "safe-board": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "search-results": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "storyboard-detail": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "storyboards-overview": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "task-detail": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "task-list": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "terminal-console": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "timeline-file-leases": {
+        "in_contract": true,
+        "in_storyboards": false
+      },
+      "trace-explorer": {
         "in_contract": true,
         "in_storyboards": false
       }
     },
     "events": {
-      "Approve": {
+      "API_BULK_UPDATE_ACCEPTED": {
         "in_contract": true,
         "in_flow": true
       },
-      "Drill-down": {
+      "API_BULK_UPDATE_REJECTED": {
         "in_contract": true,
         "in_flow": true
       },
-      "EVALUATED": {
+      "API_CONFIDENCE_VOTE_ACCEPTED": {
         "in_contract": true,
         "in_flow": true
       },
-      "LOADED": {
+      "API_CONFLICT_ROLLBACK": {
         "in_contract": true,
         "in_flow": true
       },
-      "LOAD_FAIL": {
+      "API_DECISION_POSTED": {
         "in_contract": true,
         "in_flow": true
       },
-      "LOAD_SUCCESS": {
+      "API_ENRICHMENT_SUCCESS": {
         "in_contract": true,
         "in_flow": true
       },
-      "MISSING_EVIDENCE": {
+      "API_ENRICHMENT_TIMEOUT": {
         "in_contract": true,
         "in_flow": true
       },
-      "NETWORK_DISCONNECT": {
+      "API_ERROR": {
         "in_contract": true,
         "in_flow": true
       },
-      "NETWORK_RESTORED": {
+      "API_EVIDENCE_INCOMPLETE": {
         "in_contract": true,
         "in_flow": true
       },
-      "NO_DATA": {
+      "API_HEALTH_OK": {
         "in_contract": true,
         "in_flow": true
       },
-      "NO_QUEUE": {
+      "API_HEALTH_TIMEOUT": {
         "in_contract": true,
         "in_flow": true
       },
-      "Navigate to Approval": {
+      "API_NOT_FOUND": {
         "in_contract": true,
         "in_flow": true
       },
-      "Navigate to Dashboard": {
+      "API_OFFLINE_DETECTED": {
         "in_contract": true,
         "in_flow": true
       },
-      "Reject": {
+      "API_PERMISSION_DENIED": {
         "in_contract": true,
         "in_flow": true
       },
-      "Request Changes": {
+      "API_PLAN_WRITE_ERROR": {
         "in_contract": true,
         "in_flow": true
       },
-      "Toggle Sidebar": {
+      "API_REHYDRATED": {
         "in_contract": true,
         "in_flow": true
       },
-      "View Trace": {
+      "API_REQUEST_START": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_STATUS_UPDATED": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_SUCCESS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_SUCCESS_EMPTY": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_SYNC_CONFLICT": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_WRITE_ERROR": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_WRITE_START": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "API_WRITE_SUCCESS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_APPROVAL_APPROVE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_APPROVAL_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_APPROVAL_REFRESH_EVIDENCE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_APPROVAL_REJECT": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_APPROVAL_REQUEST_CHANGES": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_APPROVAL_SELECT_TASK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BACK_TO_LIST": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BACK_TO_SAFE_ROUTE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BACK_TO_STORYBOARDS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BACK_TO_TASK_LIST": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BOARD_DRAG_CARD": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BOARD_OPEN_TASK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BOARD_SELECT_BOARD": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_BROWSER_BACK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_CANCEL_CONFLICT_RESOLUTION": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_CLEAR_FILTER_OR_GUIDE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_COMPONENTS_SCROLL_SECTION": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_COMPONENTS_TOGGLE_EXAMPLE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_DOCS_OPEN_SEARCH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_DOCS_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_DOCS_SELECT_DOCUMENT": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_EXIT_PM_SPACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_FOCUS_GLOBAL_SEARCH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_GIT_GRAPH_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_GIT_GRAPH_SELECT_COMMIT": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_GIT_GRAPH_SELECT_SCENARIO": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_HEADER_OPEN_DESIGN_SYSTEM": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_HEADER_OPEN_PM_SPACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_KEEP_MINE_OR_USE_SERVER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_KNOWLEDGE_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_KNOWLEDGE_SELECT_NODE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_KNOWLEDGE_SELECT_PRESET": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_OPEN_DECISION_TASK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_OPEN_DESIGN_SYSTEM": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_OPEN_PM_SPACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_PI_DRAG_FEATURE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_PI_OPEN_ROAM": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_PI_SCORE_BUSINESS_VALUE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_PI_SUBMIT_CONFIDENCE_VOTE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_PORTFOLIO_OPEN_BUDGET_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_PORTFOLIO_OPEN_EPIC_TASKS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_REFRESH_EVIDENCE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_REJECT_WITH_REASON": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RETRY_LOAD": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RETRY_SYNC_ERROR": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RETRY_SYNC_OK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_ROUTE_NORMALIZED": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RTM_CREATE_GAP_PLAN": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RTM_FILTER_TASKS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RTM_OPEN_DOC": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_RTM_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SEARCH_OPEN_RESULT_DOC": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SEARCH_OPEN_RESULT_TASK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SEARCH_OPEN_RESULT_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SEARCH_SELECT_FILTER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SEARCH_SUBMIT_QUERY": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SHELL_HEADER_PM_SPACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SHELL_OPEN_SEARCH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SHELL_RETRY_SYNC": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SHELL_SUBMIT_SEARCH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_SHELL_TOGGLE_NAV": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_STORYBOARDS_FILTER_JOURNEY": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_STORYBOARDS_OPEN_DETAIL": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_STORYBOARDS_OPEN_SCREEN": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_STORYBOARD_DETAIL_BACK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_STORYBOARD_DETAIL_OPEN_SCREEN": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_BULK_ASSIGN": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_BULK_STATUS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_EXPORT_CSV": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_FILTER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_OPEN_DETAIL": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_SORT": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASKS_TOGGLE_BOARD": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASK_BACK_TO_LIST": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASK_OPEN_APPROVAL": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASK_OPEN_TRACE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASK_SAVE_ASSIGNEE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TASK_SAVE_STATUS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TERMINAL_REFRESH_STREAM": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TERMINAL_SELECT_TAB": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TIMELINE_REFRESH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TIMELINE_SELECT_ANCHOR": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TOGGLE_PM_NAV": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TRACE_CHANGE_ROOT": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TRACE_OPEN_DOC": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TRACE_OPEN_GIT_GRAPH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TRACE_OPEN_TASK": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TRACE_SELECT_NODE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "EVENT_TRACE_TOGGLE_DIRECTION": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_APPROVAL_GATES": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_COMPONENTS_CATALOG": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_DOCUMENT_VIEWER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_GIT_GRAPH_EXPLORER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_KNOWLEDGE_GRAPH": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_PI_PLANNING": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_PORTFOLIO_VIEW": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_RTM_DASHBOARD": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_SAFE_BOARD": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_SEARCH_RESULTS": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_STORYBOARDS_OVERVIEW": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_STORYBOARD_DETAIL": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_TASK_DETAIL": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_TASK_LIST": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_TERMINAL_CONSOLE": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_TIMELINE_FILE_LEASES": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "ROUTE_TRACE_EXPLORER": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-approval-approve": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-approval-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-approval-refresh-evidence": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-approval-reject": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-approval-request-changes": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-approval-select-task": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-board-drag-card": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-board-open-task": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-board-select-board": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-components-scroll-section": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-components-toggle-example": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-docs-open-knowledge-graph": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-docs-open-search": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-docs-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-docs-select-document": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-git-graph-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-git-graph-select-commit": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-git-graph-select-scenario": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-header-open-design-system": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-header-open-pm-space": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-knowledge-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-knowledge-select-node": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-knowledge-select-preset": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-pi-drag-feature": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-pi-open-roam": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-pi-score-business-value": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-pi-submit-confidence-vote": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-portfolio-open-budget-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-portfolio-open-epic-tasks": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-rtm-create-gap-plan": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-rtm-filter-tasks": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-rtm-open-doc": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-rtm-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-search-open-result-doc": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-search-open-result-task": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-search-open-result-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-search-select-filter": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-search-submit-query": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-shell-header-pm-space": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-shell-open-search": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-shell-retry-sync": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-shell-submit-search": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-shell-toggle-nav": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-storyboard-detail-back": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-storyboard-detail-open-screen": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-storyboards-filter-journey": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-storyboards-open-detail": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-storyboards-open-screen": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-task-back-to-list": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-task-open-approval": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-task-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-task-save-assignee": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-task-save-status": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-bulk-assign": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-bulk-status": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-export-csv": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-filter": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-open-detail": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-open-trace": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-sort": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-tasks-toggle-board": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-terminal-refresh-stream": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-terminal-select-tab": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-timeline-refresh": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-timeline-select-anchor": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-trace-change-root": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-trace-open-doc": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-trace-open-git-graph": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-trace-open-task": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-trace-select-node": {
+        "in_contract": true,
+        "in_flow": true
+      },
+      "action-trace-toggle-direction": {
         "in_contract": true,
         "in_flow": true
       }
     },
     "ds_ids": {
-      "ds:component:header": {
+      "ds:webui.approval.coverage-heatmap": {
         "in_contract": true,
-        "in_component_map": false
+        "in_component_map": true
       },
-      "ds:global_shell": {
+      "ds:webui.approval.decision-box": {
         "in_contract": true,
-        "in_component_map": false
+        "in_component_map": true
       },
-      "ds:screen:approval-001": {
+      "ds:webui.approval.evidence-hub": {
         "in_contract": true,
-        "in_component_map": false
+        "in_component_map": true
       },
-      "ds:screen:rtm-dashboard": {
+      "ds:webui.approval.queue": {
         "in_contract": true,
-        "in_component_map": false
+        "in_component_map": true
+      },
+      "ds:webui.approval.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.approval.rtm-matrix": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.board.columns": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.board.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.board.selector": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.board.stats-strip": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.components.examples": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.components.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.components.section-nav": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.components.tokens": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.docs.content": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.docs.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.docs.section-badges": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.docs.tree": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.git-graph.canvas": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.git-graph.commit-detail": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.git-graph.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.git-graph.scenario-list": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.knowledge-graph.canvas": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.knowledge-graph.node-banner": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.knowledge-graph.preset-list": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.knowledge-graph.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.pi-planning.capacity-plan": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.pi-planning.confidence-vote": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.pi-planning.roam-board": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.pi-planning.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.pi-planning.strategic-sandbox": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.pi-planning.value-scoring": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.portfolio.roadmap": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.portfolio.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.portfolio.table": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.rtm.coverage-heatmap": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.rtm.gap-analysis": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.rtm.knowledge-graph-widget": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.rtm.kpi-row": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.rtm.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.rtm.task-progress": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.search.detail-sidebar": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.search.query-input": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.search.results-list": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.search.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.search.type-filters": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.shell.footer": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.shell.global-search": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.shell.header": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.shell.main-region": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.shell.pm-nav": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.shell.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboard-detail.related-usecases": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboard-detail.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboard-detail.summary": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboard-detail.timeline": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboards.filter": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboards.flow": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboards.guidance-panel": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.storyboards.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.task-detail.activity": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.task-detail.approval-embed": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.task-detail.graph-widget": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.task-detail.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.task-detail.summary-header": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.task-detail.tabs": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.tasks.bulk-actions": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.tasks.filter-bar": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.tasks.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.tasks.table": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.tasks.view-toggle": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.terminal.mosaic": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.terminal.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.terminal.tabs": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.timeline.activity-feed": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.timeline.file-leases": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.timeline.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.timeline.sprint-day": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.trace.canvas": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.trace.detail-panel": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.trace.legend-stats": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.trace.root": {
+        "in_contract": true,
+        "in_component_map": true
+      },
+      "ds:webui.trace.toolbar": {
+        "in_contract": true,
+        "in_component_map": true
       }
     }
   }

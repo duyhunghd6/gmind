@@ -1,0 +1,25 @@
+screen_id: timeline-file-leases
+route: /timeline
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.timeline.sprint-day
+parent_ds_id: ds:webui.timeline.root
+ds_type: sprint_day_timeline
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- TimelineDefault
+- TimelineLoading
+- TimelineEmpty
+- TimelineError
+- TimelineOffline
+- TimelineForbidden
+satisfies:
+- br-prd04-s15

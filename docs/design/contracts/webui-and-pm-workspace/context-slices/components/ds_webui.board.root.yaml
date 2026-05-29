@@ -1,0 +1,42 @@
+screen_id: safe-board
+route: /board
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.board.root
+parent_ds_id: null
+ds_type: kanban_board
+labels:
+  title: SAFe Board
+  hash_routes: '#sprint, #release, #bug-triage'
+bindings:
+  board_data: GET /api/tasks?view=board&board=<hash-board>
+  update_status: PUT /api/tasks/:id/status
+actions:
+- id: action-board-select-board
+  label: Select board hash route
+  target_route: null
+  event: EVENT_BOARD_SELECT_BOARD
+- id: action-board-drag-card
+  label: Move task card across status columns
+  target_route: null
+  event: EVENT_BOARD_DRAG_CARD
+- id: action-board-open-task
+  label: Open task detail
+  target_route: /tasks/:id
+  event: EVENT_BOARD_OPEN_TASK
+machine_states:
+- BoardDefault
+- BoardLoading
+- BoardEmpty
+- BoardError
+- BoardOffline
+- BoardForbidden
+satisfies:
+- br-prd04-s3
+- br-prd04-s8

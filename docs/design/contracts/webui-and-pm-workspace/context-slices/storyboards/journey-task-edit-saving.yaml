@@ -1,0 +1,25 @@
+trajectory_id: journey-task-edit-saving
+role: PMO reviewer
+journey: Task edit and save
+start_screen: task-detail
+steps:
+- index: 1
+  screen_or_state: Task Detail
+  path_or_signal: /tasks/:id
+  expected_state: default
+- index: 2
+  screen_or_state: Saving
+  path_or_signal: PUT /api/tasks/:id
+  expected_state: saving
+- index: 3
+  screen_or_state: Task Detail
+  path_or_signal: activity updated
+  expected_state: default
+actions:
+- action-task-save-status
+- action-task-save-assignee
+success_signal: Optimistic save or error rollback
+error_recovery_included: false
+machine_evidence:
+- action-task-save-status
+- action-task-save-assignee

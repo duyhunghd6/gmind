@@ -1,0 +1,20 @@
+screen_id: timeline-file-leases
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Mobile
+width: 390
+layout_type: timeline_workspace
+ds_id: ds:webui.timeline.root
+responsive_assertion: stacked accordion sections
+boundary_assertions:
+  loading: Timeline and lease card skeletons
+  empty: Chưa có hoạt động trong khoảng thời gian này with clear filters CTA
+  error: Không thể tải activity hoặc file leases with retry action
+  offline: Stale data label and read-only controls
+must_preserve_shell: true
+state_name: offline

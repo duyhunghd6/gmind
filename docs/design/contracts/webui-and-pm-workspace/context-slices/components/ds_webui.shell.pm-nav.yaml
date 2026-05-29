@@ -1,0 +1,24 @@
+screen_id: global-shell
+route: /webui-pm-workspace
+route_variants: []
+state_names:
+- default
+- loading
+- offline
+- forbidden
+ds_id: ds:webui.shell.pm-nav
+parent_ds_id: ds:webui.shell.root
+ds_type: nav
+labels:
+  items: Dashboard, Board, Tasks, Trace, Docs, Approval, Search, Terminal, Timeline,
+    Git Graph, Knowledge Graph, Portfolio, PI Planning, Storyboards, Components
+bindings:
+  active_route: client route path and hash
+actions: []
+machine_states:
+- ShellDefault
+- ShellLoading
+- ShellOffline
+- ShellForbidden
+satisfies:
+- br-prd04-s8

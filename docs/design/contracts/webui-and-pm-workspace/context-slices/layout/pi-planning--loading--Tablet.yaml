@@ -1,0 +1,22 @@
+screen_id: pi-planning
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+viewport: Tablet
+width: 1024
+layout_type: pi_planning_workspace
+ds_id: ds:webui.pi-planning.root
+responsive_assertion: pool and plan stack with drag handles preserved
+boundary_assertions:
+  loading: Feature pool and capacity skeletons
+  empty: Chưa có feature cho PI này with import feature CTA
+  error: Không thể tải PI planning data with retry action
+  offline: Planning edits disabled and cached plan visible
+  saving: Confidence vote and plan update show pending state
+must_preserve_shell: true
+state_name: loading

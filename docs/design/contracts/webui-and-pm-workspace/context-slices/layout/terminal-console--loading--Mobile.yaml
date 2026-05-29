@@ -1,0 +1,20 @@
+screen_id: terminal-console
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Mobile
+width: 390
+layout_type: terminal_mosaic
+ds_id: ds:webui.terminal.root
+responsive_assertion: one pane at a time with scenario tabs
+boundary_assertions:
+  loading: Stream connection skeleton panes
+  empty: Chưa có session nào hoạt động with Task List CTA
+  error: Không thể tải log stream with retry action
+  offline: Cached read-only logs and controlled actions disabled
+must_preserve_shell: true
+state_name: loading

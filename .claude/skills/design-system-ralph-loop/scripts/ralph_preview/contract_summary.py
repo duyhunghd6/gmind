@@ -33,13 +33,31 @@ def load_yaml(source: str) -> dict[str, Any]:
 
 
 def extract_event_labels(label: Any) -> list[str]:
-    """Extract comparable event labels, including slash-separated EVENT_* groups."""
+    """Extract comparable event labels, including slash-separated action ids."""
+    if isinstance(label, dict):
+        labels: list[str] = []
+        for key in ("event", "action", "id"):
+            if key in label:
+                labels.extend(extract_event_labels(label.get(key)))
+        return list(dict.fromkeys(labels))
+
     text = str(label or "").strip()
-    matches = EVENT_TOKEN_RE.findall(text)
-    if matches:
-        return matches
-    first = text.split("/")[0].strip()
-    return [first] if first else []
+    if not text:
+        return []
+
+    labels: list[str] = []
+    for part in text.split("/"):
+        token = part.strip()
+        if not token:
+            continue
+        matches = EVENT_TOKEN_RE.findall(token)
+        if matches:
+            labels.extend(matches)
+            continue
+        first = token.split()[0].strip()
+        if first:
+            labels.append(first)
+    return list(dict.fromkeys(labels))
 
 
 def normalize_event_label(label: Any) -> str:

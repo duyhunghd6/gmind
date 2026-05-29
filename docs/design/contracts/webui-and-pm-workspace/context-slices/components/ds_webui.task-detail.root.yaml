@@ -1,0 +1,52 @@
+screen_id: task-detail
+route: /tasks/:id
+route_variants: []
+state_names:
+- default
+- loading
+- error
+- offline
+- saving
+- not_found
+ds_id: ds:webui.task-detail.root
+parent_ds_id: null
+ds_type: detail_page
+labels:
+  title: Task Detail
+  tabs: detail, activity, graph, code, approval
+bindings:
+  task: GET /api/tasks/:id
+  activity: GET /api/tasks/:id/activity
+  trace: GET /api/trace/:id?depth=2
+  save_field: PUT /api/tasks/:id
+actions:
+- id: action-task-back-to-list
+  label: Back to task list
+  target_route: /tasks
+  event: EVENT_TASK_BACK_TO_LIST
+- id: action-task-save-status
+  label: Save status field
+  target_route: null
+  event: EVENT_TASK_SAVE_STATUS
+- id: action-task-save-assignee
+  label: Save assignee field
+  target_route: null
+  event: EVENT_TASK_SAVE_ASSIGNEE
+- id: action-task-open-approval
+  label: Open approval tab
+  target_route: /tasks/:id#approval
+  event: EVENT_TASK_OPEN_APPROVAL
+- id: action-task-open-trace
+  label: Open full trace
+  target_route: /trace/:id
+  event: EVENT_TASK_OPEN_TRACE
+machine_states:
+- TaskDetailDefault
+- TaskDetailLoading
+- TaskDetailError
+- TaskDetailOffline
+- TaskDetailSaving
+- TaskDetailNotFound
+satisfies:
+- br-prd04-s11
+- br-prd04-s7

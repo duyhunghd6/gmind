@@ -1,22 +1,583 @@
 {
   "feature": "webui-and-pm-workspace",
-  "storyboards": [
+  "generated_from": [
+    "ui-contract.md",
+    "PRD-04-WebUI-and-PM-Workspace.md"
+  ],
+  "machine": "Mermaid Logic Machine in flow.md",
+  "trajectories": [
     {
-      "id": "storyboard:rtm_dashboard_drilldown",
-      "description": "User navigates to RTM Dashboard and drills down into coverage.",
+      "trajectory_id": "journey-nav-task-detail",
+      "role": "PMO reviewer",
+      "journey": "Navigate to task",
+      "start_screen": "global-shell",
       "steps": [
-        { "screen": "global-shell", "action": "Navigate to Dashboard", "next_screen": "rtm-dashboard", "expected_state": "dash_loading" },
-        { "screen": "rtm-dashboard", "action": "LOAD_SUCCESS", "expected_state": "dash_default" },
-        { "screen": "rtm-dashboard", "action": "Drill-down", "expected_state": "view_drilldown" }
+        {
+          "index": 1,
+          "screen_or_state": "Dashboard",
+          "path_or_signal": "/",
+          "expected_state": "default",
+          "state": "Dashboard::default",
+          "action": "action-shell-header-pm-space",
+          "assertion": "Observe `/` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Task List",
+          "path_or_signal": "/tasks",
+          "expected_state": "default",
+          "state": "Task List::default",
+          "action": "action-tasks-open-detail",
+          "assertion": "Observe `/tasks` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Task Detail",
+          "path_or_signal": "/tasks/:id",
+          "expected_state": "default",
+          "state": "Task Detail::default",
+          "action": "action-tasks-open-detail",
+          "assertion": "Observe `/tasks/:id` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-shell-header-pm-space",
+        "action-tasks-open-detail"
+      ],
+      "success_signal": "Task detail default rendered",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-shell-header-pm-space",
+        "action-tasks-open-detail"
       ]
     },
     {
-      "id": "storyboard:approval_gate_decision",
-      "description": "User makes a decision on an approval gate.",
+      "trajectory_id": "journey-board-drag-success",
+      "role": "RTE approver",
+      "journey": "Board status update",
+      "start_screen": "safe-board",
       "steps": [
-        { "screen": "global-shell", "action": "Navigate to Approval", "next_screen": "approval-gate", "expected_state": "app_loading" },
-        { "screen": "approval-gate", "action": "EVALUATED", "expected_state": "app_default" },
-        { "screen": "approval-gate", "action": "Approve", "expected_state": "app_decision_submitted" }
+        {
+          "index": 1,
+          "screen_or_state": "Board",
+          "path_or_signal": "/board#sprint",
+          "expected_state": "default",
+          "state": "Board::default",
+          "action": "action-board-select-board",
+          "assertion": "Observe `/board#sprint` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Saving",
+          "path_or_signal": "PUT /api/tasks/:id/status",
+          "expected_state": "saving",
+          "state": "Saving::saving",
+          "action": "action-board-drag-card",
+          "assertion": "Observe `PUT /api/tasks/:id/status` and verify expected_state is `saving`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Board",
+          "path_or_signal": "/board#sprint",
+          "expected_state": "default",
+          "state": "Board::default",
+          "action": "action-board-drag-card",
+          "assertion": "Observe `/board#sprint` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-board-select-board",
+        "action-board-drag-card"
+      ],
+      "success_signal": "Card moved with WIP policy honored",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-board-select-board",
+        "action-board-drag-card"
+      ]
+    },
+    {
+      "trajectory_id": "journey-board-drag-conflict",
+      "role": "RTE approver",
+      "journey": "Board conflict recovery",
+      "start_screen": "safe-board",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Board",
+          "path_or_signal": "/board",
+          "expected_state": "default",
+          "state": "Board::default",
+          "action": "action-board-drag-card",
+          "assertion": "Observe `/board` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Saving",
+          "path_or_signal": "PUT status",
+          "expected_state": "saving",
+          "state": "Saving::saving",
+          "action": "action-board-drag-card",
+          "assertion": "Observe `PUT status` and verify expected_state is `saving`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Error",
+          "path_or_signal": "API conflict rollback",
+          "expected_state": "default",
+          "state": "Error::default",
+          "action": "action-board-drag-card",
+          "assertion": "Observe `API conflict rollback` and verify expected_state is `default`."
+        },
+        {
+          "index": 4,
+          "screen_or_state": "Board",
+          "path_or_signal": "retry after policy fix",
+          "expected_state": "default",
+          "state": "Board::default",
+          "action": "action-board-drag-card",
+          "assertion": "Observe `retry after policy fix` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-board-drag-card"
+      ],
+      "success_signal": "Rollback and retry shown",
+      "error_recovery_included": true,
+      "machine_evidence": [
+        "action-board-drag-card"
+      ]
+    },
+    {
+      "trajectory_id": "journey-approval-approve",
+      "role": "Human manager",
+      "journey": "Level 3 approval",
+      "start_screen": "approval-gates",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Approval queue",
+          "path_or_signal": "/approval#panels",
+          "expected_state": "default",
+          "state": "Approval queue::default",
+          "action": "action-approval-select-task",
+          "assertion": "Observe `/approval#panels` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Evidence",
+          "path_or_signal": "GET /api/approval/:id/evidence",
+          "expected_state": "default",
+          "state": "Evidence::default",
+          "action": "action-approval-approve",
+          "assertion": "Observe `GET /api/approval/:id/evidence` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Decision submitted",
+          "path_or_signal": "POST decision",
+          "expected_state": "default",
+          "state": "Decision submitted::default",
+          "action": "action-approval-approve",
+          "assertion": "Observe `POST decision` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-approval-select-task",
+        "action-approval-approve"
+      ],
+      "success_signal": "Audit receipt with decision id",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-approval-select-task",
+        "action-approval-approve"
+      ]
+    },
+    {
+      "trajectory_id": "journey-approval-insufficient-evidence",
+      "role": "Human manager",
+      "journey": "Approval evidence recovery",
+      "start_screen": "approval-gates",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Approval",
+          "path_or_signal": "/approval",
+          "expected_state": "default",
+          "state": "Approval::default",
+          "action": "action-approval-refresh-evidence",
+          "assertion": "Observe `/approval` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Insufficient evidence",
+          "path_or_signal": "Approve disabled",
+          "expected_state": "default",
+          "state": "Insufficient evidence::default",
+          "action": "action-approval-reject",
+          "assertion": "Observe `Approve disabled` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Loading",
+          "path_or_signal": "refresh evidence",
+          "expected_state": "default",
+          "state": "Loading::default",
+          "action": "action-approval-reject",
+          "assertion": "Observe `refresh evidence` and verify expected_state is `default`."
+        },
+        {
+          "index": 4,
+          "screen_or_state": "Approval",
+          "path_or_signal": "evidence complete or reject",
+          "expected_state": "default",
+          "state": "Approval::default",
+          "action": "action-approval-reject",
+          "assertion": "Observe `evidence complete or reject` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-approval-refresh-evidence",
+        "action-approval-reject"
+      ],
+      "success_signal": "Evidence reason and recovery route visible",
+      "error_recovery_included": true,
+      "machine_evidence": [
+        "action-approval-refresh-evidence",
+        "action-approval-reject"
+      ]
+    },
+    {
+      "trajectory_id": "journey-rtm-gap-resolution",
+      "role": "PMO reviewer",
+      "journey": "RTM gap resolution",
+      "start_screen": "rtm-dashboard",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Dashboard",
+          "path_or_signal": "/",
+          "expected_state": "default",
+          "state": "Dashboard::default",
+          "action": "action-rtm-create-gap-plan",
+          "assertion": "Observe `/` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Gap panel",
+          "path_or_signal": "create gap plan",
+          "expected_state": "default",
+          "state": "Gap panel::default",
+          "action": "action-rtm-filter-tasks",
+          "assertion": "Observe `create gap plan` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Task List",
+          "path_or_signal": "/tasks?status=open",
+          "expected_state": "default",
+          "state": "Task List::default",
+          "action": "action-rtm-filter-tasks",
+          "assertion": "Observe `/tasks?status=open` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-rtm-create-gap-plan",
+        "action-rtm-filter-tasks"
+      ],
+      "success_signal": "Gap plan action traceable",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-rtm-create-gap-plan",
+        "action-rtm-filter-tasks"
+      ]
+    },
+    {
+      "trajectory_id": "journey-doc-trace",
+      "role": "QA reviewer",
+      "journey": "Document trace",
+      "start_screen": "document-viewer",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Docs",
+          "path_or_signal": "/docs",
+          "expected_state": "default",
+          "state": "Docs::default",
+          "action": "action-docs-select-document",
+          "assertion": "Observe `/docs` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "PRD doc",
+          "path_or_signal": "/docs/:id",
+          "expected_state": "default",
+          "state": "PRD doc::default",
+          "action": "action-docs-open-trace",
+          "assertion": "Observe `/docs/:id` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Trace",
+          "path_or_signal": "/trace/:id",
+          "expected_state": "default",
+          "state": "Trace::default",
+          "action": "action-docs-open-trace",
+          "assertion": "Observe `/trace/:id` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-docs-select-document",
+        "action-docs-open-trace"
+      ],
+      "success_signal": "Beads id opens trace",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-docs-select-document",
+        "action-docs-open-trace"
+      ]
+    },
+    {
+      "trajectory_id": "journey-task-edit-saving",
+      "role": "PMO reviewer",
+      "journey": "Task edit and save",
+      "start_screen": "task-detail",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Task Detail",
+          "path_or_signal": "/tasks/:id",
+          "expected_state": "default",
+          "state": "Task Detail::default",
+          "action": "action-task-save-status",
+          "assertion": "Observe `/tasks/:id` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Saving",
+          "path_or_signal": "PUT /api/tasks/:id",
+          "expected_state": "saving",
+          "state": "Saving::saving",
+          "action": "action-task-save-assignee",
+          "assertion": "Observe `PUT /api/tasks/:id` and verify expected_state is `saving`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Task Detail",
+          "path_or_signal": "activity updated",
+          "expected_state": "default",
+          "state": "Task Detail::default",
+          "action": "action-task-save-assignee",
+          "assertion": "Observe `activity updated` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-task-save-status",
+        "action-task-save-assignee"
+      ],
+      "success_signal": "Optimistic save or error rollback",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-task-save-status",
+        "action-task-save-assignee"
+      ]
+    },
+    {
+      "trajectory_id": "journey-search-global",
+      "role": "Feature team agent",
+      "journey": "Quick search",
+      "start_screen": "global-shell",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Shell",
+          "path_or_signal": "Ctrl+K",
+          "expected_state": "default",
+          "state": "Shell::default",
+          "action": "action-shell-open-search",
+          "assertion": "Observe `Ctrl+K` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Search",
+          "path_or_signal": "/search?q=<query>",
+          "expected_state": "default",
+          "state": "Search::default",
+          "action": "action-shell-submit-search",
+          "assertion": "Observe `/search?q=<query>` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Task Detail",
+          "path_or_signal": "/tasks/:id",
+          "expected_state": "default",
+          "state": "Task Detail::default",
+          "action": "action-search-open-result-task",
+          "assertion": "Observe `/tasks/:id` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-shell-open-search",
+        "action-shell-submit-search",
+        "action-search-open-result-task"
+      ],
+      "success_signal": "Grouped search result opens target",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-shell-open-search",
+        "action-shell-submit-search",
+        "action-search-open-result-task"
+      ]
+    },
+    {
+      "trajectory_id": "journey-pi-confidence-vote",
+      "role": "RTE approver",
+      "journey": "PI confidence vote",
+      "start_screen": "pi-planning",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "PI Planning",
+          "path_or_signal": "/pi-planning",
+          "expected_state": "default",
+          "state": "PI Planning::default",
+          "action": "action-pi-open-roam",
+          "assertion": "Observe `/pi-planning` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "ROAM",
+          "path_or_signal": "anchor",
+          "expected_state": "default",
+          "state": "ROAM::default",
+          "action": "action-pi-submit-confidence-vote",
+          "assertion": "Observe `anchor` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Saving",
+          "path_or_signal": "POST confidence-vote",
+          "expected_state": "saving",
+          "state": "Saving::saving",
+          "action": "action-pi-submit-confidence-vote",
+          "assertion": "Observe `POST confidence-vote` and verify expected_state is `saving`."
+        },
+        {
+          "index": 4,
+          "screen_or_state": "PI Planning",
+          "path_or_signal": "accepted",
+          "expected_state": "default",
+          "state": "PI Planning::default",
+          "action": "action-pi-submit-confidence-vote",
+          "assertion": "Observe `accepted` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-pi-open-roam",
+        "action-pi-submit-confidence-vote"
+      ],
+      "success_signal": "Vote recorded",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-pi-open-roam",
+        "action-pi-submit-confidence-vote"
+      ]
+    },
+    {
+      "trajectory_id": "journey-offline-rehydration-conflict",
+      "role": "Human manager",
+      "journey": "Offline rehydration conflict",
+      "start_screen": "global-shell",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Offline",
+          "path_or_signal": "cached readonly",
+          "expected_state": "default",
+          "state": "Offline::default",
+          "action": "action-shell-retry-sync",
+          "assertion": "Observe `cached readonly` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Syncing",
+          "path_or_signal": "retry sync",
+          "expected_state": "default",
+          "state": "Syncing::default",
+          "action": "action-shell-retry-sync",
+          "assertion": "Observe `retry sync` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Conflict",
+          "path_or_signal": "keep mine or use server",
+          "expected_state": "default",
+          "state": "Conflict::default",
+          "action": "action-shell-retry-sync",
+          "assertion": "Observe `keep mine or use server` and verify expected_state is `default`."
+        },
+        {
+          "index": 4,
+          "screen_or_state": "Default",
+          "path_or_signal": "rehydrated",
+          "expected_state": "default",
+          "state": "Default::default",
+          "action": "action-shell-retry-sync",
+          "assertion": "Observe `rehydrated` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-shell-retry-sync"
+      ],
+      "success_signal": "Conflict choice resolves queue",
+      "error_recovery_included": true,
+      "machine_evidence": [
+        "action-shell-retry-sync"
+      ]
+    },
+    {
+      "trajectory_id": "journey-storyboard-detail",
+      "role": "QA reviewer",
+      "journey": "Storyboard to screen CTA",
+      "start_screen": "storyboards-overview",
+      "steps": [
+        {
+          "index": 1,
+          "screen_or_state": "Storyboards",
+          "path_or_signal": "/storyboards",
+          "expected_state": "default",
+          "state": "Storyboards::default",
+          "action": "action-storyboards-open-detail",
+          "assertion": "Observe `/storyboards` and verify expected_state is `default`."
+        },
+        {
+          "index": 2,
+          "screen_or_state": "Storyboard detail",
+          "path_or_signal": "/storyboards/:id",
+          "expected_state": "default",
+          "state": "Storyboard detail::default",
+          "action": "action-storyboard-detail-open-screen",
+          "assertion": "Observe `/storyboards/:id` and verify expected_state is `default`."
+        },
+        {
+          "index": 3,
+          "screen_or_state": "Aligned screen",
+          "path_or_signal": "canonical route",
+          "expected_state": "default",
+          "state": "Aligned screen::default",
+          "action": "action-storyboard-detail-open-screen",
+          "assertion": "Observe `canonical route` and verify expected_state is `default`."
+        }
+      ],
+      "actions": [
+        "action-storyboards-open-detail",
+        "action-storyboard-detail-open-screen"
+      ],
+      "success_signal": "CTA opens non-placeholder screen",
+      "error_recovery_included": false,
+      "machine_evidence": [
+        "action-storyboards-open-detail",
+        "action-storyboard-detail-open-screen"
       ]
     }
   ]

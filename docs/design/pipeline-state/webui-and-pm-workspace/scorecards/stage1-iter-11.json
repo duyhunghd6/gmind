@@ -1,0 +1,115 @@
+{
+  "scorer": "stage1_evaluator",
+  "iteration": 11,
+  "score": 83,
+  "convergence_status": "CONTINUE",
+  "pillar_scores": {
+    "container_validity": {
+      "score": 15,
+      "max": 15,
+      "tool_evidence": "ui-contract.md exists with exactly 1 block-style YAML fence and exactly 1 Mermaid fence; YAML parses as multi-line YAML, not JSON."
+    },
+    "prd_coverage": {
+      "score": 19,
+      "max": 20,
+      "tool_evidence": "18 screens, 9 core routes, 9 evidence/planning/shared routes, and 17 metadata.satisfies IDs map PRD-04 including §8 canonical /webui-pm-workspace, PM Space header sibling, core/evidence/planning/shared route families, and Go REST API boundaries."
+    },
+    "component_traceability": {
+      "score": 20,
+      "max": 20,
+      "tool_evidence": "84 YAML ds_id values are unique; component-map.json has 84 matching unique ds_id values with 0 missing and 0 extra across 82 DS/layout component types."
+    },
+    "logic_coverage": {
+      "score": 8,
+      "max": 15,
+      "tool_evidence": "71/71 YAML action IDs are referenced by Mermaid transitions and API success/empty/error/offline/forbidden/not_found/partial/saving/conflict paths exist, but 10 distinct EVENT_* recovery/navigation event names appear without a YAML action source or documented reason across 53 transitions."
+    },
+    "derived_artifact_consistency": {
+      "score": 13,
+      "max": 15,
+      "tool_evidence": "validate_mermaid_markdown.py PASS; flow.md has exactly 1 Mermaid block and matches the contract state machine; review-diagrams.md has 10 valid Mermaid blocks; storyboards/component-map/layout-rules/artifact-index/preview-manifest JSON parse; 417 context slices exist; no standalone .mmd files. Minor drift: review-diagrams.md block 1 reuses Mermaid node id core_document_viewer for /docs and /docs/:id."
+    },
+    "conflict_preview_readiness": {
+      "score": 8,
+      "max": 15,
+      "tool_evidence": "contract_to_ui.py returned status OK and preview index includes Mermaid/flow/storyboard/component/layout/conflict sections; preview-manifest reports 160 warnings; prd-ds-conflicts.md has 2 assigned conflict resolutions; artifact-index has 422 entries and context-slice coverage so raw large JSON inspection is not required."
+    }
+  },
+  "schema_checks": {
+    "yaml_block_count": 1,
+    "mermaid_block_count": 1,
+    "yaml_block_style": true,
+    "yaml_starts_json": false,
+    "duplicate_ds_ids": [],
+    "unmatched_yaml_actions": [],
+    "unmatched_mermaid_events": [
+      "EVENT_BACK_TO_LIST",
+      "EVENT_BACK_TO_SAFE_ROUTE",
+      "EVENT_BROWSER_BACK",
+      "EVENT_CANCEL_CONFLICT_RESOLUTION",
+      "EVENT_CLEAR_FILTER_OR_GUIDE",
+      "EVENT_EXIT_PM_SPACE",
+      "EVENT_KEEP_MINE_OR_USE_SERVER",
+      "EVENT_OPEN_DECISION_TASK",
+      "EVENT_RETRY_LOAD",
+      "EVENT_ROUTE_NORMALIZED"
+    ],
+    "unmatched_mermaid_event_transition_count": 53,
+    "standalone_mmd_files_under_contract_path": 0,
+    "metadata_satisfies_count": 17,
+    "screens_defined": 18,
+    "core_routes_defined": 9,
+    "evidence_planning_shared_routes_defined": 9,
+    "yaml_actions_defined": 71,
+    "yaml_ds_ids": 84,
+    "component_map_ds_ids": 84,
+    "component_map_missing_ids": 0,
+    "component_map_extra_ids": 0,
+    "component_types_count": 82,
+    "mermaid_transitions": 287,
+    "mermaid_direction_lr": true,
+    "storyboard_trajectories": 12,
+    "artifact_index_entries": 422,
+    "context_slice_files": 417,
+    "json_artifacts_valid": true,
+    "invalid_load_policy_count": 0,
+    "mermaid_markdown_validator_status": "PASS",
+    "flow_mermaid_blocks": 1,
+    "review_diagrams_mermaid_blocks": 10,
+    "review_diagrams_duplicate_node_ids": [
+      "core_document_viewer"
+    ],
+    "preview_status": "OK",
+    "preview_warnings": 160,
+    "prd_ds_conflict_rows": 2,
+    "baseline_features_processed": 0,
+    "baseline_regression_check_applicable": false
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "pillar": "logic_coverage",
+      "responsible_generator": "gen_flows",
+      "detail": "Mermaid Logic Machine contains 53 EVENT_* transitions with no YAML action source or documented exception. Add YAML actions or document/system-classify these recovery/navigation events: EVENT_BACK_TO_LIST, EVENT_BACK_TO_SAFE_ROUTE, EVENT_BROWSER_BACK, EVENT_CANCEL_CONFLICT_RESOLUTION, EVENT_CLEAR_FILTER_OR_GUIDE, EVENT_EXIT_PM_SPACE, EVENT_KEEP_MINE_OR_USE_SERVER, EVENT_OPEN_DECISION_TASK, EVENT_RETRY_LOAD, EVENT_ROUTE_NORMALIZED."
+    },
+    {
+      "priority": "P1",
+      "pillar": "conflict_preview_readiness",
+      "responsible_generator": "preview_script",
+      "detail": "preview/preview-manifest.json reports 160 warnings even though independent action-id extraction shows 71/71 YAML actions referenced by Mermaid transitions. Align preview warning detection with slash action references or suppress false positives with evidence."
+    },
+    {
+      "priority": "P1",
+      "pillar": "derived_artifact_consistency",
+      "responsible_generator": "gen_wireframes",
+      "detail": "review-diagrams.md screen inventory block reuses Mermaid node id core_document_viewer for both /docs and /docs/:id; give the route variant a unique node id to avoid rendered diagram label overwrite."
+    }
+  ],
+  "baseline_regression": false,
+  "issues": [
+    "PASS: canonical feature normalization is webui-and-pm-workspace and evaluated artifacts are under docs/design/contracts/webui-and-pm-workspace.",
+    "PASS: PRD §8 route map fidelity is strong: /webui-pm-workspace is canonical, PM Space is top-level beside Design System, and core/evidence/planning/shared routes are present without standalone .mmd files.",
+    "PASS: large machine artifacts are indexed and represented through artifact-index/context-slices/review HTML rather than requiring raw JSON inspection.",
+    "REJECT: Gate A cannot be marked ready while unmatched EVENT_* sources and preview warnings remain."
+  ]
+}

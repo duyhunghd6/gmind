@@ -1,0 +1,28 @@
+screen_id: pi-planning
+route: /pi-planning
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+- saving
+ds_id: ds:webui.pi-planning.value-scoring
+parent_ds_id: ds:webui.pi-planning.root
+ds_type: business_value_scoring
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- PIPlanningDefault
+- PIPlanningLoading
+- PIPlanningEmpty
+- PIPlanningError
+- PIPlanningOffline
+- PIPlanningForbidden
+- PIPlanningSaving
+satisfies:
+- br-prd04-s3
+- br-prd04-s8

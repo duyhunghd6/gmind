@@ -1,0 +1,25 @@
+screen_id: task-list
+route: /tasks
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- saving
+ds_id: ds:webui.tasks.table
+parent_ds_id: ds:webui.tasks.root
+ds_type: table
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- TasksDefault
+- TasksLoading
+- TasksEmpty
+- TasksError
+- TasksOffline
+- TasksSaving
+satisfies:
+- br-prd04-s13

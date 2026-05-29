@@ -1,0 +1,27 @@
+screen_id: trace-explorer
+route: /trace/:id
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- partial
+- forbidden
+ds_id: ds:webui.trace.legend-stats
+parent_ds_id: ds:webui.trace.root
+ds_type: legend_stats
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- TraceDefault
+- TraceLoading
+- TraceEmpty
+- TraceError
+- TraceOffline
+- TracePartial
+- TraceForbidden
+satisfies:
+- br-prd04-s10

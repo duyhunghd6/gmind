@@ -1,0 +1,20 @@
+screen_id: safe-board
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Tablet
+width: 1024
+layout_type: kanban_board
+ds_id: ds:webui.board.root
+responsive_assertion: horizontal scroll columns
+boundary_assertions:
+  loading: Skeleton task cards inside each column
+  empty: Chưa có task trong board này with clear filter CTA
+  error: Không thể tải dữ liệu Board with retry action
+  offline: Drag and drop disabled, cached cards remain readable
+must_preserve_shell: true
+state_name: offline

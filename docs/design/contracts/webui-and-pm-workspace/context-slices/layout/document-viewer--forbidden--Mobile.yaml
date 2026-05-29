@@ -1,0 +1,19 @@
+screen_id: document-viewer
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Mobile
+width: 390
+layout_type: document_viewer
+ds_id: ds:webui.docs.root
+responsive_assertion: content-first with back-to-list control
+boundary_assertions:
+  loading: Skeleton doc tree and content panel
+  empty: Chưa có tài liệu nào được index with run reindex CTA
+  error: Không thể tải tài liệu từ Zvec with retry action
+must_preserve_shell: true
+state_name: forbidden

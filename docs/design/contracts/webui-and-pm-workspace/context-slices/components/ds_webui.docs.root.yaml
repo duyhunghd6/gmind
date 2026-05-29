@@ -1,0 +1,46 @@
+screen_id: document-viewer
+route: /docs
+route_variants:
+- /docs/:id
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.docs.root
+parent_ds_id: null
+ds_type: document_viewer
+labels:
+  title: Document Viewer
+bindings:
+  doc_tree: GET /api/docs?group=source_type
+  document: GET /api/docs/:id
+  coverage: GET /api/coverage?doc=<id>
+actions:
+- id: action-docs-select-document
+  label: Select document from tree
+  target_route: null
+  event: EVENT_DOCS_SELECT_DOCUMENT
+- id: action-docs-open-trace
+  label: Open Beads trace
+  target_route: /trace/:id
+  event: EVENT_DOCS_OPEN_TRACE
+- id: action-docs-open-search
+  label: Search in Explorer
+  target_route: /search#doc
+  event: EVENT_DOCS_OPEN_SEARCH
+- id: action-docs-open-knowledge-graph
+  label: Open Knowledge Graph
+  target_route: /knowledge-graph
+  event: EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH
+machine_states:
+- DocsDefault
+- DocsLoading
+- DocsEmpty
+- DocsError
+- DocsOffline
+- DocsForbidden
+satisfies:
+- br-prd04-s9

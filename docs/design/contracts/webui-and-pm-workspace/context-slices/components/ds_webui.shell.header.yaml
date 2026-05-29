@@ -1,0 +1,27 @@
+screen_id: global-shell
+route: /webui-pm-workspace
+route_variants: []
+state_names:
+- default
+- loading
+- offline
+- forbidden
+ds_id: ds:webui.shell.header
+parent_ds_id: ds:webui.shell.root
+ds_type: header
+labels:
+  title: Website header
+  active_item: PM Space
+bindings: {}
+actions:
+- id: action-shell-header-pm-space
+  label: Open /webui-pm-workspace
+  target_route: /webui-pm-workspace
+  event: EVENT_SHELL_HEADER_PM_SPACE
+machine_states:
+- ShellDefault
+- ShellLoading
+- ShellOffline
+- ShellForbidden
+satisfies:
+- br-prd04-s8

@@ -1,0 +1,19 @@
+screen_id: knowledge-graph
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Tablet
+width: 1024
+layout_type: preset_graph_viewer
+ds_id: ds:webui.knowledge-graph.root
+responsive_assertion: banner becomes bottom sheet
+boundary_assertions:
+  loading: Graph canvas skeleton and preset loading label
+  empty: Chưa có liên kết tài liệu hoặc biểu đồ trống with link PRD CTA
+  error: Lỗi truy xuất đồ thị từ gmind with retry action
+must_preserve_shell: true
+state_name: empty

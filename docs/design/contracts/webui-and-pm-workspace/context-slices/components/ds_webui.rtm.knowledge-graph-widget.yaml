@@ -1,0 +1,24 @@
+screen_id: rtm-dashboard
+route: /
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+ds_id: ds:webui.rtm.knowledge-graph-widget
+parent_ds_id: ds:webui.rtm.root
+ds_type: graph_widget
+labels:
+  title: Panel 3 Knowledge Graph
+bindings: {}
+actions: []
+machine_states:
+- DashboardDefault
+- DashboardLoading
+- DashboardEmpty
+- DashboardError
+- DashboardOffline
+satisfies:
+- br-prd04-s6

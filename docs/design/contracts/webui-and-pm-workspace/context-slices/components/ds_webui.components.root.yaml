@@ -1,0 +1,35 @@
+screen_id: components-catalog
+route: /components
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+ds_id: ds:webui.components.root
+parent_ds_id: null
+ds_type: component_catalog
+labels:
+  title: Shared Components Catalog
+  sections: Buttons, Badges Status, Progress, Avatar Stack, Modal, Dropdown, Accordion,
+    Tab Panel, Data Table, Tooltip, Code Block, Cards, Prompt Card, Section Labels,
+    Status Dots, Skeleton, Empty State, Error Banner
+bindings:
+  catalog_sections: shared primitives and tokens
+actions:
+- id: action-components-scroll-section
+  label: Scroll to component section hash
+  target_route: null
+  event: EVENT_COMPONENTS_SCROLL_SECTION
+- id: action-components-toggle-example
+  label: Interact with component example
+  target_route: null
+  event: EVENT_COMPONENTS_TOGGLE_EXAMPLE
+machine_states:
+- ComponentsDefault
+- ComponentsLoading
+- ComponentsEmpty
+- ComponentsError
+satisfies:
+- br-prd04-s8
+- br-prd04-s18

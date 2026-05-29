@@ -1,11 +1,69 @@
 feature: webui-and-pm-workspace
+canonical_contract: docs/design/contracts/webui-and-pm-workspace/ui-contract.md
+source_prd: docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md
 satisfies:
   - br-prd04
+  - br-prd04-s2
+  - br-prd04-s3
+  - br-prd04-s4
+  - br-prd04-s5
+  - br-prd04-s6
+  - br-prd04-s8
+  - br-prd04-s9
+  - br-prd04-s10
+  - br-prd04-s11
+  - br-prd04-s12
+  - br-prd04-s13
+  - br-prd04-s14
+  - br-prd04-s15
+  - br-prd04-s16
+  - br-prd04-s17
+  - br-prd04-s18
 viewports:
   - Desktop
   - Tablet
   - Mobile
+canonical_entry: /webui-pm-workspace
+route_alignment:
+  core_routes:
+    - /
+    - /board
+    - /tasks
+    - /tasks/:id
+    - /trace/:id
+    - /docs
+    - /approval
+    - /search
+  evidence_planning_shared_routes:
+    - /terminal
+    - /timeline
+    - /git-graph
+    - /knowledge-graph
+    - /portfolio
+    - /pi-planning
+    - /storyboards
+    - /storyboards/:id
+    - /components
 screens:
   - global-shell
   - rtm-dashboard
-  - approval-gate
+  - safe-board
+  - task-list
+  - task-detail
+  - trace-explorer
+  - document-viewer
+  - approval-gates
+  - search-results
+  - terminal-console
+  - timeline-file-leases
+  - git-graph-explorer
+  - knowledge-graph
+  - portfolio-view
+  - pi-planning
+  - storyboards-overview
+  - storyboard-detail
+  - components-catalog
+notes:
+  - Low-fi structure is represented only in the YAML View Blueprint.
+  - No standalone ASCII wireframe artifact is authored by Stage 1.
+  - Mermaid block remains a placeholder for gen_flows review transitions.

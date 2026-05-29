@@ -1,0 +1,61 @@
+screen_id: task-list
+route: /tasks
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- saving
+ds_id: ds:webui.tasks.root
+parent_ds_id: null
+ds_type: data_table
+labels:
+  title: Task List
+  columns: id, title, status, priority, assignee, qa
+bindings:
+  tasks: GET /api/tasks?format=list
+  bulk_update: PUT /api/tasks/bulk
+actions:
+- id: action-tasks-toggle-board
+  label: Switch to board view
+  target_route: /board
+  event: EVENT_TASKS_TOGGLE_BOARD
+- id: action-tasks-filter
+  label: Apply status assignee priority PRD QA filters
+  target_route: null
+  event: EVENT_TASKS_FILTER
+- id: action-tasks-sort
+  label: Sort table column
+  target_route: null
+  event: EVENT_TASKS_SORT
+- id: action-tasks-open-detail
+  label: Open row detail
+  target_route: /tasks/:id
+  event: EVENT_TASKS_OPEN_DETAIL
+- id: action-tasks-open-trace
+  label: Open beads trace
+  target_route: /trace/:id
+  event: EVENT_TASKS_OPEN_TRACE
+- id: action-tasks-bulk-assign
+  label: Bulk assign selected tasks
+  target_route: null
+  event: EVENT_TASKS_BULK_ASSIGN
+- id: action-tasks-bulk-status
+  label: Bulk change selected task status
+  target_route: null
+  event: EVENT_TASKS_BULK_STATUS
+- id: action-tasks-export-csv
+  label: Export current filtered CSV
+  target_route: null
+  event: EVENT_TASKS_EXPORT_CSV
+machine_states:
+- TasksDefault
+- TasksLoading
+- TasksEmpty
+- TasksError
+- TasksOffline
+- TasksSaving
+satisfies:
+- br-prd04-s13

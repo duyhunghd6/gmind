@@ -1,0 +1,26 @@
+screen_id: task-detail
+route: /tasks/:id
+route_variants: []
+state_names:
+- default
+- loading
+- error
+- offline
+- saving
+- not_found
+ds_id: ds:webui.task-detail.summary-header
+parent_ds_id: ds:webui.task-detail.root
+ds_type: summary_header
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- TaskDetailDefault
+- TaskDetailLoading
+- TaskDetailError
+- TaskDetailOffline
+- TaskDetailSaving
+- TaskDetailNotFound
+satisfies:
+- br-prd04-s11
+- br-prd04-s7

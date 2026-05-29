@@ -1,0 +1,38 @@
+screen_id: timeline-file-leases
+route: /timeline
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.timeline.root
+parent_ds_id: null
+ds_type: timeline_workspace
+labels:
+  title: Timeline and File Leases
+  anchors: '#file-lease, #activity-feed, #sprint-day'
+bindings:
+  activity: GET /api/activity
+  file_leases: GET /api/file-leases
+  task_activity: GET /api/tasks/:id/activity
+actions:
+- id: action-timeline-select-anchor
+  label: Select timeline anchor
+  target_route: null
+  event: EVENT_TIMELINE_SELECT_ANCHOR
+- id: action-timeline-refresh
+  label: Refresh activity and file leases
+  target_route: null
+  event: EVENT_TIMELINE_REFRESH
+machine_states:
+- TimelineDefault
+- TimelineLoading
+- TimelineEmpty
+- TimelineError
+- TimelineOffline
+- TimelineForbidden
+satisfies:
+- br-prd04-s15

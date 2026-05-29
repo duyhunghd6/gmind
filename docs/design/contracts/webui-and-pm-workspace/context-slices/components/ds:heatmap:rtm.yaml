@@ -1,9 +1,0 @@
-ds_id: ds:heatmap:rtm
-screen: screen:dashboard
-state: default
-type: ds:component:coverage_heatmap
-binding: coverage.prds
-actions:
-  - id: EVENT_NAV_DOCS
-    type: navigate
-    target: /docs

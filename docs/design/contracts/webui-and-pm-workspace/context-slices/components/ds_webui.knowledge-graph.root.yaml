@@ -1,0 +1,43 @@
+screen_id: knowledge-graph
+route: /knowledge-graph
+route_variants:
+- /trace/:id
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.knowledge-graph.root
+parent_ds_id: null
+ds_type: preset_graph_viewer
+labels:
+  title: Knowledge Graph Presets
+  presets: simple, ecosystem, sprint
+bindings:
+  presets: GET /api/graph/presets
+  enrichment: GET /api/trace/:id?depth=full
+actions:
+- id: action-knowledge-select-preset
+  label: Select graph preset hash
+  target_route: null
+  event: EVENT_KNOWLEDGE_SELECT_PRESET
+- id: action-knowledge-select-node
+  label: Select node for banner
+  target_route: null
+  event: EVENT_KNOWLEDGE_SELECT_NODE
+- id: action-knowledge-open-trace
+  label: Open full trace
+  target_route: /trace/:id
+  event: EVENT_KNOWLEDGE_OPEN_TRACE
+machine_states:
+- KnowledgeGraphDefault
+- KnowledgeGraphLoading
+- KnowledgeGraphEmpty
+- KnowledgeGraphError
+- KnowledgeGraphOffline
+- KnowledgeGraphForbidden
+satisfies:
+- br-prd04-s5
+- br-prd04-s10

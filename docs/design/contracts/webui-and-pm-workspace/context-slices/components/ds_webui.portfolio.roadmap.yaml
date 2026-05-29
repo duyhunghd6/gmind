@@ -1,0 +1,26 @@
+screen_id: portfolio-view
+route: /portfolio
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.portfolio.roadmap
+parent_ds_id: ds:webui.portfolio.root
+ds_type: roadmap
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- PortfolioDefault
+- PortfolioLoading
+- PortfolioEmpty
+- PortfolioError
+- PortfolioOffline
+- PortfolioForbidden
+satisfies:
+- br-prd04-s3
+- br-prd04-s8

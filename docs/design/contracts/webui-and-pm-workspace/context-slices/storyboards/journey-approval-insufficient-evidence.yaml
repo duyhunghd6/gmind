@@ -1,0 +1,29 @@
+trajectory_id: journey-approval-insufficient-evidence
+role: Human manager
+journey: Approval evidence recovery
+start_screen: approval-gates
+steps:
+- index: 1
+  screen_or_state: Approval
+  path_or_signal: /approval
+  expected_state: default
+- index: 2
+  screen_or_state: Insufficient evidence
+  path_or_signal: Approve disabled
+  expected_state: default
+- index: 3
+  screen_or_state: Loading
+  path_or_signal: refresh evidence
+  expected_state: default
+- index: 4
+  screen_or_state: Approval
+  path_or_signal: evidence complete or reject
+  expected_state: default
+actions:
+- action-approval-refresh-evidence
+- action-approval-reject
+success_signal: Evidence reason and recovery route visible
+error_recovery_included: true
+machine_evidence:
+- action-approval-refresh-evidence
+- action-approval-reject

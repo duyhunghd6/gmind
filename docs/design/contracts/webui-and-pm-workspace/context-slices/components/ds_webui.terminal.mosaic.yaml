@@ -1,0 +1,25 @@
+screen_id: terminal-console
+route: /terminal
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.terminal.mosaic
+parent_ds_id: ds:webui.terminal.root
+ds_type: terminal_pane_grid
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- TerminalDefault
+- TerminalLoading
+- TerminalEmpty
+- TerminalError
+- TerminalOffline
+- TerminalForbidden
+satisfies:
+- br-prd04-s14

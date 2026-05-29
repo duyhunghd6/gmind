@@ -1,0 +1,17 @@
+screen_id: global-shell
+state_names:
+- default
+- loading
+- offline
+- forbidden
+viewport: Tablet
+width: 1024
+layout_type: shell
+ds_id: ds:webui.shell.root
+responsive_assertion: compact icon nav
+boundary_assertions:
+  loading: Layout-matched shell skeleton with nav placeholders
+  offline: Read-only banner with queued write count and retry sync action
+  forbidden: Permission banner with route-safe back action
+must_preserve_shell: true
+state_name: offline

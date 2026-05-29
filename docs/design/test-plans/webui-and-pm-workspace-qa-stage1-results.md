@@ -1,59 +1,132 @@
-# Stage 1 QA Test Results: webui-and-pm-workspace
+# Stage 1 QA Results: webui-and-pm-workspace
 
-<!-- beads-id: br-plan-qa-stage1-results-webui-and-pm-workspace | satisfies: br-prd04-s18 -->
+<!-- beads-id: br-agent-ralph-stage1-qa-webui-pm-workspace-results -->
 
-## Convergence Status: QA_FAIL
+Contract path: `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace`
+PRD path: `/Users/steve/duyhunghd6/gmind/docs/PRDs/core-gmind/PRD-04-WebUI-and-PM-Workspace.md`
+Evaluator score: `96/100` (`GATE_A_READY`)
+Passed: `6`
+Failed: `2`
 
-## Test Suite Results
+## T1_contract_container
 
-### T1: Contract Container Integrity
-- **Status:** PASS
-- **Evidence:** `ui-contract.md` contains 1 YAML block and 1 Mermaid block. Blocks are parseable.
+Status: `PASS`
 
-### T2: YAML View Blueprint Schema
-- **Status:** FAIL
-- **Evidence:** Multiple screens (portfolio, kanban, pi_planning, approval, trace_explorer, doc_viewer, search, terminal, timeline, git_graph, storyboards) are missing explicit `states` declarations in `ui-contract.md`. Ralph Loop requires these for wireframe generation.
+Evidence: 1 YAML block, 1 Mermaid block, block-style YAML, preview parser OK
 
-### T3: Component and ds_id Traceability
-- **Status:** FAIL
-- **Evidence:** The following `ds_id` values in YAML are missing from `component-map.json`:
-  - `ds:kpi:tasks`
-  - `ds:kpi:gaps`
-  - `ds:chart:progress`
-  - `ds:roadmap:timeline`
-  - `ds:hub:evidence`
-  - `ds:panel:node_detail`
-  - `ds:editor:description`
-  - `ds:timeline:activity`
-  - `ds:timeline:main`
-  - `ds:graph:git`
-  - `ds:storyboard:viewer`
-  - `ds:shell:search`
+## T2_yaml_schema
 
-### T4: Mermaid Logic Coverage
-- **Status:** PASS
-- **Evidence:** `flow.md` and `review-diagrams.md` passed `validate_mermaid_markdown.py`. Logic covers all PRD required journeys.
+Status: `PASS`
 
-### T5: Storyboard Trajectory Validation
-- **Status:** FAIL
-- **Evidence:** `storyboards.json` is missing trajectories for:
-  - PI Planning journey (J2)
-  - Portfolio Review journey (J3)
+Evidence: 18 screens have routes, states, layout; canonical PM Space route map covered
 
-### T6: Layout Rules and Review Diagrams
-- **Status:** PASS
-- **Evidence:** `layout-rules.json` is consistent. `split_mermaid_subgraphs.py` confirmed no unsplit blocks in `review-diagrams.md`.
+## T3_component_traceability
 
-### T7: Conflict Report and Preview Output
-- **Status:** PASS
-- **Evidence:** `prd-ds-conflicts.md` contains valid resolutions. Preview artifacts exist.
+Status: `PASS`
 
-### T8: Artifact Budget and Slice Availability
-- **Status:** FAIL
-- **Evidence:** `artifact-index.json` is missing `machine_evidence` and `lookup_only` policy metadata for large JSON files (`storyboards.json`, `component-map.json`, `layout-rules.json`).
+Evidence: 83 YAML ds_id values mapped once; 84 component-map entries valid
+
+## T4_mermaid_logic
+
+Status: `PASS`
+
+Evidence: 71 YAML actions/events covered; flow.md Mermaid validates; no .mmd files
+
+## T5_storyboards
+
+Status: `FAIL`
+
+Evidence: journey-nav-task-detail step 0 missing state; journey-nav-task-detail step 0 missing action; journey-nav-task-detail step 0 missing assertion; journey-nav-task-detail step 1 missing state; journey-nav-task-detail step 1 missing action; journey-nav-task-detail step 1 missing assertion; journey-nav-task-detail step 2 missing state; journey-nav-task-detail step 2 missing action; journey-nav-task-detail step 2 missing assertion; journey-board-drag-success step 0 missing state; journey-board-drag-success step 0 missing action; journey-board-drag-success step 0 missing assertion; journey-board-drag-success step 1 missing state; journey-board-drag-success step 1 missing action; journey-board-drag-success step 1 missing assertion; journey-board-drag-success step 2 missing state; journey-board-drag-success step 2 missing action; journey-board-drag-success step 2 missing assertion; journey-board-drag-conflict step 0 missing state; journey-board-drag-conflict step 0 missing action; journey-board-drag-conflict step 0 missing assertion; journey-board-drag-conflict step 1 missing state; journey-board-drag-conflict step 1 missing action; journey-board-drag-conflict step 1 missing assertion; journey-board-drag-conflict step 2 missing state; journey-board-drag-conflict step 2 missing action; journey-board-drag-conflict step 2 missing assertion; journey-board-drag-conflict step 3 missing state; journey-board-drag-conflict step 3 missing action; journey-board-drag-conflict step 3 missing assertion
+
+Fix items:
+- journey-nav-task-detail step 0 missing state
+- journey-nav-task-detail step 0 missing action
+- journey-nav-task-detail step 0 missing assertion
+- journey-nav-task-detail step 1 missing state
+- journey-nav-task-detail step 1 missing action
+- journey-nav-task-detail step 1 missing assertion
+- journey-nav-task-detail step 2 missing state
+- journey-nav-task-detail step 2 missing action
+- journey-nav-task-detail step 2 missing assertion
+- journey-board-drag-success step 0 missing state
+- journey-board-drag-success step 0 missing action
+- journey-board-drag-success step 0 missing assertion
+- journey-board-drag-success step 1 missing state
+- journey-board-drag-success step 1 missing action
+- journey-board-drag-success step 1 missing assertion
+- journey-board-drag-success step 2 missing state
+- journey-board-drag-success step 2 missing action
+- journey-board-drag-success step 2 missing assertion
+- journey-board-drag-conflict step 0 missing state
+- journey-board-drag-conflict step 0 missing action
+- journey-board-drag-conflict step 0 missing assertion
+- journey-board-drag-conflict step 1 missing state
+- journey-board-drag-conflict step 1 missing action
+- journey-board-drag-conflict step 1 missing assertion
+- journey-board-drag-conflict step 2 missing state
+- journey-board-drag-conflict step 2 missing action
+- journey-board-drag-conflict step 2 missing assertion
+- journey-board-drag-conflict step 3 missing state
+- journey-board-drag-conflict step 3 missing action
+- journey-board-drag-conflict step 3 missing assertion
+
+## T6_layout_review_diagrams
+
+Status: `PASS`
+
+Evidence: 3 viewports covered; 10 review Mermaid blocks validate; split check clean
+
+## T7_conflicts_preview
+
+Status: `PASS`
+
+Evidence: conflict report actionable; preview index and manifest status OK with 0 warnings
+
+## T8_artifact_budget_slices
+
+Status: `FAIL`
+
+Evidence: storyboards.json not marked machine_evidence; layout-rules.json not marked machine_evidence; component-map.json not marked machine_evidence; artifact-index missing preview-manifest.json
+
+Fix items:
+- storyboards.json not marked machine_evidence
+- layout-rules.json not marked machine_evidence
+- component-map.json not marked machine_evidence
+- artifact-index missing preview-manifest.json
 
 ## Fix Queue
-- **P0 | T2**: Add `states` to all screens in `ui-contract.md`. (Responsible: `gen_contracts`)
-- **P0 | T3**: Map missing `ds_id` values in `component-map.json`. (Responsible: `gen_flows`)
-- **P1 | T5**: Add trajectories for PI Planning and Portfolio in `storyboards.json`. (Responsible: `gen_flows`)
-- **P2 | T8**: Update `artifact-index.json` with machine policy metadata. (Responsible: `gen_wireframes`)
+
+- P0 T5 gen_storyboards: journey-nav-task-detail step 0 missing state
+- P0 T5 gen_storyboards: journey-nav-task-detail step 0 missing action
+- P0 T5 gen_storyboards: journey-nav-task-detail step 0 missing assertion
+- P0 T5 gen_storyboards: journey-nav-task-detail step 1 missing state
+- P0 T5 gen_storyboards: journey-nav-task-detail step 1 missing action
+- P0 T5 gen_storyboards: journey-nav-task-detail step 1 missing assertion
+- P0 T5 gen_storyboards: journey-nav-task-detail step 2 missing state
+- P0 T5 gen_storyboards: journey-nav-task-detail step 2 missing action
+- P0 T5 gen_storyboards: journey-nav-task-detail step 2 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-success step 0 missing state
+- P0 T5 gen_storyboards: journey-board-drag-success step 0 missing action
+- P0 T5 gen_storyboards: journey-board-drag-success step 0 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-success step 1 missing state
+- P0 T5 gen_storyboards: journey-board-drag-success step 1 missing action
+- P0 T5 gen_storyboards: journey-board-drag-success step 1 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-success step 2 missing state
+- P0 T5 gen_storyboards: journey-board-drag-success step 2 missing action
+- P0 T5 gen_storyboards: journey-board-drag-success step 2 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 0 missing state
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 0 missing action
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 0 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 1 missing state
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 1 missing action
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 1 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 2 missing state
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 2 missing action
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 2 missing assertion
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 3 missing state
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 3 missing action
+- P0 T5 gen_storyboards: journey-board-drag-conflict step 3 missing assertion
+- P0 T8 gen_artifact_index: storyboards.json not marked machine_evidence
+- P0 T8 gen_artifact_index: layout-rules.json not marked machine_evidence
+- P0 T8 gen_artifact_index: component-map.json not marked machine_evidence
+- P0 T8 gen_artifact_index: artifact-index missing preview-manifest.json

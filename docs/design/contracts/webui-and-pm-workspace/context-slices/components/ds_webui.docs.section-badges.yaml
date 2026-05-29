@@ -1,0 +1,26 @@
+screen_id: document-viewer
+route: /docs
+route_variants:
+- /docs/:id
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.docs.section-badges
+parent_ds_id: ds:webui.docs.root
+ds_type: section_badges
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- DocsDefault
+- DocsLoading
+- DocsEmpty
+- DocsError
+- DocsOffline
+- DocsForbidden
+satisfies:
+- br-prd04-s9

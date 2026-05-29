@@ -1,0 +1,45 @@
+screen_id: rtm-dashboard
+route: /
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+ds_id: ds:webui.rtm.root
+parent_ds_id: null
+ds_type: dashboard_grid
+labels:
+  title: RTM Dashboard
+  structure: KPI row above four review panels
+bindings:
+  coverage: GET /api/coverage
+  gaps: GET /api/gaps
+  tasks: GET /api/tasks
+  trace: GET /api/trace/:id?depth=full
+actions:
+- id: action-rtm-open-trace
+  label: Open section trace
+  target_route: /trace/:id
+  event: EVENT_RTM_OPEN_TRACE
+- id: action-rtm-filter-tasks
+  label: Filter tasks by status
+  target_route: /tasks?status=<status>
+  event: EVENT_RTM_FILTER_TASKS
+- id: action-rtm-open-doc
+  label: Open linked document
+  target_route: /docs/:id
+  event: EVENT_RTM_OPEN_DOC
+- id: action-rtm-create-gap-plan
+  label: Create plan for gap
+  target_route: null
+  event: EVENT_RTM_CREATE_GAP_PLAN
+machine_states:
+- DashboardDefault
+- DashboardLoading
+- DashboardEmpty
+- DashboardError
+- DashboardOffline
+satisfies:
+- br-prd04-s6

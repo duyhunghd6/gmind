@@ -1,0 +1,20 @@
+screen_id: git-graph-explorer
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+viewport: Tablet
+width: 1024
+layout_type: git_graph_workspace
+ds_id: ds:webui.git-graph.root
+responsive_assertion: scenario list collapses above graph
+boundary_assertions:
+  loading: Progress bar while API analyzes git history
+  empty: Không có commit phù hợp scenario or filter with reset CTA
+  error: Không thể đọc dữ liệu local git with retry action
+  offline: Cached graph visible and refresh disabled
+must_preserve_shell: true
+state_name: default

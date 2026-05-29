@@ -1,0 +1,24 @@
+screen_id: rtm-dashboard
+route: /
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+ds_id: ds:webui.rtm.gap-analysis
+parent_ds_id: ds:webui.rtm.root
+ds_type: gap_panel
+labels:
+  title: Panel 4 Gap Analysis
+bindings: {}
+actions: []
+machine_states:
+- DashboardDefault
+- DashboardLoading
+- DashboardEmpty
+- DashboardError
+- DashboardOffline
+satisfies:
+- br-prd04-s6

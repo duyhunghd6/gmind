@@ -1,0 +1,27 @@
+screen_id: safe-board
+route: /board
+route_variants: []
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.board.columns
+parent_ds_id: ds:webui.board.root
+ds_type: kanban_columns
+labels:
+  columns: Todo, In Progress, Review, Done
+bindings: {}
+actions: []
+machine_states:
+- BoardDefault
+- BoardLoading
+- BoardEmpty
+- BoardError
+- BoardOffline
+- BoardForbidden
+satisfies:
+- br-prd04-s3
+- br-prd04-s8

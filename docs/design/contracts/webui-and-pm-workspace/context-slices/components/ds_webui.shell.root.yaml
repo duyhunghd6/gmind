@@ -1,0 +1,39 @@
+screen_id: global-shell
+route: /webui-pm-workspace
+route_variants: []
+state_names:
+- default
+- loading
+- offline
+- forbidden
+ds_id: ds:webui.shell.root
+parent_ds_id: null
+ds_type: shell
+labels:
+  title: PM Workspace Shell
+  purpose: Persistent header, global search, route nav, status, and footer for all
+    PM screens
+bindings:
+  route_state: active core route or hash surface
+  sync_status: API health and offline queue state
+  user_role: permission policy from Go REST API
+actions:
+- id: action-shell-open-search
+  label: Focus global search
+  target_route: /search
+  event: EVENT_SHELL_OPEN_SEARCH
+- id: action-shell-toggle-nav
+  label: Toggle PM navigation
+  target_route: null
+  event: EVENT_SHELL_TOGGLE_NAV
+- id: action-shell-retry-sync
+  label: Retry sync
+  target_route: null
+  event: EVENT_SHELL_RETRY_SYNC
+machine_states:
+- ShellDefault
+- ShellLoading
+- ShellOffline
+- ShellForbidden
+satisfies:
+- br-prd04-s8

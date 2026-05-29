@@ -1,0 +1,20 @@
+screen_id: global-shell
+route: /webui-pm-workspace
+state_names:
+- default
+ds_id: ds:webui.header.top-level
+ds_type: website_header
+labels:
+  brand: Gmind
+  design_system: Design System
+  pm_space: PM Space
+bindings: {}
+actions:
+- id: action-header-open-design-system
+  label: Open Design System
+  target_route: /design-system
+  event: EVENT_HEADER_OPEN_DESIGN_SYSTEM
+- id: action-header-open-pm-space
+  label: Open PM Space
+  target_route: /webui-pm-workspace
+  event: EVENT_HEADER_OPEN_PM_SPACE

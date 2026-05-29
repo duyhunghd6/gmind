@@ -1,0 +1,27 @@
+screen_id: knowledge-graph
+route: /knowledge-graph
+route_variants:
+- /trace/:id
+state_names:
+- default
+- loading
+- empty
+- error
+- offline
+- forbidden
+ds_id: ds:webui.knowledge-graph.preset-list
+parent_ds_id: ds:webui.knowledge-graph.root
+ds_type: preset_list
+labels: {}
+bindings: {}
+actions: []
+machine_states:
+- KnowledgeGraphDefault
+- KnowledgeGraphLoading
+- KnowledgeGraphEmpty
+- KnowledgeGraphError
+- KnowledgeGraphOffline
+- KnowledgeGraphForbidden
+satisfies:
+- br-prd04-s5
+- br-prd04-s10
