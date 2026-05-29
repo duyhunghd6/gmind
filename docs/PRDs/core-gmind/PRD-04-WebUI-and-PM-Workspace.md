@@ -197,20 +197,21 @@ Route: `/portfolio`
 - **Data Source:** `GET /api/portfolio/epics`, `GET /api/tasks?issue_type=epic`. Ngân sách (budget) và roadmap được truy xuất từ first-class PM columns và các nhãn (labels).
 
 ```text
-┌─────────────────┐     ┌─────────────────┐
-│ Portfolio Table │     │ Roadmap         │
-│ epic owner      │     │ q1 q2 q3        │
-│ progress budget │     │ milestones      │
-│ status forecast │     │ risk markers    │
-└────────┬────────┘     └────────┬────────┘
-         │                       │
-         └────────executive drilldown───────┐
-                                            ▼
-                                   ┌─────────────────┐
-                                   │ Epic Detail     │
-                                   │ blocked tasks   │
-                                   │ budget notes    │
-                                   └─────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space Header → /portfolio                                 │
+├─────────────────┬────────────────────────────────────────────┤
+│ Portfolio Table │ Roadmap                                    │
+│ epic owner      │ q1 q2 q3                                   │
+│ progress budget │ milestones / forecast                      │
+│ status forecast │ risk markers                               │
+└────────┬────────┴───────────────┬────────────────────────────┘
+         │ click epic             │ open roadmap risk
+         ▼                        ▼
+┌─────────────────┐      ┌─────────────────┐
+│ /tasks?epic=:id │      │ /trace/:epic-id │
+│ blocked tasks   │      │ budget lineage  │
+│ owner actions   │      │ roadmap context │
+└─────────────────┘      └─────────────────┘
 ```
 
 ### 3.2. PI Planning Interactive UI
@@ -222,25 +223,27 @@ Route: `/pi-planning`
 - **Data Source:** `GET /api/pi/features`, `PUT /api/pi/plan`, `GET /api/risks?view=roam`, `POST /api/pi/confidence-vote`.
 
 ```text
-┌─────────────────┐     ┌─────────────────┐
-│ Strategic Pool  │────>│ Capacity Plan   │
-│ features risks  │     │ team load       │
-│ drag source     │     │ sprint slots    │
-└────────┬────────┘     └────────┬────────┘
-         │                       │
-         ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐
-│ Value Scoring   │     │ Confidence Vote │
-│ business value  │     │ score 1 to 5    │
-│ priority        │     │ human required  │
-└────────┬────────┘     └────────┬────────┘
-         │                       │
-         └──────────┬────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space Header → /pi-planning                               │
+├─────────────────┬────────────────────────────────────────────┤
+│ Strategic Pool  │ Capacity Plan                              │
+│ features risks  │ team load / sprint slots                   │
+│ drag source     │ drop target via @hello-pangea/dnd          │
+└────────┬────────┴───────────────┬────────────────────────────┘
+         │ value score            │ commit plan
+         ▼                        ▼
+┌─────────────────┐      ┌─────────────────┐
+│ Value Scoring   │─────>│ Confidence Vote │
+│ business value  │      │ score 1 to 5    │
+│ priority        │      │ POST vote       │
+└────────┬────────┘      └────────┬────────┘
+         │                        │
+         └──────────navigate #roam┘
                     ▼
             ┌─────────────────┐
             │ ROAM Board      │
-            │ resolved owned  │
-            │ accepted mitig  │
+            │ R/O/A/M/U risks │
+            │ /risks?view=roam│
             └─────────────────┘
 ```
 
@@ -249,7 +252,7 @@ Route: `/pi-planning`
 <!-- beads-id: br-prd04-s3.3 -->
 
 Route: `/board`
-Showcase: `/design-system/kanban` (`ds:screen:kanban-001`)
+Showcase/Core canonical: `/board` (`ds:screen:kanban-001`); legacy design-system aliases must not be advertised.
 
 - **Board Selector:** Hash routes `#sprint`, `#release`, `#bug-triage` chọn board hiện tại mà không mất Global Shell state.
 - **Card Model:** Mỗi card hiển thị Beads ID, title, owner/assignee avatar, priority, RTE escalation badge nếu có, QA status, linked PRD/Plan chips, và blocked/dependency marker.
@@ -258,19 +261,21 @@ Showcase: `/design-system/kanban` (`ds:screen:kanban-001`)
 - **Stats Strip:** Hiển thị total/done/progress/blocked theo board, tính từ `GET /api/tasks?view=board&board=<id>`.
 
 ```text
-┌───────────────┐     ┌───────────────────────────────────────┐
-│ Board Select  │────>│ Kanban Columns                        │
-│ sprint        │     │ todo | in progress | review | done    │
-│ release       │     │ wip  | wip badge   | wip    | stats   │
-│ bug triage    │     │ drag cards with policy checks         │
-└───────────────┘     └───────────────────┬───────────────────┘
-                                          │ click or drop
-                                          ▼
-                                  ┌───────────────┐
-                                  │ Task Card     │
-                                  │ beads owner   │
-                                  │ prd qa rte    │
-                                  └───────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space Header → /board#sprint | #release | #bug-triage     │
+├───────────────┬──────────────────────────────────────────────┤
+│ Board Select  │ Kanban Columns                               │
+│ #sprint       │ todo | in progress | review | done           │
+│ #release      │ wip limit badges + stats strip               │
+│ #bug-triage   │ drag cards with API policy checks            │
+└───────┬───────┴───────────────────────┬──────────────────────┘
+        │ choose board                  │ click card / drop
+        ▼                               ▼
+┌───────────────┐               ┌───────────────┐
+│ /tasks?view=  │               │ /tasks/:id    │
+│ board&board=  │               │ detail tabs   │
+│ <hash-board>  │               │ approval graph│
+└───────────────┘               └───────────────┘
 ```
 
 ### 3.4. State Matrix & Breakpoints
@@ -304,7 +309,7 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 1.  **Chuyển Phase (Phase Boundaries):** Từ Planning (Continuous Exploration) sang Execution (Continuous Integration), hoặc qua Release.
 2.  **The Ultimate Approval Panel:** Khi Agent đệ trình PR hoặc Task, Web UI gọp chung 5 luồng dữ liệu vào một màn hình duy nhất để Human xem xét: `Test Result (Từ Zvec QA Log)` + `Code Diff (FastCode/Git)` + `Beads ID (br-xxx)` + `PRD Requirements liên kết` + `GitHub PR & CI Status (từ gh CLI)`.
 
-**Showcase/Core contract:** `/design-system/approval` (`ds:screen:approval-001`) chuẩn hóa route `/approval`. Màn hình phải có toggles `pending`/`approved`/`rejected`, escalated badge, evidence blocks Tests/Diff/Beads ID/PRD/CI, RTM matrix, Coverage Heatmap, và hash anchors `#panels`, `#rtm`, `#heatmap`. Core WebUI lấy danh sách queue bằng `GET /api/tasks?status=pending-approval`, evidence bằng `GET /api/approval/:id/evidence`, coverage bằng `GET /api/coverage`, và ghi quyết định bằng `POST /api/approval/:id/decision`.
+**Showcase/Core contract:** canonical showcase route `/approval` (`ds:screen:approval-001`) chuẩn hóa Core route `/approval` và task anchor `/tasks/:id#approval`. Màn hình phải có toggles `pending`/`approved`/`rejected`, escalated badge, evidence blocks Tests/Diff/Beads ID/PRD/CI, RTM matrix, Coverage Heatmap, và hash anchors `#panels`, `#rtm`, `#heatmap`. Core WebUI lấy danh sách queue bằng `GET /api/tasks?status=pending-approval`, evidence bằng `GET /api/approval/:id/evidence`, coverage bằng `GET /api/coverage`, và ghi quyết định bằng `POST /api/approval/:id/decision`.
 
 **Decision controls:** [Approve] chỉ enabled khi required evidence hợp lệ hoặc user có quyền Admin override với audit reason. [Reject] luôn yêu cầu reason. [Request Changes] tạo activity event gắn với task/PR và chuyển task về trạng thái `changes-requested` hoặc policy tương đương.
 
@@ -313,21 +318,21 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 <!-- beads-id: br-prd04-s4.0 -->
 
 ```text
-┌───────────────┐   ┌───────────────┐   ┌───────────────┐
-│ Queue Panel   │   │ Evidence Hub  │   │ Decision Box  │
-│ pending       │   │ tests diff    │   │ approve       │
-│ approved      │   │ prd ci rtm    │   │ reject        │
-│ rejected      │   │ heatmap       │   │ request       │
-└───────┬───────┘   └───────┬───────┘   └───────┬───────┘
-        │                   │                   │
-        └──────────select task and evidence─────┘
-                            │
-                            ▼
-                    ┌───────────────┐
-                    │ Audit Receipt │
-                    │ actor time    │
-                    │ reason link   │
-                    └───────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space Header → /approval#panels | #rtm | #heatmap         │
+├───────────────┬───────────────┬──────────────────────────────┤
+│ Queue Panel   │ Evidence Hub  │ Decision Box                 │
+│ pending       │ tests diff    │ approve                      │
+│ approved      │ prd ci rtm    │ reject                       │
+│ rejected      │ heatmap       │ request changes              │
+└───────┬───────┴───────┬───────┴──────────────┬───────────────┘
+        │ select task   │ open evidence        │ submit decision
+        ▼               ▼                      ▼
+┌───────────────┐ ┌───────────────┐    ┌───────────────┐
+│ /tasks/:id    │ │ /trace/:id    │    │ Audit Receipt │
+│ #approval     │ │ rtm lineage   │    │ actor reason  │
+│ task context  │ │ coverage      │    │ link to task  │
+└───────────────┘ └───────────────┘    └───────────────┘
 ```
 
 ### 4.1. State Matrix & Breakpoints
@@ -361,31 +366,22 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│  Document Graph Widget (Nhúng trong RTM Dashboard Panel 3   │
-│  hoặc Task Detail → Tab Graph)                               │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌──────────────────────┐  ┌──────────────────────────────┐  │
-│  │  Graph Canvas         │  │  Side Panel (Chi tiết Node)  │  │
-│  │                       │  │                              │  │
-│  │  [D3.js force-        │  │  Tiêu đề: <Node Title>       │  │
-│  │   directed graph]     │  │  Loại: PRD / Plan / Task /   │  │
-│  │                       │  │    Commit / PR / Chat        │  │
-│  │   ● PRD section       │  │  Status: ● Done / In Prog    │  │
-│  │   ◆ Plan element     │  │  ─────────────────────        │  │
-│  │   ■ Task/Issue       │  │  [Chi tiết theo loại node:]   │  │
-│  │   ○ Commit            │  │                              │  │
-│  │   ▲ Chat/Meeting      │  │  • PRD: section text excerpt │  │
-│  │   ⬡ PR/CI            │  │  • Task: assignee, priority  │  │
-│  │                       │  │  • Commit: message, author   │  │
-│  │  Zoom/Pan controls    │  │  • PR: CI status, reviewers  │  │
-│  │  Filter: [Type ▼]     │  │  • Chat: last message preview│  │
-│  │                       │  │                              │  │
-│  │  [Open Full Page ↗]   │  │  [Mở chi tiết ↗] (link to   │  │
-│  │                       │  │   §10 Trace Explorer)        │  │
-│  └──────────────────────┘  └──────────────────────────────┘  │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+│ Embedded Document Graph                                      │
+│ Sources: / (Panel 3) or /tasks/:id#graph                     │
+├──────────────────────────────┬───────────────────────────────┤
+│ Graph Canvas                 │ Side Panel (Selected Node)     │
+│ D3/Sigma viewer              │ title / type / status          │
+│                              │                               │
+│  ● PRD section               │ Details by node type           │
+│  ◆ Plan element              │ • PRD: excerpt + coverage      │
+│  ■ Task/Issue                │ • Task: assignee + priority    │
+│  ○ Commit                    │ • Commit: message + author     │
+│  ▲ Chat/Meeting              │ • PR/CI: status + reviewers    │
+│  ⬡ PR/CI                    │ • RTE: decision context        │
+│                              │                               │
+│  Zoom/Pan + [Type ▼]         │ [Open Doc ↗] → /docs           │
+│  [Open Full Page ↗]          │ [Open Trace ↗] → /trace/:id    │
+└──────────────────────────────┴───────────────────────────────┘
 ```
 
 ### 5.1. Các tính năng chính
@@ -434,44 +430,25 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 **Route:** `/` (Dashboard chính)
 
 **Global Components:**
-- **Top Navigation:** Chứa Logo, các links điều hướng (Dashboard, Tasks, Reports), và User Avatar.
+- **Top Navigation:** Chứa Logo, header menu **Design System** và **PM Space** (PM Space active tại `/webui-pm-workspace`), Global Search, trạng thái offline/online, và User Avatar.
 - **KPI Cards Row:** Hiển thị list 3 thẻ chỉ số tổng quan đặt phía trên các panels (Coverage %, Tasks Done, Gaps Found).
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│  gmind Web UI — RTM Dashboard                                │
-├──────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌─────────────────────────┐ ┌────────────────────────────┐  │
-│  │  Panel 1:               │ │  Panel 2:                  │  │
-│  │  Coverage Heatmap       │ │  Task Progress             │  │
-│  │                         │ │                            │  │
-│  │  PRD-01 [====90%====]   │ │  Total: 142 tasks          │  │
-│  │  PRD-02 [===75%===..]   │ │  Done: 98 (69%)            │  │
-│  │  PRD-03 [==60%==....]   │ │  In Progress: 24 (17%)     │  │
-│  │                         │ │  Blocked: 8 (6%)           │  │
-│  │  Section drill-down:    │ │  Not Started: 12 (8%)      │  │
-│  │  s1.1 [====100%====]    │ │                            │  │
-│  │  s1.2 [===80%===...]    │ │  [Gantt-like timeline]     │  │
-│  │  s1.3 [=40%=........]   │ │                            │  │
-│  │                         │ │                            │  │
-│  └─────────────────────────┘ └────────────────────────────┘  │
-│                                                              │
-│  ┌─────────────────────────┐ ┌────────────────────────────┐  │
-│  │  Panel 3:               │ │  Panel 4:                  │  │
-│  │  Knowledge Graph        │ │  Gap Analysis              │  │
-│  │                         │ │                            │  │
-│  │  [Interactive graph]    │ │  Gaps Found: 5             │  │
-│  │                         │ │                            │  │
-│  │  PRD -> Plan -> Task    │ │  ! PRD-02 s3.4: no plan    │  │
-│  │   |      |       |      │ │  ! PRD-03 s2.1: no tasks   │  │
-│  │   +Docs  +Code   +CI    │ │  ! Plan-15: no PRD link    │  │
-│  │                         │ │  ! bd-a1: blocked 5 days   │  │
-│  │  Click node -> details  │ │  ! bd-c3: no unit tests    │  │
-│  │                         │ │                            │  │
-│  └─────────────────────────┘ └────────────────────────────┘  │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
+│ PM Space Header → /webui-pm-workspace → Core route /         │
+│ Search Ctrl+K → /search?q=... | Offline/Sync indicator       │
+├──────────────────────────────┬───────────────────────────────┤
+│ Panel 1: Coverage Heatmap    │ Panel 2: Task Progress        │
+│ PRD-01 [====90%====]         │ Total: 142 tasks              │
+│ PRD-02 [===75%===..]         │ Done: 98 (69%)                │
+│ PRD-03 [==60%==....]         │ In Progress / Blocked stats   │
+│ click section → /trace/:id   │ click status → /tasks?status= │
+├──────────────────────────────┼───────────────────────────────┤
+│ Panel 3: Knowledge Graph     │ Panel 4: Gap Analysis         │
+│ PRD → Plan → Task → Commit   │ ! PRD-02 s3.4: no plan        │
+│ open full → /trace/:id       │ ! bd-a1: blocked 5 days       │
+│ open docs → /docs/:id        │ create/resolve → /tasks/:id   │
+└──────────────────────────────┴───────────────────────────────┘
 ```
 
 ### 6.2. Panel Details (Đặc tả chi tiết từng Panel)
@@ -528,22 +505,21 @@ Giao diện chặn (Checkpoint) yêu cầu **Bắt buộc Phê duyệt bởi Con
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│  gmind serve --port 8080                                     │
+│ gmind serve --port 8080                                      │
 ├──────────────────────────────────────────────────────────────┤
+│ Go HTTP Server (net/http hoặc chi)                           │
+│ ├── /api/coverage        → gmind coverage --json             │
+│ ├── /api/gaps            → gmind gaps --json                 │
+│ ├── /api/tasks[/:id]     → FrankenSQLite issues              │
+│ ├── /api/trace/:id       → Graph Assembler                   │
+│ ├── /api/docs[/:id]      → Zvec document index               │
+│ ├── /api/search          → Zvec + FrankenSQLite + FastCode   │
+│ └── /static/             → embedded Web UI assets            │
 │                                                              │
-│  Go HTTP Server (net/http hoặc chi)                          │
-│  ├── /api/coverage  → exec gmind coverage --json             │
-│  ├── /api/gaps      → exec gmind gaps --json                 │
-│  ├── /api/trace/:id → exec gmind trace <id> --json           │
-│  ├── /api/impact/:s → exec gmind impact <s> --json           │
-│  └── /static/       → serve Web UI (embedded assets)         │
-│                                                              │
-│  Frontend: Single-page app                                   │
-│  ├── Framework: Vanilla JS + D3.js (graph visualization)     │
-│  ├── Style: Dark theme, premium design                       │
-│  ├── Layout: 4-panel dashboard (responsive grid)             │
-│  └── Build: Embedded in Go binary via embed.FS               │
-│                                                              │
+│ Frontend SPA routes                                          │
+│ /  /board  /tasks  /tasks/:id  /trace/:id  /docs  /approval │
+│ /search  /terminal  /timeline  /portfolio  /pi-planning     │
+│ /git-graph  /knowledge-graph  /storyboards  /components     │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -688,32 +664,42 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 **Route family layout:**
 
 ```text
+┌──────────────────────────────────────────────────────────────┐
+│ Website Header                                               │
+│ Design System  |  PM Space → /webui-pm-workspace            │
+└───────────────┬──────────────────────────────────────────────┘
+                ▼
 ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│ Shell         │     │ Work Screens  │     │ Detail Views  │
-│ webui pm      │     │ board tasks   │     │ task trace    │
-│ search docs   │     │ approval rtm  │     │ docs story    │
+│ PM Shell      │     │ Work Surfaces │     │ Detail Views  │
+│ /             │────>│ /board        │────>│ /tasks/:id    │
+│ /search       │     │ /tasks        │     │ /trace/:id    │
+│ /docs         │     │ /approval     │     │ /docs/:id     │
 └───────┬───────┘     └───────┬───────┘     └───────┬───────┘
         │                     │                     │
         ▼                     ▼                     ▼
 ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│ Evidence      │     │ Planning      │     │ Showcase Only │
-│ terminal git  │     │ portfolio pi  │     │ components    │
-│ timeline graph│     │ kanban roam   │     │ ds tokens     │
+│ Evidence      │     │ Planning      │     │ Shared DS     │
+│ /terminal     │     │ /portfolio    │     │ /components   │
+│ /timeline     │     │ /pi-planning  │     │ tokens/states │
+│ /git-graph    │     │ /storyboards  │     │ no nested PM  │
+│ /knowledge-   │     │ /storyboards/ │     │ workspace     │
+│  graph        │     │ :id           │     │ route         │
 └───────────────┘     └───────────────┘     └───────────────┘
 ```
 
-**Components catalog layout (`/design-system/components`):** Production screens must reuse the catalog primitives instead of inventing one-off styles. The catalog must keep 18 anchored sections and expose interactive examples for component states.
+**Components catalog layout (`/components`):** Production screens must reuse the catalog primitives instead of inventing one-off styles. The catalog must keep 18 anchored sections and expose interactive examples for component states.
 
 ```text
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│ Inputs          │     │ Display         │     │ Feedback        │
-│ buttons dropdown│     │ badges progress │     │ skeleton empty  │
-│ modal accordion │     │ table cards     │     │ error tooltip   │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         └──────────────compose every screen─────────────┘
-                                 │
-                                 ▼
+┌──────────────────────────────────────────────────────────────┐
+│ /components — shared primitives for every PM Space route      │
+├─────────────────┬─────────────────┬──────────────────────────┤
+│ Inputs          │ Display         │ Feedback                 │
+│ buttons dropdown│ badges progress │ skeleton empty error     │
+│ modal accordion │ table cards     │ tooltip status dots      │
+└────────┬────────┴────────┬────────┴─────────────┬────────────┘
+         │                 │                      │
+         └──────────────compose /board /tasks /docs /approval──┐
+                                                                ▼
                        ┌─────────────────┐
                        │ Shared Tokens   │
                        │ color spacing   │
@@ -725,28 +711,27 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│  Header Bar                                                      │
-│  ┌────────┐  ┌──────────────────────┐  ┌──────────┐ ┌─────┐    │
-│  │ ☰ Logo │  │ Design System        │  │ PM Space │ │ 🔔  │    │
-│  └────────┘  └──────────────────────┘  └──────────┘ └─────┘    │
-│             ┌───────────────────────────────────────┐          │
-│             │ 🔍 Global Search Bar...               │          │
+│ Header Bar                                                       │
+│ ┌────────┐  ┌──────────────┐  ┌──────────┐  ┌─────┐ ┌────────┐ │
+│ │ ☰ Logo │  │ Design System│  │ PM Space │  │ 🔔  │ │ Online │ │
+│ └────────┘  └──────────────┘  └────┬─────┘  └─────┘ └────────┘ │
+│                 canonical showcase │ /webui-pm-workspace        │
+│             ┌──────────────────────▼────────────────┐          │
+│             │ 🔍 Global Search → /search?q=<query>  │          │
 │             └───────────────────────────────────────┘          │
 ├──────────┬───────────────────────────────────────────────────────┤
-│ Sidebar  │  Main Content Area                                    │
-│          │                                                       │
-│ 📊 Dash  │  (Nội dung thay đổi theo route hiện tại)              │
-│ 📋 Board │                                                       │
-│ 📝 Tasks │   Ví dụ: RTM Dashboard / Kanban / Task Detail /       │
-│ 🔗 Trace │          Document Viewer / Search Results              │
-│ 📄 Docs  │                                                       │
-│ ✅ Appvl │                                                       │
-│          │                                                       │
+│ PM Nav   │ Main Content Area                                     │
+│ 📊 /     │ RTM Dashboard                                         │
+│ 📋 /board│ Kanban / WIP / board hash routes                      │
+│ 📝 /tasks│ Task List → /tasks/:id                                │
+│ 🔗 /trace│ Trace Explorer / Knowledge Graph                      │
+│ 📄 /docs │ Document Viewer                                       │
+│ ✅ /approval Approval Gates                                      │
+│ 🔎 /search Search Results                                        │
 │──────────│                                                       │
-│ ⬤ Online │                                                       │
-│ (Status) │                                                       │
+│ ⬤ Status │ offline / syncing / forbidden indicators              │
 ├──────────┴───────────────────────────────────────────────────────┤
-│  Footer: gmind v<version> | FrankenSQLite sync status | Uptime  │
+│ Footer: gmind v<version> | FrankenSQLite sync status | Uptime    │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -781,26 +766,21 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│  Route: /docs                                                    │
+│ PM Space → Route: /docs or /docs/:id                             │
 ├──────────┬───────────────────────────────────────────────────────┤
-│ Doc Tree │  Document Content                                     │
-│ (Sidebar)│                                                       │
-│          │  ┌─────────────────────────────────────────────────┐  │
-│ Filter:  │  │  Breadcrumb: Docs > PRDs > PRD-04              │  │
-│ [Type ▼] │  ├─────────────────────────────────────────────────┤  │
-│          │  │                                                 │  │
-│ ▼ Docs   │  │  # PRD 04: WebUI & PM Workspace                │  │
-│   PRD-00 │  │                                                 │  │
-│   PRD-01 │  │  Rendered Markdown Content...                   │  │
-│   PRD-04 │  │                                                 │  │
-│   spike-…│  │  Inline Beads IDs auto-detected:                │  │
-│ ▼ Chats  │  │  br-prd04-s1 ← clickable → /trace/br-prd04-s1 │  │
-│   sess-1 │  │                                                 │  │
-│   sess-2 │  │  Coverage indicator: 78% ██████░░ (from RTM)    │  │
-│ ▼ Commits│  │                                                 │  │
-│   a1b2c3 │  │                                                 │  │
-│ ▼ RTE    │  │  [Open in Trace Explorer ↗] [Copy Beads ID]     │  │
-│          │  └─────────────────────────────────────────────────┘  │
+│ Doc Tree │ Document Content                                      │
+│ Filter   │ ┌─────────────────────────────────────────────────┐   │
+│ [Type ▼] │ │ Breadcrumb: Docs > PRDs > PRD-04                │   │
+│          │ ├─────────────────────────────────────────────────┤   │
+│ ▼ Docs   │ │ # PRD 04: WebUI & PM Workspace                  │   │
+│   PRD-00 │ │ Rendered Markdown Content...                    │   │
+│   PRD-01 │ │ Inline Beads IDs auto-detected:                 │   │
+│   PRD-04 │ │ br-prd04-s1 → /trace/br-prd04-s1                │   │
+│ ▼ Chats  │ │ Coverage: 78% ██████░░  section badges          │   │
+│ ▼ Commits│ │ [Search in Explorer ↗] → /search#doc            │   │
+│ ▼ RTE    │ │ [Open Knowledge Graph ↗] → /knowledge-graph     │   │
+│          │ │ [Open Trace Explorer ↗] → /trace/:id            │   │
+│          │ └─────────────────────────────────────────────────┘   │
 └──────────┴───────────────────────────────────────────────────────┘
 ```
 
@@ -846,41 +826,25 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│  Route: /trace/:id                                               │
+│ PM Space → Route: /trace/:id or /trace/:id?mode=dag              │
 ├──────────────────────────────────────────────────────────────────┤
-│  Toolbar                                                         │
-│  ┌────────────────────────────────────────────────┐  ┌────────┐ │
-│  │ Root: br-prd04-s5 "Đồ thị Tài liệu & HITL"   │  │ Depth: │ │
-│  │ [Change Root ▼]                                │  │ [2 ▼]  │ │
-│  └────────────────────────────────────────────────┘  └────────┘ │
-│  Filter: [PRD ☑] [Plan ☑] [Task ☑] [Commit ☐] [Chat ☐] [PR ☑] │
+│ Toolbar: Root [Change Root ▼]  Depth [2 ▼]  Direction [↔]       │
+│ Filters: [PRD ☑] [Plan ☑] [Task ☑] [Commit ☐] [Chat ☐] [PR ☑] │
 ├──────────────────────────────────────────┬───────────────────────┤
-│  Graph Canvas (D3.js Force-Directed)     │  Detail Panel          │
-│                                          │                       │
-│         ●───satisfies──→◆              │  ▎ br-prd04-s5         │
-│         PRD-04-s5        Plan-01        │  ▎ Loại: PRD Section   │
-│              │                ↓         │  ▎ Status: Active      │
-│         context-from   implements       │  ▎─────────────────── │
-│              ↓               ↓          │  ▎ Coverage: 78%       │
-│         ▲ Chat-23      ■ Task bd-x1y2  │  ▎ Plans: 3 linked     │
-│                              │          │  ▎ Tasks: 12 total     │
-│                       committed-for     │  ▎ Gaps: 2 uncovered   │
-│                              ↓          │  ▎─────────────────── │
-│                         ○ Commit a1b2   │  ▎ Content Excerpt:    │
-│                              │          │  ▎ "Hiển thị trực     │
-│                           pr-for        │  ▎  quan lịch sử..."  │
-│                              ↓          │  ▎                     │
-│                         ⬡ PR #42 ✅     │  ▎ [Open Doc ↗]        │
-│                                          │  ▎ [View Impact ↗]    │
-│  ┌────────┐ ┌────────┐ ┌──────────────┐ │                       │
-│  │ Zoom + │ │ Zoom - │ │ Fit to View  │ │  ─── Connected Nodes ─│
-│  └────────┘ └────────┘ └──────────────┘ │  br-plan-01 ◆ Active  │
-│                                          │  bd-x1y2 ■ Done       │
-│  Legend:                                 │  chat-23 ▲ 2026-03-01 │
-│  ● PRD  ◆ Plan  ■ Task  ○ Commit        │  PR #42 ⬡ Merged ✅   │
-│  ▲ Chat  ⬡ PR/CI  ★ RTE Approval       │                       │
+│ Graph Canvas                             │ Detail Panel          │
+│ ● PRD ─satisfies→ ◆ Plan                 │ br-prd04-s5           │
+│   │ context-from      │ implements       │ type / status         │
+│   ▼                   ▼                  │ coverage / gaps       │
+│ ▲ Chat            ■ Task bd-x1y2         │ connected nodes       │
+│                       │ committed-for    │ actions:              │
+│                       ▼                  │ [Open Doc] → /docs/:id│
+│                   ○ Commit a1b2          │ [Impact] → /trace/:id │
+│                       │ pr-for           │ [Task] → /tasks/:id   │
+│                       ▼                  │                       │
+│                   ⬡ PR #42 ✅            │                       │
+│ Zoom + / Zoom - / Fit                    │ Legend + stats        │
 ├──────────────────────────────────────────┴───────────────────────┤
-│  Footer: 12 nodes | 15 edges | Query time: 48ms | Last refresh  │
+│ Footer: nodes | edges | query time | enrichment/offline status   │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -934,43 +898,48 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 
 <!-- beads-id: br-prd04-s10.3a -->
 
-`/design-system/knowledge-graph` chuẩn hóa preset viewer cho route `/knowledge-graph`. Viewer phải load Sigma.js/Graphology client-only, chọn preset bằng hash `#simple`, `#ecosystem`, hoặc `#sprint`, và luôn hiển thị selected-node banner, legends, stats, và forbidden/offline states.
+`/knowledge-graph` là canonical showcase/Core preset viewer (`ds:screen:knowledge-graph-001`). Viewer phải load Sigma.js/Graphology client-only, chọn preset bằng hash `#simple`, `#ecosystem`, hoặc `#sprint`, và luôn hiển thị selected-node banner, legends, stats, và forbidden/offline states.
 
 ```text
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│ Preset List   │────>│ Graph Canvas  │────>│ Node Banner   │
-│ simple        │     │ sigma viewer  │     │ title status  │
-│ ecosystem     │     │ pan zoom      │     │ links stats   │
-│ sprint        │     │ legends       │     │ actions       │
-└───────────────┘     └───────┬───────┘     └───────────────┘
-                              │
-                              ▼
-                      ┌───────────────┐
-                      │ Core Graph    │
-                      │ trace presets │
-                      │ enrichment    │
-                      └───────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space → /knowledge-graph#simple | #ecosystem | #sprint    │
+├───────────────┬───────────────┬──────────────────────────────┤
+│ Preset List   │ Graph Canvas  │ Node Banner                  │
+│ #simple       │ sigma viewer  │ title status                 │
+│ #ecosystem    │ pan zoom      │ links stats                  │
+│ #sprint       │ legends       │ actions → /trace/:id         │
+└───────┬───────┴───────┬───────┴──────────────────────────────┘
+        │               │
+        ▼               ▼
+┌───────────────┐ ┌───────────────┐
+│ /api/graph/   │ │ /api/trace/:id│
+│ presets       │ │ enrichment    │
+└───────────────┘ └───────────────┘
 ```
 
-`/design-system/beads-traversal` chuẩn hóa DAG mode cho route `/trace/:id?mode=dag`. Mode này không thay thế full graph; nó cung cấp layout tầng để PMO đọc trace theo chuỗi yêu cầu → kế hoạch → task → commit.
+`/trace/:id?mode=dag` là canonical DAG mode for `ds:screen:beads-traversal-001`. Mode này không thay thế full graph; nó cung cấp layout tầng để PMO đọc trace theo chuỗi yêu cầu → kế hoạch → task → commit.
 
 ```text
-┌───────────────┐     satisfies      ┌───────────────┐
-│ PRD Sections  │───────────────────>│ Plan Elements │
-│ br prd nodes  │                    │ br plan nodes │
-└───────┬───────┘                    └───────┬───────┘
-        │                                    │ implements
-        │ reverse toggle                     ▼
-        │                            ┌───────────────┐
-        │                            │ Tasks         │
-        │                            │ status owner  │
-        │                            └───────┬───────┘
-        │                                    │ committed for
-        ▼                                    ▼
-┌───────────────┐                    ┌───────────────┐
-│ Detail Panel  │<────select node────│ Commits       │
-│ parents child │                    │ hash pr ci    │
-└───────────────┘                    └───────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space → /trace/:id?mode=dag                               │
+├───────────────┬──satisfies──>┌───────────────┐               │
+│ PRD Sections  │              │ Plan Elements │               │
+│ br-prd nodes  │              │ br-plan nodes │               │
+└───────┬───────┘              └───────┬───────┘               │
+        │ reverse toggle               │ implements            │
+        │                              ▼                       │
+        │                      ┌───────────────┐               │
+        │                      │ Tasks         │               │
+        │                      │ status owner  │               │
+        │                      └───────┬───────┘               │
+        │                              │ committed-for         │
+        ▼                              ▼                       │
+┌───────────────┐              ┌───────────────┐               │
+│ Detail Panel  │<--select-----│ Commits       │               │
+│ parents child │              │ hash pr ci    │               │
+│ links /docs   │              │ open /git-graph               │
+└───────────────┘              └───────────────┘               │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### 10.4. State Matrix & Breakpoints
@@ -1003,30 +972,25 @@ Các route dưới đây là Hi-Fi showcase chạy trong `apps/website`, dùng �
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│  Route: /tasks/:id                                               │
-│  ┌───────────────────────────────────────────────────────────┐   │
-│  │ ← Back to Tasks   |  bd-x1y2  |  Status: [In Progress ▼] │   │
-│  │ Title: "Change button icon"                    Priority: P1│   │
-│  │ Assignee: [Dev Agent 01 ▼]    QA: [pending ▼]             │   │
-│  └───────────────────────────────────────────────────────────┘   │
-│  ┌── Tabs ──────────────────────────────────────────────────┐   │
-│  │ [Detail] │ [Activity] │ [Graph] │ [Code]                  │   │
-│  ├───────────────────────────────────────────────────────────┤   │
-│  │                                                           │   │
-│  │  (Nội dung tab thay đổi theo tab đang chọn)               │   │
-│  │                                                           │   │
-│  │  Tab Detail:                                               │   │
-│  │  ┌──────────────────────────────────────────────────────┐ │   │
-│  │  │ Description (Markdown editable):                     │ │   │
-│  │  │ "Thay đổi icon nút bấm admin panel theo Material..."│ │   │
-│  │  │                                                      │ │   │
-│  │  │ Dependencies:                                        │ │   │
-│  │  │ ├── implements: br-plan-42 "Redesign admin icons"    │ │   │
-│  │  │ └── satisfies:  br-prd01-s4.2 "Giao diện Quản trị"  │ │   │
-│  │  │                                                      │ │   │
-│  │  │ Labels: [ui] [admin] [icon]    Escalation: None      │ │   │
-│  │  └──────────────────────────────────────────────────────┘ │   │
-│  └───────────────────────────────────────────────────────────┘   │
+│ PM Space → Route: /tasks/:id                                      │
+│ ┌────────────────────────────────────────────────────────────┐    │
+│ │ ← /tasks | bd-x1y2 | Status: [In Progress ▼] | Approval ↗ │    │
+│ │ Title: "Change button icon"                  Priority: P1 │    │
+│ │ Assignee: [Dev Agent 01 ▼]    QA: [pending ▼]             │    │
+│ └────────────────────────────────────────────────────────────┘    │
+│ ┌── Tabs / hash anchors ─────────────────────────────────────┐    │
+│ │ #detail │ #activity │ #graph │ #code │ #approval           │    │
+│ ├────────────────────────────────────────────────────────────┤    │
+│ │ Tab Detail                                                 │    │
+│ │ ┌──────────────────────────────────────────────────────┐   │    │
+│ │ │ Description (Markdown editable)                      │   │    │
+│ │ │ Dependencies:                                        │   │    │
+│ │ │ ├─ implements br-plan-42 → /trace/br-plan-42         │   │    │
+│ │ │ └─ satisfies br-prd01-s4.2 → /trace/br-prd01-s4.2   │   │    │
+│ │ │ Activity link → /tasks/:id#activity                  │   │    │
+│ │ │ Graph link → /trace/:id or /tasks/:id#graph          │   │    │
+│ │ └──────────────────────────────────────────────────────┘   │    │
+│ └────────────────────────────────────────────────────────────┘    │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1091,30 +1055,19 @@ Showcase `/design-system/explorer` (`ds:screen:explorer-001`) là bản chuẩn 
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│  Route: /search?q=<query>                                        │
+│ PM Space → Route: /search?q=<query>#all|doc|commit|task|...      │
 ├──────────────────────────────────────────────────────────────────┤
-│  Search: [icon change                                 ] [🔍]    │
-│  Results: 23 found (12 Tasks, 5 Docs, 3 Commits, 2 PRs, 1 Chat)│
-│  ┌── Filter Sidebar ──┐  ┌── Results ────────────────────────┐  │
-│  │                     │  │                                   │  │
-│  │ Type:               │  │ ▼ Tasks (12)                      │  │
-│  │ ☑ Tasks (12)       │  │ ┌─────────────────────────────┐   │  │
-│  │ ☑ Docs (5)         │  │ │ ■ bd-x1y2 "Change button    │   │  │
-│  │ ☑ Commits (3)      │  │ │   icon" — Status: In Prog   │   │  │
-│  │ ☑ PRs (2)          │  │ │   ...matched: "icon change" │   │  │
-│  │ ☐ CI Logs (0)      │  │ └─────────────────────────────┘   │  │
-│  │                     │  │ ┌─────────────────────────────┐   │  │
-│  │ Date:               │  │ │ ■ bd-c3d4 "Migrate legacy  │   │  │
-│  │ ○ All time          │  │ │   icons" — Status: Open     │   │  │
-│  │ ● Last 30 days      │  │ └─────────────────────────────┘   │  │
-│  │ ○ Last 7 days       │  │                                   │  │
-│  │                     │  │ ▼ Docs (5)                        │  │
-│  │ Status (Tasks):     │  │ ┌─────────────────────────────┐   │  │
-│  │ ☑ Open             │  │ │ 📄 PRD-04 §1 "PM Custom     │   │  │
-│  │ ☑ In Progress      │  │ │   Fields" — ...icon asset... │   │  │
-│  │ ☐ Done             │  │ └─────────────────────────────┘   │  │
-│  │ ☐ Closed           │  │                                   │  │
-│  └─────────────────────┘  └───────────────────────────────────┘  │
+│ Search: [icon change                                 ] [🔍]      │
+│ Results: 23 found (12 Tasks, 5 Docs, 3 Commits, 2 PRs, 1 Chat)  │
+│ ┌── Type Filters ─────┐ ┌── Results ────────┐ ┌── Detail ─────┐ │
+│ │ all doc commit task │ │ ▼ Tasks (12)      │ │ selected item │ │
+│ │ adr chat spike      │ │ ■ bd-x1y2         │ │ summary       │ │
+│ │ Date / Status       │ │   → /tasks/:id    │ │ backlinks     │ │
+│ │ hash selects filter │ │ ▼ Docs (5)        │ │ actions:      │ │
+│ │ offline cache       │ │ 📄 PRD-04         │ │ /docs/:id     │ │
+│ │ forbidden handling  │ │   → /docs/:id     │ │ /trace/:id    │ │
+│ └─────────────────────┘ └───────────────────┘ │ /knowledge-graph│
+│                                                └───────────────┘ │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1153,25 +1106,21 @@ Showcase `/design-system/explorer` (`ds:screen:explorer-001`) là bản chuẩn 
 
 ```text
 ┌──────────────────────────────────────────────────────────────────┐
-│  Route: /tasks                                                   │
+│ PM Space → Route: /tasks                                         │
 ├──────────────────────────────────────────────────────────────────┤
-│  ┌── Toggle ────┐  ┌── Filters ──────────────────────┐  ┌─────┐│
-│  │ [Board] [List]│  │ Status: [All ▼] Assignee: [▼]  │  │ CSV ││
-│  └───────────────┘  │ Priority: [▼]  PRD: [▼]        │  │ ↓   ││
-│                     └────────────────────────────────┘  └─────┘│
+│ ┌── Toggle ─────┐ ┌── Filters ───────────────────────┐ ┌─────┐ │
+│ │ /board [List] │ │ Status Assignee Priority PRD QA  │ │ CSV │ │
+│ └───────────────┘ └──────────────────────────────────┘ └─────┘ │
 ├──────────────────────────────────────────────────────────────────┤
-│ ☐ │ ID       │ Title              │ Status │ Pri │ Assignee │ QA│
-│───┼──────────┼────────────────────┼────────┼─────┼──────────┼───│
-│ ☐ │ bd-x1y2  │ Change button icon │ ● Prog │ P1  │ DevBot01 │ ⏳│
-│ ☐ │ bd-c3d4  │ Migrate legacy ... │ ○ Open │ P2  │ —        │ — │
-│ ☑ │ bd-e5f6  │ Add test coverage  │ ✅ Done │ P1  │ QABot    │ ✅│
-│ ☐ │ bd-g7h8  │ Update docs        │ ○ Open │ P3  │ —        │ — │
-│   │          │                    │        │     │          │   │
-│───┼──────────┼────────────────────┼────────┼─────┼──────────┼───│
-│   │          │ 1-50 of 147 tasks  │        │ [< Prev] [Next >] │
+│ ☐ │ ID       │ Title              │ Status │ Pri │ Assignee │ QA │
+│───┼──────────┼────────────────────┼────────┼─────┼──────────┼────│
+│ ☐ │ bd-x1y2  │ Change button icon │ ● Prog │ P1  │ DevBot01 │ ⏳ │
+│ ☐ │ bd-c3d4  │ Migrate legacy ... │ ○ Open │ P2  │ —        │ —  │
+│ ☑ │ bd-e5f6  │ Add test coverage  │ ✅ Done│ P1  │ QABot    │ ✅ │
+│───┼──────────┼────────────────────┼────────┼─────┼──────────┼────│
+│ row click → /tasks/:id | beads link → /trace/:id | 1-50 / 147   │
 └──────────────────────────────────────────────────────────────────┘
-│  Bulk Actions (khi ≥1 task selected):                            │
-│  [Assign To ▼] [Change Status ▼] [Change Priority ▼] [Delete]  │
+│ Bulk Actions: [Assign To ▼] [Change Status ▼] [Priority ▼]      │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1225,24 +1174,20 @@ Route: `/terminal`
 - **Security Boundary:** Terminal là read-only log viewer hoặc controlled action surface qua API; browser không có quyền gọi shell, đọc file hệ thống, hoặc inject command.
 
 ```text
-┌───────────────┐   ┌───────────────┐   ┌───────────────┐
-│ Agent Console │   │ Deploy        │   │ Debug         │
-│ tab active    │   │ tab           │   │ tab           │
-└───────┬───────┘   └───────┬───────┘   └───────┬───────┘
-        │                   │                   │
-        └──────────────scenario tabs────────────┘
-                            │
-                            ▼
-┌─────────────────┐     ┌─────────────────┐
-│ Claude 01       │     │ Claude 02       │
-│ command output  │     │ success output  │
-│ error line      │     │ stream line     │
-└─────────────────┘     └─────────────────┘
-┌─────────────────┐     ┌─────────────────┐
-│ Claude 03       │     │ QA Reviewer     │
-│ ci cd output    │     │ failure output  │
-│ deploy log      │     │ retry hint      │
-└─────────────────┘     └─────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space → /terminal#agent-console | #deploy | #debug | #ci-cd│
+├───────────────┬───────────────┬───────────────┬──────────────┤
+│ Agent Console │ Deploy        │ Debug         │ CI/CD        │
+│ tab active    │ tab           │ tab           │ tab          │
+└───────┬───────┴───────┬───────┴───────┬───────┴──────┬───────┘
+        │ scenario tabs │               │              │
+        ▼               ▼               ▼              ▼
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ Claude 01       │ │ Claude 02       │ │ Claude 03       │ │ QA Reviewer     │
+│ command output  │ │ success output  │ │ ci cd output    │ │ failure output  │
+│ error line      │ │ stream line     │ │ deploy log      │ │ retry hint      │
+│ /api/agents     │ │ /api/tasks/:id  │ │ /api/ci/runs   │ │ activity stream │
+└─────────────────┘ └─────────────────┘ └─────────────────┘ └─────────────────┘
 ```
 
 ### 14.2. State Matrix
@@ -1269,15 +1214,17 @@ Route: `/timeline`
 - **Freshness Indicator:** Mỗi panel hiển thị last updated; offline state giữ dữ liệu cache với nhãn read-only.
 
 ```text
-┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-│ File Leases   │     │ Activity Feed │     │ Sprint Day    │
-│ unlocked      │     │ task changes  │     │ morning sync  │
-│ locked        │     │ pr opened     │     │ build check   │
-│ expiring      │     │ ci finished   │     │ demo review   │
-│ expired       │     │ rte decision  │     │ retro notes   │
-└───────┬───────┘     └───────┬───────┘     └───────┬───────┘
-        │                     │                     │
-        └──────────poll events every 3 to 5s────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space → /timeline#file-lease | #activity-feed | #sprint-day│
+├───────────────┬───────────────┬──────────────────────────────┤
+│ File Leases   │ Activity Feed │ Sprint Day                   │
+│ unlocked      │ task changes  │ morning sync                 │
+│ locked        │ pr opened     │ build check                  │
+│ expiring      │ ci finished   │ demo review                  │
+│ expired       │ rte decision  │ retro notes                  │
+└───────┬───────┴───────┬───────┴──────────────┬───────────────┘
+        │ /api/file-leases │ /api/activity     │ /api/tasks/:id/activity
+        └──────────────poll events every 3 to 5s┘
                               │
                               ▼
                       ┌───────────────┐
@@ -1310,20 +1257,23 @@ Route: `/git-graph`
 - **Trace Overlay:** Khi scenario có Beads context, commit detail hiển thị `Beads-ID:` trailer, linked PRD/Plan/Task, CI status, và CTA mở `/trace/:id`.
 
 ```text
-┌───────────────┐     ┌───────────────────────────────┐
-│ Scenario List │────>│ Git Graph Canvas              │
-│ gitflow       │     │ main     o-----o-----o        │
-│ multi agent   │     │ feature     o-----o--m        │
-│ hotfix        │     │ release  o-----------o        │
-│ beads trace   │     │ tags branches merges stats    │
-└───────────────┘     └───────────────┬───────────────┘
-                                      │ click commit
-                                      ▼
-                              ┌───────────────┐
-                              │ Commit Detail │
-                              │ beads id      │
-                              │ pr ci trace   │
-                              └───────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space → /git-graph#gitflow | #multi-agent | #hotfix | ... │
+├───────────────┬──────────────────────────────────────────────┤
+│ Scenario List │ Git Graph Canvas                             │
+│ #gitflow      │ main     o-----o-----o                       │
+│ #multi-agent  │ feature     o-----o--m                       │
+│ #hotfix       │ release  o-----------o                       │
+│ #beads-trace  │ tags branches merges stats                   │
+└───────┬───────┴──────────────────────┬───────────────────────┘
+        │ GET /api/git/graph?scenario= │ click commit
+        ▼                              ▼
+┌───────────────┐              ┌───────────────┐
+│ Graph API     │              │ Commit Detail │
+│ local git +   │              │ beads id      │
+│ Beads trailer │              │ pr ci trace ↗ │
+└───────────────┘              │ /trace/:id    │
+                               └───────────────┘
 ```
 
 ### 16.2. State Matrix
@@ -1351,20 +1301,22 @@ Route: `/storyboards`
 - **Screen Alignment:** Mỗi step có `screen_path`, `data-screen-id`, `expected_state`, và `success_signal`; CTA không được trỏ tới placeholder.
 
 ```text
-┌───────────────┐     ┌───────────────────────────────┐
-│ Journey Filter│────>│ Usecase Flow                  │
-│ role          │     │ step 1 --> step 2 --> step 3  │
-│ module        │     │ state names and screen paths  │
-│ outcome       │     │ cta opens real screen         │
-└───────────────┘     └───────────────┬───────────────┘
-                                      │ select usecase
-                                      ▼
-┌───────────────┐             ┌───────────────┐
-│ Guidance      │<────────────│ Detail Route  │
-│ mechanism     │             │ role journey  │
-│ action        │             │ timeline      │
-│ investigate   │             │ related cases │
-└───────────────┘             └───────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│ PM Space → /storyboards                                      │
+├───────────────┬──────────────────────────────────────────────┤
+│ Journey Filter│ Usecase Flow                                 │
+│ role          │ step 1 → step 2 → step 3                     │
+│ module        │ state names + data-screen-id                 │
+│ outcome       │ CTA opens canonical screen path              │
+└───────┬───────┴──────────────────────┬───────────────────────┘
+        │ filter GET /api/storyboards  │ select usecase
+        ▼                              ▼
+┌───────────────┐              ┌───────────────┐
+│ Guidance      │<─────────────│ /storyboards/ │
+│ mechanism     │              │ :id detail    │
+│ action        │              │ role journey  │
+│ investigate   │              │ CTA → route   │
+└───────────────┘              └───────────────┘
 ```
 
 ### 17.2. State Matrix
