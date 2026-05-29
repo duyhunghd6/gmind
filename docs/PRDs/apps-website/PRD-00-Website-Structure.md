@@ -70,24 +70,27 @@ apps/website/src/app/
 │   └── page.tsx ................ /research
 ├── webui-pm-workspace/
 │   └── page.tsx ................ /webui-pm-workspace (PM Space, PRD-04 Hi-Fi)
-└── design-system/
+└── (design-system)/
     ├── layout.tsx .............. DesignSystemLayout (sidebar 3 cấp)
-    ├── page.tsx ................ /design-system (Hub)
-    ├── terminal/page.tsx ....... /design-system/terminal
-    ├── git-graph/page.tsx ...... /design-system/git-graph
-    ├── kanban/page.tsx ......... /design-system/kanban
-    ├── knowledge-graph/page.tsx  /design-system/knowledge-graph
-    ├── approval/page.tsx ....... /design-system/approval
-    ├── timeline/page.tsx ....... /design-system/timeline
-    ├── components/page.tsx ..... /design-system/components
-    ├── doc-viewer/page.tsx ..... /design-system/doc-viewer
-    ├── explorer/page.tsx ....... /design-system/explorer
-    ├── beads-traversal/page.tsx  /design-system/beads-traversal
-    ├── portfolio/page.tsx ...... /design-system/portfolio
-    ├── pi-planning/page.tsx .... /design-system/pi-planning
-    └── storyboard/
-        ├── page.tsx ............ /design-system/storyboard (Tổng quan)
-        └── [uc-xx]/page.tsx .... 10 trang use-case con
+    ├── design-system/page.tsx .. /design-system (Hub)
+    ├── terminal/page.tsx ....... /terminal
+    ├── portfolio/page.tsx ...... /portfolio
+    ├── pi-planning/page.tsx .... /pi-planning
+    ├── git-graph/page.tsx ...... /git-graph
+    ├── board/page.tsx .......... /board
+    ├── knowledge-graph/page.tsx  /knowledge-graph
+    ├── approval/page.tsx ....... /approval
+    ├── timeline/page.tsx ....... /timeline
+    ├── components/page.tsx ..... /components
+    ├── docs/
+    │   ├── page.tsx ............ /docs
+    │   └── [id]/page.tsx ....... /docs/:id
+    ├── search/page.tsx ......... /search
+    ├── trace/
+    │   └── [id]/page.tsx ....... /trace/:id
+    └── storyboards/
+        ├── page.tsx ............ /storyboards (Tổng quan)
+        └── [id]/page.tsx ....... /storyboards/:id (10 trang use-case con)
 ```
 
 ---
@@ -638,16 +641,16 @@ graph TD
 | -------------------------------- | --------------- | ------------------------------------ | --------------------------- |
 | `/` (Hero)                       | 4 Trụ cột       | `/architecture`                      | Chi tiết từng lớp kiến trúc |
 | `/` (Hero)                       | Middle Layer    | `/prompts#setup-full-stack`          | Hướng dẫn cài đặt           |
-| `/architecture`                  | Sơ đồ Luồng     | `/design-system/terminal`            | Demo CLI output             |
-| `/architecture`                  | 5+1 Lớp         | `/design-system/kanban`              | UI Quản trị                 |
+| `/architecture`                  | Sơ đồ Luồng     | `/terminal`                          | Demo CLI output             |
+| `/architecture`                  | 5+1 Lớp         | `/board`                             | UI Quản trị                 |
 | `/prompts`                       | Lý thuyết Agile | `/prompts#theory-xp-agentic`         | Đào sâu XP                  |
 | `/prompts`                       | Lý thuyết SAFe  | `/research`                          | Báo cáo Spike bổ trợ        |
-| `/prompts`                       | AI Workflows    | `/design-system/storyboard`          | Demo kịch bản tương tác     |
-| `/research`                      | Thẻ Spike       | `/design-system/doc-viewer`          | Duyệt nội dung file gốc     |
-| `/design-system`                 | Thẻ Hub         | `/design-system/*`                   | Các trang con chi tiết      |
+| `/prompts`                       | AI Workflows    | `/storyboards`                       | Demo kịch bản tương tác     |
+| `/research`                      | Thẻ Spike       | `/docs`                              | Duyệt nội dung file gốc     |
+| `/design-system`                 | Thẻ Hub         | `/terminal`, `/board`, `/search`, ...| Các trang con chi tiết      |
 | `/design-system`                 | Header sibling  | `/webui-pm-workspace`                | PM Space Hi-Fi từ PRD-04    |
-| `/design-system/storyboard`      | UC-01..UC-10    | `/design-system/kanban`, `/approval` | Trình diễn luồng đầu-cuối   |
-| `/design-system/beads-traversal` | Truy vết        | `/design-system/approval#heatmap`    | Tổng quan độ phủ            |
+| `/storyboards`                   | UC-01..UC-10    | `/board`, `/approval`                | Trình diễn luồng đầu-cuối   |
+| `/trace/:id`                     | Truy vết        | `/approval#heatmap`                  | Tổng quan độ phủ            |
 
 ---
 
