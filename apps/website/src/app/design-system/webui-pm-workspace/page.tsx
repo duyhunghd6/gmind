@@ -104,16 +104,9 @@ export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorks
   const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const scrollToHash = (hash: string) => {
-      if (!hashToSurface.has(hash)) return;
-      requestAnimationFrame(() => {
-        document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
-      });
-    };
     const syncFromHash = () => {
       const hash = window.location.hash || "#surface-rtm-dashboard";
       setSurface(hashToSurface.get(hash) ?? "rtm-dashboard");
-      scrollToHash(hash);
     };
     const handleKeydown = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
@@ -139,10 +132,9 @@ export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorks
   const setSurfaceState = (target: SurfaceId, state: ViewState) => setSurfaceStates((current) => ({ ...current, [target]: state }));
   const navigateSurface = (target: SurfaceId, hash: string) => {
     setSurface(target);
-    if (window.location.hash === hash) {
-      document.getElementById(hash.slice(1))?.scrollIntoView({ block: "start" });
-    } else {
-      window.location.hash = hash;
+    if (window.location.hash !== hash) {
+      history.pushState(null, '', hash);
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
     }
   };
   const handleSurfaceLink = (event: MouseEvent<HTMLAnchorElement>, target: SurfaceId, hash: string) => {
@@ -278,7 +270,7 @@ function WorkspaceSurface({ spec, state, active, decisionFeedback, onDashboardAc
     }
   };
   return (
-    <section id={spec.hash.slice(1)} data-screen-id={screenIdFor(spec.id)} data-ds-id={spec.screenDsId} data-state={state} onClick={handleClick} className={`space-y-[var(--space-md)] ${animated}`} aria-labelledby={`${spec.id}-title`} hidden={!active}>
+    <section data-screen-id={screenIdFor(spec.id)} data-ds-id={spec.screenDsId} data-state={state} onClick={handleClick} className={`space-y-[var(--space-md)] ${animated}`} aria-labelledby={`${spec.id}-title`} hidden={!active}>
       <SurfaceAliasMarker surface={spec.id} />
       {spec.id === "rtm-dashboard" ? <span className="sr-only" data-ds-id="ds:screen:rtm-dashboard-001" aria-hidden="true" /> : null}
       {spec.id === "approval-gate" ? <><span className="sr-only" id="panels" data-ds-id="ds:screen:approval-gates" aria-hidden="true" /><span className="sr-only" id="rtm" aria-hidden="true" /></> : null}

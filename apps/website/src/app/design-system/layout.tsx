@@ -148,8 +148,11 @@ export default function DesignSystemLayout({
     e.preventDefault();
     const { path, hash } = parseSubHref(href);
 
-    if (pathname === path && hash) {
-      window.location.hash = hash;
+    const normalizedPathname = pathname.replace(/\/$/, '');
+    const normalizedPath = path.replace(/\/$/, '');
+
+    if (normalizedPathname === normalizedPath && hash) {
+      history.pushState(null, '', hash);
       window.dispatchEvent(new HashChangeEvent("hashchange"));
     } else {
       router.push(href, { scroll: !pmSurfaceHashes.has(hash) });
