@@ -92,7 +92,7 @@ export default function DesignSystemLayout({
     if (typeof window === "undefined") return;
     const routeWorkspaceHash = () => {
       const hash = window.location.hash;
-      const currentPath = window.location.pathname.replace(/\/$/, '');
+      const currentPath = pathname.replace(/\/$/, '');
       if (pmSurfaceHashes.has(hash) && currentPath !== PM_WORKSPACE_PATH) {
         router.replace(`${PM_WORKSPACE_PATH}${hash}`, { scroll: false });
       }
