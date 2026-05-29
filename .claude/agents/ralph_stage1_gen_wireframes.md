@@ -9,7 +9,6 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 25
 background: true
-model: inherit
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-gen-wireframes -->

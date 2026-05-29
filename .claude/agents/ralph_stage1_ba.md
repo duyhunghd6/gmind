@@ -9,7 +9,6 @@ disallowedTools: Agent, Bash
 permissionMode: plan
 maxTurns: 10
 background: false
-model: inherit
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-ba -->

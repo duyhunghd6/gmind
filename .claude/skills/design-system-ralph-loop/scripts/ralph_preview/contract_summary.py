@@ -32,13 +32,20 @@ def load_yaml(source: str) -> dict[str, Any]:
     return data
 
 
+def extract_event_labels(label: Any) -> list[str]:
+    """Extract comparable event labels, including slash-separated EVENT_* groups."""
+    text = str(label or "").strip()
+    matches = EVENT_TOKEN_RE.findall(text)
+    if matches:
+        return matches
+    first = text.split("/")[0].strip()
+    return [first] if first else []
+
+
 def normalize_event_label(label: Any) -> str:
     """Normalize Mermaid/YAML event labels for robust EVENT_* comparisons."""
-    text = str(label or "").strip()
-    match = EVENT_TOKEN_RE.search(text)
-    if match:
-        return match.group(0)
-    return text.split("/")[0].strip()
+    labels = extract_event_labels(label)
+    return labels[0] if labels else ""
 
 
 def parse_mermaid_transitions(source: str) -> list[dict[str, str]]:
@@ -51,8 +58,9 @@ def parse_mermaid_transitions(source: str) -> list[dict[str, str]]:
         match = TRANSITION_RE.match(line)
         if not match:
             continue
-        event = normalize_event_label(match.group("event") or "")
-        transitions.append({"from": match.group("from"), "to": match.group("to"), "event": event})
+        raw_event = (match.group("event") or "").strip()
+        event = normalize_event_label(raw_event)
+        transitions.append({"from": match.group("from"), "to": match.group("to"), "event": event, "event_source": raw_event})
     return transitions
 
 
@@ -107,16 +115,19 @@ def collect_summary(contract: dict[str, Any], transitions: list[dict[str, str]])
     actions_set = set()
     for item in as_list(contract.get("action_catalog")):
         if isinstance(item, dict) and item.get("event"):
-            actions_set.add(normalize_event_label(item["event"]))
+            actions_set.update(extract_event_labels(item["event"]))
     for node in all_nodes:
         if node.get("action"):
-            actions_set.add(normalize_event_label(node["action"]))
+            actions_set.update(extract_event_labels(node["action"]))
         if node.get("actions"):
             for a in as_list(node["actions"]):
-                actions_set.add(normalize_event_label(a))
+                actions_set.update(extract_event_labels(a))
     actions = sorted(actions_set)
 
-    events = sorted({normalize_event_label(t["event"]) for t in transitions if t["event"]})
+    events_set = set()
+    for transition in transitions:
+        events_set.update(extract_event_labels(transition.get("event_source") or transition.get("event")))
+    events = sorted(events_set)
 
     duplicate_ds_ids = sorted({ds_id for ds_id in ds_ids if ds_ids.count(ds_id) > 1})
     warnings: list[str] = []
@@ -129,13 +140,18 @@ def collect_summary(contract: dict[str, Any], transitions: list[dict[str, str]])
         if event.startswith("EVENT_") and event not in actions:
             warnings.append(f"Mermaid event not found in YAML actions: {event}")
 
+    public_transitions = [
+        {"from": t["from"], "to": t["to"], "event": t["event"]}
+        for t in transitions
+    ]
+
     return {
         "screens": screens,
         "components": all_nodes,
         "ds_ids": ds_ids,
         "actions": actions,
         "events": events,
-        "transitions": transitions,
+        "transitions": public_transitions,
         "warnings": warnings,
     }
 

@@ -8,7 +8,6 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 15
 background: false
-model: inherit
 ---
 
 You are the PRD Writer Agent for the UI/UX Ralph Loop ecosystem.

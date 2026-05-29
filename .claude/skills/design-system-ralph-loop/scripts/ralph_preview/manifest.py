@@ -30,6 +30,8 @@ def build_manifest(
         "generator_beads_id": GENERATOR_BEADS_ID,
         "source_contract": contract_path,
         "contract_dir": contract_dir,
+        "status": "OK",
+        "ok": True,
         # Preserve existing keys from old manifest
         "screens": contract_summary.get("screens", []),
         "components": contract_summary.get("components", []),

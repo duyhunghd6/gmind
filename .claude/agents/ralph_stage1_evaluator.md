@@ -9,7 +9,6 @@ disallowedTools: Agent
 permissionMode: bypassPermissions
 maxTurns: 25
 background: false
-model: inherit
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-evaluator -->

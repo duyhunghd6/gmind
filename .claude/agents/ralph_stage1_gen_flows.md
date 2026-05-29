@@ -9,7 +9,6 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 15
 background: true
-model: inherit
 ---
 
 <!-- beads-id: br-agent-ralph-stage1-gen-flows -->

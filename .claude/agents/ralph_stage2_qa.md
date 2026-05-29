@@ -9,7 +9,6 @@ disallowedTools: Write, Edit, Agent
 permissionMode: default
 maxTurns: 25
 background: false
-model: inherit
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-qa -->

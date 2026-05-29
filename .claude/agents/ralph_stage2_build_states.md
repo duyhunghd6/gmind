@@ -9,7 +9,6 @@ disallowedTools: Agent
 permissionMode: acceptEdits
 maxTurns: 25
 background: false
-model: inherit
 ---
 
 <!-- beads-id: br-agent-ralph-stage2-build-states -->
