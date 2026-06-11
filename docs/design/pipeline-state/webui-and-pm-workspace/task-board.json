@@ -1,7 +1,7 @@
 {
   "feature": "webui-and-pm-workspace",
   "stage": 2,
-  "iteration": 4,
+  "iteration": 6,
   "tasks": {
     "build_layout": {
       "status": "DONE",
@@ -30,32 +30,37 @@
     "build_components": {
       "status": "DONE",
       "artifacts_written": [
-        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-        "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx"
+        "apps/website/src/app/webui-pm-workspace/page.tsx",
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+        "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
       ],
-      "components_built": 35,
-      "data_ds_ids_added": 43,
-      "interactive_handlers": 31,
+      "components_built": 83,
+      "data_ds_ids_added": 84,
+      "interactive_handlers": 71,
       "checks": {
         "target_files_eslint": "PASS",
         "typescript_no_emit": "PASS",
-        "exact_hash_anchors": true,
-        "rtm_contract_ds_id_exact": true,
-        "root_wrappers_added": true,
-        "selected_composite_surfaces_covered": true,
-        "exact_contract_panel_labels": true,
-        "online_status_accessible_name": true,
-        "individual_hash_surface_render_path": true,
-        "storyboard_aligned_dummy_webapp": true,
-        "component_builder_rerun_after_layout": true
+        "block_style_yaml_source": true,
+        "contract_ds_id_coverage": true,
+        "hash_navigation_anchors": true,
+        "showcase_alias_route_present": true,
+        "all_contract_screens_renderable": true,
+        "component_map_action_ids_found": "71/71",
+        "component_map_event_names_found": "71/71",
+        "runtime_action_attrs": "PASS",
+        "secondary_surface_depth_polish": "PASS",
+        "line_count_under_400": true
       }
     },
     "build_states": {
       "status": "DONE",
       "artifacts_written": [
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+        "apps/website/src/app/webui-pm-workspace/page.tsx",
         "apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-        "apps/website/src/app/design-system/webui-pm-workspace/workspace-components.tsx",
-        "docs/design/screens/webui-and-pm-workspace/snapshot-iter-4/page.tsx"
+        "docs/design/screens/webui-and-pm-workspace/snapshot-iter-5/page.tsx"
       ],
       "states_implemented": [
         "default",
@@ -70,7 +75,8 @@
         "insufficient_evidence",
         "decision_submitted",
         "view_drilldown",
-        "view_trace"
+        "view_trace",
+        "sync_conflict"
       ],
       "a11y_features": [
         "skip-link",
@@ -82,20 +88,27 @@
         "escape-search-blur",
         "hash-panel-aliases",
         "event-recovery-actions",
-        "named-pagination-controls",
-        "named-view-toggle",
-        "named-csv-export"
+        "global-forbidden-banner",
+        "sync-conflict-resolution",
+        "board-saving-recovery"
       ],
       "checks": {
         "target_files_eslint": "PASS",
         "typescript_no_emit": "PASS",
-        "task_list_saving_state_option": true,
-        "task_list_saving_rendered_state_coverage": true,
-        "task_list_controls_accessible_names": true,
-        "task_list_controls_stable_ds_ids": true,
-        "surface_tasks_docs_distinct_panels": true,
-        "line_count_under_400": true
-      }
+        "line_count_under_400": true,
+        "block_style_yaml_source": true,
+        "global_forbidden_state_option": true,
+        "sync_conflict_recovery_action": true,
+        "board_saving_state_option": true,
+        "task_detail_default_state": "PASS",
+        "trace_explorer_default_state": "PASS",
+        "saving_partial_normal_entry_defaults": "PASS"
+      },
+      "fixes_completed": [
+        "task-detail normal entry defaultState set to default",
+        "trace-explorer normal entry defaultState set to default",
+        "saving and partial remain available through state controls and dedicated examples"
+      ]
     },
     "gen_flows": {
       "status": "DONE",

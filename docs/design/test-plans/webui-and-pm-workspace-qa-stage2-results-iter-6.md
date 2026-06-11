@@ -1,59 +1,41 @@
-# Stage 2 QA Results: WebUI and PM Workspace Iteration 6
+# Stage 2 QA Results — webui-and-pm-workspace — Iteration 6
 
-<!-- beads-id: br-agent-ralph-stage2-qa-webui-pm-workspace-iter-6 -->
+<!-- beads-id: br-agent-ralph-stage2-qa -->
 
-## Gate B QA Status
-
-PASS
+Created: 2026-05-29T16:26:09.437608+00:00
 
 ## Summary
 
-- Feature: webui-and-pm-workspace
-- Stage: Stage 2 QA Acceptance
-- Iteration: 6
-- QA status: PASS
-- Auditor score: 97/100
-- Auditor convergence status: GATE_B_READY
-- P0 count: 0
-- P1 findings: none
-- Builder checks: eslint PASS, tsc --noEmit PASS
+PASS. Gate B remains ready after the event catalog and secondary-surface changes. All seven suites passed; no P0 fix queue remains.
 
-## Evidence Used
-
-- Existing QA plan: `docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-6.md`
-- Source: `apps/website/src/app/design-system/webui-pm-workspace/page.tsx`
-- Auditor scorecard: `docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-6.json`
-- Contract summary: `docs/design/contracts/webui-and-pm-workspace/context-slices/summary/contract-summary.yaml`
-- Desktop screenshot: `docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop.png`
-- Mobile screenshot: `docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-mobile.png`
-- Post-interaction screenshot: `docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop-post-interaction.png`
-
-## Suite Results
+## Results
 
 | Suite | Status | Evidence |
 | --- | --- | --- |
-| T1 Storyboard Replay | PASS | Storyboard trajectories are implementable in source; required `data-ds-id` and state/action evidence is present. |
-| T2 Contract Component Completeness | PASS | Component IDs 95/95 and screen IDs 18/18 matched the contract. No legacy-only component assumptions found. |
-| T3 State Matrix | PASS | Required states are complete; focused source grep found expected `data-state`/state-controller evidence. |
-| T4 Design System Token and Class Audit | PASS | Tokens 18/18, hardcoded colors 0, placeholders 0, and no conflicting invented token blockers. |
-| T5 Accessibility Structural Test | PASS | Focused source grep found a11y evidence including landmarks, state labels, and keyboard/action labeling; no blocking issues. |
-| T6 Preview and Browser Artifact Consistency | PASS | Required desktop, mobile, and post-interaction browser artifacts were present and checked OK. |
-| T7 Live Render Test | PASS | Route/source evidence indicates expected `data-ds-id` elements can render; no application-error evidence. |
+| T1 Storyboard replay | PASS | 12/12 trajectories implementable. 22/22 storyboard actions are present through rendered controls or `ActionCatalogMarkers` (`workspace-components.tsx:36-37`); states are reachable through `surfaceStates`, `StateSelect`, `StatePlaceholders`, and branch panels (`WebUIPMWorkspacePage.tsx:131`, `:276-281`, `:304-309`). |
+| T2 Contract component completeness | PASS | Parsed one block-style YAML contract block, not JSON/minified. 84/84 component-map `ds_id` values appear in source; 17 screen IDs and 19 routes are represented by `surfaces`/aliases (`WebUIPMWorkspacePage.tsx:39-57`, `:68-116`). |
+| T3 State matrix | PASS | Required default/loading/empty/error/offline/forbidden/saving/not_found/partial/insufficient_evidence/decision_submitted/view_drilldown/view_trace/sync_conflict states are represented by typed state catalogs and rendered placeholders/panels (`WebUIPMWorkspacePage.tsx:34-37`, `workspace-components.tsx:9-26`). Mermaid camel-case screen states map to these surface IDs plus state values. |
+| T4 DS token audit | PASS | 26/26 `var(--*)` references used by rendered workspace source match `ds-manifest.txt`; no invented tokens or raw `font-family` declarations in the rendered route. Registry classes reused include `btn-*`, `badge-*`, `data-table`, `graph-node`, `heatmap-cell`, `path-tree`, and `skeleton`. |
+| T5 A11y structural | PASS | `<main>`, nav landmarks, skip link, labelled inputs/selects/buttons, aria-live/status regions, focus-visible classes, keyboard Ctrl+K/Escape handler, and table captions/aria labels present (`WebUIPMWorkspacePage.tsx:141-150`, `:209-240`; `workspace-components.tsx:72-80`). |
+| T6 Preview/browser consistency | PASS | Preview manifest warnings list is empty; preview HTML includes Overview, Screens, Flow, Storyboards, Components, Layout, Diagrams, Conflicts, Coverage. Browser report has four successful render artifacts, zero console/page errors, no horizontal overflow, and DS IDs present. |
+| T7 Live render | PASS | `curl`/urllib check returned HTTP 200 for `http://localhost:9993/design-system/webui-pm-workspace`; page source and browser report confirm expected `data-ds-id` elements render. |
 
-## Defects by Severity
+## Evidence Paths
 
-### P0
+- `/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx`
+- `/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx`
+- `/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/workspace-components.tsx`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json`
+- `/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md`
+- `/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json`
+- `/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-6.json`
 
-None.
+## Residual Risks
 
-### P1
+- Unimported legacy/showcase files under `components/showcase/` still contain hardcoded color literals, but they are not imported by the rendered Gate B route. If those files are reintroduced, re-run T4 against the expanded import graph.
+- Browser artifacts validate representative desktop/mobile/hash routes; not every secondary surface was opened in the supplied browser report. Source-level navigation aliases and component IDs cover the remaining surfaces.
 
-None.
+## Gate B Recommendation
 
-### P2
-
-- Non-blocking maintainability: dense single-file JSX remains under the 400-line cap but should be considered for future component extraction. Responsible builder: `build_components`.
-
-## Final Decision
-
-QA PASS. Gate B QA status PASS. No blocking defects remain.
+Recommend Gate B PASS / accept. Scorecard remains 96 and Gate_B_READY; independent QA found no blocking regressions.

@@ -1,0 +1,92 @@
+{
+  "qa_type": "stage2",
+  "feature_name": "webui-and-pm-workspace",
+  "iteration": 4,
+  "total_tests": 7,
+  "passed": 3,
+  "failed": 4,
+  "skipped": 0,
+  "convergence_status": "QA_FAIL",
+  "test_results": {
+    "T1_storyboard_replay": {
+      "status": "FAIL",
+      "evidence": "0/23 storyboard action ids or exact mapped EVENT_* names found in source; generic handlers replace contract events",
+      "fix_items": [
+        "Add contract action ids/events or deterministic aliases for storyboard actions such as action-approval-approve/EVENT_APPROVAL_APPROVE, action-board-drag-card/EVENT_BOARD_DRAG_CARD, action-shell-open-search/EVENT_SHELL_OPEN_SEARCH"
+      ]
+    },
+    "T2_contract_components": {
+      "status": "FAIL",
+      "evidence": "83/84 component-map ds_id strings found; missing ds:webui.header.top-level. ui-contract YAML block is block-style YAML. Source line evidence: WebUIPMWorkspacePage.tsx:213 uses ds:webui.shell.header and :214 uses ds:global-shell:header instead.",
+      "fix_items": [
+        "Render top-level header with data-ds-id=\"ds:webui.header.top-level\" or a contract-compatible marker while preserving existing shell header semantics"
+      ]
+    },
+    "T3_state_matrix": {
+      "status": "FAIL",
+      "evidence": "All 11 required state names are represented, but normal-entry defaults drift: task-detail defaultState is saving at WebUIPMWorkspacePage.tsx:43 and trace-explorer defaultState is partial at WebUIPMWorkspacePage.tsx:44, while flow Mermaid has TaskDetailDefault/TraceDefault normal entry states.",
+      "fix_items": [
+        "Initialize task-detail and trace-explorer to default; expose saving/partial only via state controls or matching events"
+      ]
+    },
+    "T4_ds_token_audit": {
+      "status": "PASS",
+      "evidence": "18 unique var(--*) tokens used; 18/18 valid against ds-manifest; no hardcoded colors or raw font-family declarations detected"
+    },
+    "T5_a11y_structural": {
+      "status": "PASS",
+      "evidence": "Source contains <main>, nav landmarks, exactly one <h1>, button/input labels, aria-live regions, keyboard Ctrl+K/Escape behavior, and focus-visible classes. Line evidence includes WebUIPMWorkspacePage.tsx:209, :212, :219-222, :230, :257."
+    },
+    "T6_preview_browser_consistency": {
+      "status": "FAIL",
+      "evidence": "Preview manifest has 0 warnings and preview HTML includes all 9 tabs, but mobile browser artifact violates layout rule: viewport 390px has scrollWidth 575px. Contract layout-rules.json:24-29 requires Mobile width 390 with PM nav hidden behind header menu and data-dense views as cards/accordions.",
+      "fix_items": [
+        "Remove horizontal overflow at 390px; collapse PM nav and dense task/list surfaces to mobile-safe card/accordion layout"
+      ]
+    },
+    "T7_live_render": {
+      "status": "PASS",
+      "evidence": "http://localhost:9993/webui-pm-workspace and /design-system/webui-pm-workspace returned HTTP 200 without application-error body; browser report also shows 0 console/page errors"
+    }
+  },
+  "fix_queue": [
+    {
+      "priority": "P0",
+      "test": "T1",
+      "responsible_builder": "build_components",
+      "detail": "Storyboard actions are not mechanically replayable because contract action ids/exact EVENT_* names are absent from implementation handlers."
+    },
+    {
+      "priority": "P0",
+      "test": "T2",
+      "responsible_builder": "build_layout",
+      "detail": "Component-map ds_id ds:webui.header.top-level is missing from page source."
+    },
+    {
+      "priority": "P0",
+      "test": "T3",
+      "responsible_builder": "build_states",
+      "detail": "Normal entry states for task-detail and trace-explorer initialize to saving/partial instead of default."
+    },
+    {
+      "priority": "P0",
+      "test": "T6",
+      "responsible_builder": "build_layout",
+      "detail": "Mobile render has horizontal overflow: viewport width 390, scrollWidth 575."
+    }
+  ],
+  "artifacts_written": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-4.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-4.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-stage2-iter-4.json"
+  ],
+  "evidence_paths": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json",
+    "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-capture-report.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-4.json"
+  ],
+  "routing_recommendation": "QA_FAIL: route back to build_components, build_layout, and build_states. Do not proceed to Gate B until P0 replayability, header ds_id, default-state, and mobile overflow blockers are fixed."
+}

@@ -1,39 +1,47 @@
 {
   "auditor": "stage2_builder",
   "iteration": 6,
-  "score": 97,
+  "feature": "webui-and-pm-workspace",
+  "score": 96,
   "p0_count": 0,
+  "p1_count": 0,
+  "p2_count": 1,
   "convergence_status": "GATE_B_READY",
+  "gate_b_ready": true,
+  "gate_b_criteria": {
+    "score_at_least_95": true,
+    "zero_p0": true
+  },
   "pillar_scores": {
     "contract_conformance": {
-      "score": 30,
+      "score": 29,
       "max": 30,
-      "tool_evidence": "95/95 component-map ids found in page source; 18/18 screen ids found; 20/20 required action events found; ui-contract fenced YAML is block-style"
+      "tool_evidence": "84/84 component-map data-ds-id strings found; 71/71 action IDs and 71/71 EVENT_* names found; 22/22 storyboard action IDs found; ui-contract YAML block-style check PASS"
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "18/18 var(--*) tokens resolve to DS manifest; 0 hardcoded #/rgb/rgba/hsl color literals; browser desktop/mobile evidence shows DS-token neutral shell and responsive surfaces"
+      "tool_evidence": "18 var(--*) tokens used, 18/18 valid against ds-manifest; 0 hardcoded colors"
     },
     "flow_state_integrity": {
       "score": 15,
       "max": 15,
-      "tool_evidence": "12/12 contract boundary and specialized states implemented; 21 source events cover component-map and Mermaid transitions including retry/reconnect/conflict paths"
+      "tool_evidence": "Required contract states implemented through state controls/placeholders and recovery panels; flow.md has exactly 1 fenced mermaid block; storyboard replay actions 22/22 present"
     },
     "accessibility": {
       "score": 19,
       "max": 20,
-      "tool_evidence": "skip link present; main/nav/search/dialog/status/alert landmarks present; 18 aria-label refs, 4 aria-live refs, focusRing used across controls; minor P2 notes remain for dense JSX reviewability rather than a11y failure"
+      "tool_evidence": "Skip link present, main/nav/aside/header/footer landmarks present, 45 aria-* attrs, 5 role attrs, 10 focus-visible occurrences, aria-live/status regions; browser report has no mobile overflow"
     },
     "efficiency_completeness": {
       "score": 8,
       "max": 10,
-      "tool_evidence": "120 lines under 400-line target; 0 placeholder patterns; no stubs; implementation is intentionally compact but dense single-file JSX reduces audit diff readability"
+      "tool_evidence": "No TODO/placeholder patterns; implementation split line counts 7, 375, 170, 7 under 400; secondary surfaces remain compact but contract-specific"
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; REST-only data boundary copy present; no browser-forbidden direct DB/shell/git/CI operations found in page source"
+      "tool_evidence": "0 dangerouslySetInnerHTML; updated browser report has 0 console errors and 0 page/runtime errors across 4 routes"
     }
   },
   "pre_output_checklist": {
@@ -48,114 +56,145 @@
     "mobile_responsive": true,
     "gpu_safe_animation": true
   },
+  "confirmed_fixes": {
+    "full_component_map_action_catalog": "PASS: source verifier and mechanical audit both find 71/71 component-map action IDs and 71/71 EVENT_* names.",
+    "storyboard_replay_action_ids": "PASS: 22/22 storyboard action IDs found in implementation source.",
+    "visual_token_regression": "PASS: no hallucinated tokens and no hardcoded colors found.",
+    "browser_rerender": "PASS: tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json reports 0 console/page errors and no horizontal overflow at 1440px or 390px.",
+    "line_count": "PASS: app route, client page, components file, and design-system alias are all under 400 lines."
+  },
+  "mechanical_checks": {
+    "component_map": {
+      "expected_ids": 84,
+      "found_ids_by_source_string": 84,
+      "missing_ids": [],
+      "extra_ids_sample": [
+        "ds:chart:progress",
+        "ds:global-shell:header",
+        "ds:graph:mini",
+        "ds:heatmap:rtm",
+        "ds:list:gaps",
+        "ds:screen:approval-gates",
+        "ds:webui.action-event-catalog",
+        "ds:webui.board.escalation-badge",
+        "ds:webui.shell.active-surface",
+        "ds:webui.shell.pm-nav.sidebar",
+        "ds:webui.shell.sync-banner",
+        "ds:webui.tasks.csv-export",
+        "ds:webui.tasks.pagination",
+        "ds:webui.tasks.view-toggle.controls"
+      ]
+    },
+    "actions": {
+      "expected_component_map_action_ids": 71,
+      "found_component_map_action_ids": 71,
+      "missing_component_map_action_ids_count": 0,
+      "missing_component_map_action_examples": [],
+      "expected_component_map_events": 71,
+      "found_component_map_events": 71,
+      "missing_component_map_events_count": 0,
+      "missing_component_map_event_examples": [],
+      "expected_storyboard_actions": 22,
+      "found_storyboard_actions": 22,
+      "missing_storyboard_actions": [],
+      "missing_storyboard_events": []
+    },
+    "tokens": {
+      "used_count": 18,
+      "invalid": [],
+      "hardcoded_colors": []
+    },
+    "states": {
+      "required": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial",
+        "saving",
+        "not_found",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "source_state_arrays_include_required": true,
+      "contract_extra_states_implemented": [
+        "sync_conflict",
+        "view_drilldown",
+        "view_trace"
+      ],
+      "data_state_rendering": "Dynamic data-state attributes are present on shell, sidebar, active surface, state placeholders, and state panels."
+    },
+    "placeholders": [],
+    "dangerously_set_inner_html_count": 0,
+    "ui_contract_yaml_block_style_ok": true,
+    "flow_mermaid_block_count": 1,
+    "line_counts": {
+      "apps/website/src/app/webui-pm-workspace/page.tsx": 7,
+      "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx": 375,
+      "apps/website/src/app/webui-pm-workspace/workspace-components.tsx": 170,
+      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx": 7
+    },
+    "accessibility_counts": {
+      "aria_attrs": 45,
+      "role_attrs": 5,
+      "focus_visible_occurrences": 10,
+      "semantic_tags": {
+        "main": 1,
+        "nav": 5,
+        "aside": 2,
+        "section": 8,
+        "article": 2,
+        "header": 2,
+        "footer": 1,
+        "h1": 1,
+        "h2": 1,
+        "h3": 26,
+        "button": 25,
+        "a": 35,
+        "label": 10,
+        "input": 5
+      }
+    },
+    "browser_evidence": {
+      "report": "tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json",
+      "status": "success",
+      "console_errors": 0,
+      "runtime_errors": 0,
+      "routes_checked": 4,
+      "desktop_no_horizontal_overflow": true,
+      "mobile_viewport_width": 390,
+      "mobile_scroll_width": 390,
+      "mobile_no_horizontal_overflow": true
+    }
+  },
   "fix_queue": [
     {
       "priority": "P2",
       "pillar": "efficiency_completeness",
       "responsible_builder": "build_components",
-      "detail": "page.tsx is under the 400-line cap and complete, but many JSX branches are compressed into long lines; optional formatting or splitting into leaf components would improve future diff reviewability."
+      "detail": "Secondary surfaces are now contract-specific and action-complete, but terminal, git graph, knowledge graph, portfolio, and component catalog remain compact previews rather than full-depth production layouts. This is polish only and does not block Gate B.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx"
+      ]
     }
   ],
-  "issues_by_priority": {
-    "P0": [],
-    "P1": [],
-    "P2": [
-      {
-        "pillar": "efficiency_completeness",
-        "responsible_builder": "build_components",
-        "detail": "Dense single-file JSX is a maintainability concern only; it does not block Gate B because contract, token, state, a11y, and safety checks pass."
-      }
-    ]
-  },
-  "mechanical_checks": {
-    "ui_contract_yaml_block_style": true,
-    "component_map_ids_found": "95/95",
-    "missing_data_ds_ids": [],
-    "extra_source_ds_ids": [],
-    "screen_ids_found": "18/18",
-    "missing_screen_ids": [],
-    "tokens_valid": "18/18",
-    "invalid_tokens": [],
-    "hardcoded_colors_count": 0,
-    "placeholder_patterns_count": 0,
-    "dangerously_set_inner_html_count": 0,
-    "implemented_states": [
-      "decision_submitted",
-      "default",
-      "empty",
-      "error",
-      "forbidden",
-      "insufficient_evidence",
-      "loading",
-      "not_found",
-      "offline",
-      "partial",
-      "saving",
-      "sync_conflict"
-    ],
-    "missing_contract_state_values": [],
-    "component_map_actions_found": "20/20",
-    "extra_source_actions": [
-      "EVENT_RETRY"
-    ],
-    "mermaid_blocks_parsed_from_flow_md": 1,
-    "mermaid_states_sampled": [
-      "GlobalShell",
-      "RouteLoading",
-      "CoreSurface",
-      "ShowcaseSurface",
-      "EmptyState",
-      "ErrorState",
-      "RecoveryState",
-      "NavigationState",
-      "SavingState",
-      "SuccessState",
-      "OfflineState",
-      "RehydratingState",
-      "SyncConflictState",
-      "PartialGraphState"
-    ],
-    "source_line_count": 120,
-    "a11y_counts": {
-      "aria_live": 4,
-      "aria_label": 18,
-      "role_status": 2,
-      "role_alert": 2,
-      "focus_ring_references": 20,
-      "h1_count": 1,
-      "h2_count": 2,
-      "h3_count": 1,
-      "h4_count": 3
-    }
-  },
-  "browser_evidence": {
-    "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop.png",
-    "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-mobile.png",
-    "desktop_post_interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-20260529-desktop-post-interaction.png",
-    "visual_observation": "Desktop and post-interaction evidence show expanded shell/sidebar and all surface cards; mobile evidence shows single-column responsive stack with no obvious horizontal overflow."
-  },
-  "builder_summaries_reviewed": {
-    "layout": "DONE screens_scaffolded=18 no issues",
-    "components": "DONE components_built=65 data_ds_ids_added=95 interactive_handlers=37 target_page_eslint=PASS line_count_reported=116",
-    "states": "DONE all boundary/specialized states implemented eslint PASS tsc --noEmit PASS"
-  },
-  "gate_b": {
-    "threshold_met": true,
-    "status": "Gate B ready",
-    "reason": "Score is 97 and p0_count is 0. No P1 findings remain; only optional P2 maintainability cleanup is queued."
-  },
-  "inputs_reviewed": {
-    "built_page": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
-    "contract_root": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace",
-    "ui_contract": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-    "flow": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
-    "review_diagrams": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/review-diagrams.md",
-    "component_map": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
-    "storyboards": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json",
-    "layout_rules": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
-    "artifact_index": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/artifact-index.json",
-    "ds_manifest": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/ds-manifest.txt",
-    "task_board": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/task-board.json"
-  },
-  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  "evidence_paths": [
+    "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+    "docs/design/contracts/webui-and-pm-workspace/flow.md",
+    "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+    "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+    "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+    "docs/design/pipeline-state/webui-and-pm-workspace/ds-manifest.txt",
+    "docs/design/pipeline-state/webui-and-pm-workspace/task-board.json",
+    "tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json",
+    "apps/website/src/app/webui-pm-workspace/page.tsx",
+    "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+    "apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+    "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  ],
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-6/page.tsx",
+  "recommended_route": "GATE_B_READY: score is >=95 and P0 count is 0"
 }

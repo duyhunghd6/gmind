@@ -2,4 +2,6 @@
 
 import WebUIPMWorkspaceLayout from "./WebUIPMWorkspacePage";
 
-export default WebUIPMWorkspaceLayout;
+export default function WebUIPMWorkspacePage() {
+  return <WebUIPMWorkspaceLayout />;
+}

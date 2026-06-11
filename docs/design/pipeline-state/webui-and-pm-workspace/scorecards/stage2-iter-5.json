@@ -1,39 +1,47 @@
 {
   "auditor": "stage2_builder",
   "iteration": 5,
-  "score": 97,
+  "feature": "webui-and-pm-workspace",
+  "score": 93,
   "p0_count": 0,
-  "convergence_status": "GATE_B_READY",
+  "p1_count": 1,
+  "p2_count": 2,
+  "convergence_status": "CONTINUE",
+  "gate_b_ready": false,
+  "gate_b_criteria": {
+    "score_at_least_95": false,
+    "zero_p0": true
+  },
   "pillar_scores": {
     "contract_conformance": {
-      "score": 29,
+      "score": 26,
       "max": 30,
-      "tool_evidence": "115/115 component-map ids found in source; 23/23 screen ids and 23/23 routes found; ui-contract YAML block is block-style; browser rendered 23 expected screen ids with route probes passing"
+      "tool_evidence": "84/84 component-map data-ds-id strings found; ds:webui.header.top-level present; storyboard replay actions/events 22/22 found; full component-map actions still 27/71 action ids and 30/71 EVENT_* names found"
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "19/19 var(--*) references resolve to DS manifest tokens; 0 hardcoded #/rgb/rgba/hsl color literals; registry classes reused for buttons, badges, terminal, kanban, approval, data table, graph, heatmap, path tree, file lease, and skeleton"
+      "tool_evidence": "18 var(--*) tokens used, 18/18 valid against ds-manifest; 0 hardcoded colors"
     },
     "flow_state_integrity": {
-      "score": 15,
+      "score": 14,
       "max": 15,
-      "tool_evidence": "All contract states plus Mermaid-derived success are present in source; 17/17 mapped events found; final browser evidence passed search form, task detail route, terminal route, and state toolbar probes"
+      "tool_evidence": "Required states present, task-detail and trace-explorer defaultState are default, storyboard actions/events are replayable; full Mermaid/component action catalog remains partial"
     },
     "accessibility": {
-      "score": 19,
+      "score": 20,
       "max": 20,
-      "tool_evidence": "1 main, 1 h1, nav landmarks, 2 forms, 14 aria-label refs, 2 aria-live refs, focus-visible utility present; final evidence reports stable accessible roles and no console/runtime errors"
+      "tool_evidence": "skip link present, 45 aria-* attrs, 5 role attrs, aria-live/status regions, focus-visible classes; rerender report mobile viewport 390 has scrollWidth 390"
     },
     "efficiency_completeness": {
-      "score": 9,
+      "score": 8,
       "max": 10,
-      "tool_evidence": "145 source lines, under 400-line target; 0 placeholder patterns; final evidence reran on required port 9993 with HTTP 200; dense JSX remains a non-blocking P2 maintainability concern"
+      "tool_evidence": "No TODO/placeholder patterns; split files under 400 lines (7, 380, 168, 7), but many lower-priority contract surfaces remain compact generic panels"
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; REST-only browser boundary copy present; final browser evidence status success, HTTP 200, 0 console errors, 0 runtime errors, 0 blockers"
+      "tool_evidence": "0 dangerouslySetInnerHTML; rerender browser report has 0 console/runtime errors"
     }
   },
   "pre_output_checklist": {
@@ -48,99 +56,148 @@
     "mobile_responsive": true,
     "gpu_safe_animation": true
   },
+  "confirmed_fixes": {
+    "ds_webui_header_top_level_coverage": "PASS: source and browser report both contain ds:webui.header.top-level",
+    "storyboard_replay_action_ids_and_events": "PASS: 22/22 storyboard action ids and associated EVENT_* names found",
+    "task_detail_default_state": "PASS: task-detail defaultState is default",
+    "trace_explorer_default_state": "PASS: trace-explorer defaultState is default",
+    "mobile_overflow_390px": "PASS: updated browser report shows viewport width 390 and scrollWidth 390"
+  },
+  "mechanical_checks": {
+    "component_map": {
+      "expected_ids": 84,
+      "found_ids_by_source_string": 84,
+      "missing_ids": [],
+      "extra_ids_sample": [
+        "ds:screen:approval-gates",
+        "ds:webui.shell.active-surface",
+        "ds:webui.shell.pm-nav.sidebar",
+        "ds:webui.shell.sync-banner",
+        "ds:webui.tasks.csv-export",
+        "ds:webui.tasks.pagination",
+        "ds:webui.tasks.view-toggle.controls"
+      ]
+    },
+    "actions": {
+      "expected_component_map_action_ids": 71,
+      "found_component_map_action_ids": 27,
+      "missing_component_map_action_ids_count": 44,
+      "missing_component_map_action_examples": [
+        "action-approval-open-trace",
+        "action-board-open-task",
+        "action-components-scroll-section",
+        "action-components-toggle-example",
+        "action-docs-open-knowledge-graph"
+      ],
+      "expected_component_map_events": 71,
+      "found_component_map_events": 30,
+      "missing_component_map_events_count": 41,
+      "missing_component_map_event_examples": [
+        "EVENT_APPROVAL_OPEN_TRACE",
+        "EVENT_BOARD_OPEN_TASK",
+        "EVENT_COMPONENTS_SCROLL_SECTION",
+        "EVENT_COMPONENTS_TOGGLE_EXAMPLE",
+        "EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH"
+      ],
+      "expected_storyboard_actions": 22,
+      "found_storyboard_actions": 22,
+      "missing_storyboard_actions": [],
+      "missing_storyboard_events": []
+    },
+    "tokens": {
+      "used_count": 18,
+      "invalid": [],
+      "hardcoded_colors": []
+    },
+    "states": {
+      "required": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial",
+        "saving",
+        "not_found",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "source_state_arrays_include_required": true,
+      "contract_extra_states_implemented": [
+        "sync_conflict",
+        "view_drilldown",
+        "view_trace"
+      ],
+      "task_detail_default_state": "default",
+      "trace_explorer_default_state": "default"
+    },
+    "placeholders": [],
+    "dangerously_set_inner_html_count": 0,
+    "ui_contract_yaml_block_style_ok": true,
+    "flow_mermaid_block_count": 1,
+    "line_counts": {
+      "apps/website/src/app/webui-pm-workspace/page.tsx": 7,
+      "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx": 380,
+      "apps/website/src/app/webui-pm-workspace/workspace-components.tsx": 168,
+      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx": 7
+    },
+    "browser_evidence": {
+      "report": "tmp/test_puppeteer_dir/webui-pm-workspace-stage2-rerender-report.json",
+      "status": "success",
+      "console_errors": 0,
+      "runtime_errors": 0,
+      "mobile_viewport_width": 390,
+      "mobile_scroll_width": 390,
+      "mobile_no_horizontal_overflow": true
+    }
+  },
   "fix_queue": [
+    {
+      "priority": "P1",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Storyboard replayability is fixed, but the full component-map action catalog remains partially implemented: 44/71 action ids and 41/71 EVENT_* names are still absent by exact source string, including action-approval-open-trace, action-board-open-task, EVENT_APPROVAL_OPEN_TRACE, and EVENT_BOARD_OPEN_TASK.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx"
+      ]
+    },
     {
       "priority": "P2",
       "pillar": "efficiency_completeness",
       "responsible_builder": "build_components",
-      "detail": "Target remains under 400 lines but uses dense single-line JSX branches that reduce diff reviewability. Optional formatting/splitting can improve maintainability without changing behavior."
+      "detail": "Several lower-priority surfaces are still represented with compact generic Shell panels; expand terminal, portfolio, git graph, knowledge graph, and component catalog layouts toward the contract-specific screen depth before Gate B polish.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx"
+      ]
+    },
+    {
+      "priority": "P2",
+      "pillar": "efficiency_completeness",
+      "responsible_builder": "build_layout",
+      "detail": "WebUIPMWorkspacePage.tsx is 380 lines, still under the 400-line limit but close enough that any Gate B action-catalog expansion should be split rather than added to the page shell.",
+      "evidence_paths": [
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx"
+      ]
     }
   ],
-  "issues_by_priority": {
-    "P0": [],
-    "P1": [],
-    "P2": [
-      {
-        "pillar": "efficiency_completeness",
-        "responsible_builder": "build_components",
-        "detail": "Dense JSX formatting remains non-blocking; all source, QA, and final browser evidence gates pass."
-      }
-    ]
-  },
-  "gate_b": {
-    "threshold_met": true,
-    "status": "Gate B candidate pending final BA routing",
-    "reason": "Score is 97, p0_count is 0, and final build_evidence rerun resolved prior P1 selector misses and P2 port mismatch."
-  },
-  "browser_evidence": {
-    "metadata_path": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-browser-evidence.json",
-    "status": "success",
-    "rendered_url": "http://localhost:9993/design-system/webui-pm-workspace",
-    "required_url": "http://localhost:9993/design-system/webui-pm-workspace",
-    "http_status": 200,
-    "attribute_counts": {
-      "data_screen_id": 25,
-      "data_ds_id": 128,
-      "data_state": 223,
-      "data_contract_state": 25
-    },
-    "interaction_summary": "search_form pass; task_detail_route pass; terminal_route pass; state_toolbar pass; selector evidence resolution status resolved",
-    "non_default_state_note": "loading, offline, saving, forbidden, and partial are visible in final evidence; not_found is represented in source/state controls but not visible in the current default rendered page.",
-    "console_errors": 0,
-    "runtime_errors": 0,
-    "blockers": 0,
-    "screenshots": {
-      "desktop_post_interaction": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-desktop-post-interaction.png",
-      "desktop": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-desktop.png",
-      "tablet": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-tablet.png",
-      "mobile": "/Users/steve/duyhunghd6/gmind/docs/design/screens/webui-and-pm-workspace/stage2-final-mobile.png"
-    }
-  },
-  "mechanical_checks": {
-    "ui_contract_yaml_block_style": true,
-    "component_map_ids_found": "115/115",
-    "missing_data_ds_ids": [],
-    "extra_source_ds_ids": [
-      "ds:global_shell",
-      "ds:screen:approval-001",
-      "ds:screen:beads-traversal-001",
-      "ds:screen:components-001",
-      "ds:screen:doc-viewer-001",
-      "ds:screen:explorer-001",
-      "ds:screen:git-graph-001",
-      "ds:screen:kanban-001",
-      "ds:screen:knowledge-graph-001",
-      "ds:screen:storyboard-001",
-      "ds:screen:terminal-001",
-      "ds:screen:timeline-001"
-    ],
-    "extra_source_ds_id_note": "Extras are PRD-facing aliases carried by data-prd-ds-id or visible alias copy, not missing component-map anchors.",
-    "screen_ids_found": "23/23",
-    "routes_found": "23/23",
-    "tokens_valid": "19/19",
-    "invalid_tokens": [],
-    "hardcoded_colors_count": 0,
-    "placeholder_patterns_count": 0,
-    "dangerously_set_inner_html_count": 0,
-    "data_state_source_attributes": 7,
-    "data_contract_state_source_attributes": 2,
-    "mermaid_states_sampled": 20,
-    "missing_contract_state_values": [],
-    "mapped_actions_found": "17/17",
-    "source_line_count": 145,
-    "browser_attribute_counts": "25 data-screen-id, 128 data-ds-id, 223 data-state, 25 data-contract-state"
-  },
-  "inputs_reviewed": {
-    "contract_root": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace",
-    "ui_contract": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
-    "flow": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
-    "component_map": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
-    "storyboards": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json",
-    "layout_rules": "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
-    "ds_manifest": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/ds-manifest.txt",
-    "qa_results": "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-4.md",
-    "ba_routing_decision": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/stage2-routing-decision.json",
-    "previous_scorecard": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-4.json"
-  },
-  "snapshot_path": "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  "evidence_paths": [
+    "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+    "docs/design/contracts/webui-and-pm-workspace/flow.md",
+    "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+    "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+    "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+    "docs/design/pipeline-state/webui-and-pm-workspace/ds-manifest.txt",
+    "docs/design/pipeline-state/webui-and-pm-workspace/task-board.json",
+    "tmp/test_puppeteer_dir/webui-pm-workspace-stage2-rerender-report.json",
+    "apps/website/src/app/webui-pm-workspace/page.tsx",
+    "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+    "apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+    "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  ],
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-5/page.tsx",
+  "recommended_route": "CONTINUE with build_components action-catalog completion and component-depth polish before Gate B"
 }

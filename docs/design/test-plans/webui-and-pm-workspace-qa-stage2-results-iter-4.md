@@ -1,28 +1,31 @@
 # Stage 2 QA Results: webui-and-pm-workspace Iteration 4
-
-<!-- beads-id: br-qa-stage2-webui-pm-workspace-iter4-results -->
+<!-- beads-id: br-ds-webui-pm-qa-stage2-iter4-results -->
 
 ## Summary
+<!-- beads-id: br-ds-webui-pm-qa-stage2-iter4-results-summary -->
 
-Status: QA_PASS. Iteration 4 resolves the prior blocking hydration and hash-screen alias issues. Browser metadata reports zero console errors, all eight hash surfaces render distinct screen ids, task/doc aliases resolve correctly, and task-list pagination, board/list toggle, CSV export, and saving-state affordances are present.
+Convergence status: QA_FAIL. Passed 3, failed 4, skipped 0 of 7 suites.
 
 ## Results
+<!-- beads-id: br-ds-webui-pm-qa-stage2-iter4-results-suites -->
 
-| Suite | Status | Evidence | Fix |
-| --- | --- | --- | --- |
-| T1 Storyboard Replay | PASS | `storyboards.json` has 2 trajectories: RTM dashboard drill-down and approval decision. Source implements navigation, `EVENT_DRILL_DOWN`, `EVENT_VIEW_TRACE`, `EVENT_APPROVAL_DECISION`, and approval/request-change handlers. Browser metadata shows `#surface-rtm-dashboard` and `#surface-approval` visible with matching screen ids. | None. |
-| T2 Contract Components | PASS | `ui-contract.md` has one block-style YAML fence, not JSON/minified. YAML ds ids `ds:global_shell`, `ds:component:header`, `ds:screen:rtm-dashboard`, and `ds:screen:approval-001` render. Component-map labels are represented: Header Bar, Sidebar, Main Content Area, Footer, Global Search Bar, Online Status, dashboard panels, Queue Panel, Evidence Hub, Decision Box. | None blocking. |
-| T3 State Matrix | PASS | YAML/Mermaid states default/loading/offline, dashboard default/loading/empty/error/view_drilldown/view_trace, and approval default/loading/empty/error/insufficient_evidence/decision_submitted are represented by `data-state`, `StateSelect`, and `WorkspaceStatePanel`. Additional task/list/detail recovery states include forbidden, saving, not_found, and partial. | None. |
-| T4 DS Token Audit | PASS | 18/18 `var(--*)` references in target split files resolve to the DS manifest; no invented tokens, hardcoded color literals, or raw `font-family` declarations found. DS classes are reused for buttons, badges, tables, skeletons, graph nodes, heatmap cells, and path trees. | None. |
-| T5 A11y Structural | PASS | Source has `main`, header/nav/aside/footer landmarks, one visible active `h1` in browser metadata per hash, labeled search/select/input/button controls, `aria-live`/status and alert regions, skip link, keyboard paths for Ctrl+K/Escape, and focus-visible styles. | None. |
-| T6 Preview/Browser Consistency | PASS | Preview manifest warnings array is empty and preview HTML includes all 9 tabs: Overview, Screens, Flow, Storyboards, Components, Layout, Diagrams, Conflicts, Coverage. Browser metadata shows zero console errors, hydration mismatch pass, 8/8 distinct hash screens, `surface-tasks` maps to `ds:screen:task-list-001`, `surface-docs` maps to `ds:screen:doc-viewer-001`, and task-list affordance flags all true. | None. |
-| T7 Live Render | PASS | `curl http://localhost:9993/design-system/webui-pm-workspace` returned 200; source contains expected `data-ds-id` render targets. | None. |
+- T1 Storyboard replay: FAIL. 0/23 storyboard action ids or exact mapped EVENT_* names were found in source.
+- T2 Contract components: FAIL. 83/84 component-map ds_id strings found; missing `ds:webui.header.top-level`.
+- T3 State matrix: FAIL. Required states are represented, but task-detail and trace-explorer initialize to non-default states.
+- T4 DS token audit: PASS. 18/18 used tokens are valid; no hardcoded colors or raw font-family declarations.
+- T5 Accessibility structural: PASS. Landmarks, one h1, labels, aria-live, focus-visible, and keyboard handlers are present.
+- T6 Preview/browser consistency: FAIL. Preview is clean, but mobile capture reports 390px viewport with 575px scroll width.
+- T7 Live render: PASS. Workspace and design-system alias routes returned HTTP 200 without app error.
 
-## Residual Risks
+## Blocking Fix Queue
+<!-- beads-id: br-ds-webui-pm-qa-stage2-iter4-results-fixes -->
 
-- The visible brand text is `Gmind PM` instead of the literal contract label `Logo`; this remains acceptable because it is a functional brand/logo link and was non-blocking in prior QA.
-- Non-target storyboard context slices include broader portfolio/workspace ids outside this route, but the active `storyboards.json` acceptance trajectories and WebUI PM hash surfaces pass.
+1. P0/T1/build_components: add exact contract storyboard action ids or EVENT_* handlers/aliases.
+2. P0/T2/build_layout: add `ds:webui.header.top-level` marker for top-level header.
+3. P0/T3/build_states: initialize task-detail and trace-explorer normal entry to default.
+4. P0/T6/build_layout: eliminate mobile horizontal overflow at 390px.
 
-## Recommended Routing
+## Evidence
+<!-- beads-id: br-ds-webui-pm-qa-stage2-iter4-results-evidence -->
 
-Gate B acceptance is ready. Route to downstream Gate B approval/release packaging; no P0/P1 builder rework is recommended.
+See `/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-stage2-iter-4.json` for machine-readable evidence and routing.

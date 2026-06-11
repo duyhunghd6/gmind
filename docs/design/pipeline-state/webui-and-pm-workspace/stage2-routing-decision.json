@@ -1,17 +1,28 @@
 {
   "ba_agent": "stage2_ba",
-  "iteration_analyzed": 4,
+  "iteration_analyzed": 6,
   "action": "GATE_B_READY",
-  "auditor_score": 97,
+  "gate_b_recommendation": "PASS_ACCEPT",
+  "auditor_score": 96,
   "qa_status": "QA_PASS",
   "p0_count": 0,
-  "delta": "+4",
-  "convergence_reason": "Gate B clean: iteration 4 auditor score is 97 with 0 P0 and 0 P1 findings, QA acceptance is QA_PASS with an empty fix queue, and browser evidence confirms no console errors, 8/8 distinct hash surfaces, and task-list dummy webapp controls.",
+  "delta": "+3",
+  "convergence_reason": "Gate B criteria are met: iteration 6 auditor score is 96/100, P0 count is 0, QA passed all T1-T7 suites, and browser render evidence reports zero console/page errors and no horizontal overflow.",
   "builders_to_respawn": [],
   "fix_queue_per_builder": {
-    "build_layout": [],
-    "build_components": [],
-    "build_states": []
+    "build_components": [
+      {
+        "fix": "Non-blocking polish: secondary surfaces remain compact previews rather than full-depth production layouts for terminal, git graph, knowledge graph, portfolio, and component catalog.",
+        "priority": "P2",
+        "source": "auditor_iter6",
+        "pillar": "efficiency_completeness",
+        "gate_b_blocking": false,
+        "evidence_paths": [
+          "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+          "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/workspace-components.tsx"
+        ]
+      }
+    ]
   },
   "skip_builders": [
     "build_layout",
@@ -19,11 +30,8 @@
     "build_states"
   ],
   "browser_render_needed": false,
-  "qa_retry_count": 1,
-  "warnings": [
-    "Residual non-blocking risk: literal contract label Logo is implemented as visible brand text Gmind PM; QA accepted this as non-blocking.",
-    "Browser render evidence was supplied through orchestrator metadata at /Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json rather than a new QA browser session."
-  ],
+  "qa_retry_count": 0,
+  "warnings": [],
   "gate_b_summary": {
     "score_history": [
       {
@@ -39,22 +47,32 @@
       {
         "iter": 3,
         "score": 93,
-        "qa": "FAIL"
+        "qa": "NOT_RUN"
       },
       {
         "iter": 4,
-        "score": 97,
-        "qa": "PASS"
+        "score": 87,
+        "qa": "QA_FAIL"
+      },
+      {
+        "iter": 5,
+        "score": 93,
+        "qa": "QA_PASS"
+      },
+      {
+        "iter": 6,
+        "score": 96,
+        "qa": "QA_PASS"
       }
     ],
-    "final_score": 97,
+    "final_score": 96,
     "p0_count": 0,
     "pillar_breakdown": {
-      "contract_conformance": 28,
+      "contract_conformance": 29,
       "visual_token_fidelity": 20,
       "flow_state_integrity": 15,
       "accessibility": 19,
-      "efficiency_completeness": 10,
+      "efficiency_completeness": 8,
       "safety_self_verification": 5
     },
     "qa_results": {
@@ -66,35 +84,50 @@
       "T6": "PASS",
       "T7": "PASS"
     },
-    "warnings": [
-      "Residual non-blocking risk: literal contract label Logo is implemented as visible brand text Gmind PM; QA accepted this as non-blocking.",
-      "Browser render evidence was supplied through orchestrator metadata at /Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json rather than a new QA browser session."
-    ],
+    "warnings": [],
     "screenshot_paths": [
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-rtm-dashboard.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-board.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-tasks.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-task-detail.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-trace.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-docs.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-approval.png",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/surface-search.png"
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-webui-pm-workspace-desktop.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-surface-approval-desktop.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-surface-task-list-mobile.png",
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-design-system-webui-pm-workspace-desktop.png"
     ],
+    "browser_artifacts": {
+      "report": "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json",
+      "routes_checked": 4,
+      "console_errors": 0,
+      "runtime_errors": 0,
+      "desktop_no_horizontal_overflow": true,
+      "mobile_no_horizontal_overflow": true
+    },
+    "qa_artifacts": [
+      "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-stage2-iter-6.json",
+      "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-6.md",
+      "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-6.md"
+    ],
+    "scorecard_artifact": "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-6.json",
     "artifacts_for_review": [
       "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+      "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/page.tsx",
+      "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+      "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/context-slices/summary/contract-summary.yaml",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
-      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards-review.md",
+      "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards-review.html",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/index.html",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/artifact-index.json",
-      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json"
+      "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json"
     ],
     "machine_evidence": [
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
       "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json"
+    ],
+    "residual_risks": [
+      "Unimported components/showcase files contain hardcoded colors; excluded from rendered route audit unless reintroduced.",
+      "Browser report covers representative routes rather than every secondary surface, mitigated by source-level route and ds_id coverage.",
+      "P2 polish remains for secondary surfaces that are contract-specific but compact previews rather than full-depth production layouts."
     ]
   }
 }

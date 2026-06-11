@@ -1,40 +1,47 @@
 {
   "auditor": "stage2_builder",
   "iteration": 4,
-  "score": 97,
+  "feature": "webui-and-pm-workspace",
+  "score": 87,
   "p0_count": 0,
-  "convergence_status": "GATE_B_READY",
-  "targeted_audit_scope": "Stage 2 DoD audit for PRD-04 WebUI PM Workspace after iteration 4 fixes, including page.tsx, sibling split files, and layout.tsx only for the hash hydration fix. Browser evidence used from tmp/test_puppeteer_dir/webui-pm-workspace-stage2-iter4/capture-metadata.json.",
+  "p1_count": 4,
+  "p2_count": 3,
+  "convergence_status": "CONTINUE",
+  "gate_b_ready": false,
+  "gate_b_criteria": {
+    "score_at_least_95": false,
+    "zero_p0": true
+  },
   "pillar_scores": {
     "contract_conformance": {
-      "score": 28,
+      "score": 25,
       "max": 30,
-      "tool_evidence": "YAML block is block-style; 4/4 YAML ds_ids present at runtime; 8/8 hash surfaces render distinct screen ds_ids; task/doc aliases pass browser evidence; 12/13 component-map labels exact with Logo rendered as Gmind PM brand text."
+      "tool_evidence": "83/84 component-map ds_id strings found; missing ds:webui.header.top-level; 68/71 expected action events absent by exact contract event name; ui-contract YAML block is block-style YAML"
     },
     "visual_token_fidelity": {
       "score": 20,
       "max": 20,
-      "tool_evidence": "18/18 var(--*) tokens in target split files resolve to ds-manifest; 0 hardcoded hex/rgb/rgba/hsl colors; registry classes used for buttons, badges, tables, skeletons, graph nodes, and heatmap cells."
+      "tool_evidence": "18 var(--*) tokens used, 18/18 valid against ds-manifest; 0 hardcoded colors"
     },
     "flow_state_integrity": {
-      "score": 15,
+      "score": 12,
       "max": 15,
-      "tool_evidence": "All Mermaid/YAML states covered through data-state placeholders and controls: shell default/loading/offline, dashboard loading/default/empty/error/view_drilldown/view_trace, approval loading/default/empty/error/insufficient_evidence/decision_submitted; task-list saving state present."
+      "tool_evidence": "Required states present in source arrays and state panels, but exact Mermaid/action-catalog event names are largely replaced by generic EVENT_* handlers; task-detail and trace default states start as saving/partial instead of default"
     },
     "accessibility": {
-      "score": 19,
+      "score": 17,
       "max": 20,
-      "tool_evidence": "22 aria-label occurrences, 6 aria-live/status regions, skip link, main/header/nav/aside/footer/search landmarks, aria-current, labeled task-list controls, focus-visible rings, Ctrl+K and Escape keyboard paths present; minor brand link label is visual text rather than exact Logo accessible label."
+      "tool_evidence": "skip link, 42 aria-* attrs, 5 role attrs, aria-live regions, focus-visible classes, keyboard Ctrl+K/Escape present; mobile browser capture reports horizontal overflow 575px at 390px viewport"
     },
     "efficiency_completeness": {
-      "score": 10,
+      "score": 8,
       "max": 10,
-      "tool_evidence": "page.tsx 359 lines, workspace-components.tsx 131 lines, layout.tsx 220 lines; 0 TODO/placeholder patterns; task-list pagination, board/list toggle, CSV export, and saving state verified in browser evidence."
+      "tool_evidence": "No TODO/placeholder patterns; split files stay under 400 lines (8, 375, 169, 8), but many contract surfaces are condensed into generic component shells rather than full screen-specific layouts"
     },
     "safety_self_verification": {
       "score": 5,
       "max": 5,
-      "tool_evidence": "0 dangerouslySetInnerHTML; browser evidence reports 0 console errors and hash hydration mismatch pass; no browser-side shell/database access patterns found."
+      "tool_evidence": "0 dangerouslySetInnerHTML; eslint and tsc pass reported by builder task board; browser capture has 0 console/page errors"
     }
   },
   "pre_output_checklist": {
@@ -46,19 +53,171 @@
     "aria_landmarks": true,
     "focus_indicators": true,
     "no_placeholders": true,
-    "mobile_responsive": true,
+    "mobile_responsive": false,
     "gpu_safe_animation": true
   },
-  "fix_queue": [],
-  "resolved_iteration_4_checks": {
-    "hydration_mismatch_gone": true,
-    "surface_tasks_alias_metadata_mismatch_gone": true,
-    "surface_docs_alias_metadata_mismatch_gone": true,
-    "task_list_pagination_present": true,
-    "task_list_board_list_toggle_present": true,
-    "task_list_csv_export_present": true,
-    "task_list_saving_state_present": true
+  "mechanical_checks": {
+    "component_map": {
+      "expected_ids": 84,
+      "found_ids_by_source_string": 83,
+      "missing_ids": ["ds:webui.header.top-level"],
+      "extra_ids_sample": [
+        "ds:global-shell:header",
+        "ds:webui.shell.sync-banner",
+        "ds:webui.shell.active-surface",
+        "ds:webui.tasks.pagination",
+        "ds:webui.tasks.csv-export"
+      ]
+    },
+    "tokens": {
+      "used_count": 18,
+      "invalid": [],
+      "hardcoded_colors": []
+    },
+    "actions": {
+      "expected_contract_events": 71,
+      "found_event_strings": 38,
+      "missing_exact_contract_events_count": 68,
+      "missing_examples": [
+        "EVENT_SHELL_OPEN_SEARCH",
+        "EVENT_RTM_OPEN_TRACE",
+        "EVENT_BOARD_DRAG_CARD",
+        "EVENT_APPROVAL_APPROVE",
+        "EVENT_TASKS_EXPORT_CSV"
+      ]
+    },
+    "states": {
+      "required": [
+        "default",
+        "loading",
+        "empty",
+        "error",
+        "offline",
+        "forbidden",
+        "partial",
+        "saving",
+        "not_found",
+        "insufficient_evidence",
+        "decision_submitted"
+      ],
+      "source_state_arrays_include_required": true,
+      "contract_extra_states_implemented": [
+        "sync_conflict",
+        "view_drilldown",
+        "view_trace"
+      ]
+    },
+    "placeholders": [],
+    "dangerously_set_inner_html_count": 0,
+    "ui_contract_yaml_block_style_ok": true,
+    "flow_mermaid_block_count": 1,
+    "line_counts": {
+      "apps/website/src/app/webui-pm-workspace/page.tsx": 8,
+      "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx": 375,
+      "apps/website/src/app/webui-pm-workspace/workspace-components.tsx": 169,
+      "apps/website/src/app/design-system/webui-pm-workspace/page.tsx": 8
+    },
+    "browser_evidence": {
+      "report": "tmp/test_puppeteer_dir/webui-pm-workspace-capture-report.json",
+      "status": "success",
+      "console_errors": 0,
+      "page_errors": 0,
+      "mobile_viewport_width": 390,
+      "mobile_scroll_width": 575
+    }
   },
-  "p0_p1_findings": [],
-  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-4/page.tsx"
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_layout",
+      "detail": "Top-level header contract id ds:webui.header.top-level is missing from implementation; source uses ds:global-shell:header instead.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+        "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx"
+      ]
+    },
+    {
+      "priority": "P1",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_components",
+      "detail": "Action event names do not match the contract catalog: 68 of 71 expected events were not found by exact EVENT_* name, including EVENT_SHELL_OPEN_SEARCH, EVENT_RTM_OPEN_TRACE, EVENT_BOARD_DRAG_CARD, EVENT_APPROVAL_APPROVE, and EVENT_TASKS_EXPORT_CSV.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+        "docs/design/contracts/webui-and-pm-workspace/flow.md",
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx"
+      ]
+    },
+    {
+      "priority": "P1",
+      "pillar": "accessibility",
+      "responsible_builder": "build_layout",
+      "detail": "Mobile capture shows horizontal overflow: viewport width 390, scrollWidth 575. Contract mobile rule requires hidden PM nav/menu and data-dense views to collapse without horizontal scrolling.",
+      "evidence_paths": [
+        "tmp/test_puppeteer_dir/webui-pm-workspace-capture-report.json",
+        "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+        "tmp/test_puppeteer_dir/webui-pm-workspace-surface-task-list-mobile.png"
+      ]
+    },
+    {
+      "priority": "P1",
+      "pillar": "flow_state_integrity",
+      "responsible_builder": "build_states",
+      "detail": "Default surface state setup deviates from contract defaults: task-detail initializes to saving and trace-explorer initializes to partial, while component-map/storyboards expect default for normal entry trajectories.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+        "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx"
+      ]
+    },
+    {
+      "priority": "P2",
+      "pillar": "efficiency_completeness",
+      "responsible_builder": "build_components",
+      "detail": "Several rich surfaces are represented as compact generic Shell cards; expand high-priority screens (approval, board, trace, task detail) toward contract-specific layout depth before Gate B.",
+      "evidence_paths": [
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+        "docs/design/contracts/webui-and-pm-workspace/layout-rules.json"
+      ]
+    },
+    {
+      "priority": "P2",
+      "pillar": "contract_conformance",
+      "responsible_builder": "build_layout",
+      "detail": "Screen id naming mixes contract screen IDs with aliases, e.g. implementation uses doc-viewer/approval-gate internally while contract screen IDs are document-viewer/approval-gates.",
+      "evidence_paths": [
+        "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+        "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx"
+      ]
+    },
+    {
+      "priority": "P2",
+      "pillar": "visual_token_fidelity",
+      "responsible_builder": "build_states",
+      "detail": "Visual token usage passes, but current implementation relies on dense tokenized utility strings and generic shell panels; targeted polish should preserve tokens while reducing visual sameness across surfaces.",
+      "evidence_paths": [
+        "docs/design/pipeline-state/webui-and-pm-workspace/ds-manifest.txt",
+        "apps/website/src/app/webui-pm-workspace/workspace-components.tsx"
+      ]
+    }
+  ],
+  "evidence_paths": [
+    "docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+    "docs/design/contracts/webui-and-pm-workspace/flow.md",
+    "docs/design/contracts/webui-and-pm-workspace/component-map.json",
+    "docs/design/contracts/webui-and-pm-workspace/layout-rules.json",
+    "docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+    "docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json",
+    "docs/design/pipeline-state/webui-and-pm-workspace/ds-manifest.txt",
+    "docs/design/pipeline-state/webui-and-pm-workspace/task-board.json",
+    "tmp/test_puppeteer_dir/webui-pm-workspace-capture-report.json",
+    "apps/website/src/app/webui-pm-workspace/page.tsx",
+    "apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+    "apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+    "apps/website/src/app/design-system/webui-pm-workspace/page.tsx"
+  ],
+  "snapshot_path": "docs/design/screens/webui-and-pm-workspace/snapshot-iter-4/page.tsx",
+  "recommended_route": "CONTINUE with targeted build_layout/build_components/build_states fixes before Gate B"
 }

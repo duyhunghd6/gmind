@@ -1,0 +1,79 @@
+{
+  "qa_type": "stage2",
+  "feature_name": "webui-and-pm-workspace",
+  "iteration": 5,
+  "total_tests": 7,
+  "passed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "convergence_status": "QA_PASS",
+  "test_results": {
+    "T1_storyboard_replay": {
+      "status": "PASS",
+      "evidence": "12/12 trajectories replayable; 22/22 unique storyboard action ids and 22/22 generated EVENT_* names present in source. Prior blocker resolved at WebUIPMWorkspacePage.tsx:35 and ActionEventMarkers at :285-287."
+    },
+    "T2_contract_components": {
+      "status": "PASS",
+      "evidence": "84/84 component-map ds_id strings found across implementation source; ui-contract YAML fenced block is block-style; ds:webui.header.top-level present at WebUIPMWorkspacePage.tsx:216 and browser report lines 207/965/1344."
+    },
+    "T3_state_matrix": {
+      "status": "PASS",
+      "evidence": "Required states default, loading, empty, error, offline, forbidden, partial, saving, not_found, insufficient_evidence, decision_submitted are represented; task-detail and trace-explorer defaultState are default at WebUIPMWorkspacePage.tsx:44-45."
+    },
+    "T4_ds_token_audit": {
+      "status": "PASS",
+      "evidence": "18 unique var(--*) references used; 18/18 valid against ds-manifest; no hardcoded colors and no raw font-family declarations detected."
+    },
+    "T5_a11y_structural": {
+      "status": "PASS",
+      "evidence": "<main>, nav landmarks, exactly one h1, skip link, visible labels/text, aria-live/status regions, focus-visible classes, and Ctrl+K/Escape keyboard handling present at WebUIPMWorkspacePage.tsx:137-155 and :210-262."
+    },
+    "T6_preview_browser_consistency": {
+      "status": "PASS",
+      "evidence": "Preview manifest warning count is 0; preview HTML contains all 9 required tabs; rerender report status success with 4/4 HTTP 200 captures, 0 console/runtime errors, and mobile 390px scrollWidth 390."
+    },
+    "T7_live_render": {
+      "status": "PASS",
+      "evidence": "http://localhost:9993/webui-pm-workspace and http://localhost:9993/design-system/webui-pm-workspace returned HTTP 200 with no application-error marker."
+    }
+  },
+  "fix_queue": [
+    {
+      "priority": "P1",
+      "test": "T2",
+      "responsible_builder": "build_components",
+      "detail": "Acceptance-critical storyboard replay is fixed, but full component-map event catalog remains partial by exact source string: 30/71 EVENT_* names found and 41/71 absent, including EVENT_APPROVAL_OPEN_TRACE, EVENT_BOARD_OPEN_TASK, EVENT_COMPONENTS_SCROLL_SECTION, and EVENT_DOCS_OPEN_KNOWLEDGE_GRAPH. Complete before Gate B polish if the pipeline requires exact event catalog coverage beyond storyboard actions."
+    },
+    {
+      "priority": "P2",
+      "test": "T2",
+      "responsible_builder": "build_components",
+      "detail": "Several secondary surfaces use compact generic panels; expand terminal, portfolio, git graph, knowledge graph, and component catalog depth before Gate B visual polish."
+    },
+    {
+      "priority": "P2",
+      "test": "T2",
+      "responsible_builder": "build_layout",
+      "detail": "WebUIPMWorkspacePage.tsx is 380 lines; keep future action-catalog additions split into supporting files to preserve the project line-count convention."
+    }
+  ],
+  "artifacts_written": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-5.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-5.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-stage2-iter-5.json"
+  ],
+  "evidence_paths": [
+    "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+    "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+    "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/flow.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/preview-manifest.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/preview/index.html",
+    "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/webui-pm-workspace-stage2-rerender-report.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-5.json"
+  ],
+  "recommended_routing": "QA_PASS for Stage 2 acceptance with no P0 blockers. Continue with build_components for P1 full event-catalog completion and component-depth polish before Gate B because builder score is 93 (<95), but do not reroute for acceptance-blocking fixes."
+}

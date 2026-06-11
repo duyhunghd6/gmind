@@ -4786,7 +4786,7 @@
     "storyboards.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 12966
+      "size_bytes": 20170
     },
     "layout-rules.json": {
       "exists": true,
@@ -4801,7 +4801,7 @@
     "artifact-index.json": {
       "exists": true,
       "parse_ok": true,
-      "size_bytes": 306530
+      "size_bytes": 308031
     }
   },
   "mermaid_blocks": [

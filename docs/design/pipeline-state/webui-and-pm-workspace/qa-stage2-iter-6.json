@@ -1,0 +1,62 @@
+{
+  "qa_type": "stage2",
+  "feature_name": "webui-and-pm-workspace",
+  "iteration": 6,
+  "total_tests": 7,
+  "passed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "convergence_status": "QA_PASS",
+  "gate_b_recommendation": "PASS_ACCEPT",
+  "created_at": "2026-05-29T16:26:09.437608+00:00",
+  "test_results": {
+    "T1_storyboard_replay": {
+      "status": "PASS",
+      "evidence": "12/12 trajectories implementable; 22/22 storyboard actions present via controls/catalog; state controllers present"
+    },
+    "T2_contract_components": {
+      "status": "PASS",
+      "evidence": "84/84 component-map ds_id values present; YAML block-style; 17 screen IDs and 19 routes represented"
+    },
+    "T3_state_matrix": {
+      "status": "PASS",
+      "evidence": "All required contract states represented by typed catalogs, data-state placeholders/selectors, and rendered panels"
+    },
+    "T4_ds_token_audit": {
+      "status": "PASS",
+      "evidence": "26/26 rendered-route CSS variables match DS manifest; no invented tokens or raw font-family declarations"
+    },
+    "T5_a11y_structural": {
+      "status": "PASS",
+      "evidence": "main/nav landmarks, single visible active h1 pattern, labels, aria-live, focus-visible, and keyboard actions present"
+    },
+    "T6_preview_browser_consistency": {
+      "status": "PASS",
+      "evidence": "preview warnings empty; 9/9 preview tabs present; render report has 4 screenshots, 0 console/page errors, no overflow"
+    },
+    "T7_live_render": {
+      "status": "PASS",
+      "evidence": "http://localhost:9993/design-system/webui-pm-workspace returned HTTP 200"
+    }
+  },
+  "residual_risks": [
+    "Unimported components/showcase files contain hardcoded colors; excluded from rendered route audit unless reintroduced",
+    "Browser report covers representative routes rather than every secondary surface, mitigated by source-level route and ds_id coverage"
+  ],
+  "fix_queue": [],
+  "evidence_paths": [
+    "/Users/steve/duyhunghd6/gmind/apps/website/src/app/design-system/webui-pm-workspace/page.tsx",
+    "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/WebUIPMWorkspacePage.tsx",
+    "/Users/steve/duyhunghd6/gmind/apps/website/src/app/webui-pm-workspace/workspace-components.tsx",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/storyboards.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/component-map.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/contracts/webui-and-pm-workspace/ui-contract.md",
+    "/Users/steve/duyhunghd6/gmind/tmp/test_puppeteer_dir/iter6-webui-pm-workspace-render-report.json",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/scorecards/stage2-iter-6.json"
+  ],
+  "artifacts_written": [
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-iter-6.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/test-plans/webui-and-pm-workspace-qa-stage2-results-iter-6.md",
+    "/Users/steve/duyhunghd6/gmind/docs/design/pipeline-state/webui-and-pm-workspace/qa-stage2-iter-6.json"
+  ]
+}
