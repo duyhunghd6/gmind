@@ -307,7 +307,7 @@ function WorkspaceSurface({ spec, state, active, decisionFeedback, onDashboardAc
       <section data-ds-id={`${spec.rootDsId}:components`} className={gridFor(spec.id)} aria-label={isApproval ? "Approval Data" : spec.id === "rtm-dashboard" ? "Dashboard Panels" : `${spec.title} components`}>
         {spec.dsIds.map((dsId, index) => {
           const exactLabel = panelLabel(spec.id, dsId, index);
-          return <article key={dsId} className={`${panel} min-w-0 ${spec.id === "rtm-dashboard" && index === 0 ? "md:col-span-2" : ""}`} aria-label={exactLabel}><WorkspaceComponent dsId={dsId} /></article>;
+          return <article key={dsId} className={`${panel} min-w-0 ${colSpanFor(spec.id, dsId, index)}`} aria-label={exactLabel}><WorkspaceComponent dsId={dsId} /></article>;
         })}
       </section>
     </section>
@@ -363,8 +363,37 @@ function panelLabel(surface: SurfaceId, dsId: string, index: number) {
   return labels[dsId] ?? `${surface} panel ${index + 1}`;
 }
 
+// Layout Decision: colSpanFor specifies which panels should span 2 columns on larger screens.
+// Wide widgets (e.g. data tables, kanban boards, visual canvases, terminal mosaic) are given full width
+// to prevent them from being compressed into a single 50% grid column which causes text overlap and layout breakage.
+function colSpanFor(surface: SurfaceId, dsId: string, index: number): string {
+  if (surface === "rtm-dashboard" && index === 0) return "md:col-span-2";
+  if (surface === "task-list" && (dsId === "ds:webui.tasks.table" || dsId === "ds:webui.tasks.bulk-actions")) {
+    return "lg:col-span-2";
+  }
+  if (surface === "safe-board" && dsId === "ds:webui.board.columns") {
+    return "lg:col-span-2";
+  }
+  if (surface === "terminal-console") {
+    return "lg:col-span-2";
+  }
+  if (surface === "git-graph-explorer" && dsId === "ds:webui.git-graph.canvas") {
+    return "lg:col-span-2";
+  }
+  if (surface === "knowledge-graph" && dsId === "ds:webui.knowledge-graph.canvas") {
+    return "lg:col-span-2";
+  }
+  if (surface === "portfolio-view") {
+    return "lg:col-span-2";
+  }
+  return "";
+}
+
+// Layout Decision: Added `items-start` to grid container layouts.
+// Aligning items to start of the row prevents shorter cards (e.g. TaskProgress or MiniGraph) from stretching
+// vertically to match taller cards in the same row, resolving empty/blank spacing inside cards.
 function gridFor(surface: SurfaceId) {
-  if (surface === "approval-gates") return "grid gap-[var(--space-md)] lg:grid-cols-[minmax(14rem,0.8fr)_minmax(0,1.4fr)_minmax(16rem,0.8fr)]";
-  if (surface === "rtm-dashboard") return "grid gap-[var(--space-md)] md:grid-cols-2";
-  return "grid gap-[var(--space-md)] lg:grid-cols-2";
+  if (surface === "approval-gates") return "grid gap-[var(--space-md)] lg:grid-cols-[minmax(14rem,0.8fr)_minmax(0,1.4fr)_minmax(16rem,0.8fr)] items-start";
+  if (surface === "rtm-dashboard") return "grid gap-[var(--space-md)] md:grid-cols-2 items-start";
+  return "grid gap-[var(--space-md)] lg:grid-cols-2 items-start";
 }
