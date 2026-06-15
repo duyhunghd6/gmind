@@ -228,11 +228,6 @@ export default function WebUIPMWorkspaceLayout({ initialActiveId }: WebUIPMWorks
             <StateSelect label="Shell state" icon="state" value={globalState} states={globalStates} onChange={(value) => setGlobalState(value as GlobalState)} />
           </div>
         </section>
-        <nav data-ds-id="ds:webui.shell.pm-nav" className="mx-auto mt-[var(--space-sm)] hidden max-w-7xl overflow-x-auto md:block" aria-label="Workspace surfaces quick navigation">
-          <ul className="flex w-max max-w-full gap-[var(--space-xs)]">
-            {surfaces.map((item) => <li key={item.id}><a href={item.hash} data-action="EVENT_HASH_NAVIGATE" onClick={(event) => handleSurfaceLink(event, item.id, item.hash)} aria-current={surface === item.id ? "page" : undefined} className={`inline-flex items-center gap-[var(--space-xs)] rounded-[var(--radius)] border border-[var(--border)] px-[var(--space-sm)] py-[var(--space-xs)] text-sm ${animated} hover:-translate-y-0.5 hover:bg-[var(--bg)] ${focus}`}><Icon name={item.icon} />{item.label}</a></li>)}
-          </ul>
-        </nav>
       </header>
 
       <div data-ds-id="ds:webui.shell.main-region" className={`mx-auto grid min-w-0 max-w-7xl gap-[var(--space-md)] px-[var(--space-md)] py-[var(--space-md)] ${sidebarOpen ? "lg:grid-cols-[16rem_minmax(0,1fr)]" : "lg:grid-cols-[4.75rem_minmax(0,1fr)]"}`}>
